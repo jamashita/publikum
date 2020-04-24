@@ -1,4 +1,4 @@
-import { BiFunction } from '../Type/Function';
+import { BiFunction } from '../Type';
 import { Failure } from './Failure';
 import { Success } from './Success';
 

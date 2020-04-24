@@ -1,7 +1,6 @@
-import { Cloneable } from '../../../Interface/Cloneable';
-import { Nominative } from '../../../Interface/Nominative';
-import { Enumerator } from '../../../Type/Function';
-import { Collection } from '../../Interface/Collection';
+import { Collection } from '../..';
+import { Cloneable, Nominative } from '../../../Interface';
+import { Enumerator } from '../../../Type';
 
 export interface Project<K extends Nominative, V extends Nominative> extends Collection<K, V>, Cloneable<Project<K, V>> {
 

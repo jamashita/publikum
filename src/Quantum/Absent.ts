@@ -1,7 +1,5 @@
-import { Failure } from '../Superposition/Failure';
-import { Superposition } from '../Superposition/Superposition';
-import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
-import { Suspicious } from '../Type/Value';
+import { Failure, Superposition } from '../Superposition';
+import { AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious } from '../Type';
 import { Quantum } from './Quantum';
 import { QuantumError } from './QuantumError';
 

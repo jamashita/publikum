@@ -1,12 +1,9 @@
-import { Nominative } from '../../../Interface/Nominative';
-import { Objet } from '../../../Object/Objet';
-import { Absent } from '../../../Quantum/Absent';
-import { Present } from '../../../Quantum/Present';
-import { Quantum } from '../../../Quantum/Quantum';
-import { Enumerator, Mapper, Predicate } from '../../../Type/Function';
-import { Ambiguous } from '../../../Type/Value';
+import { Sequence } from '..';
+import { Nominative } from '../../../Interface';
+import { Objet } from '../../../Object';
+import { Absent, Present, Quantum } from '../../../Quantum';
+import { Ambiguous, Enumerator, Mapper, Predicate } from '../../../Type';
 import { ImmutableSequence } from '../ImmutableSequence';
-import { Sequence } from '../Interface/Sequence';
 
 export abstract class ASequence<E extends Nominative> extends Objet implements Sequence<E> {
   public abstract readonly noun: string;

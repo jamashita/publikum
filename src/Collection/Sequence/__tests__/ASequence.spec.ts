@@ -1,7 +1,6 @@
-import { MockNominative } from '../../../Mock/MockNominative';
-import { Absent } from '../../../Quantum/Absent';
-import { Quantum } from '../../../Quantum/Quantum';
-import { MockASequence } from '../Mock/MockASequence';
+import { MockASequence } from '..';
+import { MockNominative } from '../../../Mock';
+import { Absent, Quantum } from '../../../Quantum';
 
 describe('ASequence', () => {
   describe('get', () => {

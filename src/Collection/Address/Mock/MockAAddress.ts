@@ -1,7 +1,6 @@
-import { Nominative } from '../../../Interface/Nominative';
+import { AAddress, Address } from '..';
+import { Nominative } from '../../../Interface';
 import { UnimplementedError } from '../../../UnimplementedError';
-import { AAddress } from '../Abstract/AAddress';
-import { Address } from '../Interface/Address';
 
 export class MockAAddress<E extends Nominative> extends AAddress<E> implements Address<E> {
   public readonly noun: 'MockAAddress' = 'MockAAddress';

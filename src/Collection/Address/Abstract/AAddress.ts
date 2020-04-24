@@ -1,11 +1,8 @@
-import { Nominative } from '../../../Interface/Nominative';
-import { Objet } from '../../../Object/Objet';
-import { Absent } from '../../../Quantum/Absent';
-import { Present } from '../../../Quantum/Present';
-import { Quantum } from '../../../Quantum/Quantum';
-import { Enumerator, Predicate } from '../../../Type/Function';
-import { Ambiguous } from '../../../Type/Value';
-import { Address } from '../Interface/Address';
+import { Address } from '..';
+import { Nominative } from '../../../Interface';
+import { Objet } from '../../../Object';
+import { Absent, Present, Quantum } from '../../../Quantum';
+import { Ambiguous, Enumerator, Predicate } from '../../../Type';
 
 export abstract class AAddress<E extends Nominative> extends Objet implements Address<E> {
   public abstract readonly noun: string;

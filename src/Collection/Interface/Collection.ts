@@ -1,8 +1,5 @@
-import { Equalable } from '../../Interface/Equalable';
-import { Nominative } from '../../Interface/Nominative';
-import { Noun } from '../../Interface/Noun';
-import { Serializable } from '../../Interface/Serializable';
-import { Quantum } from '../../Quantum/Quantum';
+import { Equalable, Nominative, Noun, Serializable } from '../../Interface';
+import { Quantum } from '../../Quantum';
 
 export interface Collection<K, V extends Nominative> extends Equalable, Serializable, Noun {
 

@@ -1,5 +1,5 @@
-import { Nominative } from '../../Interface/Nominative';
-import { Enumerator, Mapper } from '../../Type/Function';
+import { Nominative } from '../../Interface';
+import { Enumerator, Mapper } from '../../Type';
 import { ASequence } from './Abstract/ASequence';
 import { Sequence } from './Interface/Sequence';
 

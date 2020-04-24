@@ -1,7 +1,6 @@
-import { JSObjectNotation } from '../../Type/Value';
+import { IMySQL, ITransaction } from '..';
+import { JSObjectNotation } from '../../Type';
 import { UnimplementedError } from '../../UnimplementedError';
-import { IMySQL } from '../Interface/IMySQL';
-import { ITransaction } from '../Interface/ITransaction';
 
 export class MockMySQL implements IMySQL {
 

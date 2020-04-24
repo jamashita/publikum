@@ -1,6 +1,6 @@
-import { Nullable } from '../../Type/Value';
+import { IRedisHash } from '..';
+import { Nullable } from '../../Type';
 import { UnimplementedError } from '../../UnimplementedError';
-import { IRedisHash } from '../Interface/IRedisHash';
 
 export class MockRedisHash implements IRedisHash {
 

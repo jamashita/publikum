@@ -1,9 +1,8 @@
-import { Nominative } from '../../../Interface/Nominative';
-import { Enumerator, Mapper } from '../../../Type/Function';
+import { ASequence, Sequence } from '..';
+import { Nominative } from '../../../Interface';
+import { Enumerator, Mapper } from '../../../Type';
 import { UnimplementedError } from '../../../UnimplementedError';
-import { ASequence } from '../Abstract/ASequence';
 import { ImmutableSequence } from '../ImmutableSequence';
-import { Sequence } from '../Interface/Sequence';
 
 export class MockASequence<E extends Nominative> extends ASequence<E> implements Sequence<E> {
   public readonly noun: 'MockASequence' = 'MockASequence';

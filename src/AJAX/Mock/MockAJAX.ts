@@ -1,7 +1,7 @@
-import { JSObjectNotation } from '../../Type/Value';
+import { IAJAX } from '..';
+import { JSObjectNotation } from '../../Type';
 import { UnimplementedError } from '../../UnimplementedError';
 import { AJAXResponse } from '../AJAXResponse';
-import { IAJAX } from '../Interface/IAJAX';
 
 export class MockAJAX implements IAJAX {
 

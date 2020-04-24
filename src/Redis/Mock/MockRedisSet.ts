@@ -1,6 +1,6 @@
-import { Nullable } from '../../Type/Value';
+import { IRedisSet } from '..';
+import { Nullable } from '../../Type';
 import { UnimplementedError } from '../../UnimplementedError';
-import { IRedisSet } from '../Interface/IRedisSet';
 
 export class MockRedisSet implements IRedisSet {
 

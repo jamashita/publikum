@@ -1,5 +1,5 @@
 import sinon, { SinonSpy } from 'sinon';
-import { MockError } from '../../Mock/MockError';
+import { MockError } from '../../Mock';
 import { Failure } from '../Failure';
 import { manoeuvre } from '../Manoeuvre';
 import { Success } from '../Success';

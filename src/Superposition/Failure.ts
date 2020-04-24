@@ -1,4 +1,4 @@
-import { BiFunction } from '../Type/Function';
+import { BiFunction } from '../Type';
 import { Success } from './Success';
 import { Superposition } from './Superposition';
 

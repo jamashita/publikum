@@ -1,4 +1,4 @@
-import { Ambiguous } from '../Type/Value';
+import { Ambiguous } from '../Type';
 import { CacheError } from './CacheError';
 import { ICache } from './Interface/ICache';
 

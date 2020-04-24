@@ -1,10 +1,7 @@
-import { Nominative } from '../../../Interface/Nominative';
-import { Objet } from '../../../Object/Objet';
-import { Absent } from '../../../Quantum/Absent';
-import { Present } from '../../../Quantum/Present';
-import { Quantum } from '../../../Quantum/Quantum';
-import { Enumerator } from '../../../Type/Function';
-import { Ambiguous } from '../../../Type/Value';
+import { Nominative } from '../../../Interface';
+import { Objet } from '../../../Object';
+import { Absent, Present, Quantum } from '../../../Quantum';
+import { Ambiguous, Enumerator } from '../../../Type';
 import { Project } from '../Interface/Project';
 
 export abstract class AProject<K extends Nominative, V extends Nominative> extends Objet implements Project<K, V> {

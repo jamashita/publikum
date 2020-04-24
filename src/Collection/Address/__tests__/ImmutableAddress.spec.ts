@@ -1,4 +1,4 @@
-import { MockNominative } from '../../../Mock/MockNominative';
+import { MockNominative } from '../../../Mock';
 import { ImmutableAddress } from '../ImmutableAddress';
 
 describe('ImmutableAddress', () => {

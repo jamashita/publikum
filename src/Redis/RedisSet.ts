@@ -1,5 +1,5 @@
 import IORedis from 'ioredis';
-import { Nullable } from '../Type/Value';
+import { Nullable } from '../Type';
 import { IRedisSet } from './Interface/IRedisSet';
 import { RedisError } from './RedisError';
 

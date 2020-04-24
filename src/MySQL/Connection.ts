@@ -1,6 +1,5 @@
 import mysql from 'mysql';
-import { Reject, Resolve } from '../Type/Function';
-import { JSObjectNotation, Nullable } from '../Type/Value';
+import { JSObjectNotation, Nullable, Reject, Resolve } from '../Type';
 import { IConnection } from './Interface/IConnection';
 import { MySQLError } from './MySQLError';
 

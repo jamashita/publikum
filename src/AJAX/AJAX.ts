@@ -1,6 +1,5 @@
 import request from 'superagent';
-import { Resolve } from '../Type/Function';
-import { JSObjectNotation } from '../Type/Value';
+import { JSObjectNotation, Resolve } from '../Type';
 import { AJAXResponse } from './AJAXResponse';
 import { IAJAX } from './Interface/IAJAX';
 

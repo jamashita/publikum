@@ -1,5 +1,5 @@
+import { ISQL } from '..';
 import { UnimplementedError } from '../../UnimplementedError';
-import { ISQL } from '../Interface/ISQL';
 
 export class MockSQL implements ISQL {
 

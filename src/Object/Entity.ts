@@ -1,7 +1,5 @@
-import { Cloneable } from '../Interface/Cloneable';
-import { JSONable } from '../Interface/JSONable';
-import { Nominative } from '../Interface/Nominative';
-import { JSObjectNotation } from '../Type/Value';
+import { Cloneable, JSONable, Nominative } from '../Interface';
+import { JSObjectNotation } from '../Type';
 import { Objet } from './Objet';
 
 export abstract class Entity<T extends Nominative> extends Objet implements Cloneable<Entity<T>>, JSONable {

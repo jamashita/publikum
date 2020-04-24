@@ -1,5 +1,5 @@
-import { MockNominative } from '../../Mock/MockNominative';
-import { JSObjectNotation, Primitive } from '../../Type/Value';
+import { MockNominative } from '../../Mock';
+import { JSObjectNotation, Primitive } from '../../Type';
 import { UnimplementedError } from '../../UnimplementedError';
 import { Entity } from '../Entity';
 

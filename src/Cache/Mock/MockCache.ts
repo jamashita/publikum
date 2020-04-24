@@ -1,5 +1,5 @@
+import { ICache } from '..';
 import { UnimplementedError } from '../../UnimplementedError';
-import { ICache } from '../Interface/ICache';
 
 export class MockCache implements ICache {
 

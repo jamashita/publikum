@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
-import { MockError } from '../../Mock/MockError';
-import { MySQLError } from '../../MySQL/MySQLError';
+import { MockError } from '../../Mock';
+import { MySQLError } from '../../MySQL';
 import { Failure } from '../Failure';
 
 describe('Failure', () => {

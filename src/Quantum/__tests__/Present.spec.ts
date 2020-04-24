@@ -1,5 +1,5 @@
 import sinon, { SinonSpy } from 'sinon';
-import { Superposition } from '../../Superposition/Superposition';
+import { Superposition } from '../../Superposition';
 import { Absent } from '../Absent';
 import { Present } from '../Present';
 import { Quantum } from '../Quantum';

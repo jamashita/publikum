@@ -1,5 +1,5 @@
 import Chance from 'chance';
-import { ValueObject } from '../Object/ValueObject';
+import { ValueObject } from '../Object';
 import { UUIDError } from './UUIDError';
 
 const chance: Chance.Chance = new Chance();

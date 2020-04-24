@@ -1,5 +1,5 @@
+import { IRedisList } from '..';
 import { UnimplementedError } from '../../UnimplementedError';
-import { IRedisList } from '../Interface/IRedisList';
 
 export class MockRedisList implements IRedisList {
 

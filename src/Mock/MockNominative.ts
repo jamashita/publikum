@@ -1,5 +1,5 @@
-import { ValueObject } from '../Object/ValueObject';
-import { Primitive } from '../Type/Value';
+import { ValueObject } from '../Object';
+import { Primitive } from '../Type';
 
 export class MockNominative<T extends Primitive> extends ValueObject {
   public readonly noun: 'MockNominative' = 'MockNominative';

@@ -1,4 +1,4 @@
-import { Nominative } from '../../Interface/Nominative';
+import { Nominative } from '../../Interface';
 import { AAddress } from './Abstract/AAddress';
 import { Address } from './Interface/Address';
 

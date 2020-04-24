@@ -1,7 +1,5 @@
-import { Success } from '../Superposition/Success';
-import { Superposition } from '../Superposition/Superposition';
-import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
-import { Suspicious } from '../Type/Value';
+import { Success, Superposition } from '../Superposition';
+import { AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious } from '../Type';
 import { Absent } from './Absent';
 import { maybe } from './Maybe';
 import { Quantum } from './Quantum';

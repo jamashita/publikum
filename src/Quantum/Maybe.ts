@@ -1,4 +1,4 @@
-import { Suspicious } from '../Type/Value';
+import { Suspicious } from '../Type';
 import { Absent } from './Absent';
 import { Present } from './Present';
 import { Quantum } from './Quantum';

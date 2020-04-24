@@ -1,4 +1,4 @@
-import { JSObjectNotation } from '../../Type/Value';
+import { JSObjectNotation } from '../../Type';
 import { AJAXResponse } from '../AJAXResponse';
 
 export interface IAJAX {

@@ -1,4 +1,4 @@
-import { Nullable } from '../../Type/Value';
+import { Nullable } from '../../Type';
 
 export interface IRedisHash {
 

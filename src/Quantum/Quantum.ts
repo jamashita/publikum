@@ -1,7 +1,6 @@
-import { Noun } from '../Interface/Noun';
-import { Superposition } from '../Superposition/Superposition';
-import { AsyncConsumer, Consumer, MonoFunction, Predicate } from '../Type/Function';
-import { Suspicious } from '../Type/Value';
+import { Noun } from '../Interface';
+import { Superposition } from '../Superposition';
+import { AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious } from '../Type';
 import { Absent } from './Absent';
 import { Present } from './Present';
 import { QuantumError } from './QuantumError';

@@ -1,5 +1,5 @@
+import { MockAObjet } from '..';
 import { Random } from '../../Random';
-import { MockAObjet } from '../Mock/MockAObjet';
 
 describe('MockAObjet', () => {
   describe('hashCode', () => {

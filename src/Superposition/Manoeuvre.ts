@@ -1,4 +1,4 @@
-import { Ambiguous } from '../Type/Value';
+import { Ambiguous } from '../Type';
 import { Failure } from './Failure';
 import { Success } from './Success';
 import { Superposition } from './Superposition';
