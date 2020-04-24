@@ -1,0 +1,10 @@
+image: node:14.0.0
+
+stages:
+  - test
+
+test:
+  stage: test
+  script:
+    - yarn install --frozen-lockfile
+    - yarn test
