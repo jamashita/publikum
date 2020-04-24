@@ -1,4 +1,4 @@
 export * from './Alive';
-export * from './Failure';
+export * from './Dead';
 export * from './Manoeuvre';
 export * from './Superposition';

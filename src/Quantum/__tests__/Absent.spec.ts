@@ -82,12 +82,12 @@ describe('Absent', () => {
   });
 
   describe('toSuperposition', () => {
-    it('returns Failure', () => {
+    it('returns Dead', () => {
       const absent: Absent<number> = Absent.of<number>();
 
       const superposition: Superposition<number, QuantumError> = absent.toSuperposition();
 
-      expect(superposition.isFailure()).toBe(true);
+      expect(superposition.isDead()).toBe(true);
     });
   });
 

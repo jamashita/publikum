@@ -1,4 +1,4 @@
-import { Failure, Superposition } from '../Superposition';
+import { Dead, Superposition } from '../Superposition';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious } from '../Type';
 import { Quantum } from './Quantum';
 import { QuantumError } from './QuantumError';
@@ -48,6 +48,6 @@ export class Absent<T> extends Quantum<T> {
   }
 
   public toSuperposition(): Superposition<T, QuantumError> {
-    return Failure.of<T, QuantumError>(new QuantumError('IS NOT PRESENT'));
+    return Dead.of<T, QuantumError>(new QuantumError('IS NOT PRESENT'));
   }
 }

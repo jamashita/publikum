@@ -42,13 +42,13 @@ describe('Alive', () => {
     });
   });
 
-  describe('isFailure', () => {
+  describe('isDead', () => {
     it('always returns false', () => {
       const alive1: Alive<number, MockError> = Alive.of<number, MockError>(1);
       const alive2: Alive<string, MockError> = Alive.of<string, MockError>('aiutare');
 
-      expect(alive1.isFailure()).toBe(false);
-      expect(alive2.isFailure()).toBe(false);
+      expect(alive1.isDead()).toBe(false);
+      expect(alive2.isDead()).toBe(false);
     });
   });
 
