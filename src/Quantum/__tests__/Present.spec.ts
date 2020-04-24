@@ -142,12 +142,12 @@ describe('Present', () => {
   });
 
   describe('toSuperposition', () => {
-    it('returns Success', () => {
+    it('returns Alive', () => {
       const present: Present<number> = Present.of<number>(1);
 
       const superposition: Superposition<number, QuantumError> = present.toSuperposition();
 
-      expect(superposition.isSuccess()).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
     });
   });
 

@@ -1,4 +1,4 @@
-import { Success, Superposition } from '../Superposition';
+import { Alive, Superposition } from '../Superposition';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious } from '../Type';
 import { Absent } from './Absent';
 import { maybe } from './Maybe';
@@ -47,6 +47,6 @@ export class Present<T> extends Quantum<T> {
   }
 
   public toSuperposition(): Superposition<T, QuantumError> {
-    return Success.of<T, QuantumError>(this.value);
+    return Alive.of<T, QuantumError>(this.value);
   }
 }

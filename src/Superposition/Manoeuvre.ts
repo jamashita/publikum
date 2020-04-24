@@ -1,6 +1,6 @@
 import { Ambiguous } from '../Type';
+import { Alive } from './Alive';
 import { Failure } from './Failure';
-import { Success } from './Success';
 import { Superposition } from './Superposition';
 
 export const manoeuvre: <S, F extends Error>(superpositions: Array<Superposition<S, F>>) => Superposition<Array<S>, F> = <S, F extends Error>(superpositions: Array<Superposition<S, F>>) => {
@@ -16,5 +16,5 @@ export const manoeuvre: <S, F extends Error>(superpositions: Array<Superposition
     return t.get();
   });
 
-  return Success.of<Array<S>, F>(values);
+  return Alive.of<Array<S>, F>(values);
 };

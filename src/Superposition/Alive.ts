@@ -1,32 +1,31 @@
 import { BiFunction } from '../Type';
-import { Alive } from './Alive';
+import { Failure } from './Failure';
 import { Superposition } from './Superposition';
 
-export class Failure<S, F extends Error> extends Superposition<S, F> {
-  public readonly noun: 'Dead' = 'Dead';
-  private readonly value: F;
+export class Alive<S, F extends Error> extends Superposition<S, F> {
+  public readonly noun: 'Alive' = 'Alive';
+  private readonly value: S;
 
-  public static of<F extends Error>(value: F): Failure<void, F>;
-  public static of<S, F extends Error>(value: F): Failure<S, F>;
-  public static of<S, F extends Error>(value: F): Failure<void, F> | Failure<S, F> {
-    return new Failure<S, F>(value);
+  public static of<F extends Error>(): Alive<void, F>;
+  public static of<S, F extends Error>(value: S): Alive<S, F>;
+  public static of<S, F extends Error>(value?: S): Alive<void, F> | Alive<S, F> {
+    if (value === undefined) {
+      return new Alive<void, F>(undefined);
+    }
+
+    return new Alive<S, F>(value);
   }
 
-  private constructor(value: F) {
+  private constructor(value: S) {
     super();
     this.value = value;
   }
 
-  public get(): never {
-    // eslint-disable-next-line @typescript-eslint/no-throw-literal
-    throw this.value as Error;
-  }
-
-  public getError(): F {
+  public get(): S {
     return this.value;
   }
 
-  public isFailure(): this is Failure<S, F> {
+  public isAlive(): this is Alive<S, F> {
     return true;
   }
 
@@ -36,12 +35,13 @@ export class Failure<S, F extends Error> extends Superposition<S, F> {
   public match<T, E extends Error>(alive: BiFunction<S, Alive<S, F>, Promise<Superposition<T, E>>>, failure: BiFunction<F, Failure<S, F>, Promise<Superposition<T, E>>>): Promise<Superposition<T, E>>;
   public match<T, E extends Error = F>(
     alive: BiFunction<S, Alive<S, F>, T> | BiFunction<S, Alive<S, F>, Promise<T>> | BiFunction<S, Alive<S, F>, Superposition<T, E>> | BiFunction<S, Alive<S, F>, Promise<Superposition<T, E>>>,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     failure: BiFunction<F, Failure<S, F>, T> | BiFunction<F, Failure<S, F>, Promise<T>> | BiFunction<F, Failure<S, F>, Superposition<T, E>> | BiFunction<F, Failure<S, F>, Promise<Superposition<T, E>>>
   ): T | Promise<T> | Superposition<T, E> | Promise<Superposition<T, E>> {
-    return failure(this.value, this);
+    return alive(this.value, this);
   }
 
-  public transpose<T>(): Failure<T, F> {
-    return this as never as Failure<T, F>;
+  public transpose<E extends Error>(): Alive<S, E> {
+    return this as never as Alive<S, E>;
   }
 }

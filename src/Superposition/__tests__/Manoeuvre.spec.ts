@@ -1,22 +1,22 @@
 import sinon, { SinonSpy } from 'sinon';
 import { MockError } from '../../Mock';
+import { Alive } from '../Alive';
 import { Failure } from '../Failure';
 import { manoeuvre } from '../Manoeuvre';
-import { Success } from '../Success';
 import { Superposition } from '../Superposition';
 
 describe('Manoeuvre', () => {
   describe('all', () => {
-    it('all are Success', () => {
+    it('all are Alive', () => {
       const superpositions: Array<Superposition<number, MockError>> = [
-        Success.of<number, MockError>(0),
-        Success.of<number, MockError>(1),
-        Success.of<number, MockError>(2)
+        Alive.of<number, MockError>(0),
+        Alive.of<number, MockError>(1),
+        Alive.of<number, MockError>(2)
       ];
 
       const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(superpositions);
 
-      expect(values.isSuccess()).toBe(true);
+      expect(values.isAlive()).toBe(true);
       const array: Array<number> = values.get();
       expect(array.length).toBe(superpositions.length);
       for (let i: number = 0; i < array.length; i++) {
@@ -29,7 +29,7 @@ describe('Manoeuvre', () => {
 
       const values: Superposition<Array<number>, MockError> = manoeuvre<number, MockError>(superpositions);
 
-      expect(values.isSuccess()).toBe(true);
+      expect(values.isAlive()).toBe(true);
       const array: Array<number> = values.get();
       expect(array.length).toBe(superpositions.length);
     });
@@ -38,8 +38,8 @@ describe('Manoeuvre', () => {
       const error: MockError = new MockError();
       const superpositions: Array<Superposition<number, MockError>> = [
         Failure.of<number, MockError>(error),
-        Success.of<number, MockError>(1),
-        Success.of<number, MockError>(2)
+        Alive.of<number, MockError>(1),
+        Alive.of<number, MockError>(2)
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -62,9 +62,9 @@ describe('Manoeuvre', () => {
     it('contains Failure on second position', () => {
       const error: MockError = new MockError();
       const superpositions: Array<Superposition<number, MockError>> = [
-        Success.of<number, MockError>(0),
+        Alive.of<number, MockError>(0),
         Failure.of<number, MockError>(error),
-        Success.of<number, MockError>(2)
+        Alive.of<number, MockError>(2)
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -87,8 +87,8 @@ describe('Manoeuvre', () => {
     it('contains Failure on last position', () => {
       const error: MockError = new MockError();
       const superpositions: Array<Superposition<number, MockError>> = [
-        Success.of<number, MockError>(0),
-        Success.of<number, MockError>(1),
+        Alive.of<number, MockError>(0),
+        Alive.of<number, MockError>(1),
         Failure.of<number, MockError>(error)
       ];
 
@@ -115,7 +115,7 @@ describe('Manoeuvre', () => {
       const superpositions: Array<Superposition<number, MockError>> = [
         Failure.of<number, MockError>(error1),
         Failure.of<number, MockError>(error2),
-        Success.of<number, MockError>(2)
+        Alive.of<number, MockError>(2)
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -140,7 +140,7 @@ describe('Manoeuvre', () => {
       const error2: MockError = new MockError();
       const superpositions: Array<Superposition<number, MockError>> = [
         Failure.of<number, MockError>(error1),
-        Success.of<number, MockError>(1),
+        Alive.of<number, MockError>(1),
         Failure.of<number, MockError>(error2)
       ];
 

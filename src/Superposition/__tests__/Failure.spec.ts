@@ -41,13 +41,13 @@ describe('Failure', () => {
     });
   });
 
-  describe('isSuccess', () => {
+  describe('isAlive', () => {
     it('always returns false', () => {
       const failure1: Failure<number, MockError> = Failure.of<number, MockError>(new MockError());
       const failure2: Failure<number, MockError> = Failure.of<number, MockError>(new MockError());
 
-      expect(failure1.isSuccess()).toBe(false);
-      expect(failure2.isSuccess()).toBe(false);
+      expect(failure1.isAlive()).toBe(false);
+      expect(failure2.isAlive()).toBe(false);
     });
   });
 
@@ -88,9 +88,9 @@ describe('Failure', () => {
 
   describe('transpose', () => {
     it('does nothing', () => {
-      const success: Failure<number, MockError> = Failure.of<number, MockError>(new MockError());
+      const alive: Failure<number, MockError> = Failure.of<number, MockError>(new MockError());
 
-      expect(success.transpose<MySQLError>()).toBe(success);
+      expect(alive.transpose<MySQLError>()).toBe(alive);
     });
   });
 });
