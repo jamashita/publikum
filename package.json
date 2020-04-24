@@ -1,6 +1,6 @@
 {
   "name": "publikum",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/index.js",
   "repository": "git@gitlab.com:jamashita/publikum.git",
   "author": "jamashita <jamashita@arachnid.xyz>",
@@ -11,7 +11,8 @@
     "build": "tsc",
     "test": "jest test --detectOpenHandles --coverage",
     "lint": "eslint 'src/**/*.ts{,x}' --fix",
-    "update": "ncu -u && yarn install"
+    "update": "ncu -u && yarn install",
+    "prepublish": "tsc"
   },
   "engines": {
     "node": ">= 14.0.0",
