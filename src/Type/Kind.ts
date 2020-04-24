@@ -1,7 +1,7 @@
 import check from 'check-types';
 import { PlainObject, Primitive } from './Value';
 
-export class Type {
+export class Kind {
 
   public static isString(value: unknown): value is string {
     return check.string(value);
