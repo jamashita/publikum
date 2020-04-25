@@ -68,7 +68,7 @@ describe('AAddress', () => {
 
       const nouns: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set(elements));
 
-      expect(nouns.size()).toBe(3);
+      expect(nouns.size()).toBe(elements.length);
       let i: number = 0;
       nouns.forEach((noun: MockNominative<number>) => {
         expect(noun).toBe(elements[i]);

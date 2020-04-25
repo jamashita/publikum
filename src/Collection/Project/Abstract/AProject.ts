@@ -34,7 +34,12 @@ export abstract class AProject<K extends Nominative, V extends Nominative> exten
   }
 
   public contains(value: V): boolean {
-    // TODO
+    for (const [, [, v]] of this.elements) {
+      if (value.equals(v)) {
+        return true;
+      }
+    }
+
     return false;
   }
 
@@ -97,7 +102,7 @@ export abstract class AProject<K extends Nominative, V extends Nominative> exten
   }
 
   public toMap(): Map<K, V> {
-    const map = new Map<K, V>();
+    const map: Map<K, V> = new Map<K, V>();
 
     this.forEach((value: V, key: K) => {
       map.set(key, value);
