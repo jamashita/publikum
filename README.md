@@ -99,6 +99,8 @@ Class for random string, random number.
 
 
 ### TODO
+[] `sequence.set()`
+[] `sequence.remove()`
 [] implements Time expiration function for `Cache`.
 
 ## License

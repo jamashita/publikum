@@ -32,36 +32,6 @@ describe('ImmutableAddress', () => {
     });
   });
 
-  describe('ofMap', () => {
-    it('when the arguments specified with 0 length map, returns ImmutableAddress.empty()', () => {
-      const address: ImmutableAddress<MockNominative<number>> = ImmutableAddress.ofMap<MockNominative<number>>(
-        new Map<string, MockNominative<number>>()
-      );
-
-      expect(address.isEmpty()).toBe(true);
-      expect(address).toBe(ImmutableAddress.empty<MockNominative<number>>());
-    });
-
-    it('normal case', () => {
-      const address1: ImmutableAddress<MockNominative<number>> = ImmutableAddress.ofMap<MockNominative<number>>(
-        new Map<string, MockNominative<number>>([
-          ['1', new MockNominative<number>(1)],
-          ['3', new MockNominative<number>(3)]
-        ])
-      );
-      const address2: ImmutableAddress<MockNominative<number>> = ImmutableAddress.ofMap<MockNominative<number>>(
-        new Map<string, MockNominative<number>>([
-          ['2', new MockNominative<number>(2)],
-          ['4', new MockNominative<number>(4)],
-          ['5', new MockNominative<number>(5)]
-        ])
-      );
-
-      expect(address1.size()).toBe(2);
-      expect(address2.size()).toBe(3);
-    });
-  });
-
   describe('empty', () => {
     it('always empty, the size is 0', () => {
       const address: ImmutableAddress<MockNominative<number>> = ImmutableAddress.empty<MockNominative<number>>();
@@ -290,6 +260,11 @@ describe('ImmutableAddress', () => {
       expect(nouns2.size()).not.toBe(nouns3.size());
       expect(nouns1).not.toBe(nouns2);
       expect(nouns2).not.toBe(nouns3);
+    });
+
+    it('returns ImmutableSequence.empty() when there are no items', () => {
+      const nouns: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(new Set());
+      expect(nouns.duplicate()).toBe(nouns);
     });
   });
 });

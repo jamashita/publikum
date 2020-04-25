@@ -21,7 +21,7 @@ export class ImmutableAddress<E extends Nominative> extends AAddress<E> implemen
     return ImmutableAddress.ofMap<E>(map);
   }
 
-  public static ofMap<E extends Nominative>(elements: Map<string, E>): ImmutableAddress<E> {
+  private static ofMap<E extends Nominative>(elements: Map<string, E>): ImmutableAddress<E> {
     if (elements.size === 0) {
       return ImmutableAddress.empty<E>();
     }
@@ -45,13 +45,13 @@ export class ImmutableAddress<E extends Nominative> extends AAddress<E> implemen
     let set: boolean = false;
     const map: Map<string, E> = new Map<string, E>(this.elements);
 
-    elements.forEach((e: E) => {
-      if (this.contains(e)) {
+    elements.forEach((element: E) => {
+      if (this.contains(element)) {
         return;
       }
 
       set = true;
-      map.set(e.hashCode(), e);
+      map.set(element.hashCode(), element);
     });
 
     if (set) {
@@ -88,7 +88,10 @@ export class ImmutableAddress<E extends Nominative> extends AAddress<E> implemen
   }
 
   public duplicate(): ImmutableAddress<E> {
-    // TODO empty adoptament
+    if (this.isEmpty()) {
+      return ImmutableAddress.empty<E>();
+    }
+
     return ImmutableAddress.ofMap<E>(new Map(this.elements));
   }
 }

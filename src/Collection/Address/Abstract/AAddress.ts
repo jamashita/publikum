@@ -45,7 +45,7 @@ export abstract class AAddress<E extends Nominative> extends Objet implements Ad
   }
 
   public find(predicate: Predicate<E>): Quantum<E> {
-    const element: Ambiguous<E> = this.toArray().find(predicate);
+    const element: Ambiguous<E> = this.traverse(predicate);
 
     if (element === undefined) {
       return Absent.of<E>();
@@ -54,12 +54,34 @@ export abstract class AAddress<E extends Nominative> extends Objet implements Ad
     return Present.of<E>(element);
   }
 
-  public every(enumerator: Enumerator<unknown, E>): boolean {
-    return this.toArray().every(enumerator);
+  private traverse(predicate: Predicate<E>): Ambiguous<E> {
+    for (const [, element] of this.elements) {
+      if (predicate(element)) {
+        return element;
+      }
+    }
+
+    return undefined;
   }
 
-  public some(enumerator: Enumerator<unknown, E>): boolean {
-    return this.toArray().some(enumerator);
+  public every(predicate: Predicate<E>): boolean {
+    for (const [, element] of this.elements) {
+      if (!predicate(element)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  public some(predicate: Predicate<E>): boolean {
+    for (const [, element] of this.elements) {
+      if (predicate(element)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public equals(other: AAddress<E>): boolean {
@@ -75,17 +97,17 @@ export abstract class AAddress<E extends Nominative> extends Objet implements Ad
     });
   }
 
-  public toArray(): Array<E> {
-    return Array.from<E>(this.elements.values());
-  }
-
   public toSet(): Set<E> {
     return new Set<E>(this.elements.values());
   }
 
   public serialize(): string {
-    return this.toArray().map<string>((element: E) => {
-      return element.toString();
-    }).join(', ');
+    const properties: Array<string> = [];
+
+    this.forEach((element: E) => {
+      properties.push(element.toString());
+    });
+
+    return properties.join(', ');
   }
 }

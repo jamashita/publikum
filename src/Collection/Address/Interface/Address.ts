@@ -13,11 +13,9 @@ export interface Address<E extends Nominative> extends Collection<void, E>, Clon
 
   find(predicate: Predicate<E>): Quantum<E>;
 
-  every(enumerator: Enumerator<unknown, E>): boolean;
+  every(predicate: Predicate<E>): boolean;
 
-  some(enumerator: Enumerator<unknown, E>): boolean;
-
-  toArray(): Array<E>;
+  some(predicate: Predicate<E>): boolean;
 
   toSet(): Set<E>;
 }
