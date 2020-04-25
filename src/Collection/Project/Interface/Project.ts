@@ -1,6 +1,6 @@
 import { Collection } from '../..';
 import { Cloneable, Nominative } from '../../../Interface';
-import { Enumerator } from '../../../Type';
+import { BiPredicate, Enumerator } from '../../../Type';
 
 export interface Project<K extends Nominative, V extends Nominative> extends Collection<K, V>, Cloneable<Project<K, V>> {
 
@@ -11,4 +11,10 @@ export interface Project<K extends Nominative, V extends Nominative> extends Col
   has(key: K): boolean;
 
   forEach(iteration: Enumerator<K, V>): void;
+
+  every(predicate: BiPredicate<K, V>): boolean;
+
+  some(predicate: BiPredicate<K, V>): boolean;
+
+  toMap(): Map<K, V>;
 }

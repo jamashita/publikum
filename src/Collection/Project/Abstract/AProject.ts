@@ -1,7 +1,7 @@
 import { Nominative } from '../../../Interface';
 import { Objet } from '../../../Object';
 import { Absent, Present, Quantum } from '../../../Quantum';
-import { Ambiguous, Enumerator } from '../../../Type';
+import { Ambiguous, BiPredicate, Enumerator } from '../../../Type';
 import { Project } from '../Interface/Project';
 
 export abstract class AProject<K extends Nominative, V extends Nominative> extends Objet implements Project<K, V> {
@@ -54,5 +54,65 @@ export abstract class AProject<K extends Nominative, V extends Nominative> exten
     this.elements.forEach((element: [K, V]) => {
       iteration(element[1], element[0]);
     });
+  }
+
+  public every(predicate: BiPredicate<K, V>): boolean {
+    for (const [, [k, v]] of this.elements) {
+      if (!predicate(k, v)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  public some(predicate: BiPredicate<K, V>): boolean {
+    for (const [, [k, v]] of this.elements) {
+      if (predicate(k, v)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public equals(other: AProject<K, V>): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (this.size() !== other.size()) {
+      return false;
+    }
+
+    return this.every((key: K, value: V) => {
+      if (!other.has(key)) {
+        return false;
+      }
+      if (!other.contains(value)) {
+        return false;
+      }
+
+      return true;
+    });
+  }
+
+  public toMap(): Map<K, V> {
+    const map = new Map<K, V>();
+
+    this.forEach((value: V, key: K) => {
+      map.set(key, value);
+    });
+
+    return map;
+  }
+
+  public serialize(): string {
+    const properties: Array<string> = [];
+
+    this.forEach((value: V, key: K) => {
+      properties.push(`{${key.toString()}: ${value.toString()}}`);
+    });
+
+    return properties.join(', ');
   }
 }
