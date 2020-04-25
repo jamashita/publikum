@@ -30,6 +30,7 @@ Alias for `Set`. Class for `Nominative` implemented classes.
 #### Sequence
 Alias for `Array`. Class for `Nominative` implemented classes.
 
+
 ### Repositories
 
 #### AJAX
@@ -43,6 +44,7 @@ MySQL Driver.
 
 #### Redis
 Redis driver.
+
 
 ### Functional programming classes
 
@@ -64,7 +66,8 @@ Subclass for `Superposition`, it represents `Success` case.
 #### Dead
 Subclass for `Superposition`, it represents `Failure` case.
  
-### Type
+
+### Types
 Class for type definition.
 
 #### Function
@@ -78,6 +81,7 @@ Type-determination class.
 
 #### Value
 Value type definitions.
+
 
 ### Others
 
@@ -93,8 +97,9 @@ Class for string hashing.
 ### Random
 Class for random string, random number.
 
-## TODO
-[] implements Time expiration function for `Cache` 
+
+### TODO
+[] implements Time expiration function for `Cache`.
 
 ## License
 
