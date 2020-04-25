@@ -3,6 +3,7 @@ export type BiFunction<I1, I2, O> = (arg1: I1, arg2: I2) => O;
 export type Consumer<T> = (arg: T) => void;
 export type AsyncConsumer<T> = (arg: T) => Promise<void>;
 export type Predicate<T> = (arg: T) => boolean;
+export type BiPredicate<T1, T2> = (arg1: T1, args2: T2) => boolean;
 export type Supplier<T> = () => T;
 export type Enumerator<K, V> = (value: V, key: K) => void;
 export type Mapper<I, O> = (value: I, index: number) => O;

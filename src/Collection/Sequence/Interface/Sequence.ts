@@ -1,7 +1,7 @@
 import { Collection } from '../..';
 import { Cloneable, Nominative } from '../../../Interface';
 import { Quantum } from '../../../Quantum';
-import { Enumerator, Mapper, Predicate } from '../../../Type';
+import { BiPredicate, Enumerator, Mapper, Predicate } from '../../../Type';
 
 export interface Sequence<E extends Nominative> extends Collection<number, E>, Cloneable<Sequence<E>> {
 
@@ -18,9 +18,9 @@ export interface Sequence<E extends Nominative> extends Collection<number, E>, C
 
   filter(iterator: Enumerator<number, E>): Sequence<E>;
 
-  every(enumerator: Enumerator<number, E>): boolean;
+  every(predicate: BiPredicate<E, number>): boolean;
 
-  some(enumerator: Enumerator<number, E>): boolean;
+  some(predicate: BiPredicate<E, number>): boolean;
 
   toArray(): Array<E>;
 }

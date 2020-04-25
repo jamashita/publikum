@@ -2,7 +2,7 @@ import { Sequence } from '..';
 import { Nominative } from '../../../Interface';
 import { Objet } from '../../../Object';
 import { Absent, Present, Quantum } from '../../../Quantum';
-import { Ambiguous, Enumerator, Mapper, Predicate } from '../../../Type';
+import { Ambiguous, BiPredicate, Enumerator, Mapper, Predicate } from '../../../Type';
 import { ImmutableSequence } from '../ImmutableSequence';
 
 export abstract class ASequence<E extends Nominative> extends Objet implements Sequence<E> {
@@ -70,12 +70,12 @@ export abstract class ASequence<E extends Nominative> extends Objet implements S
     return Present.of<E>(element);
   }
 
-  public every(enumerator: Enumerator<number, E>): boolean {
-    return this.elements.every(enumerator);
+  public every(predicate: BiPredicate<E, number>): boolean {
+    return this.elements.every(predicate);
   }
 
-  public some(enumerator: Enumerator<number, E>): boolean {
-    return this.elements.some(enumerator);
+  public some(predicate: BiPredicate<E, number>): boolean {
+    return this.elements.some(predicate);
   }
 
   public equals(other: ASequence<E>): boolean {
