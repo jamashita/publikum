@@ -1,5 +1,5 @@
 import { Cloneable, Nominative } from '../../Interface';
-import { Enumerator } from '../../Type';
+import { BiPredicate, Enumerator } from '../../Type';
 import { Collection } from './Collection';
 
 export interface Cluster<K, V extends Nominative> extends Collection<K, V>, Cloneable<Cluster<K, V>> {
@@ -8,9 +8,13 @@ export interface Cluster<K, V extends Nominative> extends Collection<K, V>, Clon
 
   remove(key: K): Cluster<K, V>;
 
-  keys(): Set<K>;
-
-  values(): Set<Set<V>>;
+  has(key: K): boolean;
 
   forEach(iteration: Enumerator<K, V>): void;
+
+  every(predicate: BiPredicate<K, V>): boolean;
+
+  some(predicate: BiPredicate<K, V>): boolean;
+
+  toMap(): Map<K, Set<V>>;
 }
