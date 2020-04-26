@@ -149,7 +149,7 @@ describe('ImmutableAddress', () => {
       expect(nouns.remove(noun)).toBe(nouns);
     });
 
-    it('returns the value even if the other other', () => {
+    it('returns the value even if the other', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(2);
@@ -262,8 +262,9 @@ describe('ImmutableAddress', () => {
       expect(nouns2).not.toBe(nouns3);
     });
 
-    it('returns ImmutableSequence.empty() when there are no items', () => {
+    it('returns ImmutableAddress.empty() when there are no items', () => {
       const nouns: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(new Set());
+
       expect(nouns.duplicate()).toBe(nouns);
     });
   });

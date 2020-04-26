@@ -37,7 +37,10 @@ export class ImmutableProject<K extends Nominative, V extends Nominative> extend
     super(elements);
   }
 
-  public set(key: K, value: V): Project<K, V> {
+  public set(key: K, value: V): ImmutableProject<K, V> {
+    if (this.has(key)) {
+      return this;
+    }
 
     const map: Map<string, [K, V]> = new Map<string, [K, V]>(this.elements);
 
@@ -46,16 +49,20 @@ export class ImmutableProject<K extends Nominative, V extends Nominative> extend
     return ImmutableProject.ofMap<K, V>(map);
   }
 
-  public remove(key: K): Project<K, V> {
+  public remove(key: K): ImmutableProject<K, V> {
     if (this.isEmpty()) {
       return this;
     }
 
     const map: Map<string, [K, V]> = new Map<string, [K, V]>(this.elements);
 
-    map.delete(key.hashCode());
+    const deleted: boolean = map.delete(key.hashCode());
 
-    return ImmutableProject.ofMap<K, V>(map);
+    if (deleted) {
+      return ImmutableProject.ofMap<K, V>(map);
+    }
+
+    return this;
   }
 
   public isEmpty(): boolean {
@@ -66,7 +73,7 @@ export class ImmutableProject<K extends Nominative, V extends Nominative> extend
     return super.isEmpty();
   }
 
-  public duplicate(): Project<K, V> {
+  public duplicate(): ImmutableProject<K, V> {
     if (this.isEmpty()) {
       return ImmutableProject.empty<K, V>();
     }
