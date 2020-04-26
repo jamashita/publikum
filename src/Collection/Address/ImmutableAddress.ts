@@ -92,6 +92,8 @@ export class ImmutableAddress<E extends Nominative> extends AAddress<E> implemen
       return ImmutableAddress.empty<E>();
     }
 
-    return ImmutableAddress.ofMap<E>(new Map(this.elements));
+    const map: Map<string, E> = new Map<string, E>(this.elements);
+
+    return ImmutableAddress.ofMap<E>(map);
   }
 }
