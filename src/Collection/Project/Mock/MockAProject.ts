@@ -1,7 +1,6 @@
+import { AProject, Project } from '..';
 import { Nominative } from '../../../Interface';
 import { UnimplementedError } from '../../../UnimplementedError';
-import { AProject } from '../Abstract/AProject';
-import { Project } from '../Interface/Project';
 
 export class MockAProject<K extends Nominative, V extends Nominative> extends AProject<K, V> implements Project<K, V> {
   public readonly noun: 'MockAProject' = 'MockAProject';

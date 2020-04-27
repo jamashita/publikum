@@ -1,8 +1,8 @@
+import { Project } from '..';
 import { Nominative } from '../../../Interface';
 import { Objet } from '../../../Object';
 import { Absent, Present, Quantum } from '../../../Quantum';
 import { Ambiguous, BiPredicate, Enumerator } from '../../../Type';
-import { Project } from '../Interface/Project';
 
 export abstract class AProject<K extends Nominative, V extends Nominative> extends Objet implements Project<K, V> {
   public abstract readonly noun: string;

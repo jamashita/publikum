@@ -1,6 +1,6 @@
+import { MockAProject } from '..';
 import { MockNominative } from '../../../Mock';
 import { Absent } from '../../../Quantum';
-import { MockAProject } from '../Mock/MockAProject';
 
 describe('AProject', () => {
   describe('get', () => {
