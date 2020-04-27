@@ -3,7 +3,7 @@ import { Cloneable, Nominative } from '../../../Interface';
 import { Quantum } from '../../../Quantum';
 import { BiPredicate, Enumerator, Mapper, Predicate } from '../../../Type';
 
-export interface Sequence<E extends Nominative> extends Collection<number, E>, Cloneable<Sequence<E>> {
+export interface Sequence<E extends Nominative> extends Collection<number, E>, Cloneable<Sequence<E>>, Nominative {
 
   add(...elements: Array<E>): Sequence<E>;
 

@@ -2,7 +2,7 @@ import { Collection } from '../..';
 import { Cloneable, Nominative } from '../../../Interface';
 import { BiPredicate, Enumerator } from '../../../Type';
 
-export interface Project<K extends Nominative, V extends Nominative> extends Collection<K, V>, Cloneable<Project<K, V>> {
+export interface Project<K extends Nominative, V extends Nominative> extends Collection<K, V>, Cloneable<Project<K, V>>, Nominative {
 
   set(key: K, value: V): Project<K, V>;
 
