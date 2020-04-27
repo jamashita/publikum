@@ -9,7 +9,7 @@ export interface Address<E extends Nominative> extends Collection<void, E>, Clon
 
   remove(element: E): Address<E>;
 
-  forEach(iteration: Enumerator<unknown, E>): void;
+  forEach(iteration: Enumerator<void, E>): void;
 
   find(predicate: Predicate<E>): Quantum<E>;
 

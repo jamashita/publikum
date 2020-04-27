@@ -40,8 +40,10 @@ export abstract class AAddress<E extends Nominative> extends Objet implements Ad
     return false;
   }
 
-  public forEach(iteration: Enumerator<unknown, E>): void {
-    this.elements.forEach(iteration);
+  public forEach(iteration: Enumerator<void, E>): void {
+    this.elements.forEach((element: E) => {
+      iteration(element);
+    });
   }
 
   public find(predicate: Predicate<E>): Quantum<E> {
