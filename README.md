@@ -6,6 +6,16 @@ Publikum (prononciation /puːblikʊm/) is a TypeScript library for me :))
 
 Publikum is the group of people who are at a play, concert, film, or a public meeting.
 
+## How to use?
+
+Run this command in your JS/TS project.
+
+```
+yarn add git+ssh://git@gitlab.com:jamashita/publikum.git#x.y.z
+```
+
+`x.y.z` is a specific version. if not , yarn will be trying to download latest one.
+
 ## Classes
 
 ### Objects
