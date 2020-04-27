@@ -11,25 +11,29 @@ Publikum is the group of people who are at a play, concert, film, or a public me
 ### Objects
 Object re-definition class for OOP programming.
 
-#### Entity
-Class for `Entity` for DDD.
-
 #### Objet
-Redefinition class for `Object`. Abstract class for `Nominative`.
+Redefinition class for `Object`. Abstract class for standing for `Nominative`.
+
+#### Entity
+Class for `Entity` for DDD. Concrete class for `Objet`.
 
 ### ValueObject
-Class for `ValueObject` for DDD. 
-
+Class for `Value object` for DDD. Concrete class for `Objet`
 
 ### Collections
 Collection classes that are totally wrapping `Array, Map, Set...` in order to data immutability.
 
-#### Address
-Alias for `Set`. Class for `Nominative` implemented classes.
+#### Collection
+Interface for Collection concept.
 
 #### Sequence
-Alias for `Array`. Class for `Nominative` implemented classes.
+Alias for `Array`. Implemented `Collection` and `Nominative`.
 
+#### Address
+Alias for `Set`. Implemented `Collection` and `Nominative`.
+
+#### Project
+Alias for `Map`. Implemented `Collection` and `Nominative`.
 
 ### Repositories
 
@@ -45,11 +49,10 @@ MySQL Driver.
 #### Redis
 Redis driver.
 
-
 ### Functional programming classes
 
 #### Quantum
-Alias for `Optional` for scala. Abstract class for representing `Some` or` None`.
+Alias for `Optional` for scala. Abstract class for standing for `Present` and `Absent`.
 
 #### Absent
 Subclass for `Quantum`, it represents `None` case.
@@ -58,7 +61,7 @@ Subclass for `Quantum`, it represents `None` case.
 Subclass for `Quantum`, it represents `Some` case.
 
 #### Superposition
-Alias for `Try` class in scala. Abstract class for representing `Success` or `Failure`.
+Alias for `Try` class in scala. Abstract class for standing for `Alive` and `Dead`.
 
 #### Alive
 Subclass for `Superposition`, it represents `Success` case.
@@ -66,7 +69,6 @@ Subclass for `Superposition`, it represents `Success` case.
 #### Dead
 Subclass for `Superposition`, it represents `Failure` case.
  
-
 ### Types
 Class for type definition.
 
@@ -74,14 +76,13 @@ Class for type definition.
 Function type definitions.
 
 #### JSONA
-Asynchronous Class for `JSON.parse()` and `JSON.stringify()`.
+Asynchronous Class for serialization and deserialization `JSON`.
 
 #### Kind
 Type-determination class.
 
 #### Value
 Value type definitions.
-
 
 ### Others
 
@@ -96,7 +97,6 @@ Class for string hashing.
 
 ### Random
 Class for random string, random number.
-
 
 ### TODO
 [] `sequence.set()`
