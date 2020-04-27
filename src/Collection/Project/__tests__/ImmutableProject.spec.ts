@@ -71,7 +71,7 @@ describe('ImmutableProject', () => {
       expect(nouns3.size()).toBe(2);
     });
 
-    it('does nothing when the keys are already contained', () => {
+    it('overwrites when the keys are already contained', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -83,27 +83,10 @@ describe('ImmutableProject', () => {
       );
       const nouns2: ImmutableProject<MockNominative<number>, MockNominative<number>> = nouns1.set(noun1, noun3);
 
-      expect(nouns1).toBe(nouns2);
+      expect(nouns1).not.toBe(nouns2);
       expect(nouns1.size()).toBe(1);
       expect(nouns2.size()).toBe(1);
-    });
-
-    it('does nothing when the same value other object are already contained', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(1);
-      const noun4: MockNominative<number> = new MockNominative<number>(4);
-
-      const nouns1: ImmutableProject<MockNominative<number>, MockNominative<number>> = ImmutableProject.of<MockNominative<number>, MockNominative<number>>(
-        new Map<MockNominative<number>, MockNominative<number>>([
-          [noun1, noun2]
-        ])
-      );
-      const nouns2: ImmutableProject<MockNominative<number>, MockNominative<number>> = nouns1.set(noun3, noun4);
-
-      expect(nouns1).toBe(nouns2);
-      expect(nouns1.size()).toBe(1);
-      expect(nouns2.size()).toBe(1);
+      expect(nouns2.get(noun1).get()).toBe(noun3);
     });
   });
 

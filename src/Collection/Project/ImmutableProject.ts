@@ -38,10 +38,6 @@ export class ImmutableProject<K extends Nominative, V extends Nominative> extend
   }
 
   public set(key: K, value: V): ImmutableProject<K, V> {
-    if (this.has(key)) {
-      return this;
-    }
-
     const map: Map<string, [K, V]> = new Map<string, [K, V]>(this.elements);
 
     map.set(key.hashCode(), [key, value]);
