@@ -90,14 +90,15 @@ export abstract class AProject<K extends Nominative, V extends Nominative> exten
     }
 
     return this.every((key: K, value: V) => {
-      if (!other.has(key)) {
-        return false;
-      }
-      if (!other.contains(value)) {
-        return false;
+      const quantum: Quantum<V> = other.get(key);
+
+      if (quantum.isPresent()) {
+        if (value.equals(quantum.get())) {
+          return true;
+        }
       }
 
-      return true;
+      return false;
     });
   }
 
