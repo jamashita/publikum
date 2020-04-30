@@ -16,6 +16,8 @@ export abstract class Quantum<T> implements Noun {
   public abstract ifPresent(consumer: Consumer<T>): void;
   public abstract ifPresent(consumer: AsyncConsumer<T>): Promise<void>;
 
+  public abstract orElse(other: T): T;
+
   public abstract filter(predicate: Predicate<T>): Quantum<T>;
 
   public abstract map<U>(mapper: MonoFunction<T, Suspicious<U>>): Quantum<U>;

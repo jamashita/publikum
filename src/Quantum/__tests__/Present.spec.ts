@@ -96,6 +96,15 @@ describe('Present', () => {
     });
   });
 
+  describe('orElse', () => {
+    it('get inner value', () => {
+      const value: number = 203;
+      const present: Present<number> = Present.of<number>(value);
+
+      expect(present.orElse(-100)).toBe(value);
+    });
+  });
+
   describe('map', () => {
     it('following function is called', () => {
       const present: Present<number> = Present.of<number>(10);

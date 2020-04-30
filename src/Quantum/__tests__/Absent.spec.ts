@@ -65,6 +65,15 @@ describe('Absent', () => {
     });
   });
 
+  describe('orElse', () => {
+    it('get other value', () => {
+      const value: number = 500;
+      const absent: Absent<number> = Absent.of<number>();
+
+      expect(absent.orElse(value)).toBe(value);
+    });
+  });
+
   describe('map', () => {
     it('following function will not be invoked', () => {
       const absent: Absent<number> = Absent.of<number>();

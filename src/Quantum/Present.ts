@@ -32,6 +32,11 @@ export class Present<T> extends Quantum<T> {
     return consumer(this.value);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public orElse(other: T): T {
+    return this.value;
+  }
+
   public filter(predicate: Predicate<T>): Quantum<T> {
     if (predicate(this.value)) {
       return this;

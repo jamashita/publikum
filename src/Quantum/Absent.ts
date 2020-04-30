@@ -33,6 +33,10 @@ export class Absent<T> extends Quantum<T> {
     // NOOP
   }
 
+  public orElse(other: T): T {
+    return other;
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public filter(predicate: Predicate<T>): Absent<T> {
     return this;
