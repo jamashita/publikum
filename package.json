@@ -2,28 +2,62 @@
   "name": "publikum",
   "version": "0.4.3",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "exports": {
-    ".": "dist/index.js",
-    "./AJAX": "dist/AJAX/index.js",
-    "./Cache": "dist/Cache/index.js",
-    "./Collection": "dist/Collection/index.js",
-    "./Mock": "dist/Mock/index.js",
-    "./MySQL": "dist/MySQL/index.js",
-    "./Object": "dist/Object/index.js",
-    "./Quantum": "dist/Quantum/index.js",
-    "./Redis": "dist/Redis/index.js",
-    "./Superposition": "dist/Superposition/index.js",
-    "./Type": "dist/Type/index.js",
-    "./UUID": "dist/UUID/index.js",
-    "./Zeit": "dist/Zeit/index.js",
-    "./DataSourceError": "dist/DataSourceError/index.js",
-    "./Digest": "dist/Digest/index.js",
-    "./Random": "dist/Random/index.js",
-    "./RuntimeError": "dist/RuntimeError/index.js",
-    "./UnimplementedError": "dist/UnimplementedError/index.js"
+    ".": {
+      "types": "dist/index.d.ts",
+      "default": "dist/index.js"
+    },
+    "./AJAX": {
+      "types": "dist/AJAX/index.d.ts",
+      "default": "dist/AJAX/index.js"
+    },
+    "./Cache": {
+      "types": "dist/Cache/index.d.ts",
+      "default": "dist/Cache/index.js"
+    },
+    "./Collection": {
+      "types": "dist/Collection/index.d.ts",
+      "default": "dist/Collection/index.js"
+    },
+    "./Mock": {
+      "types": "dist/Mock/index.d.ts",
+      "default": "dist/Mock/index.js"
+    },
+    "./MySQL": {
+      "types": "dist/MySQL/index.d.ts",
+      "default": "dist/MySQL/index.js"
+    },
+    "./Object": {
+      "types": "dist/Object/index.d.ts",
+      "default": "dist/Object/index.js"
+    },
+    "./Quantum": {
+      "types": "dist/Quantum/index.d.ts",
+      "default": "dist/Quantum/index.js"
+    },
+    "./Redis": {
+      "types": "dist/Redis/index.d.ts",
+      "default": "dist/Redis/index.js"
+    },
+    "./Superposition": {
+      "types": "dist/Superposition/index.d.ts",
+      "default": "dist/Superposition/index.js"
+    },
+    "./Type": {
+      "types": "dist/Type/index.d.ts",
+      "default": "dist/Type/index.js"
+    },
+    "./UUID": {
+      "types": "dist/UUID/index.d.ts",
+      "default": "dist/UUID/index.js"
+    },
+    "./Zeit": {
+      "types": "dist/Zeit/index.d.ts",
+      "default": "dist/Zeit/index.js"
+    }
   },
-  "types": "dist/index.d.ts",
   "repository": "git@gitlab.com:jamashita/publikum.git",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
