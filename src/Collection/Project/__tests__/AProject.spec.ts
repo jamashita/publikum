@@ -258,20 +258,16 @@ describe('AProject', () => {
         new Map<MockNominative<number>, MockNominative<number>>(elements)
       );
 
-      const some1: boolean = nouns.some((key: MockNominative<number>, value: MockNominative<number>) => {
+      const predicate: BiPredicate<MockNominative<number>, MockNominative<number>> = (key: MockNominative<number>, value: MockNominative<number>) => {
         if (value.get() % 2 === 0) {
           return true;
         }
 
         return false;
-      });
-      const some2: boolean = nouns.some((key: MockNominative<number>, value: MockNominative<number>) => {
-        if (value.get() % 2 === 0) {
-          return true;
-        }
+      };
 
-        return false;
-      });
+      const some1: boolean = nouns.some(predicate);
+      const some2: boolean = nouns.some(predicate);
 
       expect(some1).toBe(true);
       expect(some2).toBe(true);
@@ -329,41 +325,19 @@ describe('AProject', () => {
         ])
       );
 
-      const some1: boolean = nouns1.some((key: MockNominative<number>, value: MockNominative<number>) => {
+      const predicate: BiPredicate<MockNominative<number>, MockNominative<number>> = (key: MockNominative<number>, value: MockNominative<number>) => {
         if (value.get() % 2 === 1) {
           return true;
         }
 
         return false;
-      });
-      const some2: boolean = nouns2.some((key: MockNominative<number>, value: MockNominative<number>) => {
-        if (value.get() % 2 === 1) {
-          return true;
-        }
+      };
 
-        return false;
-      });
-      const some3: boolean = nouns3.some((key: MockNominative<number>, value: MockNominative<number>) => {
-        if (value.get() % 2 === 1) {
-          return true;
-        }
-
-        return false;
-      });
-      const some4: boolean = nouns4.some((key: MockNominative<number>, value: MockNominative<number>) => {
-        if (value.get() % 2 === 1) {
-          return true;
-        }
-
-        return false;
-      });
-      const some5: boolean = nouns5.some((key: MockNominative<number>, value: MockNominative<number>) => {
-        if (value.get() % 2 === 1) {
-          return true;
-        }
-
-        return false;
-      });
+      const some1: boolean = nouns1.some(predicate);
+      const some2: boolean = nouns2.some(predicate);
+      const some3: boolean = nouns3.some(predicate);
+      const some4: boolean = nouns4.some(predicate);
+      const some5: boolean = nouns5.some(predicate);
 
       expect(some1).toBe(true);
       expect(some2).toBe(true);
@@ -383,6 +357,30 @@ describe('AProject', () => {
       const nouns1: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>, MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun2]
+        ])
+      );
+      const nouns2: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>, MockNominative<number>>(
+        new Map<MockNominative<number>, MockNominative<number>>([
+          [noun1, noun2],
+          [noun3, noun4]
+        ])
+      );
+
+      expect(nouns1.equals(nouns1)).toBe(true);
+      expect(nouns1.equals(nouns2)).toBe(false);
+    });
+
+    it('returns false if the values are different', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const noun4: MockNominative<number> = new MockNominative<number>(4);
+      const noun5: MockNominative<number> = new MockNominative<number>(5);
+
+      const nouns1: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>, MockNominative<number>>(
+        new Map<MockNominative<number>, MockNominative<number>>([
+          [noun1, noun2],
+          [noun3, noun3]
         ])
       );
       const nouns2: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>, MockNominative<number>>(
