@@ -1,6 +1,40 @@
 import { Kind } from '../Kind';
 
 describe('Kind', () => {
+  describe('isUndefined', () => {
+    it('returns true only the value is undefined', () => {
+      expect(Kind.isUndefined(null)).toBe(false);
+      expect(Kind.isUndefined(undefined)).toBe(true);
+      expect(Kind.isUndefined('')).toBe(false);
+      expect(Kind.isUndefined('123')).toBe(false);
+      expect(Kind.isUndefined('abcd')).toBe(false);
+      expect(Kind.isUndefined(123)).toBe(false);
+      expect(Kind.isUndefined(0)).toBe(false);
+      expect(Kind.isUndefined(false)).toBe(false);
+      expect(Kind.isUndefined(true)).toBe(false);
+      expect(Kind.isUndefined(Symbol('p'))).toBe(false);
+      expect(Kind.isUndefined({})).toBe(false);
+      expect(Kind.isUndefined([])).toBe(false);
+    });
+  });
+
+  describe('isNull', () => {
+    it('returns true only the value is null', () => {
+      expect(Kind.isNull(null)).toBe(true);
+      expect(Kind.isNull(undefined)).toBe(false);
+      expect(Kind.isNull('')).toBe(false);
+      expect(Kind.isNull('123')).toBe(false);
+      expect(Kind.isNull('abcd')).toBe(false);
+      expect(Kind.isNull(123)).toBe(false);
+      expect(Kind.isNull(0)).toBe(false);
+      expect(Kind.isNull(false)).toBe(false);
+      expect(Kind.isNull(true)).toBe(false);
+      expect(Kind.isNull(Symbol('p'))).toBe(false);
+      expect(Kind.isNull({})).toBe(false);
+      expect(Kind.isNull([])).toBe(false);
+    });
+  });
+
   describe('isString', () => {
     it('even if numerical strings given, return true', () => {
       expect(Kind.isString(null)).toBe(false);
@@ -12,6 +46,7 @@ describe('Kind', () => {
       expect(Kind.isString(0)).toBe(false);
       expect(Kind.isString(false)).toBe(false);
       expect(Kind.isString(true)).toBe(false);
+      expect(Kind.isString(Symbol('p'))).toBe(false);
       expect(Kind.isString({})).toBe(false);
       expect(Kind.isString([])).toBe(false);
     });
@@ -30,6 +65,7 @@ describe('Kind', () => {
       expect(Kind.isNumber(0.3)).toBe(true);
       expect(Kind.isNumber(false)).toBe(false);
       expect(Kind.isNumber(true)).toBe(false);
+      expect(Kind.isNumber(Symbol('p'))).toBe(false);
       expect(Kind.isNumber({})).toBe(false);
       expect(Kind.isNumber([])).toBe(false);
     });
@@ -48,6 +84,7 @@ describe('Kind', () => {
       expect(Kind.isInteger(0.3)).toBe(false);
       expect(Kind.isInteger(false)).toBe(false);
       expect(Kind.isInteger(true)).toBe(false);
+      expect(Kind.isNumber(Symbol('p'))).toBe(false);
       expect(Kind.isInteger({})).toBe(false);
       expect(Kind.isInteger([])).toBe(false);
     });
@@ -66,6 +103,7 @@ describe('Kind', () => {
       expect(Kind.isBoolean(0.3)).toBe(false);
       expect(Kind.isBoolean(false)).toBe(true);
       expect(Kind.isBoolean(true)).toBe(true);
+      expect(Kind.isBoolean(Symbol('p'))).toBe(false);
       expect(Kind.isBoolean({})).toBe(false);
       expect(Kind.isBoolean([])).toBe(false);
     });
@@ -84,6 +122,7 @@ describe('Kind', () => {
       expect(Kind.isPrimitive('a')).toBe(true);
       expect(Kind.isPrimitive('0')).toBe(true);
       expect(Kind.isPrimitive('1')).toBe(true);
+      expect(Kind.isPrimitive(Symbol('p'))).toBe(true);
       expect(Kind.isPrimitive([])).toBe(false);
       expect(Kind.isPrimitive([null])).toBe(false);
       expect(Kind.isPrimitive([undefined])).toBe(false);
@@ -106,6 +145,7 @@ describe('Kind', () => {
       expect(Kind.isPlainObject(0.3)).toBe(false);
       expect(Kind.isPlainObject(false)).toBe(false);
       expect(Kind.isPlainObject(true)).toBe(false);
+      expect(Kind.isPlainObject(Symbol('p'))).toBe(false);
       expect(Kind.isPlainObject({})).toBe(true);
       expect(Kind.isPlainObject([])).toBe(false);
       expect(Kind.isPlainObject(new Error())).toBe(false);
@@ -125,6 +165,7 @@ describe('Kind', () => {
       expect(Kind.isArray(0.3)).toBe(false);
       expect(Kind.isArray(false)).toBe(false);
       expect(Kind.isArray(true)).toBe(false);
+      expect(Kind.isArray(Symbol('p'))).toBe(false);
       expect(Kind.isArray({})).toBe(false);
       expect(Kind.isArray([])).toBe(true);
     });

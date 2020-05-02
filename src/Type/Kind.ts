@@ -1,34 +1,103 @@
-import check from 'check-types';
 import { PlainObject, Primitive } from './Value';
 
 export class Kind {
 
+  public static isUndefined(value: unknown): value is undefined {
+    if (value === undefined) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public static isNull(value: unknown): value is null {
+    if (value === null) {
+      return true;
+    }
+
+    return false;
+  }
+
   public static isString(value: unknown): value is string {
-    return check.string(value);
+    if (typeof value === 'string') {
+      return true;
+    }
+
+    return false;
   }
 
   public static isNumber(value: unknown): value is number {
-    return check.number(value);
+    if (typeof value === 'number') {
+      return true;
+    }
+
+    return false;
   }
 
   public static isInteger(value: unknown): boolean {
-    return check.integer(value);
+    if (Kind.isNumber(value)) {
+      if (value % 1 === 0) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public static isBoolean(value: unknown): value is boolean {
-    return check.boolean(value);
+    if (value === true) {
+      return true;
+    }
+    if (value === false) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public static isSymbol(value: unknown): value is symbol {
+    if (typeof value === 'symbol') {
+      return true;
+    }
+
+    return false;
   }
 
   public static isPrimitive(value: unknown): value is Primitive {
-    return check.primitive(value);
+    switch (value) {
+      case undefined:
+      case null:
+      case true:
+      case false: {
+        return true;
+      }
+      default: {
+        // NOOP
+      }
+    }
+
+    switch (typeof value) {
+      case 'number':
+      case 'string':
+      case 'symbol': {
+        return true;
+      }
+      default: {
+        return false;
+      }
+    }
   }
 
   public static isPlainObject(value: unknown): value is PlainObject {
-    return check.object(value);
+    if (Object.prototype.toString.call(value) === '[object Object]') {
+      return true;
+    }
+
+    return false;
   }
 
   public static isArray(value: unknown): value is Array<unknown> {
-    return check.array(value);
+    return Array.isArray(value);
   }
 
   private constructor() {
