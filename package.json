@@ -1,6 +1,6 @@
 {
   "name": "publikum",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "git@gitlab.com:jamashita/publikum.git",
