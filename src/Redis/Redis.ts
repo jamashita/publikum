@@ -6,6 +6,8 @@ import { RedisList } from './RedisList';
 import { RedisSet } from './RedisSet';
 import { RedisString } from './RedisString';
 
+export type RedisConfig = IORedis.RedisOptions;
+
 export class Redis implements IRedis {
   private readonly client: IORedis.Redis;
   private readonly hash: RedisHash;
@@ -13,7 +15,7 @@ export class Redis implements IRedis {
   private readonly list: RedisList;
   private readonly string: RedisString;
 
-  public constructor(config: IORedis.RedisOptions) {
+  public constructor(config: RedisConfig) {
     const client: IORedis.Redis = new IORedis(config);
     this.client = client;
     this.hash = new RedisHash(client);

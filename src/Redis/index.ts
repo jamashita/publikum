@@ -14,4 +14,3 @@ export * from './RedisHash';
 export * from './RedisList';
 export * from './RedisSet';
 export * from './RedisString';
-export { RedisOptions } from 'ioredis';

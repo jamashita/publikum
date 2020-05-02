@@ -8,4 +8,3 @@ export * from './Mock/MockSQL';
 export * from './Connection';
 export * from './MySQL';
 export * from './MySQLError';
-export { PoolConfig } from 'mysql';

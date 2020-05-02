@@ -5,12 +5,13 @@ import { IMySQL } from './Interface/IMySQL';
 import { ITransaction } from './Interface/ITransaction';
 import { MySQLError } from './MySQLError';
 
+export type MySQLConfig = mysql.PoolConfig;
 type Value = Readonly<Record<string, unknown>>;
 
 export class MySQL implements IMySQL {
   private readonly pool: mysql.Pool;
 
-  public constructor(config: mysql.PoolConfig) {
+  public constructor(config: MySQLConfig) {
     const pool: mysql.Pool = mysql.createPool(config);
 
     pool.on('connection', (connection: mysql.Connection) => {
