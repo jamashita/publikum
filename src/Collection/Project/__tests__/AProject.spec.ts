@@ -1,6 +1,7 @@
 import { MockAProject } from '..';
 import { MockNominative } from '../../../Mock';
 import { Absent } from '../../../Quantum';
+import { BiPredicate } from '../../../Type';
 
 describe('AProject', () => {
   describe('get', () => {
@@ -215,48 +216,20 @@ describe('AProject', () => {
         ])
       );
 
-      const every1: boolean = nouns1.every((mock: MockNominative<number>) => {
-        if (mock.get() % 2 === 0) {
+      const predicate: BiPredicate<MockNominative<number>, MockNominative<number>> = (key: MockNominative<number>, value: MockNominative<number>) => {
+        if (value.get() % 2 === 0) {
           return true;
         }
 
         return false;
-      });
-      const every2: boolean = nouns2.every((mock: MockNominative<number>) => {
-        if (mock.get() % 2 === 0) {
-          return true;
-        }
+      };
 
-        return false;
-      });
-      const every3: boolean = nouns3.every((mock: MockNominative<number>) => {
-        if (mock.get() % 2 === 0) {
-          return true;
-        }
-
-        return false;
-      });
-      const every4: boolean = nouns4.every((mock: MockNominative<number>) => {
-        if (mock.get() % 2 === 0) {
-          return true;
-        }
-
-        return false;
-      });
-      const every5: boolean = nouns5.every((mock: MockNominative<number>) => {
-        if (mock.get() % 2 === 0) {
-          return true;
-        }
-
-        return false;
-      });
-      const every6: boolean = nouns6.every((mock: MockNominative<number>) => {
-        if (mock.get() % 2 === 0) {
-          return true;
-        }
-
-        return false;
-      });
+      const every1: boolean = nouns1.every(predicate);
+      const every2: boolean = nouns2.every(predicate);
+      const every3: boolean = nouns3.every(predicate);
+      const every4: boolean = nouns4.every(predicate);
+      const every5: boolean = nouns5.every(predicate);
+      const every6: boolean = nouns6.every(predicate);
 
       expect(every1).toBe(false);
       expect(every2).toBe(false);
