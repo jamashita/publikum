@@ -50,7 +50,7 @@ describe('UUID', () => {
       const id: string = '998106de-b2e7-4981-9643-22cd30cd74de';
       const uuid: UUID = UUID.of(id);
 
-      expect(uuid.get().toString()).toBe(id);
+      expect(uuid.toString()).toBe(id);
     });
   });
 });
