@@ -3,7 +3,6 @@
   "version": "0.5.3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "type": "module",
   "repository": "git@gitlab.com:jamashita/publikum.git",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
