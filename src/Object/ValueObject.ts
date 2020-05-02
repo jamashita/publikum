@@ -6,6 +6,8 @@ export abstract class ValueObject extends Objet {
 
   public abstract equals(other: ValueObject): boolean;
 
+  public abstract serialize(): string;
+
   public hashCode(): string {
     if (this.code !== undefined) {
       return this.code;
@@ -15,6 +17,4 @@ export abstract class ValueObject extends Objet {
 
     return this.code;
   }
-
-  public abstract serialize(): string;
 }
