@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import sinon, { SinonFakeTimers } from 'sinon';
 import { Zeit } from '../Zeit';
 import { ZeitError } from '../ZeitError';
 
@@ -20,6 +21,16 @@ describe('Zeit', () => {
       expect(() => {
         Zeit.ofString('2000-01-01 01:02:03', 'YYYY-MM-DD');
       }).toThrow(ZeitError);
+    });
+  });
+
+  describe('now', () => {
+    it('returns current timestamp', () => {
+      const clock: SinonFakeTimers = sinon.useFakeTimers(946684800000);
+
+      expect(Zeit.now('YYYY-MM-DD HH:mm:ss').toString()).toBe('2000-01-01 00:00:00');
+
+      clock.restore();
     });
   });
 
