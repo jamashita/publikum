@@ -262,6 +262,14 @@ describe('Zeit', () => {
       expect(zeit1.equals(zeit3)).toBe(true);
     });
 
+    it('returns false if the formats are not the same', () => {
+      const zeit1: Zeit = Zeit.ofString('2000-01-01', 'YYYY-MM-DD');
+      const zeit2: Zeit = Zeit.ofString('2000-01-01 00:00:00', 'YYYY-MM-DD HH:mm:ss');
+
+      expect(zeit1.equals(zeit1)).toBe(true);
+      expect(zeit1.equals(zeit2)).toBe(false);
+    });
+
     it('normal case', () => {
       const zeit1: Zeit = Zeit.ofString('2000-01-01', 'YYYY-MM-DD');
       const zeit2: Zeit = Zeit.ofString('2000-01-02', 'YYYY-MM-DD');
