@@ -1,7 +1,7 @@
 import { MockAAddress } from '..';
 import { MockNominative } from '../../../Mock';
 import { Absent, Quantum } from '../../../Quantum';
-import { MockASequence } from '../../Sequence';
+import { Predicate } from '../../../Type';
 
 describe('AAddress', () => {
   describe('get', () => {
@@ -144,13 +144,15 @@ describe('AAddress', () => {
         noun4
       ]));
 
-      const every: boolean = nouns.every((mock: MockNominative<number>) => {
+      const predicate: Predicate<MockNominative<number>> = (mock: MockNominative<number>) => {
         if (mock.get() % 2 === 0) {
           return true;
         }
 
         return false;
-      });
+      };
+
+      const every: boolean = nouns.every(predicate);
 
       expect(every).toBe(true);
     });
@@ -162,85 +164,57 @@ describe('AAddress', () => {
       const noun4: MockNominative<number> = new MockNominative<number>(8);
       const noun5: MockNominative<number> = new MockNominative<number>(3);
 
-      const nouns1: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
+      const nouns1: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set([
         noun1,
         noun2,
         noun3,
         noun4
-      ]);
-      const nouns2: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
+      ]));
+      const nouns2: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set([
         noun2,
         noun1,
         noun3,
         noun4
-      ]);
-      const nouns3: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
+      ]));
+      const nouns3: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set([
         noun2,
         noun3,
         noun1,
         noun4
-      ]);
-      const nouns4: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
+      ]));
+      const nouns4: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set([
         noun2,
         noun3,
         noun4,
         noun1
-      ]);
-      const nouns5: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
+      ]));
+      const nouns5: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set([
         noun1,
         noun5,
         noun3,
         noun4
-      ]);
-      const nouns6: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
+      ]));
+      const nouns6: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set([
         noun1,
         noun2,
         noun5,
         noun4
-      ]);
+      ]));
 
-      const every1: boolean = nouns1.every((mock: MockNominative<number>) => {
+      const predicate: Predicate<MockNominative<number>> = (mock: MockNominative<number>) => {
         if (mock.get() % 2 === 0) {
           return true;
         }
 
         return false;
-      });
-      const every2: boolean = nouns2.every((mock: MockNominative<number>) => {
-        if (mock.get() % 2 === 0) {
-          return true;
-        }
+      };
 
-        return false;
-      });
-      const every3: boolean = nouns3.every((mock: MockNominative<number>) => {
-        if (mock.get() % 2 === 0) {
-          return true;
-        }
-
-        return false;
-      });
-      const every4: boolean = nouns4.every((mock: MockNominative<number>) => {
-        if (mock.get() % 2 === 0) {
-          return true;
-        }
-
-        return false;
-      });
-      const every5: boolean = nouns5.every((mock: MockNominative<number>) => {
-        if (mock.get() % 2 === 0) {
-          return true;
-        }
-
-        return false;
-      });
-      const every6: boolean = nouns6.every((mock: MockNominative<number>) => {
-        if (mock.get() % 2 === 0) {
-          return true;
-        }
-
-        return false;
-      });
+      const every1: boolean = nouns1.every(predicate);
+      const every2: boolean = nouns2.every(predicate);
+      const every3: boolean = nouns3.every(predicate);
+      const every4: boolean = nouns4.every(predicate);
+      const every5: boolean = nouns5.every(predicate);
+      const every6: boolean = nouns6.every(predicate);
 
       expect(every1).toBe(false);
       expect(every2).toBe(false);
@@ -265,20 +239,16 @@ describe('AAddress', () => {
         noun4
       ]));
 
-      const some1: boolean = nouns.some((mock: MockNominative<number>) => {
+      const predicate: Predicate<MockNominative<number>> = (mock: MockNominative<number>) => {
         if (mock.get() % 2 === 0) {
           return true;
         }
 
         return false;
-      });
-      const some2: boolean = nouns.some((mock: MockNominative<number>) => {
-        if (mock.get() === 2) {
-          return true;
-        }
+      };
 
-        return false;
-      });
+      const some1: boolean = nouns.some(predicate);
+      const some2: boolean = nouns.some(predicate);
 
       expect(some1).toBe(true);
       expect(some2).toBe(true);
@@ -322,41 +292,19 @@ describe('AAddress', () => {
         noun5
       ]));
 
-      const some1: boolean = nouns1.some((mock: MockNominative<number>) => {
+      const predicate: Predicate<MockNominative<number>> = (mock: MockNominative<number>) => {
         if (mock.get() % 2 === 1) {
           return true;
         }
 
         return false;
-      });
-      const some2: boolean = nouns2.some((mock: MockNominative<number>) => {
-        if (mock.get() % 2 === 1) {
-          return true;
-        }
+      };
 
-        return false;
-      });
-      const some3: boolean = nouns3.some((mock: MockNominative<number>) => {
-        if (mock.get() % 2 === 1) {
-          return true;
-        }
-
-        return false;
-      });
-      const some4: boolean = nouns4.some((mock: MockNominative<number>) => {
-        if (mock.get() % 2 === 1) {
-          return true;
-        }
-
-        return false;
-      });
-      const some5: boolean = nouns5.some((mock: MockNominative<number>) => {
-        if (mock.get() % 2 === 1) {
-          return true;
-        }
-
-        return false;
-      });
+      const some1: boolean = nouns1.some(predicate);
+      const some2: boolean = nouns2.some(predicate);
+      const some3: boolean = nouns3.some(predicate);
+      const some4: boolean = nouns4.some(predicate);
+      const some5: boolean = nouns5.some(predicate);
 
       expect(some1).toBe(true);
       expect(some2).toBe(true);

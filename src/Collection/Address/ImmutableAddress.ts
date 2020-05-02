@@ -22,10 +22,6 @@ export class ImmutableAddress<E extends Nominative> extends AAddress<E> implemen
   }
 
   private static ofMap<E extends Nominative>(elements: Map<string, E>): ImmutableAddress<E> {
-    if (elements.size === 0) {
-      return ImmutableAddress.empty<E>();
-    }
-
     return new ImmutableAddress<E>(elements);
   }
 
