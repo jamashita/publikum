@@ -26,7 +26,6 @@
   "dependencies": {
     "bcrypt": "4.0.1",
     "chance": "1.1.4",
-    "check-types": "11.1.2",
     "dayjs": "1.8.26",
     "ioredis": "4.16.3",
     "make-error-cause": "2.3.0",
@@ -37,7 +36,6 @@
   "devDependencies": {
     "@types/bcrypt": "3.0.0",
     "@types/chance": "1.0.10",
-    "@types/check-types": "7.3.1",
     "@types/ioredis": "4.16.0",
     "@types/jest": "25.2.1",
     "@types/mysql": "2.15.10",

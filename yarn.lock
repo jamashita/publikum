@@ -591,11 +591,6 @@
   resolved "https://registry.yarnpkg.com/@types/chance/-/chance-1.0.10.tgz#09461c19963a8961c3935d71cef245d5d48ce16c"
   integrity sha512-929ISFKdeE72r6VuorB5BMjuwQ+t5rx3MLsHq5i+dCM4aJVGb+EJ+mUmaEcqENzoLZuH3xkNpklBip4guQAYiA==
 
-"@types/check-types@7.3.1":
-  version "7.3.1"
-  resolved "https://registry.yarnpkg.com/@types/check-types/-/check-types-7.3.1.tgz#81c2eb6b9866655b149a5eb490a758266b841eb6"
-  integrity sha512-ngdPEVdU7HMFoDWBibpBB2T59WKhn832O19s1xWhbbPVC/FoMJSetj/8V68p6L28oeU2wPSVfeP4GX0AmxLKUw==
-
 "@types/color-name@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
@@ -1286,11 +1281,6 @@ chardet@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
-
-check-types@11.1.2:
-  version "11.1.2"
-  resolved "https://registry.yarnpkg.com/check-types/-/check-types-11.1.2.tgz#86a7c12bf5539f6324eb0e70ca8896c0e38f3e2f"
-  integrity sha512-tzWzvgePgLORb9/3a0YenggReLKAIb2owL03H2Xdoe5pKcUyWRSEQ8xfCar8t2SIAuEDwtmx2da1YB52YuHQMQ==
 
 chownr@^1.1.1:
   version "1.1.4"
