@@ -3,6 +3,7 @@ import { ValueObject } from '../Object';
 import { UUIDError } from './UUIDError';
 
 const chance: Chance.Chance = new Chance();
+const uuidRegExp: RegExp = /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/;
 
 export class UUID extends ValueObject {
   public readonly noun: 'UUID' = 'UUID';
@@ -14,6 +15,10 @@ export class UUID extends ValueObject {
     }
 
     throw new UUIDError(`ILLEGAL ID SPECIFIED: ${id}`);
+  }
+
+  public static isAcceptable(str: string): boolean {
+    return uuidRegExp.test(str);
   }
 
   public static size(): number {

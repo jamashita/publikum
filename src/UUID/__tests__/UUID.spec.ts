@@ -15,6 +15,26 @@ describe('UUID', () => {
     });
   });
 
+  describe('size', () => {
+    it('returns 36', () => {
+      expect(UUID.size()).toEqual(36);
+    });
+  });
+
+  describe('isAcceptable', () => {
+    it('normal case', () => {
+      const uuid: string = '998106de-b2e7-4981-9643-22cd30cd74de';
+      expect(UUID.isAcceptable(uuid)).toBe(true);
+    });
+
+    it('generated UUID must pass', () => {
+      for (let i: number = 0; i < 100; i++) {
+        expect(UUID.isAcceptable(UUID.v4().get())).toBe(true);
+        expect(UUID.isAcceptable(UUID.v5().get())).toBe(true);
+      }
+    });
+  });
+
   describe('v4', () => {
     it('always generates 36 length string', () => {
       for (let i: number = 0; i < 100; i++) {
