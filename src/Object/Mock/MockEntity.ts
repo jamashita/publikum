@@ -3,8 +3,8 @@ import { JSObjectNotation, Primitive } from '../../Type';
 import { UnimplementedError } from '../../UnimplementedError';
 import { Entity } from '../Entity';
 
-export class MockAEntity<T extends Primitive> extends Entity<MockNominative<T>> {
-  public readonly noun: 'MockAEntity' = 'MockAEntity';
+export class MockEntity<T extends Primitive> extends Entity<MockNominative<T>> {
+  public readonly noun: 'MockEntity' = 'MockEntity';
   private readonly id: MockNominative<T>;
   public other: JSObjectNotation;
 
@@ -18,7 +18,7 @@ export class MockAEntity<T extends Primitive> extends Entity<MockNominative<T>> 
     return this.id;
   }
 
-  public duplicate(): MockAEntity<T> {
+  public duplicate(): MockEntity<T> {
     throw new UnimplementedError();
   }
 
