@@ -10,7 +10,7 @@ export class UUID extends ValueObject {
   private readonly id: string;
 
   public static of(id: string): UUID {
-    if (id.length === UUID.size()) {
+    if (UUID.isAcceptable(id)) {
       return new UUID(id);
     }
 
