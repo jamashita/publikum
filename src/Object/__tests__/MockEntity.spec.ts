@@ -1,5 +1,5 @@
 import { MockEntity } from '..';
-import { MockNominative } from '../..';
+import { MockNominative } from '../../Mock/MockNominative';
 
 describe('MockEntity', () => {
   describe('equals', () => {
