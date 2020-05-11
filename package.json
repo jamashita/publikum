@@ -32,6 +32,7 @@
     "test": "jest test --detectOpenHandles --coverage",
     "lint": "eslint 'src/**/*.ts{,x}' --fix",
     "update": "ncu -u && yarn install && yarn upgrade",
+    "format": "prettier --write src/**/*.tsx?",
     "prepare": "tsc"
   },
   "engines": {
@@ -68,6 +69,7 @@
     "eslint": "7.0.0",
     "jest": "26.0.1",
     "npm-check-updates": "5.0.0",
+    "prettier": "2.0.5",
     "sinon": "9.0.2",
     "ts-jest": "25.5.1",
     "typescript": "3.8.3"
