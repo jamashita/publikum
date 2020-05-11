@@ -17,7 +17,7 @@ export class Cache implements ICache {
     const instance: Ambiguous<unknown> = this.values.get(identifier);
 
     if (instance === undefined) {
-      throw new CacheError(`NO SUCH IDENTIFIER: ${identifier.description}`);
+      throw new CacheError(`NO SUCH IDENTIFIER: ${identifier.toString()}`);
     }
 
     return instance as H;

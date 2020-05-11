@@ -111,13 +111,13 @@ export class RedisSet implements IRedisSet {
   }
 
   public async pop(key: string): Promise<Nullable<string>> {
+    // prettier-ignore
     try {
       const result: Nullable<string> = await this.client.spop(key);
 
       return result;
     }
     catch (err) {
-      //
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SPOP', err);
       }
