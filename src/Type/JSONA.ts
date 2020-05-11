@@ -3,13 +3,13 @@ import { JSONAError } from './JSONAError';
 import { JSObjectNotation } from './Value';
 
 export class JSONA {
-
   public static parse<T extends JSObjectNotation>(text: string): Promise<T> {
     return new Promise<T>((resolve: Resolve<T>, reject: Reject) => {
       setTimeout(() => {
         try {
           resolve(JSON.parse(text));
         }
+        // prettier-ignore
         catch (err) {
           reject(new JSONAError(err));
         }
@@ -23,6 +23,7 @@ export class JSONA {
         try {
           resolve(JSON.stringify(value));
         }
+        // prettier-ignore
         catch (err) {
           reject(new JSONAError(err));
         }
@@ -31,5 +32,6 @@ export class JSONA {
   }
 
   private constructor() {
+    // NOOP
   }
 }

@@ -1,7 +1,6 @@
 import { PlainObject, Primitive } from './Value';
 
 export class Kind {
-
   public static isUndefined(value: unknown): value is undefined {
     if (value === undefined) {
       return true;
@@ -101,5 +100,6 @@ export class Kind {
   }
 
   private constructor() {
+    // NOOP
   }
 }

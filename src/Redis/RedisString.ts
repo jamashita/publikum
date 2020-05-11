@@ -20,6 +20,7 @@ export class RedisString implements IRedisString {
 
       return false;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SET', err);
@@ -35,6 +36,7 @@ export class RedisString implements IRedisString {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON GET', err);

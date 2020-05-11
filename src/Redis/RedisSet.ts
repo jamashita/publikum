@@ -16,6 +16,7 @@ export class RedisSet implements IRedisSet {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SADD', err);
@@ -31,6 +32,7 @@ export class RedisSet implements IRedisSet {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SREM', err);
@@ -50,6 +52,7 @@ export class RedisSet implements IRedisSet {
 
       return true;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SISMEMBER', err);
@@ -65,6 +68,7 @@ export class RedisSet implements IRedisSet {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SCARD', err);
@@ -80,6 +84,7 @@ export class RedisSet implements IRedisSet {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SMEMBERS', err);
@@ -95,6 +100,7 @@ export class RedisSet implements IRedisSet {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SRANDMEMBER', err);
@@ -110,6 +116,7 @@ export class RedisSet implements IRedisSet {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SPOP', err);

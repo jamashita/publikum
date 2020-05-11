@@ -15,6 +15,7 @@ export class RedisList implements IRedisList {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON RPUSH', err);
@@ -30,6 +31,7 @@ export class RedisList implements IRedisList {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON RPOP', err);
@@ -45,6 +47,7 @@ export class RedisList implements IRedisList {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON LPOP', err);
@@ -60,6 +63,7 @@ export class RedisList implements IRedisList {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON LLEN', err);
@@ -75,6 +79,7 @@ export class RedisList implements IRedisList {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON LREM', err);
@@ -93,6 +98,7 @@ export class RedisList implements IRedisList {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON LRANGE', err);
@@ -108,6 +114,7 @@ export class RedisList implements IRedisList {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON LRANGE', err);

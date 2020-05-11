@@ -20,6 +20,7 @@ export class RedisHash implements IRedisHash {
 
       return true;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON HSET', err);
@@ -35,6 +36,7 @@ export class RedisHash implements IRedisHash {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON HGET', err);
@@ -50,6 +52,7 @@ export class RedisHash implements IRedisHash {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON HDEL', err);
@@ -65,6 +68,7 @@ export class RedisHash implements IRedisHash {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON HLEN', err);
@@ -84,6 +88,7 @@ export class RedisHash implements IRedisHash {
 
       return true;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON HEXISTS', err);

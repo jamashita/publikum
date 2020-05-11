@@ -3,7 +3,9 @@ import { Alive } from './Alive';
 import { Dead } from './Dead';
 import { Superposition } from './Superposition';
 
-export const manoeuvre: <S, F extends Error>(superpositions: Array<Superposition<S, F>>) => Superposition<Array<S>, F> = <S, F extends Error>(superpositions: Array<Superposition<S, F>>) => {
+export const manoeuvre: <S, F extends Error>(
+  superpositions: Array<Superposition<S, F>>
+) => Superposition<Array<S>, F> = <S, F extends Error>(superpositions: Array<Superposition<S, F>>) => {
   const dead: Ambiguous<Dead<S, F>> = superpositions.find((t: Superposition<S, F>): t is Dead<S, F> => {
     return t.isDead();
   });

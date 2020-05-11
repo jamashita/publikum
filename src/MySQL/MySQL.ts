@@ -65,6 +65,7 @@ export class MySQL implements IMySQL {
 
       return ret;
     }
+    // prettier-ignore
     catch (err) {
       await connection.rollback();
       connection.release();

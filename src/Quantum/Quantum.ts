@@ -9,6 +9,7 @@ export abstract class Quantum<T> implements Noun {
   public abstract readonly noun: 'Present' | 'Absent';
 
   protected constructor() {
+    // NOOP
   }
 
   public abstract get(): T;

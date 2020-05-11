@@ -3,7 +3,6 @@
   "version": "0.6.3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "type": "module",
   "exports": {
     ".": "dist/index.js",
     "./AJAX": "dist/AJAX/index.js",
@@ -32,7 +31,7 @@
     "test": "jest test --detectOpenHandles --coverage",
     "lint": "eslint 'src/**/*.ts{,x}' --fix",
     "update": "ncu -u && yarn install && yarn upgrade",
-    "format": "prettier --write src/**/*.tsx?",
+    "format": "prettier --write src/**/*.{ts,tsx}",
     "prepare": "tsc"
   },
   "engines": {

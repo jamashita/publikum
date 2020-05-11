@@ -54,6 +54,7 @@ export class Redis implements IRedis {
 
       return true;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON DELETE', err);
@@ -73,6 +74,7 @@ export class Redis implements IRedis {
 
       return true;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON EXISTS', err);
@@ -92,6 +94,7 @@ export class Redis implements IRedis {
 
       return true;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON EXPIRES', err);
@@ -107,6 +110,7 @@ export class Redis implements IRedis {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SUBSCRIBE', err);
@@ -122,6 +126,7 @@ export class Redis implements IRedis {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON UNSUBSCRIBE', err);
@@ -137,6 +142,7 @@ export class Redis implements IRedis {
 
       return result;
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON PUBLISH', err);
@@ -150,6 +156,7 @@ export class Redis implements IRedis {
     try {
       this.client.on('message', callback);
     }
+    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON ON', err);

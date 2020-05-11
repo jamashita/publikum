@@ -4,6 +4,7 @@ describe('Digest', () => {
   describe('generate', () => {
     it('generated hashes are usually different', async () => {
       const password: string = 'The quick brown fox jumps over the lazy dog';
+      // prettier-ignore
       const [
         hash1,
         hash2
@@ -25,6 +26,7 @@ describe('Digest', () => {
       const hash1: string = await Digest.generate(password);
       const hash2: string = await Digest.generate(password);
 
+      // prettier-ignore
       const [
         compared1,
         compared2

@@ -48,7 +48,7 @@ export class Absent<T> extends Quantum<T> {
   }
 
   private transform<U>(): Absent<U> {
-    return this as never as Absent<U>;
+    return (this as never) as Absent<U>;
   }
 
   public toSuperposition(): Superposition<T, QuantumError> {
