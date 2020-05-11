@@ -12,7 +12,7 @@
     "build": "tsc",
     "test": "jest test --detectOpenHandles --coverage",
     "lint": "eslint 'src/**/*.ts{,x}' --fix",
-    "update": "ncu -u && yarn install",
+    "update": "ncu -u && yarn install && yarn upgrade",
     "prepare": "tsc"
   },
   "engines": {
@@ -35,7 +35,7 @@
   "devDependencies": {
     "@types/bcrypt": "3.0.0",
     "@types/chance": "1.0.10",
-    "@types/ioredis": "4.16.0",
+    "@types/ioredis": "4.16.1",
     "@types/jest": "25.2.1",
     "@types/mysql": "2.15.10",
     "@types/node": "13.13.5",
@@ -45,11 +45,11 @@
     "@typescript-eslint/eslint-plugin": "2.31.0",
     "@typescript-eslint/parser": "2.31.0",
     "@typescript-eslint/typescript-estree": "2.31.0",
-    "eslint": "6.8.0",
+    "eslint": "7.0.0",
     "jest": "26.0.1",
-    "npm-check-updates": "4.1.2",
+    "npm-check-updates": "5.0.0",
     "sinon": "9.0.2",
-    "ts-jest": "25.5.0",
+    "ts-jest": "25.5.1",
     "typescript": "3.8.3"
   }
 }
