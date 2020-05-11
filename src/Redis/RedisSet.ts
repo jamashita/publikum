@@ -11,12 +11,12 @@ export class RedisSet implements IRedisSet {
   }
 
   public async add(key: string, ...values: Array<string>): Promise<number> {
+    // prettier-ignore
     try {
       const result: number = await this.client.sadd(key, ...values);
 
       return result;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SADD', err);
@@ -27,12 +27,12 @@ export class RedisSet implements IRedisSet {
   }
 
   public async remove(key: string, ...values: Array<string>): Promise<number> {
+    // prettier-ignore
     try {
       const result: number = await this.client.srem(key, ...values);
 
       return result;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SREM', err);
@@ -43,6 +43,7 @@ export class RedisSet implements IRedisSet {
   }
 
   public async has(key: string, value: string): Promise<boolean> {
+    // prettier-ignore
     try {
       const result: 0 | 1 = await this.client.sismember(key, value);
 
@@ -52,7 +53,6 @@ export class RedisSet implements IRedisSet {
 
       return true;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SISMEMBER', err);
@@ -63,12 +63,12 @@ export class RedisSet implements IRedisSet {
   }
 
   public async length(key: string): Promise<number> {
+    // prettier-ignore
     try {
       const result: number = await this.client.scard(key);
 
       return result;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SCARD', err);
@@ -79,12 +79,12 @@ export class RedisSet implements IRedisSet {
   }
 
   public async dump(key: string): Promise<Array<string>> {
+    // prettier-ignore
     try {
       const result: Array<string> = await this.client.smembers(key);
 
       return result;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SMEMBERS', err);
@@ -95,12 +95,12 @@ export class RedisSet implements IRedisSet {
   }
 
   public async random(key: string): Promise<Nullable<string>> {
+    // prettier-ignore
     try {
       const result: Nullable<string> = await this.client.srandmember(key);
 
       return result;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SRANDMEMBER', err);
@@ -116,8 +116,8 @@ export class RedisSet implements IRedisSet {
 
       return result;
     }
-    // prettier-ignore
     catch (err) {
+      //
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SPOP', err);
       }

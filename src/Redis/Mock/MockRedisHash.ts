@@ -3,7 +3,6 @@ import { Nullable } from '../../Type';
 import { UnimplementedError } from '../../UnimplementedError';
 
 export class MockRedisHash implements IRedisHash {
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public set(key: string, field: string, value: string): Promise<boolean> {
     return Promise.reject<boolean>(new UnimplementedError());

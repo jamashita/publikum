@@ -1,7 +1,6 @@
 import { Nullable } from '../../Type';
 
 export interface IRedisSet {
-
   add(key: string, ...values: Array<string>): Promise<number>;
 
   remove(key: string, ...values: Array<string>): Promise<number>;

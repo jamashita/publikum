@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt';
 const ROUNDS: number = 14;
 
 export class Digest {
-
   public static async generate(str: string): Promise<string> {
     const salt: string = await bcrypt.genSalt(ROUNDS);
 
@@ -15,5 +14,6 @@ export class Digest {
   }
 
   private constructor() {
+    // NOOP
   }
 }

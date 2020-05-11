@@ -1,5 +1,4 @@
 export interface IRedisList {
-
   push(key: string, value: string): Promise<number>;
 
   pop(key: string): Promise<string>;

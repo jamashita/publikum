@@ -58,6 +58,7 @@ export class MySQL implements IMySQL {
   public async transact<R>(transaction: ITransaction<R>): Promise<R> {
     const connection: Connection = await this.getConnection();
 
+    // prettier-ignore
     try {
       const ret: R = await transaction.with(connection);
       await connection.commit();
@@ -65,7 +66,6 @@ export class MySQL implements IMySQL {
 
       return ret;
     }
-    // prettier-ignore
     catch (err) {
       await connection.rollback();
       connection.release();

@@ -7,12 +7,14 @@ import { MockRedisList } from './MockRedisList';
 import { MockRedisSet } from './MockRedisSet';
 import { MockRedisString } from './MockRedisString';
 
-type MockRedisSetting = Partial<Readonly<{
-  hash: IRedisHash;
-  set: IRedisSet;
-  list: IRedisList;
-  string: IRedisString;
-}>>;
+type MockRedisSetting = Partial<
+  Readonly<{
+    hash: IRedisHash;
+    set: IRedisSet;
+    list: IRedisList;
+    string: IRedisString;
+  }>
+>;
 
 export class MockRedis implements IRedis {
   private readonly client: IORedis.Redis;

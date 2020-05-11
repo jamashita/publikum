@@ -3,7 +3,6 @@ import { Nullable } from '../../Type';
 import { UnimplementedError } from '../../UnimplementedError';
 
 export class MockRedisSet implements IRedisSet {
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public add(key: string, ...values: Array<string>): Promise<number> {
     return Promise.reject<number>(new UnimplementedError());

@@ -92,14 +92,14 @@ export abstract class ASequence<E extends Nominative> extends Objet implements S
   }
 
   public toArray(): Array<E> {
-    return [
-      ...this.elements
-    ];
+    return [...this.elements];
   }
 
   public serialize(): string {
-    return this.elements.map<string>((element: E) => {
-      return element.toString();
-    }).join(', ');
+    return this.elements
+      .map<string>((element: E) => {
+        return element.toString();
+      })
+      .join(', ');
   }
 }

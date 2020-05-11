@@ -6,7 +6,6 @@ import { IRedisSet } from './IRedisSet';
 import { IRedisString } from './IRedisString';
 
 export interface IRedis {
-
   getClient(): IORedis.Redis;
 
   getHash(): IRedisHash;

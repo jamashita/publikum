@@ -3,7 +3,6 @@ import Chance from 'chance';
 const chance: Chance.Chance = new Chance();
 
 export class Random {
-
   public static string(length: number, pool?: string): string {
     return chance.string({
       length,
@@ -19,5 +18,6 @@ export class Random {
   }
 
   private constructor() {
+    // NOOP
   }
 }

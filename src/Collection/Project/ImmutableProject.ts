@@ -2,10 +2,14 @@ import { Nominative } from '../../Interface';
 import { AProject } from './Abstract/AProject';
 import { Project } from './Interface/Project';
 
-export class ImmutableProject<K extends Nominative, V extends Nominative> extends AProject<K, V> implements Project<K, V> {
+export class ImmutableProject<K extends Nominative, V extends Nominative> extends AProject<K, V>
+  implements Project<K, V> {
   public readonly noun: 'ImmutableProject' = 'ImmutableProject';
 
-  private static readonly EMPTY: ImmutableProject<Nominative, Nominative> = new ImmutableProject<Nominative, Nominative>(new Map<string, [Nominative, Nominative]>());
+  private static readonly EMPTY: ImmutableProject<Nominative, Nominative> = new ImmutableProject<
+    Nominative,
+    Nominative
+  >(new Map<string, [Nominative, Nominative]>());
 
   public static of<K extends Nominative, V extends Nominative>(elements: Map<K, V>): ImmutableProject<K, V> {
     if (elements.size === 0) {
@@ -21,7 +25,9 @@ export class ImmutableProject<K extends Nominative, V extends Nominative> extend
     return ImmutableProject.ofMap<K, V>(map);
   }
 
-  private static ofMap<K extends Nominative, V extends Nominative>(elements: Map<string, [K, V]>): ImmutableProject<K, V> {
+  private static ofMap<K extends Nominative, V extends Nominative>(
+    elements: Map<string, [K, V]>
+  ): ImmutableProject<K, V> {
     if (elements.size === 0) {
       return ImmutableProject.empty<K, V>();
     }

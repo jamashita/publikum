@@ -11,6 +11,7 @@ export class RedisString implements IRedisString {
   }
 
   public async set(key: string, value: string): Promise<boolean> {
+    // prettier-ignore
     try {
       const result: string = await this.client.set(key, value);
 
@@ -20,7 +21,6 @@ export class RedisString implements IRedisString {
 
       return false;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SET', err);
@@ -31,12 +31,12 @@ export class RedisString implements IRedisString {
   }
 
   public async get(key: string): Promise<Nullable<string>> {
+    // prettier-ignore
     try {
       const result: Nullable<string> = await this.client.get(key);
 
       return result;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON GET', err);

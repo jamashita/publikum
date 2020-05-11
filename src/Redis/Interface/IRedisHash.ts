@@ -1,7 +1,6 @@
 import { Nullable } from '../../Type';
 
 export interface IRedisHash {
-
   set(key: string, field: string, value: string): Promise<boolean>;
 
   get(key: string, field: string): Promise<Nullable<string>>;

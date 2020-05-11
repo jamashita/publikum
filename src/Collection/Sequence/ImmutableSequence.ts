@@ -13,9 +13,7 @@ export class ImmutableSequence<E extends Nominative> extends ASequence<E> implem
       return ImmutableSequence.empty<E>();
     }
 
-    return new ImmutableSequence<E>([
-      ...elements
-    ]);
+    return new ImmutableSequence<E>([...elements]);
   }
 
   public static empty<E extends Nominative>(): ImmutableSequence<E> {
@@ -31,10 +29,7 @@ export class ImmutableSequence<E extends Nominative> extends ASequence<E> implem
       return this;
     }
 
-    return ImmutableSequence.of<E>([
-      ...this.elements,
-      ...elements
-    ]);
+    return ImmutableSequence.of<E>([...this.elements, ...elements]);
   }
 
   public isEmpty(): boolean {
@@ -58,8 +53,6 @@ export class ImmutableSequence<E extends Nominative> extends ASequence<E> implem
       return ImmutableSequence.empty<E>();
     }
 
-    return ImmutableSequence.of<E>([
-      ...this.elements
-    ]);
+    return ImmutableSequence.of<E>([...this.elements]);
   }
 }

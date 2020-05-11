@@ -11,6 +11,7 @@ export class RedisHash implements IRedisHash {
   }
 
   public async set(key: string, field: string, value: string): Promise<boolean> {
+    // prettier-ignore
     try {
       const result: 0 | 1 = await this.client.hset(key, field, value);
 
@@ -20,7 +21,6 @@ export class RedisHash implements IRedisHash {
 
       return true;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON HSET', err);
@@ -31,12 +31,12 @@ export class RedisHash implements IRedisHash {
   }
 
   public async get(key: string, field: string): Promise<Nullable<string>> {
+    // prettier-ignore
     try {
       const result: Nullable<string> = await this.client.hget(key, field);
 
       return result;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON HGET', err);
@@ -47,12 +47,12 @@ export class RedisHash implements IRedisHash {
   }
 
   public async delete(key: string, field: string): Promise<number> {
+    // prettier-ignore
     try {
       const result: number = await this.client.hdel(key, field);
 
       return result;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON HDEL', err);
@@ -63,12 +63,12 @@ export class RedisHash implements IRedisHash {
   }
 
   public async length(key: string): Promise<number> {
+    // prettier-ignore
     try {
       const result: number = await this.client.hlen(key);
 
       return result;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON HLEN', err);
@@ -79,6 +79,7 @@ export class RedisHash implements IRedisHash {
   }
 
   public async has(key: string, field: string): Promise<boolean> {
+    // prettier-ignore
     try {
       const result: 0 | 1 = await this.client.hexists(key, field);
 
@@ -88,7 +89,6 @@ export class RedisHash implements IRedisHash {
 
       return true;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON HEXISTS', err);

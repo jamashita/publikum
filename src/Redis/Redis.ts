@@ -45,6 +45,7 @@ export class Redis implements IRedis {
   }
 
   public async delete(...keys: Array<string>): Promise<boolean> {
+    // prettier-ignore
     try {
       const result: number = await this.client.del(...keys);
 
@@ -54,7 +55,6 @@ export class Redis implements IRedis {
 
       return true;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON DELETE', err);
@@ -65,6 +65,7 @@ export class Redis implements IRedis {
   }
 
   public async exists(...keys: Array<string>): Promise<boolean> {
+    // prettier-ignore
     try {
       const result: number = await this.client.exists(...keys);
 
@@ -74,7 +75,6 @@ export class Redis implements IRedis {
 
       return true;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON EXISTS', err);
@@ -85,6 +85,7 @@ export class Redis implements IRedis {
   }
 
   public async expires(key: string, seconds: number): Promise<boolean> {
+    // prettier-ignore
     try {
       const result: 0 | 1 = await this.client.expire(key, seconds);
 
@@ -94,7 +95,6 @@ export class Redis implements IRedis {
 
       return true;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON EXPIRES', err);
@@ -105,12 +105,12 @@ export class Redis implements IRedis {
   }
 
   public async subscribe(...channels: Array<string>): Promise<number> {
+    // prettier-ignore
     try {
       const result: number = await this.client.subscribe(...channels);
 
       return result;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON SUBSCRIBE', err);
@@ -121,12 +121,12 @@ export class Redis implements IRedis {
   }
 
   public async unsubscribe(...channels: Array<string>): Promise<number> {
+    // prettier-ignore
     try {
       const result: number = await this.client.unsubscribe(...channels);
 
       return result;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON UNSUBSCRIBE', err);
@@ -137,12 +137,12 @@ export class Redis implements IRedis {
   }
 
   public async publish(channel: string, message: string): Promise<number> {
+    // prettier-ignore
     try {
       const result: number = await this.client.publish(channel, message);
 
       return result;
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON PUBLISH', err);
@@ -153,10 +153,10 @@ export class Redis implements IRedis {
   }
 
   public on(callback: (channel: string, message: string) => void): void {
+    // prettier-ignore
     try {
       this.client.on('message', callback);
     }
-    // prettier-ignore
     catch (err) {
       if (err instanceof Error) {
         throw new RedisError('FAIL ON ON', err);

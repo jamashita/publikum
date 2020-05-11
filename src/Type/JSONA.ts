@@ -6,10 +6,10 @@ export class JSONA {
   public static parse<T extends JSObjectNotation>(text: string): Promise<T> {
     return new Promise<T>((resolve: Resolve<T>, reject: Reject) => {
       setTimeout(() => {
+        // prettier-ignore
         try {
           resolve(JSON.parse(text));
         }
-        // prettier-ignore
         catch (err) {
           reject(new JSONAError(err));
         }
@@ -20,10 +20,10 @@ export class JSONA {
   public static stringify(value: JSObjectNotation): Promise<string> {
     return new Promise<string>((resolve: Resolve<string>, reject: Reject) => {
       setTimeout(() => {
+        // prettier-ignore
         try {
           resolve(JSON.stringify(value));
         }
-        // prettier-ignore
         catch (err) {
           reject(new JSONAError(err));
         }

@@ -2,7 +2,6 @@ import { IRedisList } from '..';
 import { UnimplementedError } from '../../UnimplementedError';
 
 export class MockRedisList implements IRedisList {
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public push(key: string, value: string): Promise<number> {
     return Promise.reject<number>(new UnimplementedError());
