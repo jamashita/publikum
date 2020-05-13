@@ -18,12 +18,9 @@
     "build:esm": "tsc -p tsconfig.json",
     "build:cjs": "tsc -p tsconfig-cjs.json",
     "clean": "rimraf dist",
-    "fix": "concurrently \"npm:fix:*\"",
     "test": "jest test --detectOpenHandles --coverage --config jest.cjs",
     "lint": "eslint --fix 'src/**/*.ts'",
-    "fix:lint": "yarn lint",
     "format": "prettier --write src/**/*.ts",
-    "fix:format": "yarn format",
     "update": "ncu -u && yarn install && yarn upgrade",
     "prepare": "tsc"
   },
