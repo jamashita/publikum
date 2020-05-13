@@ -1,6 +1,7 @@
 export * from './AJAX';
 export * from './Cache';
 export * from './Collection';
+export * from './Interface';
 export * from './Mock';
 export * from './MySQL';
 export * from './Object';
