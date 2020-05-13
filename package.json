@@ -3,7 +3,7 @@
   "version": "0.7.1",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/cjs/index.d.ts",
   "type": "module",
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
     "lint": "eslint --fix 'src/**/*.ts'",
     "format": "prettier --write src/**/*.ts",
     "update": "ncu -u && yarn install && yarn upgrade",
-    "prepare": "tsc"
+    "prepare": "yarn build"
   },
   "engines": {
     "node": ">= 14.0.0",
