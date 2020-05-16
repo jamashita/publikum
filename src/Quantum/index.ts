@@ -1,5 +1,5 @@
 export * from './Absent';
-export * from './Maybe';
+export * from './Planck';
 export * from './Present';
 export * from './Quantum';
 export * from './QuantumError';

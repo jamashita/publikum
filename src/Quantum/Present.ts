@@ -1,7 +1,7 @@
 import { Alive, Superposition } from '../Superposition';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious } from '../Type';
 import { Absent } from './Absent';
-import { maybe } from './Maybe';
+import { Planck } from './Planck';
 import { Quantum } from './Quantum';
 import { QuantumError } from './QuantumError';
 
@@ -48,7 +48,7 @@ export class Present<T> extends Quantum<T> {
   public map<U>(mapper: MonoFunction<T, Suspicious<U>>): Quantum<U> {
     const result: Suspicious<U> = mapper(this.value);
 
-    return maybe<U>(result);
+    return Planck.maybe<U>(result);
   }
 
   public toSuperposition(): Superposition<T, QuantumError> {
