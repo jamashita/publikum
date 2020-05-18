@@ -60,15 +60,18 @@ describe('Alive', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const res: number = alive.match<number>((n: number, s: Alive<number, MockError>) => {
-        spy1();
-        expect(n).toBe(value);
-        expect(s).toBe(alive);
-        return n * 2;
-      }, () => {
-        spy2();
-        return value ** 2;
-      });
+      const res: number = alive.match<number>(
+        (n: number, s: Alive<number, MockError>) => {
+          spy1();
+          expect(n).toBe(value);
+          expect(s).toBe(alive);
+          return n * 2;
+        },
+        () => {
+          spy2();
+          return value ** 2;
+        }
+      );
 
       expect(res).toBe(value * 2);
       expect(spy1.called).toBe(true);

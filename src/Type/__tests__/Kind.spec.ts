@@ -127,8 +127,8 @@ describe('Kind', () => {
       expect(Kind.isPrimitive([null])).toBe(false);
       expect(Kind.isPrimitive([undefined])).toBe(false);
       expect(Kind.isPrimitive({})).toBe(false);
-      expect(Kind.isPrimitive({key: null})).toBe(false);
-      expect(Kind.isPrimitive({key: undefined})).toBe(false);
+      expect(Kind.isPrimitive({ key: null })).toBe(false);
+      expect(Kind.isPrimitive({ key: undefined })).toBe(false);
     });
   });
 

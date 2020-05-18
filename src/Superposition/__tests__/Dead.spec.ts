@@ -70,15 +70,18 @@ describe('Dead', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const res: number = dead.match<number>((n: number) => {
-        spy1();
-        return n;
-      }, (err: MockError, f: Dead<number, MockError>) => {
-        spy2();
-        expect(err).toBe(error);
-        expect(f).toBe(dead);
-        return value * 2;
-      });
+      const res: number = dead.match<number>(
+        (n: number) => {
+          spy1();
+          return n;
+        },
+        (err: MockError, f: Dead<number, MockError>) => {
+          spy2();
+          expect(err).toBe(error);
+          expect(f).toBe(dead);
+          return value * 2;
+        }
+      );
 
       expect(res).toBe(value * 2);
       expect(spy1.called).toBe(false);

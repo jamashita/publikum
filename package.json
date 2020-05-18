@@ -19,8 +19,8 @@
     "build:cjs": "tsc -p tsconfig-cjs.json",
     "clean": "rimraf dist",
     "test": "jest test --detectOpenHandles --coverage",
-    "lint": "eslint --fix 'src/**/*.ts'",
-    "format": "prettier --write src/**/*.ts",
+    "lint": "eslint --fix 'src/**/*.{ts,tsx}'",
+    "format": "prettier --write 'src/**/*.{ts,tsx}'",
     "update": "ncu -u && yarn install && yarn upgrade",
     "prepare": "yarn build"
   },

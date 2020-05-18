@@ -31,27 +31,39 @@ describe('MockValueObject', () => {
 
     it('object', () => {
       expect(new MockValueObject<object>({}).hashCode()).toBe(new MockValueObject<object>({}).hashCode());
-      expect(new MockValueObject<object>({
-        a: 1000
-      }).hashCode()).toBe(new MockValueObject<object>({
-        a: 1000
-      }).hashCode());
-      expect(new MockValueObject<object>({
-        a: 1000,
-        b: 'étoile'
-      }).hashCode()).toBe(new MockValueObject<object>({
-        b: 'étoile',
-        a: 1000
-      }).hashCode());
-      expect(new MockValueObject<object>({
-        a: 1000,
-        b: 'étoile',
-        f: true
-      }).hashCode()).toBe(new MockValueObject<object>({
-        b: 'étoile',
-        a: 1000,
-        f: true
-      }).hashCode());
+      expect(
+        new MockValueObject<object>({
+          a: 1000
+        }).hashCode()
+      ).toBe(
+        new MockValueObject<object>({
+          a: 1000
+        }).hashCode()
+      );
+      expect(
+        new MockValueObject<object>({
+          a: 1000,
+          b: 'étoile'
+        }).hashCode()
+      ).toBe(
+        new MockValueObject<object>({
+          b: 'étoile',
+          a: 1000
+        }).hashCode()
+      );
+      expect(
+        new MockValueObject<object>({
+          a: 1000,
+          b: 'étoile',
+          f: true
+        }).hashCode()
+      ).toBe(
+        new MockValueObject<object>({
+          b: 'étoile',
+          a: 1000,
+          f: true
+        }).hashCode()
+      );
     });
   });
 });
