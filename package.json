@@ -36,7 +36,7 @@
     "bcrypt": "4.0.1",
     "chance": "1.1.5",
     "dayjs": "1.8.27",
-    "ioredis": "4.16.3",
+    "ioredis": "4.17.1",
     "make-error-cause": "2.3.0",
     "mysql": "2.18.1",
     "object-hash": "2.0.3",
@@ -62,11 +62,11 @@
     "husky": "4.2.5",
     "jest": "26.0.1",
     "lint-staged": "10.2.2",
-    "npm-check-updates": "6.0.0",
+    "npm-check-updates": "6.0.1",
     "prettier": "2.0.5",
     "rimraf": "3.0.2",
     "sinon": "9.0.2",
-    "ts-jest": "25.5.1",
+    "ts-jest": "26.0.0",
     "typescript": "3.9.2"
   }
 }
