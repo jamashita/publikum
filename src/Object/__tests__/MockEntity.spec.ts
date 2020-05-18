@@ -19,7 +19,7 @@ describe('MockEntity', () => {
   });
 
   describe('hashCode', () => {
-    it('returns same value of id\'s hashCode', () => {
+    it('returns same value of the hashCode of id', () => {
       const noun: MockNominative<number> = new MockNominative<number>(-1);
 
       const entity: MockEntity<number> = new MockEntity<number>(noun, {});

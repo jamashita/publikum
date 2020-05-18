@@ -143,10 +143,12 @@ describe('ImmutableSequence', () => {
         new MockNominative<number>(3)
       ]);
 
-      const nouns2: ImmutableSequence<MockNominative<string>> = nouns1.map<MockNominative<string>>((noun: MockNominative<number>) => {
-        const num: number = noun.get();
-        return new MockNominative<string>(`${num ** 2}`);
-      });
+      const nouns2: ImmutableSequence<MockNominative<string>> = nouns1.map<MockNominative<string>>(
+        (noun: MockNominative<number>) => {
+          const num: number = noun.get();
+          return new MockNominative<string>(`${num ** 2}`);
+        }
+      );
 
       expect(nouns2.size()).toBe(nouns1.size());
       nouns2.forEach((noun: MockNominative<string>, index: number) => {

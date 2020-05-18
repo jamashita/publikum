@@ -50,6 +50,7 @@ describe('Zeit', () => {
 
     it('returns itself when the only one zeit given', () => {
       const format: string = 'YYYY-MM-DD';
+      // prettier-ignore
       const zeiten: Array<Zeit> = [
         Zeit.ofString('2000-01-01', format)
       ];
@@ -84,6 +85,7 @@ describe('Zeit', () => {
 
     it('returns itself when the only one zeit given', () => {
       const format: string = 'YYYY-MM-DD';
+      // prettier-ignore
       const zeiten: Array<Zeit> = [
         Zeit.ofString('2000-01-01', format)
       ];
@@ -103,7 +105,7 @@ describe('Zeit', () => {
   });
 
   describe('isValid', () => {
-    it('returns dayjs\'s result itself', () => {
+    it('returns dayjs result itself', () => {
       expect(Zeit.ofString('2000-01-01', 'YYYY-MM-DD').isValid()).toBe(true);
       expect(Zeit.ofString('2000-01-01 01:02:03', 'YYYY-MM-DD HH:mm:ss').isValid()).toBe(true);
       expect(Zeit.of(dayjs('2000-YY-03'), 'YYYY-MM-DD HH:mm:ss').isValid()).toBe(false);

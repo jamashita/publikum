@@ -38,6 +38,7 @@ describe('ASequence', () => {
       const noun3: MockNominative<number> = new MockNominative<number>(3);
       const noun4: MockNominative<number> = new MockNominative<number>(2);
 
+      // prettier-ignore
       const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
         noun1,
         noun2
@@ -362,9 +363,11 @@ describe('ASequence', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
+      // prettier-ignore
       const nouns1: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
         noun1
       ]);
+      // prettier-ignore
       const nouns2: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
         noun1,
         noun2
@@ -378,10 +381,12 @@ describe('ASequence', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
+      // prettier-ignore
       const nouns1: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
         noun2,
         noun1
       ]);
+      // prettier-ignore
       const nouns2: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
         noun1,
         noun2
@@ -395,10 +400,12 @@ describe('ASequence', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
+      // prettier-ignore
       const nouns1: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
         noun1,
         noun2
       ]);
+      // prettier-ignore
       const nouns2: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
         noun1,
         noun2
