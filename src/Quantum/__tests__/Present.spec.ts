@@ -1,5 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
-import { Superposition } from '../../Superposition';
+
+import { Alive, Superposition } from '../../Superposition';
 import { Absent } from '../Absent';
 import { Present } from '../Present';
 import { Quantum } from '../Quantum';
@@ -154,9 +155,7 @@ describe('Present', () => {
     it('returns Alive', () => {
       const present: Present<number> = Present.of<number>(1);
 
-      const superposition: Superposition<number, QuantumError> = present.toSuperposition();
-
-      expect(superposition.isAlive()).toBe(true);
+      expect(present.toSuperposition()).toBeInstanceOf(Alive);
     });
   });
 

@@ -1,6 +1,8 @@
 import sinon, { SinonSpy } from 'sinon';
+
 import { MockError } from '../../Mock';
 import { MySQLError } from '../../MySQL';
+import { Present } from '../../Quantum/Present';
 import { Alive } from '../Alive';
 
 describe('Alive', () => {
@@ -76,6 +78,14 @@ describe('Alive', () => {
       expect(res).toBe(value * 2);
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
+    });
+  });
+
+  describe('toQuantum', () => {
+    it('returns Present', () => {
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(100);
+
+      expect(alive.toQuantum()).toBeInstanceOf(Present);
     });
   });
 

@@ -1,3 +1,4 @@
+import { Quantum } from '../Quantum/Quantum';
 import { BiFunction } from '../Type';
 import { Alive } from './Alive';
 import { Dead } from './Dead';
@@ -24,6 +25,8 @@ export abstract class Superposition<S, F extends Error> {
     alive: BiFunction<S, Alive<S, F>, Promise<Superposition<T, E>>>,
     dead: BiFunction<F, Dead<S, F>, Promise<Superposition<T, E>>>
   ): Promise<Superposition<T, E>>;
+
+  public abstract toQuantum(): Quantum<S>;
 
   public isAlive(): this is Alive<S, F> {
     return false;

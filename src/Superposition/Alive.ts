@@ -1,3 +1,5 @@
+import { Present } from '../Quantum/Present';
+import { Quantum } from '../Quantum/Quantum';
 import { BiFunction } from '../Type';
 import { Dead } from './Dead';
 import { Superposition } from './Superposition';
@@ -56,6 +58,10 @@ export class Alive<S, F extends Error> extends Superposition<S, F> {
       | BiFunction<F, Dead<S, F>, Promise<Superposition<T, E>>>
   ): T | Promise<T> | Superposition<T, E> | Promise<Superposition<T, E>> {
     return alive(this.value, this);
+  }
+
+  public toQuantum(): Quantum<S> {
+    return Present.of<S>(this.value);
   }
 
   public transpose<E extends Error>(): Alive<S, E> {

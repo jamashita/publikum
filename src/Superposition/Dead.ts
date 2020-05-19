@@ -1,3 +1,5 @@
+import { Absent } from '../Quantum/Absent';
+import { Quantum } from '../Quantum/Quantum';
 import { BiFunction } from '../Type';
 import { Alive } from './Alive';
 import { Superposition } from './Superposition';
@@ -56,6 +58,10 @@ export class Dead<S, F extends Error> extends Superposition<S, F> {
       | BiFunction<F, Dead<S, F>, Promise<Superposition<T, E>>>
   ): T | Promise<T> | Superposition<T, E> | Promise<Superposition<T, E>> {
     return dead(this.value, this);
+  }
+
+  public toQuantum(): Quantum<S> {
+    return Absent.of<S>();
   }
 
   public transpose<T>(): Dead<T, F> {

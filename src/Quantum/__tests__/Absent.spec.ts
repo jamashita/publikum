@@ -1,5 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
-import { Superposition } from '../../Superposition';
+
+import { Dead, Superposition } from '../../Superposition';
 import { Absent } from '../Absent';
 import { Quantum } from '../Quantum';
 import { QuantumError } from '../QuantumError';
@@ -94,9 +95,7 @@ describe('Absent', () => {
     it('returns Dead', () => {
       const absent: Absent<number> = Absent.of<number>();
 
-      const superposition: Superposition<number, QuantumError> = absent.toSuperposition();
-
-      expect(superposition.isDead()).toBe(true);
+      expect(absent.toSuperposition()).toBeInstanceOf(Dead);
     });
   });
 
