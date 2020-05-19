@@ -1,26 +1,21 @@
-import { IAJAX } from '..';
-import { JSObjectNotation } from '../../Type';
+import { IAJAX } from '../';
 import { UnimplementedError } from '../../UnimplementedError';
 import { AJAXResponse } from '../AJAXResponse';
 
 export class MockAJAX implements IAJAX {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public get<T>(url: string): Promise<AJAXResponse<T>> {
+  public get<T>(): Promise<AJAXResponse<T>> {
     return Promise.reject<AJAXResponse<T>>(new UnimplementedError());
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public post<T>(url: string, payload?: JSObjectNotation): Promise<AJAXResponse<T>> {
+  public post<T>(): Promise<AJAXResponse<T>> {
     return Promise.reject<AJAXResponse<T>>(new UnimplementedError());
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public put<T>(url: string, payload?: JSObjectNotation): Promise<AJAXResponse<T>> {
+  public put<T>(): Promise<AJAXResponse<T>> {
     return Promise.reject<AJAXResponse<T>>(new UnimplementedError());
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public delete<T>(url: string): Promise<AJAXResponse<T>> {
+  public delete<T>(): Promise<AJAXResponse<T>> {
     return Promise.reject<AJAXResponse<T>>(new UnimplementedError());
   }
 }

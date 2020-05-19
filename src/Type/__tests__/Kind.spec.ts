@@ -132,6 +132,23 @@ describe('Kind', () => {
     });
   });
 
+  describe('isSymbol', () => {
+    it('returns true only the value is undefined', () => {
+      expect(Kind.isSymbol(null)).toBe(false);
+      expect(Kind.isSymbol(undefined)).toBe(true);
+      expect(Kind.isSymbol('')).toBe(false);
+      expect(Kind.isSymbol('123')).toBe(false);
+      expect(Kind.isSymbol('abcd')).toBe(false);
+      expect(Kind.isSymbol(123)).toBe(false);
+      expect(Kind.isSymbol(0)).toBe(false);
+      expect(Kind.isSymbol(false)).toBe(false);
+      expect(Kind.isSymbol(true)).toBe(false);
+      expect(Kind.isSymbol(Symbol('p'))).toBe(false);
+      expect(Kind.isSymbol({})).toBe(false);
+      expect(Kind.isSymbol([])).toBe(false);
+    });
+  });
+
   describe('isPlainObject', () => {
     it('returns false if array is given', () => {
       expect(Kind.isPlainObject(null)).toBe(false);

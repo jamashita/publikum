@@ -1,5 +1,5 @@
 import { Cache } from '../Cache';
-import { CacheError } from '../CacheError';
+import { CacheError } from '../Error/CacheError';
 
 describe('Cache', () => {
   describe('set', () => {

@@ -21,6 +21,8 @@ export abstract class Entity<T extends Nominative> extends Objet implements Clon
     return this.getIdentifier().equals(other.getIdentifier());
   }
 
+  // TODO isSame
+
   public hashCode(): string {
     return this.getIdentifier().hashCode();
   }

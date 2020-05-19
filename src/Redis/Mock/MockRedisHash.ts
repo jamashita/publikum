@@ -1,30 +1,25 @@
-import { IRedisHash } from '..';
+import { IRedisHash } from '../';
 import { Nullable } from '../../Type';
 import { UnimplementedError } from '../../UnimplementedError';
 
 export class MockRedisHash implements IRedisHash {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public set(key: string, field: string, value: string): Promise<boolean> {
+  public set(): Promise<boolean> {
     return Promise.reject<boolean>(new UnimplementedError());
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public get(key: string, field: string): Promise<Nullable<string>> {
+  public get(): Promise<Nullable<string>> {
     return Promise.reject<Nullable<string>>(new UnimplementedError());
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public delete(key: string, field: string): Promise<number> {
+  public delete(): Promise<number> {
     return Promise.reject<number>(new UnimplementedError());
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public length(key: string): Promise<number> {
+  public length(): Promise<number> {
     return Promise.reject<number>(new UnimplementedError());
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public has(key: string, field: string): Promise<boolean> {
+  public has(): Promise<boolean> {
     return Promise.reject<boolean>(new UnimplementedError());
   }
 }

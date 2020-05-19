@@ -1,4 +1,4 @@
-import { DataSourceError } from '../DataSourceError';
+import { DataSourceError } from '../../DataSourceError';
 
 export class CacheError extends DataSourceError {
   public readonly name: 'CacheError' = 'CacheError';

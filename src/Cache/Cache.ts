@@ -1,5 +1,5 @@
 import { Ambiguous } from '../Type';
-import { CacheError } from './CacheError';
+import { CacheError } from './Error/CacheError';
 import { ICache } from './Interface/ICache';
 
 export class Cache implements ICache {

@@ -1,6 +1,6 @@
 import IORedis from 'ioredis';
-import { IRedis, IRedisHash, IRedisList, IRedisSet, IRedisString } from '..';
-import { BiFunction } from '../../Type';
+
+import { IRedis, IRedisHash, IRedisList, IRedisSet, IRedisString } from '../';
 import { UnimplementedError } from '../../UnimplementedError';
 import { MockRedisHash } from './MockRedisHash';
 import { MockRedisList } from './MockRedisList';
@@ -56,38 +56,31 @@ export class MockRedis implements IRedis {
     return this.string;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public delete(...keys: Array<string>): Promise<boolean> {
+  public delete(): Promise<boolean> {
     return Promise.reject<boolean>(new UnimplementedError());
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public exists(...keys: Array<string>): Promise<boolean> {
+  public exists(): Promise<boolean> {
     return Promise.reject<boolean>(new UnimplementedError());
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public expires(key: string, seconds: number): Promise<boolean> {
+  public expires(): Promise<boolean> {
     return Promise.reject<boolean>(new UnimplementedError());
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public subscribe(...channels: Array<string>): Promise<number> {
+  public subscribe(): Promise<number> {
     return Promise.reject<number>(new UnimplementedError());
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public unsubscribe(...channels: Array<string>): Promise<number> {
+  public unsubscribe(): Promise<number> {
     return Promise.reject<number>(new UnimplementedError());
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public publish(channel: string, message: string): Promise<number> {
+  public publish(): Promise<number> {
     return Promise.reject<number>(new UnimplementedError());
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public on(callback: BiFunction<string, string, void>): void {
+  public on(): void {
     // NOOP
   }
 }

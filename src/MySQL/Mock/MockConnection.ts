@@ -1,10 +1,8 @@
-import { IConnection } from '..';
-import { JSObjectNotation } from '../../Type';
+import { IConnection } from '../';
 import { UnimplementedError } from '../../UnimplementedError';
 
 export class MockConnection implements IConnection {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public execute<R>(sql: string, value?: JSObjectNotation): Promise<R> {
+  public execute<R>(): Promise<R> {
     return Promise.reject<R>(new UnimplementedError());
   }
 
