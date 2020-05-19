@@ -3,7 +3,7 @@ import { JSObjectNotation, Nullable, Reject, Resolve } from '../Type';
 import { Connection } from './Connection';
 import { IMySQL } from './Interface/IMySQL';
 import { ITransaction } from './Interface/ITransaction';
-import { MySQLError } from './MySQLError';
+import { MySQLError } from './Error/MySQLError';
 
 export type MySQLConfig = mysql.PoolConfig;
 type Value = Readonly<Record<string, unknown>>;

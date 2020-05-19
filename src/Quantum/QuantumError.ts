@@ -1,4 +1,4 @@
-import { RuntimeError } from '../RuntimeError';
+import { RuntimeError } from '../Error/RuntimeError';
 
 export class QuantumError extends RuntimeError {
   public readonly name: 'QuantumError' = 'QuantumError';

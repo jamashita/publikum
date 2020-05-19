@@ -1,6 +1,6 @@
 import IORedis from 'ioredis';
 import { IRedis } from './Interface/IRedis';
-import { RedisError } from './RedisError';
+import { RedisError } from './Error/RedisError';
 import { RedisHash } from './RedisHash';
 import { RedisList } from './RedisList';
 import { RedisSet } from './RedisSet';

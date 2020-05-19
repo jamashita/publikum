@@ -1,4 +1,4 @@
-import { DataSourceError } from '../DataSourceError';
+import { DataSourceError } from '../../Error/DataSourceError';
 
 export class MySQLError extends DataSourceError {
   public readonly name: 'MySQLError' = 'MySQLError';

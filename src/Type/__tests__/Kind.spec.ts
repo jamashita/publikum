@@ -109,6 +109,23 @@ describe('Kind', () => {
     });
   });
 
+  describe('isSymbol', () => {
+    it('returns true only the value is undefined', () => {
+      expect(Kind.isSymbol(null)).toBe(false);
+      expect(Kind.isSymbol(undefined)).toBe(false);
+      expect(Kind.isSymbol('')).toBe(false);
+      expect(Kind.isSymbol('123')).toBe(false);
+      expect(Kind.isSymbol('abcd')).toBe(false);
+      expect(Kind.isSymbol(123)).toBe(false);
+      expect(Kind.isSymbol(0)).toBe(false);
+      expect(Kind.isSymbol(false)).toBe(false);
+      expect(Kind.isSymbol(true)).toBe(false);
+      expect(Kind.isSymbol(Symbol('p'))).toBe(true);
+      expect(Kind.isSymbol({})).toBe(false);
+      expect(Kind.isSymbol([])).toBe(false);
+    });
+  });
+
   describe('isPrimitive', () => {
     it('returns true if the value is null, undefined, boolean, number, string', () => {
       expect(Kind.isPrimitive(null)).toBe(true);
@@ -129,23 +146,6 @@ describe('Kind', () => {
       expect(Kind.isPrimitive({})).toBe(false);
       expect(Kind.isPrimitive({ key: null })).toBe(false);
       expect(Kind.isPrimitive({ key: undefined })).toBe(false);
-    });
-  });
-
-  describe('isSymbol', () => {
-    it('returns true only the value is undefined', () => {
-      expect(Kind.isSymbol(null)).toBe(false);
-      expect(Kind.isSymbol(undefined)).toBe(true);
-      expect(Kind.isSymbol('')).toBe(false);
-      expect(Kind.isSymbol('123')).toBe(false);
-      expect(Kind.isSymbol('abcd')).toBe(false);
-      expect(Kind.isSymbol(123)).toBe(false);
-      expect(Kind.isSymbol(0)).toBe(false);
-      expect(Kind.isSymbol(false)).toBe(false);
-      expect(Kind.isSymbol(true)).toBe(false);
-      expect(Kind.isSymbol(Symbol('p'))).toBe(false);
-      expect(Kind.isSymbol({})).toBe(false);
-      expect(Kind.isSymbol([])).toBe(false);
     });
   });
 

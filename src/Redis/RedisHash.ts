@@ -1,7 +1,7 @@
 import IORedis from 'ioredis';
 import { Nullable } from '../Type';
 import { IRedisHash } from './Interface/IRedisHash';
-import { RedisError } from './RedisError';
+import { RedisError } from './Error/RedisError';
 
 export class RedisHash implements IRedisHash {
   private readonly client: IORedis.Redis;

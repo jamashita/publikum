@@ -1,4 +1,4 @@
-import { DataSourceError } from '../../DataSourceError';
+import { DataSourceError } from '../../Error/DataSourceError';
 
 export class AJAXError extends DataSourceError {
   public readonly name: 'AJAXError' = 'AJAXError';

@@ -9,7 +9,7 @@ export * from './Mock/MockRedisList';
 export * from './Mock/MockRedisSet';
 export * from './Mock/MockRedisString';
 export * from './Redis';
-export * from './RedisError';
+export * from './Error/RedisError';
 export * from './RedisHash';
 export * from './RedisList';
 export * from './RedisSet';

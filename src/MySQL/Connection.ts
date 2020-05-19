@@ -1,7 +1,7 @@
 import mysql from 'mysql';
 import { JSObjectNotation, Nullable, Reject, Resolve } from '../Type';
 import { IConnection } from './Interface/IConnection';
-import { MySQLError } from './MySQLError';
+import { MySQLError } from './Error/MySQLError';
 
 export class Connection implements IConnection {
   private readonly connection: mysql.PoolConnection;

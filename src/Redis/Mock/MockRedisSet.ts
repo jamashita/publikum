@@ -1,6 +1,6 @@
 import { IRedisSet } from '../';
 import { Nullable } from '../../Type';
-import { UnimplementedError } from '../../UnimplementedError';
+import { UnimplementedError } from '../../Error/UnimplementedError';
 
 export class MockRedisSet implements IRedisSet {
   public add(): Promise<number> {

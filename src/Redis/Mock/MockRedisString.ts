@@ -1,6 +1,6 @@
 import { IRedisString } from '../';
 import { Nullable } from '../../Type';
-import { UnimplementedError } from '../../UnimplementedError';
+import { UnimplementedError } from '../../Error/UnimplementedError';
 
 export class MockRedisString implements IRedisString {
   public set(): Promise<boolean> {

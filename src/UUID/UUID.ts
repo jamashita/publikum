@@ -1,7 +1,7 @@
 import Chance from 'chance';
 
 import { ValueObject } from '../Object';
-import { UUIDError } from './UUIDError';
+import { UUIDError } from './Error/UUIDError';
 
 const chance: Chance.Chance = new Chance();
 export class UUID extends ValueObject {

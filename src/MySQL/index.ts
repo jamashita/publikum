@@ -7,4 +7,4 @@ export * from './Mock/MockMySQL';
 export * from './Mock/MockSQL';
 export * from './Connection';
 export * from './MySQL';
-export * from './MySQLError';
+export * from './Error/MySQLError';

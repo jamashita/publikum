@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import sinon, { SinonFakeTimers } from 'sinon';
 import { Zeit } from '../Zeit';
-import { ZeitError } from '../ZeitError';
+import { ZeitError } from '../Error/ZeitError';
 
 describe('Zeit', () => {
   describe('ofString', () => {

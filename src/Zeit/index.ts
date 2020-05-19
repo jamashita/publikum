@@ -1,2 +1,2 @@
 export * from './Zeit';
-export * from './ZeitError';
+export * from './Error/ZeitError';

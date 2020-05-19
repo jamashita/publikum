@@ -1,7 +1,7 @@
 import IORedis from 'ioredis';
 
 import { IRedis, IRedisHash, IRedisList, IRedisSet, IRedisString } from '../';
-import { UnimplementedError } from '../../UnimplementedError';
+import { UnimplementedError } from '../../Error/UnimplementedError';
 import { MockRedisHash } from './MockRedisHash';
 import { MockRedisList } from './MockRedisList';
 import { MockRedisSet } from './MockRedisSet';

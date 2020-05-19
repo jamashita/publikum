@@ -1,4 +1,4 @@
-import { DataSourceError } from '../DataSourceError';
+import { DataSourceError } from '../../Error/DataSourceError';
 
 export class RedisError extends DataSourceError {
   public readonly name: 'RedisError' = 'RedisError';

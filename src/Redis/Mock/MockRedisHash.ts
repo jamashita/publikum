@@ -1,6 +1,6 @@
 import { IRedisHash } from '../';
 import { Nullable } from '../../Type';
-import { UnimplementedError } from '../../UnimplementedError';
+import { UnimplementedError } from '../../Error/UnimplementedError';
 
 export class MockRedisHash implements IRedisHash {
   public set(): Promise<boolean> {

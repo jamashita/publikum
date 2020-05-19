@@ -1,4 +1,4 @@
-import { RuntimeError } from '../RuntimeError';
+import { RuntimeError } from '../../Error/RuntimeError';
 
 export class ZeitError extends RuntimeError {
   public readonly name: 'ZeitError' = 'ZeitError';
