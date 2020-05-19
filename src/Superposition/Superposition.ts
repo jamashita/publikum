@@ -5,7 +5,9 @@ import { Dead } from './Dead';
 export abstract class Superposition<S, F extends Error> {
   public abstract readonly noun: 'Alive' | 'Dead';
 
-  protected constructor() {}
+  protected constructor() {
+    // NOOP
+  }
 
   public abstract get(): S;
 
