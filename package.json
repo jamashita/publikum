@@ -1,12 +1,12 @@
 {
   "name": "publikum",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "types": "cjs/index.d.ts",
   "exports": {
     ".": {
-      "require":  "cjs/index.js",
+      "require": "cjs/index.js",
       "default": "esm/index.js"
     }
   },
