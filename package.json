@@ -8,122 +8,71 @@
   "exports": {
     ".": {
       "require": "./cjs/index.js",
-      "import": "./esm/index.js",
-      "node": "./cjs/index.js",
-      "browser": "./esm/index.js",
-      "default": "./cjs/index.js"
+      "import": "./esm/index.js"
     },
     "./AJAX": {
       "require": "./cjs/AJAX/index.js",
-      "import": "./esm/AJAX/index.js",
-      "node": "./cjs/AJAX/index.js",
-      "browser": "./esm/AJAX/index.js",
-      "default": "./cjs/AJAX/index.js"
+      "import": "./esm/AJAX/index.js"
     },
     "./Cache": {
       "require": "./cjs/Cache/index.js",
-      "import": "./esm/Cache/index.js",
-      "node": "./cjs/Cache/index.js",
-      "browser": "./esm/Cache/index.js",
-      "default": "./cjs/Cache/index.js"
+      "import": "./esm/Cache/index.js"
     },
     "./Collection": {
       "require": "./cjs/Collection/index.js",
-      "import": "./esm/Collection/index.js",
-      "node": "./cjs/Collection/index.js",
-      "browser": "./esm/Collection/index.js",
-      "default": "./cjs//Collection/index.js"
+      "import": "./esm/Collection/index.js"
     },
     "./Digest": {
       "require": "./cjs/Digest/index.js",
-      "import": "./esm/Digest/index.js",
-      "node": "./cjs/Digest/index.js",
-      "browser": "./esm/Digest/index.js",
-      "default": "./cjs/Digest/index.js"
+      "import": "./esm/Digest/index.js"
     },
     "./Error": {
       "require": "./cjs/Error/index.js",
-      "import": "./esm/Error/index.js",
-      "node": "./cjs/Error/index.js",
-      "browser": "./esm/Error/index.js",
-      "default": "./cjs/Error/index.js"
+      "import": "./esm/Error/index.js"
     },
     "./Interface": {
       "require": "./cjs/Interface/index.js",
-      "import": "./esm/Interface/index.js",
-      "node": "./cjs/Interface/index.js",
-      "browser": "./esm/Interface/index.js",
-      "default": "./cjs/Interface/index.js"
+      "import": "./esm/Interface/index.js"
     },
     "./JSON": {
       "require": "./cjs/JSON/index.js",
-      "import": "./esm/JSON/index.js",
-      "node": "./cjs/JSON/index.js",
-      "browser": "./esm/JSON/index.js",
-      "default": "./cjs/JSON/index.js"
+      "import": "./esm/JSON/index.js"
     },
     "./Mock": {
       "require": "./cjs/Mock/index.js",
-      "import": "./esm/Mock/index.js",
-      "node": "./cjs/Mock/index.js",
-      "browser": "./esm/Mock/index.js",
-      "default": "./cjs/Mock/index.js"
+      "import": "./esm/Mock/index.js"
     },
     "./Object": {
       "require": "./cjs/Object/index.js",
-      "import": "./esm/Object/index.js",
-      "node": "./cjs/Object/index.js",
-      "browser": "./esm/Object/index.js",
-      "default": "./cjs/Object/index.js"
+      "import": "./esm/Object/index.js"
     },
     "./Quantum": {
       "require": "./cjs/Quantum/index.js",
-      "import": "./esm/Quantum/index.js",
-      "node": "./cjs/Quantum/index.js",
-      "browser": "./esm/Quantum/index.js",
-      "default": "./cjs/Quantum/index.js"
+      "import": "./esm/Quantum/index.js"
     },
     "./Random": {
       "require": "./cjs/Random/index.js",
-      "import": "./esm/Random/index.js",
-      "node": "./cjs/Random/index.js",
-      "browser": "./esm/Random/index.js",
-      "default": "./cjs/Random/index.js"
+      "import": "./esm/Random/index.js"
     },
     "./Redis": {
       "require": "./cjs/Redis/index.js",
-      "import": "./esm/Redis/index.js",
-      "node": "./cjs/Redis/index.js",
-      "browser": "./esm/Redis/index.js",
-      "default": "./cjs/Redis/index.js"
+      "import": "./esm/Redis/index.js"
     },
     "./Superposition": {
       "require": "./cjs/Superposition/index.js",
-      "import": "./esm/Superposition/index.js",
-      "node": "./cjs/Superposition/index.js",
-      "browser": "./esm/Superposition/index.js",
-      "default": "./cjs/Superposition/index.js"
+      "import": "./esm/Superposition/index.js"
     },
     "./Type": {
       "require": "./cjs/Type/index.js",
-      "import": "./esm/Type/index.js",
-      "node": "./cjs/Type/index.js",
-      "browser": "./esm/Type/index.js",
-      "default": "./cjs/Type/index.js"
+      "import": "./esm/Type/index.js"
     },
     "./UUID": {
       "require": "./cjs/UUID/index.js",
-      "import": "./esm/UUID/index.js",
-      "node": "./cjs/UUID/index.js",
-      "browser": "./esm/UUID/index.js",
-      "default": "./cjs/UUID/index.js"
+      "import": "./esm/UUID/index.js"
     },
     "./Zeit": {
       "require": "./cjs/Zeit/index.js",
-      "import": "./esm/Zeit/index.js",
-      "node": "./cjs/Zeit/index.js",
-      "browser": "./esm/Zeit/index.js",
-      "default": "./cjs/Zeit/index.js"
+      "import": "./esm/Zeit/index.js"
     }
   },
   "repository": {
