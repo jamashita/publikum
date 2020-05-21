@@ -1,6 +1,6 @@
-import { JSONA } from '../JSONA';
-import { JSONAError } from '../Error/JSONAError';
 import { JSObjectNotation } from '../../Type/Value';
+import { JSONAError } from '../Error/JSONAError';
+import { JSONA } from '../JSONA';
 
 describe('JSONA', () => {
   describe('parse', () => {

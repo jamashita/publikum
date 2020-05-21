@@ -1,4 +1,5 @@
 import hash from 'object-hash';
+
 import { Nominative } from '../Interface';
 
 export abstract class Objet implements Nominative {

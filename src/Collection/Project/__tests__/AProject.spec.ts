@@ -1,4 +1,4 @@
-import { MockAProject } from '..';
+import { MockAProject } from '../';
 import { MockNominative } from '../../../Mock';
 import { Absent } from '../../../Quantum';
 import { BiPredicate } from '../../../Type';

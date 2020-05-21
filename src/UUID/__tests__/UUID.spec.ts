@@ -1,5 +1,5 @@
-import { UUID } from '../UUID';
 import { UUIDError } from '../Error/UUIDError';
+import { UUID } from '../UUID';
 
 describe('UUID', () => {
   describe('of', () => {

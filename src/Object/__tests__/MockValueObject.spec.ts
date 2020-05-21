@@ -1,4 +1,4 @@
-import { MockValueObject } from '..';
+import { MockValueObject } from '../';
 import { Random } from '../../Random/Random';
 
 describe('MockValueObject', () => {

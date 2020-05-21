@@ -1,4 +1,4 @@
-import { Address } from '..';
+import { Address } from '../';
 import { Nominative } from '../../../Interface';
 import { Objet } from '../../../Object';
 import { Absent, Present, Quantum } from '../../../Quantum';

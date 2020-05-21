@@ -1,6 +1,6 @@
 import { Reject, Resolve } from '../Type/Function';
-import { JSONAError } from './Error/JSONAError';
 import { JSObjectNotation } from '../Type/Value';
+import { JSONAError } from './Error/JSONAError';
 
 export class JSONA {
   public static parse<T extends JSObjectNotation>(text: string): Promise<T> {

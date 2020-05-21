@@ -1,4 +1,5 @@
 import sinon, { SinonSpy } from 'sinon';
+
 import { MockError } from '../../Mock';
 import { Alive } from '../Alive';
 import { Dead } from '../Dead';

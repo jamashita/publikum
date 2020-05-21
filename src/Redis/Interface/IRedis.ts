@@ -1,4 +1,5 @@
 import IORedis from 'ioredis';
+
 import { BiFunction } from '../../Type';
 import { IRedisHash } from './IRedisHash';
 import { IRedisList } from './IRedisList';

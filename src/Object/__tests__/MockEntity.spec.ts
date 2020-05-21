@@ -1,4 +1,4 @@
-import { MockEntity } from '..';
+import { MockEntity } from '../';
 import { MockNominative } from '../../Mock/MockNominative';
 
 describe('MockEntity', () => {

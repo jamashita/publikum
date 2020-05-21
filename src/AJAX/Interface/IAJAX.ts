@@ -1,5 +1,6 @@
-import { AJAXResponse } from '..';
+import { AJAXResponse } from '../';
 import { JSObjectNotation } from '../../Type';
+
 export interface IAJAX {
   get<T>(url: string): Promise<AJAXResponse<T>>;
 

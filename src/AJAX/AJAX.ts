@@ -1,4 +1,5 @@
 import request from 'superagent';
+
 import { JSObjectNotation, Resolve } from '../Type';
 import { AJAXResponse } from './AJAXResponse';
 import { IAJAX } from './Interface/IAJAX';

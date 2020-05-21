@@ -1,4 +1,4 @@
-import { MockAAddress } from '..';
+import { MockAAddress } from '../';
 import { MockNominative } from '../../../Mock';
 import { Absent, Quantum } from '../../../Quantum';
 import { Predicate } from '../../../Type';

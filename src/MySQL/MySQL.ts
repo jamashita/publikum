@@ -1,9 +1,10 @@
 import mysql from 'mysql';
+
 import { JSObjectNotation, Nullable, Reject, Resolve } from '../Type';
 import { Connection } from './Connection';
+import { MySQLError } from './Error/MySQLError';
 import { IMySQL } from './Interface/IMySQL';
 import { ITransaction } from './Interface/ITransaction';
-import { MySQLError } from './Error/MySQLError';
 
 export type MySQLConfig = mysql.PoolConfig;
 type Value = Readonly<Record<string, unknown>>;

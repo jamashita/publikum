@@ -1,7 +1,8 @@
 import IORedis from 'ioredis';
+
 import { Nullable } from '../Type';
-import { IRedisSet } from './Interface/IRedisSet';
 import { RedisError } from './Error/RedisError';
+import { IRedisSet } from './Interface/IRedisSet';
 
 export class RedisSet implements IRedisSet {
   private readonly client: IORedis.Redis;

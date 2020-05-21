@@ -1,4 +1,4 @@
-import { MockASequence } from '..';
+import { MockASequence } from '../';
 import { MockNominative } from '../../../Mock';
 import { Absent, Quantum } from '../../../Quantum';
 
