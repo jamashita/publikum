@@ -1,14 +1,14 @@
 {
   "name": "publikum",
   "version": "0.8.7",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/cjs/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/cjs/index.d.ts",
   "exports": {
     ".": {
-      "require": "dist/cjs/index.js",
-      "import": "dist/esm/index.js",
-      "default": "dist/esm/index.js"
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js",
+      "default": "./dist/esm/index.js"
     }
   },
   "repository": {
@@ -19,7 +19,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "node dist/cjs/index.js",
+    "start": "node ./dist/cjs/index.js",
     "build": "yarn clean && concurrently \"npm:build:*\"",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "tsc -p tsconfig.esm.json",
@@ -37,7 +37,7 @@
   "sideEffects": false,
   "engineStrict": true,
   "files": [
-    "dist/**/*"
+    "./dist/**/*"
   ],
   "dependencies": {
     "bcrypt": "4.0.1",
