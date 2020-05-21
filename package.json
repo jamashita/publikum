@@ -4,7 +4,12 @@
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "types": "cjs/index.d.ts",
-  "type": "module",
+  "exports": {
+    ".": {
+      "require":  "cjs/index.js",
+      "default": "esm/index.js"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git@gitlab.com:jamashita/publikum.git"
