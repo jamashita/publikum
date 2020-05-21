@@ -1,7 +1,7 @@
 import { Dead, Superposition } from '../Superposition';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious } from '../Type';
+import { QuantumError } from './Error/QuantumError';
 import { Quantum } from './Quantum';
-import { QuantumError } from './QuantumError';
 
 export class Absent<T> extends Quantum<T> {
   public readonly noun: 'Absent' = 'Absent';

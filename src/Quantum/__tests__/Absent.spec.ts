@@ -1,9 +1,9 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { Dead, Superposition } from '../../Superposition';
+import { Dead } from '../../Superposition';
 import { Absent } from '../Absent';
+import { QuantumError } from '../Error/QuantumError';
 import { Quantum } from '../Quantum';
-import { QuantumError } from '../QuantumError';
 
 describe('Absent', () => {
   describe('get', () => {

@@ -89,7 +89,8 @@
       "require": "./cjs/Zeit/index.js",
       "import": "./esm/Zeit/index.js",
       "default": "./esm/Zeit/index.js"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "repository": {
     "type": "git",

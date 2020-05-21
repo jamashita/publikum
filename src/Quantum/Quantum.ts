@@ -2,8 +2,8 @@ import { Noun } from '../Interface';
 import { Superposition } from '../Superposition';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious } from '../Type';
 import { Absent } from './Absent';
+import { QuantumError } from './Error/QuantumError';
 import { Present } from './Present';
-import { QuantumError } from './QuantumError';
 
 export abstract class Quantum<T> implements Noun {
   public abstract readonly noun: 'Present' | 'Absent';

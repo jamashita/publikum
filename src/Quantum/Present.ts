@@ -1,9 +1,9 @@
 import { Alive, Superposition } from '../Superposition';
 import { AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious } from '../Type';
 import { Absent } from './Absent';
+import { QuantumError } from './Error/QuantumError';
 import { Planck } from './Planck';
 import { Quantum } from './Quantum';
-import { QuantumError } from './QuantumError';
 
 export class Present<T> extends Quantum<T> {
   public readonly noun: 'Present' = 'Present';

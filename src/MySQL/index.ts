@@ -1,3 +1,4 @@
+export * from './Error/MySQLError';
 export * from './Interface/IConnection';
 export * from './Interface/IMySQL';
 export * from './Interface/ISQL';
@@ -7,4 +8,3 @@ export * from './Mock/MockMySQL';
 export * from './Mock/MockSQL';
 export * from './Connection';
 export * from './MySQL';
-export * from './Error/MySQLError';

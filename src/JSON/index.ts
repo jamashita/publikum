@@ -1,2 +1,2 @@
-export * from './JSONA';
 export * from './Error/JSONAError';
+export * from './JSONA';

@@ -1,3 +1,4 @@
+export * from './Error/RedisError';
 export * from './Interface/IRedis';
 export * from './Interface/IRedisHash';
 export * from './Interface/IRedisList';
@@ -9,7 +10,6 @@ export * from './Mock/MockRedisList';
 export * from './Mock/MockRedisSet';
 export * from './Mock/MockRedisString';
 export * from './Redis';
-export * from './Error/RedisError';
 export * from './RedisHash';
 export * from './RedisList';
 export * from './RedisSet';

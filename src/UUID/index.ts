@@ -1,2 +1,2 @@
-export * from './UUID';
 export * from './Error/UUIDError';
+export * from './UUID';
