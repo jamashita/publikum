@@ -1,14 +1,14 @@
 {
   "name": "publikum",
   "version": "0.8.8",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/cjs/index.d.ts",
+  "main": "./cjs/index.js",
+  "module": "./esm/index.js",
+  "types": "./cjs/index.d.ts",
   "exports": {
     ".": {
-      "require": "./dist/cjs/index.js",
-      "import": "./dist/esm/index.js",
-      "default": "./dist/esm/index.js"
+      "require": "./cjs/index.js",
+      "import": "./esm/index.js",
+      "default": "./esm/index.js"
     }
   },
   "repository": {
@@ -19,11 +19,13 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "node ./dist/cjs/index.js",
+    "start": "node ./cjs/index.js",
     "build": "yarn clean && concurrently \"npm:build:*\"",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "tsc -p tsconfig.esm.json",
-    "clean": "rimraf dist",
+    "clean": "concurrently \"npm:clean:*\"",
+    "clean:cjs": "rimraf cjs",
+    "clean:esm": "rimraf esm",
     "test": "jest test --detectOpenHandles --coverage",
     "lint": "eslint --fix 'src/**/*.{ts,tsx}'",
     "format": "prettier --write 'src/**/*.{ts,tsx}'",
@@ -37,7 +39,8 @@
   "sideEffects": false,
   "engineStrict": true,
   "files": [
-    "./dist/**/*"
+    "./cjs/**/*",
+    "./esm/**/*"
   ],
   "dependencies": {
     "bcrypt": "4.0.1",
