@@ -1,6 +1,6 @@
 {
   "name": "publikum",
-  "version": "0.8.9",
+  "version": "0.8.10",
   "main": "./cjs/index.js",
   "module": "./esm/index.js",
   "types": "./cjs/index.d.ts",
