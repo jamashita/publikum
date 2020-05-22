@@ -1,23 +1,16 @@
 import request from 'superagent';
 
-import { JSObjectNotation, Resolve } from '../Type';
+import { Resolve } from '../Type';
+import { JSObjectNotation } from '../Type/Value';
 import { AJAXResponse } from './AJAXResponse';
 import { IAJAX } from './Interface/IAJAX';
 
 export class AJAX implements IAJAX {
   public get<T>(url: string): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>) => {
+      // eslint-disable-next-line handle-callback-err
       request.get(url).end((err: unknown, res: request.Response) => {
-        // prettier-ignore
-        const {
-          status,
-          body
-        } = res;
-
-        resolve({
-          status,
-          body
-        });
+        resolve(res);
       });
     });
   }
@@ -27,17 +20,9 @@ export class AJAX implements IAJAX {
       request
         .post(url)
         .send(payload)
+        // eslint-disable-next-line handle-callback-err
         .end((err: unknown, res: request.Response) => {
-          // prettier-ignore
-          const {
-            status,
-            body
-          } = res;
-
-          resolve({
-            status,
-            body
-          });
+          resolve(res);
         });
     });
   }
@@ -47,34 +32,18 @@ export class AJAX implements IAJAX {
       request
         .put(url)
         .send(payload)
+        // eslint-disable-next-line handle-callback-err
         .end((err: unknown, res: request.Response) => {
-          // prettier-ignore
-          const {
-            status,
-            body
-          } = res;
-
-          resolve({
-            status,
-            body
-          });
+          resolve(res);
         });
     });
   }
 
   public delete<T>(url: string): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>) => {
+      // eslint-disable-next-line handle-callback-err
       request.del(url).end((err: unknown, res: request.Response) => {
-        // prettier-ignore
-        const {
-          status,
-          body
-        } = res;
-
-        resolve({
-          status,
-          body
-        });
+        resolve(res);
       });
     });
   }

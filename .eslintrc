@@ -58,7 +58,10 @@
     "default-case": "error",
     "default-case-last": "error",
     "default-param-last": "off",
-    "dot-location": "error",
+    "dot-location": [
+      "error",
+      "property"
+    ],
     "dot-notation": "off",
     "eol-last": "error",
     "eqeqeq": "error",
@@ -89,14 +92,14 @@
     "lines-around-directive": "error",
     "lines-between-class-members": "off",
     "max-classes-per-file": "error",
-    "max-depth": "error",
-    "max-len": "error",
-    "max-lines": "error",
-    "max-lines-per-function": "error",
-    "max-nested-callbacks": "error",
-    "max-params": "error",
-    "max-statements": "error",
-    "max-statements-per-line": "error",
+    "max-depth": "off",
+    "max-len": "off",
+    "max-lines": "off",
+    "max-lines-per-function": "off",
+    "max-nested-callbacks": "off",
+    "max-params": "off",
+    "max-statements": "off",
+    "max-statements-per-line": "off",
     "multiline-comment-style": "error",
     "multiline-ternary": "error",
     "new-cap": "error",
@@ -240,12 +243,7 @@
     "one-var-declaration-per-line": "error",
     "operator-assignment": "error",
     "operator-linebreak": "error",
-    "padded-blocks": [
-      "error",
-      {
-        "classes": "always"
-      }
-    ],
+    "padded-blocks": "off",
     "padding-line-between-statements": "error",
     "prefer-arrow-callback": "error",
     "prefer-const": "error",
@@ -271,8 +269,8 @@
     "semi": "off",
     "semi-spacing": "error",
     "semi-style": "error",
-    "sort-imports": "error",
-    "sort-keys": "error",
+    "sort-imports": "off",
+    "sort-keys": "off",
     "sort-vars": "error",
     "space-before-blocks": "error",
     "space-before-function-paren": "off",
@@ -359,7 +357,7 @@
         "after": true
       }
     ],
-    "@typescript-eslint/lines-between-class-members": "error",
+    "@typescript-eslint/lines-between-class-members": "off",
     "@typescript-eslint/member-delimiter-style": [
       "error",
       {
