@@ -67,10 +67,12 @@ describe('Alive', () => {
           spy1();
           expect(n).toBe(value);
           expect(s).toBe(alive);
+
           return n * 2;
         },
         () => {
           spy2();
+
           return value ** 2;
         }
       );

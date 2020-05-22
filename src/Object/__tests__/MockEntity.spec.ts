@@ -32,15 +32,16 @@ describe('MockEntity', () => {
 
       const entity: MockEntity<number> = new MockEntity<number>(noun, {});
       const code1: string = entity.hashCode();
-      entity.other = {
-        code1
-      };
+
+      entity.other = { code1 };
       const code2: string = entity.hashCode();
+
       entity.other = {
         code1,
         code2
       };
       const code3: string = entity.hashCode();
+
       entity.other = {
         code1,
         code2

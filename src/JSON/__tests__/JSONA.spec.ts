@@ -6,7 +6,7 @@ describe('JSONA', () => {
   describe('parse', () => {
     it('outputs the same one as JSON.parse()', async () => {
       const str: string =
-        '{"glossary":{"title":"example glossary","GlossDiv":{"title":"S","GlossList":{"GlossEntry":{"ID":"SGML","SortAs":"SGML","GlossTerm":"Standard Generalized Markup Language","Acronym":"SGML","Abbrev":"ISO 8879:1986","GlossDef":{"para":"A meta-markup language, used to create markup languages such as DocBook.","GlossSeeAlso":["GML","XML"]},"GlossSee":"markup"}}}}}';
+        '{"glossary":{"title":"example glossary","glossDiv":{"title":"S","glossList":{"glossEntry":{"ID":"SGML","sortAs":"SGML","glossTerm":"Standard Generalized Markup Language","acronym":"SGML","abbrev":"ISO 8879:1986","glossDef":{"para":"A meta-markup language, used to create markup languages such as DocBook.","glossSeeAlso":["GML","XML"]},"glossSee":"markup"}}}}}';
 
       expect(await JSONA.parse<JSObjectNotation>(str)).toEqual(JSON.parse(str));
     });
@@ -23,24 +23,24 @@ describe('JSONA', () => {
       const obj: JSObjectNotation = {
         glossary: {
           title: 'example glossary',
-          GlossDiv: {
+          glossDiv: {
             title: 'S',
-            GlossList: {
-              GlossEntry: {
+            glossList: {
+              glossEntry: {
                 ID: 'SGML',
-                SortAs: 'SGML',
-                GlossTerm: 'Standard Generalized Markup Language',
-                Acronym: 'SGML',
-                Abbrev: 'ISO 8879:1986',
-                GlossDef: {
+                sortAs: 'SGML',
+                glossTerm: 'Standard Generalized Markup Language',
+                acronym: 'SGML',
+                abbrev: 'ISO 8879:1986',
+                glossDef: {
                   para: 'A meta-markup language, used to create markup languages such as DocBook.',
                   // prettier-ignore
-                  GlossSeeAlso: [
+                  glossSeeAlso: [
                     'GML',
                     'XML'
                   ]
                 },
-                GlossSee: 'markup'
+                glossSee: 'markup'
               }
             }
           }
@@ -51,10 +51,9 @@ describe('JSONA', () => {
     });
 
     it('throws TypeError when the JSON has circular reference, but the Error is wrapped', async () => {
-      const obj1: any = {};
-      const obj2: any = {
-        obj1
-      };
+      const obj1: JSObjectNotation = {};
+      const obj2: JSObjectNotation = { obj1 };
+
       obj1.obj2 = obj2;
 
       await expect(JSONA.stringify(obj1)).rejects.toThrow(JSONAError);

@@ -87,9 +87,12 @@ describe('Present', () => {
 
       const spy1: SinonSpy = sinon.spy();
 
-      await present.ifPresent(async (v: number) => {
+      // eslint-disable-next-line @typescript-eslint/await-thenable
+      await present.ifPresent((v: number) => {
         expect(v).toBe(value);
         spy1();
+
+        return Promise.resolve();
       });
 
       expect(spy1.called).toBe(true);
@@ -113,6 +116,7 @@ describe('Present', () => {
 
       const quantum: Quantum<number> = present.map<number>((value: number) => {
         spy();
+
         return value * 2;
       });
 
@@ -128,6 +132,7 @@ describe('Present', () => {
 
       const quantum: Quantum<number> = present.map<number>(() => {
         spy();
+
         return null;
       });
 
@@ -142,6 +147,7 @@ describe('Present', () => {
 
       const quantum: Quantum<number> = present.map<number>(() => {
         spy();
+
         return undefined;
       });
 

@@ -19,13 +19,11 @@ export class MockAProject<K extends Nominative, V extends Nominative> extends AP
     super(MockAProject.constructMap<K, V>(elements));
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public set(key: K, value: V): Project<K, V> {
+  public set(): Project<K, V> {
     throw new UnimplementedError();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public remove(key: K): Project<K, V> {
+  public remove(): Project<K, V> {
     throw new UnimplementedError();
   }
 

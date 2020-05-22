@@ -46,17 +46,16 @@ describe('Zeit', () => {
       ];
 
       const max: Zeit = Zeit.max(zeiten, format);
+
       expect(max.toString()).toBe('2000-01-03');
     });
 
     it('returns itself when the only one zeit given', () => {
       const format: string = 'YYYY-MM-DD';
-      // prettier-ignore
-      const zeiten: Array<Zeit> = [
-        Zeit.ofString('2000-01-01', format)
-      ];
+      const zeiten: Array<Zeit> = [Zeit.ofString('2000-01-01', format)];
 
       const max: Zeit = Zeit.max(zeiten, format);
+
       expect(max).toBe(zeiten[0]);
     });
 
@@ -81,17 +80,16 @@ describe('Zeit', () => {
       ];
 
       const min: Zeit = Zeit.min(zeiten, format);
+
       expect(min.toString()).toBe('2000-01-01');
     });
 
     it('returns itself when the only one zeit given', () => {
       const format: string = 'YYYY-MM-DD';
-      // prettier-ignore
-      const zeiten: Array<Zeit> = [
-        Zeit.ofString('2000-01-01', format)
-      ];
+      const zeiten: Array<Zeit> = [Zeit.ofString('2000-01-01', format)];
 
       const min: Zeit = Zeit.min(zeiten, format);
+
       expect(min).toBe(zeiten[0]);
     });
 

@@ -19,13 +19,11 @@ export class MockAAddress<E extends Nominative> extends AAddress<E> implements A
     super(MockAAddress.constructMap<E>(elements));
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public add(...elements: Array<E>): Address<E> {
+  public add(): Address<E> {
     throw new UnimplementedError();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public remove(element: E): Address<E> {
+  public remove(): Address<E> {
     throw new UnimplementedError();
   }
 

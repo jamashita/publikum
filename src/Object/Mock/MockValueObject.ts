@@ -10,8 +10,7 @@ export class MockValueObject<T> extends ValueObject {
     this.value = value;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public equals(other: MockValueObject<T>): boolean {
+  public equals(): boolean {
     throw new UnimplementedError();
   }
 

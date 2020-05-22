@@ -5,6 +5,7 @@ describe('UUID', () => {
   describe('of', () => {
     it('normal case', () => {
       const uuid: string = '998106de-b2e7-4981-9643-22cd30cd74de';
+
       expect(UUID.of(uuid).get()).toBe(uuid);
     });
 
@@ -24,6 +25,7 @@ describe('UUID', () => {
   describe('isAcceptable', () => {
     it('normal case', () => {
       const uuid: string = '998106de-b2e7-4981-9643-22cd30cd74de';
+
       expect(UUID.isAcceptable(uuid)).toBe(true);
     });
 
@@ -39,6 +41,7 @@ describe('UUID', () => {
     it('always generates 36 length string', () => {
       for (let i: number = 0; i < 100; i++) {
         const v4: UUID = UUID.v4();
+
         expect(v4.get().length).toBe(UUID.size());
       }
     });
@@ -48,6 +51,7 @@ describe('UUID', () => {
     it('always generates 36 length string', () => {
       for (let i: number = 0; i < 100; i++) {
         const v5: UUID = UUID.v5();
+
         expect(v5.get().length).toBe(UUID.size());
       }
     });

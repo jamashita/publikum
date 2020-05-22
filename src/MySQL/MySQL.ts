@@ -21,8 +21,8 @@ export class MySQL implements IMySQL {
           return query;
         }
 
-        return query.replace(/:(\w+)/g, (txt: string, key: string) => {
-          if (value.hasOwnProperty(key)) {
+        return query.replace(/:(?<placeholder>\w+)/gu, (txt: string, key: string) => {
+          if (Object.prototype.hasOwnProperty.call(value, key)) {
             return connection.escape(value[key]);
           }
 
@@ -40,6 +40,7 @@ export class MySQL implements IMySQL {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
         if (err1) {
           reject(new MySQLError('MySQL.getConnection()', err1));
+
           return;
         }
 
@@ -47,6 +48,7 @@ export class MySQL implements IMySQL {
           // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
           if (err2) {
             reject(new MySQLError('MySQL.getConnection()', err2));
+
             return;
           }
 
@@ -62,6 +64,7 @@ export class MySQL implements IMySQL {
     // prettier-ignore
     try {
       const ret: R = await transaction.with(connection);
+
       await connection.commit();
       connection.release();
 
@@ -79,6 +82,7 @@ export class MySQL implements IMySQL {
       this.pool.query(sql, value, (err: Nullable<mysql.MysqlError>, result: R) => {
         if (err !== null) {
           reject(new MySQLError('MySQL.execute()', err));
+
           return;
         }
 

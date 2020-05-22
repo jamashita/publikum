@@ -58,8 +58,11 @@ describe('Absent', () => {
 
       const spy1: SinonSpy = sinon.spy();
 
-      await absent.ifPresent(async () => {
+      // eslint-disable-next-line @typescript-eslint/await-thenable
+      await absent.ifPresent(() => {
         spy1();
+
+        return Promise.resolve();
       });
 
       expect(spy1.called).toBe(false);
@@ -83,6 +86,7 @@ describe('Absent', () => {
 
       const quantum: Quantum<number> = absent.map<number>((value: number) => {
         spy();
+
         return value;
       });
 
@@ -105,8 +109,9 @@ describe('Absent', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const quantum: Quantum<number> = absent.filter((value: number) => {
+      const quantum: Quantum<number> = absent.filter(() => {
         spy();
+
         return true;
       });
 

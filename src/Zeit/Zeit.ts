@@ -21,6 +21,7 @@ export class Zeit extends ValueObject {
 
   public static ofString(str: string, format: string): Zeit {
     const zeit: dayjs.Dayjs = dayjs.utc(str, format);
+
     if (zeit.format(format) === str) {
       return Zeit.of(zeit, format);
     }

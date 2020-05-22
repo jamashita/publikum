@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { MockValueObject } from '../';
 import { Random } from '../../Random/Random';
 
@@ -25,6 +26,7 @@ describe('MockValueObject', () => {
     it('string', () => {
       for (let i: number = 0; i < 1000; i++) {
         const str: string = Random.string(i);
+
         expect(new MockValueObject<string>(str).hashCode()).toBe(new MockValueObject<string>(str).hashCode());
       }
     });
@@ -32,13 +34,9 @@ describe('MockValueObject', () => {
     it('object', () => {
       expect(new MockValueObject<object>({}).hashCode()).toBe(new MockValueObject<object>({}).hashCode());
       expect(
-        new MockValueObject<object>({
-          a: 1000
-        }).hashCode()
+        new MockValueObject<object>({ a: 1000 }).hashCode()
       ).toBe(
-        new MockValueObject<object>({
-          a: 1000
-        }).hashCode()
+        new MockValueObject<object>({ a: 1000 }).hashCode()
       );
       expect(
         new MockValueObject<object>({

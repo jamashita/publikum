@@ -19,6 +19,7 @@ describe('Schrodinger', () => {
 
       expect(values.isAlive()).toBe(true);
       const array: Array<number> = values.get();
+
       expect(array.length).toBe(superpositions.length);
       for (let i: number = 0; i < array.length; i++) {
         expect(array[i]).toBe(superpositions[i].get());
@@ -32,6 +33,7 @@ describe('Schrodinger', () => {
 
       expect(values.isAlive()).toBe(true);
       const array: Array<number> = values.get();
+
       expect(array.length).toBe(superpositions.length);
     });
 

@@ -18,6 +18,7 @@ export class Redis implements IRedis {
 
   public constructor(config: RedisConfig) {
     const client: IORedis.Redis = new IORedis(config);
+
     this.client = client;
     this.hash = new RedisHash(client);
     this.set = new RedisSet(client);

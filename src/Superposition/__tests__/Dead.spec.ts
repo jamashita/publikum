@@ -75,12 +75,14 @@ describe('Dead', () => {
       const res: number = dead.match<number>(
         (n: number) => {
           spy1();
+
           return n;
         },
         (err: MockError, f: Dead<number, MockError>) => {
           spy2();
           expect(err).toBe(error);
           expect(f).toBe(dead);
+
           return value * 2;
         }
       );

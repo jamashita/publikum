@@ -198,7 +198,7 @@
     "no-tabs": "error",
     "no-template-curly-in-string": "error",
     "no-ternary": "error",
-    "no-throw-literal": "error",
+    "no-throw-literal": "off",
     "no-trailing-spaces": "error",
     "no-undef-init": "error",
     "no-undefined": "off",
@@ -222,19 +222,7 @@
     "object-curly-newline": [
       "error",
       {
-        "ObjectExpression": "always",
-        "ObjectPattern": {
-          "multiline": true,
-          "consistent": true
-        },
-        "ImportDeclaration": {
-          "multiline": true,
-          "consistent": true
-        },
-        "ExportDeclaration": {
-          "multiline": true,
-          "consistent": true
-        }
+        "multiline": true
       }
     ],
     "object-curly-spacing": [
@@ -265,12 +253,15 @@
     "prefer-numeric-literals": "error",
     "prefer-object-spread": "error",
     "prefer-promise-reject-errors": "error",
-    "prefer-reflect": "error",
+    "prefer-reflect": "off",
     "prefer-regex-literals": "error",
     "prefer-rest-params": "error",
     "prefer-spread": "error",
     "prefer-template": "error",
-    "quote-props": "error",
+    "quote-props": [
+      "error",
+      "as-needed"
+    ],
     "quotes": "off",
     "radix": "error",
     "require-atomic-updates": "error",
