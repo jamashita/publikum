@@ -69,7 +69,10 @@
     "func-name-matching": "error",
     "func-names": "error",
     "func-style": "error",
-    "function-call-argument-newline": "error",
+    "function-call-argument-newline": [
+      "error",
+      "consistent"
+    ],
     "function-paren-newline": "error",
     "generator-star-spacing": "error",
     "global-require": "error",
@@ -189,7 +192,7 @@
     "no-throw-literal": "error",
     "no-trailing-spaces": "error",
     "no-undef-init": "error",
-    "no-undefined": "error",
+    "no-undefined": "off",
     "no-underscore-dangle": "error",
     "no-unmodified-loop-condition": "error",
     "no-unneeded-ternary": "error",
@@ -492,12 +495,7 @@
     "@typescript-eslint/no-throw-literal": "error",
     "@typescript-eslint/no-type-alias": "off",
     "@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
-    "@typescript-eslint/no-unnecessary-condition": [
-      "error",
-      {
-        "allowConstantLoopConditions": true
-      }
-    ],
+    "@typescript-eslint/no-unnecessary-condition": "off",
     "@typescript-eslint/no-unnecessary-qualifier": "error",
     "@typescript-eslint/no-unnecessary-type-arguments": "off",
     "@typescript-eslint/no-unnecessary-type-assertion": "error",

@@ -2,20 +2,6 @@ import { Cache } from '../Cache';
 import { CacheError } from '../Error/CacheError';
 
 describe('Cache', () => {
-  describe('set', () => {
-    it('normal case', () => {
-      const cache: Cache = new Cache();
-
-      const identifier: symbol = Symbol('test');
-
-      cache.set(identifier, 1);
-      cache.set(identifier, 0);
-      cache.set(identifier, 0.1);
-      cache.set(identifier, NaN);
-      cache.set(identifier, Infinity);
-    });
-  });
-
   describe('get', () => {
     it('normal case', () => {
       const cache: Cache = new Cache();
