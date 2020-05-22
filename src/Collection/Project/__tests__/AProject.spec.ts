@@ -18,10 +18,7 @@ describe('AProject', () => {
         MockNominative<number>,
         MockNominative<number>
       >(
-        // prettier-ignore
-        new Map<MockNominative<number>, MockNominative<number>>([
-          [noun1, noun2]
-        ])
+        new Map<MockNominative<number>, MockNominative<number>>([[noun1, noun2]])
       );
 
       expect(nouns1.size()).toEqual(0);
@@ -44,10 +41,7 @@ describe('AProject', () => {
         MockNominative<number>,
         MockNominative<number>
       >(
-        // prettier-ignore
-        new Map<MockNominative<number>, MockNominative<number>>([
-          [noun1, noun2]
-        ])
+        new Map<MockNominative<number>, MockNominative<number>>([[noun1, noun2]])
       );
 
       expect(nouns.has(noun1)).toBe(true);
@@ -66,10 +60,7 @@ describe('AProject', () => {
         MockNominative<number>,
         MockNominative<number>
       >(
-        // prettier-ignore
-        new Map<MockNominative<number>, MockNominative<number>>([
-          [noun1, noun2]
-        ])
+        new Map<MockNominative<number>, MockNominative<number>>([[noun1, noun2]])
       );
 
       expect(nouns.contains(noun1)).toBe(false);
@@ -91,10 +82,7 @@ describe('AProject', () => {
         MockNominative<number>,
         MockNominative<number>
       >(
-        // prettier-ignore
-        new Map<MockNominative<number>, MockNominative<number>>([
-          [noun1, noun2]
-        ])
+        new Map<MockNominative<number>, MockNominative<number>>([[noun1, noun2]])
       );
 
       expect(nouns1.isEmpty()).toBe(true);
@@ -120,6 +108,7 @@ describe('AProject', () => {
 
       expect(nouns.size()).toBe(elements.length);
       let i: number = 0;
+
       nouns.forEach((value: MockNominative<number>, key: MockNominative<number>) => {
         expect(key).toBe(elements[i][0]);
         expect(value).toBe(elements[i][1]);
@@ -432,7 +421,6 @@ describe('AProject', () => {
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
       const noun4: MockNominative<number> = new MockNominative<number>(4);
-      const noun5: MockNominative<number> = new MockNominative<number>(5);
 
       const nouns1: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<
         MockNominative<number>,
@@ -555,6 +543,7 @@ describe('AProject', () => {
       const map: Map<MockNominative<number>, MockNominative<number>> = nouns.toMap();
 
       let i: number = 0;
+
       expect(nouns.size()).toBe(map.size);
       nouns.forEach((value: MockNominative<number>, key: MockNominative<number>) => {
         expect(key).toBe(elements[i][0]);

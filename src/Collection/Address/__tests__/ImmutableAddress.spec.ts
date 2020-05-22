@@ -196,10 +196,7 @@ describe('ImmutableAddress', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
 
       const nouns1: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(
-        // prettier-ignore
-        new Set<MockNominative<number>>([
-          noun1
-        ])
+        new Set<MockNominative<number>>([noun1])
       );
       const nouns2: ImmutableAddress<MockNominative<number>> = nouns1.remove(noun1);
 

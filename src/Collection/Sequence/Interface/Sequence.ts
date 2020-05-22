@@ -6,8 +6,10 @@ import { BiPredicate, Enumerator, Mapper, Predicate } from '../../../Type';
 export interface Sequence<E extends Nominative> extends Collection<number, E>, Cloneable<Sequence<E>>, Nominative {
   add(...elements: Array<E>): Sequence<E>;
 
-  // TODO set(element: E): Sequence<E>;
-  // TODO remove(element: E): Sequence<E>;
+  /*
+   * TODO set(element: E): Sequence<E>;
+   * TODO remove(element: E): Sequence<E>;
+   */
 
   forEach(iteration: Mapper<E, void>): void;
 

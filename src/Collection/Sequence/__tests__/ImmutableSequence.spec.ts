@@ -146,6 +146,7 @@ describe('ImmutableSequence', () => {
       const nouns2: ImmutableSequence<MockNominative<string>> = nouns1.map<MockNominative<string>>(
         (noun: MockNominative<number>) => {
           const num: number = noun.get();
+
           return new MockNominative<string>(`${num ** 2}`);
         }
       );
@@ -272,6 +273,7 @@ describe('ImmutableSequence', () => {
 
     it('returns ImmutableSequence.empty() when there are no items', () => {
       const nouns: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([]);
+
       expect(nouns.duplicate()).toBe(nouns);
     });
   });

@@ -9,10 +9,7 @@ describe('AAddress', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
 
       const nouns1: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set());
-      // prettier-ignore
-      const nouns2: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set([
-        noun1
-      ]));
+      const nouns2: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set([noun1]));
 
       expect(nouns1.size()).toBe(0);
       expect(nouns2.get()).toBeInstanceOf(Absent);
@@ -78,6 +75,7 @@ describe('AAddress', () => {
 
       expect(nouns.size()).toBe(elements.length);
       let i: number = 0;
+
       nouns.forEach((noun: MockNominative<number>) => {
         expect(noun).toBe(elements[i]);
         i++;
@@ -369,12 +367,7 @@ describe('AAddress', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
-      const nouns1: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(
-        // prettier-ignore
-        new Set([
-          noun1
-        ])
-      );
+      const nouns1: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set([noun1]));
       const nouns2: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(
         // prettier-ignore
         new Set([

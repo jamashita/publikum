@@ -12,6 +12,7 @@ describe('ASequence', () => {
       ];
 
       const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>(nounArray);
+
       expect(nouns.size()).toBe(nounArray.length);
       for (let i: number = 0; i < nouns.size(); i++) {
         expect(nouns.get(i).get()).toBe(nounArray[i]);
@@ -363,10 +364,7 @@ describe('ASequence', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
-      // prettier-ignore
-      const nouns1: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
-        noun1
-      ]);
+      const nouns1: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([noun1]);
       // prettier-ignore
       const nouns2: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
         noun1,
