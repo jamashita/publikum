@@ -42,7 +42,7 @@
     "callback-return": "error",
     "camelcase": "error",
     "capitalized-comments": "error",
-    "class-methods-use-this": "error",
+    "class-methods-use-this": "off",
     "comma-dangle": "error",
     "comma-spacing": "off",
     "comma-style": "error",
@@ -78,7 +78,7 @@
     "id-match": "error",
     "implicit-arrow-linebreak": "error",
     "indent": "off",
-    "indent-legacy": "error",
+    "indent-legacy": "off",
     "init-declarations": "off",
     "jsx-quotes": "error",
     "key-spacing": "error",
@@ -204,9 +204,34 @@
     "no-warning-comments": "error",
     "no-whitespace-before-property": "error",
     "nonblock-statement-body-position": "error",
-    "object-curly-newline": "error",
-    "object-curly-spacing": "error",
-    "object-property-newline": "error",
+    "object-curly-newline": [
+      "error",
+      {
+        "ObjectExpression": "always",
+        "ObjectPattern": {
+          "multiline": true,
+          "consistent": true
+        },
+        "ImportDeclaration": {
+          "multiline": true,
+          "consistent": true
+        },
+        "ExportDeclaration": {
+          "multiline": true,
+          "consistent": true
+        }
+      }
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "object-property-newline": [
+      "error",
+      {
+        "allowAllPropertiesOnSameLine": false
+      }
+    ],
     "object-shorthand": "error",
     "one-var": [
       "error",
@@ -215,7 +240,12 @@
     "one-var-declaration-per-line": "error",
     "operator-assignment": "error",
     "operator-linebreak": "error",
-    "padded-blocks": "error",
+    "padded-blocks": [
+      "error",
+      {
+        "classes": "always"
+      }
+    ],
     "padding-line-between-statements": "error",
     "prefer-arrow-callback": "error",
     "prefer-const": "error",
@@ -295,10 +325,7 @@
         "objectLiteralTypeAssertions": "allow"
       }
     ],
-    "@typescript-eslint/consistent-type-definitions": [
-      "error",
-      "type"
-    ],
+    "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/default-param-last": "error",
     "@typescript-eslint/dot-notation": "error",
     "@typescript-eslint/explicit-function-return-type": [
@@ -379,7 +406,7 @@
       {
         "selector": "typeLike",
         "format": [
-          "camelCase",
+          "PascalCase",
           "UPPER_CASE"
         ]
       },
