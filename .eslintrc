@@ -4,22 +4,19 @@
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 2020,
-    "project": "./tsconfig.json",
+    "project": "./tsconfig.esm.json",
     "tsconfigRootDir": "."
   },
-  "plugins": [
-    "@typescript-eslint",
-    "jest"
-  ],
   "extends": [
     "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:jest/recommended",
+    "plugin:prettier/recommended",
     "prettier/@typescript-eslint",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "plugin:jest/recommended",
-    "plugin:prettier/recommended",
-    "prettier/@typescript-eslint"
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
   ],
   "env": {
     "browser": true,
@@ -29,9 +26,14 @@
   },
   "rules": {
     "accessor-pairs": "error",
-    "array-bracket-newline": "error",
+    "array-bracket-newline": [
+      "error",
+      {
+        "multiline": true
+      }
+    ],
     "array-bracket-spacing": "error",
-    "array-callback-return": "error",
+    "array-callback-return": "off",
     "array-element-newline": [
       "error",
       "consistent"
@@ -87,7 +89,7 @@
     "global-require": "error",
     "grouped-accessor-pairs": "error",
     "guard-for-in": "error",
-    "handle-callback-err": "error",
+    "handle-callback-err": "off",
     "id-blacklist": "off",
     "id-length": "off",
     "id-match": "off",
@@ -95,7 +97,7 @@
     "indent": "off",
     "indent-legacy": "off",
     "init-declarations": "off",
-    "jsx-quotes": "error",
+    "jsx-quotes": "off",
     "key-spacing": "error",
     "keyword-spacing": "off",
     "line-comment-position": "error",
@@ -114,7 +116,7 @@
     "max-statements-per-line": "off",
     "multiline-comment-style": "error",
     "multiline-ternary": "error",
-    "new-cap": "error",
+    "new-cap": "off",
     "new-parens": "error",
     "newline-after-var": "error",
     "newline-before-return": "error",
@@ -216,13 +218,13 @@
     "no-useless-return": "error",
     "no-var": "error",
     "no-void": "error",
-    "no-warning-comments": "error",
+    "no-warning-comments": "off",
     "no-whitespace-before-property": "error",
     "nonblock-statement-body-position": "error",
     "object-curly-newline": [
       "error",
       {
-        "multiline": true
+        "consistent": true
       }
     ],
     "object-curly-spacing": [
@@ -289,7 +291,7 @@
     ],
     "strict": "error",
     "switch-colon-spacing": "error",
-    "symbol-description": "error",
+    "symbol-description": "off",
     "template-curly-spacing": "error",
     "template-tag-spacing": "error",
     "unicode-bom": "error",
@@ -309,7 +311,7 @@
     ],
     "@typescript-eslint/await-thenable": "error",
     "@typescript-eslint/ban-ts-comment": "off",
-    "@typescript-eslint/ban-types": "error",
+    "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/brace-style": [
       "error",
       "stroustrup"
@@ -327,7 +329,7 @@
       }
     ],
     "@typescript-eslint/consistent-type-definitions": "off",
-    "@typescript-eslint/default-param-last": "error",
+    "@typescript-eslint/default-param-last": "off",
     "@typescript-eslint/dot-notation": "error",
     "@typescript-eslint/explicit-function-return-type": [
       "error",
@@ -394,6 +396,7 @@
         "selector": "variableLike",
         "format": [
           "camelCase",
+          "PascalCase",
           "UPPER_CASE"
         ]
       },
@@ -401,6 +404,7 @@
         "selector": "memberLike",
         "format": [
           "camelCase",
+          "PascalCase",
           "UPPER_CASE"
         ]
       },
@@ -585,6 +589,8 @@
     ],
     "@typescript-eslint/unbound-method": "error",
     "@typescript-eslint/unified-signatures": "off",
+    "import/no-unresolved": "off",
+    "jest/no-test-callback": "off",
     "prettier/prettier": "error"
   }
 }

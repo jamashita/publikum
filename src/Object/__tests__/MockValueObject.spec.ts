@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-types */
+// eslint-disable @typescript-eslint/ban-types
 import { MockValueObject } from '../';
 import { Random } from '../../Random/Random';
 
