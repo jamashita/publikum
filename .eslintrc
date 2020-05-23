@@ -591,6 +591,6 @@
     "@typescript-eslint/unified-signatures": "off",
     "import/no-unresolved": "off",
     "jest/no-test-callback": "off",
-    "prettier/prettier": "error"
+    "prettier/prettier": "warn"
   }
 }
