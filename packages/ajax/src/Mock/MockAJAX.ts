@@ -1,5 +1,4 @@
 import { IAJAX } from '../';
-import { UnimplementedError } from '../../Error/UnimplementedError';
 import { AJAXResponse } from '../AJAXResponse';
 
 export class MockAJAX implements IAJAX {

@@ -1,7 +1,7 @@
 import request from 'superagent';
 
-import { Resolve } from '../Type';
-import { JSObjectNotation } from '../Type/Value';
+import { JSObjectNotation } from '@publikum/type';
+
 import { AJAXResponse } from './AJAXResponse';
 import { IAJAX } from './Interface/IAJAX';
 
