@@ -1,3 +1,5 @@
+import { UnimplementedError } from '@publikum/error';
+
 import { IAJAX } from '../';
 import { AJAXResponse } from '../AJAXResponse';
 

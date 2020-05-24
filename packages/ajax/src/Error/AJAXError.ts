@@ -1,3 +1,4 @@
+import { DataSourceError } from '@publikum/error';
 
 export class AJAXError extends DataSourceError {
   public readonly name: 'AJAXError' = 'AJAXError';
