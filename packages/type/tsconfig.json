@@ -12,6 +12,5 @@
     "cjs",
     "esm",
     "node_modules"
-  ],
-  "compileOnSave": false
+  ]
 }
