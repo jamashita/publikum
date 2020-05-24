@@ -1,0 +1,26 @@
+{
+  "name": "type",
+  "version": "0.9.1",
+  "description": "> TODO: description",
+  "author": "jamashita <jamashita@arachnid.xyz>",
+  "homepage": "https://gitlab.com/jamashita/publikum#readme",
+  "license": "MIT",
+  "main": "lib/Type.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/jamashita/publikum.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/jamashita/publikum/issues"
+  }
+}
