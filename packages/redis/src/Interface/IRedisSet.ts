@@ -1,4 +1,4 @@
-import { Nullable } from '../../Type';
+import { Nullable } from '@publikum/type';
 
 export interface IRedisSet {
   add(key: string, ...values: Array<string>): Promise<number>;

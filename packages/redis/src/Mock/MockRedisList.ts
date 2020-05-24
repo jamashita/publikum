@@ -1,5 +1,6 @@
-import { IRedisList } from '../';
-import { UnimplementedError } from '../../Error/UnimplementedError';
+import { UnimplementedError } from '@publikum/error';
+
+import { IRedisList } from '../Interface/IRedisList';
 
 export class MockRedisList implements IRedisList {
   public push(): Promise<number> {

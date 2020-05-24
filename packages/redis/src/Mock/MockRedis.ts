@@ -1,7 +1,11 @@
 import IORedis from 'ioredis';
 
-import { IRedis, IRedisHash, IRedisList, IRedisSet, IRedisString } from '../';
-import { UnimplementedError } from '../../Error/UnimplementedError';
+import { UnimplementedError } from '@publikum/error';
+
+import { IRedisHash } from '../Interface/IRedisHash';
+import { IRedisList } from '../Interface/IRedisList';
+import { IRedisSet } from '../Interface/IRedisSet';
+import { IRedisString } from '../Interface/IRedisString';
 import { MockRedisHash } from './MockRedisHash';
 import { MockRedisList } from './MockRedisList';
 import { MockRedisSet } from './MockRedisSet';

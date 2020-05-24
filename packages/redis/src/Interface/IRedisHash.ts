@@ -1,4 +1,4 @@
-import { Nullable } from '../../Type';
+import { Nullable } from '@publikum/type';
 
 export interface IRedisHash {
   set(key: string, field: string, value: string): Promise<boolean>;

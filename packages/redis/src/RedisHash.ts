@@ -1,6 +1,7 @@
 import IORedis from 'ioredis';
 
-import { Nullable } from '../Type';
+import { Nullable } from '@publikum/type';
+
 import { RedisError } from './Error/RedisError';
 import { IRedisHash } from './Interface/IRedisHash';
 

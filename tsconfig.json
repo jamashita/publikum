@@ -10,8 +10,10 @@
       "@publikum/json": ["packages/json/src"],
       "@publikum/object": ["packages/object/src"],
       "@publikum/random": ["packages/random/src"],
+      "@publikum/redis": ["packages/redis/src"],
       "@publikum/type": ["packages/type/src"],
       "@publikum/uuid": ["packages/uuid/src"],
+      "@publikum/zeit": ["packages/zeit/src"],
     }
     /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
   }
