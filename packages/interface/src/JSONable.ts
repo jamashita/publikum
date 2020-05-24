@@ -1,4 +1,4 @@
-import { JSObjectNotation } from '../Type';
+import { JSObjectNotation } from '@publikum/type';
 
 export interface JSONable {
   toJSON(): JSObjectNotation;

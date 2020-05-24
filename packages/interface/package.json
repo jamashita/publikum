@@ -38,7 +38,9 @@
     "lint": "eslint --fix 'src/**/*.{ts,tsx}'",
     "format": "prettier --write 'src/**/*.{ts,tsx}'"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@publikum/type": "1.0.0"
+  },
   "devDependencies": {
     "@types/jest": "25.2.3",
     "@types/node": "14.0.5",

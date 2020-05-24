@@ -3,13 +3,13 @@
   "version": "0.9.1",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
-  "main": "./cjs/index.js",
-  "module": "./esm/index.js",
-  "types": "./esm/index.d.ts",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "types": "esm/index.d.ts",
   "type": "module",
   "exports": {
-    "require": "./cjs/index.js",
-    "import": "./esm/index.js"
+    "require": "cjs/index.js",
+    "import": "esm/index.js"
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
     "esm"
   ],
   "scripts": {
-    "start": "node ./cjs/index.js",
+    "start": "node cjs/index.js",
     "build": "yarn clean && concurrently \"npm:build:*\"",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "tsc -p tsconfig.esm.json",
@@ -35,10 +35,10 @@
     "clean:cjs": "rimraf cjs",
     "clean:esm": "rimraf esm",
     "test": "jest test --detectOpenHandles --coverage",
-    "lint": "eslint --fix './src/**/*.{ts,tsx}'",
-    "format": "prettier --write './src/**/*.{ts,tsx}'",
+    "lint": "eslint --fix 'src/**/*.{ts,tsx}'",
+    "format": "prettier --write 'src/**/*.{ts,tsx}'",
     "update": "ncu -u && yarn install && yarn upgrade",
-    "prepare": "yarn build"
+    "nope:prepare": "yarn build"
   },
   "dependencies": {
     "bcrypt": "4.0.1",
