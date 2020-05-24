@@ -8,11 +8,6 @@ module.exports = {
   testPathIgnorePatterns: [
     '/node_modules/'
   ],
-  collectCoverage: true,
-  coveragePathIgnorePatterns: [
-    '/node_modules/',
-    '/Mock/'
-  ],
   transform: {
     '^.+\\.tsx?$': 'ts-jest'
   },

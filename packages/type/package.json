@@ -34,7 +34,7 @@
     "clean": "concurrently \"npm:clean:*\"",
     "clean:cjs": "rimraf cjs",
     "clean:esm": "rimraf esm",
-    "test": "jest test --detectOpenHandles --coverage",
+    "test": "jest test --detectOpenHandles",
     "lint": "eslint --fix 'src/*.{ts,tsx}'",
     "format": "prettier --write 'src/*.{ts,tsx}'"
   },
