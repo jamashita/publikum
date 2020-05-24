@@ -1,11 +1,3 @@
-# `AJAX`
+# `Publikum/AJAX`
 
-> TODO: description
-
-## Usage
-
-```
-const ajax = require('AJAX');
-
-// TODO: DEMONSTRATE API
-```
+Publikum (prononciation /puːblikʊm/) is a TypeScript library for me :))

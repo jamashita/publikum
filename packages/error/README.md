@@ -1,11 +1,3 @@
-# `error`
+# `Publikum/Error`
 
-> TODO: description
-
-## Usage
-
-```
-const error = require('error');
-
-// TODO: DEMONSTRATE API
-```
+Publikum (prononciation /puːblikʊm/) is a TypeScript library for me :))
