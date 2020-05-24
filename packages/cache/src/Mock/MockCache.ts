@@ -1,6 +1,6 @@
 import { UnimplementedError } from '@publikum/error';
 
-import { ICache } from '../';
+import { ICache } from '../Interface/ICache';
 
 export class MockCache implements ICache {
   public set(): void {

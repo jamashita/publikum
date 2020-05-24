@@ -1,7 +1,7 @@
 import { UnimplementedError } from '@publikum/error';
 
-import { IAJAX } from '../';
 import { AJAXResponse } from '../AJAXResponse';
+import { IAJAX } from '../Interface/IAJAX';
 
 export class MockAJAX implements IAJAX {
   public get<T>(): Promise<AJAXResponse<T>> {

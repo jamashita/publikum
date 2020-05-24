@@ -1,6 +1,6 @@
 import { JSObjectNotation } from '@publikum/type';
 
-import { AJAXResponse } from '../';
+import { AJAXResponse } from '../AJAXResponse';
 
 export interface IAJAX {
   get<T>(url: string): Promise<AJAXResponse<T>>;
