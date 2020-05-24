@@ -96,7 +96,8 @@
   "exclude": [
     "cjs",
     "esm",
-    "node_modules"
+    "node_modules",
+    "**/*.spec.ts"
   ],
   "compileOnSave": false
 }
