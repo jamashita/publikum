@@ -2,7 +2,8 @@ import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import utc from 'dayjs/plugin/utc';
 
-import { ValueObject } from '../Object';
+import { ValueObject } from '@publikum/object';
+
 import { ZeitError } from './Error/ZeitError';
 
 dayjs.extend(utc);
