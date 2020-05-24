@@ -1,6 +1,7 @@
-import { UnimplementedError } from '../../Error/UnimplementedError';
-import { MockNominative } from '../../Mock';
-import { JSObjectNotation, Primitive } from '../../Type';
+import { UnimplementedError } from '@publikum/error';
+import { MockNominative } from '@publikum/interface';
+import { JSObjectNotation, Primitive } from '@publikum/type';
+
 import { Entity } from '../Entity';
 
 export class MockEntity<T extends Primitive> extends Entity<MockNominative<T>> {

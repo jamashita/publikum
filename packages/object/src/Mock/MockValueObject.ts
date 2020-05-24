@@ -1,4 +1,5 @@
-import { UnimplementedError } from '../../Error/UnimplementedError';
+import { UnimplementedError } from '@publikum/error';
+
 import { ValueObject } from '../ValueObject';
 
 export class MockValueObject<T> extends ValueObject {
