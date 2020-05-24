@@ -8,8 +8,8 @@
       "@publikum/error": ["packages/error/src"],
       "@publikum/interface": ["packages/interface/src"],
       "@publikum/json": ["packages/json/src"],
-      "@publikum/mock": ["packages/mock/src"],
       "@publikum/object": ["packages/object/src"],
+      "@publikum/random": ["packages/random/src"],
       "@publikum/type": ["packages/type/src"],
       "@publikum/uuid": ["packages/uuid/src"],
     }

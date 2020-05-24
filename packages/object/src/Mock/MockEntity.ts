@@ -1,8 +1,8 @@
 import { UnimplementedError } from '@publikum/error';
-import { MockNominative } from '@publikum/interface';
 import { JSObjectNotation, Primitive } from '@publikum/type';
 
 import { Entity } from '../Entity';
+import { MockNominative } from './MockNominative';
 
 export class MockEntity<T extends Primitive> extends Entity<MockNominative<T>> {
   public readonly noun: 'MockEntity' = 'MockEntity';

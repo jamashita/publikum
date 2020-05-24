@@ -36,16 +36,17 @@
     "clean:esm": "rimraf esm",
     "test": "jest test --detectOpenHandles",
     "lint": "eslint --fix 'src/*.{ts,tsx}'",
-    "format": "prettier --write 'src/*.{ts,tsx}'"
+    "format": "prettier --write 'src/*.{ts,tsx}'",
+    "update": "ncu -u && yarn install && yarn upgrade"
   },
   "dependencies": {
     "@publikum/error": "1.0.0",
     "@publikum/interface": "1.0.0",
-    "@publikum/mock": "1.0.0",
     "@publikum/type": "1.0.0",
     "object-hash": "2.0.3"
   },
   "devDependencies": {
+    "npm-check-updates": "6.0.1",
     "@types/jest": "25.2.3",
     "@types/node": "14.0.5",
     "@types/sinon": "9.0.4",

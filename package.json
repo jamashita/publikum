@@ -37,12 +37,12 @@
     "test": "jest test --detectOpenHandles --coverage",
     "lint": "eslint --fix 'src/**/*.{ts,tsx}'",
     "format": "prettier --write 'src/**/*.{ts,tsx}'",
-    "update": "ncu -u && yarn install && yarn upgrade",
+    "update": "ncu -u && yarn install && yarn upgrade && lerna run --parallel update",
     "nope:prepare": "yarn build"
   },
   "dependencies": {
     "bcrypt": "4.0.1",
-    "chance": "1.1.5",
+    "chance": "1.1.6",
     "dayjs": "1.8.27",
     "ioredis": "4.17.1",
     "make-error-cause": "2.3.0",
