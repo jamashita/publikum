@@ -1,4 +1,4 @@
-import { DataSourceError } from '../../Error/DataSourceError';
+import { DataSourceError } from '@publikum/error';
 
 export class MySQLError extends DataSourceError {
   public readonly name: 'MySQLError' = 'MySQLError';

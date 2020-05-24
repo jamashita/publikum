@@ -1,5 +1,6 @@
-import { IConnection } from '../';
-import { UnimplementedError } from '../../Error/UnimplementedError';
+import { UnimplementedError } from '@publikum/error';
+
+import { IConnection } from '../Interface/IConnection';
 
 export class MockConnection implements IConnection {
   public execute<R>(): Promise<R> {

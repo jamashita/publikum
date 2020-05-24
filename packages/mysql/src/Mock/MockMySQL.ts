@@ -1,5 +1,6 @@
-import { IMySQL } from '../';
-import { UnimplementedError } from '../../Error/UnimplementedError';
+import { UnimplementedError } from '@publikum/error';
+
+import { IMySQL } from '../Interface/IMySQL';
 
 export class MockMySQL implements IMySQL {
   public transact<R>(): Promise<R> {
