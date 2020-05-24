@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    /* Module Resolution Options */
+    "baseUrl": ".",
+    /* Base directory to resolve non-absolute module names. */
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "cjs",
+    "esm",
+    "node_modules"
+  ]
+}
