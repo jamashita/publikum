@@ -1,0 +1,47 @@
+{
+  "name": "interface",
+  "version": "0.9.1",
+  "author": "jamashita <jamashita@arachnid.xyz>",
+  "license": "MIT",
+  "main": "./cjs/index.js",
+  "module": "./esm/index.js",
+  "types": "./esm/index.d.ts",
+  "type": "module",
+  "exports": {
+    "require": "./cjs/index.js",
+    "import": "./esm/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:jamashita/publikum.git"
+  },
+  "engines": {
+    "node": ">= 14.0.0",
+    "npm": "npm is not supported"
+  },
+  "private": true,
+  "sideEffects": false,
+  "engineStrict": true,
+  "files": [
+    "cjs",
+    "esm"
+  ],
+  "scripts": {
+    "start": "node ./cjs/index.js",
+    "build": "yarn clean && concurrently \"npm:build:*\"",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "clean": "concurrently \"npm:clean:*\"",
+    "clean:cjs": "rimraf cjs",
+    "clean:esm": "rimraf esm",
+    "test": "jest test --detectOpenHandles --coverage",
+    "lint": "eslint --fix './src/**/*.{ts,tsx}'",
+    "format": "prettier --write './src/**/*.{ts,tsx}'"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "lint-staged": "10.2.6",
+    "rimraf": "3.0.2",
+    "typescript": "3.9.3"
+  }
+}

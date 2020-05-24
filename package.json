@@ -1,6 +1,8 @@
 {
   "name": "publikum",
   "version": "0.9.1",
+  "author": "jamashita <jamashita@arachnid.xyz>",
+  "license": "MIT",
   "main": "./cjs/index.js",
   "module": "./esm/index.js",
   "types": "./esm/index.d.ts",
@@ -13,9 +15,17 @@
     "type": "git",
     "url": "git@gitlab.com:jamashita/publikum.git"
   },
-  "author": "jamashita <jamashita@arachnid.xyz>",
-  "license": "MIT",
+  "engines": {
+    "node": ">= 14.0.0",
+    "npm": "npm is not supported"
+  },
   "private": true,
+  "sideEffects": false,
+  "engineStrict": true,
+  "files": [
+    "cjs",
+    "esm"
+  ],
   "scripts": {
     "start": "node ./cjs/index.js",
     "build": "yarn clean && concurrently \"npm:build:*\"",
@@ -30,16 +40,6 @@
     "update": "ncu -u && yarn install && yarn upgrade",
     "prepare": "yarn build"
   },
-  "engines": {
-    "node": ">= 14.0.0",
-    "npm": "npm is not supported"
-  },
-  "sideEffects": false,
-  "engineStrict": true,
-  "files": [
-    "cjs",
-    "esm"
-  ],
   "dependencies": {
     "bcrypt": "4.0.1",
     "chance": "1.1.5",
@@ -79,5 +79,8 @@
     "sinon": "9.0.2",
     "ts-jest": "26.0.0",
     "typescript": "3.9.3"
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
