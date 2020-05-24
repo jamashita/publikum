@@ -1,0 +1,32 @@
+{
+  "name": "ajax",
+  "version": "0.9.1",
+  "author": "jamashita <jamashita@arachnid.xyz>",
+  "license": "MIT",
+  "main": "./cjs/index.js",
+  "module": "./esm/index.js",
+  "types": "./esm/index.d.ts",
+  "type": "module",
+  "exports": {
+    "require": "./cjs/index.js",
+    "import": "./esm/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:jamashita/publikum.git"
+  },
+  "engines": {
+    "node": ">= 14.0.0",
+    "npm": "npm is not supported"
+  },
+  "private": true,
+  "sideEffects": false,
+  "engineStrict": true,
+  "files": [
+    "cjs",
+    "esm"
+  ],
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  }
+}
