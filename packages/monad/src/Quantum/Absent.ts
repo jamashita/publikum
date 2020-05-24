@@ -1,5 +1,6 @@
 import { AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious } from '@publikum/type';
 
+import { Dead } from '../Superposition/Dead';
 import { Superposition } from '../Superposition/Superposition';
 import { QuantumError } from './Error/QuantumError';
 import { Quantum } from './Quantum';
