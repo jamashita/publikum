@@ -1,10 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    /* Module Resolution Options */
-    "baseUrl": ".",
-    /* Base directory to resolve non-absolute module names. */
-  },
+  "extends": "../../tsconfig.json",
   "include": [
     "src"
   ],
