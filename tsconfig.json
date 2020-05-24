@@ -4,6 +4,7 @@
     "paths": {
       "@publikum/ajax": ["packages/ajax/src"],
       "@publikum/cache": ["packages/cache/src"],
+      "@publikum/digest": ["packages/digest/src"],
       "@publikum/error": ["packages/error/src"],
       "@publikum/interface": ["packages/interface/src"],
       "@publikum/mock": ["packages/mock/src"],
