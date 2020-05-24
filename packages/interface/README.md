@@ -1,11 +1,3 @@
-# `Interface`
+# `Publikum/Interface`
 
-> TODO: description
-
-## Usage
-
-```
-const interface = require('Interface');
-
-// TODO: DEMONSTRATE API
-```
+Publikum (prononciation /puːblikʊm/) is a TypeScript library for me :))

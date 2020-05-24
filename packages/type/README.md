@@ -1,11 +1,3 @@
-# `Type`
+# `Publikum/Type`
 
-> TODO: description
-
-## Usage
-
-```
-const type = require('Type');
-
-// TODO: DEMONSTRATE API
-```
+Publikum (prononciation /puːblikʊm/) is a TypeScript library for me :))
