@@ -80,7 +80,9 @@
     "ts-jest": "26.0.0",
     "typescript": "3.9.3"
   },
-  "workspaces": [
-    "packages/*"
-  ]
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  }
 }
