@@ -1,4 +1,5 @@
-import { Ambiguous } from '../Type';
+import { Ambiguous } from '@publikum/type';
+
 import { CacheError } from './Error/CacheError';
 import { ICache } from './Interface/ICache';
 

@@ -38,6 +38,8 @@
     "format": "prettier --write 'src/**/*.{ts,tsx}'"
   },
   "dependencies": {
+    "@publikum/error": "1.0.0",
+    "@publikum/type": "1.0.0"
   },
   "devDependencies": {
     "@types/jest": "25.2.3",

@@ -5,11 +5,11 @@ describe('Cache', () => {
   describe('get', () => {
     it('normal case', () => {
       const cache: Cache = new Cache();
-      const identifier1: symbol = Symbol('test');
-      const identifier2: symbol = Symbol('test');
-      const identifier3: symbol = Symbol('test');
-      const identifier4: symbol = Symbol('test');
-      const identifier5: symbol = Symbol('test');
+      const identifier1: symbol = Symbol();
+      const identifier2: symbol = Symbol();
+      const identifier3: symbol = Symbol();
+      const identifier4: symbol = Symbol();
+      const identifier5: symbol = Symbol();
       const value1: number = 1;
       const value2: number = 0;
       const value3: number = 0.2;
@@ -30,7 +30,7 @@ describe('Cache', () => {
 
     it('only retains the last one', () => {
       const cache: Cache = new Cache();
-      const identifier1: symbol = Symbol('test');
+      const identifier1: symbol = Symbol();
       const value1: number = 1;
       const value2: number = 0;
 
@@ -42,7 +42,7 @@ describe('Cache', () => {
 
     it('throws CacheError when value is not set', () => {
       const cache: Cache = new Cache();
-      const identifier: symbol = Symbol('test');
+      const identifier: symbol = Symbol();
 
       expect(() => {
         cache.get<number>(identifier);

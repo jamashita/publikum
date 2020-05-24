@@ -1,9 +1,5 @@
-export * from './AJAX';
-export * from './Cache';
 export * from './Collection';
 export * from './Digest';
-export * from './Error';
-export * from './Interface';
 export * from './JSON';
 export * from './Mock';
 export * from './MySQL';
@@ -12,6 +8,5 @@ export * from './Quantum';
 export * from './Random';
 export * from './Redis';
 export * from './Superposition';
-export * from './Type';
 export * from './UUID';
 export * from './Zeit';
