@@ -1,4 +1,5 @@
-import { JSObjectNotation } from '../../Type/Value';
+import { JSObjectNotation } from '@publikum/type';
+
 import { JSONAError } from '../Error/JSONAError';
 import { JSONA } from '../JSONA';
 

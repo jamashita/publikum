@@ -1,5 +1,5 @@
-import { Reject, Resolve } from '../Type/Function';
-import { JSObjectNotation } from '../Type/Value';
+import { JSObjectNotation, Reject, Resolve } from '@publikum/type';
+
 import { JSONAError } from './Error/JSONAError';
 
 export class JSONA {

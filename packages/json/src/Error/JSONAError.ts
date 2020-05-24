@@ -1,4 +1,4 @@
-import { RuntimeError } from '../../Error/RuntimeError';
+import { RuntimeError } from '@publikum/error';
 
 export class JSONAError extends RuntimeError {
   public readonly name: 'JSONAError' = 'JSONAError';

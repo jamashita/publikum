@@ -7,6 +7,7 @@
       "@publikum/digest": ["packages/digest/src"],
       "@publikum/error": ["packages/error/src"],
       "@publikum/interface": ["packages/interface/src"],
+      "@publikum/json": ["packages/json/src"],
       "@publikum/mock": ["packages/mock/src"],
       "@publikum/object": ["packages/object/src"],
       "@publikum/type": ["packages/type/src"],
