@@ -1,4 +1,5 @@
-import { Ambiguous, Supplier } from '../Type';
+import { Ambiguous, Supplier } from '@publikum/type';
+
 import { Alive } from './Alive';
 import { Dead } from './Dead';
 import { Superposition } from './Superposition';

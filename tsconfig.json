@@ -8,6 +8,7 @@
       "@publikum/error": ["packages/error/src"],
       "@publikum/interface": ["packages/interface/src"],
       "@publikum/json": ["packages/json/src"],
+      "@publikum/monad": ["packages/monad/src"],
       "@publikum/mysql": ["packages/mysql/src"],
       "@publikum/object": ["packages/object/src"],
       "@publikum/random": ["packages/random/src"],

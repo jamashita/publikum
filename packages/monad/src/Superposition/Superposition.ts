@@ -1,5 +1,6 @@
+import { BiFunction } from '@publikum/type';
+
 import { Quantum } from '../Quantum/Quantum';
-import { BiFunction } from '../Type';
 import { Alive } from './Alive';
 import { Dead } from './Dead';
 

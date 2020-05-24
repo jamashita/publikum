@@ -1,8 +1,8 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { MockError } from '../../Mock';
-import { MySQLError } from '../../MySQL';
-import { Absent } from '../../Quantum/Absent';
+import { MockError } from '@publikum/object';
+
+import { QuantumError } from '../../Quantum/Error/QuantumError';
 import { Dead } from '../Dead';
 
 describe('Dead', () => {
@@ -105,7 +105,7 @@ describe('Dead', () => {
     it('does nothing', () => {
       const dead: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
 
-      expect(dead.transpose<MySQLError>()).toBe(dead);
+      expect(dead.transpose<QuantumError>()).toBe(dead);
     });
   });
 });

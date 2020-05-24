@@ -1,4 +1,5 @@
-import { Suspicious } from '../Type';
+import { Suspicious } from '@publikum/type';
+
 import { Absent } from './Absent';
 import { Present } from './Present';
 import { Quantum } from './Quantum';

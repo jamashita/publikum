@@ -1,6 +1,7 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { MockError } from '../../Mock';
+import { MockError } from '@publikum/object';
+
 import { Alive } from '../Alive';
 import { Dead } from '../Dead';
 import { Schrodinger } from '../Schrodinger';

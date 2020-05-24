@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { Alive } from '../../Superposition';
+import { Alive } from '../../Superposition/Alive';
 import { Absent } from '../Absent';
 import { Present } from '../Present';
 import { Quantum } from '../Quantum';
