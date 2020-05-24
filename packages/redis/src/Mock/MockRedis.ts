@@ -2,6 +2,7 @@ import IORedis from 'ioredis';
 
 import { UnimplementedError } from '@publikum/error';
 
+import { IRedis } from '../Interface/IRedis';
 import { IRedisHash } from '../Interface/IRedisHash';
 import { IRedisList } from '../Interface/IRedisList';
 import { IRedisSet } from '../Interface/IRedisSet';
