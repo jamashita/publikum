@@ -4,21 +4,7 @@
     "baseUrl": ".",
     /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     "paths": {
-      "@publikum/ajax": ["packages/ajax/src"],
-      "@publikum/cache": ["packages/cache/src"],
-      "@publikum/collection": ["packages/collection/src"],
-      "@publikum/digest": ["packages/digest/src"],
-      "@publikum/error": ["packages/error/src"],
-      "@publikum/interface": ["packages/interface/src"],
-      "@publikum/json": ["packages/json/src"],
-      "@publikum/monad": ["packages/monad/src"],
-      "@publikum/mysql": ["packages/mysql/src"],
-      "@publikum/object": ["packages/object/src"],
-      "@publikum/random": ["packages/random/src"],
-      "@publikum/redis": ["packages/redis/src"],
-      "@publikum/type": ["packages/type/src"],
-      "@publikum/uuid": ["packages/uuid/src"],
-      "@publikum/zeit": ["packages/zeit/src"]
+      "@publikum/*": ["packages/*/src"]
     }
     /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
   }
