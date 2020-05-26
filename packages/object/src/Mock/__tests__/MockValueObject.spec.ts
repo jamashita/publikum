@@ -1,9 +1,11 @@
 // eslint-disable @typescript-eslint/ban-types
-import Chance from 'chance';
+import crypto from 'crypto';
 
 import { MockValueObject } from '../MockValueObject';
 
-const chance: Chance.Chance = new Chance();
+const rand: () => string = (): string => {
+  return crypto.randomBytes(32).toString('base64').substring(0, 32);
+};
 
 describe('MockValueObject', () => {
   describe('hashCode', () => {
@@ -28,9 +30,7 @@ describe('MockValueObject', () => {
 
     it('string', () => {
       for (let i: number = 0; i < 1000; i++) {
-        const str: string = chance.string({
-          length: i
-        });
+        const str: string = rand();
 
         expect(new MockValueObject<string>(str).hashCode()).toBe(new MockValueObject<string>(str).hashCode());
       }

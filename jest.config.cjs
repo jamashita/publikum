@@ -2,7 +2,7 @@ module.exports = {
   verbose: true,
   bail: true,
   roots: [
-    'src'
+    'packages'
   ],
   testRegex: '/__tests__/.+\\.spec\\.tsx?$',
   testPathIgnorePatterns: [
