@@ -27,7 +27,6 @@
     "esm"
   ],
   "scripts": {
-    "start": "node cjs/index.js",
     "setup": "lerna bootstrap",
     "reset": "lerna clean",
     "build": "lerna run --parallel build",
@@ -35,7 +34,9 @@
     "test": "lerna run --parallel test",
     "lint": "lerna run --parallel lint",
     "format": "lerna run --parallel format",
-    "update": "ncu -u && yarn install && yarn upgrade && lerna run --parallel update",
+    "update": "ncu -u && yarn install && yarn upgrade && yarn update:package",
+    "update:package": "lerna run --parallel update",
+    "postinstall": "yarn setup",
     "nope:prepare": "yarn build"
   },
   "dependencies": {
