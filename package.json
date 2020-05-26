@@ -29,6 +29,7 @@
   "scripts": {
     "start": "node cjs/index.js",
     "setup": "lerna bootstrap",
+    "reset": "lerna clean",
     "build": "lerna run --parallel build",
     "clean": "lerna run --parallel clean",
     "test": "lerna run --parallel test",
