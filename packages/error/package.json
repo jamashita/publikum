@@ -36,10 +36,9 @@
     "test": "jest test --detectOpenHandles --passWithNoTests",
     "lint": "eslint --fix 'src/**/*.{ts,tsx}'",
     "format": "prettier --write 'src/**/*.{ts,tsx}'",
-    "update": "yarn update:upgrade && yarn update:install && yarn update:package",
+    "update": "yarn update:upgrade && yarn update:install",
     "update:upgrade": "ncu --upgrade --timeout 600000",
-    "update:install": "yarn install && yarn upgrade",
-    "update:package": "lerna run --parallel update"
+    "update:install": "yarn install"
   },
   "dependencies": {
     "make-error-cause": "2.3.0"
