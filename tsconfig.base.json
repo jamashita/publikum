@@ -89,9 +89,7 @@
     /* Disallow inconsistently-cased references to the same file. */
   },
   "exclude": [
-    "**/cjs",
-    "**/esm",
-    "**/node_modules"
+    "node_modules"
   ],
   "compileOnSave": false
 }
