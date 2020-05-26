@@ -20,7 +20,7 @@
     "esm"
   ],
   "scripts": {
-    "setup": "lerna bootstrap",
+    "setup": "lerna bootstrap && lerna link",
     "reset": "lerna clean",
     "build": "lerna run --parallel build",
     "clean": "lerna run --parallel clean",
