@@ -1,6 +1,6 @@
 {
   "name": "@publikum/mysql",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "cjs/index.js",
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@publikum/error": "1.1.1",
-    "@publikum/interface": "1.1.1",
+    "@publikum/interface": "^1.1.2",
     "@publikum/type": "1.1.1",
     "mysql": "2.18.1"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@publikum/zeit",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "cjs/index.js",
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@publikum/error": "1.1.1",
-    "@publikum/object": "1.1.1",
+    "@publikum/object": "^1.1.2",
     "dayjs": "1.8.27"
   },
   "devDependencies": {
