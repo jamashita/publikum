@@ -32,7 +32,8 @@
     "update:install": "yarn install && yarn upgrade",
     "update:package": "lerna run --parallel update",
     "postinstall": "yarn setup",
-    "prepare": "yarn build"
+    "prepare": "yarn build",
+    "versionup": "lerna version --conventional-commits"
   },
   "dependencies": {
     "bcrypt": "4.0.1",
