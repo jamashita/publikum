@@ -37,7 +37,6 @@
     "update:upgrade": "ncu --upgrade --timeout 600000",
     "update:install": "yarn install"
   },
-  "dependencies": {},
   "devDependencies": {
     "@types/node": "14.0.5",
     "lint-staged": "10.2.6",
