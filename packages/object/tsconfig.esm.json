@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     /* Basic Options */
     "module": "esnext",
@@ -13,5 +13,16 @@
   "exclude": [
     "cjs",
     "esm"
+  ],
+  "references": [
+    {
+      "path": "../error"
+    },
+    {
+      "path": "../interface"
+    },
+    {
+      "path": "../type"
+    }
   ]
 }

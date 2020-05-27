@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     /* Basic Options */
     "module": "commonjs",
@@ -13,5 +13,13 @@
   "exclude": [
     "cjs",
     "esm"
+  ],
+  "references": [
+    {
+      "path": "../error"
+    },
+    {
+      "path": "../type"
+    }
   ]
 }
