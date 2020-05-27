@@ -8,7 +8,7 @@
     /* Redirect output structure to the directory. */
   },
   "include": [
-    "src/**/*.ts"
+    "src"
   ],
   "exclude": [
     "cjs",
