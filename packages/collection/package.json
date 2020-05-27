@@ -38,10 +38,10 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@publikum/interface": "1.0.0",
-    "@publikum/monad": "1.0.0",
-    "@publikum/object": "1.0.0",
-    "@publikum/type": "1.0.0"
+    "@publikum/interface": "1.1.1",
+    "@publikum/monad": "1.1.1",
+    "@publikum/object": "1.1.1",
+    "@publikum/type": "1.1.1"
   },
   "devDependencies": {
     "@types/node": "14.0.5",
