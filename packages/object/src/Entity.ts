@@ -1,5 +1,5 @@
 import { Cloneable, JSONable, Nominative } from '@publikum/interface';
-import { JSObjectNotation } from '@publikum/type';
+import { ObjectLiteral } from '@publikum/type';
 
 import { Objet } from './Objet';
 
@@ -10,7 +10,7 @@ export abstract class Entity<T extends Nominative> extends Objet implements Clon
 
   public abstract duplicate(): Entity<T>;
 
-  public abstract toJSON(): JSObjectNotation;
+  public abstract toJSON(): ObjectLiteral;
 
   public abstract serialize(): string;
 

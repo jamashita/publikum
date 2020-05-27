@@ -1,5 +1,5 @@
-import { JSObjectNotation } from '@publikum/type';
+import { ObjectLiteral } from '@publikum/type';
 
 export interface ISQL {
-  execute<R>(sql: string, value?: JSObjectNotation): Promise<R>;
+  execute<R>(sql: string, value?: ObjectLiteral): Promise<R>;
 }

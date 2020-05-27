@@ -1,4 +1,4 @@
-import { JSObjectNotation, Resolve } from '@publikum/type';
+import { ObjectLiteral, Resolve } from '@publikum/type';
 import request from 'superagent';
 
 import { AJAXResponse } from './AJAXResponse';
@@ -14,7 +14,7 @@ export class AJAX implements IAJAX {
     });
   }
 
-  public post<T>(url: string, payload?: JSObjectNotation): Promise<AJAXResponse<T>> {
+  public post<T>(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>) => {
       request.post(url).send(payload)
         // eslint-disable-next-line handle-callback-err
@@ -24,7 +24,7 @@ export class AJAX implements IAJAX {
     });
   }
 
-  public put<T>(url: string, payload?: JSObjectNotation): Promise<AJAXResponse<T>> {
+  public put<T>(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>> {
     return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>) => {
       request.put(url).send(payload)
         // eslint-disable-next-line handle-callback-err

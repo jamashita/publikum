@@ -1,4 +1,4 @@
-import { JSObjectNotation, Nullable, Reject, Resolve } from '@publikum/type';
+import { Nullable, ObjectLiteral, Reject, Resolve } from '@publikum/type';
 import mysql from 'mysql';
 
 import { MySQLError } from './Error/MySQLError';
@@ -11,7 +11,7 @@ export class Connection implements IConnection {
     this.connection = connection;
   }
 
-  public execute<R>(sql: string, value?: JSObjectNotation): Promise<R> {
+  public execute<R>(sql: string, value?: ObjectLiteral): Promise<R> {
     return new Promise<R>((resolve: Resolve<R>, reject: Reject) => {
       this.connection.query(sql, value, (err: Nullable<mysql.MysqlError>, result: R) => {
         if (err !== null) {

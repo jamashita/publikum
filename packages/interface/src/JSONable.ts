@@ -1,5 +1,5 @@
-import { JSObjectNotation } from '@publikum/type';
+import { ObjectLiteral } from '@publikum/type';
 
 export interface JSONable {
-  toJSON(): JSObjectNotation;
+  toJSON(): ObjectLiteral;
 }

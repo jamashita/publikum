@@ -1,9 +1,9 @@
-import { JSObjectNotation, Reject, Resolve } from '@publikum/type';
+import { ObjectLiteral, Reject, Resolve } from '@publikum/type';
 
 import { JSONAError } from './Error/JSONAError';
 
 export class JSONA {
-  public static parse<T extends JSObjectNotation>(text: string): Promise<T> {
+  public static parse<T extends ObjectLiteral>(text: string): Promise<T> {
     return new Promise<T>((resolve: Resolve<T>, reject: Reject) => {
       setTimeout(() => {
         // prettier-ignore
@@ -17,7 +17,7 @@ export class JSONA {
     });
   }
 
-  public static stringify(value: JSObjectNotation): Promise<string> {
+  public static stringify(value: ObjectLiteral): Promise<string> {
     return new Promise<string>((resolve: Resolve<string>, reject: Reject) => {
       setTimeout(() => {
         // prettier-ignore
