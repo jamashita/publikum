@@ -6,7 +6,9 @@ module.exports = {
   ],
   testRegex: '/__tests__/.+\\.spec\\.tsx?$',
   testPathIgnorePatterns: [
-    '/node_modules/'
+    '/node_modules/',
+    'cjs',
+    'esm'
   ],
   collectCoverage: true,
   coveragePathIgnorePatterns: [

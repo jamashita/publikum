@@ -1,10 +1,13 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
+    "noEmit": true,
+    /* Do not emit outputs. */
+
     "baseUrl": ".",
     /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     "paths": {
-      "@publikum/*": ["packages/*/src"]
+      "@publikum/*": ["packages/*/src/index"]
     }
     /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
   }
