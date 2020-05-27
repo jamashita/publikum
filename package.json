@@ -24,7 +24,7 @@
     "reset": "lerna clean",
     "build": "lerna run --parallel build",
     "clean": "lerna run --parallel clean",
-    "test": "lerna run --parallel test",
+    "test": "jest test --detectOpenHandles --passWithNoTests",
     "lint": "lerna run --parallel lint",
     "format": "lerna run --parallel format",
     "update": "yarn update:upgrade && yarn update:install && yarn update:package",

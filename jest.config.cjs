@@ -18,13 +18,19 @@ module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest'
   },
+  'globals': {
+    'ts-jest': {
+      'tsConfig': 'tsconfig.jest.json'
+    }
+  },
+  'moduleNameMapper': {
+    '@publikum/(.*)$': '<rootDir>/packages/$1/src'
+  },
   moduleFileExtensions: [
     'js',
     'jsx',
     'ts',
-    'tsx',
-    'json',
-    'node'
+    'tsx'
   ],
   testURL: 'http://localhost'
 };

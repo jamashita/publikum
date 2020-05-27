@@ -89,10 +89,14 @@
     "forceConsistentCasingInFileNames": true
     /* Disallow inconsistently-cased references to the same file. */
   },
+  "include": [
+    "packages/*/src"
+  ],
   "exclude": [
-    "cjs",
-    "esm",
-    "node_modules"
+    "**/node_modules",
+    "**/cjs",
+    "**/esm",
+    "**/__tests__"
   ],
   "compileOnSave": false
 }
