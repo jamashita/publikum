@@ -8,7 +8,7 @@
     /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
 
     /* Module Resolution Options */
-    "baseUrl": "src"
+    "baseUrl": "."
     /* Base directory to resolve non-absolute module names. */
   },
   "include": [
