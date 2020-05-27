@@ -33,7 +33,7 @@
     "update:package": "lerna run --parallel update",
     "postinstall": "yarn setup",
     "prepare": "yarn build",
-    "versionup": "lerna version --conventional-commits"
+    "versionup": "lerna version --conventional-commits --conventional-graduate"
   },
   "dependencies": {
     "bcrypt": "4.0.1",
