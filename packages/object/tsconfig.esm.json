@@ -13,16 +13,5 @@
   "exclude": [
     "cjs",
     "esm"
-  ],
-  "references": [
-    {
-      "path": "../error"
-    },
-    {
-      "path": "../interface"
-    },
-    {
-      "path": "../type"
-    }
   ]
 }

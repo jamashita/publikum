@@ -13,19 +13,5 @@
   },
   "include": [
     "src"
-  ],
-  "references": [
-    {
-      "path": "../interface"
-    },
-    {
-      "path": "../monad"
-    },
-    {
-      "path": "../object"
-    },
-    {
-      "path": "../type"
-    }
   ]
 }
