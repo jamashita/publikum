@@ -1,10 +1,31 @@
 {
   "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig.json to read more about this file */
+
+    /* Generates corresponding '.map' file. */
+    "rootDir": "src",
+    /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+
+    /* Module Resolution Options */
+    "baseUrl": "src"
+    /* Base directory to resolve non-absolute module names. */
+  },
   "include": [
     "src"
   ],
-  "exclude": [
-    "cjs",
-    "esm"
+  "references": [
+    {
+      "path": "../error"
+    },
+    {
+      "path": "../interface"
+    },
+    {
+      "path": "../type"
+    },
+    {
+      "path": "../object"
+    }
   ]
 }
