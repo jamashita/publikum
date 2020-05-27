@@ -95,8 +95,7 @@
   "exclude": [
     "**/node_modules",
     "**/cjs",
-    "**/esm",
-    "**/__tests__"
+    "**/esm"
   ],
   "compileOnSave": false
 }

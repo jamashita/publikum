@@ -7,7 +7,9 @@
     "baseUrl": ".",
     /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     "paths": {
-      "@publikum/*": ["packages/*/src/index"]
+      "@publikum/*": [
+        "packages/*/src"
+      ]
     }
     /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
   },
