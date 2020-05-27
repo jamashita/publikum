@@ -1,6 +1,5 @@
-import mysql from 'mysql';
-
 import { JSObjectNotation, Nullable, Reject, Resolve } from '@publikum/type';
+import mysql from 'mysql';
 
 import { Connection } from './Connection';
 import { MySQLError } from './Error/MySQLError';

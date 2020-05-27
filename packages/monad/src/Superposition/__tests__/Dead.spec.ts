@@ -1,6 +1,5 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { MockError } from '@publikum/object';
+import sinon, { SinonSpy } from 'sinon';
 
 import { Absent } from '../../Quantum/Absent';
 import { QuantumError } from '../../Quantum/Error/QuantumError';

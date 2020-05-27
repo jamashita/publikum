@@ -1,6 +1,5 @@
-import IORedis from 'ioredis';
-
 import { Nullable } from '@publikum/type';
+import IORedis from 'ioredis';
 
 import { RedisError } from './Error/RedisError';
 import { IRedisSet } from './Interface/IRedisSet';

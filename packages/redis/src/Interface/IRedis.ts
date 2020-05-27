@@ -1,6 +1,5 @@
-import IORedis from 'ioredis';
-
 import { BiFunction } from '@publikum/type';
+import IORedis from 'ioredis';
 
 import { IRedisHash } from './IRedisHash';
 import { IRedisList } from './IRedisList';
