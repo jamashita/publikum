@@ -1,6 +1,6 @@
 {
   "name": "@publikum/digest",
-  "version": "1.1.1",
+  "version": "1.1.3",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "cjs/index.js",
