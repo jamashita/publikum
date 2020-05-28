@@ -1,6 +1,6 @@
 {
   "name": "publikum",
-  "version": "1.1.1",
+  "version": "1.1.3",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "type": "module",
@@ -12,7 +12,7 @@
     "node": ">= 14.0.0",
     "npm": "npm is not supported"
   },
-  "private": true,
+  "private": false,
   "sideEffects": false,
   "engineStrict": true,
   "files": [
@@ -33,7 +33,8 @@
     "update:package": "lerna run --parallel update",
     "postinstall": "yarn setup",
     "prepare": "yarn build",
-    "versionup": "lerna version --conventional-commits --conventional-graduate"
+    "versionup": "lerna version --conventional-commits --conventional-graduate",
+    "registry": "lerna publish --registry http://localhost:4873"
   },
   "dependencies": {
     "bcrypt": "4.0.1",
