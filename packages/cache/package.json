@@ -1,6 +1,6 @@
 {
   "name": "@publikum/cache",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "cjs/index.js",
@@ -38,8 +38,8 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@publikum/error": "^1.1.5",
-    "@publikum/type": "^1.1.5"
+    "@publikum/error": "^1.1.6",
+    "@publikum/type": "^1.1.6"
   },
   "devDependencies": {
     "@types/node": "14.0.5",
@@ -48,5 +48,5 @@
     "rimraf": "3.0.2",
     "typescript": "3.9.3"
   },
-  "gitHead": "c88976faacde850a4ef0fe312f6a1cd71fe2edba"
+  "gitHead": "3580c39f3cb07eb8cfffe33b5b4be2953028f095"
 }
