@@ -18,7 +18,7 @@ module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest'
   },
-  'moduleNameMapper': {
+  moduleNameMapper: {
     '@publikum/(.*)$': '<rootDir>/packages/$1/src/index'
   },
   moduleFileExtensions: [
