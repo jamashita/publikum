@@ -1,6 +1,6 @@
 {
   "name": "@publikum/object",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "cjs/index.js",
@@ -38,9 +38,9 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@publikum/error": "^1.1.4",
-    "@publikum/interface": "^1.1.4",
-    "@publikum/type": "^1.1.4",
+    "@publikum/error": "^1.1.5",
+    "@publikum/interface": "^1.1.5",
+    "@publikum/type": "^1.1.5",
     "object-hash": "2.0.3"
   },
   "devDependencies": {
@@ -49,5 +49,6 @@
     "npm-check-updates": "6.0.1",
     "rimraf": "3.0.2",
     "typescript": "3.9.3"
-  }
+  },
+  "gitHead": "c88976faacde850a4ef0fe312f6a1cd71fe2edba"
 }
