@@ -1,6 +1,6 @@
 {
   "name": "@publikum/collection",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "author": "jamashita <jaashita@arachnid.xyz>",
   "license": "MIT",
   "main": "dist/cjs/index.js",
@@ -35,10 +35,10 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@publikum/interface": "^1.1.7",
-    "@publikum/monad": "^1.1.7",
-    "@publikum/object": "^1.1.7",
-    "@publikum/type": "^1.1.7"
+    "@publikum/interface": "^1.1.8",
+    "@publikum/monad": "^1.1.8",
+    "@publikum/object": "^1.1.8",
+    "@publikum/type": "^1.1.8"
   },
   "devDependencies": {
     "@types/node": "14.0.5",

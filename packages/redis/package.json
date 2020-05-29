@@ -1,6 +1,6 @@
 {
   "name": "@publikum/redis",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "dist/cjs/index.js",
@@ -35,8 +35,8 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@publikum/error": "^1.1.7",
-    "@publikum/type": "^1.1.7",
+    "@publikum/error": "^1.1.8",
+    "@publikum/type": "^1.1.8",
     "ioredis": "4.17.1"
   },
   "devDependencies": {

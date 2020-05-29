@@ -1,6 +1,6 @@
 {
   "name": "@publikum/ajax",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "dist/cjs/index.js",
@@ -35,8 +35,8 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@publikum/error": "^1.1.7",
-    "@publikum/type": "^1.1.7",
+    "@publikum/error": "^1.1.8",
+    "@publikum/type": "^1.1.8",
     "superagent": "5.2.2"
   },
   "devDependencies": {
