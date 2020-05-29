@@ -55,7 +55,7 @@
     "baseUrl": ".",
     /* Base directory to resolve non-absolute module names. */
     "paths": {
-      "@jamashita/publikum/*": [
+      "@jamashita/publikum-*": [
         "packages/*/src/index"
       ]
     },
