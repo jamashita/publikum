@@ -3,3 +3,4 @@
 **/esm
 **/coverage
 *.js
+*.cjs
