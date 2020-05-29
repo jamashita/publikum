@@ -33,7 +33,7 @@
     "postinstall": "yarn setup",
     "prepare": "yarn build",
     "versionup": "lerna version --conventional-commits --conventional-graduate",
-    "registry": "lerna publish --registry http://localhost:4873"
+    "register": "lerna publish --registry http://localhost:4873"
   },
   "dependencies": {
     "bcrypt": "4.0.1",
