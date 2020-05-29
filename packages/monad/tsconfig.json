@@ -1,8 +1,22 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    /* Basic Options */
-    "rootDir": "src"
-    /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
-  }
+  },
+  "include": [
+    "src"
+  ],
+  "references": [
+    {
+      "path": "../error"
+    },
+    {
+      "path": "../interface"
+    },
+    {
+      "path": "../type"
+    },
+    {
+      "path": "../object"
+    }
+  ]
 }
