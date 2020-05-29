@@ -1,6 +1,6 @@
 {
   "name": "@publikum/interface",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "dist/cjs/index.js",
@@ -35,7 +35,7 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@publikum/type": "^1.1.8"
+    "@publikum/type": "^1.1.9"
   },
   "devDependencies": {
     "@types/node": "14.0.5",

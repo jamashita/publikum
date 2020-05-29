@@ -1,6 +1,6 @@
 {
   "name": "@publikum/uuid",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "dist/cjs/index.js",
@@ -35,8 +35,8 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@publikum/error": "^1.1.8",
-    "@publikum/object": "^1.1.8",
+    "@publikum/error": "^1.1.9",
+    "@publikum/object": "^1.1.9",
     "chance": "1.1.6"
   },
   "devDependencies": {
