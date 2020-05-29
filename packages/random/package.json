@@ -1,6 +1,6 @@
 {
   "name": "@publikum/random",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "dist/cjs/index.js",
@@ -45,5 +45,8 @@
     "rimraf": "3.0.2",
     "typescript": "3.9.3"
   },
-  "gitHead": "af6e6e14d9918adaf0f917239103aa0f5d1209eb"
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "e14ae5b8526a5325759bc7b4feb0977cb059e139"
 }
