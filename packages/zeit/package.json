@@ -35,8 +35,8 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@jamashita/publikum/error": "^1.1.13",
-    "@jamashita/publikum/object": "^1.1.13",
+    "@jamashita/publikum-error": "^1.1.13",
+    "@jamashita/publikum-object": "^1.1.13",
     "dayjs": "1.8.28"
   },
   "devDependencies": {

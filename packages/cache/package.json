@@ -35,8 +35,8 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@jamashita/publikum/error": "^1.1.13",
-    "@jamashita/publikum/type": "^1.1.13"
+    "@jamashita/publikum-error": "^1.1.13",
+    "@jamashita/publikum-type": "^1.1.13"
   },
   "devDependencies": {
     "@types/node": "14.0.5",
