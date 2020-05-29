@@ -35,8 +35,8 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@publikum/error": "^1.1.6",
-    "@publikum/object": "^1.1.6",
+    "@publikum/error": "1.1.6",
+    "@publikum/object": "1.1.6",
     "dayjs": "1.8.27"
   },
   "devDependencies": {

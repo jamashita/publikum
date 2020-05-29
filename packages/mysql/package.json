@@ -35,9 +35,9 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@publikum/error": "^1.1.6",
-    "@publikum/interface": "^1.1.6",
-    "@publikum/type": "^1.1.6",
+    "@publikum/error": "1.1.6",
+    "@publikum/interface": "1.1.6",
+    "@publikum/type": "1.1.6",
     "mysql": "2.18.1"
   },
   "devDependencies": {

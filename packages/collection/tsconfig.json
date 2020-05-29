@@ -8,10 +8,16 @@
   ],
   "references": [
     {
-      "path": "../error"
+      "path": "../interface"
+    },
+    {
+      "path": "../monad"
     },
     {
       "path": "../object"
+    },
+    {
+      "path": "../type"
     }
   ]
 }

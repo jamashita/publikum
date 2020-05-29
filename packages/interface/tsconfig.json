@@ -8,10 +8,7 @@
   ],
   "references": [
     {
-      "path": "../error"
-    },
-    {
-      "path": "../object"
+      "path": "../type"
     }
   ]
 }
