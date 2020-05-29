@@ -1,5 +1,5 @@
-import { Absent, Quantum } from '@jamashita/publikum/monad';
-import { MockNominative } from '@jamashita/publikum/object';
+import { Absent, Quantum } from '@jamashita/publikum-monad';
+import { MockNominative } from '@jamashita/publikum-object';
 
 import { MockASequence } from '../Mock/MockASequence';
 

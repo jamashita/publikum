@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { MockError } from '@jamashita/publikum/object';
+import { MockError } from '@jamashita/publikum-object';
 
 import { QuantumError } from '../../Quantum/Error/QuantumError';
 import { Present } from '../../Quantum/Present';

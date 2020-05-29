@@ -1,5 +1,5 @@
-import { Nominative } from '@jamashita/publikum/interface';
-import { Enumerator, Mapper } from '@jamashita/publikum/type';
+import { Nominative } from '@jamashita/publikum-interface';
+import { Enumerator, Mapper } from '@jamashita/publikum-type';
 
 import { ASequence } from './Abstract/ASequence';
 import { Sequence } from './Interface/Sequence';

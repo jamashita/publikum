@@ -1,4 +1,4 @@
-import { Suspicious } from '@jamashita/publikum/type';
+import { Suspicious } from '@jamashita/publikum-type';
 
 import { Absent } from './Absent';
 import { Present } from './Present';

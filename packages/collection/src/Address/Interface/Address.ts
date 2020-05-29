@@ -1,6 +1,6 @@
-import { Cloneable, Nominative } from '@jamashita/publikum/interface';
-import { Quantum } from '@jamashita/publikum/monad';
-import { Enumerator, Predicate } from '@jamashita/publikum/type';
+import { Cloneable, Nominative } from '@jamashita/publikum-interface';
+import { Quantum } from '@jamashita/publikum-monad';
+import { Enumerator, Predicate } from '@jamashita/publikum-type';
 
 import { Collection } from '../../Interface/Collection';
 

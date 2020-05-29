@@ -1,4 +1,4 @@
-import { Nominative } from '@jamashita/publikum/interface';
+import { Nominative } from '@jamashita/publikum-interface';
 
 import { AAddress } from './Abstract/AAddress';
 import { Address } from './Interface/Address';

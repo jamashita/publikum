@@ -1,4 +1,4 @@
-import { BiFunction } from '@jamashita/publikum/type';
+import { BiFunction } from '@jamashita/publikum-type';
 
 import { Present } from '../Quantum/Present';
 import { Quantum } from '../Quantum/Quantum';

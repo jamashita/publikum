@@ -1,4 +1,4 @@
-import { MockNominative } from '@jamashita/publikum/object';
+import { MockNominative } from '@jamashita/publikum-object';
 
 import { ImmutableSequence } from '../ImmutableSequence';
 

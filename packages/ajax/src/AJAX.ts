@@ -1,6 +1,6 @@
 import request from 'superagent';
 
-import { ObjectLiteral, Resolve } from '@jamashita/publikum/type';
+import { ObjectLiteral, Resolve } from '@jamashita/publikum-type';
 
 import { AJAXResponse } from './AJAXResponse';
 import { IAJAX } from './Interface/IAJAX';

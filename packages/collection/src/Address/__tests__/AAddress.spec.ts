@@ -1,6 +1,6 @@
-import { Absent, Quantum } from '@jamashita/publikum/monad';
-import { MockNominative } from '@jamashita/publikum/object';
-import { Predicate } from '@jamashita/publikum/type';
+import { Absent, Quantum } from '@jamashita/publikum-monad';
+import { MockNominative } from '@jamashita/publikum-object';
+import { Predicate } from '@jamashita/publikum-type';
 
 import { MockAAddress } from '../Mock/MockAAddress';
 

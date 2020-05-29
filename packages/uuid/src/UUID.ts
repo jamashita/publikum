@@ -1,6 +1,6 @@
 import Chance from 'chance';
 
-import { ValueObject } from '@jamashita/publikum/object';
+import { ValueObject } from '@jamashita/publikum-object';
 
 import { UUIDError } from './Error/UUIDError';
 

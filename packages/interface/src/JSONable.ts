@@ -1,4 +1,4 @@
-import { ObjectLiteral } from '@jamashita/publikum/type';
+import { ObjectLiteral } from '@jamashita/publikum-type';
 
 export interface JSONable {
   toJSON(): ObjectLiteral;

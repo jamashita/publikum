@@ -1,6 +1,6 @@
 import IORedis from 'ioredis';
 
-import { Nullable } from '@jamashita/publikum/type';
+import { Nullable } from '@jamashita/publikum-type';
 
 import { RedisError } from './Error/RedisError';
 import { IRedisSet } from './Interface/IRedisSet';

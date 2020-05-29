@@ -1,4 +1,4 @@
-import { UnimplementedError } from '@jamashita/publikum/error';
+import { UnimplementedError } from '@jamashita/publikum-error';
 
 import { ICache } from '../Interface/ICache';
 

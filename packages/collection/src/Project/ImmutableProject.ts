@@ -1,4 +1,4 @@
-import { Nominative } from '@jamashita/publikum/interface';
+import { Nominative } from '@jamashita/publikum-interface';
 
 import { AProject } from './Abstract/AProject';
 import { Project } from './Interface/Project';

@@ -1,4 +1,4 @@
-import { UnimplementedError } from '@jamashita/publikum/error';
+import { UnimplementedError } from '@jamashita/publikum-error';
 
 import { ValueObject } from '../ValueObject';
 

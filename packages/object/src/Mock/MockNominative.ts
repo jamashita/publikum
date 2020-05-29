@@ -1,4 +1,4 @@
-import { Primitive } from '@jamashita/publikum/type';
+import { Primitive } from '@jamashita/publikum-type';
 
 import { ValueObject } from '../ValueObject';
 
