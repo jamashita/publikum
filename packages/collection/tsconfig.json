@@ -1,22 +1,17 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "rootDir": "src"
   },
   "include": [
     "src/**/*"
   ],
   "references": [
     {
-      "path": "../interface"
-    },
-    {
-      "path": "../monad"
+      "path": "../error"
     },
     {
       "path": "../object"
-    },
-    {
-      "path": "../type"
     }
   ]
 }

@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "rootDir": "src"
   },
   "include": [
     "src/**/*"
@@ -8,12 +9,6 @@
   "references": [
     {
       "path": "../error"
-    },
-    {
-      "path": "../interface"
-    },
-    {
-      "path": "../type"
     },
     {
       "path": "../object"
