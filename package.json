@@ -12,7 +12,7 @@
     "node": ">= 14.0.0",
     "npm": "npm is not supported"
   },
-  "private": false,
+  "private": true,
   "sideEffects": false,
   "engineStrict": true,
   "files": [
