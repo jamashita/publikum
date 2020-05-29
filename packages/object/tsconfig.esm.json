@@ -8,5 +8,16 @@
     /* Redirect output structure to the directory. */
     "tsBuildInfoFile": "dist/esm/.tsbuildinfo",
     /* Specify file to store incremental compilation information */
-  }
+  },
+  "references": [
+    {
+      "path": "../error/tsconfig.esm.json"
+    },
+    {
+      "path": "../interface/tsconfig.esm.json"
+    },
+    {
+      "path": "../type/tsconfig.esm.json"
+    }
+  ]
 }

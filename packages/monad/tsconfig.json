@@ -5,19 +5,5 @@
   },
   "include": [
     "src"
-  ],
-  "references": [
-    {
-      "path": "../error"
-    },
-    {
-      "path": "../interface"
-    },
-    {
-      "path": "../object"
-    },
-    {
-      "path": "../type"
-    }
   ]
 }
