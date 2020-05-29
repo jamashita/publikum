@@ -23,8 +23,7 @@
   "sideEffects": false,
   "engineStrict": true,
   "files": [
-    "cjs",
-    "esm"
+    "dist"
   ],
   "scripts": {
     "build": "yarn clean && concurrently \"npm:build:*\"",

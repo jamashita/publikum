@@ -16,8 +16,7 @@
   "sideEffects": false,
   "engineStrict": true,
   "files": [
-    "cjs",
-    "esm"
+    "dist"
   ],
   "scripts": {
     "setup": "lerna bootstrap && lerna link",
