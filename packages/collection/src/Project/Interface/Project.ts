@@ -1,5 +1,5 @@
-import { Cloneable, Nominative } from '@publikum/interface';
-import { BiPredicate, Enumerator } from '@publikum/type';
+import { Cloneable, Nominative } from '@jamashita/publikum/interface';
+import { BiPredicate, Enumerator } from '@jamashita/publikum/type';
 
 import { Collection } from '../../Interface/Collection';
 

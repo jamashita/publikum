@@ -1,7 +1,7 @@
-import { Nominative } from '@publikum/interface';
-import { Absent, Present, Quantum } from '@publikum/monad';
-import { Objet } from '@publikum/object';
-import { Ambiguous, Enumerator, Predicate } from '@publikum/type';
+import { Nominative } from '@jamashita/publikum/interface';
+import { Absent, Present, Quantum } from '@jamashita/publikum/monad';
+import { Objet } from '@jamashita/publikum/object';
+import { Ambiguous, Enumerator, Predicate } from '@jamashita/publikum/type';
 
 import { Address } from '../Interface/Address';
 

@@ -1,5 +1,5 @@
-import { UnimplementedError } from '@publikum/error';
-import { Nominative } from '@publikum/interface';
+import { UnimplementedError } from '@jamashita/publikum/error';
+import { Nominative } from '@jamashita/publikum/interface';
 
 import { ASequence } from '../Abstract/ASequence';
 import { ImmutableSequence } from '../ImmutableSequence';

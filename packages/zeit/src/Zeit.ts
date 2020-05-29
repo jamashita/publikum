@@ -1,7 +1,8 @@
-import { ValueObject } from '@publikum/object';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import utc from 'dayjs/plugin/utc';
+
+import { ValueObject } from '@jamashita/publikum/object';
 
 import { ZeitError } from './Error/ZeitError';
 

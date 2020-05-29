@@ -1,4 +1,4 @@
-import { Noun } from '@publikum/interface';
+import { Noun } from '@jamashita/publikum/interface';
 
 import { ISQL } from './ISQL';
 

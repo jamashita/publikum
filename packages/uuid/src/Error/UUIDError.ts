@@ -1,4 +1,4 @@
-import { RuntimeError } from '@publikum/error';
+import { RuntimeError } from '@jamashita/publikum/error';
 
 export class UUIDError extends RuntimeError {
   public readonly name: 'UUIDError' = 'UUIDError';

@@ -1,5 +1,5 @@
 {
-  "name": "@publikum/random",
+  "name": "@jamashita/publikum/random",
   "version": "1.1.13",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
@@ -48,5 +48,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "e14ae5b8526a5325759bc7b4feb0977cb059e139"
+  "gitHead": "a9c983273914e891c55d11fe675b90328e043796"
 }

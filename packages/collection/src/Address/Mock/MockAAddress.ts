@@ -1,5 +1,5 @@
-import { UnimplementedError } from '@publikum/error';
-import { Nominative } from '@publikum/interface';
+import { UnimplementedError } from '@jamashita/publikum/error';
+import { Nominative } from '@jamashita/publikum/interface';
 
 import { AAddress } from '../Abstract/AAddress';
 import { Address } from '../Interface/Address';

@@ -1,4 +1,4 @@
-import { UnimplementedError } from '@publikum/error';
+import { UnimplementedError } from '@jamashita/publikum/error';
 
 import { IConnection } from '../Interface/IConnection';
 

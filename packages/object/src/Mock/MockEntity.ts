@@ -1,5 +1,5 @@
-import { UnimplementedError } from '@publikum/error';
-import { ObjectLiteral, Primitive } from '@publikum/type';
+import { UnimplementedError } from '@jamashita/publikum/error';
+import { ObjectLiteral, Primitive } from '@jamashita/publikum/type';
 
 import { Entity } from '../Entity';
 import { MockNominative } from './MockNominative';

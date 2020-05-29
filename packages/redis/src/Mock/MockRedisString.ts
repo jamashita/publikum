@@ -1,5 +1,5 @@
-import { UnimplementedError } from '@publikum/error';
-import { Nullable } from '@publikum/type';
+import { UnimplementedError } from '@jamashita/publikum/error';
+import { Nullable } from '@jamashita/publikum/type';
 
 import { IRedisString } from '../Interface/IRedisString';
 

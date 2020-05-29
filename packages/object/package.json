@@ -1,5 +1,5 @@
 {
-  "name": "@publikum/object",
+  "name": "@jamashita/publikum/object",
   "version": "1.1.13",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
@@ -35,9 +35,9 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@publikum/error": "^1.1.13",
-    "@publikum/interface": "^1.1.13",
-    "@publikum/type": "^1.1.13",
+    "@jamashita/publikum/error": "^1.1.13",
+    "@jamashita/publikum/interface": "^1.1.13",
+    "@jamashita/publikum/type": "^1.1.13",
     "object-hash": "2.0.3"
   },
   "devDependencies": {
@@ -50,5 +50,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "e14ae5b8526a5325759bc7b4feb0977cb059e139"
+  "gitHead": "a9c983273914e891c55d11fe675b90328e043796"
 }

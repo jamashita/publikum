@@ -1,5 +1,5 @@
 {
-  "name": "@publikum/zeit",
+  "name": "@jamashita/publikum/zeit",
   "version": "1.1.13",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
@@ -35,8 +35,8 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@publikum/error": "^1.1.13",
-    "@publikum/object": "^1.1.13",
+    "@jamashita/publikum/error": "^1.1.13",
+    "@jamashita/publikum/object": "^1.1.13",
     "dayjs": "1.8.28"
   },
   "devDependencies": {
@@ -49,5 +49,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "e14ae5b8526a5325759bc7b4feb0977cb059e139"
+  "gitHead": "a9c983273914e891c55d11fe675b90328e043796"
 }

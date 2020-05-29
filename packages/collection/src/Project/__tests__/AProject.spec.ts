@@ -1,6 +1,6 @@
-import { Absent } from '@publikum/monad';
-import { MockNominative } from '@publikum/object';
-import { BiPredicate } from '@publikum/type';
+import { Absent } from '@jamashita/publikum/monad';
+import { MockNominative } from '@jamashita/publikum/object';
+import { BiPredicate } from '@jamashita/publikum/type';
 
 import { MockAProject } from '../Mock/MockAProject';
 

@@ -1,5 +1,6 @@
-import { MockError } from '@publikum/object';
 import sinon, { SinonSpy } from 'sinon';
+
+import { MockError } from '@jamashita/publikum/object';
 
 import { Alive } from '../Alive';
 import { Dead } from '../Dead';

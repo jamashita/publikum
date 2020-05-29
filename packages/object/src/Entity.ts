@@ -1,5 +1,5 @@
-import { Cloneable, JSONable, Nominative } from '@publikum/interface';
-import { ObjectLiteral } from '@publikum/type';
+import { Cloneable, JSONable, Nominative } from '@jamashita/publikum/interface';
+import { ObjectLiteral } from '@jamashita/publikum/type';
 
 import { Objet } from './Objet';
 

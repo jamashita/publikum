@@ -1,4 +1,4 @@
-import { ObjectLiteral } from '@publikum/type';
+import { ObjectLiteral } from '@jamashita/publikum/type';
 
 import { JSONAError } from '../Error/JSONAError';
 import { JSONA } from '../JSONA';

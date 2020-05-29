@@ -1,5 +1,5 @@
 {
-  "name": "@publikum/redis",
+  "name": "@jamashita/publikum/redis",
   "version": "1.1.13",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
@@ -35,8 +35,8 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@publikum/error": "^1.1.13",
-    "@publikum/type": "^1.1.13",
+    "@jamashita/publikum/error": "^1.1.13",
+    "@jamashita/publikum/type": "^1.1.13",
     "ioredis": "4.17.1"
   },
   "devDependencies": {
@@ -50,5 +50,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "e14ae5b8526a5325759bc7b4feb0977cb059e139"
+  "gitHead": "a9c983273914e891c55d11fe675b90328e043796"
 }

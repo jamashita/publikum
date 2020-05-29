@@ -1,5 +1,6 @@
-import { UnimplementedError } from '@publikum/error';
 import IORedis from 'ioredis';
+
+import { UnimplementedError } from '@jamashita/publikum/error';
 
 import { IRedis } from '../Interface/IRedis';
 import { IRedisHash } from '../Interface/IRedisHash';

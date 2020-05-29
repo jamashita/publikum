@@ -1,7 +1,7 @@
-import { Nominative } from '@publikum/interface';
-import { Absent, Present, Quantum } from '@publikum/monad';
-import { Objet } from '@publikum/object';
-import { Ambiguous, BiPredicate, Enumerator, Mapper, Predicate } from '@publikum/type';
+import { Nominative } from '@jamashita/publikum/interface';
+import { Absent, Present, Quantum } from '@jamashita/publikum/monad';
+import { Objet } from '@jamashita/publikum/object';
+import { Ambiguous, BiPredicate, Enumerator, Mapper, Predicate } from '@jamashita/publikum/type';
 
 import { ImmutableSequence } from '../ImmutableSequence';
 import { Sequence } from '../Interface/Sequence';

@@ -1,5 +1,7 @@
-import { Noun } from '@publikum/interface';
-import { AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious } from '@publikum/type';
+import { Noun } from '@jamashita/publikum/interface';
+import {
+    AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious
+} from '@jamashita/publikum/type';
 
 import { Superposition } from '../Superposition/Superposition';
 import { Absent } from './Absent';

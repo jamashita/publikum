@@ -1,4 +1,4 @@
-import { ObjectLiteral } from '@publikum/type';
+import { ObjectLiteral } from '@jamashita/publikum/type';
 
 import { AJAXResponse } from '../AJAXResponse';
 

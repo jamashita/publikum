@@ -1,4 +1,4 @@
-import { Ambiguous, Supplier } from '@publikum/type';
+import { Ambiguous, Supplier } from '@jamashita/publikum/type';
 
 import { Alive } from './Alive';
 import { Dead } from './Dead';

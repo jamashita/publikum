@@ -1,4 +1,4 @@
-import { BiFunction } from '@publikum/type';
+import { BiFunction } from '@jamashita/publikum/type';
 
 import { Quantum } from '../Quantum/Quantum';
 import { Alive } from './Alive';
