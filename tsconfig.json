@@ -90,7 +90,7 @@
     /* Disallow inconsistently-cased references to the same file. */
   },
   "include": [
-    "packages/*/src"
+    "packages/*/src/**/*"
   ],
   "exclude": [
     "cjs",
@@ -100,49 +100,49 @@
   "files": [],
   "references": [
     {
-      "path": "packages/ajax"
+      "path": "packages/ajax/src"
     },
     {
-      "path": "packages/cache"
+      "path": "packages/cache/src"
     },
     {
-      "path": "packages/collection"
+      "path": "packages/collection/src"
     },
     {
-      "path": "packages/digest"
+      "path": "packages/digest/src"
     },
     {
-      "path": "packages/error"
+      "path": "packages/error/src"
     },
     {
-      "path": "packages/interface"
+      "path": "packages/interface/src"
     },
     {
-      "path": "packages/json"
+      "path": "packages/json/src"
     },
     {
-      "path": "packages/monad"
+      "path": "packages/monad/src"
     },
     {
-      "path": "packages/mysql"
+      "path": "packages/mysql/src"
     },
     {
-      "path": "packages/object"
+      "path": "packages/object/src"
     },
     {
-      "path": "packages/random"
+      "path": "packages/random/src"
     },
     {
-      "path": "packages/redis"
+      "path": "packages/redis/src"
     },
     {
-      "path": "packages/type"
+      "path": "packages/type/src"
     },
     {
-      "path": "packages/uuid"
+      "path": "packages/uuid/src"
     },
     {
-      "path": "packages/zeit"
+      "path": "packages/zeit/src"
     }
   ],
   "compileOnSave": false
