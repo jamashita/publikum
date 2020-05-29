@@ -27,8 +27,8 @@
   ],
   "scripts": {
     "build": "yarn clean && concurrently \"npm:build:*\"",
-    "build:cjs": "tsc -p tsconfig.cjs.json",
-    "build:esm": "tsc -p tsconfig.esm.json",
+    "build:cjs": "tsc -b tsconfig.cjs.json ../error/tsconfig.cjs.json ../type/tsconfig.cjs.json",
+    "build:esm": "tsc -b tsconfig.esm.json ../error/tsconfig.esm.json ../type/tsconfig.esm.json",
     "clean": "rimraf dist",
     "update": "yarn update:upgrade && yarn update:install",
     "update:upgrade": "ncu --upgrade --timeout 600000",
