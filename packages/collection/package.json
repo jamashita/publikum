@@ -3,14 +3,14 @@
   "version": "1.1.16",
   "author": "jamashita <jaashita@arachnid.xyz>",
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/esm/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
   "type": "module",
   "exports": {
     ".": {
-      "require": "dist/cjs/index.js",
-      "import": "dist/esm/index.js"
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js"
     }
   },
   "repository": {
@@ -25,7 +25,7 @@
   "sideEffects": false,
   "engineStrict": true,
   "files": [
-    "dist"
+    "./dist"
   ],
   "scripts": {
     "build": "yarn clean && concurrently \"npm:build:*\"",
