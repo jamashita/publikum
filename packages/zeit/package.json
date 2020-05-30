@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-zeit",
-  "version": "1.1.18",
+  "version": "1.1.19",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
@@ -36,8 +36,8 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^1.1.18",
-    "@jamashita/publikum-object": "^1.1.18",
+    "@jamashita/publikum-error": "^1.1.19",
+    "@jamashita/publikum-object": "^1.1.19",
     "dayjs": "1.8.28"
   },
   "devDependencies": {
