@@ -25,7 +25,7 @@
   "sideEffects": false,
   "engineStrict": true,
   "files": [
-    "./dist"
+    "dist"
   ],
   "scripts": {
     "build": "yarn clean && concurrently \"npm:build:*\"",
