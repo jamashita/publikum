@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-monad",
-  "version": "1.1.16",
+  "version": "1.1.17",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
@@ -37,12 +37,12 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^1.1.16",
-    "@jamashita/publikum-interface": "^1.1.16",
-    "@jamashita/publikum-type": "^1.1.16"
+    "@jamashita/publikum-error": "^1.1.17",
+    "@jamashita/publikum-interface": "^1.1.17",
+    "@jamashita/publikum-type": "^1.1.17"
   },
   "devDependencies": {
-    "@jamashita/publikum-object": "^1.1.16",
+    "@jamashita/publikum-object": "^1.1.17",
     "@types/node": "14.0.5",
     "lint-staged": "10.2.6",
     "npm-check-updates": "6.0.1",
