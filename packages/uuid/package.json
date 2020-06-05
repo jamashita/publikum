@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-uuid",
-  "version": "1.1.19",
+  "version": "1.1.20",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
@@ -36,8 +36,8 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "1.1.19",
-    "@jamashita/publikum-object": "1.1.19",
+    "@jamashita/publikum-error": "^1.1.20",
+    "@jamashita/publikum-object": "^1.1.20",
     "chance": "1.1.6"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-type",
-  "version": "1.1.19",
+  "version": "1.1.20",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
