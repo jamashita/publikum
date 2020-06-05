@@ -1,15 +1,16 @@
 import { Nominative } from '@jamashita/publikum-interface';
+import { Objet } from '@jamashita/publikum-object';
 import { Enumerator, Mapper } from '@jamashita/publikum-type';
 
 import { ASequence } from './Abstract/ASequence';
 import { Sequence } from './Interface/Sequence';
 
-export class ImmutableSequence<E extends Nominative> extends ASequence<E> implements Sequence<E> {
+export class ImmutableSequence<E extends Nominative<E>> extends ASequence<E> implements Sequence<E> {
   public readonly noun: 'ImmutableSequence' = 'ImmutableSequence';
 
-  private static readonly EMPTY: ImmutableSequence<Nominative> = new ImmutableSequence<Nominative>([]);
+  private static readonly EMPTY: ImmutableSequence<Nominative<Objet>> = new ImmutableSequence<Nominative<Objet>>([]);
 
-  public static of<E extends Nominative>(elements: Array<E>): ImmutableSequence<E> {
+  public static of<E extends Nominative<E>>(elements: Array<E>): ImmutableSequence<E> {
     if (elements.length === 0) {
       return ImmutableSequence.empty<E>();
     }
@@ -17,7 +18,7 @@ export class ImmutableSequence<E extends Nominative> extends ASequence<E> implem
     return new ImmutableSequence<E>([...elements]);
   }
 
-  public static empty<E extends Nominative>(): ImmutableSequence<E> {
+  public static empty<E extends Nominative<E>>(): ImmutableSequence<E> {
     return ImmutableSequence.EMPTY as ImmutableSequence<E>;
   }
 
@@ -41,7 +42,7 @@ export class ImmutableSequence<E extends Nominative> extends ASequence<E> implem
     return super.isEmpty();
   }
 
-  public map<F extends Nominative>(mapper: Mapper<E, F>): ImmutableSequence<F> {
+  public map<F extends Nominative<F>>(mapper: Mapper<E, F>): ImmutableSequence<F> {
     return ImmutableSequence.of<F>(this.elements.map<F>(mapper));
   }
 

@@ -6,7 +6,7 @@ import { Ambiguous, BiPredicate, Enumerator, Mapper, Predicate } from '@jamashit
 import { ImmutableSequence } from '../ImmutableSequence';
 import { Sequence } from '../Interface/Sequence';
 
-export abstract class ASequence<E extends Nominative> extends Objet implements Sequence<E> {
+export abstract class ASequence<E extends Nominative<E>> extends Objet implements Sequence<E> {
   public abstract readonly noun: string;
   protected readonly elements: Array<E>;
 
@@ -17,7 +17,7 @@ export abstract class ASequence<E extends Nominative> extends Objet implements S
 
   public abstract add(...elements: Array<E>): Sequence<E>;
 
-  public abstract map<F extends Nominative>(mapper: Mapper<E, F>): Sequence<F>;
+  public abstract map<F extends Nominative<F>>(mapper: Mapper<E, F>): Sequence<F>;
 
   public abstract filter(iterator: Enumerator<number, E>): ImmutableSequence<E>;
 

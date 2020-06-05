@@ -4,7 +4,7 @@ import { Enumerator, Predicate } from '@jamashita/publikum-type';
 
 import { Collection } from '../../Interface/Collection';
 
-export interface Address<E extends Nominative> extends Collection<void, E>, Cloneable<Address<E>>, Nominative {
+export interface Address<E extends Nominative<E>> extends Collection<void, E>, Cloneable<Address<E>>, Nominative<Address<E>> {
   add(...elements: Array<E>): Address<E>;
 
   remove(element: E): Address<E>;

@@ -3,10 +3,10 @@ import { BiPredicate, Enumerator } from '@jamashita/publikum-type';
 
 import { Collection } from '../../Interface/Collection';
 
-export interface Project<K extends Nominative, V extends Nominative>
+export interface Project<K extends Nominative<K>, V extends Nominative<V>>
   extends Collection<K, V>,
     Cloneable<Project<K, V>>,
-    Nominative {
+    Nominative<Project<K, V>> {
   set(key: K, value: V): Project<K, V>;
 
   remove(key: K): Project<K, V>;

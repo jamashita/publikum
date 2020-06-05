@@ -5,7 +5,7 @@ import { ASequence } from '../Abstract/ASequence';
 import { ImmutableSequence } from '../ImmutableSequence';
 import { Sequence } from '../Interface/Sequence';
 
-export class MockASequence<E extends Nominative> extends ASequence<E> implements Sequence<E> {
+export class MockASequence<E extends Nominative<E>> extends ASequence<E> implements Sequence<E> {
   public readonly noun: 'MockASequence' = 'MockASequence';
 
   public constructor(elements: Array<E>) {
@@ -16,7 +16,7 @@ export class MockASequence<E extends Nominative> extends ASequence<E> implements
     throw new UnimplementedError();
   }
 
-  public map<F extends Nominative>(): Sequence<F> {
+  public map<F extends Nominative<F>>(): Sequence<F> {
     throw new UnimplementedError();
   }
 

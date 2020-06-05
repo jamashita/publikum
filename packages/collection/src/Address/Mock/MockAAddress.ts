@@ -4,10 +4,10 @@ import { Nominative } from '@jamashita/publikum-interface';
 import { AAddress } from '../Abstract/AAddress';
 import { Address } from '../Interface/Address';
 
-export class MockAAddress<E extends Nominative> extends AAddress<E> implements Address<E> {
+export class MockAAddress<E extends Nominative<E>> extends AAddress<E> implements Address<E> {
   public readonly noun: 'MockAAddress' = 'MockAAddress';
 
-  private static constructMap<E extends Nominative>(elements: Set<E>): Map<string, E> {
+  private static constructMap<E extends Nominative<E>>(elements: Set<E>): Map<string, E> {
     const map: Map<string, E> = new Map<string, E>();
 
     elements.forEach((e: E) => {

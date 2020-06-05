@@ -1,3 +1,3 @@
-export interface Equalable {
-  equals(other: Equalable): boolean;
+export interface Equalable<T extends Equalable<T>> {
+  equals(other: T): boolean;
 }

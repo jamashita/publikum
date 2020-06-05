@@ -2,7 +2,7 @@ import hash from 'object-hash';
 
 import { Nominative } from '@jamashita/publikum-interface';
 
-export abstract class Objet implements Nominative {
+export abstract class Objet implements Nominative<Objet> {
   public abstract readonly noun: string;
 
   protected constructor() {

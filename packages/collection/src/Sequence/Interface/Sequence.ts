@@ -4,7 +4,7 @@ import { BiPredicate, Enumerator, Mapper, Predicate } from '@jamashita/publikum-
 
 import { Collection } from '../../Interface/Collection';
 
-export interface Sequence<E extends Nominative> extends Collection<number, E>, Cloneable<Sequence<E>>, Nominative {
+export interface Sequence<E extends Nominative<E>> extends Collection<number, E>, Cloneable<Sequence<E>>, Nominative<Sequence<E>> {
   add(...elements: Array<E>): Sequence<E>;
 
   /*
@@ -14,7 +14,7 @@ export interface Sequence<E extends Nominative> extends Collection<number, E>, C
 
   forEach(iteration: Mapper<E, void>): void;
 
-  map<F extends Nominative>(mapper: Mapper<E, F>): Sequence<F>;
+  map<F extends Nominative<F>>(mapper: Mapper<E, F>): Sequence<F>;
 
   find(predicate: Predicate<E>): Quantum<E>;
 

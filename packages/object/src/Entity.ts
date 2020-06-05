@@ -1,9 +1,9 @@
-import { Cloneable, JSONable, Nominative } from '@jamashita/publikum-interface';
+import { Cloneable, JSONable } from '@jamashita/publikum-interface';
 import { ObjectLiteral } from '@jamashita/publikum-type';
 
 import { Objet } from './Objet';
 
-export abstract class Entity<T extends Nominative> extends Objet implements Cloneable<Entity<T>>, JSONable {
+export abstract class Entity<T extends Entity<T>> extends Objet implements Cloneable<Entity<T>>, JSONable {
   public abstract readonly noun: string;
 
   public abstract getIdentifier(): T;
