@@ -5,7 +5,8 @@ import { Ambiguous, BiPredicate, Enumerator } from '@jamashita/publikum-type';
 
 import { Project } from '../Interface/Project';
 
-export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>> extends Objet implements Project<K, V> {
+export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>> extends Objet
+  implements Project<K, V> {
   public abstract readonly noun: string;
   protected readonly elements: Map<string, [K, V]>;
 

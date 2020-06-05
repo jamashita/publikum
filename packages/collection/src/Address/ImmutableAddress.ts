@@ -7,7 +7,9 @@ import { Address } from './Interface/Address';
 export class ImmutableAddress<E extends Nominative<E>> extends AAddress<E> implements Address<E> {
   public readonly noun: 'ImmutableAddress' = 'ImmutableAddress';
 
-  private static readonly EMPTY: ImmutableAddress<Nominative<Objet>> = new ImmutableAddress(new Map<string, Nominative<Objet>>());
+  private static readonly EMPTY: ImmutableAddress<Nominative<Objet>> = new ImmutableAddress(
+    new Map<string, Nominative<Objet>>()
+  );
 
   public static of<E extends Nominative<E>>(elements: Set<E>): ImmutableAddress<E> {
     if (elements.size === 0) {
