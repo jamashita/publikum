@@ -36,8 +36,8 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^1.1.19",
-    "@jamashita/publikum-type": "^1.1.19",
+    "@jamashita/publikum-error": "1.1.19",
+    "@jamashita/publikum-type": "1.1.19",
     "ioredis": "4.17.1"
   },
   "devDependencies": {
