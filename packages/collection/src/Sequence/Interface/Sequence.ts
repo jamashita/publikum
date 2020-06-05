@@ -28,4 +28,6 @@ export interface Sequence<E extends Nominative<E>>
   some(predicate: BiPredicate<E, number>): boolean;
 
   toArray(): Array<E>;
+
+  equals(other: Sequence<E>): boolean;
 }

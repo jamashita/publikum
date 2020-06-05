@@ -21,4 +21,6 @@ export interface Address<E extends Nominative<E>>
   some(predicate: Predicate<E>): boolean;
 
   toSet(): Set<E>;
+
+  equals(other: Address<E>): boolean;
 }

@@ -20,4 +20,6 @@ export interface Project<K extends Nominative<K>, V extends Nominative<V>>
   some(predicate: BiPredicate<K, V>): boolean;
 
   toMap(): Map<K, V>;
+
+  equals(other: Project<K, V>): boolean;
 }

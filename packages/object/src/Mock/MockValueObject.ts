@@ -2,13 +2,11 @@ import { UnimplementedError } from '@jamashita/publikum-error';
 
 import { ValueObject } from '../ValueObject';
 
-export class MockValueObject<T> extends ValueObject {
+export class MockValueObject extends ValueObject {
   public readonly noun: 'MockValueObject' = 'MockValueObject';
-  private value: T;
 
-  public constructor(value: T) {
+  public constructor() {
     super();
-    this.value = value;
   }
 
   public equals(): boolean {

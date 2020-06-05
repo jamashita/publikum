@@ -1,16 +1,16 @@
 import { MockEntity } from '../MockEntity';
-import { MockNominative } from '../MockNominative';
+import { MockValueObject } from '../MockValueObject';
 
 describe('MockEntity', () => {
   describe('equals', () => {
     it('returns true when the ids equal', () => {
-      const noun1: MockNominative<number> = new MockNominative<number>(-1);
-      const noun2: MockNominative<number> = new MockNominative<number>(0);
-      const noun3: MockNominative<number> = new MockNominative<number>(-1);
+      const vo1: MockValueObject = new MockValueObject();
+      const vo2: MockValueObject = new MockValueObject();
+      const vo3: MockValueObject = new MockValueObject();
 
-      const entity1: MockEntity<number> = new MockEntity<number>(noun1, {});
-      const entity2: MockEntity<number> = new MockEntity<number>(noun2, {});
-      const entity3: MockEntity<number> = new MockEntity<number>(noun3, {});
+      const entity1: MockEntity = new MockEntity(vo1, {});
+      const entity2: MockEntity = new MockEntity(vo2, {});
+      const entity3: MockEntity = new MockEntity(vo3, {});
 
       expect(entity1.equals(entity1)).toBe(true);
       expect(entity1.equals(entity2)).toBe(false);
@@ -20,17 +20,17 @@ describe('MockEntity', () => {
 
   describe('hashCode', () => {
     it('returns same value of the hashCode of id', () => {
-      const noun: MockNominative<number> = new MockNominative<number>(-1);
+      const vo: MockValueObject = new MockValueObject();
 
-      const entity: MockEntity<number> = new MockEntity<number>(noun, {});
+      const entity: MockEntity = new MockEntity(vo, {});
 
-      expect(noun.hashCode()).toBe(entity.hashCode());
+      expect(vo.hashCode()).toBe(entity.hashCode());
     });
 
     it('only depends on the id value, even if the other valeus are changed, returns same hashCode', () => {
-      const noun: MockNominative<number> = new MockNominative<number>(-1);
+      const vo: MockValueObject = new MockValueObject();
 
-      const entity: MockEntity<number> = new MockEntity<number>(noun, {});
+      const entity: MockEntity = new MockEntity(vo, {});
       const code1: string = entity.hashCode();
 
       entity.other = { code1 };
