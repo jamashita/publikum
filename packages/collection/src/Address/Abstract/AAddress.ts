@@ -5,7 +5,7 @@ import { Ambiguous, Enumerator, Predicate } from '@jamashita/publikum-type';
 
 import { Address } from '../Interface/Address';
 
-export abstract class AAddress<E extends Nominative<E>> extends Objet implements Address<E> {
+export abstract class AAddress<E extends Nominative<E>> extends Objet<AAddress<E>> implements Address<E> {
   public abstract readonly noun: string;
   protected readonly elements: Map<string, E>;
 

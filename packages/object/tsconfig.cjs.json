@@ -8,16 +8,5 @@
     /* Redirect output structure to the directory. */
     "tsBuildInfoFile": "./dist/cjs/.tsbuildinfo",
     /* Specify file to store incremental compilation information */
-  },
-  "references": [
-    {
-      "path": "../error/tsconfig.cjs.json"
-    },
-    {
-      "path": "../interface/tsconfig.cjs.json"
-    },
-    {
-      "path": "../type/tsconfig.cjs.json"
-    }
-  ]
+  }
 }

@@ -26,10 +26,9 @@
     "update:upgrade": "ncu --upgrade --timeout 600000",
     "update:install": "yarn install && yarn upgrade",
     "update:package": "lerna run --parallel update",
-    "prepublish": "yarn setup",
-    "prepare": "yarn build",
     "versionup": "lerna version --conventional-commits --conventional-graduate",
-    "register": "lerna publish"
+    "register": "lerna publish",
+    "preregister": "yarn setup"
   },
   "dependencies": {
     "bcrypt": "4.0.1",

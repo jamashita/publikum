@@ -5,5 +5,13 @@
   },
   "include": [
     "./src"
+  ],
+  "references": [
+    {
+      "path": "../error/src"
+    },
+    {
+      "path": "../object/src"
+    }
   ]
 }
