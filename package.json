@@ -26,7 +26,7 @@
     "update:upgrade": "ncu --upgrade --timeout 600000",
     "update:install": "yarn install && yarn upgrade",
     "update:package": "lerna run --parallel update",
-    "postinstall": "yarn setup",
+    "prepublish": "yarn setup",
     "prepare": "yarn build",
     "versionup": "lerna version --conventional-commits --conventional-graduate",
     "register": "lerna publish"
