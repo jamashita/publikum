@@ -8,13 +8,13 @@
   ],
   "references": [
     {
-      "path": "../error/src"
+      "path": "../error"
     },
     {
-      "path": "../interface/src"
+      "path": "../interface"
     },
     {
-      "path": "../type/src"
+      "path": "../type"
     }
   ]
 }

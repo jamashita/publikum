@@ -3,7 +3,8 @@ import { ObjectLiteral } from '@jamashita/publikum-type';
 
 import { Objet } from './Objet';
 
-export abstract class Entity<I extends Nominative<I>, T extends Entity<I, T>> extends Objet<T> implements Cloneable<Entity<I, T>>, JSONable {
+export abstract class Entity<I extends Nominative<I>, T extends Entity<I, T>> extends Objet<T>
+  implements Cloneable<Entity<I, T>>, JSONable {
   public abstract readonly noun: string;
 
   public abstract getIdentifier(): I;
@@ -23,7 +24,7 @@ export abstract class Entity<I extends Nominative<I>, T extends Entity<I, T>> ex
   }
 
   /**
-   * IODO isSame
+   * TODO isSame
    */
 
   public hashCode(): string {

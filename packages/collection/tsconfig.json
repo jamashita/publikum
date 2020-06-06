@@ -8,16 +8,16 @@
   ],
   "references": [
     {
-      "path": "../interface/src"
+      "path": "../interface"
     },
     {
-      "path": "../monad/src"
+      "path": "../monad"
     },
     {
-      "path": "../object/src"
+      "path": "../object"
     },
     {
-      "path": "../type/src"
+      "path": "../type"
     }
   ]
 }

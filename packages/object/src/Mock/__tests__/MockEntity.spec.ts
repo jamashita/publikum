@@ -1,12 +1,14 @@
+import { MockNominative } from '@jamashita/publikum-object';
+
 import { MockEntity } from '../MockEntity';
 import { MockValueObject } from '../MockValueObject';
 
 describe('MockEntity', () => {
   describe('equals', () => {
     it('returns true when the ids equal', () => {
-      const vo1: MockValueObject = new MockValueObject();
-      const vo2: MockValueObject = new MockValueObject();
-      const vo3: MockValueObject = new MockValueObject();
+      const vo1: MockNominative<boolean> = new MockNominative<boolean>(true);
+      const vo2: MockNominative<boolean> = new MockNominative<boolean>(false);
+      const vo3: MockNominative<boolean> = new MockNominative<boolean>(true);
 
       const entity1: MockEntity = new MockEntity(vo1, {});
       const entity2: MockEntity = new MockEntity(vo2, {});
@@ -20,15 +22,15 @@ describe('MockEntity', () => {
 
   describe('hashCode', () => {
     it('returns same value of the hashCode of id', () => {
-      const vo: MockValueObject = new MockValueObject();
+      const vo: MockValueObject = new MockValueObject(undefined);
 
       const entity: MockEntity = new MockEntity(vo, {});
 
       expect(vo.hashCode()).toBe(entity.hashCode());
     });
 
-    it('only depends on the id value, even if the other valeus are changed, returns same hashCode', () => {
-      const vo: MockValueObject = new MockValueObject();
+    it('only depends on the id value, even if the other values are changed, returns same hashCode', () => {
+      const vo: MockValueObject = new MockValueObject(null);
 
       const entity: MockEntity = new MockEntity(vo, {});
       const code1: string = entity.hashCode();

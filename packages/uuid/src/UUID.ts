@@ -6,7 +6,7 @@ import { UUIDError } from './Error/UUIDError';
 
 const chance: Chance.Chance = new Chance();
 
-export class UUID extends ValueObject {
+export class UUID extends ValueObject<UUID> {
   public readonly noun: 'UUID' = 'UUID';
   private readonly id: string;
 
