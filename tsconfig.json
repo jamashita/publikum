@@ -102,52 +102,5 @@
     "esm",
     "node_modules"
   ],
-  "references": [
-    {
-      "path": "packages/ajax"
-    },
-    {
-      "path": "packages/cache"
-    },
-    {
-      "path": "packages/collection"
-    },
-    {
-      "path": "packages/digest"
-    },
-    {
-      "path": "packages/error"
-    },
-    {
-      "path": "packages/interface"
-    },
-    {
-      "path": "packages/json"
-    },
-    {
-      "path": "packages/monad"
-    },
-    {
-      "path": "packages/mysql"
-    },
-    {
-      "path": "packages/object"
-    },
-    {
-      "path": "packages/random"
-    },
-    {
-      "path": "packages/redis"
-    },
-    {
-      "path": "packages/type"
-    },
-    {
-      "path": "packages/uuid"
-    },
-    {
-      "path": "packages/zeit"
-    }
-  ],
   "compileOnSave": false
 }
