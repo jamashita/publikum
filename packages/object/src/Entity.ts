@@ -9,17 +9,13 @@ export abstract class Entity<I extends Nominative<I>, T extends Entity<I, T>> ex
 
   public abstract getIdentifier(): I;
 
-  public abstract duplicate(): Entity<I, T>;
+  public abstract duplicate(): T;
 
   public abstract toJSON(): ObjectLiteral;
 
   public abstract serialize(): string;
 
-  public equals(other: Entity<I, T>): boolean {
-    if (this === other) {
-      return true;
-    }
-
+  public equals(other: T): boolean {
     return this.getIdentifier().equals(other.getIdentifier());
   }
 
