@@ -1,50 +1,70 @@
-import request from 'superagent';
+import got, { Response } from 'got';
 
-import { ObjectLiteral, Resolve } from '@jamashita/publikum-type';
+import { ObjectLiteral } from '@jamashita/publikum-type';
 
 import { AJAXResponse } from './AJAXResponse';
 import { IAJAX } from './Interface/IAJAX';
 
 export class AJAX implements IAJAX {
-  public get<T>(url: string): Promise<AJAXResponse<T>> {
-    return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>) => {
-      // eslint-disable-next-line handle-callback-err
-      request.get(url).end((err: unknown, res: request.Response) => {
-        resolve(res);
-      });
+  public async get<T>(url: string): Promise<AJAXResponse<T>> {
+    // prettier-ignore
+    const {
+      statusCode,
+      body
+    }: Response<T> = await got.get<T>(url, {
+      responseType: 'json'
     });
+
+    return {
+      status: statusCode,
+      body
+    };
   }
 
-  public post<T>(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>> {
-    return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>) => {
-      request
-        .post(url)
-        .send(payload)
-        // eslint-disable-next-line handle-callback-err
-        .end((err: unknown, res: request.Response) => {
-          resolve(res);
-        });
+  public async post<T>(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>> {
+    // prettier-ignore
+    const {
+      statusCode,
+      body
+    } = await got.post<T>(url, {
+      json: payload,
+      responseType: 'json'
     });
+
+    return {
+      status: statusCode,
+      body
+    };
   }
 
-  public put<T>(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>> {
-    return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>) => {
-      request
-        .put(url)
-        .send(payload)
-        // eslint-disable-next-line handle-callback-err
-        .end((err: unknown, res: request.Response) => {
-          resolve(res);
-        });
+  public async put<T>(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>> {
+    // prettier-ignore
+    const {
+      statusCode,
+      body
+    } = await got.put<T>(url, {
+      json: payload,
+      responseType: 'json'
     });
+
+    return {
+      status: statusCode,
+      body
+    };
   }
 
-  public delete<T>(url: string): Promise<AJAXResponse<T>> {
-    return new Promise<AJAXResponse<T>>((resolve: Resolve<AJAXResponse<T>>) => {
-      // eslint-disable-next-line handle-callback-err
-      request.del(url).end((err: unknown, res: request.Response) => {
-        resolve(res);
-      });
+  public async delete<T>(url: string): Promise<AJAXResponse<T>> {
+    // prettier-ignore
+    const {
+      statusCode,
+      body
+    }: Response<T> = await got.post<T>(url, {
+      responseType: 'json'
     });
+
+    return {
+      status: statusCode,
+      body
+    };
   }
 }
