@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-monad",
-  "version": "1.1.25",
+  "version": "1.2.0",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
