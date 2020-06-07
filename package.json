@@ -28,7 +28,7 @@
     "update:package": "lerna run --parallel update",
     "versionup": "lerna version --conventional-commits --conventional-graduate",
     "register": "lerna publish",
-    "preregister": "yarn setup"
+    "preregister": "yarn build"
   },
   "dependencies": {
     "bcrypt": "4.0.1",

@@ -1,23 +1,14 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "paths": {
+      "@jamashita/publikum-*": [
+        "node_modules/@jamashita/publikum-*/src"
+      ]
+    }
   },
   "include": [
     "./src"
-  ],
-  "references": [
-    {
-      "path": "../interface"
-    },
-    {
-      "path": "../monad"
-    },
-    {
-      "path": "../object"
-    },
-    {
-      "path": "../type"
-    }
   ]
 }
