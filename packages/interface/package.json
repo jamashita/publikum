@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-interface",
-  "version": "1.1.23",
+  "version": "1.1.24",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
@@ -36,7 +36,7 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@jamashita/publikum-type": "^1.1.23"
+    "@jamashita/publikum-type": "^1.1.24"
   },
   "devDependencies": {
     "@types/node": "14.0.5",
