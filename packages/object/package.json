@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-object",
-  "version": "1.1.22",
+  "version": "1.1.23",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
@@ -36,9 +36,9 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^1.1.22",
-    "@jamashita/publikum-interface": "^1.1.22",
-    "@jamashita/publikum-type": "^1.1.22",
+    "@jamashita/publikum-error": "^1.1.23",
+    "@jamashita/publikum-interface": "^1.1.23",
+    "@jamashita/publikum-type": "^1.1.23",
     "object-hash": "2.0.3"
   },
   "devDependencies": {
