@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-mysql",
-  "version": "1.1.24",
+  "version": "1.1.25",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
@@ -36,9 +36,9 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^1.1.24",
-    "@jamashita/publikum-interface": "^1.1.24",
-    "@jamashita/publikum-type": "^1.1.24",
+    "@jamashita/publikum-error": "^1.1.25",
+    "@jamashita/publikum-interface": "^1.1.25",
+    "@jamashita/publikum-type": "^1.1.25",
     "mysql": "2.18.1"
   },
   "devDependencies": {
