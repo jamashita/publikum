@@ -5,6 +5,8 @@ import { MockError } from '@jamashita/publikum-object';
 import { QuantumError } from '../../Quantum/Error/QuantumError';
 import { Present } from '../../Quantum/Present';
 import { Alive } from '../Alive';
+import { SuperpositionError } from '../Error/SuperpositionError';
+import { Superposition } from '../Superposition';
 
 describe('Alive', () => {
   describe('of', () => {
@@ -28,6 +30,86 @@ describe('Alive', () => {
       const alive: Alive<string, MockError> = Alive.of<string, MockError>(value);
 
       expect(alive.get()).toBe(value);
+    });
+  });
+
+  describe('filter', () => {
+    it('when predicate returns true, returns Alive', () => {
+      const value: number = -1;
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
+
+      const filtered: Superposition<number, MockError | SuperpositionError> = alive.filter(() => {
+        return true;
+      });
+
+      expect(filtered.isAlive()).toBe(true);
+      expect(filtered.get()).toBe(value);
+    });
+
+    it('when predicate returns false, reutrns Dead', () => {
+      const value: number = -1;
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const filtered: Superposition<number, MockError | SuperpositionError> = alive.filter(() => {
+        return false;
+      });
+
+      expect(filtered.isDead()).toBe(true);
+      filtered.transform<void>(
+        () => {
+          spy1();
+        },
+        (err: MockError | SuperpositionError) => {
+          spy2();
+          expect(err).toBeInstanceOf(SuperpositionError);
+        }
+      );
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+    });
+  });
+
+  describe('map', () => {
+    it('when mapper does not throw Error, returns Alive', () => {
+      const value: number = -1;
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
+
+      const filtered: Superposition<string, MockError> = alive.map<string>((v: number) => {
+        return `${v}:${v}`;
+      });
+
+      expect(filtered.isAlive()).toBe(true);
+      expect(filtered.get()).toBe(`${value}:${value}`);
+    });
+
+    it('when mapper throws Error, reutrns Dead', () => {
+      const value: number = -1;
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const filtered: Superposition<number, MockError> = alive.map<number>(() => {
+        throw new MockError();
+      });
+
+      expect(filtered.isDead()).toBe(true);
+      filtered.transform<void>(
+        () => {
+          spy1();
+        },
+        (err: MockError) => {
+          spy2();
+          expect(err).toBeInstanceOf(MockError);
+        }
+      );
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
     });
   });
 
@@ -55,7 +137,7 @@ describe('Alive', () => {
     });
   });
 
-  describe('match', () => {
+  describe('transform', () => {
     it('excuses alive block', () => {
       const value: number = 100;
       const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
@@ -63,7 +145,7 @@ describe('Alive', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const res: number = alive.match<number>(
+      const res: number = alive.transform<number>(
         (n: number, s: Alive<number, MockError>) => {
           spy1();
           expect(n).toBe(value);

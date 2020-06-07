@@ -1,8 +1,9 @@
-import { BiFunction } from '@jamashita/publikum-type';
+import { BiFunction, MonoFunction, Predicate } from '@jamashita/publikum-type';
 
 import { Absent } from '../Quantum/Absent';
 import { Quantum } from '../Quantum/Quantum';
 import { Alive } from './Alive';
+import { SuperpositionError } from './Error/SuperpositionError';
 import { Superposition } from './Superposition';
 
 export class Dead<S, F extends Error> extends Superposition<S, F> {
@@ -33,20 +34,30 @@ export class Dead<S, F extends Error> extends Superposition<S, F> {
     return true;
   }
 
-  public match<T>(alive: BiFunction<S, Alive<S, F>, T>, dead: BiFunction<F, Dead<S, F>, T>): T;
-  public match<T>(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public filter(predicate: Predicate<S>): Superposition<S, F | SuperpositionError> {
+    return this;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public map<U>(mapper: MonoFunction<S, U>): Superposition<U, F> {
+    return this.transpose<U>();
+  }
+
+  public transform<T>(alive: BiFunction<S, Alive<S, F>, T>, dead: BiFunction<F, Dead<S, F>, T>): T;
+  public transform<T>(
     alive: BiFunction<S, Alive<S, F>, Promise<T>>,
     dead: BiFunction<F, Dead<S, F>, Promise<T>>
   ): Promise<T>;
-  public match<T, E extends Error>(
+  public transform<T, E extends Error>(
     alive: BiFunction<S, Alive<S, F>, Superposition<T, E>>,
     dead: BiFunction<F, Dead<S, F>, Superposition<T, E>>
   ): Superposition<T, E>;
-  public match<T, E extends Error>(
+  public transform<T, E extends Error>(
     alive: BiFunction<S, Alive<S, F>, Promise<Superposition<T, E>>>,
     dead: BiFunction<F, Dead<S, F>, Promise<Superposition<T, E>>>
   ): Promise<Superposition<T, E>>;
-  public match<T, E extends Error = F>(
+  public transform<T, E extends Error = F>(
     alive:
       | BiFunction<S, Alive<S, F>, T>
       | BiFunction<S, Alive<S, F>, Promise<T>>
@@ -61,11 +72,11 @@ export class Dead<S, F extends Error> extends Superposition<S, F> {
     return dead(this.value, this);
   }
 
-  public toQuantum(): Quantum<S> {
-    return Absent.of<S>();
-  }
-
   public transpose<T>(): Dead<T, F> {
     return (this as never) as Dead<T, F>;
+  }
+
+  public toQuantum(): Quantum<S> {
+    return Absent.of<S>();
   }
 }

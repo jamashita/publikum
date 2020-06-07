@@ -1,8 +1,10 @@
-import { BiFunction } from '@jamashita/publikum-type';
+import { BiFunction, MonoFunction, Predicate } from '@jamashita/publikum-type';
 
 import { Present } from '../Quantum/Present';
 import { Quantum } from '../Quantum/Quantum';
 import { Dead } from './Dead';
+import { SuperpositionError } from './Error/SuperpositionError';
+import { Schrodinger } from './Schrodinger';
 import { Superposition } from './Superposition';
 
 export class Alive<S, F extends Error> extends Superposition<S, F> {
@@ -32,20 +34,34 @@ export class Alive<S, F extends Error> extends Superposition<S, F> {
     return true;
   }
 
-  public match<T>(alive: BiFunction<S, Alive<S, F>, T>, dead: BiFunction<F, Dead<S, F>, T>): T;
-  public match<T>(
+  public filter(predicate: Predicate<S>): Superposition<S, F | SuperpositionError> {
+    if (predicate(this.value)) {
+      return this;
+    }
+
+    return Dead.of<S, SuperpositionError>(new SuperpositionError('IS NOT ALIVE'));
+  }
+
+  public map<U>(mapper: MonoFunction<S, U>): Superposition<U, F> {
+    return Schrodinger.playground<U, F>(() => {
+      return mapper(this.value);
+    });
+  }
+
+  public transform<T>(alive: BiFunction<S, Alive<S, F>, T>, dead: BiFunction<F, Dead<S, F>, T>): T;
+  public transform<T>(
     alive: BiFunction<S, Alive<S, F>, Promise<T>>,
     dead: BiFunction<F, Dead<S, F>, Promise<T>>
   ): Promise<T>;
-  public match<T, E extends Error>(
+  public transform<T, E extends Error>(
     alive: BiFunction<S, Alive<S, F>, Superposition<T, E>>,
     dead: BiFunction<F, Dead<S, F>, Superposition<T, E>>
   ): Superposition<T, E>;
-  public match<T, E extends Error>(
+  public transform<T, E extends Error>(
     alive: BiFunction<S, Alive<S, F>, Promise<Superposition<T, E>>>,
     dead: BiFunction<F, Dead<S, F>, Promise<Superposition<T, E>>>
   ): Promise<Superposition<T, E>>;
-  public match<T, E extends Error = F>(
+  public transform<T, E extends Error = F>(
     alive:
       | BiFunction<S, Alive<S, F>, T>
       | BiFunction<S, Alive<S, F>, Promise<T>>
@@ -61,11 +77,11 @@ export class Alive<S, F extends Error> extends Superposition<S, F> {
     return alive(this.value, this);
   }
 
-  public toQuantum(): Quantum<S> {
-    return Present.of<S>(this.value);
-  }
-
   public transpose<E extends Error>(): Alive<S, E> {
     return (this as never) as Alive<S, E>;
+  }
+
+  public toQuantum(): Quantum<S> {
+    return Present.of<S>(this.value);
   }
 }

@@ -5,6 +5,8 @@ import { MockError } from '@jamashita/publikum-object';
 import { Absent } from '../../Quantum/Absent';
 import { QuantumError } from '../../Quantum/Error/QuantumError';
 import { Dead } from '../Dead';
+import { SuperpositionError } from '../Error/SuperpositionError';
+import { Superposition } from '../Superposition';
 
 describe('Dead', () => {
   describe('of', () => {
@@ -44,6 +46,44 @@ describe('Dead', () => {
     });
   });
 
+  describe('filter', () => {
+    it('is not going to be executed', () => {
+      const error: MockError = new MockError();
+      const dead: Dead<number, MockError> = Dead.of<number, MockError>(error);
+
+      const spy: SinonSpy = sinon.spy();
+
+      const filtered: Superposition<number, MockError | SuperpositionError> = dead.filter(() => {
+        spy();
+
+        return true;
+      });
+
+      expect(filtered.isDead()).toBe(true);
+
+      expect(spy.called).toBe(false);
+    });
+  });
+
+  describe('map', () => {
+    it('is not going to be executed', () => {
+      const error: MockError = new MockError();
+      const dead: Dead<number, MockError> = Dead.of<number, MockError>(error);
+
+      const spy: SinonSpy = sinon.spy();
+
+      const filtered: Superposition<number, MockError | SuperpositionError> = dead.map((v: number) => {
+        spy();
+
+        return v * 2;
+      });
+
+      expect(filtered.isDead()).toBe(true);
+
+      expect(spy.called).toBe(false);
+    });
+  });
+
   describe('isAlive', () => {
     it('always returns false', () => {
       const dead1: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
@@ -64,7 +104,7 @@ describe('Dead', () => {
     });
   });
 
-  describe('match', () => {
+  describe('transform', () => {
     it('excuses dead block', () => {
       const error: MockError = new MockError();
       const value: number = 1234;
@@ -73,7 +113,7 @@ describe('Dead', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const res: number = dead.match<number>(
+      const res: number = dead.transform<number>(
         (n: number) => {
           spy1();
 

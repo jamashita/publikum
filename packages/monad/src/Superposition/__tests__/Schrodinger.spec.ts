@@ -52,7 +52,7 @@ describe('Schrodinger', () => {
       const values: Superposition<Array<number>, MockError> = Schrodinger.all<number, MockError>(superpositions);
 
       expect(values.isDead()).toBe(true);
-      values.match<void>(
+      values.transform<void>(
         () => {
           spy1();
         },
@@ -80,7 +80,7 @@ describe('Schrodinger', () => {
       const values: Superposition<Array<number>, MockError> = Schrodinger.all<number, MockError>(superpositions);
 
       expect(values.isDead()).toBe(true);
-      values.match<void>(
+      values.transform<void>(
         () => {
           spy1();
         },
@@ -108,7 +108,7 @@ describe('Schrodinger', () => {
       const values: Superposition<Array<number>, MockError> = Schrodinger.all<number, MockError>(superpositions);
 
       expect(values.isDead()).toBe(true);
-      values.match<void>(
+      values.transform<void>(
         () => {
           spy1();
         },
@@ -137,7 +137,7 @@ describe('Schrodinger', () => {
       const values: Superposition<Array<number>, MockError> = Schrodinger.all<number, MockError>(superpositions);
 
       expect(values.isDead()).toBe(true);
-      values.match<void>(
+      values.transform<void>(
         () => {
           spy1();
         },
@@ -166,7 +166,7 @@ describe('Schrodinger', () => {
       const values: Superposition<Array<number>, MockError> = Schrodinger.all<number, MockError>(superpositions);
 
       expect(values.isDead()).toBe(true);
-      values.match<void>(
+      values.transform<void>(
         () => {
           spy1();
         },
@@ -196,7 +196,7 @@ describe('Schrodinger', () => {
       const values: Superposition<Array<number>, MockError> = Schrodinger.all<number, MockError>(superpositions);
 
       expect(values.isDead()).toBe(true);
-      values.match<void>(
+      values.transform<void>(
         () => {
           spy1();
         },
@@ -242,7 +242,7 @@ describe('Schrodinger', () => {
       const spy2: SinonSpy = sinon.spy();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -266,7 +266,7 @@ describe('Schrodinger', () => {
       const spy2: SinonSpy = sinon.spy();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -310,7 +310,7 @@ describe('Schrodinger', () => {
       const spy2: SinonSpy = sinon.spy();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
@@ -334,7 +334,7 @@ describe('Schrodinger', () => {
       const spy2: SinonSpy = sinon.spy();
 
       expect(superposition.isDead()).toBe(true);
-      superposition.match<void>(
+      superposition.transform<void>(
         () => {
           spy1();
         },
