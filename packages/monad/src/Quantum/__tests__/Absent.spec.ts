@@ -69,12 +69,12 @@ describe('Absent', () => {
     });
   });
 
-  describe('orElse', () => {
+  describe('getOrElse', () => {
     it('get other value', () => {
       const value: number = 500;
       const absent: Absent<number> = Absent.of<number>();
 
-      expect(absent.orElse(value)).toBe(value);
+      expect(absent.getOrElse(value)).toBe(value);
     });
   });
 

@@ -1,4 +1,6 @@
-import { AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious } from '@jamashita/publikum-type';
+import {
+    AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious
+} from '@jamashita/publikum-type';
 
 import { Alive } from '../Superposition/Alive';
 import { Superposition } from '../Superposition/Superposition';
@@ -28,15 +30,15 @@ export class Present<T> extends Quantum<T> {
     return true;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public getOrElse(other: T): T {
+    return this.value;
+  }
+
   public ifPresent(consumer: Consumer<T>): void;
   public ifPresent(consumer: AsyncConsumer<T>): Promise<void>;
   public ifPresent(consumer: Consumer<T> | AsyncConsumer<T>): void | Promise<void> {
     return consumer(this.value);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public orElse(other: T): T {
-    return this.value;
   }
 
   public filter(predicate: Predicate<T>): Quantum<T> {

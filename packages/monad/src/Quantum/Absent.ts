@@ -1,4 +1,6 @@
-import { AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious } from '@jamashita/publikum-type';
+import {
+    AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious
+} from '@jamashita/publikum-type';
 
 import { Dead } from '../Superposition/Dead';
 import { Superposition } from '../Superposition/Superposition';
@@ -24,6 +26,10 @@ export class Absent<T> extends Quantum<T> {
     throw new QuantumError('IS NOT PRESENT');
   }
 
+  public getOrElse(other: T): T {
+    return other;
+  }
+
   public isAbsent(): this is Absent<T> {
     return true;
   }
@@ -33,10 +39,6 @@ export class Absent<T> extends Quantum<T> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public ifPresent(consumer: Consumer<T> | AsyncConsumer<T>): void | Promise<void> {
     // NOOP
-  }
-
-  public orElse(other: T): T {
-    return other;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -99,12 +99,12 @@ describe('Present', () => {
     });
   });
 
-  describe('orElse', () => {
+  describe('getOrElse', () => {
     it('get inner value', () => {
       const value: number = 203;
       const present: Present<number> = Present.of<number>(value);
 
-      expect(present.orElse(-100)).toBe(value);
+      expect(present.getOrElse(-100)).toBe(value);
     });
   });
 
