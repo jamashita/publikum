@@ -247,10 +247,10 @@ describe('Schrodinger', () => {
     });
   });
 
-  describe('playgroundA', () => {
+  describe('sandbox', () => {
     it('alive case', async () => {
       const v: number = 2;
-      const superposition: Superposition<number, MockError> = await Schrodinger.playgroundA<number, MockError>(
+      const superposition: Superposition<number, MockError> = await Schrodinger.sandbox<number, MockError>(
         // eslint-disable-next-line @typescript-eslint/require-await
         async () => {
           return v;
@@ -263,7 +263,7 @@ describe('Schrodinger', () => {
 
     it('dead case', async () => {
       const e: MockError = new MockError();
-      const superposition: Superposition<number, MockError> = await Schrodinger.playgroundA<number, MockError>(
+      const superposition: Superposition<number, MockError> = await Schrodinger.sandbox<number, MockError>(
         // eslint-disable-next-line @typescript-eslint/require-await
         async () => {
           throw e;

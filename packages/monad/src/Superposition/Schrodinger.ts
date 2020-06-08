@@ -1,4 +1,4 @@
-import { Ambiguous, Supplier } from '@jamashita/publikum-type';
+import { Ambiguous, AsyncSupplier, Supplier } from '@jamashita/publikum-type';
 
 import { Alive } from './Alive';
 import { Dead } from './Dead';
@@ -21,7 +21,6 @@ export class Schrodinger {
     return Alive.of<Array<S>, F>(values);
   }
 
-
   public static playground<S, F extends Error>(supplier: Supplier<S>): Superposition<S, F> {
     // prettier-ignore
     try {
@@ -34,7 +33,7 @@ export class Schrodinger {
     }
   }
 
-  public static async playgroundA<S, F extends Error>(supplier: Supplier<Promise<S>>): Promise<Superposition<S, F>> {
+  public static async sandbox<S, F extends Error>(supplier: AsyncSupplier<S>): Promise<Superposition<S, F>> {
     // prettier-ignore
     try {
       const s: S = await supplier();
