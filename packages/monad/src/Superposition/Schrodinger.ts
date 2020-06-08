@@ -21,11 +21,11 @@ export class Schrodinger {
     return Alive.of<Array<S>, F>(values);
   }
 
-  public static playground<S, F extends Error>(supplier: Supplier<S>): Superposition<S, F>;
   public static playground<S, F extends Error>(supplier: AsyncSupplier<S>): Promise<Superposition<S, F>>;
+  public static playground<S, F extends Error>(supplier: Supplier<S>): Superposition<S, F>;
   public static playground<S, F extends Error>(
-    supplier: Supplier<S> | AsyncSupplier<S>
-  ): Superposition<S, F> | Promise<Superposition<S, F>> {
+    supplier: AsyncSupplier<S> | Supplier<S>
+  ): Promise<Superposition<S, F>> | Superposition<S, F> {
     // prettier-ignore
     try {
       const s: S | Promise<S> = supplier();
