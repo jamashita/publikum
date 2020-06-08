@@ -1,4 +1,4 @@
-import { AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious } from '@jamashita/publikum-type';
+import { AsyncConsumer, Consumer, Predicate, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Dead } from '../Superposition/Dead';
 import { Superposition } from '../Superposition/Superposition';
@@ -45,7 +45,7 @@ export class Absent<T> extends Quantum<T> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public map<U>(mapper: MonoFunction<T, Suspicious<U>>): Quantum<U> {
+  public map<U>(mapper: UnaryFunction<T, Suspicious<U>>): Quantum<U> {
     return this.transform<U>();
   }
 

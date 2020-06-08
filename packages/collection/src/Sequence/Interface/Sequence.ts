@@ -1,6 +1,6 @@
 import { Cloneable, Nominative } from '@jamashita/publikum-interface';
 import { Quantum } from '@jamashita/publikum-monad';
-import { BiPredicate, Enumerator, Mapper, Predicate } from '@jamashita/publikum-type';
+import { BinaryPredicate, Enumerator, Mapper, Predicate } from '@jamashita/publikum-type';
 
 import { Collection } from '../../Interface/Collection';
 
@@ -23,9 +23,9 @@ export interface Sequence<E extends Nominative<E>>
 
   filter(iterator: Enumerator<number, E>): Sequence<E>;
 
-  every(predicate: BiPredicate<E, number>): boolean;
+  every(predicate: BinaryPredicate<E, number>): boolean;
 
-  some(predicate: BiPredicate<E, number>): boolean;
+  some(predicate: BinaryPredicate<E, number>): boolean;
 
   toArray(): Array<E>;
 

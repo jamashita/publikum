@@ -1,4 +1,4 @@
-import { AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious } from '@jamashita/publikum-type';
+import { AsyncConsumer, Consumer, Predicate, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Alive } from '../Superposition/Alive';
 import { Superposition } from '../Superposition/Superposition';
@@ -47,7 +47,7 @@ export class Present<T> extends Quantum<T> {
     return Absent.of<T>();
   }
 
-  public map<U>(mapper: MonoFunction<T, Suspicious<U>>): Quantum<U> {
+  public map<U>(mapper: UnaryFunction<T, Suspicious<U>>): Quantum<U> {
     const result: Suspicious<U> = mapper(this.value);
 
     return Planck.maybe<U>(result);

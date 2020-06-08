@@ -1,6 +1,6 @@
 import { Absent } from '@jamashita/publikum-monad';
 import { MockNominative } from '@jamashita/publikum-object';
-import { BiPredicate } from '@jamashita/publikum-type';
+import { BinaryPredicate } from '@jamashita/publikum-type';
 
 import { MockAProject } from '../Mock/MockAProject';
 
@@ -234,7 +234,7 @@ describe('AProject', () => {
         ])
       );
 
-      const predicate: BiPredicate<MockNominative<number>, MockNominative<number>> = (
+      const predicate: BinaryPredicate<MockNominative<number>, MockNominative<number>> = (
         key: MockNominative<number>,
         value: MockNominative<number>
       ) => {
@@ -280,7 +280,7 @@ describe('AProject', () => {
         MockNominative<number>
       >(new Map<MockNominative<number>, MockNominative<number>>(elements));
 
-      const predicate: BiPredicate<MockNominative<number>, MockNominative<number>> = (
+      const predicate: BinaryPredicate<MockNominative<number>, MockNominative<number>> = (
         key: MockNominative<number>,
         value: MockNominative<number>
       ) => {
@@ -365,7 +365,7 @@ describe('AProject', () => {
         ])
       );
 
-      const predicate: BiPredicate<MockNominative<number>, MockNominative<number>> = (
+      const predicate: BinaryPredicate<MockNominative<number>, MockNominative<number>> = (
         key: MockNominative<number>,
         value: MockNominative<number>
       ) => {

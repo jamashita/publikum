@@ -1,6 +1,6 @@
 import IORedis from 'ioredis';
 
-import { BiFunction } from '@jamashita/publikum-type';
+import { BinaryFunction } from '@jamashita/publikum-type';
 
 import { IRedisHash } from './IRedisHash';
 import { IRedisList } from './IRedisList';
@@ -30,5 +30,5 @@ export interface IRedis {
 
   publish(channel: string, message: string): Promise<number>;
 
-  on(callback: BiFunction<string, string, void>): void;
+  on(callback: BinaryFunction<string, string, void>): void;
 }

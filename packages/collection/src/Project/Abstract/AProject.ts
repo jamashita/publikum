@@ -1,7 +1,7 @@
 import { Nominative } from '@jamashita/publikum-interface';
 import { Absent, Present, Quantum } from '@jamashita/publikum-monad';
 import { Objet } from '@jamashita/publikum-object';
-import { Ambiguous, BiPredicate, Enumerator } from '@jamashita/publikum-type';
+import { Ambiguous, BinaryPredicate, Enumerator } from '@jamashita/publikum-type';
 
 import { Project } from '../Interface/Project';
 
@@ -63,7 +63,7 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>>
     });
   }
 
-  public every(predicate: BiPredicate<K, V>): boolean {
+  public every(predicate: BinaryPredicate<K, V>): boolean {
     for (const [, [k, v]] of this.elements) {
       if (!predicate(k, v)) {
         return false;
@@ -73,7 +73,7 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>>
     return true;
   }
 
-  public some(predicate: BiPredicate<K, V>): boolean {
+  public some(predicate: BinaryPredicate<K, V>): boolean {
     for (const [, [k, v]] of this.elements) {
       if (predicate(k, v)) {
         return true;

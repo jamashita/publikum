@@ -1,5 +1,5 @@
 import { Noun } from '@jamashita/publikum-interface';
-import { AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious } from '@jamashita/publikum-type';
+import { AsyncConsumer, Consumer, Predicate, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Superposition } from '../Superposition/Superposition';
 import { Absent } from './Absent';
@@ -22,7 +22,7 @@ export abstract class Quantum<T> implements Noun {
 
   public abstract filter(predicate: Predicate<T>): Quantum<T>;
 
-  public abstract map<U>(mapper: MonoFunction<T, Suspicious<U>>): Quantum<U>;
+  public abstract map<U>(mapper: UnaryFunction<T, Suspicious<U>>): Quantum<U>;
 
   public abstract toSuperposition(): Superposition<T, QuantumError>;
 

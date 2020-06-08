@@ -1,4 +1,4 @@
-import { BiFunction, Predicate } from '@jamashita/publikum-type';
+import { BinaryFunction, Predicate } from '@jamashita/publikum-type';
 
 import { Present } from '../Quantum/Present';
 import { Quantum } from '../Quantum/Quantum';
@@ -41,31 +41,31 @@ export class Alive<S, F extends Error> extends Superposition<S, F> {
     return Dead.of<S, SuperpositionError>(new SuperpositionError('IS DEAD'));
   }
 
-  public transform<T>(alive: BiFunction<S, Alive<S, F>, T>, dead: BiFunction<F, Dead<S, F>, T>): T;
+  public transform<T>(alive: BinaryFunction<S, Alive<S, F>, T>, dead: BinaryFunction<F, Dead<S, F>, T>): T;
   public transform<T>(
-    alive: BiFunction<S, Alive<S, F>, Promise<T>>,
-    dead: BiFunction<F, Dead<S, F>, Promise<T>>
+    alive: BinaryFunction<S, Alive<S, F>, Promise<T>>,
+    dead: BinaryFunction<F, Dead<S, F>, Promise<T>>
   ): Promise<T>;
   public transform<T, E extends Error>(
-    alive: BiFunction<S, Alive<S, F>, Superposition<T, E>>,
-    dead: BiFunction<F, Dead<S, F>, Superposition<T, E>>
+    alive: BinaryFunction<S, Alive<S, F>, Superposition<T, E>>,
+    dead: BinaryFunction<F, Dead<S, F>, Superposition<T, E>>
   ): Superposition<T, E>;
   public transform<T, E extends Error>(
-    alive: BiFunction<S, Alive<S, F>, Promise<Superposition<T, E>>>,
-    dead: BiFunction<F, Dead<S, F>, Promise<Superposition<T, E>>>
+    alive: BinaryFunction<S, Alive<S, F>, Promise<Superposition<T, E>>>,
+    dead: BinaryFunction<F, Dead<S, F>, Promise<Superposition<T, E>>>
   ): Promise<Superposition<T, E>>;
   public transform<T, E extends Error = F>(
     alive:
-      | BiFunction<S, Alive<S, F>, T>
-      | BiFunction<S, Alive<S, F>, Promise<T>>
-      | BiFunction<S, Alive<S, F>, Superposition<T, E>>
-      | BiFunction<S, Alive<S, F>, Promise<Superposition<T, E>>>,
+      | BinaryFunction<S, Alive<S, F>, T>
+      | BinaryFunction<S, Alive<S, F>, Promise<T>>
+      | BinaryFunction<S, Alive<S, F>, Superposition<T, E>>
+      | BinaryFunction<S, Alive<S, F>, Promise<Superposition<T, E>>>,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     dead:
-      | BiFunction<F, Dead<S, F>, T>
-      | BiFunction<F, Dead<S, F>, Promise<T>>
-      | BiFunction<F, Dead<S, F>, Superposition<T, E>>
-      | BiFunction<F, Dead<S, F>, Promise<Superposition<T, E>>>
+      | BinaryFunction<F, Dead<S, F>, T>
+      | BinaryFunction<F, Dead<S, F>, Promise<T>>
+      | BinaryFunction<F, Dead<S, F>, Superposition<T, E>>
+      | BinaryFunction<F, Dead<S, F>, Promise<Superposition<T, E>>>
   ): T | Promise<T> | Superposition<T, E> | Promise<Superposition<T, E>> {
     return alive(this.value, this);
   }

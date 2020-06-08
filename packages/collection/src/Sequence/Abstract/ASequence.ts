@@ -1,7 +1,7 @@
 import { Nominative } from '@jamashita/publikum-interface';
 import { Absent, Present, Quantum } from '@jamashita/publikum-monad';
 import { Objet } from '@jamashita/publikum-object';
-import { Ambiguous, BiPredicate, Enumerator, Mapper, Predicate } from '@jamashita/publikum-type';
+import { Ambiguous, BinaryPredicate, Enumerator, Mapper, Predicate } from '@jamashita/publikum-type';
 
 import { ImmutableSequence } from '../ImmutableSequence';
 import { Sequence } from '../Interface/Sequence';
@@ -71,11 +71,11 @@ export abstract class ASequence<E extends Nominative<E>> extends Objet<ASequence
     return Present.of<E>(element);
   }
 
-  public every(predicate: BiPredicate<E, number>): boolean {
+  public every(predicate: BinaryPredicate<E, number>): boolean {
     return this.elements.every(predicate);
   }
 
-  public some(predicate: BiPredicate<E, number>): boolean {
+  public some(predicate: BinaryPredicate<E, number>): boolean {
     return this.elements.some(predicate);
   }
 

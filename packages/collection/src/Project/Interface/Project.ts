@@ -1,5 +1,5 @@
 import { Cloneable, Nominative } from '@jamashita/publikum-interface';
-import { BiPredicate, Enumerator } from '@jamashita/publikum-type';
+import { BinaryPredicate, Enumerator } from '@jamashita/publikum-type';
 
 import { Collection } from '../../Interface/Collection';
 
@@ -15,9 +15,9 @@ export interface Project<K extends Nominative<K>, V extends Nominative<V>>
 
   forEach(iteration: Enumerator<K, V>): void;
 
-  every(predicate: BiPredicate<K, V>): boolean;
+  every(predicate: BinaryPredicate<K, V>): boolean;
 
-  some(predicate: BiPredicate<K, V>): boolean;
+  some(predicate: BinaryPredicate<K, V>): boolean;
 
   toMap(): Map<K, V>;
 
