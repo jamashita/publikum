@@ -222,40 +222,6 @@ describe('Schrodinger', () => {
       expect(superposition.get()).toBe(v);
     });
 
-    it('returns itself when Supplier returns Alive', () => {
-      const v: number = 2;
-      const superposition: Superposition<number, MockError> = Schrodinger.playground<number, MockError>(() => {
-        return Alive.of<number, MockError>(v);
-      });
-
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(v);
-    });
-
-    it('returns itself when Supplier returns Dead', () => {
-      const e: MockError = new MockError();
-      const superposition: Superposition<number, MockError> = Schrodinger.playground<number, MockError>(() => {
-        return Dead.of<number, MockError>(e);
-      });
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: MockError) => {
-          spy2();
-          expect(e).toBe(err);
-        }
-      );
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-    });
-
     it('dead case', () => {
       const e: MockError = new MockError();
       const superposition: Superposition<number, MockError> = Schrodinger.playground<number, MockError>(() => {
@@ -282,53 +248,25 @@ describe('Schrodinger', () => {
 
     it('Promise alive case', async () => {
       const v: number = 2;
-      const superposition: Superposition<number, MockError> = await Schrodinger.playground<number, MockError>(() => {
-        return Promise.resolve<number>(v);
-      });
-
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(v);
-    });
-
-    it('returns Promise itself when Supplier returns Alive', async () => {
-      const v: number = 2;
-      const superposition: Superposition<number, MockError> = await Schrodinger.playground<number, MockError>(() => {
-        return Promise.resolve<Superposition<number, MockError>>(Alive.of<number, MockError>(v));
-      });
-
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(v);
-    });
-
-    it('returns Promise itself when Supplier returns Dead', async () => {
-      const e: MockError = new MockError();
-      const superposition: Superposition<number, MockError> = await Schrodinger.playground<number, MockError>(() => {
-        return Promise.resolve<Superposition<number, MockError>>(Dead.of<number, MockError>(e));
-      });
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      expect(superposition.isDead()).toBe(true);
-      superposition.transform<void>(
-        () => {
-          spy1();
-        },
-        (err: MockError) => {
-          spy2();
-          expect(e).toBe(err);
+      const superposition: Superposition<number, MockError> = await Schrodinger.playground<number, MockError>(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async () => {
+          return v;
         }
       );
 
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(superposition.isAlive()).toBe(true);
+      expect(superposition.get()).toBe(v);
     });
 
     it('Promise dead case', async () => {
       const e: MockError = new MockError();
-      const superposition: Superposition<number, MockError> = await Schrodinger.playground<number, MockError>(() => {
-        return Promise.reject<number>(e);
-      });
+      const superposition: Superposition<number, MockError> = await Schrodinger.playground<number, MockError>(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async () => {
+          throw e;
+        }
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();

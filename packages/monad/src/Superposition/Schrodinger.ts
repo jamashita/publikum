@@ -1,4 +1,4 @@
-import { Ambiguous, Supplier } from '@jamashita/publikum-type';
+import { Ambiguous, AsyncSupplier, Supplier } from '@jamashita/publikum-type';
 
 import { Alive } from './Alive';
 import { Dead } from './Dead';
@@ -21,30 +21,21 @@ export class Schrodinger {
     return Alive.of<Array<S>, F>(values);
   }
 
-  public static playground<S, F extends Error>(supplier: Supplier<S | Superposition<S, F>>): Superposition<S, F>;
+  public static playground<S, F extends Error>(supplier: Supplier<S>): Superposition<S, F>;
+  public static playground<S, F extends Error>(supplier: AsyncSupplier<S>): Promise<Superposition<S, F>>;
   public static playground<S, F extends Error>(
-    supplier: Supplier<Promise<S | Superposition<S, F>>>
-  ): Promise<Superposition<S, F>>;
-  public static playground<S, F extends Error>(
-    supplier: Supplier<S | Superposition<S, F> | Promise<S | Superposition<S, F>>>
+    supplier: Supplier<S> | AsyncSupplier<S>
   ): Superposition<S, F> | Promise<Superposition<S, F>> {
     // prettier-ignore
     try {
-      const s: S | Superposition<S, F> | Promise<S | Superposition<S, F>> = supplier();
+      const s: S | Promise<S> = supplier();
 
       if (s instanceof Promise) {
-        return s.then((t: S | Superposition<S, F>) => {
-          if (t instanceof Superposition) {
-            return t;
-          }
-
+        return s.then((t: S) => {
           return Alive.of<S, F>(t);
         }).catch((err: F) => {
           return Dead.of<S, F>(err);
         });
-      }
-      if (s instanceof Superposition) {
-        return s;
       }
 
       return Alive.of<S, F>(s);

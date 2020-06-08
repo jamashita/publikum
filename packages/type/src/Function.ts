@@ -5,6 +5,7 @@ export type AsyncConsumer<T> = (arg: T) => Promise<void>;
 export type Predicate<T> = (arg: T) => boolean;
 export type BiPredicate<T1, T2> = (arg1: T1, args2: T2) => boolean;
 export type Supplier<T> = () => T;
+export type AsyncSupplier<T> = () => Promise<T>;
 export type Enumerator<K, V> = (value: V, key: K) => void;
 export type Mapper<I, O> = (value: I, index: number) => O;
 export type Resolve<T> = (arg: T) => unknown;
