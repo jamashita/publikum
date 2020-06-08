@@ -1,10 +1,9 @@
-import { BiFunction, MonoFunction, Predicate } from '@jamashita/publikum-type';
+import { BiFunction, Predicate } from '@jamashita/publikum-type';
 
 import { Present } from '../Quantum/Present';
 import { Quantum } from '../Quantum/Quantum';
 import { Dead } from './Dead';
 import { SuperpositionError } from './Error/SuperpositionError';
-import { Schrodinger } from './Schrodinger';
 import { Superposition } from './Superposition';
 
 export class Alive<S, F extends Error> extends Superposition<S, F> {
@@ -39,13 +38,7 @@ export class Alive<S, F extends Error> extends Superposition<S, F> {
       return this;
     }
 
-    return Dead.of<S, SuperpositionError>(new SuperpositionError('IS NOT ALIVE'));
-  }
-
-  public map<U>(mapper: MonoFunction<S, U>): Superposition<U, F> {
-    return Schrodinger.playground<U, F>(() => {
-      return mapper(this.value);
-    });
+    return Dead.of<S, SuperpositionError>(new SuperpositionError('IS DEAD'));
   }
 
   public transform<T>(alive: BiFunction<S, Alive<S, F>, T>, dead: BiFunction<F, Dead<S, F>, T>): T;

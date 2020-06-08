@@ -1,6 +1,4 @@
-import {
-    AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious
-} from '@jamashita/publikum-type';
+import { AsyncConsumer, Consumer, MonoFunction, Predicate, Suspicious } from '@jamashita/publikum-type';
 
 import { Alive } from '../Superposition/Alive';
 import { Superposition } from '../Superposition/Superposition';

@@ -65,25 +65,6 @@ describe('Dead', () => {
     });
   });
 
-  describe('map', () => {
-    it('is not going to be executed', () => {
-      const error: MockError = new MockError();
-      const dead: Dead<number, MockError> = Dead.of<number, MockError>(error);
-
-      const spy: SinonSpy = sinon.spy();
-
-      const filtered: Superposition<number, MockError | SuperpositionError> = dead.map((v: number) => {
-        spy();
-
-        return v * 2;
-      });
-
-      expect(filtered.isDead()).toBe(true);
-
-      expect(spy.called).toBe(false);
-    });
-  });
-
   describe('isAlive', () => {
     it('always returns false', () => {
       const dead1: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());

@@ -1,4 +1,4 @@
-import { BiFunction, MonoFunction, Predicate } from '@jamashita/publikum-type';
+import { BiFunction, Predicate } from '@jamashita/publikum-type';
 
 import { Absent } from '../Quantum/Absent';
 import { Quantum } from '../Quantum/Quantum';
@@ -37,11 +37,6 @@ export class Dead<S, F extends Error> extends Superposition<S, F> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public filter(predicate: Predicate<S>): Superposition<S, F | SuperpositionError> {
     return this;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public map<U>(mapper: MonoFunction<S, U>): Superposition<U, F> {
-    return this.transpose<U>();
   }
 
   public transform<T>(alive: BiFunction<S, Alive<S, F>, T>, dead: BiFunction<F, Dead<S, F>, T>): T;

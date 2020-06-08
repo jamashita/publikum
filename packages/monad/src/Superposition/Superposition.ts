@@ -1,4 +1,4 @@
-import { BiFunction, MonoFunction, Predicate } from '@jamashita/publikum-type';
+import { BiFunction, Predicate } from '@jamashita/publikum-type';
 
 import { Quantum } from '../Quantum/Quantum';
 import { Alive } from './Alive';
@@ -15,8 +15,6 @@ export abstract class Superposition<S, F extends Error> {
   public abstract get(): S;
 
   public abstract filter(predicate: Predicate<S>): Superposition<S, F | SuperpositionError>;
-
-  public abstract map<U>(mapper: MonoFunction<S, U>): Superposition<U, F>;
 
   public abstract transform<T>(alive: BiFunction<S, Alive<S, F>, T>, dead: BiFunction<F, Dead<S, F>, T>): T;
   public abstract transform<T>(
