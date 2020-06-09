@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    /* Basic Options */
+    "module": "esnext",
+    /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
+    "outDir": "./dist/esm",
+    /* Redirect output structure to the directory. */
+    "tsBuildInfoFile": "./dist/esm/.tsbuildinfo",
+    /* Specify file to store incremental compilation information */
+  }
+}
