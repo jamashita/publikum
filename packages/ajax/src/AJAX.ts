@@ -29,8 +29,7 @@ export class AJAX implements IAJAX {
     const {
       status,
       data
-    } = await axios.post<T>(url, {
-      json: payload,
+    }: AxiosResponse<T> = await axios.post<T>(url, payload, {
       responseType: 'json',
       validateStatus: () => {
         return true;
@@ -48,8 +47,7 @@ export class AJAX implements IAJAX {
     const {
       status,
       data
-    } = await axios.put<T>(url, {
-      json: payload,
+    }: AxiosResponse<T> = await axios.put<T>(url, payload, {
       responseType: 'json',
       validateStatus: () => {
         return true;
@@ -67,7 +65,7 @@ export class AJAX implements IAJAX {
     const {
       status,
       data
-    }: AxiosResponse<T> = await axios.post<T>(url, {
+    }: AxiosResponse<T> = await axios.delete<T>(url, {
       responseType: 'json',
       validateStatus: () => {
         return true;
