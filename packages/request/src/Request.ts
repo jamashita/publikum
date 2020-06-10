@@ -12,7 +12,8 @@ export class Request implements IRequest {
       statusCode,
       body
     }: Response<T> = await got.get<T>(url, {
-      responseType: 'json'
+      responseType: 'json',
+      throwHttpErrors: false
     });
 
     return {
@@ -26,9 +27,10 @@ export class Request implements IRequest {
     const {
       statusCode,
       body
-    } = await got.post<T>(url, {
+    }: Response<T> = await got.post<T>(url, {
       json: payload,
-      responseType: 'json'
+      responseType: 'json',
+      throwHttpErrors: false
     });
 
     return {
@@ -42,9 +44,10 @@ export class Request implements IRequest {
     const {
       statusCode,
       body
-    } = await got.put<T>(url, {
+    }: Response<T> = await got.put<T>(url, {
       json: payload,
-      responseType: 'json'
+      responseType: 'json',
+      throwHttpErrors: false
     });
 
     return {
@@ -58,8 +61,9 @@ export class Request implements IRequest {
     const {
       statusCode,
       body
-    }: Response<T> = await got.post<T>(url, {
-      responseType: 'json'
+    }: Response<T> = await got.delete<T>(url, {
+      responseType: 'json',
+      throwHttpErrors: false
     });
 
     return {

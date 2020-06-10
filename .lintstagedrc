@@ -1,3 +1,3 @@
 {
-  'src/**/*.{ts,tsx}': 'eslint --fix --quiet'
+  'packages**/src/**/*.{ts,tsx}': 'eslint --fix --quiet'
 }
