@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-request",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
@@ -36,8 +36,8 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^1.6.0",
-    "@jamashita/publikum-type": "^1.6.0",
+    "@jamashita/publikum-error": "^1.7.0",
+    "@jamashita/publikum-type": "^1.7.0",
     "got": "11.3.0"
   },
   "devDependencies": {
