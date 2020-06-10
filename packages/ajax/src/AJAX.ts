@@ -12,7 +12,10 @@ export class AJAX implements IAJAX {
       status,
       data
     }: AxiosResponse<T> = await axios.get<T>(url, {
-      responseType: 'json'
+      responseType: 'json',
+      validateStatus: () => {
+        return true;
+      }
     });
 
     return {
@@ -28,7 +31,10 @@ export class AJAX implements IAJAX {
       data
     } = await axios.post<T>(url, {
       json: payload,
-      responseType: 'json'
+      responseType: 'json',
+      validateStatus: () => {
+        return true;
+      }
     });
 
     return {
@@ -44,7 +50,10 @@ export class AJAX implements IAJAX {
       data
     } = await axios.put<T>(url, {
       json: payload,
-      responseType: 'json'
+      responseType: 'json',
+      validateStatus: () => {
+        return true;
+      }
     });
 
     return {
@@ -59,7 +68,10 @@ export class AJAX implements IAJAX {
       status,
       data
     }: AxiosResponse<T> = await axios.post<T>(url, {
-      responseType: 'json'
+      responseType: 'json',
+      validateStatus: () => {
+        return true;
+      }
     });
 
     return {
