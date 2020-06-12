@@ -41,7 +41,7 @@
     "ioredis": "4.17.3"
   },
   "devDependencies": {
-    "@types/ioredis": "4.16.4",
+    "@types/ioredis": "4.16.5",
     "@types/node": "14.0.13",
     "lint-staged": "10.2.9",
     "npm-check-updates": "7.0.1",
