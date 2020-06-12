@@ -88,7 +88,14 @@ export class Kind {
   }
 
   public static isPlainObject(value: unknown): value is PlainObject {
-    if (Object.prototype.toString.call(value) === '[object Object]') {
+    if (typeof value !== 'object') {
+      return false;
+    }
+    if (value === null) {
+      return false;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
+    if (value.toString() === '[object Object]') {
       return true;
     }
 
