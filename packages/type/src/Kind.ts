@@ -33,14 +33,8 @@ export class Kind {
     return false;
   }
 
-  public static isInteger(value: unknown): boolean {
-    if (Kind.isNumber(value)) {
-      if (value % 1 === 0) {
-        return true;
-      }
-    }
-
-    return false;
+  public static isInteger(value: unknown): value is number {
+    return Number.isInteger(value);
   }
 
   public static isBoolean(value: unknown): value is boolean {
