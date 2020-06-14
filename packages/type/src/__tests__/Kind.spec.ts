@@ -13,6 +13,7 @@ describe('Kind', () => {
       expect(Kind.isUndefined(false)).toBe(false);
       expect(Kind.isUndefined(true)).toBe(false);
       expect(Kind.isUndefined(Symbol('p'))).toBe(false);
+      expect(Kind.isUndefined(20n)).toBe(false);
       expect(Kind.isUndefined({})).toBe(false);
       expect(Kind.isUndefined([])).toBe(false);
     });
@@ -30,6 +31,7 @@ describe('Kind', () => {
       expect(Kind.isNull(false)).toBe(false);
       expect(Kind.isNull(true)).toBe(false);
       expect(Kind.isNull(Symbol('p'))).toBe(false);
+      expect(Kind.isNull(20n)).toBe(false);
       expect(Kind.isNull({})).toBe(false);
       expect(Kind.isNull([])).toBe(false);
     });
@@ -47,6 +49,7 @@ describe('Kind', () => {
       expect(Kind.isString(false)).toBe(false);
       expect(Kind.isString(true)).toBe(false);
       expect(Kind.isString(Symbol('p'))).toBe(false);
+      expect(Kind.isString(20n)).toBe(false);
       expect(Kind.isString({})).toBe(false);
       expect(Kind.isString([])).toBe(false);
     });
@@ -84,7 +87,8 @@ describe('Kind', () => {
       expect(Kind.isInteger(0.3)).toBe(false);
       expect(Kind.isInteger(false)).toBe(false);
       expect(Kind.isInteger(true)).toBe(false);
-      expect(Kind.isNumber(Symbol('p'))).toBe(false);
+      expect(Kind.isInteger(Symbol('p'))).toBe(false);
+      expect(Kind.isInteger(20n)).toBe(false);
       expect(Kind.isInteger({})).toBe(false);
       expect(Kind.isInteger([])).toBe(false);
     });
@@ -104,6 +108,7 @@ describe('Kind', () => {
       expect(Kind.isBoolean(false)).toBe(true);
       expect(Kind.isBoolean(true)).toBe(true);
       expect(Kind.isBoolean(Symbol('p'))).toBe(false);
+      expect(Kind.isBoolean(20n)).toBe(false);
       expect(Kind.isBoolean({})).toBe(false);
       expect(Kind.isBoolean([])).toBe(false);
     });
@@ -121,8 +126,27 @@ describe('Kind', () => {
       expect(Kind.isSymbol(false)).toBe(false);
       expect(Kind.isSymbol(true)).toBe(false);
       expect(Kind.isSymbol(Symbol('p'))).toBe(true);
+      expect(Kind.isSymbol(20n)).toBe(false);
       expect(Kind.isSymbol({})).toBe(false);
       expect(Kind.isSymbol([])).toBe(false);
+    });
+  });
+
+  describe('isBigInt', () => {
+    it('returns true only the value is undefined', () => {
+      expect(Kind.isBigInt(null)).toBe(false);
+      expect(Kind.isBigInt(undefined)).toBe(false);
+      expect(Kind.isBigInt('')).toBe(false);
+      expect(Kind.isBigInt('123')).toBe(false);
+      expect(Kind.isBigInt('abcd')).toBe(false);
+      expect(Kind.isBigInt(123)).toBe(false);
+      expect(Kind.isBigInt(0)).toBe(false);
+      expect(Kind.isBigInt(false)).toBe(false);
+      expect(Kind.isBigInt(true)).toBe(false);
+      expect(Kind.isBigInt(Symbol('p'))).toBe(false);
+      expect(Kind.isBigInt(20n)).toBe(true);
+      expect(Kind.isBigInt({})).toBe(false);
+      expect(Kind.isBigInt([])).toBe(false);
     });
   });
 
@@ -140,6 +164,7 @@ describe('Kind', () => {
       expect(Kind.isPrimitive('0')).toBe(true);
       expect(Kind.isPrimitive('1')).toBe(true);
       expect(Kind.isPrimitive(Symbol('p'))).toBe(true);
+      expect(Kind.isPrimitive(20n)).toBe(true);
       expect(Kind.isPrimitive([])).toBe(false);
       expect(Kind.isPrimitive([null])).toBe(false);
       expect(Kind.isPrimitive([undefined])).toBe(false);
@@ -163,6 +188,7 @@ describe('Kind', () => {
       expect(Kind.isPlainObject(false)).toBe(false);
       expect(Kind.isPlainObject(true)).toBe(false);
       expect(Kind.isPlainObject(Symbol('p'))).toBe(false);
+      expect(Kind.isPlainObject(20n)).toBe(false);
       expect(Kind.isPlainObject({})).toBe(true);
       expect(Kind.isPlainObject([])).toBe(false);
       expect(Kind.isPlainObject(new Error())).toBe(false);
@@ -183,6 +209,7 @@ describe('Kind', () => {
       expect(Kind.isArray(false)).toBe(false);
       expect(Kind.isArray(true)).toBe(false);
       expect(Kind.isArray(Symbol('p'))).toBe(false);
+      expect(Kind.isArray(20n)).toBe(false);
       expect(Kind.isArray({})).toBe(false);
       expect(Kind.isArray([])).toBe(true);
     });

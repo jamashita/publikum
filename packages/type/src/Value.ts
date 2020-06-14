@@ -1,4 +1,4 @@
-export type Primitive = null | undefined | number | string | boolean | symbol;
+export type Primitive = null | undefined | number | string | boolean | symbol | bigint;
 export type Nullable<T> = T | null;
 export type Ambiguous<T> = T | undefined;
 export type Suspicious<T> = T | null | undefined;

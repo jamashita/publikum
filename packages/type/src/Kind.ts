@@ -58,6 +58,14 @@ export class Kind {
     return false;
   }
 
+  public static isBigInt(value: unknown): value is bigint {
+    if (typeof value === 'bigint') {
+      return true;
+    }
+
+    return false;
+  }
+
   public static isPrimitive(value: unknown): value is Primitive {
     if (value === null) {
       return true;
