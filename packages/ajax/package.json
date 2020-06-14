@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-ajax",
-  "version": "1.7.2",
+  "version": "1.8.0",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@jamashita/publikum-error": "^1.7.2",
-    "@jamashita/publikum-type": "^1.7.2",
+    "@jamashita/publikum-type": "^1.8.0",
     "axios": "0.19.2"
   },
   "devDependencies": {
