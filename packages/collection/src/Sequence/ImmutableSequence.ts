@@ -2,14 +2,11 @@ import { Nominative, NonNominative } from '@jamashita/publikum-interface';
 import { Enumerator, Mapper } from '@jamashita/publikum-type';
 
 import { ASequence } from './Abstract/ASequence';
-import { Sequence } from './Interface/Sequence';
 
-export class ImmutableSequence<E extends Nominative<E>> extends ASequence<E> implements Sequence<E> {
+export class ImmutableSequence<E extends Nominative<E>> extends ASequence<E, 'ImmutableSequence'> {
   public readonly noun: 'ImmutableSequence' = 'ImmutableSequence';
 
-  private static readonly EMPTY: ImmutableSequence<Nominative<NonNominative>> = new ImmutableSequence<NonNominative>(
-    []
-  );
+  private static readonly EMPTY: ImmutableSequence<NonNominative> = new ImmutableSequence<NonNominative>([]);
 
   public static of<E extends Nominative<E>>(elements: Array<E>): ImmutableSequence<E> {
     if (elements.length === 0) {

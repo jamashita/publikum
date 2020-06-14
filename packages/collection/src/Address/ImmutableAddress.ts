@@ -1,9 +1,8 @@
 import { Nominative, NonNominative } from '@jamashita/publikum-interface';
 
 import { AAddress } from './Abstract/AAddress';
-import { Address } from './Interface/Address';
 
-export class ImmutableAddress<E extends Nominative<E>> extends AAddress<E> implements Address<E> {
+export class ImmutableAddress<E extends Nominative<E>> extends AAddress<E, 'ImmutableAddress'> {
   public readonly noun: 'ImmutableAddress' = 'ImmutableAddress';
 
   private static readonly EMPTY: ImmutableAddress<NonNominative> = new ImmutableAddress(

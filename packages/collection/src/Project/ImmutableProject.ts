@@ -1,10 +1,12 @@
 import { Nominative, NonNominative } from '@jamashita/publikum-interface';
 
 import { AProject } from './Abstract/AProject';
-import { Project } from './Interface/Project';
 
-export class ImmutableProject<K extends Nominative<K>, V extends Nominative<V>> extends AProject<K, V>
-  implements Project<K, V> {
+export class ImmutableProject<K extends Nominative<K>, V extends Nominative<V>> extends AProject<
+  K,
+  V,
+  'ImmutableProject'
+> {
   public readonly noun: 'ImmutableProject' = 'ImmutableProject';
 
   private static readonly EMPTY: ImmutableProject<NonNominative, NonNominative> = new ImmutableProject<

@@ -3,13 +3,13 @@ import { BinaryPredicate, Enumerator } from '@jamashita/publikum-type';
 
 import { Collection } from '../../Interface/Collection';
 
-export interface Project<K extends Nominative<K>, V extends Nominative<V>>
-  extends Collection<K, V>,
-    Cloneable<Project<K, V>>,
-    Nominative<Project<K, V>> {
-  set(key: K, value: V): Project<K, V>;
+export interface Project<K extends Nominative<K>, V extends Nominative<V>, N extends string>
+  extends Collection<K, V, N>,
+    Cloneable<Project<K, V, N>>,
+    Nominative<Project<K, V, N>, N> {
+  set(key: K, value: V): Project<K, V, N>;
 
-  remove(key: K): Project<K, V>;
+  remove(key: K): Project<K, V, N>;
 
   has(key: K): boolean;
 
@@ -21,5 +21,5 @@ export interface Project<K extends Nominative<K>, V extends Nominative<V>>
 
   toMap(): Map<K, V>;
 
-  equals(other: Project<K, V>): boolean;
+  equals(other: Project<K, V, N>): boolean;
 }

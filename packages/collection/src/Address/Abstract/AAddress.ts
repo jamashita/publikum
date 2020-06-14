@@ -5,8 +5,8 @@ import { Ambiguous, Enumerator, Predicate } from '@jamashita/publikum-type';
 
 import { Address } from '../Interface/Address';
 
-export abstract class AAddress<E extends Nominative<E>> extends Objet<AAddress<E>> implements Address<E> {
-  public abstract readonly noun: string;
+export abstract class AAddress<E extends Nominative<E>, N extends string> extends Objet<AAddress<E, N>> {
+  public abstract readonly noun: N;
   protected readonly elements: Map<string, E>;
 
   protected constructor(elements: Map<string, E>) {
@@ -14,11 +14,11 @@ export abstract class AAddress<E extends Nominative<E>> extends Objet<AAddress<E
     this.elements = elements;
   }
 
-  public abstract add(...elements: Array<E>): Address<E>;
+  public abstract add(...elements: Array<E>): Address<E, N>;
 
-  public abstract remove(element: E): Address<E>;
+  public abstract remove(element: E): Address<E, N>;
 
-  public abstract duplicate(): Address<E>;
+  public abstract duplicate(): Address<E, N>;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public get(key: void): Quantum<E> {
@@ -87,7 +87,7 @@ export abstract class AAddress<E extends Nominative<E>> extends Objet<AAddress<E
     return false;
   }
 
-  public equals(other: AAddress<E>): boolean {
+  public equals(other: AAddress<E, N>): boolean {
     if (this === other) {
       return true;
     }

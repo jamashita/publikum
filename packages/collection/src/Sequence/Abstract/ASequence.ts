@@ -3,11 +3,11 @@ import { Absent, Present, Quantum } from '@jamashita/publikum-monad';
 import { Objet } from '@jamashita/publikum-object';
 import { Ambiguous, BinaryPredicate, Enumerator, Mapper, Predicate } from '@jamashita/publikum-type';
 
-import { ImmutableSequence } from '../ImmutableSequence';
 import { Sequence } from '../Interface/Sequence';
 
-export abstract class ASequence<E extends Nominative<E>> extends Objet<ASequence<E>> implements Sequence<E> {
-  public abstract readonly noun: string;
+export abstract class ASequence<E extends Nominative<E>, N extends string> extends Objet<ASequence<E, N>>
+  implements Sequence<E, N> {
+  public abstract readonly noun: N;
   protected readonly elements: Array<E>;
 
   protected constructor(elements: Array<E>) {
@@ -15,13 +15,13 @@ export abstract class ASequence<E extends Nominative<E>> extends Objet<ASequence
     this.elements = elements;
   }
 
-  public abstract add(...elements: Array<E>): Sequence<E>;
+  public abstract add(...elements: Array<E>): Sequence<E, N>;
 
-  public abstract map<F extends Nominative<F>>(mapper: Mapper<E, F>): Sequence<F>;
+  public abstract map<F extends Nominative<F, N>>(mapper: Mapper<E, F>): Sequence<F, N>;
 
-  public abstract filter(iterator: Enumerator<number, E>): ImmutableSequence<E>;
+  public abstract filter(iterator: Enumerator<number, E>): Sequence<E, N>;
 
-  public abstract duplicate(): Sequence<E>;
+  public abstract duplicate(): Sequence<E, N>;
 
   public get(index: number): Quantum<E> {
     const element: Ambiguous<E> = this.elements[index];
@@ -79,7 +79,7 @@ export abstract class ASequence<E extends Nominative<E>> extends Objet<ASequence
     return this.elements.some(predicate);
   }
 
-  public equals(other: ASequence<E>): boolean {
+  public equals(other: ASequence<E, N>): boolean {
     if (this === other) {
       return true;
     }

@@ -3,15 +3,19 @@ import { ObjectLiteral } from '@jamashita/publikum-type';
 
 import { Objet } from './Objet';
 
-export abstract class Entity<I extends Nominative<I>, T extends Entity<I, T>> extends Objet<T>
-  implements Cloneable<Entity<I, T>>, JSONable {
-  public abstract readonly noun: string;
+export abstract class Entity<
+  I extends Nominative<I, N>,
+  T extends Entity<I, T, N, O>,
+  N extends string = string,
+  O extends ObjectLiteral = ObjectLiteral
+> extends Objet<T, N> implements Cloneable<Entity<I, T, N, O>>, JSONable<O> {
+  public abstract readonly noun: N;
 
   public abstract getIdentifier(): I;
 
   public abstract duplicate(): T;
 
-  public abstract toJSON(): ObjectLiteral;
+  public abstract toJSON(): O;
 
   public abstract serialize(): string;
 

@@ -4,13 +4,13 @@ import { Enumerator, Predicate } from '@jamashita/publikum-type';
 
 import { Collection } from '../../Interface/Collection';
 
-export interface Address<E extends Nominative<E>>
-  extends Collection<void, E>,
-    Cloneable<Address<E>>,
-    Nominative<Address<E>> {
-  add(...elements: Array<E>): Address<E>;
+export interface Address<E extends Nominative<E>, N extends string>
+  extends Collection<void, E, N>,
+    Cloneable<Address<E, N>>,
+    Nominative<Address<E, N>, N> {
+  add(...elements: Array<E>): Address<E, N>;
 
-  remove(element: E): Address<E>;
+  remove(element: E): Address<E, N>;
 
   forEach(iteration: Enumerator<void, E>): void;
 
@@ -22,5 +22,5 @@ export interface Address<E extends Nominative<E>>
 
   toSet(): Set<E>;
 
-  equals(other: Address<E>): boolean;
+  equals(other: Address<E, N>): boolean;
 }

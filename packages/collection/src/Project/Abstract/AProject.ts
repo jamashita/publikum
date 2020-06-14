@@ -5,9 +5,10 @@ import { Ambiguous, BinaryPredicate, Enumerator } from '@jamashita/publikum-type
 
 import { Project } from '../Interface/Project';
 
-export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>> extends Objet<AProject<K, V>>
-  implements Project<K, V> {
-  public abstract readonly noun: string;
+export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>, N extends string>
+  extends Objet<AProject<K, V, N>>
+  implements Project<K, V, N> {
+  public abstract readonly noun: N;
   protected readonly elements: Map<string, [K, V]>;
 
   protected constructor(elements: Map<string, [K, V]>) {
@@ -15,11 +16,11 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>>
     this.elements = elements;
   }
 
-  public abstract set(key: K, value: V): Project<K, V>;
+  public abstract set(key: K, value: V): Project<K, V, N>;
 
-  public abstract remove(key: K): Project<K, V>;
+  public abstract remove(key: K): Project<K, V, N>;
 
-  public abstract duplicate(): Project<K, V>;
+  public abstract duplicate(): Project<K, V, N>;
 
   public get(key: K): Quantum<V> {
     const element: Ambiguous<[K, V]> = this.elements.get(key.hashCode());
@@ -35,6 +36,7 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>>
     return this.elements.has(key.hashCode());
   }
 
+  // FIXME ORDER N
   public contains(value: V): boolean {
     for (const [, [, v]] of this.elements) {
       if (value.equals(v)) {
@@ -83,7 +85,7 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>>
     return false;
   }
 
-  public equals(other: AProject<K, V>): boolean {
+  public equals(other: AProject<K, V, N>): boolean {
     if (this === other) {
       return true;
     }

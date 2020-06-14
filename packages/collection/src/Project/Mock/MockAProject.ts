@@ -2,10 +2,8 @@ import { UnimplementedError } from '@jamashita/publikum-error';
 import { Nominative } from '@jamashita/publikum-interface';
 
 import { AProject } from '../Abstract/AProject';
-import { Project } from '../Interface/Project';
 
-export class MockAProject<K extends Nominative<K>, V extends Nominative<V>> extends AProject<K, V>
-  implements Project<K, V> {
+export class MockAProject<K extends Nominative<K>, V extends Nominative<V>> extends AProject<K, V, 'MockAProject'> {
   public readonly noun: 'MockAProject' = 'MockAProject';
 
   private static constructMap<K extends Nominative<K>, V extends Nominative<V>>(
@@ -24,15 +22,15 @@ export class MockAProject<K extends Nominative<K>, V extends Nominative<V>> exte
     super(MockAProject.constructMap<K, V>(elements));
   }
 
-  public set(): Project<K, V> {
+  public set(): MockAProject<K, V> {
     throw new UnimplementedError();
   }
 
-  public remove(): Project<K, V> {
+  public remove(): MockAProject<K, V> {
     throw new UnimplementedError();
   }
 
-  public duplicate(): Project<K, V> {
+  public duplicate(): MockAProject<K, V> {
     throw new UnimplementedError();
   }
 }

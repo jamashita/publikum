@@ -2,9 +2,8 @@ import { UnimplementedError } from '@jamashita/publikum-error';
 import { Nominative } from '@jamashita/publikum-interface';
 
 import { AAddress } from '../Abstract/AAddress';
-import { Address } from '../Interface/Address';
 
-export class MockAAddress<E extends Nominative<E>> extends AAddress<E> implements Address<E> {
+export class MockAAddress<E extends Nominative<E>> extends AAddress<E, 'MockAAddress'> {
   public readonly noun: 'MockAAddress' = 'MockAAddress';
 
   private static constructMap<E extends Nominative<E>>(elements: Set<E>): Map<string, E> {
@@ -21,15 +20,15 @@ export class MockAAddress<E extends Nominative<E>> extends AAddress<E> implement
     super(MockAAddress.constructMap<E>(elements));
   }
 
-  public add(): Address<E> {
+  public add(): MockAAddress<E> {
     throw new UnimplementedError();
   }
 
-  public remove(): Address<E> {
+  public remove(): MockAAddress<E> {
     throw new UnimplementedError();
   }
 
-  public duplicate(): Address<E> {
+  public duplicate(): MockAAddress<E> {
     throw new UnimplementedError();
   }
 }

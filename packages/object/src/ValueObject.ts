@@ -1,7 +1,7 @@
 import { Objet } from './Objet';
 
-export abstract class ValueObject<T extends ValueObject<T>> extends Objet<T> {
-  public abstract readonly noun: string;
+export abstract class ValueObject<T extends ValueObject<T, N>, N extends string = string> extends Objet<T, N> {
+  public abstract readonly noun: N;
   private code?: string;
 
   public abstract equals(other: T): boolean;
