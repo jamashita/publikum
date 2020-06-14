@@ -1,11 +1,13 @@
 import { Nominative } from '@jamashita/publikum-interface';
 import { Absent, Present, Quantum } from '@jamashita/publikum-monad';
 import { Objet } from '@jamashita/publikum-object';
-import { Ambiguous, BinaryPredicate, Enumerator, Mapper, Predicate } from '@jamashita/publikum-type';
+import {
+    Ambiguous, BinaryPredicate, Enumerator, Mapper, Predicate
+} from '@jamashita/publikum-type';
 
 import { Sequence } from '../Interface/Sequence';
 
-export abstract class ASequence<E extends Nominative<E>, N extends string> extends Objet<ASequence<E, N>>
+export abstract class ASequence<E extends Nominative<E>, N extends string = string> extends Objet<ASequence<E, N>>
   implements Sequence<E, N> {
   public abstract readonly noun: N;
   protected readonly elements: Array<E>;
