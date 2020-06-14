@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-mysql",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@jamashita/publikum-error": "^1.7.2",
-    "@jamashita/publikum-interface": "^1.8.0",
+    "@jamashita/publikum-interface": "^1.8.1",
     "@jamashita/publikum-type": "^1.8.0",
     "mysql": "2.18.1"
   },

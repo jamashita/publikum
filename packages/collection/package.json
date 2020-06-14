@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-collection",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "author": "jamashita <jaashita@arachnid.xyz>",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
@@ -36,9 +36,9 @@
     "update:install": "yarn install"
   },
   "dependencies": {
-    "@jamashita/publikum-interface": "^1.8.0",
-    "@jamashita/publikum-monad": "^1.8.0",
-    "@jamashita/publikum-object": "^1.8.0",
+    "@jamashita/publikum-interface": "^1.8.1",
+    "@jamashita/publikum-monad": "^1.8.1",
+    "@jamashita/publikum-object": "^1.8.1",
     "@jamashita/publikum-type": "^1.8.0"
   },
   "devDependencies": {
