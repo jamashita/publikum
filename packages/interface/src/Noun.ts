@@ -1,3 +1,3 @@
-export interface Noun {
-  readonly noun: string;
+export interface Noun<N extends string = string> {
+  readonly noun: N;
 }
