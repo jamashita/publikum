@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-error",
-  "version": "1.7.0",
+  "version": "1.7.2",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
