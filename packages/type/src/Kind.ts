@@ -57,28 +57,14 @@ export class Kind {
   }
 
   public static isPrimitive(value: unknown): value is Primitive {
-    switch (value) {
-      case undefined:
-      case null:
-      case true:
-      case false: {
-        return true;
-      }
-      default: {
-        // NOOP
-      }
+    if (value === null) {
+      return true;
+    }
+    if (typeof value === 'object') {
+      return false;
     }
 
-    switch (typeof value) {
-      case 'number':
-      case 'string':
-      case 'symbol': {
-        return true;
-      }
-      default: {
-        return false;
-      }
-    }
+    return true;
   }
 
   public static isPlainObject(value: unknown): value is PlainObject {
