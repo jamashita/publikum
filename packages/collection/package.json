@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-collection",
-  "version": "1.8.3",
+  "version": "1.8.4",
   "author": "jamashita <jaashita@arachnid.xyz>",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
@@ -37,8 +37,8 @@
   },
   "dependencies": {
     "@jamashita/publikum-interface": "^1.8.1",
-    "@jamashita/publikum-monad": "^1.8.2",
-    "@jamashita/publikum-object": "^1.8.2",
+    "@jamashita/publikum-monad": "^1.8.4",
+    "@jamashita/publikum-object": "^1.8.4",
     "@jamashita/publikum-type": "^1.8.0"
   },
   "devDependencies": {
