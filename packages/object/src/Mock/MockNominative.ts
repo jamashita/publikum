@@ -2,7 +2,7 @@ import { Primitive } from '@jamashita/publikum-type';
 
 import { ValueObject } from '../ValueObject';
 
-export class MockNominative<T extends Primitive> extends ValueObject<MockNominative<T>> {
+export class MockNominative<T extends Primitive> extends ValueObject<MockNominative<T>, 'MockNominative'> {
   public readonly noun: 'MockNominative' = 'MockNominative';
   private readonly value: T;
 

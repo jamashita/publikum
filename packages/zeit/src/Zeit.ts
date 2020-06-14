@@ -11,7 +11,7 @@ dayjs.extend(minMax);
 
 export type ZeitUnitType = 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year';
 
-export class Zeit extends ValueObject<Zeit> {
+export class Zeit extends ValueObject<Zeit, 'Zeit'> {
   public readonly noun: 'Zeit' = 'Zeit';
   private readonly zeit: dayjs.Dayjs;
   private readonly format: string;

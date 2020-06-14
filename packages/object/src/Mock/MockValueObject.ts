@@ -2,7 +2,7 @@ import { UnimplementedError } from '@jamashita/publikum-error';
 
 import { ValueObject } from '../ValueObject';
 
-export class MockValueObject extends ValueObject<MockValueObject> {
+export class MockValueObject extends ValueObject<MockValueObject, 'MockValueObject'> {
   public readonly noun: 'MockValueObject' = 'MockValueObject';
   private readonly value: unknown;
 
