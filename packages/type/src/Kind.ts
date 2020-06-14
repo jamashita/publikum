@@ -1,5 +1,7 @@
 import { PlainObject, Primitive } from './Value';
 
+const LITERAL_TOSTRING: string = '[object Object]';
+
 export class Kind {
   public static isUndefined(value: unknown): value is undefined {
     if (value === undefined) {
@@ -75,7 +77,7 @@ export class Kind {
       return false;
     }
     // eslint-disable-next-line @typescript-eslint/no-base-to-string
-    if (value.toString() === '[object Object]') {
+    if (value.toString() === LITERAL_TOSTRING) {
       return true;
     }
 
