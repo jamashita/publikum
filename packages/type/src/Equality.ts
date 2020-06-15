@@ -6,7 +6,7 @@ type Item = Primitive | PlainObject | ArrayLike<Item>;
 
 // TODO TEST UNDOEN
 export class Equality {
-  public static same(n1: Primitive | ObjectLiteral, n2: Primitive | ObjectLiteral): boolean {
+  public static same(n1: ObjectLiteral, n2: ObjectLiteral): boolean {
     if (n1 === n2) {
       return true;
     }
@@ -20,23 +20,41 @@ export class Equality {
     return false;
   }
 
-  private static sameArray(arr1: Array<Item>, arr2: Array<Item>): boolean {
-    // prettier-ignore
-    const {
-      length
-    } = arr1;
+  private static sameInternal(n1: Primitive | ObjectLiteral, n2: Primitive | ObjectLiteral): boolean {
+    if (n1 === n2) {
+      return true;
+    }
 
-    if (length !== arr2.length) {
+    return Equality.same(n1 as ObjectLiteral, n2 as ObjectLiteral);
+  }
+
+  private static sameArray(arr1: Array<Item>, arr2: Array<Item>): boolean {
+    if (arr1.length !== arr2.length) {
       return false;
     }
 
-    for (let i: number = 0; i < length; i++) {
-      if (!Equality.same(arr1[i], arr2[i])) {
-        return false;
-      }
-    }
+    const iterator1: IterableIterator<Item> = arr1.values();
+    const iterator2: IterableIterator<Item> = arr2.values();
 
-    return true;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const res1: IteratorResult<Item> = iterator1.next();
+      const res2: IteratorResult<Item> = iterator2.next();
+
+      if (res1.done === true && res2.done === true) {
+        if (!Equality.same(res1.value, res2.value)) {
+          return false;
+        }
+
+        continue;
+      }
+
+      if (res1.done === res2.done) {
+        return true;
+      }
+
+      return false;
+    }
   }
 
   private static sameObject(obj1: PlainObject, obj2: PlainObject): boolean {
@@ -58,7 +76,7 @@ export class Equality {
         return false;
       }
 
-      if (!Equality.same(obj1[keys1[i]], prop)) {
+      if (!Equality.sameInternal(obj1[keys1[i]], prop)) {
         return false;
       }
     }
