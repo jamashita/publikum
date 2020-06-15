@@ -7,7 +7,8 @@ import {
 import { Quantity } from '../../Quantity';
 import { Sequence } from '../Interface/Sequence';
 
-export abstract class ASequence<E extends Nominative<E>, N extends string = string> extends Quantity<number, E, N>
+export abstract class ASequence<E extends Nominative<E>, N extends string = string>
+  extends Quantity<ASequence<E, N>, number, E, N>
   implements Sequence<E, N> {
   public abstract readonly noun: N;
   protected readonly elements: Array<E>;
@@ -19,7 +20,7 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
 
   public abstract add(...elements: Array<E>): Sequence<E, N>;
 
-  public abstract map<F extends Nominative<F, N>>(mapper: Mapper<E, F>): Sequence<F, N>;
+  public abstract map<F extends Nominative<F>>(mapper: Mapper<E, F>): Sequence<F, N>;
 
   public abstract filter(iterator: Enumerator<number, E>): Sequence<E, N>;
 
@@ -81,7 +82,7 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
     return this.elements.some(predicate);
   }
 
-  public equals(other: ASequence<E, N>): boolean {
+  public equals(other: Sequence<E, N>): boolean {
     if (this === other) {
       return true;
     }
@@ -89,8 +90,15 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
       return false;
     }
 
+    // TODO SHOULD BE ITERATOR
     return this.elements.every((element: E, index: number) => {
-      return element.equals(other.elements[index]);
+      const quantum: Quantum<E> = other.get(index);
+
+      if (quantum.isAbsent()) {
+        return false;
+      }
+
+      return element.equals(quantum.get());
     });
   }
 

@@ -1,8 +1,8 @@
-import { Equalable, Nominative, Noun, Serializable } from '@jamashita/publikum-interface';
+import { Equalable, Noun, Serializable } from '@jamashita/publikum-interface';
 import { Quantum } from '@jamashita/publikum-monad';
 
-export interface Collection<K, V extends Nominative<V>, N extends string = string>
-  extends Equalable<Collection<K, V, N>>,
+export interface Collection<T extends Collection<T, K, V, N>, K, V, N extends string = string>
+  extends Equalable<T>,
     Serializable,
     Noun<N> {
   get(key: K): Quantum<V>;

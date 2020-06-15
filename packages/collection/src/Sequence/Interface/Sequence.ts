@@ -5,7 +5,7 @@ import { BinaryPredicate, Enumerator, Mapper, Predicate } from '@jamashita/publi
 import { Collection } from '../../Interface/Collection';
 
 export interface Sequence<E extends Nominative<E>, N extends string = string>
-  extends Collection<number, E, N>,
+  extends Collection<Sequence<E, N>, number, E, N>,
     Cloneable<Sequence<E, N>>,
     Nominative<Sequence<E, N>, N> {
   add(...elements: Array<E>): Sequence<E, N>;
@@ -17,7 +17,7 @@ export interface Sequence<E extends Nominative<E>, N extends string = string>
 
   forEach(iteration: Mapper<E, void>): void;
 
-  map<F extends Nominative<F, N>>(mapper: Mapper<E, F>): Sequence<F, N>;
+  map<F extends Nominative<F>>(mapper: Mapper<E, F>): Sequence<F, N>;
 
   find(predicate: Predicate<E>): Quantum<E>;
 

@@ -5,7 +5,8 @@ import { Ambiguous, Enumerator, Predicate } from '@jamashita/publikum-type';
 import { Quantity } from '../../Quantity';
 import { Address } from '../Interface/Address';
 
-export abstract class AAddress<E extends Nominative<E>, N extends string = string> extends Quantity<void, E, N>
+export abstract class AAddress<E extends Nominative<E>, N extends string = string>
+  extends Quantity<Address<E, N>, void, E, N>
   implements Address<E, N> {
   public abstract readonly noun: N;
   protected readonly elements: Map<string, E>;
@@ -88,7 +89,7 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     return false;
   }
 
-  public equals(other: AAddress<E, N>): boolean {
+  public equals(other: Address<E, N>): boolean {
     if (this === other) {
       return true;
     }

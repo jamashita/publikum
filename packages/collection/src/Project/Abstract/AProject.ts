@@ -6,7 +6,7 @@ import { Quantity } from '../../Quantity';
 import { Project } from '../Interface/Project';
 
 export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>, N extends string = string>
-  extends Quantity<K, V, N>
+  extends Quantity<Project<K, V, N>, K, V, N>
   implements Project<K, V, N> {
   public abstract readonly noun: N;
   protected readonly elements: Map<string, [K, V]>;
@@ -85,7 +85,7 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
     return false;
   }
 
-  public equals(other: AProject<K, V, N>): boolean {
+  public equals(other: Project<K, V, N>): boolean {
     if (this === other) {
       return true;
     }

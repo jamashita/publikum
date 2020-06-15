@@ -1,12 +1,10 @@
-import { Nominative } from '@jamashita/publikum-interface';
 import { Quantum } from '@jamashita/publikum-monad';
 import { Objet } from '@jamashita/publikum-object';
 
 import { Collection } from './Interface/Collection';
 
-export abstract class Quantity<K, V extends Nominative<V>, N extends string = string>
-  extends Objet<Quantity<K, V, N>, N>
-  implements Collection<K, V, N> {
+export abstract class Quantity<T extends Quantity<T, K, V, N>, K, V, N extends string = string> extends Objet<T, N>
+  implements Collection<T, K, V, N> {
   protected constructor() {
     super();
   }
