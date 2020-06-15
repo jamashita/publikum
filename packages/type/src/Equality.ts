@@ -1,7 +1,8 @@
-import { Ambiguous, ObjectLiteral, Primitive } from '@jamashita/publikum-type';
+import { Ambiguous, Kind, ObjectLiteral, Primitive } from '@jamashita/publikum-type';
 
-import { Kind } from '../dist/esm/Kind';
 import { PlainObject } from './Value';
+
+type Item = Primitive | PlainObject | ArrayLike<Item>;
 
 // TODO TEST UNDOEN
 export class Equality {
@@ -9,7 +10,7 @@ export class Equality {
     if (n1 === n2) {
       return true;
     }
-    if (Kind.isArray<Primitive | PlainObject>(n1) && Kind.isArray<Primitive | PlainObject>(n2)) {
+    if (Kind.isArray<Item>(n1) && Kind.isArray<Item>(n2)) {
       return Equality.sameArray(n1, n2);
     }
     if (Kind.isPlainObject(n1) && Kind.isPlainObject(n2)) {
@@ -19,10 +20,7 @@ export class Equality {
     return false;
   }
 
-  private static sameArray(
-    arr1: ArrayLike<Primitive | PlainObject>,
-    arr2: ArrayLike<Primitive | PlainObject>
-  ): boolean {
+  private static sameArray(arr1: Array<Item>, arr2: Array<Item>): boolean {
     // prettier-ignore
     const {
       length
@@ -54,7 +52,7 @@ export class Equality {
     }
 
     for (let i: number = 0; i < length; i++) {
-      const prop: Ambiguous<Primitive | PlainObject | ArrayLike<Primitive | PlainObject>> = obj2[keys1[i]];
+      const prop: Ambiguous<Item> = obj2[keys1[i]];
 
       if (prop === undefined) {
         return false;
