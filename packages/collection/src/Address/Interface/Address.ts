@@ -4,6 +4,7 @@ import { Enumerator, Predicate } from '@jamashita/publikum-type';
 
 import { Collection } from '../../Interface/Collection';
 
+// TODO ITERABLE
 export interface Address<E extends Nominative<E>, N extends string = string>
   extends Collection<Address<E, N>, void, E, N>,
     Cloneable<Address<E, N>>,

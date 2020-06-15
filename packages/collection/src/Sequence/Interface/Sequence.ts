@@ -4,6 +4,7 @@ import { BinaryPredicate, Enumerator, Mapper, Predicate } from '@jamashita/publi
 
 import { Collection } from '../../Interface/Collection';
 
+// TODO ITERABLE
 export interface Sequence<E extends Nominative<E>, N extends string = string>
   extends Collection<Sequence<E, N>, number, E, N>,
     Cloneable<Sequence<E, N>>,

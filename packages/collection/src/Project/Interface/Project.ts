@@ -3,6 +3,7 @@ import { BinaryPredicate, Enumerator } from '@jamashita/publikum-type';
 
 import { Collection } from '../../Interface/Collection';
 
+// TODO ITERABLE
 export interface Project<K extends Nominative<K>, V extends Nominative<V>, N extends string = string>
   extends Collection<Project<K, V, N>, K, V, N>,
     Cloneable<Project<K, V, N>>,

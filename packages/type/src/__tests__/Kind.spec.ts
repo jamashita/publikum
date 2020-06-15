@@ -66,6 +66,7 @@ describe('Kind', () => {
       expect(Kind.isNumber(0)).toBe(true);
       expect(Kind.isNumber(-12)).toBe(true);
       expect(Kind.isNumber(0.3)).toBe(true);
+      expect(Kind.isNumber(NaN)).toBe(true);
       expect(Kind.isNumber(false)).toBe(false);
       expect(Kind.isNumber(true)).toBe(false);
       expect(Kind.isNumber(Symbol('p'))).toBe(false);
@@ -85,6 +86,7 @@ describe('Kind', () => {
       expect(Kind.isInteger(0)).toBe(true);
       expect(Kind.isInteger(-12)).toBe(true);
       expect(Kind.isInteger(0.3)).toBe(false);
+      expect(Kind.isInteger(NaN)).toBe(false);
       expect(Kind.isInteger(false)).toBe(false);
       expect(Kind.isInteger(true)).toBe(false);
       expect(Kind.isInteger(Symbol('p'))).toBe(false);
@@ -94,6 +96,26 @@ describe('Kind', () => {
     });
   });
 
+  describe('isNaN', () => {
+    it('returns true when only the value is NaN', () => {
+      expect(Kind.isNaN(null)).toBe(false);
+      expect(Kind.isNaN(undefined)).toBe(false);
+      expect(Kind.isNaN('')).toBe(false);
+      expect(Kind.isNaN('123')).toBe(false);
+      expect(Kind.isNaN('abcd')).toBe(false);
+      expect(Kind.isNaN(123)).toBe(false);
+      expect(Kind.isNaN(0)).toBe(false);
+      expect(Kind.isNaN(-12)).toBe(false);
+      expect(Kind.isNaN(0.3)).toBe(false);
+      expect(Kind.isNaN(NaN)).toBe(true);
+      expect(Kind.isNaN(false)).toBe(false);
+      expect(Kind.isNaN(true)).toBe(false);
+      expect(Kind.isNaN(Symbol('p'))).toBe(false);
+      expect(Kind.isNaN(20n)).toBe(false);
+      expect(Kind.isNaN({})).toBe(false);
+      expect(Kind.isNaN([])).toBe(false);
+    });
+  });
   describe('isBoolean', () => {
     it('returns true when true and false are given', () => {
       expect(Kind.isBoolean(null)).toBe(false);
@@ -192,6 +214,10 @@ describe('Kind', () => {
       expect(Kind.isPlainObject({})).toBe(true);
       expect(Kind.isPlainObject([])).toBe(false);
       expect(Kind.isPlainObject(new Error())).toBe(false);
+      expect(Kind.isPlainObject({ e: new Error() })).toBe(false);
+      expect(Kind.isPlainObject({ e: { e: new Error() } })).toBe(false);
+      expect(Kind.isPlainObject({ s: 1 })).toBe(true);
+      expect(Kind.isPlainObject({ s: { s: 1 } })).toBe(true);
     });
   });
 

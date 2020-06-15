@@ -2,6 +2,10 @@ import { PlainObject, Primitive } from './Value';
 
 const LITERAL_TOSTRING: string = '[object Object]';
 
+type Vague = Readonly<{
+  [key: string]: unknown;
+}>;
+
 export class Kind {
   public static isUndefined(value: unknown): value is undefined {
     if (value === undefined) {
@@ -37,6 +41,19 @@ export class Kind {
 
   public static isInteger(value: unknown): value is number {
     return Number.isInteger(value);
+  }
+
+  public static isNaN(value: unknown): value is number {
+    if (Kind.isNumber(value)) {
+      // eslint-disable-next-line no-self-compare
+      if (value !== value) {
+        return true;
+      }
+
+      return false;
+    }
+
+    return false;
   }
 
   public static isBoolean(value: unknown): value is boolean {
@@ -84,9 +101,26 @@ export class Kind {
     if (value === null) {
       return false;
     }
+
+    const v: Vague = value as Vague;
+
     // eslint-disable-next-line @typescript-eslint/no-base-to-string
-    if (value.toString() === LITERAL_TOSTRING) {
-      return true;
+    if (v.toString() === LITERAL_TOSTRING) {
+      const keys: Array<string> = Object.keys(v);
+
+      return keys.every((key: string) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        const prop: unknown = v[key];
+
+        if (Kind.isPrimitive(prop)) {
+          return true;
+        }
+        if (Kind.isPlainObject(prop)) {
+          return true;
+        }
+
+        return false;
+      });
     }
 
     return false;
