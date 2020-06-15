@@ -126,7 +126,7 @@ export class Kind {
     return false;
   }
 
-  public static isArray(value: unknown): value is Array<unknown> {
+  public static isArray<T = unknown>(value: unknown): value is Array<T> {
     return Array.isArray(value);
   }
 
