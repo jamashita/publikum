@@ -1,12 +1,12 @@
 import { Nominative } from '@jamashita/publikum-interface';
 import { Absent, Present, Quantum } from '@jamashita/publikum-monad';
-import { Objet } from '@jamashita/publikum-object';
 import { Ambiguous, BinaryPredicate, Enumerator } from '@jamashita/publikum-type';
 
+import { Quantity } from '../../Quantity';
 import { Project } from '../Interface/Project';
 
 export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>, N extends string = string>
-  extends Objet<AProject<K, V, N>>
+  extends Quantity<K, V, N>
   implements Project<K, V, N> {
   public abstract readonly noun: N;
   protected readonly elements: Map<string, [K, V]>;
