@@ -1,28 +1,25 @@
+import { RecursiveReferenceError } from './Error/RecursiveReferenceError';
 import { Kind } from './Kind';
 import { ObjectLiteral, PlainObject, PlainObjectItem } from './Value';
 
-// TODO TEST ODEN
 export class Clone {
   public static copy<T extends ObjectLiteral>(obj: T): T {
+    if (Kind.isRecursive(obj)) {
+      throw new RecursiveReferenceError('RECURSIVE REFERENCE DETECTED');
+    }
+
+    return Clone.copyInternal(obj) as T;
+  }
+
+  private static copyInternal(obj: ObjectLiteral | PlainObjectItem): ObjectLiteral | PlainObjectItem {
     if (Kind.isPlainObject(obj)) {
-      return Clone.copyObject(obj) as T;
+      return Clone.copyObject(obj);
     }
     if (Kind.isArray<PlainObjectItem>(obj)) {
-      return (Clone.copyArray(obj) as unknown) as T;
+      return Clone.copyArray(obj);
     }
 
     return obj;
-  }
-
-  private static copyPlainObjectItem(item: PlainObjectItem): PlainObjectItem {
-    if (Kind.isPlainObject(item)) {
-      return Clone.copyObject(item);
-    }
-    if (Kind.isArray<PlainObjectItem>(item)) {
-      return Clone.copyArray(item);
-    }
-
-    return item;
   }
 
   private static copyObject(obj: PlainObject): PlainObject {
@@ -30,7 +27,7 @@ export class Clone {
     const p: PlainObject = {};
 
     keys.forEach((key: string) => {
-      p[key] = Clone.copyPlainObjectItem(obj[key]);
+      p[key] = Clone.copyInternal(obj[key]);
     });
 
     return p;
@@ -40,7 +37,7 @@ export class Clone {
     const a: Array<PlainObjectItem> = [];
 
     arr.forEach((item: PlainObjectItem, index: number) => {
-      a[index] = Clone.copyPlainObjectItem(item);
+      a[index] = Clone.copyInternal(item);
     });
 
     return a;
