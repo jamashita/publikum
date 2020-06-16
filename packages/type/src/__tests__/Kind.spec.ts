@@ -55,6 +55,63 @@ describe('Kind', () => {
     });
   });
 
+  describe('isNumericalString', () => {
+    it('returns true if the string is able to convert number', () => {
+      expect(Kind.isNumericalString(null)).toBe(false);
+      expect(Kind.isNumericalString(undefined)).toBe(false);
+      expect(Kind.isNumericalString(123)).toBe(false);
+      expect(Kind.isNumericalString(0)).toBe(false);
+      expect(Kind.isNumericalString(-12)).toBe(false);
+      expect(Kind.isNumericalString(0.3)).toBe(false);
+      expect(Kind.isNumericalString(NaN)).toBe(false);
+      expect(Kind.isNumericalString(false)).toBe(false);
+      expect(Kind.isNumericalString(true)).toBe(false);
+      expect(Kind.isNumericalString(Symbol('p'))).toBe(false);
+      expect(Kind.isNumericalString({})).toBe(false);
+      expect(Kind.isNumericalString([])).toBe(false);
+      expect(Kind.isNumericalString('a')).toBe(false);
+      expect(Kind.isNumericalString('abcd')).toBe(false);
+      expect(Kind.isNumericalString('')).toBe(false);
+      expect(Kind.isNumericalString('+')).toBe(false);
+      expect(Kind.isNumericalString('-')).toBe(false);
+      expect(Kind.isNumericalString('.')).toBe(false);
+      expect(Kind.isNumericalString('+.')).toBe(false);
+      expect(Kind.isNumericalString('-.')).toBe(false);
+      expect(Kind.isNumericalString('0')).toBe(true);
+      expect(Kind.isNumericalString('0.')).toBe(false);
+      expect(Kind.isNumericalString('+0.')).toBe(false);
+      expect(Kind.isNumericalString('-0.')).toBe(false);
+      expect(Kind.isNumericalString('.0')).toBe(false);
+      expect(Kind.isNumericalString('+.0')).toBe(false);
+      expect(Kind.isNumericalString('-.0')).toBe(false);
+      expect(Kind.isNumericalString('.0.')).toBe(false);
+      expect(Kind.isNumericalString('+.0.')).toBe(false);
+      expect(Kind.isNumericalString('-.0.')).toBe(false);
+      expect(Kind.isNumericalString('1.0')).toBe(true);
+      expect(Kind.isNumericalString('+1.0')).toBe(true);
+      expect(Kind.isNumericalString('-1.0')).toBe(true);
+      expect(Kind.isNumericalString('1..0')).toBe(false);
+      expect(Kind.isNumericalString('+1..0')).toBe(false);
+      expect(Kind.isNumericalString('-1..0')).toBe(false);
+      expect(Kind.isNumericalString('1.0.')).toBe(false);
+      expect(Kind.isNumericalString('+1.0.')).toBe(false);
+      expect(Kind.isNumericalString('-1.0.')).toBe(false);
+      expect(Kind.isNumericalString('001')).toBe(true);
+      expect(Kind.isNumericalString('001.')).toBe(false);
+      expect(Kind.isNumericalString('+001.')).toBe(false);
+      expect(Kind.isNumericalString('-001.')).toBe(false);
+      expect(Kind.isNumericalString('001.0')).toBe(true);
+      expect(Kind.isNumericalString('+001.0')).toBe(true);
+      expect(Kind.isNumericalString('-001.0')).toBe(true);
+      expect(Kind.isNumericalString('001..0')).toBe(false);
+      expect(Kind.isNumericalString('+001..0')).toBe(false);
+      expect(Kind.isNumericalString('-001..0')).toBe(false);
+      expect(Kind.isNumericalString('001.0.')).toBe(false);
+      expect(Kind.isNumericalString('+001.0.')).toBe(false);
+      expect(Kind.isNumericalString('-001.0.')).toBe(false);
+    });
+  });
+
   describe('isNumber', () => {
     it('returns true even if double values are provided', () => {
       expect(Kind.isNumber(null)).toBe(false);

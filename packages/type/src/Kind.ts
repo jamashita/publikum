@@ -1,5 +1,6 @@
 import { PlainObject, Primitive } from './Value';
 
+const NUMBER_REGEX: RegExp = /^[+-]?[0-9]+\.?[0-9]*$/su;
 const LITERAL_TOSTRING: string = '[object Object]';
 
 type Vague = Readonly<{
@@ -31,6 +32,19 @@ export class Kind {
     return false;
   }
 
+  public static isNumericalString(value: unknown): value is string {
+    if (Kind.isString(value)) {
+      if (value.endsWith('.')) {
+        return false;
+      }
+      if (NUMBER_REGEX.test(value)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   public static isNumber(value: unknown): value is number {
     if (typeof value === 'number') {
       return true;
@@ -49,8 +63,6 @@ export class Kind {
       if (value !== value) {
         return true;
       }
-
-      return false;
     }
 
     return false;
