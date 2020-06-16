@@ -139,7 +139,7 @@ export class Kind {
     const keys: Array<string> = Object.keys(v);
 
     return keys.every((key: string) => {
-      return Kind.isLiteralType(v[key], visitStack);
+      return Kind.isSerializable(v[key], visitStack);
     });
   }
 
@@ -158,11 +158,11 @@ export class Kind {
     visitStack.add(value);
 
     return value.every((v: unknown) => {
-      return Kind.isLiteralType(v, visitStack);
+      return Kind.isSerializable(v, visitStack);
     });
   }
 
-  private static isLiteralType(value: unknown, visitStack: Set<unknown>): boolean {
+  private static isSerializable(value: unknown, visitStack: Set<unknown>): boolean {
     if (Kind.isPrimitive(value)) {
       return true;
     }
@@ -176,17 +176,17 @@ export class Kind {
     return false;
   }
 
-  private static isRecursive(value: unknown): boolean {
+  public static isRecursive(value: unknown): boolean {
     if (Kind.isPrimitive(value)) {
       return false;
     }
 
     // prettier-ignore
     try {
-      return Kind.isLiteralType(value, new Set<unknown>());
+      return !Kind.isSerializable(value, new Set<unknown>());
     }
     catch {
-      return false;
+      return true;
     }
   }
 

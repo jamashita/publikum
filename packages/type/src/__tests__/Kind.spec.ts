@@ -1,6 +1,6 @@
 import { RecursiveReferenceError } from '../Error/RecursiveReferenceError';
 import { Kind } from '../Kind';
-import { PlainObject } from '../Value';
+import { PlainObject, PlainObjectItem } from '../Value';
 
 describe('Kind', () => {
   describe('isUndefined', () => {
@@ -354,6 +354,141 @@ describe('Kind', () => {
       expect(() => {
         Kind.isArray(arr);
       }).toThrow(RecursiveReferenceError);
+    });
+  });
+
+  describe('isRecursive', () => {
+    it('returns false when primitive values are given', () => {
+      expect(Kind.isRecursive(null)).toBe(false);
+      expect(Kind.isRecursive(undefined)).toBe(false);
+      expect(Kind.isRecursive('')).toBe(false);
+      expect(Kind.isRecursive('123')).toBe(false);
+      expect(Kind.isRecursive('abcd')).toBe(false);
+      expect(Kind.isRecursive(123)).toBe(false);
+      expect(Kind.isRecursive(0)).toBe(false);
+      expect(Kind.isRecursive(-12)).toBe(false);
+      expect(Kind.isRecursive(0.3)).toBe(false);
+      expect(Kind.isRecursive(false)).toBe(false);
+      expect(Kind.isRecursive(true)).toBe(false);
+      expect(Kind.isRecursive(Symbol('p'))).toBe(false);
+      expect(Kind.isRecursive(20n)).toBe(false);
+    });
+
+    it('return false when given objects do not have recusive reference', () => {
+      expect(Kind.isRecursive({})).toBe(false);
+      expect(
+        Kind.isRecursive({
+          a: null
+        })
+      ).toBe(false);
+      expect(
+        Kind.isRecursive({
+          a: undefined
+        })
+      ).toBe(false);
+      expect(
+        Kind.isRecursive({
+          a: true
+        })
+      ).toBe(false);
+      expect(
+        Kind.isRecursive({
+          a: false
+        })
+      ).toBe(false);
+      expect(
+        Kind.isRecursive({
+          a: 'picture in picture'
+        })
+      ).toBe(false);
+      expect(
+        Kind.isRecursive({
+          a: 0.001
+        })
+      ).toBe(false);
+      expect(
+        Kind.isRecursive({
+          a: -0.001
+        })
+      ).toBe(false);
+      expect(
+        Kind.isRecursive({
+          a: Infinity
+        })
+      ).toBe(false);
+      expect(
+        Kind.isRecursive({
+          a: NaN
+        })
+      ).toBe(false);
+      expect(
+        Kind.isRecursive({
+          a: Symbol()
+        })
+      ).toBe(false);
+      expect(
+        Kind.isRecursive({
+          a: 46n
+        })
+      ).toBe(false);
+      expect(
+        Kind.isRecursive({
+          a: {}
+        })
+      ).toBe(false);
+      expect(
+        Kind.isRecursive({
+          a: {
+            b: {
+              c: undefined,
+              d: {}
+            }
+          }
+        })
+      ).toBe(false);
+      expect(
+        Kind.isRecursive({
+          a: []
+        })
+      ).toBe(false);
+      expect(
+        Kind.isRecursive({
+          a: [undefined, [undefined]]
+        })
+      ).toBe(false);
+      expect(Kind.isRecursive([])).toBe(false);
+      expect(Kind.isRecursive([undefined, [undefined]])).toBe(false);
+    });
+
+    it('recursive detectiion pattern', () => {
+      const obj1: PlainObject = {
+        a: 'noi'
+      };
+      const obj2: PlainObject = {
+        b: 'voi',
+        o: obj1
+      };
+
+      obj1.o = obj2;
+
+      const arr: Array<PlainObject> = [];
+      const obj: PlainObject = {
+        arr
+      };
+
+      arr.push(obj);
+
+      const arr1: Array<PlainObjectItem> = [];
+      const arr2: Array<PlainObjectItem> = [arr1];
+
+      arr1.push(arr2);
+
+      expect(Kind.isRecursive(obj1)).toBe(true);
+      expect(Kind.isRecursive(obj2)).toBe(true);
+      expect(Kind.isRecursive(arr)).toBe(true);
+      expect(Kind.isRecursive(obj)).toBe(true);
+      expect(Kind.isRecursive(arr1)).toBe(true);
+      expect(Kind.isRecursive(arr2)).toBe(true);
     });
   });
 });
