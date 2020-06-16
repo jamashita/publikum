@@ -132,15 +132,15 @@ export class Kind {
     const v: Vague = value as Vague;
 
     // eslint-disable-next-line @typescript-eslint/no-base-to-string
-    if (v.toString() === LITERAL_TOSTRING) {
-      const keys: Array<string> = Object.keys(v);
-
-      return keys.every((key: string) => {
-        return Kind.isLiteralType(v[key], visitStack);
-      });
+    if (v.toString() !== LITERAL_TOSTRING) {
+      return false;
     }
 
-    return false;
+    const keys: Array<string> = Object.keys(v);
+
+    return keys.every((key: string) => {
+      return Kind.isLiteralType(v[key], visitStack);
+    });
   }
 
   public static isArray<T = unknown>(value: unknown): value is Array<T> {
