@@ -1,4 +1,5 @@
 import { Kind } from '../Kind';
+import { PlainObject } from '../Value';
 
 describe('Kind', () => {
   describe('isUndefined', () => {
@@ -275,6 +276,32 @@ describe('Kind', () => {
       expect(Kind.isPlainObject({ e: { e: new Error() } })).toBe(false);
       expect(Kind.isPlainObject({ s: 1 })).toBe(true);
       expect(Kind.isPlainObject({ s: { s: 1 } })).toBe(true);
+    });
+
+    it('returns false if resursion is detected', () => {
+      const obj1: PlainObject = {
+        a: 'noi'
+      };
+      const obj2: PlainObject = {
+        b: 'voi',
+        o: obj1
+      };
+
+      obj1.o = obj2;
+
+      expect(Kind.isPlainObject(obj1)).toBe(false);
+      expect(Kind.isPlainObject(obj2)).toBe(false);
+    });
+
+    it('returns false if resursion is detected in array', () => {
+      const arr: Array<PlainObject> = [];
+      const obj1: PlainObject = {
+        arr
+      };
+
+      arr.push(obj1);
+
+      expect(Kind.isPlainObject(obj1)).toBe(false);
     });
   });
 

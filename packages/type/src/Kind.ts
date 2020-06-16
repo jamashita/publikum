@@ -115,12 +115,21 @@ export class Kind {
   }
 
   public static isPlainObject(value: unknown): value is PlainObject {
+    return Kind.isPlainObjectInternal(value, new Set<unknown>());
+  }
+
+  private static isPlainObjectInternal(value: unknown, visitStack: Set<unknown>): boolean {
     if (typeof value !== 'object') {
       return false;
     }
     if (value === null) {
       return false;
     }
+    if (visitStack.has(value)) {
+      return false;
+    }
+
+    visitStack.add(value);
 
     const v: Vague = value as Vague;
 
@@ -129,17 +138,7 @@ export class Kind {
       const keys: Array<string> = Object.keys(v);
 
       return keys.every((key: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-        const prop: unknown = v[key];
-
-        if (Kind.isPrimitive(prop)) {
-          return true;
-        }
-        if (Kind.isPlainObject(prop)) {
-          return true;
-        }
-
-        return false;
+        return Kind.isResursive(v[key], visitStack);
       });
     }
 
@@ -147,7 +146,36 @@ export class Kind {
   }
 
   public static isArray<T = unknown>(value: unknown): value is Array<T> {
-    return Array.isArray(value);
+    return Kind.isArrayInternal(value, new Set<unknown>());
+  }
+
+  private static isArrayInternal(value: unknown, visitStack: Set<unknown>): boolean {
+    if (!Array.isArray(value)) {
+      return false;
+    }
+    if (visitStack.has(value)) {
+      return false;
+    }
+
+    visitStack.add(value);
+
+    return value.every((v: unknown) => {
+      return Kind.isResursive(v, visitStack);
+    });
+  }
+
+  private static isResursive(value: unknown, visitStack: Set<unknown>): boolean {
+    if (Kind.isPrimitive(value)) {
+      return true;
+    }
+    if (Kind.isArrayInternal(value, visitStack)) {
+      return true;
+    }
+    if (Kind.isPlainObjectInternal(value, visitStack)) {
+      return true;
+    }
+
+    return false;
   }
 
   private constructor() {
