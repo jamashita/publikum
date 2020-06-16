@@ -1,4 +1,8 @@
 import { Equality } from '../Equality';
+import { RecursiveReferenceError } from '../Error/RecursiveReferenceError';
+import { PlainObject, Primitive } from '../Value';
+
+type Item = Primitive | PlainObject | ArrayLike<Item>;
 
 describe('Equality', () => {
   describe('same', () => {
@@ -276,5 +280,54 @@ describe('Equality', () => {
       ).toBe(false);
       expect(Equality.same([], [undefined])).toBe(false);
     });
+  });
+
+  it('recursive detectiion pattern', () => {
+    const obj1: PlainObject = {
+      a: 'noi'
+    };
+    const obj2: PlainObject = {
+      b: 'voi',
+      o: obj1
+    };
+
+    obj1.o = obj2;
+
+    const arr: Array<PlainObject> = [];
+    const obj: PlainObject = {
+      arr
+    };
+
+    arr.push(obj);
+
+    const arr1: Array<Item> = [];
+    const arr2: Array<Item> = [arr1];
+
+    arr1.push(arr2);
+
+    expect(() => {
+      Equality.same(obj1, {});
+    }).toThrow(RecursiveReferenceError);
+    expect(() => {
+      Equality.same({}, obj2);
+    }).toThrow(RecursiveReferenceError);
+    expect(() => {
+      Equality.same(obj1, obj2);
+    }).toThrow(RecursiveReferenceError);
+    expect(() => {
+      Equality.same(arr, {});
+    }).toThrow(RecursiveReferenceError);
+    expect(() => {
+      Equality.same({}, arr);
+    }).toThrow(RecursiveReferenceError);
+    expect(() => {
+      Equality.same(arr1, []);
+    }).toThrow(RecursiveReferenceError);
+    expect(() => {
+      Equality.same([], arr2);
+    }).toThrow(RecursiveReferenceError);
+    expect(() => {
+      Equality.same(arr1, arr2);
+    }).toThrow(RecursiveReferenceError);
   });
 });

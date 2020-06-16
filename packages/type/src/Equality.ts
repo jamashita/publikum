@@ -1,16 +1,25 @@
-import { Ambiguous, Kind, ObjectLiteral, Primitive } from '@jamashita/publikum-type';
-
-import { PlainObject } from './Value';
+import { RecursiveReferenceError } from './Error/RecursiveReferenceError';
+import { Kind } from './Kind';
+import { Ambiguous, ObjectLiteral, PlainObject, Primitive } from './Value';
 
 type Item = Primitive | PlainObject | ArrayLike<Item>;
 
-// TODO TEST UNDOEN
 export class Equality {
   public static same(n1: ObjectLiteral, n2: ObjectLiteral): boolean {
-    return Equality.sameInternal(n1, n2);
+    return Equality.sameInternal([n1, new Set<unknown>()], [n2, new Set<unknown>()]);
   }
 
-  private static sameInternal(n1: Primitive | ObjectLiteral, n2: Primitive | ObjectLiteral): boolean {
+  private static sameInternal(
+    [n1, stack1]: [Primitive | ObjectLiteral, Set<unknown>],
+    [n2, stack2]: [Primitive | ObjectLiteral, Set<unknown>]
+  ): boolean {
+    if (stack1.has(n1)) {
+      throw new RecursiveReferenceError('RECURSIVE REFERENCE DETECTED');
+    }
+    if (stack2.has(n2)) {
+      throw new RecursiveReferenceError('RECURSIVE REFERENCE DETECTED');
+    }
+
     if (Kind.isPrimitive(n1) && Kind.isPrimitive(n2)) {
       return Equality.samePrimitive(n1, n2);
     }
@@ -18,10 +27,10 @@ export class Equality {
       return true;
     }
     if (Kind.isArray<Item>(n1) && Kind.isArray<Item>(n2)) {
-      return Equality.sameArray(n1, n2);
+      return Equality.sameArray([n1, stack1], [n2, stack2]);
     }
     if (Kind.isPlainObject(n1) && Kind.isPlainObject(n2)) {
-      return Equality.sameObject(n1, n2);
+      return Equality.sameObject([n1, stack1], [n2, stack2]);
     }
 
     return false;
@@ -46,7 +55,10 @@ export class Equality {
     return false;
   }
 
-  private static sameArray(arr1: Array<Item>, arr2: Array<Item>): boolean {
+  private static sameArray(
+    [arr1, stack1]: [Array<Item>, Set<unknown>],
+    [arr2, stack2]: [Array<Item>, Set<unknown>]
+  ): boolean {
     if (arr1.length !== arr2.length) {
       return false;
     }
@@ -60,7 +72,7 @@ export class Equality {
       const res2: IteratorResult<Item> = iterator2.next();
 
       if (res1.done !== true && res2.done !== true) {
-        if (!Equality.sameInternal(res1.value, res2.value)) {
+        if (!Equality.sameInternal([res1.value, stack1], [res2.value, stack2])) {
           return false;
         }
 
@@ -74,7 +86,10 @@ export class Equality {
     }
   }
 
-  private static sameObject(obj1: PlainObject, obj2: PlainObject): boolean {
+  private static sameObject(
+    [obj1, stack1]: [PlainObject, Set<unknown>],
+    [obj2, stack2]: [PlainObject, Set<unknown>]
+  ): boolean {
     const keys1: Array<string> = Object.keys(obj1);
     const keys2: Array<string> = Object.keys(obj2);
     // prettier-ignore
@@ -90,7 +105,7 @@ export class Equality {
       const key: string = keys1[i];
       const prop: Ambiguous<Item> = obj2[key];
 
-      if (!Equality.sameInternal(obj1[key], prop)) {
+      if (!Equality.sameInternal([obj1[key], stack1], [prop, stack2])) {
         return false;
       }
     }
