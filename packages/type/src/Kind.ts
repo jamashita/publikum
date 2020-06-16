@@ -100,12 +100,16 @@ export class Kind {
       return true;
     }
     switch (typeof value) {
-      case 'object':
-      case 'function': {
-        return false;
+      case 'undefined':
+      case 'boolean':
+      case 'number':
+      case 'string':
+      case 'symbol':
+      case 'bigint': {
+        return true;
       }
       default: {
-        return true;
+        return false;
       }
     }
   }
