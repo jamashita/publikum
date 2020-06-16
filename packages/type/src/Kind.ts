@@ -176,6 +176,20 @@ export class Kind {
     return false;
   }
 
+  private static isRecursive(value: unknown): boolean {
+    if (Kind.isPrimitive(value)) {
+      return false;
+    }
+
+    // prettier-ignore
+    try {
+      return Kind.isLiteralType(value, new Set<unknown>());
+    }
+    catch {
+      return false;
+    }
+  }
+
   private constructor() {
     // NOOP
   }
