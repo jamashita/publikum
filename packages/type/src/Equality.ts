@@ -90,10 +90,6 @@ export class Equality {
       const key: string = keys1[i];
       const prop: Ambiguous<Item> = obj2[key];
 
-      if (prop === undefined) {
-        return false;
-      }
-
       if (!Equality.sameInternal(obj1[key], prop)) {
         return false;
       }
