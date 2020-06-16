@@ -17,25 +17,23 @@ export class Clone {
     return obj;
   }
 
+  private static copyItem(item: Item): Item {
+    if (Kind.isPlainObject(item)) {
+      return Clone.copyObject(item);
+    }
+    if (Kind.isArray<Item>(item)) {
+      return Clone.copyArray(item);
+    }
+
+    return item;
+  }
+
   private static copyObject(obj: PlainObject): PlainObject {
     const keys: Array<string> = Object.keys(obj);
     const p: PlainObject = {};
 
     keys.forEach((key: string) => {
-      const value: Item = obj[key];
-
-      if (Kind.isArray<Item>(value)) {
-        p[key] = Clone.copyArray(value);
-
-        return;
-      }
-      if (Kind.isPlainObject(value)) {
-        p[key] = Clone.copyObject(value);
-
-        return;
-      }
-
-      p[key] = value;
+      p[key] = Clone.copyItem(obj[key]);
     });
 
     return p;
@@ -44,19 +42,8 @@ export class Clone {
   private static copyArray(arr: Array<Item>): Array<Item> {
     const a: Array<Item> = [];
 
-    arr.forEach((value: Item) => {
-      if (Kind.isArray<Item>(value)) {
-        a.push(Clone.copyArray(value));
-
-        return;
-      }
-      if (Kind.isPlainObject(value)) {
-        a.push(Clone.copyObject(value));
-
-        return;
-      }
-
-      a.push(value);
+    arr.forEach((item: Item, index: number) => {
+      a[index] = Clone.copyItem(item);
     });
 
     return a;

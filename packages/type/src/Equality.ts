@@ -7,7 +7,14 @@ type Item = Primitive | PlainObject | ArrayLike<Item>;
 // TODO TEST UNDOEN
 export class Equality {
   public static same(n1: ObjectLiteral, n2: ObjectLiteral): boolean {
-    if (n1 === n2) {
+    return Equality.sameInternal(n1, n2);
+  }
+
+  private static sameInternal(n1: Primitive | ObjectLiteral, n2: Primitive | ObjectLiteral): boolean {
+    if (Kind.isPrimitive(n1) && Kind.isPrimitive(n2)) {
+      return Equality.samePrimitive(n1, n2);
+    }
+    if (Equality.sameReference(n1, n2)) {
       return true;
     }
     if (Kind.isArray<Item>(n1) && Kind.isArray<Item>(n2)) {
@@ -20,12 +27,23 @@ export class Equality {
     return false;
   }
 
-  private static sameInternal(n1: Primitive | ObjectLiteral, n2: Primitive | ObjectLiteral): boolean {
+  private static sameReference(n1: Primitive | ObjectLiteral, n2: Primitive | ObjectLiteral): boolean {
     if (n1 === n2) {
       return true;
     }
 
-    return Equality.same(n1 as ObjectLiteral, n2 as ObjectLiteral);
+    return false;
+  }
+
+  private static samePrimitive(p1: Primitive, p2: Primitive): boolean {
+    if (Equality.sameReference(p1, p2)) {
+      return true;
+    }
+    if (Kind.isNaN(p1) && Kind.isNaN(p2)) {
+      return true;
+    }
+
+    return false;
   }
 
   private static sameArray(arr1: Array<Item>, arr2: Array<Item>): boolean {
@@ -41,15 +59,14 @@ export class Equality {
       const res1: IteratorResult<Item> = iterator1.next();
       const res2: IteratorResult<Item> = iterator2.next();
 
-      if (res1.done === true && res2.done === true) {
-        if (!Equality.same(res1.value, res2.value)) {
+      if (res1.done !== true && res2.done !== true) {
+        if (!Equality.sameInternal(res1.value, res2.value)) {
           return false;
         }
 
         continue;
       }
-
-      if (res1.done === res2.done) {
+      if (res1.done === true && res2.done === true) {
         return true;
       }
 
@@ -70,13 +87,14 @@ export class Equality {
     }
 
     for (let i: number = 0; i < length; i++) {
-      const prop: Ambiguous<Item> = obj2[keys1[i]];
+      const key: string = keys1[i];
+      const prop: Ambiguous<Item> = obj2[key];
 
       if (prop === undefined) {
         return false;
       }
 
-      if (!Equality.sameInternal(obj1[keys1[i]], prop)) {
+      if (!Equality.sameInternal(obj1[key], prop)) {
         return false;
       }
     }
