@@ -295,13 +295,13 @@ describe('Kind', () => {
 
     it('returns false if resursion is detected in array', () => {
       const arr: Array<PlainObject> = [];
-      const obj1: PlainObject = {
+      const obj: PlainObject = {
         arr
       };
 
-      arr.push(obj1);
+      arr.push(obj);
 
-      expect(Kind.isPlainObject(obj1)).toBe(false);
+      expect(Kind.isPlainObject(obj)).toBe(false);
     });
   });
 
@@ -322,6 +322,25 @@ describe('Kind', () => {
       expect(Kind.isArray(20n)).toBe(false);
       expect(Kind.isArray({})).toBe(false);
       expect(Kind.isArray([])).toBe(true);
+    });
+
+    it('returns false if resursion is detected', () => {
+      const arr1: Array<unknown> = [];
+      const arr2: Array<unknown> = [arr1];
+
+      arr2.push(arr1);
+
+      expect(Kind.isPlainObject(arr1)).toBe(false);
+      expect(Kind.isPlainObject(arr2)).toBe(false);
+    });
+
+    it('returns false if resursion is detected in array', () => {
+      const obj: PlainObject = {};
+      const arr: Array<PlainObject> = [obj];
+
+      obj.arr = arr;
+
+      expect(Kind.isPlainObject(obj)).toBe(false);
     });
   });
 });
