@@ -1,8 +1,5 @@
-import { Kind, ObjectLiteral, Primitive } from '@jamashita/publikum-type';
-
-import { PlainObject } from './Value';
-
-type Item = Primitive | PlainObject | ArrayLike<Item>;
+import { Kind } from './Kind';
+import { ObjectLiteral, PlainObject, PlainObjectItem } from './Value';
 
 // TODO TEST ODEN
 export class Clone {
@@ -10,18 +7,18 @@ export class Clone {
     if (Kind.isPlainObject(obj)) {
       return Clone.copyObject(obj) as T;
     }
-    if (Kind.isArray<Item>(obj)) {
+    if (Kind.isArray<PlainObjectItem>(obj)) {
       return (Clone.copyArray(obj) as unknown) as T;
     }
 
     return obj;
   }
 
-  private static copyItem(item: Item): Item {
+  private static copyPlainObjectItem(item: PlainObjectItem): PlainObjectItem {
     if (Kind.isPlainObject(item)) {
       return Clone.copyObject(item);
     }
-    if (Kind.isArray<Item>(item)) {
+    if (Kind.isArray<PlainObjectItem>(item)) {
       return Clone.copyArray(item);
     }
 
@@ -33,17 +30,17 @@ export class Clone {
     const p: PlainObject = {};
 
     keys.forEach((key: string) => {
-      p[key] = Clone.copyItem(obj[key]);
+      p[key] = Clone.copyPlainObjectItem(obj[key]);
     });
 
     return p;
   }
 
-  private static copyArray(arr: Array<Item>): Array<Item> {
-    const a: Array<Item> = [];
+  private static copyArray(arr: Array<PlainObjectItem>): Array<PlainObjectItem> {
+    const a: Array<PlainObjectItem> = [];
 
-    arr.forEach((item: Item, index: number) => {
-      a[index] = Clone.copyItem(item);
+    arr.forEach((item: PlainObjectItem, index: number) => {
+      a[index] = Clone.copyPlainObjectItem(item);
     });
 
     return a;

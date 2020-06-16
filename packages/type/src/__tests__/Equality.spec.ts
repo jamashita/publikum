@@ -1,8 +1,6 @@
 import { Equality } from '../Equality';
 import { RecursiveReferenceError } from '../Error/RecursiveReferenceError';
-import { PlainObject, Primitive } from '../Value';
-
-type Item = Primitive | PlainObject | ArrayLike<Item>;
+import { PlainObject, PlainObjectItem } from '../Value';
 
 describe('Equality', () => {
   describe('same', () => {
@@ -300,8 +298,8 @@ describe('Equality', () => {
 
     arr.push(obj);
 
-    const arr1: Array<Item> = [];
-    const arr2: Array<Item> = [arr1];
+    const arr1: Array<PlainObjectItem> = [];
+    const arr2: Array<PlainObjectItem> = [arr1];
 
     arr1.push(arr2);
 

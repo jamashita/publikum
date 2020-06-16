@@ -3,7 +3,7 @@ export type Nullable<T> = T | null;
 export type Ambiguous<T> = T | undefined;
 export type Suspicious<T> = T | null | undefined;
 export type PlainObject = {
-  [key: string]: Item;
+  [key: string]: PlainObjectItem;
 };
-type Item = Primitive | PlainObject | ArrayLike<Item>;
-export type ObjectLiteral = PlainObject | ArrayLike<Item>;
+export type PlainObjectItem = Primitive | PlainObject | ArrayLike<PlainObjectItem>;
+export type ObjectLiteral = PlainObject | ArrayLike<PlainObjectItem>;

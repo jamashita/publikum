@@ -1,8 +1,6 @@
 import { RecursiveReferenceError } from './Error/RecursiveReferenceError';
 import { Kind } from './Kind';
-import { Ambiguous, ObjectLiteral, PlainObject, Primitive } from './Value';
-
-type Item = Primitive | PlainObject | ArrayLike<Item>;
+import { Ambiguous, ObjectLiteral, PlainObject, PlainObjectItem, Primitive } from './Value';
 
 export class Equality {
   public static same(n1: ObjectLiteral, n2: ObjectLiteral): boolean {
@@ -26,7 +24,7 @@ export class Equality {
     if (Equality.sameReference(n1, n2)) {
       return true;
     }
-    if (Kind.isArray<Item>(n1) && Kind.isArray<Item>(n2)) {
+    if (Kind.isArray<PlainObjectItem>(n1) && Kind.isArray<PlainObjectItem>(n2)) {
       return Equality.sameArray([n1, stack1], [n2, stack2]);
     }
     if (Kind.isPlainObject(n1) && Kind.isPlainObject(n2)) {
@@ -56,20 +54,20 @@ export class Equality {
   }
 
   private static sameArray(
-    [arr1, stack1]: [Array<Item>, Set<unknown>],
-    [arr2, stack2]: [Array<Item>, Set<unknown>]
+    [arr1, stack1]: [Array<PlainObjectItem>, Set<unknown>],
+    [arr2, stack2]: [Array<PlainObjectItem>, Set<unknown>]
   ): boolean {
     if (arr1.length !== arr2.length) {
       return false;
     }
 
-    const iterator1: IterableIterator<Item> = arr1.values();
-    const iterator2: IterableIterator<Item> = arr2.values();
+    const iterator1: IterableIterator<PlainObjectItem> = arr1.values();
+    const iterator2: IterableIterator<PlainObjectItem> = arr2.values();
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      const res1: IteratorResult<Item> = iterator1.next();
-      const res2: IteratorResult<Item> = iterator2.next();
+      const res1: IteratorResult<PlainObjectItem> = iterator1.next();
+      const res2: IteratorResult<PlainObjectItem> = iterator2.next();
 
       if (res1.done !== true && res2.done !== true) {
         if (!Equality.sameInternal([res1.value, stack1], [res2.value, stack2])) {
@@ -103,7 +101,7 @@ export class Equality {
 
     for (let i: number = 0; i < length; i++) {
       const key: string = keys1[i];
-      const prop: Ambiguous<Item> = obj2[key];
+      const prop: Ambiguous<PlainObjectItem> = obj2[key];
 
       if (!Equality.sameInternal([obj1[key], stack1], [prop, stack2])) {
         return false;
