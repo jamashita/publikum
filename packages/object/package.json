@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-object",
-  "version": "1.8.4",
+  "version": "1.9.0",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
@@ -37,8 +37,8 @@
   },
   "dependencies": {
     "@jamashita/publikum-error": "^1.7.2",
-    "@jamashita/publikum-interface": "^1.8.1",
-    "@jamashita/publikum-type": "^1.8.0",
+    "@jamashita/publikum-interface": "^1.9.0",
+    "@jamashita/publikum-type": "^1.9.0",
     "object-hash": "2.0.3"
   },
   "devDependencies": {
