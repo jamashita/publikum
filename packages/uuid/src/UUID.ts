@@ -5,12 +5,11 @@ import { ValueObject } from '@jamashita/publikum-object';
 import { UUIDError } from './Error/UUIDError';
 
 const chance: Chance.Chance = new Chance();
+const REGEX: RegExp = /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/u;
 
 export class UUID extends ValueObject<UUID, 'UUID'> {
   public readonly noun: 'UUID' = 'UUID';
   private readonly id: string;
-
-  private static readonly REGEX: RegExp = /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/u;
 
   public static of(id: string): UUID {
     if (UUID.isAcceptable(id)) {
@@ -25,7 +24,7 @@ export class UUID extends ValueObject<UUID, 'UUID'> {
   }
 
   public static regex(): RegExp {
-    return UUID.REGEX;
+    return REGEX;
   }
 
   public static size(): number {
