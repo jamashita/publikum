@@ -99,11 +99,15 @@ export class Kind {
     if (value === null) {
       return true;
     }
-    if (typeof value === 'object') {
-      return false;
+    switch (typeof value) {
+      case 'object':
+      case 'function': {
+        return false;
+      }
+      default: {
+        return true;
+      }
     }
-
-    return true;
   }
 
   public static isPlainObject(value: unknown): value is PlainObject {
