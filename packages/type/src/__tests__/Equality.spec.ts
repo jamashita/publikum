@@ -313,10 +313,16 @@ describe('Equality', () => {
       Equality.same(obj1, obj2);
     }).toThrow(RecursiveReferenceError);
     expect(() => {
-      Equality.same(arr, {});
+      Equality.same(arr, []);
     }).toThrow(RecursiveReferenceError);
     expect(() => {
-      Equality.same({}, arr);
+      Equality.same([], arr);
+    }).toThrow(RecursiveReferenceError);
+    expect(() => {
+      Equality.same(obj, {});
+    }).toThrow(RecursiveReferenceError);
+    expect(() => {
+      Equality.same({}, obj);
     }).toThrow(RecursiveReferenceError);
     expect(() => {
       Equality.same(arr1, []);
