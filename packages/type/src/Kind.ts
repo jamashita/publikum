@@ -1,3 +1,4 @@
+import { RecursiveReferenceError } from './Error/RecursiveReferenceError';
 import { PlainObject, Primitive } from './Value';
 
 const NUMBER_REGEX: RegExp = /^[+-]?[0-9]+\.?[0-9]*$/su;
@@ -69,10 +70,7 @@ export class Kind {
   }
 
   public static isBoolean(value: unknown): value is boolean {
-    if (value === true) {
-      return true;
-    }
-    if (value === false) {
+    if (typeof value === 'boolean') {
       return true;
     }
 
@@ -126,7 +124,7 @@ export class Kind {
       return false;
     }
     if (visitStack.has(value)) {
-      return false;
+      throw new RecursiveReferenceError('RECURSIVE REFERENCE DETECTED');
     }
 
     visitStack.add(value);
@@ -138,7 +136,7 @@ export class Kind {
       const keys: Array<string> = Object.keys(v);
 
       return keys.every((key: string) => {
-        return Kind.isResursive(v[key], visitStack);
+        return Kind.isLiteralType(v[key], visitStack);
       });
     }
 
@@ -154,17 +152,17 @@ export class Kind {
       return false;
     }
     if (visitStack.has(value)) {
-      return false;
+      throw new RecursiveReferenceError('RECURSIVE REFERENCE DETECTED');
     }
 
     visitStack.add(value);
 
     return value.every((v: unknown) => {
-      return Kind.isResursive(v, visitStack);
+      return Kind.isLiteralType(v, visitStack);
     });
   }
 
-  private static isResursive(value: unknown, visitStack: Set<unknown>): boolean {
+  private static isLiteralType(value: unknown, visitStack: Set<unknown>): boolean {
     if (Kind.isPrimitive(value)) {
       return true;
     }

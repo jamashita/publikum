@@ -1,3 +1,4 @@
+export * from './Error/RecursiveReferenceError';
 export * from './Clone';
 export * from './Equality';
 export * from './Function';

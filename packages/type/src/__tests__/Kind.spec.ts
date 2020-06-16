@@ -1,3 +1,4 @@
+import { RecursiveReferenceError } from '../Error/RecursiveReferenceError';
 import { Kind } from '../Kind';
 import { PlainObject } from '../Value';
 
@@ -278,7 +279,7 @@ describe('Kind', () => {
       expect(Kind.isPlainObject({ s: { s: 1 } })).toBe(true);
     });
 
-    it('returns false if resursion is detected', () => {
+    it('throws RecursiveReferenceError if resursion is detected', () => {
       const obj1: PlainObject = {
         a: 'noi'
       };
@@ -289,11 +290,15 @@ describe('Kind', () => {
 
       obj1.o = obj2;
 
-      expect(Kind.isPlainObject(obj1)).toBe(false);
-      expect(Kind.isPlainObject(obj2)).toBe(false);
+      expect(() => {
+        Kind.isPlainObject(obj1);
+      }).toThrow(RecursiveReferenceError);
+      expect(() => {
+        Kind.isPlainObject(obj2);
+      }).toThrow(RecursiveReferenceError);
     });
 
-    it('returns false if resursion is detected in array', () => {
+    it('throws RecursiveReferenceError if resursion is detected in array', () => {
       const arr: Array<PlainObject> = [];
       const obj: PlainObject = {
         arr
@@ -301,7 +306,9 @@ describe('Kind', () => {
 
       arr.push(obj);
 
-      expect(Kind.isPlainObject(obj)).toBe(false);
+      expect(() => {
+        Kind.isPlainObject(obj);
+      }).toThrow(RecursiveReferenceError);
     });
   });
 
@@ -324,23 +331,29 @@ describe('Kind', () => {
       expect(Kind.isArray([])).toBe(true);
     });
 
-    it('returns false if resursion is detected', () => {
+    it('throws RecursiveReferenceError if resursion is detected', () => {
       const arr1: Array<unknown> = [];
       const arr2: Array<unknown> = [arr1];
 
-      arr2.push(arr1);
+      arr1.push(arr2);
 
-      expect(Kind.isPlainObject(arr1)).toBe(false);
-      expect(Kind.isPlainObject(arr2)).toBe(false);
+      expect(() => {
+        Kind.isArray(arr1);
+      }).toThrow(RecursiveReferenceError);
+      expect(() => {
+        Kind.isArray(arr2);
+      }).toThrow(RecursiveReferenceError);
     });
 
-    it('returns false if resursion is detected in array', () => {
+    it('throws RecursiveReferenceError if resursion is detected in array', () => {
       const obj: PlainObject = {};
       const arr: Array<PlainObject> = [obj];
 
       obj.arr = arr;
 
-      expect(Kind.isPlainObject(obj)).toBe(false);
+      expect(() => {
+        Kind.isArray(arr);
+      }).toThrow(RecursiveReferenceError);
     });
   });
 });
