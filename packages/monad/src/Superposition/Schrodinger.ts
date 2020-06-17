@@ -21,24 +21,38 @@ export class Schrodinger {
     return Alive.of<Array<S>, F>(values);
   }
 
-  public static playground<S, F extends Error>(supplier: Supplier<S>): Superposition<S, F> {
+  public static playground<S, F extends Error>(supplier: Supplier<Superposition<S, F>>): Superposition<S, F>;
+  public static playground<S, F extends Error>(supplier: Supplier<S>): Superposition<S, F>;
+  public static playground<S, F extends Error>(supplier: Supplier<Superposition<S, F> | S>): Superposition<S, F> {
     // prettier-ignore
     try {
-      const s: S = supplier();
+      const result: Superposition<S, F> | S = supplier();
 
-      return Alive.of<S, F>(s);
+      if (result instanceof Superposition) {
+        return result;
+      }
+
+      return Alive.of<S, F>(result);
     }
     catch (err) {
       return Dead.of<S, F>(err);
     }
   }
 
-  public static async sandbox<S, F extends Error>(supplier: AsyncSupplier<S>): Promise<Superposition<S, F>> {
+  public static sandbox<S, F extends Error>(supplier: AsyncSupplier<Superposition<S, F>>): Promise<Superposition<S, F>>;
+  public static sandbox<S, F extends Error>(supplier: AsyncSupplier<S>): Promise<Superposition<S, F>>;
+  public static async sandbox<S, F extends Error>(
+    supplier: AsyncSupplier<Superposition<S, F> | S>
+  ): Promise<Superposition<S, F>> {
     // prettier-ignore
     try {
-      const s: S = await supplier();
+      const result: Superposition<S, F> | S = await supplier();
 
-      return Alive.of<S, F>(s);
+      if (result instanceof Superposition) {
+        return result;
+      }
+
+      return Alive.of<S, F>(result);
     }
     catch (err) {
       return Dead.of<S, F>(err);

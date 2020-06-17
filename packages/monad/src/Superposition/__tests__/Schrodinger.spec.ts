@@ -245,6 +245,20 @@ describe('Schrodinger', () => {
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
+
+    it('superposition case', () => {
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(2);
+      const dead: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
+      const superposition1: Superposition<number, MockError> = Schrodinger.playground<number, MockError>(() => {
+        return alive;
+      });
+      const superposition2: Superposition<number, MockError> = Schrodinger.playground<number, MockError>(() => {
+        return dead;
+      });
+
+      expect(superposition1).toBe(alive);
+      expect(superposition2).toBe(dead);
+    });
   });
 
   describe('sandbox', () => {
@@ -286,6 +300,26 @@ describe('Schrodinger', () => {
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
+    });
+
+    it('superposition case', async () => {
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(2);
+      const dead: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
+      const superposition1: Superposition<number, MockError> = await Schrodinger.sandbox<number, MockError>(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async () => {
+          return alive;
+        }
+      );
+      const superposition2: Superposition<number, MockError> = await Schrodinger.sandbox<number, MockError>(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async () => {
+          return dead;
+        }
+      );
+
+      expect(superposition1).toBe(alive);
+      expect(superposition2).toBe(dead);
     });
   });
 });

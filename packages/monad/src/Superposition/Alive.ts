@@ -43,7 +43,7 @@ export class Alive<S, F extends Error> extends Superposition<S, F> {
 
   public map<T, E extends Error>(mapper: UnaryFunction<S, Superposition<T, E>>): Superposition<T, F | E>;
   public map<T, E extends Error = F>(mapper: UnaryFunction<S, T>): Superposition<T, F | E>;
-  public map<T, E extends Error>(mapper: UnaryFunction<S, Superposition<T, E> | T>): Superposition<T, F | E> {
+  public map<T, E extends Error = F>(mapper: UnaryFunction<S, Superposition<T, E> | T>): Superposition<T, F | E> {
     // prettier-ignore
     try {
       const result: Superposition<T, E> | T = mapper(this.value);
