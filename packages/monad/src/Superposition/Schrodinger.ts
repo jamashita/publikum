@@ -42,6 +42,9 @@ export class Schrodinger {
 
   public static sandbox<S, F extends Error>(supplier: AsyncSupplier<Superposition<S, F>>): Promise<Superposition<S, F>>;
   public static sandbox<S, F extends Error>(supplier: AsyncSupplier<S>): Promise<Superposition<S, F>>;
+  public static sandbox<S, F extends Error>(
+    supplier: AsyncSupplier<Superposition<S, F> | S>
+  ): Promise<Superposition<S, F>>;
   public static async sandbox<S, F extends Error>(
     supplier: AsyncSupplier<Superposition<S, F> | S>
   ): Promise<Superposition<S, F>> {

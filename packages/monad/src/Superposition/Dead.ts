@@ -7,7 +7,7 @@ import { SuperpositionError } from './Error/SuperpositionError';
 import { Schrodinger } from './Schrodinger';
 import { Superposition } from './Superposition';
 
-export class Dead<S, F extends Error> extends Superposition<S, F> {
+export class Dead<S, F extends Error> extends Superposition<S, F, 'Dead'> {
   public readonly noun: 'Dead' = 'Dead';
   private readonly value: F;
 
