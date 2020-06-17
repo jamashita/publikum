@@ -23,6 +23,7 @@ export class Schrodinger {
 
   public static playground<S, F extends Error>(supplier: Supplier<Superposition<S, F>>): Superposition<S, F>;
   public static playground<S, F extends Error>(supplier: Supplier<S>): Superposition<S, F>;
+  public static playground<S, F extends Error>(supplier: Supplier<Superposition<S, F> | S>): Superposition<S, F>;
   public static playground<S, F extends Error>(supplier: Supplier<Superposition<S, F> | S>): Superposition<S, F> {
     // prettier-ignore
     try {

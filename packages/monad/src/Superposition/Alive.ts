@@ -4,6 +4,7 @@ import { Present } from '../Quantum/Present';
 import { Quantum } from '../Quantum/Quantum';
 import { Dead } from './Dead';
 import { SuperpositionError } from './Error/SuperpositionError';
+import { Schrodinger } from './Schrodinger';
 import { Superposition } from './Superposition';
 
 export class Alive<S, F extends Error> extends Superposition<S, F> {
@@ -44,25 +45,14 @@ export class Alive<S, F extends Error> extends Superposition<S, F> {
   public map<T, E extends Error>(mapper: UnaryFunction<S, Superposition<T, E>>): Superposition<T, F | E>;
   public map<T, E extends Error = F>(mapper: UnaryFunction<S, T>): Superposition<T, F | E>;
   public map<T, E extends Error = F>(mapper: UnaryFunction<S, Superposition<T, E> | T>): Superposition<T, F | E> {
-    // prettier-ignore
-    try {
-      const result: Superposition<T, E> | T = mapper(this.value);
-
-      if (result instanceof Superposition) {
-        return result;
-      }
-
-      return Alive.of<T, F| E>(result);
-    }
-    catch (err) {
-      return Dead.of<T, F | E>(err);
-    }
+    return Schrodinger.playground<T, E>(() => {
+      return mapper(this.value);
+    });
   }
 
   public recover<T, E extends Error>(mapper: UnaryFunction<F, Superposition<T, E>>): Superposition<S | T, E>;
   public recover<T, E extends Error = F>(mapper: UnaryFunction<F, T>): Superposition<S | T, E>;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public recover<T, E extends Error = F>(mapper: UnaryFunction<F, Superposition<T, E> | T>): Superposition<S | T, E> {
+  public recover<T, E extends Error = F>(): Superposition<S | T, E> {
     return this.transpose<E>();
   }
 
@@ -84,13 +74,7 @@ export class Alive<S, F extends Error> extends Superposition<S, F> {
       | BinaryFunction<S, Alive<S, F>, T>
       | BinaryFunction<S, Alive<S, F>, Promise<T>>
       | BinaryFunction<S, Alive<S, F>, Superposition<T, E>>
-      | BinaryFunction<S, Alive<S, F>, Promise<Superposition<T, E>>>,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    dead:
-      | BinaryFunction<F, Dead<S, F>, T>
-      | BinaryFunction<F, Dead<S, F>, Promise<T>>
-      | BinaryFunction<F, Dead<S, F>, Superposition<T, E>>
-      | BinaryFunction<F, Dead<S, F>, Promise<Superposition<T, E>>>
+      | BinaryFunction<S, Alive<S, F>, Promise<Superposition<T, E>>>
   ): T | Promise<T> | Superposition<T, E> | Promise<Superposition<T, E>> {
     return alive(this.value, this);
   }
