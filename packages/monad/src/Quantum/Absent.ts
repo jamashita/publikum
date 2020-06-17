@@ -1,5 +1,5 @@
 import {
-    AsyncConsumer, Consumer, Predicate, Suspicious, UnaryFunction
+    AsyncConsumer, Consumer, Predicate, Reject, Resolve, Suspicious, UnaryFunction
 } from '@jamashita/publikum-type';
 
 import { Dead } from '../Superposition/Dead';
@@ -28,6 +28,17 @@ export class Absent<T> extends Quantum<T, 'Absent'> {
 
   public getOrElse(other: T): T {
     return other;
+  }
+
+  public then<TR1 = T, TR2 = never>(
+    onfulfilled?: Suspicious<UnaryFunction<T, TR1 | PromiseLike<TR1>>>,
+    onrejected?: Suspicious<UnaryFunction<unknown, TR2 | PromiseLike<TR2>>>
+  ): PromiseLike<TR1 | TR2> {
+    const promise: Promise<T> = new Promise<T>((resolve: Resolve<T>, reject: Reject) => {
+      reject(new QuantumError('IS NOT PRESENT'));
+    });
+
+    return promise.then<TR1, TR2>(onfulfilled, onrejected);
   }
 
   public isAbsent(): this is Absent<T> {

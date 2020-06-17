@@ -1,5 +1,5 @@
 import {
-    AsyncConsumer, Consumer, Predicate, Suspicious, UnaryFunction
+    AsyncConsumer, Consumer, Predicate, Resolve, Suspicious, UnaryFunction
 } from '@jamashita/publikum-type';
 
 import { Alive } from '../Superposition/Alive';
@@ -26,13 +26,24 @@ export class Present<T> extends Quantum<T, 'Present'> {
     return this.value;
   }
 
-  public isPresent(): this is Present<T> {
-    return true;
-  }
-
   public getOrElse(other: T): T;
   public getOrElse(): T {
     return this.value;
+  }
+
+  public then<TR1 = T, TR2 = never>(
+    onfulfilled?: Suspicious<UnaryFunction<T, TR1 | PromiseLike<TR1>>>,
+    onrejected?: Suspicious<UnaryFunction<unknown, TR2 | PromiseLike<TR2>>>
+  ): PromiseLike<TR1 | TR2> {
+    const promise: Promise<T> = new Promise<T>((resolve: Resolve<T>) => {
+      resolve(this.value);
+    });
+
+    return promise.then<TR1, TR2>(onfulfilled, onrejected);
+  }
+
+  public isPresent(): this is Present<T> {
+    return true;
   }
 
   public ifPresent(consumer: Consumer<T>): void;
