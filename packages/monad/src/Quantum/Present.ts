@@ -30,8 +30,8 @@ export class Present<T> extends Quantum<T, 'Present'> {
     return true;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public getOrElse(other: T): T {
+  public getOrElse(other: T): T;
+  public getOrElse(): T {
     return this.value;
   }
 
@@ -52,13 +52,7 @@ export class Present<T> extends Quantum<T, 'Present'> {
   public map<U>(mapper: UnaryFunction<T, Quantum<U>>): Quantum<U>;
   public map<U>(mapper: UnaryFunction<T, Suspicious<U>>): Quantum<U>;
   public map<U>(mapper: UnaryFunction<T, Quantum<U> | Suspicious<U>>): Quantum<U> {
-    const result: Quantum<U> | Suspicious<U> = mapper(this.value);
-
-    if (result instanceof Quantum) {
-      return Planck.maybe<U>(result);
-    }
-
-    return Planck.maybe<U>(result);
+    return Planck.maybe<U>(mapper(this.value));
   }
 
   public toSuperposition(): Superposition<T, QuantumError> {

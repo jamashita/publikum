@@ -22,8 +22,8 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
 
   public abstract duplicate(): Address<E, N>;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public get(key: void): Quantum<E> {
+  public get(key: void): Quantum<E>;
+  public get(): Quantum<E> {
     return Absent.of<E>();
   }
 

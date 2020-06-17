@@ -36,20 +36,18 @@ export class Absent<T> extends Quantum<T, 'Absent'> {
 
   public ifPresent(consumer: Consumer<T>): void;
   public ifPresent(consumer: AsyncConsumer<T>): Promise<void>;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifPresent(consumer: Consumer<T> | AsyncConsumer<T>): void | Promise<void> {
+  public ifPresent(): void | Promise<void> {
     // NOOP
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public filter(predicate: Predicate<T>): Absent<T> {
+  public filter(predicate: Predicate<T>): Absent<T>;
+  public filter(): Absent<T> {
     return this;
   }
 
   public map<U>(mapper: UnaryFunction<T, Quantum<U>>): Quantum<U>;
   public map<U>(mapper: UnaryFunction<T, Suspicious<U>>): Quantum<U>;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public map<U>(mapper: UnaryFunction<T, Quantum<U> | Suspicious<U>>): Quantum<U> {
+  public map<U>(): Quantum<U> {
     return this.transform<U>();
   }
 
