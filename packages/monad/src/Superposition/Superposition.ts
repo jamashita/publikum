@@ -1,4 +1,4 @@
-import { BinaryFunction, Predicate } from '@jamashita/publikum-type';
+import { BinaryFunction, Predicate, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Quantum } from '../Quantum/Quantum';
 import { Alive } from './Alive';
@@ -15,6 +15,12 @@ export abstract class Superposition<S, F extends Error> {
   public abstract get(): S;
 
   public abstract filter(predicate: Predicate<S>): Superposition<S, F | SuperpositionError>;
+
+  public abstract map<T, E extends Error>(mapper: UnaryFunction<S, Superposition<T, E>>): Superposition<T, F | E>;
+  public abstract map<T, E extends Error = F>(mapper: UnaryFunction<S, T>): Superposition<T, F | E>;
+
+  public abstract recover<T, E extends Error>(mapper: UnaryFunction<F, Superposition<T, E>>): Superposition<S | T, E>;
+  public abstract recover<T, E extends Error = F>(mapper: UnaryFunction<F, T>): Superposition<S | T, E>;
 
   public abstract transform<T>(alive: BinaryFunction<S, Alive<S, F>, T>, dead: BinaryFunction<F, Dead<S, F>, T>): T;
   public abstract transform<T>(

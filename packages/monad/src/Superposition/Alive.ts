@@ -1,4 +1,4 @@
-import { BinaryFunction, Predicate } from '@jamashita/publikum-type';
+import { BinaryFunction, Predicate, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Present } from '../Quantum/Present';
 import { Quantum } from '../Quantum/Quantum';
@@ -39,6 +39,31 @@ export class Alive<S, F extends Error> extends Superposition<S, F> {
     }
 
     return Dead.of<S, SuperpositionError>(new SuperpositionError('IS DEAD'));
+  }
+
+  public map<T, E extends Error>(mapper: UnaryFunction<S, Superposition<T, E>>): Superposition<T, F | E>;
+  public map<T, E extends Error = F>(mapper: UnaryFunction<S, T>): Superposition<T, F | E>;
+  public map<T, E extends Error>(mapper: UnaryFunction<S, Superposition<T, E> | T>): Superposition<T, F | E> {
+    // prettier-ignore
+    try {
+      const result: Superposition<T, E> | T = mapper(this.value);
+
+      if (result instanceof Superposition) {
+        return result;
+      }
+
+      return Alive.of<T, F| E>(result);
+    }
+    catch (err) {
+      return Dead.of<T, F | E>(err);
+    }
+  }
+
+  public recover<T, E extends Error>(mapper: UnaryFunction<F, Superposition<T, E>>): Superposition<S | T, E>;
+  public recover<T, E extends Error = F>(mapper: UnaryFunction<F, T>): Superposition<S | T, E>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public recover<T, E extends Error = F>(mapper: UnaryFunction<F, Superposition<T, E> | T>): Superposition<S | T, E> {
+    return this.transpose<E>();
   }
 
   public transform<T>(alive: BinaryFunction<S, Alive<S, F>, T>, dead: BinaryFunction<F, Dead<S, F>, T>): T;

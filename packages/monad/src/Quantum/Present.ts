@@ -55,7 +55,7 @@ export class Present<T> extends Quantum<T, 'Present'> {
     const result: Quantum<U> | Suspicious<U> = mapper(this.value);
 
     if (result instanceof Quantum) {
-      return result;
+      return Planck.maybe<U>(result);
     }
 
     return Planck.maybe<U>(result);

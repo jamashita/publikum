@@ -5,9 +5,9 @@ import { Present } from './Present';
 import { Quantum } from './Quantum';
 
 export class Planck {
-  public static maybe<T extends Quantum<unknown>>(value: Suspicious<T>): T;
+  public static maybe<T>(value: Suspicious<Quantum<T>>): Quantum<T>;
   public static maybe<T>(value: Suspicious<T>): Quantum<T>;
-  public static maybe<T>(value: Suspicious<T>): Quantum<T> | T {
+  public static maybe<T>(value: Suspicious<Quantum<T> | T>): Quantum<T> {
     if (value === null) {
       return Absent.of<T>();
     }
