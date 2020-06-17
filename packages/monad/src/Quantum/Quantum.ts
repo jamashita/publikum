@@ -22,7 +22,7 @@ export abstract class Quantum<T, N extends QuantumType = QuantumType> implements
   public abstract getOrElse(other: T): T;
 
   public abstract ifPresent(consumer: Consumer<T>): void;
-  public abstract ifPresent(consumer: AsyncConsumer<T>): Promise<void>;
+  public abstract ifPresent(consumer: AsyncConsumer<T>): PromiseLike<void>;
 
   public abstract filter(predicate: Predicate<T>): Quantum<T>;
 

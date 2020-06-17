@@ -36,8 +36,8 @@ export class Present<T> extends Quantum<T, 'Present'> {
   }
 
   public ifPresent(consumer: Consumer<T>): void;
-  public ifPresent(consumer: AsyncConsumer<T>): Promise<void>;
-  public ifPresent(consumer: Consumer<T> | AsyncConsumer<T>): void | Promise<void> {
+  public ifPresent(consumer: AsyncConsumer<T>): PromiseLike<void>;
+  public ifPresent(consumer: Consumer<T> | AsyncConsumer<T>): void | PromiseLike<void> {
     return consumer(this.value);
   }
 

@@ -35,8 +35,8 @@ export class Absent<T> extends Quantum<T, 'Absent'> {
   }
 
   public ifPresent(consumer: Consumer<T>): void;
-  public ifPresent(consumer: AsyncConsumer<T>): Promise<void>;
-  public ifPresent(): void | Promise<void> {
+  public ifPresent(consumer: AsyncConsumer<T>): PromiseLike<void>;
+  public ifPresent(): void | PromiseLike<void> {
     // NOOP
   }
 
