@@ -1,7 +1,9 @@
 export type Primitive = undefined | null | boolean | number | string | symbol | bigint;
 export type Nullable<T> = T | null;
 export type Ambiguous<T> = T | undefined;
+export type Omittable<T> = T | void;
 export type Suspicious<T> = T | null | undefined;
+export type SyncAsync<T> = T | Promise<T>;
 export type PlainObject = {
   [key: string]: PlainObjectItem;
 };
