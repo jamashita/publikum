@@ -1,13 +1,14 @@
 import { RecursiveReferenceError } from './Error/RecursiveReferenceError';
 import { Kind } from './Kind';
+import { Reference } from './Reference';
 import { Ambiguous, ObjectLiteral, PlainObject, PlainObjectItem, Primitive } from './Value';
 
 export class Equality {
   public static same(n1: ObjectLiteral, n2: ObjectLiteral): boolean {
-    if (Kind.isRecursive(n1)) {
+    if (Reference.isRecursive(n1)) {
       throw new RecursiveReferenceError('RECURSIVE REFERENCE DETECTED');
     }
-    if (Kind.isRecursive(n2)) {
+    if (Reference.isRecursive(n2)) {
       throw new RecursiveReferenceError('RECURSIVE REFERENCE DETECTED');
     }
 

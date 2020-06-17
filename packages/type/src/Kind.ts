@@ -1,12 +1,8 @@
-import { RecursiveReferenceError } from './Error/RecursiveReferenceError';
-import { PlainObject, Primitive } from './Value';
+import { Reference } from './Reference';
+import { PlainObject, PlainObjectItem, Primitive } from './Value';
 
 const NUMBER_REGEX: RegExp = /^[+-]?[0-9]+\.?[0-9]*$/su;
 const LITERAL_TOSTRING: string = '[object Object]';
-
-type Vague = Readonly<{
-  [key: string]: unknown;
-}>;
 
 export class Kind {
   public static isUndefined(value: unknown): value is undefined {
@@ -112,82 +108,56 @@ export class Kind {
     }
   }
 
-  public static isPlainObject(value: unknown): value is PlainObject {
-    return Kind.isPlainObjectInternal(value, new Set<unknown>());
+  public static isArray<T = unknown>(value: unknown): value is Array<T> {
+    if (Array.isArray(value)) {
+      return !Reference.isRecursive(value);
+    }
+
+    return false;
   }
 
-  private static isPlainObjectInternal(value: unknown, visitStack: Set<unknown>): boolean {
+  public static isPlainObject(value: unknown): value is PlainObject {
     if (typeof value !== 'object') {
       return false;
     }
     if (value === null) {
       return false;
     }
-    if (visitStack.has(value)) {
-      throw new RecursiveReferenceError('RECURSIVE REFERENCE DETECTED');
-    }
-
-    visitStack.add(value);
-
-    const v: Vague = value as Vague;
-
     // eslint-disable-next-line @typescript-eslint/no-base-to-string
-    if (v.toString() !== LITERAL_TOSTRING) {
+    if (value.toString() !== LITERAL_TOSTRING) {
+      return false;
+    }
+    if (Reference.isRecursive(value)) {
       return false;
     }
 
-    const keys: Array<string> = Object.keys(v);
-
-    return keys.every((key: string) => {
-      return Kind.isSerializable(v[key], visitStack);
-    });
+    return Kind.isPlainObjectInternal(value as PlainObject);
   }
 
-  public static isArray<T = unknown>(value: unknown): value is Array<T> {
-    return Kind.isArrayInternal(value, new Set<unknown>());
-  }
-
-  private static isArrayInternal(value: unknown, visitStack: Set<unknown>): boolean {
-    if (!Array.isArray(value)) {
-      return false;
-    }
-    if (visitStack.has(value)) {
-      throw new RecursiveReferenceError('RECURSIVE REFERENCE DETECTED');
-    }
-
-    visitStack.add(value);
-
-    return value.every((v: unknown) => {
-      return Kind.isSerializable(v, visitStack);
-    });
-  }
-
-  private static isSerializable(value: unknown, visitStack: Set<unknown>): boolean {
+  private static isPlainObjectItemInternal(value: PlainObjectItem): boolean {
     if (Kind.isPrimitive(value)) {
       return true;
     }
-    if (Kind.isArrayInternal(value, visitStack)) {
-      return true;
+    if (Kind.isArray<PlainObjectItem>(value)) {
+      return Kind.isPlainObjectArrayInternal(value);
     }
-    if (Kind.isPlainObjectInternal(value, visitStack)) {
-      return true;
+    if (Kind.isPlainObject(value)) {
+      return Kind.isPlainObjectInternal(value);
     }
 
     return false;
   }
 
-  public static isRecursive(value: unknown): boolean {
-    if (Kind.isPrimitive(value)) {
-      return false;
-    }
+  private static isPlainObjectArrayInternal(value: Array<PlainObjectItem>): boolean {
+    return value.every((item: PlainObjectItem) => {
+      return Kind.isPlainObjectItemInternal(item);
+    });
+  }
 
-    // prettier-ignore
-    try {
-      return !Kind.isSerializable(value, new Set<unknown>());
-    }
-    catch {
-      return true;
-    }
+  private static isPlainObjectInternal(value: PlainObject): boolean {
+    return Object.keys(value).every((key: string) => {
+      return Kind.isPlainObjectItemInternal(value[key]);
+    });
   }
 
   private constructor() {
