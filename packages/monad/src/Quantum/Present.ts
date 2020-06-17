@@ -1,4 +1,6 @@
-import { AsyncConsumer, Consumer, Predicate, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import {
+    AsyncConsumer, Consumer, Predicate, Suspicious, UnaryFunction
+} from '@jamashita/publikum-type';
 
 import { Alive } from '../Superposition/Alive';
 import { Superposition } from '../Superposition/Superposition';
@@ -7,7 +9,7 @@ import { QuantumError } from './Error/QuantumError';
 import { Planck } from './Planck';
 import { Quantum } from './Quantum';
 
-export class Present<T> extends Quantum<T> {
+export class Present<T> extends Quantum<T, 'Present'> {
   public readonly noun: 'Present' = 'Present';
   private readonly value: T;
 
@@ -47,8 +49,14 @@ export class Present<T> extends Quantum<T> {
     return Absent.of<T>();
   }
 
-  public map<U>(mapper: UnaryFunction<T, Suspicious<U>>): Quantum<U> {
-    const result: Suspicious<U> = mapper(this.value);
+  public map<U>(mapper: UnaryFunction<T, Quantum<U>>): Quantum<U>;
+  public map<U>(mapper: UnaryFunction<T, Suspicious<U>>): Quantum<U>;
+  public map<U>(mapper: UnaryFunction<T, Quantum<U> | Suspicious<U>>): Quantum<U> {
+    const result: Quantum<U> | Suspicious<U> = mapper(this.value);
+
+    if (result instanceof Quantum) {
+      return result;
+    }
 
     return Planck.maybe<U>(result);
   }

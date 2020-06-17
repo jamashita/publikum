@@ -1,13 +1,17 @@
 import { Noun } from '@jamashita/publikum-interface';
-import { AsyncConsumer, Consumer, Predicate, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import {
+    AsyncConsumer, Consumer, Predicate, Suspicious, UnaryFunction
+} from '@jamashita/publikum-type';
 
 import { Superposition } from '../Superposition/Superposition';
 import { Absent } from './Absent';
 import { QuantumError } from './Error/QuantumError';
 import { Present } from './Present';
 
-export abstract class Quantum<T> implements Noun {
-  public abstract readonly noun: 'Present' | 'Absent';
+type QuantumType = 'Present' | 'Absent';
+
+export abstract class Quantum<T, N extends QuantumType = QuantumType> implements Noun<N> {
+  public abstract readonly noun: N;
 
   protected constructor() {
     // NOOP
@@ -22,6 +26,7 @@ export abstract class Quantum<T> implements Noun {
 
   public abstract filter(predicate: Predicate<T>): Quantum<T>;
 
+  public abstract map<U>(mapper: UnaryFunction<T, Quantum<U>>): Quantum<U>;
   public abstract map<U>(mapper: UnaryFunction<T, Suspicious<U>>): Quantum<U>;
 
   public abstract toSuperposition(): Superposition<T, QuantumError>;

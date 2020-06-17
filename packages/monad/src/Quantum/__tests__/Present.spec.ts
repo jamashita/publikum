@@ -154,6 +154,38 @@ describe('Present', () => {
       expect(spy.called).toBe(true);
       expect(quantum.isAbsent()).toBe(true);
     });
+
+    it('returns Absent itself when retusn Absent', () => {
+      const present: Present<number> = Present.of<number>(1);
+      const q: Absent<unknown> = Absent.of<unknown>();
+
+      const spy: SinonSpy = sinon.spy();
+
+      const quantum: Quantum<unknown> = present.map<unknown>(() => {
+        spy();
+
+        return q;
+      });
+
+      expect(spy.called).toBe(true);
+      expect(quantum).toBe(q);
+    });
+
+    it('returns Present itself when retusn Present', () => {
+      const present: Present<number> = Present.of<number>(1);
+      const q: Present<unknown> = Present.of<unknown>(undefined);
+
+      const spy: SinonSpy = sinon.spy();
+
+      const quantum: Quantum<unknown> = present.map<unknown>(() => {
+        spy();
+
+        return q;
+      });
+
+      expect(spy.called).toBe(true);
+      expect(quantum).toBe(q);
+    });
   });
 
   describe('toSuperposition', () => {

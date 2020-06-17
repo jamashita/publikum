@@ -1,11 +1,13 @@
-import { AsyncConsumer, Consumer, Predicate, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import {
+    AsyncConsumer, Consumer, Predicate, Suspicious, UnaryFunction
+} from '@jamashita/publikum-type';
 
 import { Dead } from '../Superposition/Dead';
 import { Superposition } from '../Superposition/Superposition';
 import { QuantumError } from './Error/QuantumError';
 import { Quantum } from './Quantum';
 
-export class Absent<T> extends Quantum<T> {
+export class Absent<T> extends Quantum<T, 'Absent'> {
   public readonly noun: 'Absent' = 'Absent';
 
   private static readonly INSTANCE: Absent<void> = new Absent();
@@ -44,8 +46,10 @@ export class Absent<T> extends Quantum<T> {
     return this;
   }
 
+  public map<U>(mapper: UnaryFunction<T, Quantum<U>>): Quantum<U>;
+  public map<U>(mapper: UnaryFunction<T, Suspicious<U>>): Quantum<U>;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public map<U>(mapper: UnaryFunction<T, Suspicious<U>>): Quantum<U> {
+  public map<U>(mapper: UnaryFunction<T, Quantum<U> | Suspicious<U>>): Quantum<U> {
     return this.transform<U>();
   }
 
