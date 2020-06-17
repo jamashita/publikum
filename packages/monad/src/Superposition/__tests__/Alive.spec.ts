@@ -5,6 +5,7 @@ import { MockError } from '@jamashita/publikum-object';
 import { QuantumError } from '../../Quantum/Error/QuantumError';
 import { Present } from '../../Quantum/Present';
 import { Alive } from '../Alive';
+import { Dead } from '../Dead';
 import { SuperpositionError } from '../Error/SuperpositionError';
 import { Superposition } from '../Superposition';
 
@@ -94,6 +95,99 @@ describe('Alive', () => {
 
       expect(alive1.isDead()).toBe(false);
       expect(alive2.isDead()).toBe(false);
+    });
+  });
+
+  describe('map', () => {
+    it('normal pattern', () => {
+      const uno: number = 1;
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(uno);
+
+      const spy: SinonSpy = sinon.spy();
+
+      const superposition: Superposition<number | string, MockError> = alive.map<string, MockError>((n: number) => {
+        spy();
+
+        return `${n}${n}`;
+      });
+
+      expect(superposition.isAlive()).toBe(true);
+      expect(superposition.get()).toBe('11');
+
+      expect(spy.called).toBe(true);
+    });
+
+    it('throws error', () => {
+      const uno: number = 1;
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(uno);
+
+      const spy: SinonSpy = sinon.spy();
+
+      const superposition: Superposition<number | string, MockError> = alive.map<string, MockError>(() => {
+        spy();
+
+        throw new MockError();
+      });
+
+      expect(superposition.isDead()).toBe(true);
+
+      expect(spy.called).toBe(true);
+    });
+
+    it('returns alive itself', () => {
+      const uno: number = 1;
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(uno);
+      const newAlive: Alive<void, MockError> = Alive.of<MockError>();
+
+      const spy: SinonSpy = sinon.spy();
+
+      const superposition: Superposition<number | void, MockError> = alive.map<void, MockError>(() => {
+        spy();
+
+        return newAlive;
+      });
+
+      expect(superposition.isAlive()).toBe(true);
+      expect(superposition).toBe(newAlive);
+
+      expect(spy.called).toBe(true);
+    });
+
+    it('returns dead itself', () => {
+      const uno: number = 1;
+      const error: MockError = new MockError();
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(uno);
+      const dead: Dead<number, MockError> = Dead.of<number, MockError>(error);
+
+      const spy: SinonSpy = sinon.spy();
+
+      const superposition: Superposition<number, MockError> = alive.map<number, MockError>(() => {
+        spy();
+
+        return dead;
+      });
+
+      expect(superposition.isDead()).toBe(true);
+      expect(superposition).toBe(dead);
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('recover', () => {
+    it('returns itself', () => {
+      const uno: number = 1;
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(uno);
+
+      const spy: SinonSpy = sinon.spy();
+
+      const superposition: Superposition<number | void, MockError> = alive.recover<void, MockError>(() => {
+        spy();
+      });
+
+      expect(alive).toBe(superposition);
+
+      expect(spy.called).toBe(false);
     });
   });
 
