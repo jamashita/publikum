@@ -4,7 +4,6 @@ import { BinaryPredicate, Enumerator, Mapper, Predicate } from '@jamashita/publi
 
 import { Collection } from '../../Interface/Collection';
 
-// TODO ITERABLE
 export interface Sequence<E extends Nominative<E>, N extends string = string>
   extends Collection<Sequence<E, N>, number, E, N>,
     Cloneable<Sequence<E, N>>,
@@ -15,8 +14,6 @@ export interface Sequence<E extends Nominative<E>, N extends string = string>
    * TODO set(element: E): Sequence<E>;
    * TODO remove(element: E): Sequence<E>;
    */
-
-  forEach(iteration: Mapper<E, void>): void;
 
   map<F extends Nominative<F>>(mapper: Mapper<E, F>): Sequence<F, N>;
 
@@ -29,6 +26,4 @@ export interface Sequence<E extends Nominative<E>, N extends string = string>
   some(predicate: BinaryPredicate<E, number>): boolean;
 
   toArray(): Array<E>;
-
-  equals(other: Sequence<E, N>): boolean;
 }

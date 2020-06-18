@@ -56,27 +56,9 @@ export class Equality {
       return false;
     }
 
-    const iterator1: IterableIterator<PlainObjectItem> = arr1.values();
-    const iterator2: IterableIterator<PlainObjectItem> = arr2.values();
-
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const res1: IteratorResult<PlainObjectItem> = iterator1.next();
-      const res2: IteratorResult<PlainObjectItem> = iterator2.next();
-
-      if (res1.done !== true && res2.done !== true) {
-        if (!Equality.sameInternal(res1.value, res2.value)) {
-          return false;
-        }
-
-        continue;
-      }
-      if (res1.done === true && res2.done === true) {
-        return true;
-      }
-
-      return false;
-    }
+    return arr1.every((item: PlainObjectItem, index: number) => {
+      return !Equality.sameInternal(item, arr2[index]);
+    });
   }
 
   private static sameObject(obj1: PlainObject, obj2: PlainObject): boolean {

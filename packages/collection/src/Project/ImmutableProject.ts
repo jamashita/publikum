@@ -1,5 +1,6 @@
 import { Nominative, NonNominative } from '@jamashita/publikum-interface';
 
+import { Pair } from '../Pair';
 import { AProject } from './Abstract/AProject';
 
 export class ImmutableProject<K extends Nominative<K>, V extends Nominative<V>> extends AProject<
@@ -12,24 +13,24 @@ export class ImmutableProject<K extends Nominative<K>, V extends Nominative<V>> 
   private static readonly EMPTY: ImmutableProject<NonNominative, NonNominative> = new ImmutableProject<
     NonNominative,
     NonNominative
-  >(new Map<string, [NonNominative, NonNominative]>());
+  >(new Map<string, Pair<NonNominative, NonNominative>>());
 
   public static of<K extends Nominative<K>, V extends Nominative<V>>(elements: Map<K, V>): ImmutableProject<K, V> {
     if (elements.size === 0) {
       return ImmutableProject.empty<K, V>();
     }
 
-    const map: Map<string, [K, V]> = new Map<string, [K, V]>();
+    const map: Map<string, Pair<K, V>> = new Map<string, Pair<K, V>>();
 
     elements.forEach((v: V, k: K) => {
-      map.set(k.hashCode(), [k, v]);
+      map.set(k.hashCode(), Pair.of(k, v));
     });
 
     return ImmutableProject.ofMap<K, V>(map);
   }
 
   private static ofMap<K extends Nominative<K>, V extends Nominative<V>>(
-    elements: Map<string, [K, V]>
+    elements: Map<string, Pair<K, V>>
   ): ImmutableProject<K, V> {
     if (elements.size === 0) {
       return ImmutableProject.empty<K, V>();
@@ -42,14 +43,14 @@ export class ImmutableProject<K extends Nominative<K>, V extends Nominative<V>> 
     return ImmutableProject.EMPTY as ImmutableProject<K, V>;
   }
 
-  protected constructor(elements: Map<string, [K, V]>) {
+  protected constructor(elements: Map<string, Pair<K, V>>) {
     super(elements);
   }
 
   public set(key: K, value: V): ImmutableProject<K, V> {
-    const map: Map<string, [K, V]> = new Map<string, [K, V]>(this.elements);
+    const map: Map<string, Pair<K, V>> = new Map<string, Pair<K, V>>(this.elements);
 
-    map.set(key.hashCode(), [key, value]);
+    map.set(key.hashCode(), Pair.of(key, value));
 
     return ImmutableProject.ofMap<K, V>(map);
   }
@@ -59,7 +60,7 @@ export class ImmutableProject<K extends Nominative<K>, V extends Nominative<V>> 
       return this;
     }
 
-    const map: Map<string, [K, V]> = new Map<string, [K, V]>(this.elements);
+    const map: Map<string, Pair<K, V>> = new Map<string, Pair<K, V>>(this.elements);
 
     const deleted: boolean = map.delete(key.hashCode());
 
@@ -83,7 +84,7 @@ export class ImmutableProject<K extends Nominative<K>, V extends Nominative<V>> 
       return ImmutableProject.empty<K, V>();
     }
 
-    const map: Map<string, [K, V]> = new Map<string, [K, V]>(this.elements);
+    const map: Map<string, Pair<K, V>> = new Map<string, Pair<K, V>>(this.elements);
 
     return ImmutableProject.ofMap<K, V>(map);
   }

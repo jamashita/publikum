@@ -1,10 +1,9 @@
 import { Cloneable, Nominative } from '@jamashita/publikum-interface';
 import { Quantum } from '@jamashita/publikum-monad';
-import { Enumerator, Predicate } from '@jamashita/publikum-type';
+import { Predicate } from '@jamashita/publikum-type';
 
 import { Collection } from '../../Interface/Collection';
 
-// TODO ITERABLE
 export interface Address<E extends Nominative<E>, N extends string = string>
   extends Collection<Address<E, N>, void, E, N>,
     Cloneable<Address<E, N>>,
@@ -13,8 +12,6 @@ export interface Address<E extends Nominative<E>, N extends string = string>
 
   remove(element: E): Address<E, N>;
 
-  forEach(iteration: Enumerator<void, E>): void;
-
   find(predicate: Predicate<E>): Quantum<E>;
 
   every(predicate: Predicate<E>): boolean;
@@ -22,6 +19,4 @@ export interface Address<E extends Nominative<E>, N extends string = string>
   some(predicate: Predicate<E>): boolean;
 
   toSet(): Set<E>;
-
-  equals(other: Address<E, N>): boolean;
 }

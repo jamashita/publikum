@@ -2,6 +2,7 @@ import { Nominative } from '@jamashita/publikum-interface';
 import { Absent, Present, Quantum } from '@jamashita/publikum-monad';
 import { Ambiguous, BinaryPredicate, Enumerator } from '@jamashita/publikum-type';
 
+import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Project } from '../Interface/Project';
 
@@ -9,9 +10,9 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
   extends Quantity<Project<K, V, N>, K, V, N>
   implements Project<K, V, N> {
   public abstract readonly noun: N;
-  protected readonly elements: Map<string, [K, V]>;
+  protected readonly elements: Map<string, Pair<K, V>>;
 
-  protected constructor(elements: Map<string, [K, V]>) {
+  protected constructor(elements: Map<string, Pair<K, V>>) {
     super();
     this.elements = elements;
   }
@@ -23,13 +24,13 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
   public abstract duplicate(): Project<K, V, N>;
 
   public get(key: K): Quantum<V> {
-    const element: Ambiguous<[K, V]> = this.elements.get(key.hashCode());
+    const element: Ambiguous<Pair<K, V>> = this.elements.get(key.hashCode());
 
     if (element === undefined) {
       return Absent.of<V>();
     }
 
-    return Present.of<V>(element[1]);
+    return Present.of<V>(element.getValue());
   }
 
   public has(key: K): boolean {
@@ -38,8 +39,8 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
 
   // FIXME ORDER N
   public contains(value: V): boolean {
-    for (const [, [, v]] of this.elements) {
-      if (value.equals(v)) {
+    for (const [, pair] of this.elements) {
+      if (value.equals(pair.getValue())) {
         return true;
       }
     }
@@ -59,15 +60,19 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
     return false;
   }
 
+  public iterator(): Iterator<Pair<K, V>> {
+    return this.elements.values()[Symbol.iterator]();
+  }
+
   public forEach(iteration: Enumerator<K, V>): void {
-    this.elements.forEach((element: [K, V]) => {
-      iteration(element[1], element[0]);
+    this.elements.forEach((element: Pair<K, V>) => {
+      iteration(element.getValue(), element.getKey());
     });
   }
 
   public every(predicate: BinaryPredicate<K, V>): boolean {
-    for (const [, [k, v]] of this.elements) {
-      if (!predicate(k, v)) {
+    for (const [, pair] of this.elements) {
+      if (!predicate(pair.getKey(), pair.getValue())) {
         return false;
       }
     }
@@ -76,8 +81,8 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
   }
 
   public some(predicate: BinaryPredicate<K, V>): boolean {
-    for (const [, [k, v]] of this.elements) {
-      if (predicate(k, v)) {
+    for (const [, pair] of this.elements) {
+      if (predicate(pair.getKey(), pair.getValue())) {
         return true;
       }
     }

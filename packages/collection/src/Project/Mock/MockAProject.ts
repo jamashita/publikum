@@ -1,6 +1,7 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
 import { Nominative } from '@jamashita/publikum-interface';
 
+import { Pair } from '../../Pair';
 import { AProject } from '../Abstract/AProject';
 
 export class MockAProject<K extends Nominative<K>, V extends Nominative<V>> extends AProject<K, V, 'MockAProject'> {
@@ -31,6 +32,10 @@ export class MockAProject<K extends Nominative<K>, V extends Nominative<V>> exte
   }
 
   public duplicate(): MockAProject<K, V> {
+    throw new UnimplementedError();
+  }
+
+  public iterator(): Iterator<Pair<K, V>> {
     throw new UnimplementedError();
   }
 }

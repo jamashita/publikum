@@ -1,9 +1,8 @@
 import { Nominative } from '@jamashita/publikum-interface';
 import { Absent, Present, Quantum } from '@jamashita/publikum-monad';
-import {
-    Ambiguous, BinaryPredicate, Enumerator, Mapper, Predicate
-} from '@jamashita/publikum-type';
+import { Ambiguous, BinaryPredicate, Enumerator, Mapper, Predicate } from '@jamashita/publikum-type';
 
+import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Sequence } from '../Interface/Sequence';
 
@@ -60,6 +59,14 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
     return false;
   }
 
+  public iterator(): Iterator<Pair<number, E>> {
+    return this.elements
+      .map<Pair<number, E>>((e: E, index: number) => {
+        return Pair.of(index, e);
+      })
+      [Symbol.iterator]();
+  }
+
   public forEach(iteration: Mapper<E, void>): void {
     this.elements.forEach(iteration);
   }
@@ -90,16 +97,27 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
       return false;
     }
 
-    // TODO SHOULD BE ITERATOR
-    return this.elements.every((element: E, index: number) => {
-      const quantum: Quantum<E> = other.get(index);
+    const thisIterator: Iterator<Pair<number, E>> = this.iterator();
+    const otherIterator: Iterator<Pair<number, E>> = other.iterator();
 
-      if (quantum.isAbsent()) {
-        return false;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const thisRes: IteratorResult<Pair<number, E>> = thisIterator.next();
+      const otherRes: IteratorResult<Pair<number, E>> = otherIterator.next();
+
+      if (thisRes.done !== true && otherRes.done !== true) {
+        if (!thisRes.value.getValue().equals(otherRes.value.getValue())) {
+          return false;
+        }
+
+        continue;
+      }
+      if (thisRes.done === true && otherRes.done === true) {
+        return true;
       }
 
-      return element.equals(quantum.get());
-    });
+      return false;
+    }
   }
 
   public toArray(): Array<E> {

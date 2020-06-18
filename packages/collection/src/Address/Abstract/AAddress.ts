@@ -2,6 +2,7 @@ import { Nominative } from '@jamashita/publikum-interface';
 import { Absent, Present, Quantum } from '@jamashita/publikum-monad';
 import { Ambiguous, Enumerator, Predicate } from '@jamashita/publikum-type';
 
+import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Address } from '../Interface/Address';
 
@@ -41,6 +42,23 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     }
 
     return false;
+  }
+
+  public iterator(): Iterator<Pair<void, E>> {
+    const iterator: IterableIterator<E> = this.elements.values();
+
+    const iterable: Array<Pair<void, E>> = [];
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const res: IteratorResult<E> = iterator.next();
+
+      if (res.done === true) {
+        return iterable[Symbol.iterator]();
+      }
+
+      iterable.push(Pair.of(undefined, res.value));
+    }
   }
 
   public forEach(iteration: Enumerator<void, E>): void {
