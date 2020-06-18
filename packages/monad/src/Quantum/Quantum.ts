@@ -1,7 +1,5 @@
 import { Noun } from '@jamashita/publikum-interface';
-import {
-    AsyncConsumer, Consumer, Predicate, Suspicious, UnaryFunction
-} from '@jamashita/publikum-type';
+import { AsyncConsumer, Consumer, Predicate, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Superposition } from '../Superposition/Superposition';
 import { Absent } from './Absent';
@@ -10,7 +8,7 @@ import { Present } from './Present';
 
 type QuantumType = 'Present' | 'Absent';
 
-export abstract class Quantum<T, N extends QuantumType = QuantumType> implements PromiseLike<T>, Noun<N> {
+export abstract class Quantum<T, N extends QuantumType = QuantumType> implements Noun<N> {
   public abstract readonly noun: N;
 
   protected constructor() {
@@ -20,11 +18,6 @@ export abstract class Quantum<T, N extends QuantumType = QuantumType> implements
   public abstract get(): T;
 
   public abstract getOrElse(other: T): T;
-
-  public abstract then<TR1 = T, TR2 = never>(
-    onfulfilled?: Suspicious<UnaryFunction<T, TR1 | PromiseLike<TR1>>>,
-    onrejected?: Suspicious<UnaryFunction<unknown, TR2 | PromiseLike<TR2>>>
-  ): PromiseLike<TR1 | TR2>;
 
   public abstract ifPresent(consumer: Consumer<T>): void;
   public abstract ifPresent(consumer: AsyncConsumer<T>): PromiseLike<void>;

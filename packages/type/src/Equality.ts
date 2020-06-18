@@ -57,7 +57,7 @@ export class Equality {
     }
 
     return arr1.every((item: PlainObjectItem, index: number) => {
-      return !Equality.sameInternal(item, arr2[index]);
+      return Equality.sameInternal(item, arr2[index]);
     });
   }
 

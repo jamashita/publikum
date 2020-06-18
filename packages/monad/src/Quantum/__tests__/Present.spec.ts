@@ -108,14 +108,6 @@ describe('Present', () => {
     });
   });
 
-  describe('then', () => {
-    it('can get the inside value', async () => {
-      const value: symbol = Symbol();
-
-      await expect(Present.of<symbol>(value)).resolves.toBe(value);
-    });
-  });
-
   describe('map', () => {
     it('following function is called', () => {
       const present: Present<number> = Present.of<number>(10);

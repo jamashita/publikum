@@ -78,12 +78,6 @@ describe('Absent', () => {
     });
   });
 
-  describe('then', () => {
-    it('will thorw QuantumError', async () => {
-      await expect(Absent.of()).rejects.toThrow(QuantumError);
-    });
-  });
-
   describe('map', () => {
     it('following function will not be invoked', () => {
       const absent: Absent<number> = Absent.of<number>();
