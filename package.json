@@ -1,34 +1,34 @@
 {
   "name": "@jamashita/publikum",
   "version": "1.1.3",
-  "author": "jamashita <jamashita@arachnid.xyz>",
-  "license": "MIT",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git@gitlab.com:jamashita/publikum.git"
   },
-  "engines": {
-    "node": ">= 14.0.0",
-    "npm": "npm is not supported"
-  },
-  "private": true,
+  "license": "MIT",
+  "author": "jamashita <jamashita@arachnid.xyz>",
   "sideEffects": false,
-  "engineStrict": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
   "scripts": {
-    "setup": "lerna bootstrap && lerna link",
-    "reset": "lerna clean",
     "build": "lerna run --parallel build",
     "clean": "lerna run --parallel clean",
-    "test": "jest test --detectOpenHandles --passWithNoTests",
-    "lint": "eslint --fix 'packages/**/src/**/*.{ts,tsx}'",
     "format": "prettier --write 'packages/**/src/**/*.{ts,tsx}'",
+    "lint": "eslint --fix 'packages/**/src/**/*.{ts,tsx}'",
+    "preregister": "yarn build",
+    "register": "lerna publish",
+    "reset": "lerna clean",
+    "setup": "lerna bootstrap && lerna link",
+    "test": "jest test --detectOpenHandles --passWithNoTests",
     "update": "yarn update:upgrade && yarn update:install && yarn update:package",
-    "update:upgrade": "ncu --upgrade --timeout 600000",
     "update:install": "yarn install && yarn upgrade",
     "update:package": "lerna run --parallel update",
-    "versionup": "lerna version --conventional-commits --conventional-graduate",
-    "register": "lerna publish",
-    "preregister": "yarn build"
+    "update:upgrade": "ncu --upgrade --timeout 600000",
+    "versionup": "lerna version --conventional-commits --conventional-graduate"
   },
   "dependencies": {
     "axios": "0.19.2",
@@ -68,12 +68,13 @@
     "prettier": "2.0.5",
     "rimraf": "3.0.2",
     "sinon": "9.0.2",
+    "sort-package-json": "1.44.0",
     "ts-jest": "26.1.0",
     "typescript": "3.9.5"
   },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
-  }
+  "engines": {
+    "node": ">= 14.0.0",
+    "npm": "npm is not supported"
+  },
+  "engineStrict": true
 }
