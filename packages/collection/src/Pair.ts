@@ -1,4 +1,4 @@
-import { Noun } from '../../interface/src/Noun';
+import { Noun } from '@jamashita/publikum-interface';
 
 export class Pair<K, V> implements Noun<'Pair'> {
   public readonly noun: 'Pair' = 'Pair';

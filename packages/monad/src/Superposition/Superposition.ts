@@ -1,6 +1,6 @@
+import { Noun } from '@jamashita/publikum-interface';
 import { BinaryFunction, Predicate, UnaryFunction } from '@jamashita/publikum-type';
 
-import { Noun } from '../../../interface/src/Noun';
 import { Quantum } from '../Quantum/Quantum';
 import { Alive } from './Alive';
 import { Dead } from './Dead';
