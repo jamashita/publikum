@@ -9,11 +9,11 @@ export class MockAProject<K extends Nominative<K>, V extends Nominative<V>> exte
 
   private static constructMap<K extends Nominative<K>, V extends Nominative<V>>(
     elements: Map<K, V>
-  ): Map<string, [K, V]> {
-    const map: Map<string, [K, V]> = new Map<string, [K, V]>();
+  ): Map<string, Pair<K, V>> {
+    const map: Map<string, Pair<K, V>> = new Map<string, Pair<K, V>>();
 
     elements.forEach((v: V, k: K) => {
-      map.set(k.hashCode(), [k, v]);
+      map.set(k.hashCode(), Pair.of(k, v));
     });
 
     return map;
