@@ -2,71 +2,71 @@ import { Reference } from '../Reference';
 import { PlainObject, PlainObjectItem } from '../Value';
 
 describe('Reference', () => {
-  describe('isRecursive', () => {
+  describe('isCircular', () => {
     it('return false when given objects do not have recusive reference', () => {
-      expect(Reference.isRecursive({})).toBe(false);
+      expect(Reference.isCircular({})).toBe(false);
       expect(
-        Reference.isRecursive({
+        Reference.isCircular({
           a: null
         })
       ).toBe(false);
       expect(
-        Reference.isRecursive({
+        Reference.isCircular({
           a: undefined
         })
       ).toBe(false);
       expect(
-        Reference.isRecursive({
+        Reference.isCircular({
           a: true
         })
       ).toBe(false);
       expect(
-        Reference.isRecursive({
+        Reference.isCircular({
           a: false
         })
       ).toBe(false);
       expect(
-        Reference.isRecursive({
+        Reference.isCircular({
           a: 'picture in picture'
         })
       ).toBe(false);
       expect(
-        Reference.isRecursive({
+        Reference.isCircular({
           a: 0.001
         })
       ).toBe(false);
       expect(
-        Reference.isRecursive({
+        Reference.isCircular({
           a: -0.001
         })
       ).toBe(false);
       expect(
-        Reference.isRecursive({
+        Reference.isCircular({
           a: Infinity
         })
       ).toBe(false);
       expect(
-        Reference.isRecursive({
+        Reference.isCircular({
           a: NaN
         })
       ).toBe(false);
       expect(
-        Reference.isRecursive({
+        Reference.isCircular({
           a: Symbol()
         })
       ).toBe(false);
       expect(
-        Reference.isRecursive({
+        Reference.isCircular({
           a: 46n
         })
       ).toBe(false);
       expect(
-        Reference.isRecursive({
+        Reference.isCircular({
           a: {}
         })
       ).toBe(false);
       expect(
-        Reference.isRecursive({
+        Reference.isCircular({
           a: {
             b: {
               c: undefined,
@@ -76,17 +76,17 @@ describe('Reference', () => {
         })
       ).toBe(false);
       expect(
-        Reference.isRecursive({
+        Reference.isCircular({
           a: []
         })
       ).toBe(false);
       expect(
-        Reference.isRecursive({
+        Reference.isCircular({
           a: [undefined, [undefined]]
         })
       ).toBe(false);
-      expect(Reference.isRecursive([])).toBe(false);
-      expect(Reference.isRecursive([undefined, [undefined]])).toBe(false);
+      expect(Reference.isCircular([])).toBe(false);
+      expect(Reference.isCircular([undefined, [undefined]])).toBe(false);
     });
 
     it('recursive detectiion pattern', () => {
@@ -112,12 +112,12 @@ describe('Reference', () => {
 
       arr1.push(arr2);
 
-      expect(Reference.isRecursive(obj1)).toBe(true);
-      expect(Reference.isRecursive(obj2)).toBe(true);
-      expect(Reference.isRecursive(arr)).toBe(true);
-      expect(Reference.isRecursive(obj)).toBe(true);
-      expect(Reference.isRecursive(arr1)).toBe(true);
-      expect(Reference.isRecursive(arr2)).toBe(true);
+      expect(Reference.isCircular(obj1)).toBe(true);
+      expect(Reference.isCircular(obj2)).toBe(true);
+      expect(Reference.isCircular(arr)).toBe(true);
+      expect(Reference.isCircular(obj)).toBe(true);
+      expect(Reference.isCircular(arr1)).toBe(true);
+      expect(Reference.isCircular(arr2)).toBe(true);
     });
   });
 });

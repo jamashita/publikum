@@ -5,10 +5,10 @@ import { Ambiguous, ObjectLiteral, PlainObject, PlainObjectItem, Primitive } fro
 
 export class Equality {
   public static same(n1: ObjectLiteral, n2: ObjectLiteral): boolean {
-    if (Reference.isRecursive(n1)) {
+    if (Reference.isCircular(n1)) {
       throw new RecursiveReferenceError('RECURSIVE REFERENCE DETECTED');
     }
-    if (Reference.isRecursive(n2)) {
+    if (Reference.isCircular(n2)) {
       throw new RecursiveReferenceError('RECURSIVE REFERENCE DETECTED');
     }
 

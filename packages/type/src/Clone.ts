@@ -5,7 +5,7 @@ import { ObjectLiteral, PlainObject, PlainObjectItem } from './Value';
 
 export class Clone {
   public static copy<T extends ObjectLiteral>(obj: T): T {
-    if (Reference.isRecursive(obj)) {
+    if (Reference.isCircular(obj)) {
       throw new RecursiveReferenceError('RECURSIVE REFERENCE DETECTED');
     }
 

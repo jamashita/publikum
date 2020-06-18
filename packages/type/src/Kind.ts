@@ -110,7 +110,7 @@ export class Kind {
 
   public static isArray<T = unknown>(value: unknown): value is Array<T> {
     if (Array.isArray(value)) {
-      return !Reference.isRecursive(value);
+      return !Reference.isCircular(value);
     }
 
     return false;
@@ -127,7 +127,7 @@ export class Kind {
     if (value.toString() !== LITERAL_TOSTRING) {
       return false;
     }
-    if (Reference.isRecursive(value)) {
+    if (Reference.isCircular(value)) {
       return false;
     }
 

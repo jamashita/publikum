@@ -3,7 +3,7 @@ type Vague = Readonly<{
 }>;
 
 export class Reference {
-  public static isRecursive(value: unknown): boolean {
+  public static isCircular(value: unknown): boolean {
     return !Reference.isSerializable(value, new Set<unknown>());
   }
 
