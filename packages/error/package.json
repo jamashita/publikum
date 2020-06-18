@@ -1,28 +1,23 @@
 {
   "name": "@jamashita/publikum-error",
   "version": "1.7.2",
-  "author": "jamashita <jamashita@arachnid.xyz>",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:jamashita/publikum.git"
+  },
   "license": "MIT",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/esm/index.d.ts",
+  "author": "jamashita <jamashita@arachnid.xyz>",
+  "sideEffects": false,
   "exports": {
     ".": {
       "require": "./dist/cjs/index.js",
       "import": "./dist/esm/index.js"
     }
   },
-  "repository": {
-    "type": "git",
-    "url": "git@gitlab.com:jamashita/publikum.git"
-  },
-  "engines": {
-    "node": ">= 14.0.0",
-    "npm": "npm is not supported"
-  },
-  "private": false,
-  "sideEffects": false,
-  "engineStrict": true,
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
   "files": [
     "dist"
   ],
@@ -32,10 +27,11 @@
     "build:esm": "tsc -p tsconfig.esm.json",
     "clean": "rimraf dist",
     "update": "yarn update:upgrade && yarn update:install",
-    "update:upgrade": "ncu --upgrade --timeout 600000",
-    "update:install": "yarn install"
+    "update:install": "yarn install",
+    "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
+    "@jamashita/publikum-interface": "1.9.0",
     "make-error-cause": "2.3.0"
   },
   "devDependencies": {
@@ -44,6 +40,11 @@
     "rimraf": "3.0.2",
     "typescript": "3.9.5"
   },
+  "engines": {
+    "node": ">= 14.0.0",
+    "npm": "npm is not supported"
+  },
+  "engineStrict": true,
   "publishConfig": {
     "access": "public"
   },

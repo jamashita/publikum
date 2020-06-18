@@ -1,7 +1,7 @@
 import { DataSourceError } from '@jamashita/publikum-error';
 
-export class AJAXError extends DataSourceError {
-  public readonly name: 'AJAXError' = 'AJAXError';
+export class AJAXError extends DataSourceError<'AJAXError', 'AJAX'> {
+  public readonly noun: 'AJAXError' = 'AJAXError';
   public readonly source: 'AJAX' = 'AJAX';
   public readonly status: number;
 

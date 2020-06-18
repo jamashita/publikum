@@ -1,8 +1,8 @@
 import { RuntimeError } from './RuntimeError';
 
-export abstract class DataSourceError extends RuntimeError {
-  public abstract readonly name: string;
-  public abstract readonly source: string;
+export abstract class DataSourceError<N extends string = string, S extends string = string> extends RuntimeError<N> {
+  public abstract readonly noun: N;
+  public abstract readonly source: S;
 
   protected constructor(message: string, cause?: Error) {
     super(message, cause);
