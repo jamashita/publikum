@@ -4,6 +4,7 @@ export type Ambiguous<T> = T | undefined;
 export type Omittable<T> = T | void;
 export type Suspicious<T> = T | null | undefined;
 export type SyncAsync<T> = T | Promise<T>;
+export type Matter<I> = I extends Promise<infer R> ? R : I;
 export type PlainObject = {
   [key: string]: PlainObjectItem;
 };
