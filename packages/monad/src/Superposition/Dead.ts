@@ -30,10 +30,6 @@ export class Dead<S, F extends Error> implements Schrodinger<S, F, 'Dead'> {
     return true;
   }
 
-  public transpose<T>(): Dead<T, F> {
-    return (this as unknown) as Dead<T, F>;
-  }
-
   /*
    * TODO
    * public toQuantum(): Quantum<S> {

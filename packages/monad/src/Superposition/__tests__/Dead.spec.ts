@@ -1,6 +1,5 @@
 import { MockError } from '@jamashita/publikum-object';
 
-import { QuantumError } from '../../Quantum/Error/QuantumError';
 import { Dead } from '../Dead';
 
 describe('Dead', () => {
@@ -61,12 +60,4 @@ describe('Dead', () => {
    *   });
    * });
    */
-
-  describe('transpose', () => {
-    it('does nothing', () => {
-      const dead: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
-
-      expect(dead.transpose<QuantumError>()).toBe(dead);
-    });
-  });
 });

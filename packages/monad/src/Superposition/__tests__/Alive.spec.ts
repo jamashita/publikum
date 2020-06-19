@@ -1,6 +1,5 @@
 import { MockError } from '@jamashita/publikum-object';
 
-import { QuantumError } from '../../Quantum/Error/QuantumError';
 import { Alive } from '../Alive';
 
 describe('Alive', () => {
@@ -54,12 +53,4 @@ describe('Alive', () => {
    *   });
    * });
    */
-
-  describe('transpose', () => {
-    it('returns itself', () => {
-      const alive: Alive<number, MockError> = Alive.of<number, MockError>(100);
-
-      expect(alive.transpose<QuantumError>()).toBe(alive);
-    });
-  });
 });

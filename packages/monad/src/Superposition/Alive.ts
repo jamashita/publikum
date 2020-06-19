@@ -25,10 +25,6 @@ export class Alive<S, F extends Error> implements Schrodinger<S, F, 'Alive'> {
     return false;
   }
 
-  public transpose<E extends Error>(): Alive<S, E> {
-    return (this as unknown) as Alive<S, E>;
-  }
-
   /*
    * TODO
    * public toQuantum(): Quantum<S> {
