@@ -9,4 +9,4 @@ export type AsyncSupplier<T> = () => Promise<T>;
 export type Enumerator<K, V> = (value: V, key: K) => void;
 export type Mapper<I, O> = (value: I, index: number) => O;
 export type Resolve<T> = (arg: T) => unknown;
-export type Reject = (arg: unknown) => unknown;
+export type Reject<E = unknown> = (arg: E) => unknown;

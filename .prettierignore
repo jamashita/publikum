@@ -1,6 +1,6 @@
-**/node_modules
-**/cjs
-**/esm
-**/coverage
+node_modules
+cjs
+esm
+coverage
 *.js
 *.cjs
