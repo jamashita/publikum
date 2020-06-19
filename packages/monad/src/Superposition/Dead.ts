@@ -1,7 +1,4 @@
-import { Predicate } from '@jamashita/publikum-type';
-
 import { Alive } from './Alive';
-import { SuperpositionError } from './Error/SuperpositionError';
 import { Schrodinger } from './Schrodinger';
 
 export class Dead<S, F extends Error> implements Schrodinger<S, F, 'Dead'> {
@@ -31,11 +28,6 @@ export class Dead<S, F extends Error> implements Schrodinger<S, F, 'Dead'> {
 
   public isDead(): this is Dead<S, F> {
     return true;
-  }
-
-  public filter(predicate: Predicate<S>): Dead<S, F | SuperpositionError>;
-  public filter(): Dead<S, F | SuperpositionError> {
-    return this;
   }
 
   public transpose<T>(): Dead<T, F> {
