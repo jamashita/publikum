@@ -8,7 +8,7 @@ import { Schrodinger } from './Schrodinger';
 export class Still<S, F extends Error> implements Schrodinger<S, F, 'Still'> {
   public readonly noun: 'Still' = 'Still';
 
-  private static readonly INSTANCE: Still<unknown, Error> = new Still<unknown, Error>();
+  private static readonly INSTANCE: Still<unknown, SuperpositionError> = new Still<unknown, SuperpositionError>();
 
   public static of<S, F extends Error>(): Still<S, F> {
     return Still.INSTANCE.transpose<S, F>();
@@ -37,12 +37,14 @@ export class Still<S, F extends Error> implements Schrodinger<S, F, 'Still'> {
 
   public map<T, E extends Error>(mapper: UnaryFunction<S, Schrodinger<T, E>>): never;
   public map<T, E extends Error = F>(mapper: UnaryFunction<S, T>): never;
+  public map<T, E extends Error = F>(mapper: UnaryFunction<S, Promise<T>>): never;
   public map<T, E extends Error = F>(): never {
     throw new SuperpositionError('STILL');
   }
 
   public recover<T, E extends Error>(mapper: UnaryFunction<F, Schrodinger<T, E>>): never;
   public recover<T, E extends Error = F>(mapper: UnaryFunction<F, T>): never;
+  public recover<T, E extends Error = F>(mapper: UnaryFunction<F, Promise<T>>): never;
   public recover<T, E extends Error = F>(): never {
     throw new SuperpositionError('STILL');
   }

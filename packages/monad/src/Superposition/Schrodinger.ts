@@ -20,9 +20,11 @@ export interface Schrodinger<S, F extends Error, N extends SchrodingerType = Sch
 
   map<T, E extends Error>(mapper: UnaryFunction<S, Schrodinger<T, E>>): Schrodinger<T, E>;
   map<T, E extends Error = F>(mapper: UnaryFunction<S, T>): Schrodinger<T, F | E>;
+  map<T, E extends Error = F>(mapper: UnaryFunction<S, Promise<T>>): Schrodinger<T, F | E>;
 
   recover<T, E extends Error>(mapper: UnaryFunction<F, Schrodinger<T, E>>): Schrodinger<S | T, E>;
   recover<T, E extends Error = F>(mapper: UnaryFunction<F, T>): Schrodinger<S | T, E>;
+  recover<T, E extends Error = F>(mapper: UnaryFunction<F, Promise<T>>): Schrodinger<S | T, E>;
 
   /*
    * TODO
