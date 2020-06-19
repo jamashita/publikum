@@ -1,69 +1,31 @@
-import { Ambiguous, AsyncSupplier, Supplier } from '@jamashita/publikum-type';
+import { Noun } from '@jamashita/publikum-interface';
+import { Predicate, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Alive } from './Alive';
 import { Dead } from './Dead';
-import { Superposition } from './Superposition';
+import { SuperpositionError } from './Error/SuperpositionError';
 
-export class Schrodinger {
-  public static all<S, F extends Error>(superpositions: Array<Superposition<S, F>>): Superposition<Array<S>, F> {
-    const dead: Ambiguous<Dead<S, F>> = superpositions.find((s: Superposition<S, F>): s is Dead<S, F> => {
-      return s.isDead();
-    });
+type SchrodingerType = 'Alive' | 'Dead' | 'Still';
 
-    if (dead !== undefined) {
-      return dead.transpose<Array<S>>();
-    }
+export interface Schrodinger<S, F extends Error, N extends SchrodingerType = SchrodingerType> extends Noun<N> {
+  readonly noun: N;
 
-    const values: Array<S> = superpositions.map<S>((s: Superposition<S, F>) => {
-      return s.get();
-    });
+  get(): S;
 
-    return Alive.of<Array<S>, F>(values);
-  }
+  isAlive(): this is Alive<S, F>;
 
-  public static playground<S, F extends Error>(supplier: Supplier<Superposition<S, F>>): Superposition<S, F>;
-  public static playground<S, F extends Error>(supplier: Supplier<S>): Superposition<S, F>;
-  public static playground<S, F extends Error>(supplier: Supplier<Superposition<S, F> | S>): Superposition<S, F>;
-  public static playground<S, F extends Error>(supplier: Supplier<Superposition<S, F> | S>): Superposition<S, F> {
-    // prettier-ignore
-    try {
-      const result: Superposition<S, F> | S = supplier();
+  isDead(): this is Dead<S, F>;
 
-      if (result instanceof Superposition) {
-        return result;
-      }
+  filter(predicate: Predicate<S>): Schrodinger<S, F | SuperpositionError>;
 
-      return Alive.of<S, F>(result);
-    }
-    catch (err) {
-      return Dead.of<S, F>(err);
-    }
-  }
+  map<T, E extends Error>(mapper: UnaryFunction<S, Schrodinger<T, E>>): Schrodinger<T, E>;
+  map<T, E extends Error = F>(mapper: UnaryFunction<S, T>): Schrodinger<T, F | E>;
 
-  public static sandbox<S, F extends Error>(supplier: AsyncSupplier<Superposition<S, F>>): Promise<Superposition<S, F>>;
-  public static sandbox<S, F extends Error>(supplier: AsyncSupplier<S>): Promise<Superposition<S, F>>;
-  public static sandbox<S, F extends Error>(
-    supplier: AsyncSupplier<Superposition<S, F> | S>
-  ): Promise<Superposition<S, F>>;
-  public static async sandbox<S, F extends Error>(
-    supplier: AsyncSupplier<Superposition<S, F> | S>
-  ): Promise<Superposition<S, F>> {
-    // prettier-ignore
-    try {
-      const result: Superposition<S, F> | S = await supplier();
+  recover<T, E extends Error>(mapper: UnaryFunction<F, Schrodinger<T, E>>): Schrodinger<S | T, E>;
+  recover<T, E extends Error = F>(mapper: UnaryFunction<F, T>): Schrodinger<S | T, E>;
 
-      if (result instanceof Superposition) {
-        return result;
-      }
-
-      return Alive.of<S, F>(result);
-    }
-    catch (err) {
-      return Dead.of<S, F>(err);
-    }
-  }
-
-  private constructor() {
-    // NOOP
-  }
+  /*
+   * TODO
+   * toQuantum(): Quantum<S>;
+   */
 }
