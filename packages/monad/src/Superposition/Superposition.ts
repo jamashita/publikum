@@ -2,6 +2,7 @@ import { Noun } from '@jamashita/publikum-interface';
 import {
   Ambiguous,
   BinaryFunction,
+  Consumer,
   Predicate,
   Reject,
   Resolve,
@@ -18,10 +19,12 @@ import { Still } from './Still';
 export class Superposition<S, F extends Error> implements Noun<'Superposition'> {
   public readonly noun: 'Superposition' = 'Superposition';
   private schrodinger: Schrodinger<S, F>;
+  private readonly mapLaters: Array<Consumer<S>>;
+  private readonly recoverLaters: Array<Consumer<F>>;
 
   public static all<S, F extends Error>(superpositions: Array<Superposition<S, F>>): Superposition<Array<S>, F> {
     const dead: Ambiguous<Superposition<S, F>> = superpositions.find((s: Superposition<S, F>) => {
-      return s.isDead();
+      return s.schrodinger.isDead();
     });
 
     if (dead !== undefined) {
@@ -58,11 +61,11 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
             if (value instanceof Superposition) {
               value
                 .map<void>((s: S) => {
-                resolve(s);
-              })
+                  resolve(s);
+                })
                 .recover<void>((e: F) => {
-                reject(e);
-              });
+                  reject(e);
+                });
 
               return;
             }
@@ -122,6 +125,8 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
 
   protected constructor(func: BinaryFunction<Resolve<S>, Reject<F>, unknown>) {
     this.schrodinger = Still.of<S, F>();
+    this.mapLaters = [];
+    this.recoverLaters = [];
     func(this.resolved(this), this.rejected(this));
   }
 
@@ -137,14 +142,20 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
     return (value: S) => {
       if (!self.isDetermined()) {
         self.schrodinger = Alive.of<S, F>(value);
+        self.mapLaters.forEach((consumer: Consumer<S>) => {
+          consumer(value);
+        });
       }
     };
   }
 
   private rejected(self: Superposition<S, F>): Reject<F> {
-    return (error: F) => {
+    return (err: F) => {
       if (!self.isDetermined()) {
-        self.schrodinger = Dead.of<S, F>(error);
+        self.schrodinger = Dead.of<S, F>(err);
+        self.recoverLaters.forEach((consumer: Consumer<F>) => {
+          consumer(err);
+        });
       }
     };
   }
@@ -159,24 +170,15 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
     });
   }
 
-  public isAlive(): boolean {
-    return this.schrodinger.isAlive();
-  }
-
-  public isDead(): boolean {
-    return this.schrodinger.isDead();
-  }
-
   public filter(predicate: Predicate<S>): Superposition<S, F | SuperpositionError> {
-    if (this.schrodinger.isAlive()) {
-      if (predicate(this.schrodinger.get())) {
-        return this.transpose<S, F | SuperpositionError>();
-      }
-
-      return Superposition.dead<S, F | SuperpositionError>(new SuperpositionError('IS DEAD'));
+    if (!this.schrodinger.isAlive()) {
+      return this.transpose<S, F | SuperpositionError>();
+    }
+    if (predicate(this.schrodinger.get())) {
+      return this.transpose<S, F | SuperpositionError>();
     }
 
-    return this.transpose<S, F | SuperpositionError>();
+    return Superposition.dead<S, F | SuperpositionError>(new SuperpositionError('IS DEAD'));
   }
 
   public map<T, E extends Error = F>(mapper: UnaryFunction<S, Promise<T>>): Superposition<T, F | E>;
@@ -185,35 +187,57 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
   public map<T, E extends Error = F>(
     mapper: UnaryFunction<S, Promise<T> | Superposition<T, E> | T>
   ): Superposition<T, F | E> {
+    if (this.schrodinger.isStill()) {
+      return Superposition.of<T, F | E>((resolve: Resolve<T>, reject: Reject<F | E>) => {
+        this.mapLaters.push(this.mapInternal<T, E>(mapper, resolve, reject));
+      });
+    }
     if (this.schrodinger.isAlive()) {
-      // prettier-ignore
-      try {
-        const superposition: Promise<T> | Superposition<T, E> | T = mapper(this.schrodinger.get());
+      const alive: Alive<S, F> = this.schrodinger;
 
-        if (superposition instanceof Superposition) {
-          return superposition.transpose<T, F | E>();
-        }
-        if (superposition instanceof Promise) {
-          return Superposition.of<T, F | E>((resolve: Resolve<T>, reject: Reject<F | E>) => {
-            superposition.then<void, void>(
-              (s: T) => {
-                resolve(s);
-              },
-              (e: F | E) => {
-                reject(e);
-              }
-            );
-          });
-        }
-
-        return Superposition.alive<T, F | E>(superposition);
-      }
-      catch (err) {
-        return Superposition.dead<T, F | E>(err);
-      }
+      return Superposition.of<T, F | E>((resolve: Resolve<T>, reject: Reject<F | E>) => {
+        this.mapInternal<T, E>(mapper, resolve, reject)(alive.get());
+      });
     }
 
     return this.transpose<T, F | E>();
+  }
+
+  private mapInternal<T, E extends Error = F>(
+    mapper: UnaryFunction<S, Promise<T> | Superposition<T, E> | T>,
+    resolve: Resolve<T>,
+    reject: Reject<F | E>
+  ): Consumer<S> {
+    return (value: S) => {
+      // prettier-ignore
+      try {
+        const mapped: Promise<T> | Superposition<T, E> | T = mapper(value);
+
+        if (mapped instanceof Promise) {
+          mapped.then<void, void>((v: T) => {
+            resolve(v);
+          }, (err: F | E) => {
+            reject(err);
+          });
+
+          return;
+        }
+        if (mapped instanceof Superposition) {
+          mapped.map<void>((v: T) => {
+            resolve(v);
+          }).recover<void>((err: E) => {
+            reject(err);
+          });
+
+          return;
+        }
+
+        resolve(mapped);
+      }
+      catch (err) {
+        reject(err);
+      }
+    };
   }
 
   public recover<T, E extends Error = F>(mapper: UnaryFunction<F, Promise<T>>): Superposition<S | T, E>;
@@ -222,35 +246,62 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
   public recover<T, E extends Error = F>(
     mapper: UnaryFunction<F, Promise<T> | Superposition<T, E> | T>
   ): Superposition<S | T, E> {
+    if (this.schrodinger.isStill()) {
+      return Superposition.of<S | T, E>((resolve: Resolve<S | T>, reject: Reject<E>) => {
+        this.recoverLaters.push(this.recoverInternal<T, E>(mapper, resolve, reject));
+      });
+    }
     if (this.schrodinger.isDead()) {
-      // prettier-ignore
-      try {
-        const superposition: Promise<T> | Superposition<T, E> | T = mapper(this.schrodinger.getError());
+      const dead: Dead<S, F> = this.schrodinger;
 
-        if (superposition instanceof Superposition) {
-          return superposition.transpose<S | T, E>();
-        }
-        if (superposition instanceof Promise) {
-          return Superposition.of<S | T, E>((resolve: Resolve<T>, reject: Reject<E>) => {
-            superposition.then<void, void>(
-              (s: T) => {
-                resolve(s);
-              },
-              (e: E) => {
-                reject(e);
-              }
-            );
-          });
-        }
-
-        return Superposition.alive<S | T, E>(superposition);
-      }
-      catch (err) {
-        return Superposition.dead<S | T, E>(err);
-      }
+      return Superposition.of<S | T, E>((resolve: Resolve<S | T>, reject: Reject<E>) => {
+        this.recoverInternal<T, E>(mapper, resolve, reject)(dead.getError());
+      });
     }
 
     return this.transpose<S | T, E>();
+  }
+
+  private recoverInternal<T, E extends Error>(
+    mapper: UnaryFunction<F, Promise<T> | Superposition<T, E> | T>,
+    resolve: Resolve<S | T>,
+    reject: Reject<E>
+  ): Consumer<F> {
+    return (err: F) => {
+      // prettier-ignore
+      try {
+        const mapped: Promise<T> | Superposition<T, E> | T = mapper(err);
+
+        if (mapped instanceof Promise) {
+          mapped.then<void, void>(
+            (value: S | T) => {
+              resolve(value);
+            },
+            (e: E) => {
+              reject(e);
+            }
+          );
+
+          return;
+        }
+        if (mapped instanceof Superposition) {
+          mapped
+            .map<void>((value: S | T) => {
+              resolve(value);
+            })
+            .recover<void>((e: E) => {
+              reject(e);
+            });
+
+          return;
+        }
+
+        resolve(mapped);
+      }
+      catch (e) {
+        reject(e);
+      }
+    };
   }
 
   private transpose<T, E extends Error>(): Superposition<T, E> {
