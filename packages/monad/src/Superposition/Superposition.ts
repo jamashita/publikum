@@ -181,10 +181,9 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
 
   public filter(predicate: Predicate<S>): Superposition<S, F | SuperpositionError> {
     if (!this.schrodinger.isAlive()) {
-      return this.transpose<S, F | SuperpositionError>();
-    }
-    if (predicate(this.schrodinger.get())) {
-      return this.transpose<S, F | SuperpositionError>();
+      if (predicate(this.schrodinger.get())) {
+        return this.transpose<S, F | SuperpositionError>();
+      }
     }
 
     return Superposition.dead<S, F | SuperpositionError>(new SuperpositionError('IS DEAD'));

@@ -13,9 +13,11 @@ describe('Superposition', () => {
         Superposition.alive<number, MockError>(2)
       ];
 
-      const values: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(superpositions);
+      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+        superpositions
+      );
 
-      const array: Array<number> = await values.get();
+      const array: Array<number> = await superposition.get();
 
       expect(array.length).toBe(superpositions.length);
       for (let i: number = 0; i < array.length; i++) {
@@ -26,9 +28,11 @@ describe('Superposition', () => {
     it('no superpositions', async () => {
       const superpositions: Array<Superposition<number, MockError>> = [];
 
-      const values: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(superpositions);
+      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+        superpositions
+      );
 
-      const array: Array<number> = await values.get();
+      const array: Array<number> = await superposition.get();
 
       expect(array.length).toBe(superpositions.length);
     });
@@ -44,9 +48,12 @@ describe('Superposition', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const values: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(superpositions);
+      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+        superpositions
+      );
 
-      values
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      superposition
         .map<void>(() => {
           spy1();
         })
@@ -70,9 +77,12 @@ describe('Superposition', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const values: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(superpositions);
+      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+        superpositions
+      );
 
-      values
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      superposition
         .map<void>(() => {
           spy1();
         })
@@ -96,9 +106,12 @@ describe('Superposition', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const values: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(superpositions);
+      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+        superpositions
+      );
 
-      values
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      superposition
         .map<void>(() => {
           spy1();
         })
@@ -123,9 +136,12 @@ describe('Superposition', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const values: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(superpositions);
+      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+        superpositions
+      );
 
-      values
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      superposition
         .map<void>(() => {
           spy1();
         })
@@ -150,9 +166,12 @@ describe('Superposition', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const values: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(superpositions);
+      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+        superpositions
+      );
 
-      values
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      superposition
         .map<void>(() => {
           spy1();
         })
@@ -178,9 +197,12 @@ describe('Superposition', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const values: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(superpositions);
+      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+        superpositions
+      );
 
-      values
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      superposition
         .map<void>(() => {
           spy1();
         })
@@ -213,6 +235,7 @@ describe('Superposition', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       superposition
         .map<void>(() => {
           spy1();
@@ -264,7 +287,7 @@ describe('Superposition', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      // expect(superposition.isDead()).toBe(true);
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       superposition
         .map<void>(() => {
           spy1();
@@ -307,6 +330,7 @@ describe('Superposition', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       alive
         .map((v: number) => {
           spy1();
@@ -323,14 +347,14 @@ describe('Superposition', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('alive: async case', () => {
+    it('alive: async case', async () => {
       const value: number = 2;
       const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      alive
+      await alive
         .map((v: number) => {
           spy1();
           expect(v).toBe(value);
