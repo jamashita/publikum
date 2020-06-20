@@ -3,11 +3,11 @@ import {
   Ambiguous,
   BinaryFunction,
   Consumer,
+  DryRun,
   Predicate,
   Reject,
   Resolve,
   Supplier,
-  Suspicious,
   UnaryFunction
 } from '@jamashita/publikum-type';
 
@@ -17,11 +17,12 @@ import { SuperpositionError } from './Error/SuperpositionError';
 import { Schrodinger } from './Schrodinger';
 import { Still } from './Still';
 
-export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'Superposition'> {
+export class Superposition<S, F extends Error> implements Noun<'Superposition'> {
   public readonly noun: 'Superposition' = 'Superposition';
   private schrodinger: Schrodinger<S, F>;
   private readonly mapLaters: Array<Consumer<S>>;
   private readonly recoverLaters: Array<Consumer<F>>;
+  private readonly dryRunLaters: Array<DryRun>;
 
   public static all<S, F extends Error>(superpositions: Array<Superposition<S, F>>): Superposition<Array<S>, F> {
     const dead: Ambiguous<Superposition<S, F>> = superpositions.find((s: Superposition<S, F>) => {
@@ -108,13 +109,13 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     });
   }
 
-  public static ofPromise<S, E extends Error>(promise: PromiseLike<S>): Superposition<S, E> {
-    return Superposition.of((resolve: Resolve<S>, reject: Reject<E>) => {
+  public static ofPromise<S, F extends Error>(promise: PromiseLike<S>): Superposition<S, F> {
+    return Superposition.of((resolve: Resolve<S>, reject: Reject<F>) => {
       return promise.then<void, void>(
         (value: S) => {
           resolve(value);
         },
-        (err: E) => {
+        (err: F) => {
           reject(err);
         }
       );
@@ -129,10 +130,11 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     this.schrodinger = Still.of<S, F>();
     this.mapLaters = [];
     this.recoverLaters = [];
+    this.dryRunLaters = [];
     func(this.resolved(this), this.rejected(this));
   }
 
-  private isDetermined(): boolean {
+  private isSettled(): boolean {
     if (this.schrodinger instanceof Still) {
       return false;
     }
@@ -142,10 +144,13 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
 
   private resolved(self: Superposition<S, F>): Resolve<S> {
     return (value: S) => {
-      if (!self.isDetermined()) {
+      if (!self.isSettled()) {
         self.schrodinger = Alive.of<S, F>(value);
         self.mapLaters.forEach((consumer: Consumer<S>) => {
           consumer(value);
+        });
+        self.dryRunLaters.forEach((dryrun: DryRun) => {
+          dryrun();
         });
       }
     };
@@ -153,10 +158,13 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
 
   private rejected(self: Superposition<S, F>): Reject<F> {
     return (err: F) => {
-      if (!self.isDetermined()) {
+      if (!self.isSettled()) {
         self.schrodinger = Dead.of<S, F>(err);
         self.recoverLaters.forEach((consumer: Consumer<F>) => {
           consumer(err);
+        });
+        self.dryRunLaters.forEach((dryrun: DryRun) => {
+          dryrun();
         });
       }
     };
@@ -172,18 +180,13 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     });
   }
 
-  public then<T1 = S, T2 = never>(
-    onfulfilled?: Suspicious<UnaryFunction<S, T1 | PromiseLike<T1>>>,
-    onrejected?: Suspicious<UnaryFunction<F, T2 | PromiseLike<T2>>>
-  ): Promise<T1 | T2> {
-    return this.get().then(onfulfilled, onrejected);
-  }
-
   public filter(predicate: Predicate<S>): Superposition<S, F | SuperpositionError> {
     if (!this.schrodinger.isAlive()) {
       if (predicate(this.schrodinger.get())) {
         return this.transpose<S, F | SuperpositionError>();
       }
+
+      return Superposition.dead<S, F | SuperpositionError>(new SuperpositionError('IS DEAD'));
     }
 
     return Superposition.dead<S, F | SuperpositionError>(new SuperpositionError('IS DEAD'));
@@ -201,10 +204,10 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
       });
     }
     if (this.schrodinger.isAlive()) {
-      const alive: Alive<S, F> = this.schrodinger;
+      const value: S = this.schrodinger.get();
 
       return Superposition.of<T, F | E>((resolve: Resolve<T>, reject: Reject<F | E>) => {
-        this.mapInternal<T, E>(mapper, resolve, reject)(alive.get());
+        this.mapInternal<T, E>(mapper, resolve, reject)(value);
       });
     }
 
@@ -263,10 +266,10 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
       });
     }
     if (this.schrodinger.isDead()) {
-      const dead: Dead<S, F> = this.schrodinger;
+      const err: F = this.schrodinger.getError();
 
       return Superposition.of<S | T, E>((resolve: Resolve<S | T>, reject: Reject<E>) => {
-        this.recoverInternal<T, E>(mapper, resolve, reject)(dead.getError());
+        this.recoverInternal<T, E>(mapper, resolve, reject)(err);
       });
     }
 
@@ -313,6 +316,24 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
       catch (e) {
         reject(e);
       }
+    };
+  }
+
+  public settled(dryrun: DryRun): this {
+    if (this.schrodinger.isStill()) {
+      this.dryRunLaters.push(this.settledInternal(dryrun));
+
+      return this;
+    }
+
+    this.settledInternal(dryrun)();
+
+    return this;
+  }
+
+  private settledInternal(dryrun: DryRun): DryRun {
+    return () => {
+      dryrun();
     };
   }
 

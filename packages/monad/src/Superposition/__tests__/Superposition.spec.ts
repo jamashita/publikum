@@ -252,6 +252,7 @@ describe('Superposition', () => {
     it('superposition case', () => {
       const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(2);
       const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(new MockError());
+
       const superposition1: Superposition<number, MockError> = Superposition.playground<number, MockError>(() => {
         return alive;
       });
@@ -287,7 +288,6 @@ describe('Superposition', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       superposition
         .map<void>(() => {
           spy1();
@@ -295,15 +295,17 @@ describe('Superposition', () => {
         .recover<void>((err: MockError) => {
           spy2();
           expect(e).toBe(err);
+        })
+        .settled(() => {
+          expect(spy1.called).toBe(false);
+          expect(spy2.called).toBe(true);
         });
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
     });
 
     it('promise superposition case', () => {
       const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(2);
       const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(new MockError());
+
       const superposition1: Superposition<number, MockError> = Superposition.playground<number, MockError>(
         // eslint-disable-next-line @typescript-eslint/require-await
         async () => {
@@ -317,8 +319,12 @@ describe('Superposition', () => {
         }
       );
 
-      expect(superposition1).toBe(alive);
-      expect(superposition2).toBe(dead);
+      superposition1.settled(() => {
+        expect(superposition1).toBe(alive);
+      });
+      superposition2.settled(() => {
+        expect(superposition2).toBe(dead);
+      });
     });
   });
 
@@ -330,7 +336,6 @@ describe('Superposition', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       alive
         .map((v: number) => {
           spy1();
@@ -341,20 +346,21 @@ describe('Superposition', () => {
         .map((v: number) => {
           spy2();
           expect(v).toBe(value + 1);
+        })
+        .settled(() => {
+          expect(spy1.called).toBe(true);
+          expect(spy2.called).toBe(true);
         });
-
-      expect(spy1.called).toBe(true);
-      expect(spy2.called).toBe(true);
     });
 
-    it('alive: async case', async () => {
+    it('alive: async case', () => {
       const value: number = 2;
       const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      await alive
+      alive
         .map((v: number) => {
           spy1();
           expect(v).toBe(value);
@@ -364,10 +370,11 @@ describe('Superposition', () => {
         .map((v: number) => {
           spy2();
           expect(v).toBe(value + 1);
+        })
+        .settled(() => {
+          expect(spy1.called).toBe(true);
+          expect(spy2.called).toBe(true);
         });
-
-      expect(spy1.called).toBe(true);
-      expect(spy2.called).toBe(true);
     });
   });
 });
