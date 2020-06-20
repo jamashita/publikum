@@ -7,6 +7,7 @@ import {
   Reject,
   Resolve,
   Supplier,
+  Suspicious,
   UnaryFunction
 } from '@jamashita/publikum-type';
 
@@ -16,7 +17,7 @@ import { SuperpositionError } from './Error/SuperpositionError';
 import { Schrodinger } from './Schrodinger';
 import { Still } from './Still';
 
-export class Superposition<S, F extends Error> implements Noun<'Superposition'> {
+export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'Superposition'> {
   public readonly noun: 'Superposition' = 'Superposition';
   private schrodinger: Schrodinger<S, F>;
   private readonly mapLaters: Array<Consumer<S>>;
@@ -59,6 +60,7 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
         return Superposition.of<S, F>((resolve: Resolve<S>, reject: Reject<F>) => {
           return promise.then<void>((value: Superposition<S, F> | S) => {
             if (value instanceof Superposition) {
+              // eslint-disable-next-line @typescript-eslint/no-floating-promises
               value
                 .map<void>((s: S) => {
                   resolve(s);
@@ -162,12 +164,19 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
 
   public get(): Promise<S> {
     return new Promise<S>((resolve: Resolve<S>, reject: Reject<F>) => {
-      this.map<void>((value: S) => {
+      return this.map<void>((value: S) => {
         resolve(value);
       }).recover<void>((err: F) => {
         reject(err);
       });
     });
+  }
+
+  public then<T1 = S, T2 = never>(
+    onfulfilled?: Suspicious<UnaryFunction<S, T1 | PromiseLike<T1>>>,
+    onrejected?: Suspicious<UnaryFunction<F, T2 | PromiseLike<T2>>>
+  ): Promise<T1 | T2> {
+    return this.get().then(onfulfilled, onrejected);
   }
 
   public filter(predicate: Predicate<S>): Superposition<S, F | SuperpositionError> {
@@ -223,11 +232,14 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
           return;
         }
         if (mapped instanceof Superposition) {
-          mapped.map<void>((v: T) => {
-            resolve(v);
-          }).recover<void>((err: E) => {
-            reject(err);
-          });
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
+          mapped
+            .map<void>((v: T) => {
+              resolve(v);
+            })
+            .recover<void>((err: E) => {
+              reject(err);
+            });
 
           return;
         }
@@ -285,6 +297,7 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
           return;
         }
         if (mapped instanceof Superposition) {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           mapped
             .map<void>((value: S | T) => {
               resolve(value);
