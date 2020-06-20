@@ -15,7 +15,6 @@ describe('Superposition', () => {
 
       const values: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(superpositions);
 
-      expect(values.isAlive()).toBe(true);
       const array: Array<number> = await values.get();
 
       expect(array.length).toBe(superpositions.length);
@@ -29,7 +28,6 @@ describe('Superposition', () => {
 
       const values: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(superpositions);
 
-      expect(values.isAlive()).toBe(true);
       const array: Array<number> = await values.get();
 
       expect(array.length).toBe(superpositions.length);
@@ -48,7 +46,6 @@ describe('Superposition', () => {
 
       const values: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(superpositions);
 
-      expect(values.isDead()).toBe(true);
       values
         .map<void>(() => {
           spy1();
@@ -75,7 +72,6 @@ describe('Superposition', () => {
 
       const values: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(superpositions);
 
-      expect(values.isDead()).toBe(true);
       values
         .map<void>(() => {
           spy1();
@@ -102,7 +98,6 @@ describe('Superposition', () => {
 
       const values: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(superpositions);
 
-      expect(values.isDead()).toBe(true);
       values
         .map<void>(() => {
           spy1();
@@ -130,7 +125,6 @@ describe('Superposition', () => {
 
       const values: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(superpositions);
 
-      expect(values.isDead()).toBe(true);
       values
         .map<void>(() => {
           spy1();
@@ -158,7 +152,6 @@ describe('Superposition', () => {
 
       const values: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(superpositions);
 
-      expect(values.isDead()).toBe(true);
       values
         .map<void>(() => {
           spy1();
@@ -187,7 +180,6 @@ describe('Superposition', () => {
 
       const values: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(superpositions);
 
-      expect(values.isDead()).toBe(true);
       values
         .map<void>(() => {
           spy1();
@@ -203,14 +195,13 @@ describe('Superposition', () => {
   });
 
   describe('playground', () => {
-    it('alive case', () => {
+    it('alive case', async () => {
       const v: number = 2;
       const superposition: Superposition<number, MockError> = Superposition.playground<number, MockError>(() => {
         return v;
       });
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(v);
+      await expect(superposition.get()).resolves.toBe(v);
     });
 
     it('dead case', () => {
@@ -222,7 +213,6 @@ describe('Superposition', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      expect(superposition.isDead()).toBe(true);
       superposition
         .map<void>(() => {
           spy1();
@@ -250,7 +240,7 @@ describe('Superposition', () => {
       expect(superposition2).toBe(dead);
     });
 
-    it('promise alive case', () => {
+    it('promise alive case', async () => {
       const v: number = 2;
       const superposition: Superposition<number, MockError> = Superposition.playground<number, MockError>(
         // eslint-disable-next-line @typescript-eslint/require-await
@@ -259,8 +249,7 @@ describe('Superposition', () => {
         }
       );
 
-      expect(superposition.isAlive()).toBe(true);
-      expect(superposition.get()).toBe(v);
+      await expect(superposition.get()).resolves.toBe(v);
     });
 
     it('promise dead case', () => {
@@ -307,6 +296,54 @@ describe('Superposition', () => {
 
       expect(superposition1).toBe(alive);
       expect(superposition2).toBe(dead);
+    });
+  });
+
+  describe('map', () => {
+    it('alive: sync case', () => {
+      const value: number = 2;
+      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      alive
+        .map((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return v + 1;
+        })
+        .map((v: number) => {
+          spy2();
+          expect(v).toBe(value + 1);
+        });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('alive: async case', () => {
+      const value: number = 2;
+      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      alive
+        .map((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return Promise.resolve<number>(v + 1);
+        })
+        .map((v: number) => {
+          spy2();
+          expect(v).toBe(value + 1);
+        });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
     });
   });
 });
