@@ -28,9 +28,10 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
       return dead.transpose<Array<S>, F>();
     }
 
-    const values: Array<S> = superpositions.map<S>((s: Superposition<S, F>) => {
+    const promises: Array<Promise<S>> = superpositions.map<Promise<S>>((s: Superposition<S, F>) => {
       return s.get();
     });
+    const values: Promise<Array<S>> = Promise.all<S>(promises);
 
     return Superposition.alive<Array<S>, F>(values);
   }
@@ -53,9 +54,9 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
         const promise: Promise<Superposition<S, F> | S> = result;
 
         return Superposition.of<S, F>((resolve: Resolve<S>, reject: Reject<F>) => {
-          return promise.then<void>((val: Superposition<S, F> | S) => {
-            if (val instanceof Superposition) {
-              val
+          return promise.then<void>((value: Superposition<S, F> | S) => {
+            if (value instanceof Superposition) {
+              value
                 .map<void>((s: S) => {
                 resolve(s);
               })
@@ -66,7 +67,7 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
               return;
             }
 
-            resolve(val);
+            resolve(value);
           });
         });
       }
@@ -83,9 +84,7 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
   public static alive<S, F extends Error>(value: S | Promise<S>): Superposition<S, F> {
     return Superposition.of<S, F>((resolve: Resolve<S>) => {
       if (value instanceof Promise) {
-        return value.then<unknown>((v: S) => {
-          return resolve(v);
-        });
+        return Superposition.ofPromise<S, F>(value);
       }
 
       return resolve(value);
@@ -97,17 +96,23 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
   public static dead<S, F extends Error>(error: F | Promise<never>): Superposition<S, F> {
     return Superposition.of<S, F>((resolve: Resolve<S>, reject: Reject<F>) => {
       if (error instanceof Promise) {
-        return error.then<unknown, unknown>(
-          () => {
-            // NOOP
-          },
-          (err: F) => {
-            return reject(err);
-          }
-        );
+        return Superposition.ofPromise<S, F>(error);
       }
 
       return reject(error);
+    });
+  }
+
+  public static ofPromise<S, E extends Error>(promise: PromiseLike<S>): Superposition<S, E> {
+    return Superposition.of((resolve: Resolve<S>, reject: Reject<E>) => {
+      return promise.then<void, void>(
+        (value: S) => {
+          resolve(value);
+        },
+        (err: E) => {
+          reject(err);
+        }
+      );
     });
   }
 
@@ -144,8 +149,14 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
     };
   }
 
-  public get(): S {
-    return this.schrodinger.get();
+  public get(): Promise<S> {
+    return new Promise<S>((resolve: Resolve<S>, reject: Reject<F>) => {
+      this.map<void>((value: S) => {
+        resolve(value);
+      }).recover<void>((err: F) => {
+        reject(err);
+      });
+    });
   }
 
   public isAlive(): boolean {
