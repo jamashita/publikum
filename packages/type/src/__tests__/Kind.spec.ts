@@ -253,6 +253,26 @@ describe('Kind', () => {
     });
   });
 
+  describe('isObject', () => {
+    it('returns true only if the array is given', () => {
+      expect(Kind.isObject(null)).toBe(false);
+      expect(Kind.isObject(undefined)).toBe(false);
+      expect(Kind.isObject('')).toBe(false);
+      expect(Kind.isObject('123')).toBe(false);
+      expect(Kind.isObject('abcd')).toBe(false);
+      expect(Kind.isObject(123)).toBe(false);
+      expect(Kind.isObject(0)).toBe(false);
+      expect(Kind.isObject(-12)).toBe(false);
+      expect(Kind.isObject(0.3)).toBe(false);
+      expect(Kind.isObject(false)).toBe(false);
+      expect(Kind.isObject(true)).toBe(false);
+      expect(Kind.isObject(Symbol('p'))).toBe(false);
+      expect(Kind.isObject(20n)).toBe(false);
+      expect(Kind.isObject({})).toBe(true);
+      expect(Kind.isObject([])).toBe(true);
+    });
+  });
+
   describe('isArray', () => {
     it('returns true only if the array is given', () => {
       expect(Kind.isArray(null)).toBe(false);

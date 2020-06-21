@@ -108,6 +108,17 @@ export class Kind {
     }
   }
 
+  public static isObject<T extends object = object>(value: unknown): value is { [P in keyof T]: unknown } {
+    if (typeof value !== 'object') {
+      return false;
+    }
+    if (value === null) {
+      return false;
+    }
+
+    return true;
+  }
+
   public static isArray<T = unknown>(value: unknown): value is Array<T> {
     if (Array.isArray(value)) {
       return !Reference.isCircular(value);
