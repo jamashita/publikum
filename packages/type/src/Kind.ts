@@ -119,6 +119,20 @@ export class Kind {
     return true;
   }
 
+  public static isPromiseLike<T = unknown>(value: unknown): value is PromiseLike<T> {
+    if (value instanceof Promise) {
+      return true;
+    }
+    if (!Kind.isObject<PromiseLike<unknown>>(value)) {
+      return false;
+    }
+    if (typeof value.then === 'function') {
+      return true;
+    }
+
+    return false;
+  }
+
   public static isArray<T = unknown>(value: unknown): value is Array<T> {
     if (Array.isArray(value)) {
       return !Reference.isCircular(value);

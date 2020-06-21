@@ -270,6 +270,95 @@ describe('Kind', () => {
       expect(Kind.isObject(20n)).toBe(false);
       expect(Kind.isObject({})).toBe(true);
       expect(Kind.isObject([])).toBe(true);
+      expect(
+        Kind.isObject(() => {
+          // NOOP
+        })
+      ).toBe(false);
+    });
+  });
+
+  describe('isPromiseLike', () => {
+    it('returns true only if the array is given', () => {
+      expect(Kind.isPromiseLike(null)).toBe(false);
+      expect(Kind.isPromiseLike(undefined)).toBe(false);
+      expect(Kind.isPromiseLike('')).toBe(false);
+      expect(Kind.isPromiseLike('123')).toBe(false);
+      expect(Kind.isPromiseLike('abcd')).toBe(false);
+      expect(Kind.isPromiseLike(123)).toBe(false);
+      expect(Kind.isPromiseLike(0)).toBe(false);
+      expect(Kind.isPromiseLike(-12)).toBe(false);
+      expect(Kind.isPromiseLike(0.3)).toBe(false);
+      expect(Kind.isPromiseLike(false)).toBe(false);
+      expect(Kind.isPromiseLike(true)).toBe(false);
+      expect(Kind.isPromiseLike(Symbol('p'))).toBe(false);
+      expect(Kind.isPromiseLike(20n)).toBe(false);
+      expect(Kind.isPromiseLike({})).toBe(false);
+      expect(Kind.isPromiseLike([])).toBe(false);
+      expect(
+        Kind.isPromiseLike(() => {
+          // NOOP
+        })
+      ).toBe(false);
+      expect(
+        Kind.isPromiseLike(
+          new Promise<unknown>(() => {
+            // NOOP
+          })
+        )
+      ).toBe(true);
+      expect(
+        Kind.isPromiseLike({
+          then: undefined
+        })
+      ).toBe(false);
+      expect(
+        Kind.isPromiseLike({
+          then: null
+        })
+      ).toBe(false);
+      expect(
+        Kind.isPromiseLike({
+          then: ''
+        })
+      ).toBe(false);
+      expect(
+        Kind.isPromiseLike({
+          then: 123
+        })
+      ).toBe(false);
+      expect(
+        Kind.isPromiseLike({
+          then: false
+        })
+      ).toBe(false);
+      expect(
+        Kind.isPromiseLike({
+          then: Symbol('p')
+        })
+      ).toBe(false);
+      expect(
+        Kind.isPromiseLike({
+          then: 20n
+        })
+      ).toBe(false);
+      expect(
+        Kind.isPromiseLike({
+          then: {}
+        })
+      ).toBe(false);
+      expect(
+        Kind.isPromiseLike({
+          then: []
+        })
+      ).toBe(false);
+      expect(
+        Kind.isPromiseLike({
+          then: () => {
+            // NOOP
+          }
+        })
+      ).toBe(true);
     });
   });
 
