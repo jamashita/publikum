@@ -8,6 +8,7 @@ import {
   Reject,
   Resolve,
   Supplier,
+  Suspicious,
   UnaryFunction
 } from '@jamashita/publikum-type';
 
@@ -17,7 +18,7 @@ import { SuperpositionError } from './Error/SuperpositionError';
 import { Schrodinger } from './Schrodinger';
 import { Still } from './Still';
 
-export class Superposition<S, F extends Error> implements Noun<'Superposition'> {
+export class Superposition<S, F extends Error> implements PromiseLike<Schrodinger<S, F>>, Noun<'Superposition'> {
   public readonly noun: 'Superposition' = 'Superposition';
   private schrodinger: Schrodinger<S, F>;
   private readonly mapLaters: Array<Consumer<S>>;
@@ -33,49 +34,31 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
       return dead.transpose<Array<S>, F>();
     }
 
-    const promises: Array<Promise<S>> = superpositions.map<Promise<S>>((s: Superposition<S, F>) => {
-      return s.get();
+    const promises: Array<Promise<S>> = superpositions.map<Promise<S>>(async (s: Superposition<S, F>) => {
+      const schrodinger: Schrodinger<S, F> = await s.get();
+
+      return schrodinger.get();
     });
     const values: Promise<Array<S>> = Promise.all<S>(promises);
 
     return Superposition.alive<Array<S>, F>(values);
   }
 
-  public static playground<S, F extends Error>(supplier: Supplier<Promise<Superposition<S, F>>>): Superposition<S, F>;
   public static playground<S, F extends Error>(supplier: Supplier<Promise<S>>): Superposition<S, F>;
   public static playground<S, F extends Error>(supplier: Supplier<Superposition<S, F>>): Superposition<S, F>;
   public static playground<S, F extends Error>(supplier: Supplier<S>): Superposition<S, F>;
   public static playground<S, F extends Error>(
-    supplier: Supplier<Promise<Superposition<S, F>> | Promise<S> | Superposition<S, F> | S>
+    supplier: Supplier<Promise<S> | Superposition<S, F> | S>
   ): Superposition<S, F> {
     // prettier-ignore
     try {
-      const result: Superposition<S, F> | Promise<Superposition<S, F>> | S | Promise<S> = supplier();
+      const result: Promise<S> | Superposition<S, F> | S = supplier();
 
       if (result instanceof Superposition) {
         return result;
       }
       if (result instanceof Promise) {
-        const promise: Promise<Superposition<S, F> | S> = result;
-
-        return Superposition.of<S, F>((resolve: Resolve<S>, reject: Reject<F>) => {
-          return promise.then<void>((value: Superposition<S, F> | S) => {
-            if (value instanceof Superposition) {
-              // eslint-disable-next-line @typescript-eslint/no-floating-promises
-              value
-                .map<void>((s: S) => {
-                  resolve(s);
-                })
-                .recover<void>((e: F) => {
-                  reject(e);
-                });
-
-              return;
-            }
-
-            resolve(value);
-          });
-        });
+        return Superposition.ofPromise<S, F>(result);
       }
 
       return Superposition.alive<S, F>(result);
@@ -88,11 +71,11 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
   public static alive<S, F extends Error>(value: Promise<S>): Superposition<S, F>;
   public static alive<S, F extends Error>(value: S): Superposition<S, F>;
   public static alive<S, F extends Error>(value: S | Promise<S>): Superposition<S, F> {
-    return Superposition.of<S, F>((resolve: Resolve<S>) => {
-      if (value instanceof Promise) {
-        return Superposition.ofPromise<S, F>(value);
-      }
+    if (value instanceof Promise) {
+      return Superposition.ofPromise<S, F>(value);
+    }
 
+    return Superposition.of<S, F>((resolve: Resolve<S>) => {
       return resolve(value);
     });
   }
@@ -100,11 +83,11 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
   public static dead<S, F extends Error>(error: Promise<never>): Superposition<S, F>;
   public static dead<S, F extends Error>(error: F): Superposition<S, F>;
   public static dead<S, F extends Error>(error: F | Promise<never>): Superposition<S, F> {
-    return Superposition.of<S, F>((resolve: Resolve<S>, reject: Reject<F>) => {
-      if (error instanceof Promise) {
-        return Superposition.ofPromise<S, F>(error);
-      }
+    if (error instanceof Promise) {
+      return Superposition.ofPromise<S, F>(error);
+    }
 
+    return Superposition.of<S, F>((resolve: Resolve<S>, reject: Reject<F>) => {
       return reject(error);
     });
   }
@@ -170,14 +153,21 @@ export class Superposition<S, F extends Error> implements Noun<'Superposition'> 
     };
   }
 
-  public get(): Promise<S> {
-    return new Promise<S>((resolve: Resolve<S>, reject: Reject<F>) => {
-      return this.map<void>((value: S) => {
-        resolve(value);
-      }).recover<void>((err: F) => {
-        reject(err);
+  public get(): Promise<Schrodinger<S, F>> {
+    return new Promise<Schrodinger<S, F>>((resolve: Resolve<Schrodinger<S, F>>) => {
+      return this.map<void>(() => {
+        resolve(this.schrodinger);
+      }).recover<void>(() => {
+        resolve(this.schrodinger);
       });
     });
+  }
+
+  public then<T1 = Schrodinger<S, F>, T2 = never>(
+    onfulfilled?: Suspicious<UnaryFunction<Schrodinger<S, F>, T1 | PromiseLike<T1>>>,
+    onrejected?: Suspicious<UnaryFunction<unknown, T2 | PromiseLike<T2>>>
+  ): PromiseLike<T1 | T2> {
+    return this.get().then<T1, T2>(onfulfilled, onrejected);
   }
 
   public filter(predicate: Predicate<S>): Superposition<S, F | SuperpositionError> {
