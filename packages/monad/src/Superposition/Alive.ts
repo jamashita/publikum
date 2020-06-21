@@ -1,5 +1,5 @@
 import { Dead } from './Dead';
-import { Schrodinger } from './Schrodinger';
+import { Schrodinger } from './Interface/Schrodinger';
 import { Still } from './Still';
 
 export class Alive<S, F extends Error> implements Schrodinger<S, F, 'Alive'> {

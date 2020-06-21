@@ -1,7 +1,7 @@
 import { Alive } from './Alive';
 import { Dead } from './Dead';
 import { SuperpositionError } from './Error/SuperpositionError';
-import { Schrodinger } from './Schrodinger';
+import { Schrodinger } from './Interface/Schrodinger';
 
 export class Still<S, F extends Error> implements Schrodinger<S, F, 'Still'> {
   public readonly noun: 'Still' = 'Still';
