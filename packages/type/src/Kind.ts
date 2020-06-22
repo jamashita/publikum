@@ -138,10 +138,7 @@ export class Kind {
   }
 
   public static isPlainObject(value: unknown): value is PlainObject {
-    if (typeof value !== 'object') {
-      return false;
-    }
-    if (value === null) {
+    if (!Kind.isObject(value)) {
       return false;
     }
     // eslint-disable-next-line @typescript-eslint/no-base-to-string

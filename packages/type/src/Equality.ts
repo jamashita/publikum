@@ -1,7 +1,7 @@
 import { RecursiveReferenceError } from './Error/RecursiveReferenceError';
 import { Kind } from './Kind';
 import { Reference } from './Reference';
-import { Ambiguous, ObjectLiteral, PlainObject, PlainObjectItem, Primitive } from './Value';
+import { ObjectLiteral, PlainObject, PlainObjectItem, Primitive } from './Value';
 
 export class Equality {
   public static same(n1: ObjectLiteral, n2: ObjectLiteral): boolean {
@@ -73,15 +73,20 @@ export class Equality {
       return false;
     }
 
-    for (let i: number = 0; i < length; i++) {
-      const key: string = keys1[i];
-      const prop: Ambiguous<PlainObjectItem> = obj2[key];
-
-      if (!Equality.sameInternal(obj1[key], prop)) {
-        return false;
+    return keys1.every((key: string) => {
+      if (Equality.hasProperty(obj2, key)) {
+        return Equality.sameInternal(obj1[key], obj2[key]);
       }
-    }
 
-    return true;
+      return false;
+    });
+  }
+
+  private static hasProperty(obj: object, key: string): boolean {
+    return Object.prototype.hasOwnProperty.call(obj, key);
+  }
+
+  private constructor() {
+    // NOOP
   }
 }
