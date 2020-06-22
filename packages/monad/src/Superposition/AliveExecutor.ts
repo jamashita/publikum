@@ -3,7 +3,6 @@ import { Consumer } from '@jamashita/publikum-type';
 import { Peek } from '../../../type/src/Function';
 import { CallbackExecutor } from './Interface/CallbackExecutor';
 
-// TODO TESTS UNDONE
 export class AliveExecutor<S, F extends Error> implements CallbackExecutor<S, F, 'AliveExecutor'> {
   public readonly noun: 'AliveExecutor' = 'AliveExecutor';
   private readonly alive: Consumer<S>;
