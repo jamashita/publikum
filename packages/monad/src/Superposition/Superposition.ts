@@ -28,7 +28,6 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
   public readonly noun: 'Superposition' = 'Superposition';
   private schrodinger: Schrodinger<S, F>;
   private readonly laters: Array<CallbackExecutor<S, F>>;
-  private readonly peekLaters: Array<Peek>;
 
   public static all<S, F extends Error>(superpositions: Array<Superposition<S, F>>): Superposition<Array<S>, F> {
     if (superpositions.length === 0) {
@@ -133,7 +132,6 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
   protected constructor(func: BinaryFunction<Resolve<S>, Reject<F>, unknown>) {
     this.schrodinger = Still.of<S, F>();
     this.laters = [];
-    this.peekLaters = [];
     func(this.resolved(this), this.rejected(this));
   }
 
@@ -148,9 +146,6 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
       self.schrodinger = Alive.of<S, F>(value);
       self.laters.forEach((callback: CallbackExecutor<S, F>) => {
         callback.onAlive(value);
-      });
-      self.peekLaters.forEach((peek: Peek) => {
-        peek();
       });
 
       done = true;
@@ -168,9 +163,6 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
       self.schrodinger = Dead.of<S, F>(err);
       self.laters.forEach((callback: CallbackExecutor<S, F>) => {
         callback.onDead(err);
-      });
-      self.peekLaters.forEach((peek: Peek) => {
-        peek();
       });
 
       done = true;
@@ -388,24 +380,6 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     if (this.schrodinger.isDead()) {
       executor.onDead(this.schrodinger.getError());
     }
-  }
-
-  public peek(peek: Peek): this {
-    if (this.schrodinger.isStill()) {
-      this.peekLaters.push(this.peekInternal(peek));
-
-      return this;
-    }
-
-    this.peekInternal(peek)();
-
-    return this;
-  }
-
-  private peekInternal(peek: Peek): Peek {
-    return () => {
-      peek();
-    };
   }
 
   private transpose<T, E extends Error>(): Superposition<T, E> {

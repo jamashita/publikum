@@ -770,6 +770,36 @@ describe('Superposition', () => {
       expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(true);
     });
+
+    it('already resoved superposition case', async () => {
+      const value: number = 2;
+      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await alive
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return alive;
+        })
+        .recover<number>(() => {
+          spy2();
+
+          return 100;
+        })
+        .map<void>((v: number) => {
+          spy3();
+          expect(v).toBe(value);
+        });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(true);
+    });
   });
 
   describe('recover', () => {
@@ -959,6 +989,36 @@ describe('Superposition', () => {
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(true);
+    });
+
+    it('already rejected superposition case', async () => {
+      const error: MockError = new MockError();
+      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await dead
+        .recover<number>((err: MockError) => {
+          spy1();
+          expect(err).toBe(error);
+
+          return dead;
+        })
+        .map<number>(() => {
+          spy2();
+
+          return 10;
+        })
+        .recover<void>((err: MockError) => {
+          spy3();
+          expect(err).toBe(error);
+        });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
     });
   });
@@ -1155,6 +1215,68 @@ describe('Superposition', () => {
         .recover((err: MockError) => {
           spy3();
           expect(err).toBe(error3);
+        });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(true);
+    });
+
+    it('already resoved superposition case', async () => {
+      const value: number = 2;
+      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await alive
+        .transform<number>(
+          () => {
+            spy1();
+
+            return alive;
+          },
+          () => {
+            spy2();
+
+            return alive;
+          }
+        )
+        .map<void>((v: number) => {
+          spy3();
+          expect(v).toBe(value);
+        });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(true);
+    });
+
+    it('already rejected superposition case', async () => {
+      const error: MockError = new MockError();
+      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await dead
+        .transform<number>(
+          () => {
+            spy1();
+
+            return dead;
+          },
+          () => {
+            spy2();
+
+            return dead;
+          }
+        )
+        .recover((err: MockError) => {
+          spy3();
+          expect(err).toBe(error);
         });
 
       expect(spy1.called).toBe(false);
