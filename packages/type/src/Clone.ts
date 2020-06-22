@@ -24,10 +24,9 @@ export class Clone {
   }
 
   private static copyObject(obj: PlainObject): PlainObject {
-    const keys: Array<string> = Object.keys(obj);
     const p: PlainObject = {};
 
-    keys.forEach((key: string) => {
+    Object.keys(obj).forEach((key: string) => {
       p[key] = Clone.copyInternal(obj[key]);
     });
 
@@ -35,12 +34,8 @@ export class Clone {
   }
 
   private static copyArray(arr: Array<PlainObjectItem>): Array<PlainObjectItem> {
-    const a: Array<PlainObjectItem> = [];
-
-    arr.forEach((item: PlainObjectItem, index: number) => {
-      a[index] = Clone.copyInternal(item);
+    return arr.map<PlainObjectItem>((item: PlainObjectItem) => {
+      return Clone.copyInternal(item);
     });
-
-    return a;
   }
 }
