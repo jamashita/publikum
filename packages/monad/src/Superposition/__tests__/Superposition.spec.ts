@@ -65,8 +65,7 @@ describe('Superposition', () => {
 
       expect(schrodinger.isDead()).toBe(true);
 
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      superposition
+      await superposition
         .map<void>(() => {
           spy1();
         })
@@ -98,8 +97,7 @@ describe('Superposition', () => {
 
       expect(schrodinger.isDead()).toBe(true);
 
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      superposition
+      await superposition
         .map<void>(() => {
           spy1();
         })
@@ -131,8 +129,7 @@ describe('Superposition', () => {
 
       expect(schrodinger.isDead()).toBe(true);
 
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      superposition
+      await superposition
         .map<void>(() => {
           spy1();
         })
@@ -165,8 +162,7 @@ describe('Superposition', () => {
 
       expect(schrodinger.isDead()).toBe(true);
 
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      superposition
+      await superposition
         .map<void>(() => {
           spy1();
         })
@@ -199,8 +195,7 @@ describe('Superposition', () => {
 
       expect(schrodinger.isDead()).toBe(true);
 
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      superposition
+      await superposition
         .map<void>(() => {
           spy1();
         })
@@ -234,8 +229,7 @@ describe('Superposition', () => {
 
       expect(schrodinger.isDead()).toBe(true);
 
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      superposition
+      await superposition
         .map<void>(() => {
           spy1();
         })
@@ -275,8 +269,7 @@ describe('Superposition', () => {
 
       expect(schrodinger.isDead()).toBe(true);
 
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      superposition
+      await superposition
         .map<void>(() => {
           spy1();
         })
@@ -287,21 +280,6 @@ describe('Superposition', () => {
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
-    });
-
-    it('superposition case', () => {
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(2);
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(new MockError());
-
-      const superposition1: Superposition<number, MockError> = Superposition.playground<number, MockError>(() => {
-        return alive;
-      });
-      const superposition2: Superposition<number, MockError> = Superposition.playground<number, MockError>(() => {
-        return dead;
-      });
-
-      expect(superposition1).toBe(alive);
-      expect(superposition2).toBe(dead);
     });
 
     it('promise alive case', async () => {
@@ -346,6 +324,95 @@ describe('Superposition', () => {
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
+    });
+
+    it('superposition case', () => {
+      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(2);
+      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(new MockError());
+
+      const superposition1: Superposition<number, MockError> = Superposition.playground<number, MockError>(() => {
+        return alive;
+      });
+      const superposition2: Superposition<number, MockError> = Superposition.playground<number, MockError>(() => {
+        return dead;
+      });
+
+      expect(superposition1).toBe(alive);
+      expect(superposition2).toBe(dead);
+    });
+  });
+
+  describe('alive', () => {
+    it('sync case', async () => {
+      const value: number = 1010;
+      const superposition: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
+
+      const schrodinger: Schrodinger<number, MockError> = await superposition.get();
+
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(value);
+    });
+
+    it('async case', async () => {
+      const value: number = 1010;
+      const superposition: Superposition<number, MockError> = Superposition.alive<number, MockError>(
+        Promise.resolve<number>(value)
+      );
+
+      const schrodinger: Schrodinger<number, MockError> = await superposition.get();
+
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(value);
+    });
+
+    it('superposition case: returns itself', () => {
+      const alive: Superposition<number, MockError> = Superposition.alive(1010);
+      const dead: Superposition<number, MockError> = Superposition.dead(new MockError());
+
+      const superposition1: Superposition<number, MockError> = Superposition.alive<number, MockError>(alive);
+      const superposition2: Superposition<number, MockError> = Superposition.alive<number, MockError>(dead);
+
+      expect(superposition1).toBe(alive);
+      expect(superposition2).toBe(dead);
+    });
+  });
+
+  describe('dead', () => {
+    it('sync case', async () => {
+      const error: MockError = new MockError();
+      const superposition: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
+
+      const schrodinger: Schrodinger<number, MockError> = await superposition.get();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MockError);
+    });
+
+    it('async case', async () => {
+      const error: MockError = new MockError();
+      const superposition: Superposition<number, MockError> = Superposition.dead<number, MockError>(
+        Promise.reject<number>(error)
+      );
+
+      const schrodinger: Schrodinger<number, MockError> = await superposition.get();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MockError);
+    });
+
+    it('superposition case: returns itself', () => {
+      const alive: Superposition<number, MockError> = Superposition.alive(1010);
+      const dead: Superposition<number, MockError> = Superposition.dead(new MockError());
+
+      const superposition1: Superposition<number, MockError> = Superposition.dead<number, MockError>(alive);
+      const superposition2: Superposition<number, MockError> = Superposition.dead<number, MockError>(dead);
+
+      expect(superposition1).toBe(alive);
+      expect(superposition2).toBe(dead);
     });
   });
 

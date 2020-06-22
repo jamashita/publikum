@@ -30,6 +30,10 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
   private readonly peekLaters: Array<Peek>;
 
   public static all<S, F extends Error>(superpositions: Array<Superposition<S, F>>): Superposition<Array<S>, F> {
+    if (superpositions.length === 0) {
+      return Superposition.alive<Array<S>, F>([]);
+    }
+
     const dead: Ambiguous<Superposition<S, F>> = superpositions.find((s: Superposition<S, F>) => {
       return s.schrodinger.isDead();
     });
@@ -72,9 +76,13 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     }
   }
 
+  public static alive<S, F extends Error>(value: Superposition<S, F>): Superposition<S, F>;
   public static alive<S, F extends Error>(value: PromiseLike<S>): Superposition<S, F>;
   public static alive<S, F extends Error>(value: S): Superposition<S, F>;
-  public static alive<S, F extends Error>(value: S | PromiseLike<S>): Superposition<S, F> {
+  public static alive<S, F extends Error>(value: S | PromiseLike<S> | Superposition<S, F>): Superposition<S, F> {
+    if (value instanceof Superposition) {
+      return value;
+    }
     if (Kind.isPromiseLike(value)) {
       return Superposition.ofPromise<S, F>(value);
     }
@@ -84,9 +92,13 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     });
   }
 
-  public static dead<S, F extends Error>(error: PromiseLike<never>): Superposition<S, F>;
+  public static dead<S, F extends Error>(error: Superposition<S, F>): Superposition<S, F>;
+  public static dead<S, F extends Error>(error: PromiseLike<S | never>): Superposition<S, F>;
   public static dead<S, F extends Error>(error: F): Superposition<S, F>;
-  public static dead<S, F extends Error>(error: F | PromiseLike<never>): Superposition<S, F> {
+  public static dead<S, F extends Error>(error: F | PromiseLike<never> | Superposition<S, F>): Superposition<S, F> {
+    if (error instanceof Superposition) {
+      return error;
+    }
     if (Kind.isPromiseLike(error)) {
       return Superposition.ofPromise<S, F>(error);
     }
