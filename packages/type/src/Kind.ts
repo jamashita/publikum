@@ -134,11 +134,7 @@ export class Kind {
   }
 
   public static isArray<T = unknown>(value: unknown): value is Array<T> {
-    if (Array.isArray(value)) {
-      return !Reference.isCircular(value);
-    }
-
-    return false;
+    return Array.isArray(value);
   }
 
   public static isPlainObject(value: unknown): value is PlainObject {
