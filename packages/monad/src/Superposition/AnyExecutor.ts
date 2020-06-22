@@ -2,7 +2,6 @@ import { Consumer } from '@jamashita/publikum-type';
 
 import { CallbackExecutor } from './Interface/CallbackExecutor';
 
-// TODO TESTS UNDONE
 export class AnyExecutor<S, F extends Error> implements CallbackExecutor<S, F, 'AnyExecutor'> {
   public readonly noun: 'AnyExecutor' = 'AnyExecutor';
   private readonly alive: Consumer<S>;
