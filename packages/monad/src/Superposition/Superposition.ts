@@ -109,6 +109,10 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
   }
 
   public static ofPromise<S, F extends Error>(promise: PromiseLike<S>): Superposition<S, F> {
+    if (promise instanceof Superposition) {
+      return promise.transpose<S, F>();
+    }
+
     return Superposition.of((resolve: Resolve<S>, reject: Reject<F>) => {
       promise.then<void, void>(
         (value: S) => {
