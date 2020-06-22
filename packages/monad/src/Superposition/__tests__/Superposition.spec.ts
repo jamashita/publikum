@@ -2,7 +2,7 @@ import sinon, { SinonSpy } from 'sinon';
 
 import { MockError } from '@jamashita/publikum-object';
 
-import { Schrodinger } from '../Schrodinger';
+import { Schrodinger } from '../Interface/Schrodinger';
 import { Superposition } from '../Superposition';
 
 describe('Superposition', () => {
@@ -349,6 +349,29 @@ describe('Superposition', () => {
     });
   });
 
+  describe('ofPromise', () => {
+    it('resolved case', async () => {
+      const value: number = 2;
+      const promise: Promise<number> = Promise.resolve<number>(value);
+      const superposition: Superposition<number, MockError> = Superposition.ofPromise(promise);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      await superposition
+        .map<void>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+        })
+        .recover<void>(() => {
+          spy2();
+        });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+    });
+  });
+
   describe('map', () => {
     it('alive: sync case', async () => {
       const value: number = 2;
@@ -356,21 +379,28 @@ describe('Superposition', () => {
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
 
       await alive
-        .map((v: number) => {
+        .map<number>((v: number) => {
           spy1();
           expect(v).toBe(value);
 
           return v + 1;
         })
-        .map((v: number) => {
+        .recover<number>(() => {
           spy2();
+
+          return 100;
+        })
+        .map<void>((v: number) => {
+          spy3();
           expect(v).toBe(value + 1);
         });
 
       expect(spy1.called).toBe(true);
-      expect(spy2.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(true);
     });
 
     it('alive: async case', async () => {
@@ -379,21 +409,28 @@ describe('Superposition', () => {
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
 
       await alive
-        .map((v: number) => {
+        .map<number>((v: number) => {
           spy1();
           expect(v).toBe(value);
 
           return Promise.resolve<number>(v + 1);
         })
-        .map((v: number) => {
+        .recover<number>(() => {
           spy2();
+
+          return 100;
+        })
+        .map<void>((v: number) => {
+          spy3();
           expect(v).toBe(value + 1);
         });
 
       expect(spy1.called).toBe(true);
-      expect(spy2.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(true);
     });
   });
 });
