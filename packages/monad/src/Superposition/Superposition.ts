@@ -1,3 +1,4 @@
+import { UnimplementedError } from '@jamashita/publikum-error';
 import { Noun } from '@jamashita/publikum-interface';
 import {
   Ambiguous,
@@ -215,8 +216,14 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
 
       return Superposition.dead<S, F | SuperpositionError>(new SuperpositionError('IS DEAD'));
     }
+    if (this.schrodinger.isDead()) {
+      return this.transpose<S, F | SuperpositionError>();
+    }
+    if (this.schrodinger.isStill()) {
+      return this.transpose<S, F | SuperpositionError>();
+    }
 
-    return Superposition.dead<S, F | SuperpositionError>(new SuperpositionError('IS DEAD'));
+    throw new UnimplementedError();
   }
 
   public map<T, E extends Error = F>(mapper: UnaryFunction<S, PromiseLike<T>>): Superposition<S | T, F | E>;
@@ -344,7 +351,7 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
         return;
       }
 
-      throw new SuperpositionError('IMPOSSIBLE');
+      throw new UnimplementedError('IMPOSSIBLE');
     };
   }
 

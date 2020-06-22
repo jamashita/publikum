@@ -1,7 +1,9 @@
 import sinon, { SinonSpy } from 'sinon';
 
 import { MockError } from '@jamashita/publikum-object';
+import { Resolve } from '@jamashita/publikum-type';
 
+import { SuperpositionError } from '../Error/SuperpositionError';
 import { Schrodinger } from '../Interface/Schrodinger';
 import { Superposition } from '../Superposition';
 
@@ -499,15 +501,85 @@ describe('Superposition', () => {
       const superposition1: Superposition<number, MockError> = Superposition.alive(value);
       const superposition2: Superposition<number, MockError> = Superposition.dead(error);
 
-      const schrodinger1: Schrodinger<number, MockError> = await superposition1.get();
-      const schrodinger2: Schrodinger<number, MockError> = await superposition2.get();
+      await expect(superposition1).resolves.toBe(value);
+      await expect(superposition2).rejects.toThrow(MockError);
+    });
+  });
 
-      expect(schrodinger1.isAlive()).toBe(true);
-      expect(schrodinger1.get()).toBe(value);
-      expect(schrodinger2.isDead()).toBe(true);
+  describe('filter', () => {
+    it('alive: predicate returns true', async () => {
+      const value: number = -149;
+
+      const superposition1: Superposition<number, MockError> = Superposition.alive(value);
+      const superposition2: Superposition<number, MockError | SuperpositionError> = superposition1.filter(() => {
+        return true;
+      });
+
+      const shcrodiner: Schrodinger<number, MockError | SuperpositionError> = await superposition2.get();
+
+      expect(shcrodiner.isAlive()).toBe(true);
+      expect(shcrodiner.get()).toBe(value);
+    });
+
+    it('alive: predicate returns false', async () => {
+      const value: number = -149;
+
+      const superposition1: Superposition<number, MockError> = Superposition.alive(value);
+      const superposition2: Superposition<number, MockError | SuperpositionError> = superposition1.filter(() => {
+        return false;
+      });
+
+      const shcrodiner: Schrodinger<number, MockError | SuperpositionError> = await superposition2.get();
+
+      expect(shcrodiner.isDead()).toBe(true);
       expect(() => {
-        schrodinger2.get();
+        shcrodiner.get();
+      }).toThrow(SuperpositionError);
+    });
+
+    it('dead: returns itself inspite of the return value of filter', async () => {
+      const error: MockError = new MockError();
+
+      const superposition1: Superposition<number, MockError> = Superposition.dead(error);
+      const superposition2: Superposition<number, MockError | SuperpositionError> = superposition1.filter(() => {
+        return true;
+      });
+      const superposition3: Superposition<number, MockError | SuperpositionError> = superposition1.filter(() => {
+        return true;
+      });
+
+      const shcrodiner1: Schrodinger<number, MockError | SuperpositionError> = await superposition2.get();
+      const shcrodiner2: Schrodinger<number, MockError | SuperpositionError> = await superposition3.get();
+
+      expect(superposition1).toBe(superposition2);
+      expect(shcrodiner1.isDead()).toBe(true);
+      expect(() => {
+        shcrodiner1.get();
       }).toThrow(MockError);
+      expect(superposition1).toBe(superposition3);
+      expect(shcrodiner2.isDead()).toBe(true);
+      expect(() => {
+        shcrodiner2.get();
+      }).toThrow(MockError);
+    });
+
+    it('still: returns itself inspite of the return value of filter', () => {
+      const superposition1: Superposition<void, MockError> = Superposition.ofPromise(
+        new Promise((resolve: Resolve<void>) => {
+          setTimeout(() => {
+            resolve();
+          }, 30000);
+        })
+      );
+      const superposition2: Superposition<void, MockError | SuperpositionError> = superposition1.filter(() => {
+        return true;
+      });
+      const superposition3: Superposition<void, MockError | SuperpositionError> = superposition1.filter(() => {
+        return true;
+      });
+
+      expect(superposition1).toBe(superposition2);
+      expect(superposition1).toBe(superposition3);
     });
   });
 
