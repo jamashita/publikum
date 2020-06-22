@@ -1,6 +1,5 @@
-import { Consumer } from '@jamashita/publikum-type';
+import { Consumer, Peek } from '@jamashita/publikum-type';
 
-import { Peek } from '../../../type/src/Function';
 import { CallbackExecutor } from './Interface/CallbackExecutor';
 
 export class AliveExecutor<S, F extends Error> implements CallbackExecutor<S, F, 'AliveExecutor'> {

@@ -1,9 +1,7 @@
-import { Consumer } from '@jamashita/publikum-type';
+import { Consumer, Peek } from '@jamashita/publikum-type';
 
-import { Peek } from '../../../type/src/Function';
 import { CallbackExecutor } from './Interface/CallbackExecutor';
 
-// TODO TESTS UNDONE
 export class DeadExecutor<S, F extends Error> implements CallbackExecutor<S, F, 'DeadExecutor'> {
   public readonly noun: 'DeadExecutor' = 'DeadExecutor';
   private readonly dead: Consumer<F>;
