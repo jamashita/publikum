@@ -1,5 +1,8 @@
 import { Noun } from '@jamashita/publikum-interface';
-import { Absent, Present } from '@jamashita/publikum-monad';
+
+import { Absent } from '../Absent';
+import { Present } from '../Present';
+import { Uncertain } from '../Uncertain';
 
 type HeisenbergType = 'Present' | 'Absent' | 'Uncertain';
 
@@ -12,5 +15,5 @@ export interface Heisenberg<T, N extends HeisenbergType = HeisenbergType> extend
 
   isAbsent(): this is Absent<T>;
 
-  isUncertain(): boolean;
+  isUncertain(): this is Uncertain<T>;
 }
