@@ -4,7 +4,6 @@ import { CallbackExecutor } from './Interface/CallbackExecutor';
 import { NothingExecutor } from './NothingExecutor';
 import { Superposition } from './Superposition';
 
-// TODO
 export class DeadExecutor<S, T, F extends Error, E extends Error> implements CallbackExecutor<S, F, 'DeadExecutor'> {
   public readonly noun: 'DeadExecutor' = 'DeadExecutor';
   private readonly mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>;
