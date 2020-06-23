@@ -127,7 +127,7 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
   }
 
   public static of<S, F extends Error>(func: BinaryFunction<Resolve<S>, Reject<F>, unknown>): Superposition<S, F> {
-    return new Superposition(func);
+    return new Superposition<S, F>(func);
   }
 
   protected constructor(func: BinaryFunction<Resolve<S>, Reject<F>, unknown>) {
