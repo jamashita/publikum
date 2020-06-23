@@ -1,25 +1,25 @@
 import { Noun } from '@jamashita/publikum-interface';
-import { Kind, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import { Kind, Reject, Resolve, Supplier, Suspicious } from '@jamashita/publikum-type';
 
 import { Quantum } from '../Quantum';
-import { IPresentExecutor } from './Interface/IPresentExecutor';
+import { IAbsentExecutor } from './Interface/IAbsentExecutor';
 
-export class PresentExecutor<T, U> implements IPresentExecutor<T>, Noun<'PresentExecutor'> {
-  public readonly noun: 'PresentExecutor' = 'PresentExecutor';
-  private readonly mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>;
+export class AbsentExecutor<U> implements IAbsentExecutor, Noun<'AbsentExecutor'> {
+  public readonly noun: 'AbsentExecutor' = 'AbsentExecutor';
+  private readonly mapper: Supplier<PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>;
   private readonly resolve: Resolve<U>;
   private readonly reject: Reject<void>;
 
-  public static of<T, U>(
-    mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>,
+  public static of<U>(
+    mapper: Supplier<PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>,
     resolve: Resolve<U>,
     reject: Reject<void>
-  ): PresentExecutor<T, U> {
-    return new PresentExecutor<T, U>(mapper, resolve, reject);
+  ): AbsentExecutor<U> {
+    return new AbsentExecutor<U>(mapper, resolve, reject);
   }
 
   protected constructor(
-    mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>,
+    mapper: Supplier<PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>,
     resolve: Resolve<U>,
     reject: Reject<void>
   ) {
@@ -28,8 +28,8 @@ export class PresentExecutor<T, U> implements IPresentExecutor<T>, Noun<'Present
     this.reject = reject;
   }
 
-  public async onPresent(value: T): Promise<void> {
-    const mapped: PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U> = this.mapper(value);
+  public async onAbsent(): Promise<void> {
+    const mapped: PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U> = this.mapper();
 
     if (mapped instanceof Quantum) {
       await mapped.map<void>((v: U) => {
