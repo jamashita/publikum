@@ -1,28 +1,29 @@
 import { Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 
-import { AliveNothingExecutor } from './AliveNothingExecutor';
+import { AliveExecutor } from './AliveExecutor';
 import { DeadExecutor } from './DeadExecutor';
 import { IDeadOrAliveExecutor } from './Interface/IDeadOrAliveExecutor';
-import { Superposition } from './Superposition';
+import { Superposition } from '../Superposition';
 
-export class RecoverExecutor<S, F extends Error, T = S, E extends Error = F>
-  implements IDeadOrAliveExecutor<S, F, 'RecoverExecutor'> {
-  public readonly noun: 'RecoverExecutor' = 'RecoverExecutor';
-  private readonly alive: AliveNothingExecutor<S>;
+export class AnyExecutor<S, F extends Error, T = S, E extends Error = F>
+  implements IDeadOrAliveExecutor<S, F, 'AnyExecutor'> {
+  public readonly noun: 'AnyExecutor' = 'AnyExecutor';
+  private readonly alive: AliveExecutor<S, T, E>;
   private readonly dead: DeadExecutor<T, F, E>;
 
   public static of<S, F extends Error, T = S, E extends Error = F>(
+    aliveMapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>,
     deadMapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>,
-    resolve: Resolve<S | T>,
+    resolve: Resolve<T>,
     reject: Reject<E>
-  ): RecoverExecutor<S, F, T, E> {
-    const alive: AliveNothingExecutor<S> = AliveNothingExecutor.of<S>(resolve);
+  ): AnyExecutor<S, F, T, E> {
+    const alive: AliveExecutor<S, T, E> = AliveExecutor.of<S, T, E>(aliveMapper, resolve, reject);
     const dead: DeadExecutor<T, F, E> = DeadExecutor.of<T, F, E>(deadMapper, resolve, reject);
 
-    return new RecoverExecutor<S, F, T, E>(alive, dead);
+    return new AnyExecutor<S, F, T, E>(alive, dead);
   }
 
-  protected constructor(alive: AliveNothingExecutor<S>, dead: DeadExecutor<T, F, E>) {
+  protected constructor(alive: AliveExecutor<S, T, E>, dead: DeadExecutor<T, F, E>) {
     this.alive = alive;
     this.dead = dead;
   }

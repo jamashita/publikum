@@ -3,7 +3,7 @@ import { Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 import { AliveExecutor } from './AliveExecutor';
 import { DeadNothingExecutor } from './DeadNothingExecutor';
 import { IDeadOrAliveExecutor } from './Interface/IDeadOrAliveExecutor';
-import { Superposition } from './Superposition';
+import { Superposition } from '../Superposition';
 
 export class MapExecutor<S, F extends Error, T = S, E extends Error = F>
   implements IDeadOrAliveExecutor<S, F, 'MapExecutor'> {
