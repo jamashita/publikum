@@ -1,2 +1,2 @@
-export * from './Quantum';
+export * from './Quantization';
 export * from './Superposition';

@@ -51,13 +51,4 @@ describe('Dead', () => {
       expect(dead2.isDead()).toBe(true);
     });
   });
-
-  /*
-   * describe('toQuantum', () => {
-   *   it('returns Absent', () => {
-   *     const dead: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
-   *     expect(dead.toQuantum()).toBeInstanceOf(Absent);
-   *   });
-   * });
-   */
 });

@@ -12,6 +12,7 @@ import {
   UnaryFunction
 } from '@jamashita/publikum-type';
 
+import { Quantization } from '../Quantization/Quantization';
 import { Alive } from './Alive';
 import { Dead } from './Dead';
 import { SuperpositionError } from './Error/SuperpositionError';
@@ -307,8 +308,8 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     return (this as unknown) as Superposition<T, E>;
   }
 
-  /*
-   * TODO
-   * toQuantum(): Quantum<S>;
-   */
+  // TODO TEST UNDONE
+  public toQuantization(): Quantization<S> {
+    return Quantization.ofPromise<S>(this);
+  }
 }

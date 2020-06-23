@@ -34,11 +34,4 @@ export class Dead<S, F extends Error> implements Schrodinger<S, F, 'Dead'> {
   public isStill(): this is Still<S, F> {
     return false;
   }
-
-  /*
-   * TODO
-   * public toQuantum(): Quantum<S> {
-   *   return Absent.of<S>();
-   * }
-   */
 }

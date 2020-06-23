@@ -36,15 +36,6 @@ describe('Still', () => {
     });
   });
 
-  /*
-   * describe('toQuantum', () => {
-   *   it('returns Present', () => {
-   *     const alive: Still<number, MockError> = Still.of<number, MockError>(100);
-   *     expect(alive.toQuantum()).toBeInstanceOf(Present);
-   *   });
-   * });
-   */
-
   describe('transpose', () => {
     it('returns itself', () => {
       const still: Still<number, MockError> = Still.of<number, MockError>();

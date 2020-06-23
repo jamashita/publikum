@@ -44,13 +44,4 @@ describe('Alive', () => {
       expect(alive2.isDead()).toBe(false);
     });
   });
-
-  /*
-   * describe('toQuantum', () => {
-   *   it('returns Present', () => {
-   *     const alive: Alive<number, MockError> = Alive.of<number, MockError>(100);
-   *     expect(alive.toQuantum()).toBeInstanceOf(Present);
-   *   });
-   * });
-   */
 });

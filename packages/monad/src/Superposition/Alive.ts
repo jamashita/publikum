@@ -29,11 +29,4 @@ export class Alive<S, F extends Error> implements Schrodinger<S, F, 'Alive'> {
   public isStill(): this is Still<S, F> {
     return false;
   }
-
-  /*
-   * TODO
-   * public toQuantum(): Quantum<S> {
-   *   return Present.of<S>(this.value);
-   * }
-   */
 }

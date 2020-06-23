@@ -35,10 +35,4 @@ export class Still<S, F extends Error> implements Schrodinger<S, F, 'Still'> {
   public transpose<T, E extends Error>(): Still<T, E> {
     return (this as unknown) as Still<T, E>;
   }
-
-  /*
-   * public toQuantum(): never {
-   *   throw new SuperpositionError('STILL');
-   * }
-   */
 }
