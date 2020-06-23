@@ -1,5 +1,6 @@
 import { Absent } from './Absent';
 import { Heisenberg } from './Interface/Heisenberg';
+import { Uncertain } from './Uncertain';
 
 // TODO TEST UNDONE
 export class Present<T> implements Heisenberg<T, 'Present'> {
@@ -26,7 +27,7 @@ export class Present<T> implements Heisenberg<T, 'Present'> {
     return false;
   }
 
-  public isUncertain(): boolean {
+  public isUncertain(): this is Uncertain<T> {
     return false;
   }
 }
