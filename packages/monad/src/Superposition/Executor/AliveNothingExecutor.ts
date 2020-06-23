@@ -1,11 +1,10 @@
-import { Noun } from '@jamashita/publikum-interface';
 import { Resolve } from '@jamashita/publikum-type';
 
 import { IAliveExecutor } from './Interface/IAliveExecutor';
 
 const promise: Promise<void> = Promise.resolve();
 
-export class AliveNothingExecutor<S> implements IAliveExecutor<S>, Noun<'AliveExecutor'> {
+export class AliveNothingExecutor<S> implements IAliveExecutor<S> {
   public readonly noun: 'AliveExecutor' = 'AliveExecutor';
   private readonly resolve: Resolve<S>;
 

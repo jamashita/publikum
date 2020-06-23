@@ -1,10 +1,9 @@
-import { Noun } from '@jamashita/publikum-interface';
 import { Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 
-import { IAliveExecutor } from './Interface/IAliveExecutor';
 import { Superposition } from '../Superposition';
+import { IAliveExecutor } from './Interface/IAliveExecutor';
 
-export class AliveExecutor<S, T, E extends Error> implements IAliveExecutor<S>, Noun<'AliveExecutor'> {
+export class AliveExecutor<S, T, E extends Error> implements IAliveExecutor<S> {
   public readonly noun: 'AliveExecutor' = 'AliveExecutor';
   private readonly mapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>;
   private readonly resolve: Resolve<T>;
