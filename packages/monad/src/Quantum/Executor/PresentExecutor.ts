@@ -1,10 +1,9 @@
-import { Noun } from '@jamashita/publikum-interface';
 import { Kind, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Quantum } from '../Quantum';
 import { IPresentExecutor } from './Interface/IPresentExecutor';
 
-export class PresentExecutor<T, U> implements IPresentExecutor<T>, Noun<'PresentExecutor'> {
+export class PresentExecutor<T, U> implements IPresentExecutor<T> {
   public readonly noun: 'PresentExecutor' = 'PresentExecutor';
   private readonly mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>;
   private readonly resolve: Resolve<U>;

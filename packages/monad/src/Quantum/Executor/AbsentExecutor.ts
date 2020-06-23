@@ -1,10 +1,9 @@
-import { Noun } from '@jamashita/publikum-interface';
 import { Kind, Reject, Resolve, Supplier, Suspicious } from '@jamashita/publikum-type';
 
 import { Quantum } from '../Quantum';
 import { IAbsentExecutor } from './Interface/IAbsentExecutor';
 
-export class AbsentExecutor<U> implements IAbsentExecutor, Noun<'AbsentExecutor'> {
+export class AbsentExecutor<U> implements IAbsentExecutor {
   public readonly noun: 'AbsentExecutor' = 'AbsentExecutor';
   private readonly mapper: Supplier<PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>;
   private readonly resolve: Resolve<U>;
