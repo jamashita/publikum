@@ -9,13 +9,13 @@ export class DeadExecutor<S, F extends Error, T = S, E extends Error = F>
   public readonly noun: 'DeadExecutor' = 'DeadExecutor';
   private readonly mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>;
   private readonly resolve: Resolve<S | T>;
-  private readonly reject: Reject<E>;
+  private readonly reject: Reject<E | F>;
   private readonly nothing: NothingExecutor<S, E>;
 
   public static of<S, F extends Error, T = S, E extends Error = F>(
     mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>,
     resolve: Resolve<S | T>,
-    reject: Reject<E>
+    reject: Reject<E | F>
   ): DeadExecutor<S, F, T, E> {
     const nothing: NothingExecutor<S, E> = NothingExecutor.of<S, E>(resolve, reject);
 
@@ -25,7 +25,7 @@ export class DeadExecutor<S, F extends Error, T = S, E extends Error = F>
   protected constructor(
     mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>,
     resolve: Resolve<S | T>,
-    reject: Reject<E>,
+    reject: Reject<E | F>,
     nothing: NothingExecutor<S, E>
   ) {
     this.mapper = mapper;
