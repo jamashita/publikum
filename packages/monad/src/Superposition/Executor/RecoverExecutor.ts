@@ -1,12 +1,12 @@
 import { Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 
+import { Superposition } from '../Superposition';
 import { AliveNothingExecutor } from './AliveNothingExecutor';
 import { DeadExecutor } from './DeadExecutor';
-import { IDeadOrAliveExecutor } from './Interface/IDeadOrAliveExecutor';
-import { Superposition } from '../Superposition';
+import { IExecutor } from './Interface/IExecutor';
 
 export class RecoverExecutor<S, F extends Error, T = S, E extends Error = F>
-  implements IDeadOrAliveExecutor<S, F, 'RecoverExecutor'> {
+  implements IExecutor<S, F, 'RecoverExecutor'> {
   public readonly noun: 'RecoverExecutor' = 'RecoverExecutor';
   private readonly alive: AliveNothingExecutor<S>;
   private readonly dead: DeadExecutor<T, F, E>;

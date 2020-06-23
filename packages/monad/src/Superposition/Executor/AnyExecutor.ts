@@ -1,12 +1,11 @@
 import { Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 
+import { Superposition } from '../Superposition';
 import { AliveExecutor } from './AliveExecutor';
 import { DeadExecutor } from './DeadExecutor';
-import { IDeadOrAliveExecutor } from './Interface/IDeadOrAliveExecutor';
-import { Superposition } from '../Superposition';
+import { IExecutor } from './Interface/IExecutor';
 
-export class AnyExecutor<S, F extends Error, T = S, E extends Error = F>
-  implements IDeadOrAliveExecutor<S, F, 'AnyExecutor'> {
+export class AnyExecutor<S, F extends Error, T = S, E extends Error = F> implements IExecutor<S, F, 'AnyExecutor'> {
   public readonly noun: 'AnyExecutor' = 'AnyExecutor';
   private readonly alive: AliveExecutor<S, T, E>;
   private readonly dead: DeadExecutor<T, F, E>;

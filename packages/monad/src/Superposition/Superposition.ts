@@ -16,7 +16,7 @@ import { Alive } from './Alive';
 import { Dead } from './Dead';
 import { SuperpositionError } from './Error/SuperpositionError';
 import { AnyExecutor } from './Executor/AnyExecutor';
-import { IDeadOrAliveExecutor } from './Executor/Interface/IDeadOrAliveExecutor';
+import { IExecutor } from './Executor/Interface/IExecutor';
 import { MapExecutor } from './Executor/MapExecutor';
 import { RecoverExecutor } from './Executor/RecoverExecutor';
 import { Schrodinger } from './Interface/Schrodinger';
@@ -25,7 +25,7 @@ import { Still } from './Still';
 export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'Superposition'> {
   public readonly noun: 'Superposition' = 'Superposition';
   private schrodinger: Schrodinger<S, F>;
-  private readonly laters: Array<IDeadOrAliveExecutor<S, F>>;
+  private readonly laters: Array<IExecutor<S, F>>;
 
   public static all<S, F extends Error>(superpositions: Array<Superposition<S, F>>): Superposition<Array<S>, F> {
     if (superpositions.length === 0) {
@@ -142,7 +142,7 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
       }
 
       self.schrodinger = Alive.of<S, F>(value);
-      self.laters.forEach((later: IDeadOrAliveExecutor<S, F>) => {
+      self.laters.forEach((later: IExecutor<S, F>) => {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         later.onAlive(value);
       });
@@ -160,7 +160,7 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
       }
 
       self.schrodinger = Dead.of<S, F>(err);
-      self.laters.forEach((later: IDeadOrAliveExecutor<S, F>) => {
+      self.laters.forEach((later: IExecutor<S, F>) => {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         later.onDead(err);
       });
@@ -260,7 +260,7 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     });
   }
 
-  private handle(executor: IDeadOrAliveExecutor<S, F>): void {
+  private handle(executor: IExecutor<S, F>): void {
     if (this.schrodinger.isStill()) {
       this.laters.push(executor);
     }
