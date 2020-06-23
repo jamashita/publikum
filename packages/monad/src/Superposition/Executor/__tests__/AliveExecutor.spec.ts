@@ -2,8 +2,8 @@ import sinon, { SinonSpy } from 'sinon';
 
 import { MockError } from '@jamashita/publikum-object';
 
+import { Superposition } from '../../Superposition';
 import { AliveExecutor } from '../AliveExecutor';
-import { Superposition } from '../Superposition';
 
 describe('AliveExecutor', () => {
   describe('onAlive', () => {
@@ -14,7 +14,7 @@ describe('AliveExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: AliveExecutor<number, MockError> = AliveExecutor.of<number, MockError>(
+      const executor: AliveExecutor<number, number, MockError> = AliveExecutor.of<number, number, MockError>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -44,7 +44,7 @@ describe('AliveExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: AliveExecutor<number, MockError> = AliveExecutor.of<number, MockError>(
+      const executor: AliveExecutor<number, number, MockError> = AliveExecutor.of<number, number, MockError>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -74,7 +74,7 @@ describe('AliveExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: AliveExecutor<number, MockError> = AliveExecutor.of<number, MockError>(
+      const executor: AliveExecutor<number, number, MockError> = AliveExecutor.of<number, number, MockError>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -105,7 +105,7 @@ describe('AliveExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: AliveExecutor<number, MockError> = AliveExecutor.of<number, MockError>(
+      const executor: AliveExecutor<number, number, MockError> = AliveExecutor.of<number, number, MockError>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -136,7 +136,7 @@ describe('AliveExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: AliveExecutor<number, MockError> = AliveExecutor.of<number, MockError>(
+      const executor: AliveExecutor<number, number, MockError> = AliveExecutor.of<number, number, MockError>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -167,7 +167,7 @@ describe('AliveExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: AliveExecutor<number, MockError> = AliveExecutor.of<number, MockError>(
+      const executor: AliveExecutor<number, number, MockError> = AliveExecutor.of<number, number, MockError>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -186,65 +186,6 @@ describe('AliveExecutor', () => {
       await executor.onAlive(value);
 
       expect(spy1.called).toBe(true);
-      expect(spy2.called).toBe(false);
-      expect(spy3.called).toBe(true);
-    });
-  });
-
-  describe('onDead', () => {
-    it('is going to execute dead whenever mapper returns anything', async () => {
-      const value: number = 101;
-      const error: MockError = new MockError();
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-
-      const executor: AliveExecutor<number, MockError> = AliveExecutor.of<number, MockError>(
-        () => {
-          spy1();
-
-          return value;
-        },
-        () => {
-          spy2();
-        },
-        () => {
-          spy3();
-        }
-      );
-
-      await executor.onDead(error);
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(false);
-      expect(spy3.called).toBe(true);
-    });
-
-    it('is going to execute dead whenever mapper throws anything', async () => {
-      const error: MockError = new MockError();
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-
-      const executor: AliveExecutor<number, MockError> = AliveExecutor.of<number, MockError>(
-        () => {
-          spy1();
-
-          throw error;
-        },
-        () => {
-          spy2();
-        },
-        () => {
-          spy3();
-        }
-      );
-
-      await executor.onDead(error);
-
-      expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
     });
