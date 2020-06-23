@@ -15,17 +15,18 @@ import {
 import { Alive } from './Alive';
 import { Dead } from './Dead';
 import { SuperpositionError } from './Error/SuperpositionError';
-import { AnyExecutor } from './Executor/AnyExecutor';
-import { IExecutor } from './Executor/Interface/IExecutor';
-import { MapExecutor } from './Executor/MapExecutor';
-import { RecoverExecutor } from './Executor/RecoverExecutor';
+import { AliveExecutor } from './Executor/AliveExecutor';
+import { DeadExecutor } from './Executor/DeadExecutor';
+import { IAliveExecutor } from './Executor/Interface/IAliveExecutor';
+import { IDeadExecutor } from './Executor/Interface/IDeadExecutor';
 import { Schrodinger } from './Interface/Schrodinger';
 import { Still } from './Still';
 
 export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'Superposition'> {
   public readonly noun: 'Superposition' = 'Superposition';
   private schrodinger: Schrodinger<S, F>;
-  private readonly laters: Array<IExecutor<S, F>>;
+  private readonly mapLaters: Array<IAliveExecutor<S>>;
+  private readonly recoverLaters: Array<IDeadExecutor<F>>;
 
   public static all<S, F extends Error>(superpositions: Array<Superposition<S, F>>): Superposition<Array<S>, F> {
     if (superpositions.length === 0) {
@@ -129,7 +130,8 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
 
   protected constructor(func: BinaryFunction<Resolve<S>, Reject<F>, unknown>) {
     this.schrodinger = Still.of<S, F>();
-    this.laters = [];
+    this.mapLaters = [];
+    this.recoverLaters = [];
     func(this.resolved(this), this.rejected(this));
   }
 
@@ -142,7 +144,7 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
       }
 
       self.schrodinger = Alive.of<S, F>(value);
-      self.laters.forEach((later: IExecutor<S, F>) => {
+      self.mapLaters.forEach((later: IAliveExecutor<S>) => {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         later.onAlive(value);
       });
@@ -160,7 +162,7 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
       }
 
       self.schrodinger = Dead.of<S, F>(err);
-      self.laters.forEach((later: IExecutor<S, F>) => {
+      self.recoverLaters.forEach((later: IDeadExecutor<F>) => {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         later.onDead(err);
       });
@@ -227,7 +229,7 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     mapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>
   ): Superposition<T, F | E> {
     return Superposition.of<T, F | E>((resolve: Resolve<T>, reject: Reject<F | E>) => {
-      this.handle(MapExecutor.of<S, F, T, E>(mapper, resolve, reject));
+      this.handleAlive(AliveExecutor.of<S, T, E>(mapper, resolve, reject));
     });
   }
 
@@ -238,7 +240,7 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>
   ): Superposition<S | T, E> {
     return Superposition.of<S | T, E>((resolve: Resolve<S | T>, reject: Reject<E>) => {
-      this.handle(RecoverExecutor.of<S, F, T, E>(mapper, resolve, reject));
+      this.handleDead(DeadExecutor.of<T, F, E>(mapper, resolve, reject));
     });
   }
 
@@ -256,17 +258,24 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     dead: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>
   ): Superposition<T, E> {
     return Superposition.of<T, E>((resolve: Resolve<T>, reject: Reject<E>) => {
-      this.handle(AnyExecutor.of<S, F, T, E>(alive, dead, resolve, reject));
+      this.handleAlive(AliveExecutor.of<S, T, E>(alive, resolve, reject));
+      this.handleDead(DeadExecutor.of<T, F, E>(dead, resolve, reject));
     });
   }
 
-  private handle(executor: IExecutor<S, F>): void {
+  private handleAlive(executor: IAliveExecutor<S>): void {
     if (this.schrodinger.isStill()) {
-      this.laters.push(executor);
+      this.mapLaters.push(executor);
     }
     if (this.schrodinger.isAlive()) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       executor.onAlive(this.schrodinger.get());
+    }
+  }
+
+  private handleDead(executor: IDeadExecutor<F>): void {
+    if (this.schrodinger.isStill()) {
+      this.recoverLaters.push(executor);
     }
     if (this.schrodinger.isDead()) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
