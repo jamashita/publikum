@@ -8,25 +8,25 @@ import { Superposition } from './Superposition';
 export class DeadExecutor<S, T, F extends Error, E extends Error> implements CallbackExecutor<S, F, 'DeadExecutor'> {
   public readonly noun: 'DeadExecutor' = 'DeadExecutor';
   private readonly mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>;
-  private readonly resolve: Resolve<T>;
-  private readonly reject: Reject<F | E>;
-  private readonly nothing: NothingExecutor<S, T, F, E>;
+  private readonly resolve: Resolve<S | T>;
+  private readonly reject: Reject<E>;
+  private readonly nothing: NothingExecutor<S, E>;
 
   public static of<S, T, F extends Error, E extends Error>(
     mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>,
-    resolve: Resolve<T>,
-    reject: Reject<F | E>
+    resolve: Resolve<S | T>,
+    reject: Reject<E>
   ): DeadExecutor<S, T, F, E> {
-    const nothing: NothingExecutor<S, T, F, E> = NothingExecutor.of<S, T, F, E>(resolve, reject);
+    const nothing: NothingExecutor<S, E> = NothingExecutor.of<S, E>(resolve, reject);
 
     return new DeadExecutor<S, T, F, E>(mapper, resolve, reject, nothing);
   }
 
   protected constructor(
     mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>,
-    resolve: Resolve<T>,
-    reject: Reject<F | E>,
-    nothing: NothingExecutor<S, T, F, E>
+    resolve: Resolve<S | T>,
+    reject: Reject<E>,
+    nothing: NothingExecutor<S, E>
   ) {
     this.mapper = mapper;
     this.resolve = resolve;
@@ -34,18 +34,18 @@ export class DeadExecutor<S, T, F extends Error, E extends Error> implements Cal
     this.nothing = nothing;
   }
 
-  public onAlive(value: S): void {
-    this.nothing.onAlive(value);
+  public onAlive(value: S): Promise<void> {
+    return this.nothing.onAlive(value);
   }
 
-  public onDead(err: F): void {
+  public async onDead(err: F): Promise<void> {
     // prettier-ignore
     try {
       const mapped: PromiseLike<T> | Superposition<T, E> | T = this.mapper(err);
 
       if (mapped instanceof Superposition) {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        mapped.transform<void>(
+        await mapped.transform<void>(
           (v: T) => {
             this.resolve(v);
           },
@@ -57,7 +57,7 @@ export class DeadExecutor<S, T, F extends Error, E extends Error> implements Cal
         return;
       }
       if (Kind.isPromiseLike(mapped)) {
-        mapped.then<void, void>(
+        await mapped.then<void, void>(
           (v: T) => {
             this.resolve(v);
           },
@@ -71,7 +71,7 @@ export class DeadExecutor<S, T, F extends Error, E extends Error> implements Cal
 
       this.resolve(mapped);
     }
- catch (e) {
+    catch (e) {
       this.reject(e);
     }
   }

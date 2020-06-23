@@ -222,7 +222,7 @@ describe('AliveExecutor', () => {
   });
 
   describe('onDead', () => {
-    it('is going to execute whenever mapper returns anything', async () => {
+    it('is going to execute dead whenever mapper returns anything', async () => {
       const value: number = 101;
       const error: MockError = new MockError();
 
@@ -256,7 +256,7 @@ describe('AliveExecutor', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('is going to execute whenever mapper throws anything', async () => {
+    it('is going to execute dead whenever mapper throws anything', async () => {
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
