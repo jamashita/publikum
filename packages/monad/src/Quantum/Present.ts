@@ -2,7 +2,6 @@ import { Absent } from './Absent';
 import { Heisenberg } from './Interface/Heisenberg';
 import { Uncertain } from './Uncertain';
 
-// TODO TEST UNDONE
 export class Present<T> implements Heisenberg<T, 'Present'> {
   public readonly noun: 'Present' = 'Present';
   private readonly value: T;

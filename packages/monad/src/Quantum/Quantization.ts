@@ -23,72 +23,72 @@ import { Heisenberg } from './Interface/Heisenberg';
 import { Present } from './Present';
 import { Uncertain } from './Uncertain';
 
-export class Quantum<T> implements PromiseLike<T>, Noun<'Quantum'> {
-  public readonly noun: 'Quantum' = 'Quantum';
+export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
+  public readonly noun: 'Quantization' = 'Quantization';
   private heisenberg: Heisenberg<T>;
   private readonly mapLaters: Array<IPresentExecutor<T>>;
   private readonly recoverLaters: Array<IAbsentExecutor>;
 
-  public static maybe<T>(value: PromiseLike<Suspicious<T>>): Quantum<T>;
-  public static maybe<T>(value: Quantum<T>): Quantum<T>;
-  public static maybe<T>(value: Suspicious<T>): Quantum<T>;
-  public static maybe<T>(value: PromiseLike<Suspicious<T>> | Quantum<T> | Suspicious<T>): Quantum<T> {
-    if (value instanceof Quantum) {
+  public static maybe<T>(value: PromiseLike<Suspicious<T>>): Quantization<T>;
+  public static maybe<T>(value: Quantization<T>): Quantization<T>;
+  public static maybe<T>(value: Suspicious<T>): Quantization<T>;
+  public static maybe<T>(value: PromiseLike<Suspicious<T>> | Quantization<T> | Suspicious<T>): Quantization<T> {
+    if (value instanceof Quantization) {
       return value;
     }
     if (Kind.isPromiseLike(value)) {
-      return Quantum.ofPromise<T>(value);
+      return Quantization.ofPromise<T>(value);
     }
     switch (value) {
       case null:
       case undefined: {
-        return Quantum.absent<T>();
+        return Quantization.absent<T>();
       }
       default: {
-        return Quantum.present<T>(value);
+        return Quantization.present<T>(value);
       }
     }
   }
 
-  public static present<T>(value: Quantum<T>): Quantum<T>;
-  public static present<T>(value: PromiseLike<T>): Quantum<T>;
-  public static present<T>(value: T): Quantum<T>;
-  public static present<T>(value: T | PromiseLike<T> | Quantum<T>): Quantum<T> {
-    if (value instanceof Quantum) {
+  public static present<T>(value: Quantization<T>): Quantization<T>;
+  public static present<T>(value: PromiseLike<T>): Quantization<T>;
+  public static present<T>(value: T): Quantization<T>;
+  public static present<T>(value: T | PromiseLike<T> | Quantization<T>): Quantization<T> {
+    if (value instanceof Quantization) {
       return value;
     }
     if (Kind.isPromiseLike(value)) {
-      return Quantum.ofPromise<T>(value);
+      return Quantization.ofPromise<T>(value);
     }
 
-    return Quantum.of<T>((resolve: Resolve<T>) => {
+    return Quantization.of<T>((resolve: Resolve<T>) => {
       resolve(value);
     });
   }
 
-  public static absent<T>(): Quantum<T>;
-  public static absent<T>(value: Quantum<T>): Quantum<T>;
-  public static absent<T>(value: PromiseLike<null | undefined>): Quantum<T>;
-  public static absent<T>(value: null | undefined): Quantum<T>;
-  public static absent<T>(value?: null | undefined | PromiseLike<null | undefined> | Quantum<T>): Quantum<T> {
-    if (value instanceof Quantum) {
+  public static absent<T>(): Quantization<T>;
+  public static absent<T>(value: Quantization<T>): Quantization<T>;
+  public static absent<T>(value: PromiseLike<null | undefined>): Quantization<T>;
+  public static absent<T>(value: null | undefined): Quantization<T>;
+  public static absent<T>(value?: null | undefined | PromiseLike<null | undefined> | Quantization<T>): Quantization<T> {
+    if (value instanceof Quantization) {
       return value;
     }
     if (Kind.isPromiseLike(value)) {
-      return Quantum.ofPromise<T>(value);
+      return Quantization.ofPromise<T>(value);
     }
 
-    return Quantum.of<T>((resolve: Resolve<T>, reject: Reject<void>) => {
+    return Quantization.of<T>((resolve: Resolve<T>, reject: Reject<void>) => {
       reject();
     });
   }
 
-  public static ofPromise<T>(promise: PromiseLike<Suspicious<T>>): Quantum<T> {
-    if (promise instanceof Quantum) {
+  public static ofPromise<T>(promise: PromiseLike<Suspicious<T>>): Quantization<T> {
+    if (promise instanceof Quantization) {
       return promise.transpose<T>();
     }
 
-    return Quantum.of<T>((resolve: Resolve<T>, reject: Reject<void>) => {
+    return Quantization.of<T>((resolve: Resolve<T>, reject: Reject<void>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       promise.then<void, void>((value: Suspicious<T>) => {
         switch (value) {
@@ -106,8 +106,8 @@ export class Quantum<T> implements PromiseLike<T>, Noun<'Quantum'> {
     });
   }
 
-  public static of<T>(func: BinaryFunction<Resolve<T>, Reject<void>, unknown>): Quantum<T> {
-    return new Quantum<T>(func);
+  public static of<T>(func: BinaryFunction<Resolve<T>, Reject<void>, unknown>): Quantization<T> {
+    return new Quantization<T>(func);
   }
 
   protected constructor(func: BinaryFunction<Resolve<T>, Reject<void>, unknown>) {
@@ -117,7 +117,7 @@ export class Quantum<T> implements PromiseLike<T>, Noun<'Quantum'> {
     func(this.resolved(this), this.rejected(this));
   }
 
-  private resolved(self: Quantum<T>): Resolve<T> {
+  private resolved(self: Quantization<T>): Resolve<T> {
     let done: boolean = false;
 
     return (value: T) => {
@@ -137,7 +137,7 @@ export class Quantum<T> implements PromiseLike<T>, Noun<'Quantum'> {
     };
   }
 
-  private rejected(self: Quantum<T>): Reject<void> {
+  private rejected(self: Quantization<T>): Reject<void> {
     let done: boolean = false;
 
     return () => {
@@ -188,29 +188,31 @@ export class Quantum<T> implements PromiseLike<T>, Noun<'Quantum'> {
     return promise.then<T1, T2>(onfulfilled, onrejected);
   }
 
-  public filter(predicate: Predicate<T>): Quantum<T> {
+  public filter(predicate: Predicate<T>): Quantization<T> {
     if (this.heisenberg.isPresent()) {
       if (predicate(this.heisenberg.get())) {
         return this;
       }
 
-      return Quantum.absent<T>();
+      return Quantization.absent<T>();
     }
     if (this.heisenberg.isAbsent()) {
-      return Quantum.absent<T>();
+      return Quantization.absent<T>();
     }
     if (this.heisenberg.isUncertain()) {
-      return Quantum.absent<T>();
+      return Quantization.absent<T>();
     }
 
     throw new UnimplementedError();
   }
 
-  public map<U>(mapper: UnaryFunction<T, PromiseLike<Suspicious<U>>>): Quantum<U>;
-  public map<U>(mapper: UnaryFunction<T, Quantum<U>>): Quantum<U>;
-  public map<U>(mapper: UnaryFunction<T, Suspicious<U>>): Quantum<U>;
-  public map<U>(mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>): Quantum<U> {
-    return Quantum.of<U>((resolve: Resolve<U>, reject: Reject<void>) => {
+  public map<U>(mapper: UnaryFunction<T, PromiseLike<Suspicious<U>>>): Quantization<U>;
+  public map<U>(mapper: UnaryFunction<T, Quantization<U>>): Quantization<U>;
+  public map<U>(mapper: UnaryFunction<T, Suspicious<U>>): Quantization<U>;
+  public map<U>(
+    mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U>>
+  ): Quantization<U> {
+    return Quantization.of<U>((resolve: Resolve<U>, reject: Reject<void>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.handlePresent(PresentExecutor.of<T, U>(mapper, resolve, reject));
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -218,11 +220,13 @@ export class Quantum<T> implements PromiseLike<T>, Noun<'Quantum'> {
     });
   }
 
-  public recover<U>(mapper: Supplier<PromiseLike<Suspicious<U>>>): Quantum<T | U>;
-  public recover<U>(mapper: Supplier<Quantum<U>>): Quantum<T | U>;
-  public recover<U>(mapper: Supplier<Suspicious<U>>): Quantum<T | U>;
-  public recover<U>(mapper: Supplier<PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>): Quantum<T | U> {
-    return Quantum.of<T | U>((resolve: Resolve<T | U>, reject: Reject<void>) => {
+  public recover<U>(mapper: Supplier<PromiseLike<Suspicious<U>>>): Quantization<T | U>;
+  public recover<U>(mapper: Supplier<Quantization<U>>): Quantization<T | U>;
+  public recover<U>(mapper: Supplier<Suspicious<U>>): Quantization<T | U>;
+  public recover<U>(
+    mapper: Supplier<PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U>>
+  ): Quantization<T | U> {
+    return Quantization.of<T | U>((resolve: Resolve<T | U>, reject: Reject<void>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.handlePresent(PresentNothingExecutor.of<T>(resolve));
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -256,9 +260,9 @@ export class Quantum<T> implements PromiseLike<T>, Noun<'Quantum'> {
     return Promise.reject(new UnimplementedError());
   }
 
-  // public abstract toSuperposition(): Superposition<T, QuantumError>;
+  // public abstract toSuperposition(): Superposition<T, QuantizationError>;
 
-  private transpose<S>(): Quantum<S> {
-    return (this as unknown) as Quantum<S>;
+  private transpose<S>(): Quantization<S> {
+    return (this as unknown) as Quantization<S>;
   }
 }

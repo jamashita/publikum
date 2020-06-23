@@ -1,9 +1,4 @@
-import sinon, { SinonSpy } from 'sinon';
-
-import { Alive } from '../../Superposition/Alive';
-import { Absent } from '../Absent';
 import { Present } from '../Present';
-import { Quantum } from '../Quantum';
 
 describe('Present', () => {
   describe('get', () => {
@@ -66,161 +61,23 @@ describe('Present', () => {
     });
   });
 
-  describe('ifPresent', () => {
-    it('consumer will be invoked', () => {
-      const value: number = 5398;
-      const present: Present<number> = Present.of<number>(value);
-
-      const spy1: SinonSpy = sinon.spy();
-
-      present.ifPresent((v: number) => {
-        expect(v).toBe(value);
-        spy1();
-      });
-
-      expect(spy1.called).toBe(true);
-    });
-
-    it('consumer will be invoked asynchronously', async () => {
-      const value: number = 329853;
-      const present: Present<number> = Present.of<number>(value);
-
-      const spy1: SinonSpy = sinon.spy();
-
-      // eslint-disable-next-line @typescript-eslint/await-thenable
-      await present.ifPresent((v: number) => {
-        expect(v).toBe(value);
-        spy1();
-
-        return Promise.resolve();
-      });
-
-      expect(spy1.called).toBe(true);
-    });
-  });
-
-  describe('getOrElse', () => {
-    it('get inner value', () => {
-      const value: number = 203;
-      const present: Present<number> = Present.of<number>(value);
-
-      expect(present.getOrElse(-100)).toBe(value);
-    });
-  });
-
-  describe('map', () => {
-    it('following function is called', () => {
-      const present: Present<number> = Present.of<number>(10);
-
-      const spy: SinonSpy = sinon.spy();
-
-      const quantum: Quantum<number> = present.map<number>((value: number) => {
-        spy();
-
-        return value * 2;
-      });
-
-      expect(spy.called).toBe(true);
-      expect(quantum.isPresent()).toBe(true);
-      expect(quantum.get()).toBe(10 * 2);
-    });
-
-    it('returns Absent when function returns null', () => {
-      const present: Present<number> = Present.of<number>(1);
-
-      const spy: SinonSpy = sinon.spy();
-
-      const quantum: Quantum<number> = present.map<number>(() => {
-        spy();
-
-        return null;
-      });
-
-      expect(spy.called).toBe(true);
-      expect(quantum.isAbsent()).toBe(true);
-    });
-
-    it('returns Absent when function returns undefined', () => {
-      const present: Present<number> = Present.of<number>(1);
-
-      const spy: SinonSpy = sinon.spy();
-
-      const quantum: Quantum<number> = present.map<number>(() => {
-        spy();
-
-        return undefined;
-      });
-
-      expect(spy.called).toBe(true);
-      expect(quantum.isAbsent()).toBe(true);
-    });
-
-    it('returns Absent itself when retusn Absent', () => {
-      const present: Present<number> = Present.of<number>(1);
-      const q: Absent<unknown> = Absent.of<unknown>();
-
-      const spy: SinonSpy = sinon.spy();
-
-      const quantum: Quantum<unknown> = present.map<unknown>(() => {
-        spy();
-
-        return q;
-      });
-
-      expect(spy.called).toBe(true);
-      expect(quantum).toBe(q);
-    });
-
-    it('returns Present itself when retusn Present', () => {
-      const present: Present<number> = Present.of<number>(1);
-      const q: Present<unknown> = Present.of<unknown>(undefined);
-
-      const spy: SinonSpy = sinon.spy();
-
-      const quantum: Quantum<unknown> = present.map<unknown>(() => {
-        spy();
-
-        return q;
-      });
-
-      expect(spy.called).toBe(true);
-      expect(quantum).toBe(q);
-    });
-  });
-
-  describe('toSuperposition', () => {
-    it('returns Alive', () => {
-      const present: Present<number> = Present.of<number>(1);
-
-      expect(present.toSuperposition()).toBeInstanceOf(Alive);
-    });
-  });
-
-  describe('filter', () => {
-    it('following function is called', () => {
+  describe('isUncertain', () => {
+    it('returns false', () => {
       const present1: Present<number> = Present.of<number>(1);
-      const present2: Present<number> = Present.of<number>(2);
+      const present2: Present<number> = Present.of<number>(0);
+      const present3: Present<number> = Present.of<number>(-1);
+      const present4: Present<string> = Present.of<string>('');
+      const present5: Present<string> = Present.of<string>('1');
+      const present6: Present<boolean> = Present.of<boolean>(true);
+      const present7: Present<boolean> = Present.of<boolean>(false);
 
-      const quantum1: Quantum<number> = present1.filter((value: number) => {
-        if (value % 2 === 0) {
-          return true;
-        }
-
-        return false;
-      });
-      const quantum2: Quantum<number> = present2.filter((value: number) => {
-        if (value % 2 === 0) {
-          return true;
-        }
-
-        return false;
-      });
-
-      expect(quantum1).toBeInstanceOf(Absent);
-      expect(quantum2).toBeInstanceOf(Present);
-      expect(quantum1.isAbsent()).toBe(true);
-      expect(quantum2.isPresent()).toBe(true);
-      expect(quantum2.get()).toBe(2);
+      expect(present1.isUncertain()).toBe(false);
+      expect(present2.isUncertain()).toBe(false);
+      expect(present3.isUncertain()).toBe(false);
+      expect(present4.isUncertain()).toBe(false);
+      expect(present5.isUncertain()).toBe(false);
+      expect(present6.isUncertain()).toBe(false);
+      expect(present7.isUncertain()).toBe(false);
     });
   });
 });

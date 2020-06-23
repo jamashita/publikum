@@ -1,16 +1,16 @@
 import { Kind, Reject, Resolve, Supplier, Suspicious } from '@jamashita/publikum-type';
 
-import { Quantum } from '../Quantum';
+import { Quantization } from '../Quantization';
 import { IAbsentExecutor } from './Interface/IAbsentExecutor';
 
 export class AbsentExecutor<U> implements IAbsentExecutor {
   public readonly noun: 'AbsentExecutor' = 'AbsentExecutor';
-  private readonly mapper: Supplier<PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>;
+  private readonly mapper: Supplier<PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U>>;
   private readonly resolve: Resolve<U>;
   private readonly reject: Reject<void>;
 
   public static of<U>(
-    mapper: Supplier<PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>,
+    mapper: Supplier<PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U>>,
     resolve: Resolve<U>,
     reject: Reject<void>
   ): AbsentExecutor<U> {
@@ -18,7 +18,7 @@ export class AbsentExecutor<U> implements IAbsentExecutor {
   }
 
   protected constructor(
-    mapper: Supplier<PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>,
+    mapper: Supplier<PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U>>,
     resolve: Resolve<U>,
     reject: Reject<void>
   ) {
@@ -28,9 +28,9 @@ export class AbsentExecutor<U> implements IAbsentExecutor {
   }
 
   public async onAbsent(): Promise<void> {
-    const mapped: PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U> = this.mapper();
+    const mapped: PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U> = this.mapper();
 
-    if (mapped instanceof Quantum) {
+    if (mapped instanceof Quantization) {
       await mapped.map<void>((v: U) => {
         this.resolve(v);
       });

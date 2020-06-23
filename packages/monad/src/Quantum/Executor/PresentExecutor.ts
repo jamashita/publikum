@@ -1,16 +1,16 @@
 import { Kind, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
-import { Quantum } from '../Quantum';
+import { Quantization } from '../Quantization';
 import { IPresentExecutor } from './Interface/IPresentExecutor';
 
 export class PresentExecutor<T, U> implements IPresentExecutor<T> {
   public readonly noun: 'PresentExecutor' = 'PresentExecutor';
-  private readonly mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>;
+  private readonly mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U>>;
   private readonly resolve: Resolve<U>;
   private readonly reject: Reject<void>;
 
   public static of<T, U>(
-    mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>,
+    mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U>>,
     resolve: Resolve<U>,
     reject: Reject<void>
   ): PresentExecutor<T, U> {
@@ -18,7 +18,7 @@ export class PresentExecutor<T, U> implements IPresentExecutor<T> {
   }
 
   protected constructor(
-    mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>,
+    mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U>>,
     resolve: Resolve<U>,
     reject: Reject<void>
   ) {
@@ -28,9 +28,9 @@ export class PresentExecutor<T, U> implements IPresentExecutor<T> {
   }
 
   public async onPresent(value: T): Promise<void> {
-    const mapped: PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U> = this.mapper(value);
+    const mapped: PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U> = this.mapper(value);
 
-    if (mapped instanceof Quantum) {
+    if (mapped instanceof Quantization) {
       await mapped.map<void>((v: U) => {
         this.resolve(v);
       });

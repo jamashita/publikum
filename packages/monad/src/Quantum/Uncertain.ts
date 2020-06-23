@@ -4,7 +4,6 @@ import { Absent } from './Absent';
 import { QuantizationError } from './Error/QuantizationError';
 import { Heisenberg } from './Interface/Heisenberg';
 
-// TODO TEST UNDONE
 export class Uncertain<T> implements Heisenberg<T, 'Uncertain'> {
   public readonly noun: 'Uncertain' = 'Uncertain';
 
