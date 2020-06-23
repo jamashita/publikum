@@ -61,14 +61,14 @@ Redis driver.
 
 ### Functional programming classes
 
-#### Quantum
+#### Quantization
 Alias for `Optional` for scala. Abstract class for standing for `Present` and `Absent`.
 
 #### Absent
-Subclass for `Quantum`, it represents `None` case.
+Subclass for `Quantization`, it represents `None` case.
 
 #### Present
-Subclass for `Quantum`, it represents `Some` case.
+Subclass for `Quantization`, it represents `Some` case.
 
 #### Superposition
 Alias for `Try` class in scala. Abstract class for standing for `Alive` and `Dead`.
