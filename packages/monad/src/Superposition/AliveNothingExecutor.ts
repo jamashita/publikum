@@ -1,15 +1,16 @@
+import { Noun } from '@jamashita/publikum-interface';
 import { Resolve } from '@jamashita/publikum-type';
 
 import { IAliveExecutor } from './Interface/IAliveExecutor';
 
 const promise: Promise<void> = Promise.resolve();
 
-export class AliveNothingExecutorxecutor<S> implements IAliveExecutor<S> {
+export class AliveNothingExecutor<S> implements IAliveExecutor<S>, Noun<'AliveExecutor'> {
   public readonly noun: 'AliveExecutor' = 'AliveExecutor';
   private readonly resolve: Resolve<S>;
 
-  public static of<S>(resolve: Resolve<S>): AliveNothingExecutorxecutor<S> {
-    return new AliveNothingExecutorxecutor<S>(resolve);
+  public static of<S>(resolve: Resolve<S>): AliveNothingExecutor<S> {
+    return new AliveNothingExecutor<S>(resolve);
   }
 
   protected constructor(resolve: Resolve<S>) {

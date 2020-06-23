@@ -1,5 +1,3 @@
-import { Noun } from '@jamashita/publikum-interface';
-
-export interface IAliveExecutor<S> extends Noun<'AliveExecutor'> {
+export interface IAliveExecutor<S> {
   onAlive(value: S): Promise<void>;
 }

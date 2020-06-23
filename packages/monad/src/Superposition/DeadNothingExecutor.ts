@@ -1,10 +1,11 @@
+import { Noun } from '@jamashita/publikum-interface';
 import { Reject } from '@jamashita/publikum-type';
 
 import { IDeadExecutor } from './Interface/IDeadExecutor';
 
 const promise: Promise<void> = Promise.resolve();
 
-export class DeadNothingExecutor<F extends Error> implements IDeadExecutor<F> {
+export class DeadNothingExecutor<F extends Error> implements IDeadExecutor<F>, Noun<'DeadExecutor'> {
   public readonly noun: 'DeadExecutor' = 'DeadExecutor';
   private readonly reject: Reject<F>;
 

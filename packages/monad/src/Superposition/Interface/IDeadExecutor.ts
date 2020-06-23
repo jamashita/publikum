@@ -1,5 +1,3 @@
-import { Noun } from '@jamashita/publikum-interface';
-
-export interface IDeadExecutor<F extends Error> extends Noun<'DeadExecutor'> {
+export interface IDeadExecutor<F extends Error> {
   onDead(err: F): Promise<void>;
 }
