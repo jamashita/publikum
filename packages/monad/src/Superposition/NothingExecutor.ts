@@ -17,11 +17,15 @@ export class NothingExecutor<S, F extends Error> implements CallbackExecutor<S, 
     this.reject = reject;
   }
 
-  public onAlive(value: S): void {
+  public onAlive(value: S): Promise<void> {
     this.resolve(value);
+
+    return Promise.resolve();
   }
 
-  public onDead(err: F): void {
+  public onDead(err: F): Promise<void> {
     this.reject(err);
+
+    return Promise.resolve();
   }
 }

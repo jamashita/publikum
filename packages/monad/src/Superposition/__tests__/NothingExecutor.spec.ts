@@ -6,7 +6,7 @@ import { NothingExecutor } from '../NothingExecutor';
 
 describe('NothingExecutor', () => {
   describe('onAlive', () => {
-    it('only passees the value to next one', () => {
+    it('only passees the value to next one', async () => {
       const value: number = 101;
 
       const spy1: SinonSpy = sinon.spy();
@@ -22,7 +22,7 @@ describe('NothingExecutor', () => {
         }
       );
 
-      executor.onAlive(value);
+      await executor.onAlive(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -30,7 +30,7 @@ describe('NothingExecutor', () => {
   });
 
   describe('onDead', () => {
-    it('only passees the value to next one', () => {
+    it('only passees the value to next one', async () => {
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -46,7 +46,7 @@ describe('NothingExecutor', () => {
         }
       );
 
-      executor.onDead(error);
+      await executor.onDead(error);
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
