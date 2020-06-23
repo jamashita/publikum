@@ -14,12 +14,7 @@ describe('DeadExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: DeadExecutor<number, number, MockError, MockError> = DeadExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: DeadExecutor<number, MockError> = DeadExecutor.of<number, MockError>(
         () => {
           spy1();
 
@@ -48,12 +43,7 @@ describe('DeadExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: DeadExecutor<number, number, MockError, MockError> = DeadExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: DeadExecutor<number, MockError> = DeadExecutor.of<number, MockError>(
         () => {
           spy1();
 
@@ -84,12 +74,7 @@ describe('DeadExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: DeadExecutor<number, number, MockError, MockError> = DeadExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: DeadExecutor<number, MockError> = DeadExecutor.of<number, MockError>(
         (e: MockError) => {
           spy1();
           expect(e).toBe(error);
@@ -120,12 +105,7 @@ describe('DeadExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: DeadExecutor<number, number, MockError, MockError> = DeadExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: DeadExecutor<number, MockError> = DeadExecutor.of<number, MockError>(
         (e: MockError) => {
           spy1();
           expect(e).toBe(error);
@@ -156,12 +136,7 @@ describe('DeadExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: DeadExecutor<number, number, MockError, MockError> = DeadExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: DeadExecutor<number, MockError> = DeadExecutor.of<number, MockError>(
         (e: MockError) => {
           spy1();
           expect(e).toBe(error);
@@ -191,12 +166,7 @@ describe('DeadExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: DeadExecutor<number, number, MockError, MockError> = DeadExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: DeadExecutor<number, MockError> = DeadExecutor.of<number, MockError>(
         (e: MockError) => {
           spy1();
           expect(e).toBe(error);
@@ -226,12 +196,7 @@ describe('DeadExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: DeadExecutor<number, number, MockError, MockError> = DeadExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: DeadExecutor<number, MockError> = DeadExecutor.of<number, MockError>(
         (e: MockError) => {
           spy1();
           expect(e).toBe(error);
@@ -261,12 +226,7 @@ describe('DeadExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: DeadExecutor<number, number, MockError, MockError> = DeadExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: DeadExecutor<number, MockError> = DeadExecutor.of<number, MockError>(
         (e: MockError) => {
           spy1();
           expect(e).toBe(error);

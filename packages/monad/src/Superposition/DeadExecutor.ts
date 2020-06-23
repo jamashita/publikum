@@ -4,21 +4,22 @@ import { CallbackExecutor } from './Interface/CallbackExecutor';
 import { NothingExecutor } from './NothingExecutor';
 import { Superposition } from './Superposition';
 
-export class DeadExecutor<S, T, F extends Error, E extends Error> implements CallbackExecutor<S, F, 'DeadExecutor'> {
+export class DeadExecutor<S, F extends Error, T = S, E extends Error = F>
+  implements CallbackExecutor<S, F, 'DeadExecutor'> {
   public readonly noun: 'DeadExecutor' = 'DeadExecutor';
   private readonly mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>;
   private readonly resolve: Resolve<S | T>;
   private readonly reject: Reject<E>;
   private readonly nothing: NothingExecutor<S, E>;
 
-  public static of<S, T, F extends Error, E extends Error>(
+  public static of<S, F extends Error, T = S, E extends Error = F>(
     mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>,
     resolve: Resolve<S | T>,
     reject: Reject<E>
-  ): DeadExecutor<S, T, F, E> {
+  ): DeadExecutor<S, F, T, E> {
     const nothing: NothingExecutor<S, E> = NothingExecutor.of<S, E>(resolve, reject);
 
-    return new DeadExecutor<S, T, F, E>(mapper, resolve, reject, nothing);
+    return new DeadExecutor<S, F, T, E>(mapper, resolve, reject, nothing);
   }
 
   protected constructor(
