@@ -11,6 +11,7 @@ import {
   UnaryFunction
 } from '@jamashita/publikum-type';
 
+import { Superposition } from '../Superposition/Superposition';
 import { Absent } from './Absent';
 import { QuantizationError } from './Error/QuantizationError';
 import { AbsentExecutor } from './Executor/AbsentExecutor';
@@ -89,20 +90,24 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
     }
 
     return Quantization.of<T>((resolve: Resolve<T>, reject: Reject<void>) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      promise.then<void, void>((value: Suspicious<T>) => {
-        switch (value) {
-          case null:
-          case undefined: {
-            reject();
+      promise.then<void, void>(
+        (value: Suspicious<T>) => {
+          switch (value) {
+            case null:
+            case undefined: {
+              reject();
 
-            return;
+              return;
+            }
+            default: {
+              resolve(value);
+            }
           }
-          default: {
-            resolve(value);
-          }
+        },
+        () => {
+          reject();
         }
-      });
+      );
     });
   }
 
@@ -260,9 +265,12 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
     return Promise.reject(new UnimplementedError());
   }
 
-  // public abstract toSuperposition(): Superposition<T, QuantizationError>;
-
   private transpose<S>(): Quantization<S> {
     return (this as unknown) as Quantization<S>;
+  }
+
+  // TODO TEST UNDONE
+  public toSuperposition(): Superposition<T, QuantizationError> {
+    return Superposition.ofPromise(this);
   }
 }
