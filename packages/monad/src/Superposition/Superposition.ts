@@ -16,7 +16,9 @@ import { Alive } from './Alive';
 import { Dead } from './Dead';
 import { SuperpositionError } from './Error/SuperpositionError';
 import { AliveExecutor } from './Executor/AliveExecutor';
+import { AliveNothingExecutor } from './Executor/AliveNothingExecutor';
 import { DeadExecutor } from './Executor/DeadExecutor';
+import { DeadNothingExecutor } from './Executor/DeadNothingExecutor';
 import { IAliveExecutor } from './Executor/Interface/IAliveExecutor';
 import { IDeadExecutor } from './Executor/Interface/IDeadExecutor';
 import { Schrodinger } from './Interface/Schrodinger';
@@ -140,16 +142,18 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
 
     return (value: S) => {
       if (done) {
-        return;
+        return Promise.resolve();
       }
 
       self.schrodinger = Alive.of<S, F>(value);
-      self.mapLaters.forEach((later: IAliveExecutor<S>) => {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        later.onAlive(value);
+
+      const promises: Array<Promise<void>> = self.mapLaters.map<Promise<void>>((later: IAliveExecutor<S>) => {
+        return later.onAlive(value);
       });
 
       done = true;
+
+      return Promise.all<void>(promises);
     };
   }
 
@@ -158,16 +162,18 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
 
     return (err: F) => {
       if (done) {
-        return;
+        return Promise.resolve();
       }
 
       self.schrodinger = Dead.of<S, F>(err);
-      self.recoverLaters.forEach((later: IDeadExecutor<F>) => {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        later.onDead(err);
+
+      const promises: Array<Promise<void>> = self.recoverLaters.map<Promise<void>>((later: IDeadExecutor<F>) => {
+        return later.onDead(err);
       });
 
       done = true;
+
+      return Promise.all<void>(promises);
     };
   }
 
@@ -230,6 +236,7 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
   ): Superposition<T, F | E> {
     return Superposition.of<T, F | E>((resolve: Resolve<T>, reject: Reject<F | E>) => {
       this.handleAlive(AliveExecutor.of<S, T, E>(mapper, resolve, reject));
+      this.handleDead(DeadNothingExecutor.of<F>(reject));
     });
   }
 
@@ -240,6 +247,7 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>
   ): Superposition<S | T, E> {
     return Superposition.of<S | T, E>((resolve: Resolve<S | T>, reject: Reject<E>) => {
+      this.handleAlive(AliveNothingExecutor.of<S>(resolve));
       this.handleDead(DeadExecutor.of<T, F, E>(mapper, resolve, reject));
     });
   }
