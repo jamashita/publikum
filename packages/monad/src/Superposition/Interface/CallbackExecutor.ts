@@ -4,7 +4,7 @@ type CallbackExecutorType = 'AliveExecutor' | 'DeadExecutor' | 'AnyExecutor' | '
 
 export interface CallbackExecutor<S, F extends Error, N extends CallbackExecutorType = CallbackExecutorType>
   extends Noun<N> {
-  onAlive(value: S): void;
+  onAlive(value: S): Promise<void>;
 
-  onDead(err: F): void;
+  onDead(err: F): Promise<void>;
 }
