@@ -3,7 +3,7 @@ import sinon, { SinonSpy } from 'sinon';
 import { MockError } from '@jamashita/publikum-object';
 
 import { AnyExecutor } from '../AnyExecutor';
-import { Superposition } from '../Superposition';
+import { Superposition } from '../../Superposition';
 
 describe('AnyExecutor', () => {
   describe('onAlive', () => {
