@@ -1,7 +1,6 @@
-import { Present } from '@jamashita/publikum-monad';
-
 import { QuantizationError } from './Error/QuantizationError';
 import { Heisenberg } from './Interface/Heisenberg';
+import { Present } from './Present';
 import { Uncertain } from './Uncertain';
 
 export class Absent<T> implements Heisenberg<T, 'Absent'> {

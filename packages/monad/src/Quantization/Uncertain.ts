@@ -1,8 +1,7 @@
-import { Present } from '@jamashita/publikum-monad';
-
 import { Absent } from './Absent';
 import { QuantizationError } from './Error/QuantizationError';
 import { Heisenberg } from './Interface/Heisenberg';
+import { Present } from './Present';
 
 export class Uncertain<T> implements Heisenberg<T, 'Uncertain'> {
   public readonly noun: 'Uncertain' = 'Uncertain';
