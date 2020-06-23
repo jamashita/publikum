@@ -13,19 +13,19 @@ import {
 } from '@jamashita/publikum-type';
 
 import { Alive } from './Alive';
-import { AliveExecutor } from './AliveExecutor';
-import { AnyExecutor } from './AnyExecutor';
 import { Dead } from './Dead';
-import { DeadExecutor } from './DeadExecutor';
 import { SuperpositionError } from './Error/SuperpositionError';
-import { CallbackExecutor } from './Interface/CallbackExecutor';
+import { AnyExecutor } from './Executor/AnyExecutor';
+import { IDeadOrAliveExecutor } from './Executor/Interface/IDeadOrAliveExecutor';
+import { MapExecutor } from './Executor/MapExecutor';
+import { RecoverExecutor } from './Executor/RecoverExecutor';
 import { Schrodinger } from './Interface/Schrodinger';
 import { Still } from './Still';
 
 export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'Superposition'> {
   public readonly noun: 'Superposition' = 'Superposition';
   private schrodinger: Schrodinger<S, F>;
-  private readonly laters: Array<CallbackExecutor<S, F>>;
+  private readonly laters: Array<IDeadOrAliveExecutor<S, F>>;
 
   public static all<S, F extends Error>(superpositions: Array<Superposition<S, F>>): Superposition<Array<S>, F> {
     if (superpositions.length === 0) {
@@ -142,8 +142,9 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
       }
 
       self.schrodinger = Alive.of<S, F>(value);
-      self.laters.forEach((callback: CallbackExecutor<S, F>) => {
-        callback.onAlive(value);
+      self.laters.forEach((later: IDeadOrAliveExecutor<S, F>) => {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        later.onAlive(value);
       });
 
       done = true;
@@ -159,8 +160,9 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
       }
 
       self.schrodinger = Dead.of<S, F>(err);
-      self.laters.forEach((callback: CallbackExecutor<S, F>) => {
-        callback.onDead(err);
+      self.laters.forEach((later: IDeadOrAliveExecutor<S, F>) => {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        later.onDead(err);
       });
 
       done = true;
@@ -225,7 +227,7 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     mapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>
   ): Superposition<T, F | E> {
     return Superposition.of<T, F | E>((resolve: Resolve<T>, reject: Reject<F | E>) => {
-      this.handle(AliveExecutor.of<S, T, F, E>(mapper, resolve, reject));
+      this.handle(MapExecutor.of<S, F, T, E>(mapper, resolve, reject));
     });
   }
 
@@ -234,9 +236,9 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
   public recover<T, E extends Error = F>(mapper: UnaryFunction<F, T>): Superposition<S | T, F | E>;
   public recover<T, E extends Error = F>(
     mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>
-  ): Superposition<T, F | E> {
-    return Superposition.of<T, F | E>((resolve: Resolve<T>, reject: Reject<F | E>) => {
-      this.handle(DeadExecutor.of<S, T, F, E>(mapper, resolve, reject));
+  ): Superposition<S | T, E> {
+    return Superposition.of<S | T, E>((resolve: Resolve<S | T>, reject: Reject<E>) => {
+      this.handle(RecoverExecutor.of<S, F, T, E>(mapper, resolve, reject));
     });
   }
 
@@ -252,20 +254,22 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
   public transform<T, E extends Error = F>(
     alive: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>,
     dead: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>
-  ): Superposition<T, F | E> {
-    return Superposition.of<T, F | E>((resolve: Resolve<T>, reject: Reject<F | E>) => {
-      this.handle(AnyExecutor.of<S, T, F, E>(alive, dead, resolve, reject));
+  ): Superposition<T, E> {
+    return Superposition.of<T, E>((resolve: Resolve<T>, reject: Reject<E>) => {
+      this.handle(AnyExecutor.of<S, F, T, E>(alive, dead, resolve, reject));
     });
   }
 
-  private handle(executor: CallbackExecutor<S, F>): void {
+  private handle(executor: IDeadOrAliveExecutor<S, F>): void {
     if (this.schrodinger.isStill()) {
       this.laters.push(executor);
     }
     if (this.schrodinger.isAlive()) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       executor.onAlive(this.schrodinger.get());
     }
     if (this.schrodinger.isDead()) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       executor.onDead(this.schrodinger.getError());
     }
   }
