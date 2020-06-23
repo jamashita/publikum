@@ -2,9 +2,7 @@ import { UnimplementedError } from '@jamashita/publikum-error';
 import { Noun } from '@jamashita/publikum-interface';
 import {
   BinaryFunction,
-  Consumer,
   Kind,
-  Peek,
   Predicate,
   Reject,
   Resolve,
@@ -15,6 +13,12 @@ import {
 
 import { Absent } from './Absent';
 import { QuantizationError } from './Error/QuantizationError';
+import { AbsentExecutor } from './Executor/AbsentExecutor';
+import { AbsentNothingExecutor } from './Executor/AbsentNothingExecutor';
+import { IAbsentExecutor } from './Executor/Interface/IAbsentExecutor';
+import { IPresentExecutor } from './Executor/Interface/IPresentExecutor';
+import { PresentExecutor } from './Executor/PresentExecutor';
+import { PresentNothingExecutor } from './Executor/PresentNothingExecutor';
 import { Heisenberg } from './Interface/Heisenberg';
 import { Present } from './Present';
 import { Uncertain } from './Uncertain';
@@ -22,6 +26,8 @@ import { Uncertain } from './Uncertain';
 export class Quantum<T> implements PromiseLike<T>, Noun<'Quantum'> {
   public readonly noun: 'Quantum' = 'Quantum';
   private heisenberg: Heisenberg<T>;
+  private readonly mapLaters: Array<IPresentExecutor<T>>;
+  private readonly recoverLaters: Array<IAbsentExecutor>;
 
   public static maybe<T>(value: PromiseLike<Suspicious<T>>): Quantum<T>;
   public static maybe<T>(value: Quantum<T>): Quantum<T>;
@@ -106,6 +112,8 @@ export class Quantum<T> implements PromiseLike<T>, Noun<'Quantum'> {
 
   protected constructor(func: BinaryFunction<Resolve<T>, Reject<void>, unknown>) {
     this.heisenberg = Uncertain.of<T>();
+    this.mapLaters = [];
+    this.recoverLaters = [];
     func(this.resolved(this), this.rejected(this));
   }
 
@@ -114,12 +122,18 @@ export class Quantum<T> implements PromiseLike<T>, Noun<'Quantum'> {
 
     return (value: T) => {
       if (done) {
-        return;
+        return Promise.resolve();
       }
 
       self.heisenberg = Present.of<T>(value);
 
+      const promises: Array<Promise<void>> = self.mapLaters.map<Promise<void>>((later: IPresentExecutor<T>) => {
+        return later.onPresent(value);
+      });
+
       done = true;
+
+      return Promise.all<void>(promises);
     };
   }
 
@@ -128,12 +142,18 @@ export class Quantum<T> implements PromiseLike<T>, Noun<'Quantum'> {
 
     return () => {
       if (done) {
-        return;
+        return Promise.resolve();
       }
 
       self.heisenberg = Absent.of<T>();
 
+      const promises: Array<Promise<void>> = self.recoverLaters.map<Promise<void>>((later: IAbsentExecutor) => {
+        return later.onAbsent();
+      });
+
       done = true;
+
+      return Promise.all<void>(promises);
     };
   }
 
@@ -189,67 +209,13 @@ export class Quantum<T> implements PromiseLike<T>, Noun<'Quantum'> {
   public map<U>(mapper: UnaryFunction<T, PromiseLike<Suspicious<U>>>): Quantum<U>;
   public map<U>(mapper: UnaryFunction<T, Quantum<U>>): Quantum<U>;
   public map<U>(mapper: UnaryFunction<T, Suspicious<U>>): Quantum<U>;
-  public map<U>(mapper: UnaryFunction<T, PromiseLike<U> | Quantum<U> | Suspicious<U>>): Quantum<U> {
+  public map<U>(mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>): Quantum<U> {
     return Quantum.of<U>((resolve: Resolve<U>, reject: Reject<void>) => {
-      this.mapInternal(mapper, resolve, reject);
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      this.handlePresent(PresentExecutor.of<T, U>(mapper, resolve, reject));
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      this.handleAbsent(AbsentNothingExecutor.of(reject));
     });
-  }
-
-  private mapInternal<U>(
-    mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>,
-    resolve: Resolve<U>,
-    reject: Reject<void>
-  ): Consumer<T> {
-    return (value: T) => {
-      const mapped: PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U> = mapper(value);
-
-      if (mapped instanceof Quantum) {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        mapped.map<void>((v: U) => {
-          resolve(v);
-        });
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        mapped.recover<void>(() => {
-          reject();
-        });
-
-        return;
-      }
-      if (Kind.isPromiseLike(mapped)) {
-        mapped.then<void, void>(
-          (v: Suspicious<U>) => {
-            switch (v) {
-              case null:
-              case undefined: {
-                reject();
-
-                return;
-              }
-              default: {
-                resolve(v);
-              }
-            }
-          },
-          () => {
-            reject();
-          }
-        );
-
-        return;
-      }
-
-      switch (mapped) {
-        case null:
-        case undefined: {
-          reject();
-
-          return;
-        }
-        default: {
-          resolve(mapped);
-        }
-      }
-    };
   }
 
   public recover<U>(mapper: Supplier<PromiseLike<Suspicious<U>>>): Quantum<T | U>;
@@ -257,65 +223,37 @@ export class Quantum<T> implements PromiseLike<T>, Noun<'Quantum'> {
   public recover<U>(mapper: Supplier<Suspicious<U>>): Quantum<T | U>;
   public recover<U>(mapper: Supplier<PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>): Quantum<T | U> {
     return Quantum.of<T | U>((resolve: Resolve<T | U>, reject: Reject<void>) => {
-      this.recoverInternal(mapper, resolve, reject);
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      this.handlePresent(PresentNothingExecutor.of<T>(resolve));
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      this.handleAbsent(AbsentExecutor.of<U>(mapper, resolve, reject));
     });
   }
 
-  private recoverInternal<U>(
-    mapper: Supplier<PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U>>,
-    resolve: Resolve<U>,
-    reject: Reject<void>
-  ): Peek {
-    return () => {
-      const mapped: PromiseLike<Suspicious<U>> | Quantum<U> | Suspicious<U> = mapper();
+  private handlePresent(executor: IPresentExecutor<T>): Promise<void> {
+    if (this.heisenberg.isUncertain()) {
+      this.mapLaters.push(executor);
 
-      if (mapped instanceof Quantum) {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        mapped.map<void>((v: U) => {
-          resolve(v);
-        });
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        mapped.recover<void>(() => {
-          reject();
-        });
+      return Promise.resolve();
+    }
+    if (this.heisenberg.isPresent()) {
+      return executor.onPresent(this.heisenberg.get());
+    }
 
-        return;
-      }
-      if (Kind.isPromiseLike(mapped)) {
-        mapped.then<void, void>(
-          (v: Suspicious<U>) => {
-            switch (v) {
-              case null:
-              case undefined: {
-                reject();
+    return Promise.reject(new UnimplementedError());
+  }
 
-                return;
-              }
-              default: {
-                resolve(v);
-              }
-            }
-          },
-          () => {
-            reject();
-          }
-        );
+  private handleAbsent(executor: IAbsentExecutor): Promise<void> {
+    if (this.heisenberg.isUncertain()) {
+      this.recoverLaters.push(executor);
 
-        return;
-      }
+      return Promise.resolve();
+    }
+    if (this.heisenberg.isAbsent()) {
+      return executor.onAbsent();
+    }
 
-      switch (mapped) {
-        case null:
-        case undefined: {
-          reject();
-
-          return;
-        }
-        default: {
-          resolve(mapped);
-        }
-      }
-    };
+    return Promise.reject(new UnimplementedError());
   }
 
   // public abstract toSuperposition(): Superposition<T, QuantumError>;

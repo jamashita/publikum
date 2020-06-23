@@ -235,7 +235,9 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     mapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>
   ): Superposition<T, F | E> {
     return Superposition.of<T, F | E>((resolve: Resolve<T>, reject: Reject<F | E>) => {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.handleAlive(AliveExecutor.of<S, T, E>(mapper, resolve, reject));
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.handleDead(DeadNothingExecutor.of<F>(reject));
     });
   }
@@ -247,7 +249,9 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>
   ): Superposition<S | T, E> {
     return Superposition.of<S | T, E>((resolve: Resolve<S | T>, reject: Reject<E>) => {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.handleAlive(AliveNothingExecutor.of<S>(resolve));
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.handleDead(DeadExecutor.of<T, F, E>(mapper, resolve, reject));
     });
   }
@@ -266,29 +270,37 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     dead: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>
   ): Superposition<T, E> {
     return Superposition.of<T, E>((resolve: Resolve<T>, reject: Reject<E>) => {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.handleAlive(AliveExecutor.of<S, T, E>(alive, resolve, reject));
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.handleDead(DeadExecutor.of<T, F, E>(dead, resolve, reject));
     });
   }
 
-  private handleAlive(executor: IAliveExecutor<S>): void {
+  private handleAlive(executor: IAliveExecutor<S>): Promise<void> {
     if (this.schrodinger.isStill()) {
       this.mapLaters.push(executor);
+
+      return Promise.resolve();
     }
     if (this.schrodinger.isAlive()) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      executor.onAlive(this.schrodinger.get());
+      return executor.onAlive(this.schrodinger.get());
     }
+
+    return Promise.reject(new UnimplementedError());
   }
 
-  private handleDead(executor: IDeadExecutor<F>): void {
+  private handleDead(executor: IDeadExecutor<F>): Promise<void> {
     if (this.schrodinger.isStill()) {
       this.recoverLaters.push(executor);
+
+      return Promise.resolve();
     }
     if (this.schrodinger.isDead()) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      executor.onDead(this.schrodinger.getError());
+      return executor.onDead(this.schrodinger.getError());
     }
+
+    return Promise.reject(new UnimplementedError());
   }
 
   private transpose<T, E extends Error>(): Superposition<T, E> {
