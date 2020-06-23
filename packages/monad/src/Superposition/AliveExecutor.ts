@@ -1,37 +1,31 @@
+import { Noun } from '@jamashita/publikum-interface';
 import { Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 
-import { CallbackExecutor } from './Interface/CallbackExecutor';
-import { NothingExecutor } from './NothingExecutor';
+import { IAliveExecutor } from './Interface/IAliveExecutor';
 import { Superposition } from './Superposition';
 
-export class AliveExecutor<S, F extends Error, T = S, E extends Error = F>
-  implements CallbackExecutor<S, F, 'AliveExecutor'> {
+export class AliveExecutor<S, T, E extends Error> implements IAliveExecutor<S>, Noun<'AliveExecutor'> {
   public readonly noun: 'AliveExecutor' = 'AliveExecutor';
   private readonly mapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>;
   private readonly resolve: Resolve<T>;
-  private readonly reject: Reject<F | E>;
-  private readonly nothing: NothingExecutor<T, F>;
+  private readonly reject: Reject<E>;
 
-  public static of<S, F extends Error, T = S, E extends Error = F>(
+  public static of<S, T, E extends Error>(
     mapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>,
     resolve: Resolve<T>,
-    reject: Reject<F | E>
-  ): AliveExecutor<S, F, T, E> {
-    const nothing: NothingExecutor<T, F> = NothingExecutor.of<T, F>(resolve, reject);
-
-    return new AliveExecutor<S, F, T, E>(mapper, resolve, reject, nothing);
+    reject: Reject<E>
+  ): AliveExecutor<S, T, E> {
+    return new AliveExecutor<S, T, E>(mapper, resolve, reject);
   }
 
   protected constructor(
     mapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>,
     resolve: Resolve<T>,
-    reject: Reject<F | E>,
-    nothing: NothingExecutor<T, F>
+    reject: Reject<E>
   ) {
     this.mapper = mapper;
     this.resolve = resolve;
     this.reject = reject;
-    this.nothing = nothing;
   }
 
   public async onAlive(value: S): Promise<void> {
@@ -70,9 +64,5 @@ export class AliveExecutor<S, F extends Error, T = S, E extends Error = F>
     catch (err) {
       this.reject(err);
     }
-  }
-
-  public onDead(err: F): Promise<void> {
-    return this.nothing.onDead(err);
   }
 }

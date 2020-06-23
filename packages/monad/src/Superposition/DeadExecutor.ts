@@ -1,41 +1,31 @@
+import { Noun } from '@jamashita/publikum-interface';
 import { Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 
-import { CallbackExecutor } from './Interface/CallbackExecutor';
-import { NothingExecutor } from './NothingExecutor';
+import { IDeadExecutor } from './Interface/IDeadExecutor';
 import { Superposition } from './Superposition';
 
-export class DeadExecutor<S, F extends Error, T = S, E extends Error = F>
-  implements CallbackExecutor<S, F, 'DeadExecutor'> {
+export class DeadExecutor<T, F extends Error, E extends Error> implements IDeadExecutor<F>, Noun<'DeadExecutor'> {
   public readonly noun: 'DeadExecutor' = 'DeadExecutor';
   private readonly mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>;
-  private readonly resolve: Resolve<S | T>;
-  private readonly reject: Reject<E | F>;
-  private readonly nothing: NothingExecutor<S, E>;
+  private readonly resolve: Resolve<T>;
+  private readonly reject: Reject<E>;
 
-  public static of<S, F extends Error, T = S, E extends Error = F>(
+  public static of<T, F extends Error, E extends Error>(
     mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>,
-    resolve: Resolve<S | T>,
-    reject: Reject<E | F>
-  ): DeadExecutor<S, F, T, E> {
-    const nothing: NothingExecutor<S, E> = NothingExecutor.of<S, E>(resolve, reject);
-
-    return new DeadExecutor<S, F, T, E>(mapper, resolve, reject, nothing);
+    resolve: Resolve<T>,
+    reject: Reject<E>
+  ): DeadExecutor<T, F, E> {
+    return new DeadExecutor<T, F, E>(mapper, resolve, reject);
   }
 
   protected constructor(
     mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>,
-    resolve: Resolve<S | T>,
-    reject: Reject<E | F>,
-    nothing: NothingExecutor<S, E>
+    resolve: Resolve<T>,
+    reject: Reject<E>
   ) {
     this.mapper = mapper;
     this.resolve = resolve;
     this.reject = reject;
-    this.nothing = nothing;
-  }
-
-  public onAlive(value: S): Promise<void> {
-    return this.nothing.onAlive(value);
   }
 
   public async onDead(err: F): Promise<void> {
