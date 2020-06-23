@@ -2,7 +2,8 @@ import { Reject, Resolve } from '@jamashita/publikum-type';
 
 import { CallbackExecutor } from './Interface/CallbackExecutor';
 
-// TODO
+const promise: Promise<void> = Promise.resolve();
+
 export class NothingExecutor<S, F extends Error> implements CallbackExecutor<S, F, 'NothingExecutor'> {
   public readonly noun: 'NothingExecutor' = 'NothingExecutor';
   private readonly resolve: Resolve<S>;
@@ -20,12 +21,12 @@ export class NothingExecutor<S, F extends Error> implements CallbackExecutor<S, 
   public onAlive(value: S): Promise<void> {
     this.resolve(value);
 
-    return Promise.resolve();
+    return promise;
   }
 
   public onDead(err: F): Promise<void> {
     this.reject(err);
 
-    return Promise.resolve();
+    return promise;
   }
 }
