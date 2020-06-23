@@ -1,25 +1,25 @@
 import { Noun } from '@jamashita/publikum-interface';
 import { Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 
-import { IAliveExecutor } from './Interface/IAliveExecutor';
-import { Superposition } from './Superposition';
+import { IDeadExecutor } from './Interface/IDeadExecutor';
+import { Superposition } from '../Superposition';
 
-export class AliveExecutor<S, T, E extends Error> implements IAliveExecutor<S>, Noun<'AliveExecutor'> {
-  public readonly noun: 'AliveExecutor' = 'AliveExecutor';
-  private readonly mapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>;
+export class DeadExecutor<T, F extends Error, E extends Error> implements IDeadExecutor<F>, Noun<'DeadExecutor'> {
+  public readonly noun: 'DeadExecutor' = 'DeadExecutor';
+  private readonly mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>;
   private readonly resolve: Resolve<T>;
   private readonly reject: Reject<E>;
 
-  public static of<S, T, E extends Error>(
-    mapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>,
+  public static of<T, F extends Error, E extends Error>(
+    mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>,
     resolve: Resolve<T>,
     reject: Reject<E>
-  ): AliveExecutor<S, T, E> {
-    return new AliveExecutor<S, T, E>(mapper, resolve, reject);
+  ): DeadExecutor<T, F, E> {
+    return new DeadExecutor<T, F, E>(mapper, resolve, reject);
   }
 
   protected constructor(
-    mapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>,
+    mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>,
     resolve: Resolve<T>,
     reject: Reject<E>
   ) {
@@ -28,10 +28,10 @@ export class AliveExecutor<S, T, E extends Error> implements IAliveExecutor<S>, 
     this.reject = reject;
   }
 
-  public async onAlive(value: S): Promise<void> {
+  public async onDead(err: F): Promise<void> {
     // prettier-ignore
     try {
-      const mapped: PromiseLike<T> | Superposition<T, E> | T = this.mapper(value);
+      const mapped: PromiseLike<T> | Superposition<T, E> | T = this.mapper(err);
 
       if (mapped instanceof Superposition) {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -61,8 +61,8 @@ export class AliveExecutor<S, T, E extends Error> implements IAliveExecutor<S>, 
 
       this.resolve(mapped);
     }
-    catch (err) {
-      this.reject(err);
+    catch (e) {
+      this.reject(e);
     }
   }
 }
