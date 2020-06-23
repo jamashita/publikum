@@ -15,12 +15,7 @@ describe('AnyExecutor', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const executor: AnyExecutor<number, number, MockError, MockError> = AnyExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: AnyExecutor<number, MockError> = AnyExecutor.of<number, MockError>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -57,12 +52,7 @@ describe('AnyExecutor', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const executor: AnyExecutor<number, number, MockError, MockError> = AnyExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: AnyExecutor<number, MockError> = AnyExecutor.of<number, MockError>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -99,12 +89,7 @@ describe('AnyExecutor', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const executor: AnyExecutor<number, number, MockError, MockError> = AnyExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: AnyExecutor<number, MockError> = AnyExecutor.of<number, MockError>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -142,12 +127,7 @@ describe('AnyExecutor', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const executor: AnyExecutor<number, number, MockError, MockError> = AnyExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: AnyExecutor<number, MockError> = AnyExecutor.of<number, MockError>(
         () => {
           spy1();
 
@@ -184,12 +164,7 @@ describe('AnyExecutor', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const executor: AnyExecutor<number, number, MockError, MockError> = AnyExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: AnyExecutor<number, MockError> = AnyExecutor.of<number, MockError>(
         () => {
           spy1();
 
@@ -226,12 +201,7 @@ describe('AnyExecutor', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const executor: AnyExecutor<number, number, MockError, MockError> = AnyExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: AnyExecutor<number, MockError> = AnyExecutor.of<number, MockError>(
         () => {
           spy1();
 
@@ -270,12 +240,7 @@ describe('AnyExecutor', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const executor: AnyExecutor<number, number, MockError, MockError> = AnyExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: AnyExecutor<number, MockError> = AnyExecutor.of<number, MockError>(
         () => {
           spy1();
 
@@ -313,12 +278,7 @@ describe('AnyExecutor', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const executor: AnyExecutor<number, number, MockError, MockError> = AnyExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: AnyExecutor<number, MockError> = AnyExecutor.of<number, MockError>(
         () => {
           spy1();
 
@@ -356,12 +316,7 @@ describe('AnyExecutor', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const executor: AnyExecutor<number, number, MockError, MockError> = AnyExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: AnyExecutor<number, MockError> = AnyExecutor.of<number, MockError>(
         () => {
           spy1();
 
@@ -398,12 +353,7 @@ describe('AnyExecutor', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const executor: AnyExecutor<number, number, MockError, MockError> = AnyExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: AnyExecutor<number, MockError> = AnyExecutor.of<number, MockError>(
         (n: number) => {
           spy1();
 
@@ -440,12 +390,7 @@ describe('AnyExecutor', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const executor: AnyExecutor<number, number, MockError, MockError> = AnyExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: AnyExecutor<number, MockError> = AnyExecutor.of<number, MockError>(
         (n: number) => {
           spy1();
 
@@ -482,12 +427,7 @@ describe('AnyExecutor', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const executor: AnyExecutor<number, number, MockError, MockError> = AnyExecutor.of<
-        number,
-        number,
-        MockError,
-        MockError
-      >(
+      const executor: AnyExecutor<number, MockError> = AnyExecutor.of<number, MockError>(
         (n: number) => {
           spy1();
 

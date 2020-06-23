@@ -5,24 +5,25 @@ import { DeadExecutor } from './DeadExecutor';
 import { CallbackExecutor } from './Interface/CallbackExecutor';
 import { Superposition } from './Superposition';
 
-export class AnyExecutor<S, T, F extends Error, E extends Error> implements CallbackExecutor<S, F, 'AnyExecutor'> {
+export class AnyExecutor<S, F extends Error, T = S, E extends Error = F>
+  implements CallbackExecutor<S, F, 'AnyExecutor'> {
   public readonly noun: 'AnyExecutor' = 'AnyExecutor';
-  private readonly alive: AliveExecutor<S, T, F, E>;
-  private readonly dead: DeadExecutor<S, T, F, E>;
+  private readonly alive: AliveExecutor<S, F, T, E>;
+  private readonly dead: DeadExecutor<S, F, T, E>;
 
-  public static of<S, T, F extends Error, E extends Error>(
+  public static of<S, F extends Error, T = S, E extends Error = F>(
     aliveMapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>,
     deadMapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>,
     resolve: Resolve<S | T>,
     reject: Reject<F | E>
-  ): AnyExecutor<S, T, F, E> {
-    const alive: AliveExecutor<S, T, F, E> = AliveExecutor.of<S, T, F, E>(aliveMapper, resolve, reject);
-    const dead: DeadExecutor<S, T, F, E> = DeadExecutor.of<S, T, F, E>(deadMapper, resolve, reject);
+  ): AnyExecutor<S, F, T, E> {
+    const alive: AliveExecutor<S, F, T, E> = AliveExecutor.of<S, F, T, E>(aliveMapper, resolve, reject);
+    const dead: DeadExecutor<S, F, T, E> = DeadExecutor.of<S, F, T, E>(deadMapper, resolve, reject);
 
-    return new AnyExecutor<S, T, F, E>(alive, dead);
+    return new AnyExecutor<S, F, T, E>(alive, dead);
   }
 
-  protected constructor(alive: AliveExecutor<S, T, F, E>, dead: DeadExecutor<S, T, F, E>) {
+  protected constructor(alive: AliveExecutor<S, F, T, E>, dead: DeadExecutor<S, F, T, E>) {
     this.alive = alive;
     this.dead = dead;
   }
