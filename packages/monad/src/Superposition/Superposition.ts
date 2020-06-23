@@ -3,9 +3,7 @@ import { Noun } from '@jamashita/publikum-interface';
 import {
   Ambiguous,
   BinaryFunction,
-  Consumer,
   Kind,
-  Peek,
   Predicate,
   Reject,
   Resolve,
@@ -172,13 +170,14 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
   public get(): Promise<Schrodinger<S, F>> {
     return new Promise<Schrodinger<S, F>>((resolve: Resolve<Schrodinger<S, F>>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.map<void>(() => {
-        resolve(this.schrodinger);
-      });
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.recover<void>(() => {
-        resolve(this.schrodinger);
-      });
+      this.transform<void>(
+        () => {
+          resolve(this.schrodinger);
+        },
+        () => {
+          resolve(this.schrodinger);
+        }
+      );
     });
   }
 
@@ -188,13 +187,14 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
   ): PromiseLike<T1 | T2> {
     const promise: Promise<S> = new Promise<S>((resolve: Resolve<S>, reject: Reject<F>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.map<void>((value: S) => {
-        resolve(value);
-      });
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.recover<void>((err: F) => {
-        reject(err);
-      });
+      this.transform<void>(
+        (value: S) => {
+          resolve(value);
+        },
+        (err: F) => {
+          reject(err);
+        }
+      );
     });
 
     return promise.then<T1, T2>(onfulfilled, onrejected);
@@ -218,60 +218,15 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     throw new UnimplementedError();
   }
 
-  public map<T, E extends Error = F>(mapper: UnaryFunction<S, PromiseLike<T>>): Superposition<S | T, F | E>;
-  public map<T, E extends Error = F>(mapper: UnaryFunction<S, Superposition<T, F | E>>): Superposition<S | T, F | E>;
-  public map<T, E extends Error = F>(mapper: UnaryFunction<S, T>): Superposition<S | T, F | E>;
+  public map<T, E extends Error = F>(mapper: UnaryFunction<S, PromiseLike<T>>): Superposition<T, F | E>;
+  public map<T, E extends Error = F>(mapper: UnaryFunction<S, Superposition<T, F | E>>): Superposition<T, F | E>;
+  public map<T, E extends Error = F>(mapper: UnaryFunction<S, T>): Superposition<T, F | E>;
   public map<T, E extends Error = F>(
     mapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>
-  ): Superposition<S | T, F | E> {
-    return Superposition.of<S | T, F | E>((resolve: Resolve<S | T>, reject: Reject<F | E>) => {
-      this.handle(
-        AliveExecutor.of<S, F>(this.mapInternal<T, E>(mapper, resolve, reject), this.nothing(resolve, reject))
-      );
+  ): Superposition<T, F | E> {
+    return Superposition.of<T, F | E>((resolve: Resolve<T>, reject: Reject<F | E>) => {
+      this.handle(AliveExecutor.of<S, T, F, E>(mapper, resolve, reject));
     });
-  }
-
-  private mapInternal<T, E extends Error = F>(
-    mapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>,
-    resolve: Resolve<T>,
-    reject: Reject<E>
-  ): Consumer<S> {
-    return (value: S) => {
-      // prettier-ignore
-      try {
-        const mapped: PromiseLike<T> | Superposition<T, E> | T = mapper(value);
-
-        if (mapped instanceof Superposition) {
-          // eslint-disable-next-line @typescript-eslint/no-floating-promises
-          mapped.map<void>((v: T) => {
-            resolve(v);
-          });
-          // eslint-disable-next-line @typescript-eslint/no-floating-promises
-          mapped.recover<void>((e: E) => {
-            reject(e);
-          });
-
-          return;
-        }
-        if (Kind.isPromiseLike(mapped)) {
-          mapped.then<void, void>(
-            (v: T) => {
-              resolve(v);
-            },
-            (e: E) => {
-              reject(e);
-            }
-          );
-
-          return;
-        }
-
-        resolve(mapped);
-      }
-      catch (err) {
-        reject(err);
-      }
-    };
   }
 
   public recover<T, E extends Error = F>(mapper: UnaryFunction<F, PromiseLike<T>>): Superposition<S | T, F | E>;
@@ -279,72 +234,10 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
   public recover<T, E extends Error = F>(mapper: UnaryFunction<F, T>): Superposition<S | T, F | E>;
   public recover<T, E extends Error = F>(
     mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>
-  ): Superposition<S | T, F | E> {
-    return Superposition.of<S | T, F | E>((resolve: Resolve<S | T>, reject: Reject<F | E>) => {
-      this.handle(
-        DeadExecutor.of<S, F>(this.recoverInternal<T, E>(mapper, resolve, reject), this.nothing<T, E>(resolve, reject))
-      );
+  ): Superposition<T, F | E> {
+    return Superposition.of<T, F | E>((resolve: Resolve<T>, reject: Reject<F | E>) => {
+      this.handle(DeadExecutor.of<S, T, F, E>(mapper, resolve, reject));
     });
-  }
-
-  private recoverInternal<T, E extends Error>(
-    mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>,
-    resolve: Resolve<T>,
-    reject: Reject<E>
-  ): Consumer<F> {
-    return (err: F) => {
-      // prettier-ignore
-      try {
-        const mapped: PromiseLike<T> | Superposition<T, E> | T = mapper(err);
-
-        if (mapped instanceof Superposition) {
-          // eslint-disable-next-line @typescript-eslint/no-floating-promises
-          mapped.map<void>((v: T) => {
-            resolve(v);
-          });
-          // eslint-disable-next-line @typescript-eslint/no-floating-promises
-          mapped.recover<void>((e: E) => {
-            reject(e);
-          });
-
-          return;
-        }
-        if (Kind.isPromiseLike(mapped)) {
-          mapped.then<void, void>(
-            (v: T) => {
-              resolve(v);
-            },
-            (e: E) => {
-              reject(e);
-            }
-          );
-
-          return;
-        }
-
-        resolve(mapped);
-      }
-      catch (e) {
-        reject(e);
-      }
-    };
-  }
-
-  private nothing<T, E extends Error>(resolve: Resolve<S | T>, reject: Reject<F | E>): Peek {
-    return () => {
-      if (this.schrodinger.isAlive()) {
-        resolve(this.schrodinger.get());
-
-        return;
-      }
-      if (this.schrodinger.isDead()) {
-        reject(this.schrodinger.getError());
-
-        return;
-      }
-
-      throw new UnimplementedError('IMPOSSIBLE');
-    };
   }
 
   public transform<T, E extends Error = F>(
@@ -359,14 +252,9 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
   public transform<T, E extends Error = F>(
     alive: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>,
     dead: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>
-  ): Superposition<T, E> {
-    return Superposition.of<T, E>((resolve: Resolve<T>, reject: Reject<E>) => {
-      this.handle(
-        AnyExecutor.of<S, F>(
-          this.mapInternal<T, E>(alive, resolve, reject),
-          this.recoverInternal<T, E>(dead, resolve, reject)
-        )
-      );
+  ): Superposition<T, F | E> {
+    return Superposition.of<T, F | E>((resolve: Resolve<T>, reject: Reject<F | E>) => {
+      this.handle(AnyExecutor.of<S, T, F, E>(alive, dead, resolve, reject));
     });
   }
 
