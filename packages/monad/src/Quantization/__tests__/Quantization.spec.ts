@@ -309,4 +309,184 @@ describe('Quantization', () => {
       expect(quantization1).toBe(quantization3);
     });
   });
+
+  describe('map', () => {
+    it('sync case', async () => {
+      const value: number = -201;
+      const present: Quantization<number> = Quantization.present(value);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      await present
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return v + 1;
+        })
+        .map<number>((v: number) => {
+          spy2();
+          expect(v).toBe(value + 1);
+
+          return v;
+        });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('async case', async () => {
+      const value: number = -201;
+      const present: Quantization<number> = Quantization.present(value);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      await present
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return Promise.resolve<number>(v + 1);
+        })
+        .map<number>((v: number) => {
+          spy2();
+          expect(v).toBe(value + 1);
+
+          return v;
+        });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('quantization case', async () => {
+      const value1: number = -201;
+      const value2: number = -20100;
+      const present1: Quantization<number> = Quantization.present(value1);
+      const present2: Quantization<number> = Quantization.present(value2);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      await present1
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value1);
+
+          return present2;
+        })
+        .map<number>((v: number) => {
+          spy2();
+          expect(v).toBe(value2);
+
+          return v;
+        });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('sync case: returns null', async () => {
+      const value: number = -201;
+      const present: Quantization<number> = Quantization.present(value);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const quantization: Quantization<number> = present
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return null;
+        })
+        .map<number>((v: number) => {
+          spy2();
+
+          return v;
+        });
+
+      await expect(quantization).rejects.toThrow(QuantizationError);
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+    });
+
+    it('async case: returns resolved null', async () => {
+      const value: number = -201;
+      const present: Quantization<number> = Quantization.present(value);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const quantization: Quantization<number> = present
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return Promise.resolve<null>(null);
+        })
+        .map<number>((v: number) => {
+          spy2();
+
+          return v;
+        });
+
+      await expect(quantization).rejects.toThrow(QuantizationError);
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+    });
+
+    it('quantization case: returns Absent Quantization', async () => {
+      const value: number = -201;
+      const present: Quantization<number> = Quantization.present(value);
+      const absent: Quantization<number> = Quantization.absent();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const quantization: Quantization<number> = present
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return absent;
+        })
+        .map<number>((v: number) => {
+          spy2();
+
+          return v;
+        });
+
+      await expect(quantization).rejects.toThrow(QuantizationError);
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+    });
+
+    it('already resolved quantization case', async () => {
+      const value: number = -201;
+      const present: Quantization<number> = Quantization.present(value);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      await present
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return present;
+        })
+        .map<number>((v: number) => {
+          spy2();
+          expect(v).toBe(value);
+
+          return v;
+        });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+    });
+  });
 });

@@ -591,6 +591,7 @@ describe('Superposition', () => {
 
     it('superposition case: returns itself', () => {
       const alive: Superposition<number, MockError> = Superposition.alive(1010);
+      const alive: Superposition<Error, MockError> = Superposition.alive(new Error());
       const dead: Superposition<number, MockError> = Superposition.dead(new MockError());
 
       const superposition1: Superposition<number, MockError> = Superposition.alive<number, MockError>(alive);
