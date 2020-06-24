@@ -285,10 +285,12 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
   }
 
   private peek(peek: Peek): void {
+    const executor: PeekExecutor<S, F> = PeekExecutor.of<S, F>(peek);
+
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.handleAlive(PeekExecutor.of<S, F>(peek));
+    this.handleAlive(executor);
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.handleDead(PeekExecutor.of<S, F>(peek));
+    this.handleDead(executor);
   }
 
   private handleAlive(executor: IAliveExecutor<S>): Promise<void> {

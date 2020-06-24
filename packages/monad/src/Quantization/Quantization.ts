@@ -1,15 +1,23 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
 import { Noun } from '@jamashita/publikum-interface';
-import { BinaryFunction, Kind, Predicate, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import {
+  BinaryFunction,
+  Kind,
+  Peek,
+  Predicate,
+  Reject,
+  Resolve,
+  Suspicious,
+  UnaryFunction
+} from '@jamashita/publikum-type';
 
-import { Peek } from '../../../type/src/Function';
 import { Superposition } from '../Superposition/Superposition';
 import { Absent } from './Absent';
 import { QuantizationError } from './Error/QuantizationError';
-import { AbsentExecutor } from './Executor/AbsentExecutor';
 import { AbsentNothingExecutor } from './Executor/AbsentNothingExecutor';
 import { IAbsentExecutor } from './Executor/Interface/IAbsentExecutor';
 import { IPresentExecutor } from './Executor/Interface/IPresentExecutor';
+import { PeekExecutor } from './Executor/PeekExecutor';
 import { PresentExecutor } from './Executor/PresentExecutor';
 import { Heisenberg } from './Interface/Heisenberg';
 import { Present } from './Present';
@@ -149,11 +157,7 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
 
   public get(): Promise<Heisenberg<T>> {
     return new Promise<Heisenberg<T>>((resolve: Resolve<Heisenberg<T>>) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.map<void>(() => {
-        resolve(this.heisenberg);
-      });
-      this.recover(() => {
+      this.peek(() => {
         resolve(this.heisenberg);
       });
     });
@@ -168,7 +172,7 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
       this.map<void>((value: T) => {
         resolve(value);
       });
-      this.recover(() => {
+      this.peek(() => {
         reject(new QuantizationError('IS ABSENT'));
       });
     });
@@ -208,9 +212,13 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
     });
   }
 
-  private recover(mapper: Peek): void {
+  private peek(peek: Peek): void {
+    const executor: PeekExecutor<T> = PeekExecutor.of<T>(peek);
+
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.handleAbsent(AbsentExecutor.of(mapper));
+    this.handlePresent(executor);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.handleAbsent(executor);
   }
 
   private handlePresent(executor: IPresentExecutor<T>): Promise<void> {
