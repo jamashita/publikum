@@ -640,61 +640,6 @@ describe('Superposition', () => {
     });
   });
 
-  describe('ofPromise', () => {
-    it('superposition case: returns itself', () => {
-      const alive: Superposition<number, MockError> = Superposition.alive(1010);
-      const dead: Superposition<number, MockError> = Superposition.dead(new MockError());
-
-      const superposition1: Superposition<number, MockError> = Superposition.ofPromise<number, MockError>(alive);
-      const superposition2: Superposition<number, MockError> = Superposition.ofPromise<number, MockError>(dead);
-
-      expect(superposition1).toBe(alive);
-      expect(superposition2).toBe(dead);
-    });
-
-    it('resolved case', async () => {
-      const value: number = 2;
-      const promise: Promise<number> = Promise.resolve<number>(value);
-      const superposition: Superposition<number, MockError> = Superposition.ofPromise(promise);
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      await superposition
-        .map<void>((v: number) => {
-          spy1();
-          expect(v).toBe(value);
-        })
-        .recover<void>(() => {
-          spy2();
-        });
-
-      expect(spy1.called).toBe(true);
-      expect(spy2.called).toBe(false);
-    });
-
-    it('rejected case', async () => {
-      const error: MockError = new MockError();
-      const promise: Promise<number> = Promise.reject<number>(error);
-      const superposition: Superposition<number, MockError> = Superposition.ofPromise(promise);
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      await superposition
-        .map<void>(() => {
-          spy1();
-        })
-        .recover<void>((err: MockError) => {
-          spy2();
-          expect(err).toBe(error);
-        });
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
-    });
-  });
-
   describe('get', () => {
     it('returns Schrodinger subclass isntance', async () => {
       const value: number = -149;

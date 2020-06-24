@@ -13,6 +13,7 @@ import {
   UnaryFunction
 } from '@jamashita/publikum-type';
 
+import { Nihil } from '../../../type/src/Value';
 import { Superposition } from '../Superposition/Superposition';
 import { Absent } from './Absent';
 import { UnscharferelationError } from './Error/UnscharferelationError';
@@ -72,11 +73,9 @@ export class Unscharferelation<T> implements PromiseLike<T>, Noun<'Unscharferela
   }
 
   public static absent<T>(value: Unscharferelation<T>): Unscharferelation<T>;
-  public static absent<T>(value: PromiseLike<void | undefined | null>): Unscharferelation<T>;
-  public static absent<T>(value: void | undefined | null): Unscharferelation<T>;
-  public static absent<T>(
-    value: void | undefined | null | PromiseLike<void | undefined | null> | Unscharferelation<T>
-  ): Unscharferelation<T> {
+  public static absent<T>(value: PromiseLike<Nihil>): Unscharferelation<T>;
+  public static absent<T>(value: Nihil): Unscharferelation<T>;
+  public static absent<T>(value: Nihil | PromiseLike<Nihil> | Unscharferelation<T>): Unscharferelation<T> {
     if (value instanceof Unscharferelation) {
       return value;
     }
@@ -89,7 +88,7 @@ export class Unscharferelation<T> implements PromiseLike<T>, Noun<'Unscharferela
     });
   }
 
-  public static ofPromise<T>(promise: PromiseLike<Omittable<Suspicious<T>>>): Unscharferelation<T> {
+  private static ofPromise<T>(promise: PromiseLike<Omittable<Suspicious<T>>>): Unscharferelation<T> {
     if (promise instanceof Unscharferelation) {
       return promise.transpose<T>();
     }
@@ -206,11 +205,11 @@ export class Unscharferelation<T> implements PromiseLike<T>, Noun<'Unscharferela
     throw new UnimplementedError();
   }
 
-  public map<U>(mapper: UnaryFunction<T, PromiseLike<Suspicious<U>>>): Unscharferelation<U>;
+  public map<U>(mapper: UnaryFunction<T, PromiseLike<Omittable<Suspicious<U>>>>): Unscharferelation<U>;
   public map<U>(mapper: UnaryFunction<T, Unscharferelation<U>>): Unscharferelation<U>;
-  public map<U>(mapper: UnaryFunction<T, Suspicious<U>>): Unscharferelation<U>;
+  public map<U>(mapper: UnaryFunction<T, Omittable<Suspicious<U>>>): Unscharferelation<U>;
   public map<U>(
-    mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Unscharferelation<U> | Suspicious<U>>
+    mapper: UnaryFunction<T, PromiseLike<Omittable<Suspicious<U>>> | Unscharferelation<U> | Omittable<Suspicious<U>>>
   ): Unscharferelation<U> {
     return Unscharferelation.of<U>((resolve: Resolve<U>, reject: Reject<void>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -268,6 +267,15 @@ export class Unscharferelation<T> implements PromiseLike<T>, Noun<'Unscharferela
 
   // TODO TEST UNDONE
   public toSuperposition(): Superposition<T, UnscharferelationError> {
-    return Superposition.ofPromise(this);
+    return Superposition.of((resolve: Resolve<T>, reject: Reject<UnscharferelationError>) => {
+      this.then<void, void>(
+        (value: T) => {
+          resolve(value);
+        },
+        () => {
+          reject(new UnscharferelationError('ABSENT'));
+        }
+      );
+    });
   }
 }

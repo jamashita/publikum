@@ -145,69 +145,6 @@ describe('Unscharferelation', () => {
     });
   });
 
-  describe('ofPromise', () => {
-    it('unscharferelation case: returns itself', () => {
-      const present: Unscharferelation<number> = Unscharferelation.present(3);
-      const absent: Unscharferelation<number> = Unscharferelation.absent();
-
-      const unscharferelation1: Unscharferelation<number> = Unscharferelation.ofPromise<number>(present);
-      const unscharferelation2: Unscharferelation<number> = Unscharferelation.ofPromise<number>(absent);
-
-      expect(unscharferelation1).toBe(present);
-      expect(unscharferelation2).toBe(absent);
-    });
-
-    it('resolved case', async () => {
-      const value: number = 3;
-      const promise: Promise<number> = Promise.resolve<number>(value);
-      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofPromise(promise);
-
-      const spy1: SinonSpy = sinon.spy();
-
-      await unscharferelation.map((v: number) => {
-        spy1();
-        expect(v).toBe(value);
-
-        return v + 1;
-      });
-
-      expect(spy1.called).toBe(true);
-    });
-
-    it('rejected case', async () => {
-      const promise1: Promise<void> = Promise.resolve();
-      const promise2: Promise<undefined> = Promise.resolve(undefined);
-      const promise3: Promise<null> = Promise.resolve(null);
-      const unscharferelation1: Unscharferelation<void> = Unscharferelation.ofPromise(promise1);
-      const unscharferelation2: Unscharferelation<undefined> = Unscharferelation.ofPromise(promise2);
-      const unscharferelation3: Unscharferelation<null> = Unscharferelation.ofPromise(promise3);
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-
-      await expect(
-        unscharferelation1.map(() => {
-          spy1();
-        })
-      ).rejects.toThrow(UnscharferelationError);
-      await expect(
-        unscharferelation2.map(() => {
-          spy2();
-        })
-      ).rejects.toThrow(UnscharferelationError);
-      await expect(
-        unscharferelation3.map(() => {
-          spy3();
-        })
-      ).rejects.toThrow(UnscharferelationError);
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(false);
-      expect(spy3.called).toBe(false);
-    });
-  });
-
   describe('get', () => {
     it('returns Heisenberg subclass instance', async () => {
       const value: number = -201;

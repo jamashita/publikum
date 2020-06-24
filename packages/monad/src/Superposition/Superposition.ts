@@ -13,7 +13,7 @@ import {
   UnaryFunction
 } from '@jamashita/publikum-type';
 
-import { Quantization } from '../Quantization/Quantization';
+import { Unscharferelation } from '../Unscharferelation/Unscharferelation';
 import { Alive } from './Alive';
 import { Dead } from './Dead';
 import { SuperpositionError } from './Error/SuperpositionError';
@@ -124,7 +124,7 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     });
   }
 
-  public static ofPromise<S, F extends Error>(promise: PromiseLike<S>): Superposition<S, F> {
+  private static ofPromise<S, F extends Error>(promise: PromiseLike<S>): Superposition<S, F> {
     if (promise instanceof Superposition) {
       return promise.transpose<S, F>();
     }
@@ -324,7 +324,16 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
   }
 
   // TODO TEST UNDONE
-  public toQuantization(): Quantization<S> {
-    return Quantization.ofPromise<S>(this);
+  public toUnscharferelation(): Unscharferelation<S> {
+    return Unscharferelation.of((resolve: Resolve<S>, reject: Reject<void>) => {
+      this.then<void, void>(
+        (value: S) => {
+          resolve(value);
+        },
+        () => {
+          reject();
+        }
+      );
+    });
   }
 }
