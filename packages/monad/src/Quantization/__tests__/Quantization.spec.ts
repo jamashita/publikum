@@ -203,4 +203,22 @@ describe('Quantization', () => {
       expect(spy3.called).toBe(false);
     });
   });
+
+  describe('get', () => {
+    it('returns Heisenberg subclass instance', async () => {
+      const value: number = -201;
+
+      const quantization1: Quantization<number> = Quantization.present(value);
+      const quantization2: Quantization<number> = Quantization.absent();
+
+      const heisenberg1: Heisenberg<number> = await quantization1.get();
+      const heisenberg2: Heisenberg<number> = await quantization2.get();
+
+      expect(heisenberg1.isPresent()).toBe(true);
+      expect(heisenberg1.get()).toBe(value);
+      expect(() => {
+        heisenberg2.get();
+      }).toThrow(QuantizationError);
+    });
+  });
 });
