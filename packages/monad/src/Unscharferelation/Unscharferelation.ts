@@ -4,6 +4,7 @@ import {
   BinaryFunction,
   Consumer,
   Kind,
+  Nihil,
   Omittable,
   Peek,
   Predicate,
@@ -13,7 +14,6 @@ import {
   UnaryFunction
 } from '@jamashita/publikum-type';
 
-import { Nihil } from '../../../type/src/Value';
 import { Superposition } from '../Superposition/Superposition';
 import { Absent } from './Absent';
 import { UnscharferelationError } from './Error/UnscharferelationError';
