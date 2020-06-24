@@ -265,7 +265,6 @@ export class Unscharferelation<T> implements PromiseLike<T>, Noun<'Unscharferela
     return (this as unknown) as Unscharferelation<S>;
   }
 
-  // TODO TEST UNDONE
   public toSuperposition(): Superposition<T, UnscharferelationError> {
     return Superposition.of((resolve: Resolve<T>, reject: Reject<UnscharferelationError>) => {
       this.then<void, void>(

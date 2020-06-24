@@ -323,7 +323,6 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     return (this as unknown) as Superposition<T, E>;
   }
 
-  // TODO TEST UNDONE
   public toUnscharferelation(): Unscharferelation<S> {
     return Unscharferelation.of((resolve: Resolve<S>, reject: Reject<void>) => {
       this.then<void, void>(

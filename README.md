@@ -59,19 +59,36 @@ MySQL Driver.
 #### Redis
 Redis driver.
 
-### Functional programming classes
+#### Request
+HTTP Request implementation.
 
-#### Quantization
-Alias for `Optional` for scala. Abstract class for standing for `Present` and `Absent`.
+### Monads
+
+#### Unscharferelation
+Alias for `Optional` for scala.
+Applicable for async operation, especially `Promise`.
+
+#### Heisenberg
+Interface for standing for `Present` , `Absent` and `Uncertain`.
+
+#### Uncertain
+Subclass for `Unscharferelation`, the given value is not settled in `Present` , `Absent`.
 
 #### Absent
-Subclass for `Quantization`, it represents `None` case.
+Subclass for `Unscharferelation`, it represents `None` case.
 
 #### Present
-Subclass for `Quantization`, it represents `Some` case.
+Subclass for `Unscharferelation`, it represents `Some` case.
 
 #### Superposition
-Alias for `Try` class in scala. Abstract class for standing for `Alive` and `Dead`.
+Alias for `Try` class in scala.
+Applicable for async operation, especially `Promise`.
+
+#### Schrodinger
+Interface for standing for `Alive` , `Dead` and `Still`.
+
+#### Still
+Subclass for `Superposition`, the given value is not settled in `Alive` , `Dead`.
 
 #### Alive
 Subclass for `Superposition`, it represents `Success` case.
@@ -82,19 +99,28 @@ Subclass for `Superposition`, it represents `Failure` case.
 ### Types
 Class for type definition.
 
+#### Clone
+Clone Objectliteral instance, when the object has circular reference, this operation will throw an Error.
+
+#### Equality
+Check euqality Objectliteral instance, when the object has circular reference, this operation will throw an Error.
+
 #### Function
 Function type definitions.
 
-#### JSONA
-Asynchronous Class for serialization and deserialization `JSON`.
-
 #### Kind
 Type-determination class.
+
+#### Reference
+Check the object has circular reference.
 
 #### Value
 Value type definitions.
 
 ### Others
+
+#### JSONA
+Asynchronous Class for serialization and deserialization `JSON`.
 
 #### UUID
 Class for UUID.

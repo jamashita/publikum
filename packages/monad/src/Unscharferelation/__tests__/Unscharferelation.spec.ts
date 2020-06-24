@@ -2,6 +2,8 @@ import sinon, { SinonSpy } from 'sinon';
 
 import { Resolve } from '@jamashita/publikum-type';
 
+import { Schrodinger } from '../../Superposition/Interface/Schrodinger';
+import { Superposition } from '../../Superposition/Superposition';
 import { Absent } from '../Absent';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Heisenberg } from '../Interface/Heisenberg';
@@ -426,6 +428,31 @@ describe('Unscharferelation', () => {
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
+    });
+  });
+
+  describe('toSuperposition', () => {
+    it('present: will transform to alive', async () => {
+      const value: number = -201;
+      const present: Unscharferelation<number> = Unscharferelation.present(value);
+
+      const superposition: Superposition<number, UnscharferelationError> = present.toSuperposition();
+      const schrodinger: Schrodinger<number, UnscharferelationError> = await superposition.get();
+
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(value);
+    });
+
+    it('absent: will transform to dead', async () => {
+      const absent: Unscharferelation<number> = Unscharferelation.absent();
+
+      const superposition: Superposition<number, UnscharferelationError> = absent.toSuperposition();
+      const schrodinger: Schrodinger<number, UnscharferelationError> = await superposition.get();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(UnscharferelationError);
     });
   });
 });

@@ -3,6 +3,9 @@ import sinon, { SinonSpy } from 'sinon';
 import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 
+import { UnscharferelationError } from '../../Unscharferelation/Error/UnscharferelationError';
+import { Heisenberg } from '../../Unscharferelation/Interface/Heisenberg';
+import { Unscharferelation } from '../../Unscharferelation/Unscharferelation';
 import { SuperpositionError } from '../Error/SuperpositionError';
 import { Schrodinger } from '../Interface/Schrodinger';
 import { Superposition } from '../Superposition';
@@ -731,7 +734,7 @@ describe('Superposition', () => {
     });
 
     it('still: returns itself inspite of the return value of filter', () => {
-      const superposition1: Superposition<void, MockError> = Superposition.ofPromise(
+      const superposition1: Superposition<void, MockError> = Superposition.alive(
         new Promise((resolve: Resolve<void>) => {
           setTimeout(() => {
             resolve();
@@ -1449,6 +1452,32 @@ describe('Superposition', () => {
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(true);
+    });
+  });
+
+  describe('toUnscharferelation', () => {
+    it('alive: will transform to present', async () => {
+      const value: number = 2;
+      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
+
+      const unscharferelation: Unscharferelation<number> = alive.toUnscharferelation();
+      const heisenberg: Heisenberg<number> = await unscharferelation.get();
+
+      expect(heisenberg.isPresent()).toBe(true);
+      expect(heisenberg.get()).toBe(value);
+    });
+
+    it('dead: will transform to absent', async () => {
+      const error: MockError = new MockError();
+      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
+
+      const unscharferelation: Unscharferelation<number> = dead.toUnscharferelation();
+      const heisenberg: Heisenberg<number> = await unscharferelation.get();
+
+      expect(heisenberg.isAbsent()).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
   });
 });
