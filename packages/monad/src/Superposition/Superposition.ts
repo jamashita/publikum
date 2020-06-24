@@ -4,6 +4,7 @@ import {
   Ambiguous,
   BinaryFunction,
   Kind,
+  Peek,
   Predicate,
   Reject,
   Resolve,
@@ -22,6 +23,7 @@ import { DeadExecutor } from './Executor/DeadExecutor';
 import { DeadNothingExecutor } from './Executor/DeadNothingExecutor';
 import { IAliveExecutor } from './Executor/Interface/IAliveExecutor';
 import { IDeadExecutor } from './Executor/Interface/IDeadExecutor';
+import { PeekExecutor } from './Executor/PeekExecutor';
 import { Schrodinger } from './Interface/Schrodinger';
 import { Still } from './Still';
 
@@ -190,15 +192,9 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
 
   public get(): Promise<Schrodinger<S, F>> {
     return new Promise<Schrodinger<S, F>>((resolve: Resolve<Schrodinger<S, F>>) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.transform<void>(
-        () => {
-          resolve(this.schrodinger);
-        },
-        () => {
-          resolve(this.schrodinger);
-        }
-      );
+      this.peek(() => {
+        resolve(this.schrodinger);
+      });
     });
   }
 
@@ -286,6 +282,13 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.handleDead(DeadExecutor.of<T, F, E>(dead, resolve, reject));
     });
+  }
+
+  private peek(peek: Peek): void {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.handleAlive(PeekExecutor.of<S, F>(peek));
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.handleDead(PeekExecutor.of<S, F>(peek));
   }
 
   private handleAlive(executor: IAliveExecutor<S>): Promise<void> {
