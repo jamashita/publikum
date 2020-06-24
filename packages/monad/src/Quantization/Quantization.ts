@@ -2,6 +2,7 @@ import { UnimplementedError } from '@jamashita/publikum-error';
 import { Noun } from '@jamashita/publikum-interface';
 import {
   BinaryFunction,
+  Consumer,
   Kind,
   Omittable,
   Peek,
@@ -12,7 +13,6 @@ import {
   UnaryFunction
 } from '@jamashita/publikum-type';
 
-import { Consumer } from '../../../type/src/Function';
 import { Superposition } from '../Superposition/Superposition';
 import { Absent } from './Absent';
 import { QuantizationError } from './Error/QuantizationError';
