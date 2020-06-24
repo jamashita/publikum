@@ -1,6 +1,6 @@
 import mysql from 'mysql';
 
-import { Nullable, ObjectLiteral, Reject, Resolve } from '@jamashita/publikum-type';
+import { Inconnu, Nullable, ObjectLiteral, Reject, Resolve } from '@jamashita/publikum-type';
 
 import { Connection } from './Connection';
 import { MySQLError } from './Error/MySQLError';
@@ -8,7 +8,6 @@ import { IMySQL } from './Interface/IMySQL';
 import { ITransaction } from './Interface/ITransaction';
 
 export type MySQLConfig = mysql.PoolConfig;
-type Value = Readonly<Record<string, unknown>>;
 
 export class MySQL implements IMySQL {
   private readonly pool: mysql.Pool;
@@ -17,13 +16,13 @@ export class MySQL implements IMySQL {
     const pool: mysql.Pool = mysql.createPool(config);
 
     pool.on('connection', (connection: mysql.Connection) => {
-      connection.config.queryFormat = (query: string, value?: Value) => {
+      connection.config.queryFormat = (query: string, value?: Inconnu) => {
         if (value === undefined) {
           return query;
         }
 
         return query.replace(/:(?<placeholder>\w+)/gu, (txt: string, key: string) => {
-          if (Object.prototype.hasOwnProperty.call(value, key)) {
+          if (key in value) {
             return connection.escape(value[key]);
           }
 
