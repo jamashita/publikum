@@ -2,9 +2,11 @@ import { UnimplementedError } from '@jamashita/publikum-error';
 import { Noun } from '@jamashita/publikum-interface';
 import { BinaryFunction, Kind, Predicate, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
+import { Peek } from '../../../type/src/Function';
 import { Superposition } from '../Superposition/Superposition';
 import { Absent } from './Absent';
 import { QuantizationError } from './Error/QuantizationError';
+import { AbsentExecutor } from './Executor/AbsentExecutor';
 import { AbsentNothingExecutor } from './Executor/AbsentNothingExecutor';
 import { IAbsentExecutor } from './Executor/Interface/IAbsentExecutor';
 import { IPresentExecutor } from './Executor/Interface/IPresentExecutor';
@@ -151,8 +153,9 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
       this.map<void>(() => {
         resolve(this.heisenberg);
       });
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.recover<void>();
+      this.recover(() => {
+        resolve(this.heisenberg);
+      });
     });
   }
 
@@ -160,13 +163,14 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
     onfulfilled?: Suspicious<UnaryFunction<T, T1 | PromiseLike<T1>>>,
     onrejected?: Suspicious<UnaryFunction<unknown, T2 | PromiseLike<T2>>>
   ): PromiseLike<T1 | T2> {
-    const promise: Promise<T> = new Promise<T>((resolve: Resolve<T>) => {
+    const promise: Promise<T> = new Promise<T>((resolve: Resolve<T>, reject: Reject<QuantizationError>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.map<void>((value: T) => {
         resolve(value);
       });
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.recover<void>();
+      this.recover(() => {
+        reject(new QuantizationError('IS ABSENT'));
+      });
     });
 
     return promise.then<T1, T2>(onfulfilled, onrejected);
@@ -204,8 +208,9 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
     });
   }
 
-  private recover<U>(): Quantization<T | U> {
-    return this.transpose<T | U>();
+  private recover(mapper: Peek): void {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.handleAbsent(AbsentExecutor.of(mapper));
   }
 
   private handlePresent(executor: IPresentExecutor<T>): Promise<void> {
