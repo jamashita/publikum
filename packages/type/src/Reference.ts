@@ -1,16 +1,16 @@
 import { Kind } from './Kind';
 
-type Vague = Readonly<{
+type Inconnu = Readonly<{
   [key: string]: unknown;
 }>;
 
 export class Reference {
   public static isCircular(value: unknown): boolean {
-    return !Reference.isSerializable(value, new Set<unknown>());
+    return !Reference.isSerializable(value, new WeakSet<object>());
   }
 
-  private static isSerializable(value: unknown, visitStack: Set<unknown>): boolean {
-    if (!Kind.isObject<Vague>(value)) {
+  private static isSerializable(value: unknown, visitStack: WeakSet<object>): boolean {
+    if (!Kind.isObject<Inconnu>(value)) {
       return true;
     }
     if (visitStack.has(value)) {
