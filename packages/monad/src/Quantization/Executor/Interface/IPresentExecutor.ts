@@ -1,6 +1,6 @@
 import { Noun } from '@jamashita/publikum-interface';
 
-type PresentExecutorType = 'PresentExecutor' | 'PresentNothingExecutor';
+type PresentExecutorType = 'PresentExecutor' | 'PresentNothingExecutor' | 'PeekExecutor';
 
 export interface IPresentExecutor<T, N extends PresentExecutorType = PresentExecutorType> extends Noun<N> {
   readonly noun: N;

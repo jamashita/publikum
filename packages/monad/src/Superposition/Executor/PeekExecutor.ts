@@ -11,7 +11,7 @@ export class PeekExecutor<S, F extends Error>
   private readonly peek: Peek;
 
   public static of<S, F extends Error>(peek: Peek): PeekExecutor<S, F> {
-    return new PeekExecutor(peek);
+    return new PeekExecutor<S, F>(peek);
   }
 
   protected constructor(peek: Peek) {
