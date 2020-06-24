@@ -3,6 +3,7 @@ export type Nullable<T> = T | null;
 export type Ambiguous<T> = T | undefined;
 export type Omittable<T> = T | void;
 export type Suspicious<T> = T | null | undefined;
+export type Nihil = void | undefined | null;
 export type Vague<T extends object> = {
   [P in keyof T]: unknown;
 };
