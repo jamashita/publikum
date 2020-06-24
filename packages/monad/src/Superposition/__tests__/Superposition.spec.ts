@@ -767,7 +767,7 @@ describe('Superposition', () => {
         return true;
       });
       const superposition3: Superposition<number, MockError | SuperpositionError> = superposition1.filter(() => {
-        return true;
+        return false;
       });
 
       const shcrodiner1: Schrodinger<number, MockError | SuperpositionError> = await superposition2.get();
@@ -797,7 +797,7 @@ describe('Superposition', () => {
         return true;
       });
       const superposition3: Superposition<void, MockError | SuperpositionError> = superposition1.filter(() => {
-        return true;
+        return false;
       });
 
       expect(superposition1).toBe(superposition2);

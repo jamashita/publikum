@@ -1,5 +1,7 @@
 import sinon, { SinonSpy } from 'sinon';
 
+import { Resolve } from '@jamashita/publikum-type';
+
 import { Absent } from '../Absent';
 import { QuantizationError } from '../Error/QuantizationError';
 import { Heisenberg } from '../Interface/Heisenberg';
@@ -231,6 +233,80 @@ describe('Quantization', () => {
 
       await expect(quantization1).resolves.toBe(value);
       await expect(quantization2).rejects.toThrow(QuantizationError);
+    });
+  });
+
+  describe('filter', () => {
+    it('present: predicate returns true', async () => {
+      const value: number = -201;
+
+      const quantization1: Quantization<number> = Quantization.present(value);
+      const quantization2: Quantization<number> = quantization1.filter(() => {
+        return true;
+      });
+
+      const heisenberg: Heisenberg<number> = await quantization2.get();
+
+      expect(heisenberg.isPresent()).toBe(true);
+      expect(heisenberg.get()).toBe(value);
+    });
+
+    it('present: predicate returns false', async () => {
+      const value: number = -201;
+
+      const quantization1: Quantization<number> = Quantization.present(value);
+      const quantization2: Quantization<number> = quantization1.filter(() => {
+        return false;
+      });
+
+      const heisenberg: Heisenberg<number> = await quantization2.get();
+
+      expect(heisenberg.isAbsent()).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(QuantizationError);
+    });
+
+    it('absent: returns itself inspite of the return value of filter', async () => {
+      const quantization1: Quantization<number> = Quantization.absent();
+      const quantization2: Quantization<number> = quantization1.filter(() => {
+        return true;
+      });
+      const quantization3: Quantization<number> = quantization1.filter(() => {
+        return false;
+      });
+      const heisenberg1: Heisenberg<number> = await quantization2.get();
+      const heisenberg2: Heisenberg<number> = await quantization3.get();
+
+      expect(quantization1).toBe(quantization2);
+      expect(heisenberg1.isAbsent()).toBe(true);
+      expect(() => {
+        heisenberg1.get();
+      }).toThrow(QuantizationError);
+      expect(quantization1).toBe(quantization3);
+      expect(heisenberg2.isAbsent()).toBe(true);
+      expect(() => {
+        heisenberg2.get();
+      }).toThrow(QuantizationError);
+    });
+
+    it('uncertain: predicate returns false', () => {
+      const quantization1: Quantization<void> = Quantization.present(
+        new Promise((resolve: Resolve<void>) => {
+          setTimeout(() => {
+            resolve();
+          }, 30000);
+        })
+      );
+      const quantization2: Quantization<void> = quantization1.filter(() => {
+        return true;
+      });
+      const quantization3: Quantization<void> = quantization1.filter(() => {
+        return false;
+      });
+
+      expect(quantization1).toBe(quantization2);
+      expect(quantization1).toBe(quantization3);
     });
   });
 });
