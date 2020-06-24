@@ -1,11 +1,11 @@
-import { Absent, Quantum } from '@jamashita/publikum-monad';
 import { MockNominative } from '@jamashita/publikum-object';
+import { Nullable } from '@jamashita/publikum-type';
 
 import { MockASequence } from '../Mock/MockASequence';
 
 describe('ASequence', () => {
   describe('get', () => {
-    it('returns Present instance at the correct index', () => {
+    it('returns its value at the correct index', () => {
       const nounArray: Array<MockNominative<number>> = [
         new MockNominative<number>(1),
         new MockNominative<number>(2),
@@ -16,11 +16,11 @@ describe('ASequence', () => {
 
       expect(nouns.size()).toBe(nounArray.length);
       for (let i: number = 0; i < nouns.size(); i++) {
-        expect(nouns.get(i).get()).toBe(nounArray[i]);
+        expect(nouns.get(i)).toBe(nounArray[i]);
       }
     });
 
-    it('returns Absent instance at out of index', () => {
+    it('returns null instance at out of index', () => {
       const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
         new MockNominative<number>(1),
         new MockNominative<number>(2),
@@ -28,8 +28,8 @@ describe('ASequence', () => {
       ]);
 
       expect(nouns.size()).toBe(3);
-      expect(nouns.get(-1)).toBeInstanceOf(Absent);
-      expect(nouns.get(3)).toBeInstanceOf(Absent);
+      expect(nouns.get(-1)).toBe(null);
+      expect(nouns.get(3)).toBe(null);
     });
   });
 
@@ -76,7 +76,7 @@ describe('ASequence', () => {
 
       expect(nouns.size()).toBe(3);
       nouns.forEach((noun: MockNominative<number>, index: number) => {
-        expect(nouns.get(index).get()).toBe(noun);
+        expect(nouns.get(index)).toBe(noun);
       });
     });
   });
@@ -95,28 +95,28 @@ describe('ASequence', () => {
         noun4
       ]);
 
-      const found1: Quantum<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found1: Nullable<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() === 1) {
           return true;
         }
 
         return false;
       });
-      const found2: Quantum<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found2: Nullable<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() === 2) {
           return true;
         }
 
         return false;
       });
-      const found3: Quantum<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found3: Nullable<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() % 2 === 0) {
           return true;
         }
 
         return false;
       });
-      const found4: Quantum<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found4: Nullable<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() > 1000) {
           return true;
         }
@@ -124,13 +124,10 @@ describe('ASequence', () => {
         return false;
       });
 
-      expect(found1.isPresent()).toBe(true);
-      expect(found1.get()).toBe(noun1);
-      expect(found2.isPresent()).toBe(true);
-      expect(found2.get()).toBe(noun2);
-      expect(found3.isPresent()).toBe(true);
-      expect(found3.get()).toBe(noun2);
-      expect(found4.isAbsent()).toBe(true);
+      expect(found1).toBe(noun1);
+      expect(found2).toBe(noun2);
+      expect(found3).toBe(noun2);
+      expect(found4).toBe(null);
     });
   });
 
@@ -439,7 +436,7 @@ describe('ASequence', () => {
 
       expect(nouns.size()).toBe(nounArray.length);
       for (let i: number = 0; i < nounArray.length; i++) {
-        expect(nouns.get(i).get()).toBe(nounArray[i]);
+        expect(nouns.get(i)).toBe(nounArray[i]);
       }
     });
 

@@ -1,6 +1,5 @@
 import { Equalable, Noun, Serializable } from '@jamashita/publikum-interface';
-import { Quantum } from '@jamashita/publikum-monad';
-import { Enumerator } from '@jamashita/publikum-type';
+import { Enumerator, Nullable } from '@jamashita/publikum-type';
 
 import { Pair } from '../Pair';
 
@@ -8,7 +7,7 @@ export interface Collection<T extends Collection<T, K, V, N>, K, V, N extends st
   extends Equalable<T>,
     Serializable,
     Noun<N> {
-  get(key: K): Quantum<V>;
+  get(key: K): Nullable<V>;
 
   contains(value: V): boolean;
 

@@ -1,6 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Absent, Present, Quantum } from '@jamashita/publikum-monad';
-import { Ambiguous, Enumerator, Predicate } from '@jamashita/publikum-type';
+import { Ambiguous, Enumerator, Nullable, Predicate } from '@jamashita/publikum-type';
 
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
@@ -23,9 +22,9 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
 
   public abstract duplicate(): Address<E, N>;
 
-  public get(key: void): Quantum<E>;
-  public get(): Quantum<E> {
-    return Absent.of<E>();
+  public get(key: void): Nullable<E>;
+  public get(): Nullable<E> {
+    return null;
   }
 
   public contains(value: E): boolean {
@@ -67,14 +66,14 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     });
   }
 
-  public find(predicate: Predicate<E>): Quantum<E> {
+  public find(predicate: Predicate<E>): Nullable<E> {
     const element: Ambiguous<E> = this.traverse(predicate);
 
     if (element === undefined) {
-      return Absent.of<E>();
+      return null;
     }
 
-    return Present.of<E>(element);
+    return element;
   }
 
   private traverse(predicate: Predicate<E>): Ambiguous<E> {

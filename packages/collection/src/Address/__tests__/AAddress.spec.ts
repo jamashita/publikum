@@ -1,6 +1,5 @@
-import { Absent, Quantum } from '@jamashita/publikum-monad';
 import { MockNominative } from '@jamashita/publikum-object';
-import { Predicate } from '@jamashita/publikum-type';
+import { Nullable, Predicate } from '@jamashita/publikum-type';
 
 import { MockAAddress } from '../Mock/MockAAddress';
 
@@ -13,9 +12,9 @@ describe('AAddress', () => {
       const nouns2: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set([noun1]));
 
       expect(nouns1.size()).toBe(0);
-      expect(nouns2.get()).toBeInstanceOf(Absent);
+      expect(nouns2.get()).toBe(null);
       expect(nouns2.size()).toBe(1);
-      expect(nouns2.get()).toBeInstanceOf(Absent);
+      expect(nouns2.get()).toBe(null);
     });
   });
 
@@ -101,28 +100,28 @@ describe('AAddress', () => {
         ])
       );
 
-      const found1: Quantum<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found1: Nullable<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() === 1) {
           return true;
         }
 
         return false;
       });
-      const found2: Quantum<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found2: Nullable<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() === 2) {
           return true;
         }
 
         return false;
       });
-      const found3: Quantum<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found3: Nullable<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() % 2 === 0) {
           return true;
         }
 
         return false;
       });
-      const found4: Quantum<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found4: Nullable<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
         if (mock.get() > 1000) {
           return true;
         }
@@ -130,13 +129,10 @@ describe('AAddress', () => {
         return false;
       });
 
-      expect(found1.isPresent()).toBe(true);
-      expect(found1.get()).toBe(noun1);
-      expect(found2.isPresent()).toBe(true);
-      expect(found2.get()).toBe(noun2);
-      expect(found3.isPresent()).toBe(true);
-      expect(found3.get()).toBe(noun2);
-      expect(found4.isAbsent()).toBe(true);
+      expect(found1).toBe(noun1);
+      expect(found2).toBe(noun2);
+      expect(found3).toBe(noun2);
+      expect(found4).toBe(null);
     });
   });
 

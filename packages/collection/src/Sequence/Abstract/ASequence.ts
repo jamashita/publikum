@@ -1,6 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Absent, Present, Quantum } from '@jamashita/publikum-monad';
-import { Ambiguous, BinaryPredicate, Enumerator, Mapper, Predicate } from '@jamashita/publikum-type';
+import { Ambiguous, BinaryPredicate, Enumerator, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
 
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
@@ -25,14 +24,14 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
 
   public abstract duplicate(): Sequence<E, N>;
 
-  public get(index: number): Quantum<E> {
+  public get(index: number): Nullable<E> {
     const element: Ambiguous<E> = this.elements[index];
 
     if (element === undefined) {
-      return Absent.of<E>();
+      return null;
     }
 
-    return Present.of<E>(element);
+    return element;
   }
 
   public contains(value: E): boolean {
@@ -71,14 +70,14 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
     this.elements.forEach(iteration);
   }
 
-  public find(predicate: Predicate<E>): Quantum<E> {
+  public find(predicate: Predicate<E>): Nullable<E> {
     const element: Ambiguous<E> = this.elements.find(predicate);
 
     if (element === undefined) {
-      return Absent.of<E>();
+      return null;
     }
 
-    return Present.of<E>(element);
+    return element;
   }
 
   public every(predicate: BinaryPredicate<E, number>): boolean {

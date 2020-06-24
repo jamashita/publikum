@@ -103,7 +103,7 @@ describe('ImmutableProject', () => {
       expect(nouns1).not.toBe(nouns2);
       expect(nouns1.size()).toBe(1);
       expect(nouns2.size()).toBe(1);
-      expect(nouns2.get(noun1).get()).toBe(noun3);
+      expect(nouns2.get(noun1)).toBe(noun3);
     });
   });
 

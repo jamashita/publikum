@@ -1,4 +1,5 @@
 import { MockNominative } from '@jamashita/publikum-object';
+import { Nullable } from '@jamashita/publikum-type';
 
 import { ImmutableSequence } from '../ImmutableSequence';
 
@@ -64,7 +65,7 @@ describe('ImmutableSequence', () => {
       expect(nouns1).not.toBe(nouns2);
       expect(nouns1.size()).toBe(0);
       expect(nouns2.size()).toBe(1);
-      expect(nouns2.get(0).get()).toBe(noun1);
+      expect(nouns2.get(0)).toBe(noun1);
 
       const nouns3: ImmutableSequence<MockNominative<number>> = nouns2.add(noun2);
 
@@ -74,8 +75,8 @@ describe('ImmutableSequence', () => {
       expect(nouns1.size()).toBe(0);
       expect(nouns2.size()).toBe(1);
       expect(nouns3.size()).toBe(2);
-      expect(nouns3.get(0).get()).toBe(noun1);
-      expect(nouns3.get(1).get()).toBe(noun2);
+      expect(nouns3.get(0)).toBe(noun1);
+      expect(nouns3.get(1)).toBe(noun2);
 
       const nouns4: ImmutableSequence<MockNominative<number>> = nouns3.add(noun3);
 
@@ -86,9 +87,9 @@ describe('ImmutableSequence', () => {
       expect(nouns2.size()).toBe(1);
       expect(nouns3.size()).toBe(2);
       expect(nouns4.size()).toBe(3);
-      expect(nouns4.get(0).get()).toBe(noun1);
-      expect(nouns4.get(1).get()).toBe(noun2);
-      expect(nouns4.get(2).get()).toBe(noun3);
+      expect(nouns4.get(0)).toBe(noun1);
+      expect(nouns4.get(1)).toBe(noun2);
+      expect(nouns4.get(2)).toBe(noun3);
     });
 
     it('apply spread syntax', () => {
@@ -106,8 +107,8 @@ describe('ImmutableSequence', () => {
       expect(nouns1).not.toBe(nouns2);
       expect(nouns1.size()).toBe(0);
       expect(nouns2.size()).toBe(2);
-      expect(nouns2.get(0).get()).toBe(noun1);
-      expect(nouns2.get(1).get()).toBe(noun2);
+      expect(nouns2.get(0)).toBe(noun1);
+      expect(nouns2.get(1)).toBe(noun2);
 
       const nouns3: ImmutableSequence<MockNominative<number>> = nouns2.add(noun3, noun4);
 
@@ -116,10 +117,10 @@ describe('ImmutableSequence', () => {
       expect(nouns1.size()).toBe(0);
       expect(nouns2.size()).toBe(2);
       expect(nouns3.size()).toBe(4);
-      expect(nouns3.get(0).get()).toBe(noun1);
-      expect(nouns3.get(1).get()).toBe(noun2);
-      expect(nouns3.get(2).get()).toBe(noun3);
-      expect(nouns3.get(3).get()).toBe(noun4);
+      expect(nouns3.get(0)).toBe(noun1);
+      expect(nouns3.get(1)).toBe(noun2);
+      expect(nouns3.get(2)).toBe(noun3);
+      expect(nouns3.get(3)).toBe(noun4);
     });
   });
 
@@ -154,7 +155,14 @@ describe('ImmutableSequence', () => {
 
       expect(nouns2.size()).toBe(nouns1.size());
       nouns2.forEach((noun: MockNominative<string>, index: number) => {
-        const value: number = nouns1.get(index).get().get() ** 2;
+        const mock: Nullable<MockNominative<number>> = nouns1.get(index);
+
+        if (mock === null) {
+          // eslint-disable-next-line jest/no-jasmine-globals
+          fail();
+        }
+
+        const value: number = mock.get() ** 2;
 
         expect(noun.get()).toBe(value.toString());
       });
@@ -216,10 +224,10 @@ describe('ImmutableSequence', () => {
       });
 
       expect(filtered1.size()).toBe(2);
-      expect(filtered1.get(0).get()).toBe(noun2);
-      expect(filtered1.get(1).get()).toBe(noun4);
+      expect(filtered1.get(0)).toBe(noun2);
+      expect(filtered1.get(1)).toBe(noun4);
       expect(filtered2.size()).toBe(1);
-      expect(filtered2.get(0).get()).toBe(noun4);
+      expect(filtered2.get(0)).toBe(noun4);
       expect(filtered3.size()).toBe(0);
     });
 
@@ -253,7 +261,7 @@ describe('ImmutableSequence', () => {
       expect(nouns1.size()).toBe(nouns2.size());
       expect(nouns1).not.toBe(nouns2);
       for (let i: number = 0; i < nouns2.size(); i++) {
-        expect(nouns1.get(i).get()).toBe(nouns2.get(i).get());
+        expect(nouns1.get(i)).toBe(nouns2.get(i));
       }
     });
 

@@ -1,6 +1,5 @@
-import { Quantum } from '@jamashita/publikum-monad';
 import { Objet } from '@jamashita/publikum-object';
-import { Enumerator } from '@jamashita/publikum-type';
+import { Enumerator, Nullable } from '@jamashita/publikum-type';
 
 import { Collection } from './Interface/Collection';
 import { Pair } from './Pair';
@@ -11,7 +10,7 @@ export abstract class Quantity<T extends Quantity<T, K, V, N>, K, V, N extends s
     super();
   }
 
-  public abstract get(key: K): Quantum<V>;
+  public abstract get(key: K): Nullable<V>;
 
   public abstract contains(value: V): boolean;
 

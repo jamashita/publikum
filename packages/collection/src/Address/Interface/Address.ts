@@ -1,6 +1,5 @@
 import { Cloneable, Nominative } from '@jamashita/publikum-interface';
-import { Quantum } from '@jamashita/publikum-monad';
-import { Predicate } from '@jamashita/publikum-type';
+import { Nullable, Predicate } from '@jamashita/publikum-type';
 
 import { Collection } from '../../Interface/Collection';
 
@@ -12,7 +11,7 @@ export interface Address<E extends Nominative<E>, N extends string = string>
 
   remove(element: E): Address<E, N>;
 
-  find(predicate: Predicate<E>): Quantum<E>;
+  find(predicate: Predicate<E>): Nullable<E>;
 
   every(predicate: Predicate<E>): boolean;
 

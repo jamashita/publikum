@@ -1,6 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Absent, Present, Quantum } from '@jamashita/publikum-monad';
-import { Ambiguous, BinaryPredicate, Enumerator } from '@jamashita/publikum-type';
+import { Ambiguous, BinaryPredicate, Enumerator, Nullable } from '@jamashita/publikum-type';
 
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
@@ -23,14 +22,14 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
 
   public abstract duplicate(): Project<K, V, N>;
 
-  public get(key: K): Quantum<V> {
+  public get(key: K): Nullable<V> {
     const element: Ambiguous<Pair<K, V>> = this.elements.get(key.hashCode());
 
     if (element === undefined) {
-      return Absent.of<V>();
+      return null;
     }
 
-    return Present.of<V>(element.getValue());
+    return element.getValue();
   }
 
   public has(key: K): boolean {
@@ -99,10 +98,10 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
     }
 
     return this.every((key: K, value: V) => {
-      const quantum: Quantum<V> = other.get(key);
+      const v: Nullable<V> = other.get(key);
 
-      if (quantum.isPresent()) {
-        if (value.equals(quantum.get())) {
+      if (v !== null) {
+        if (value.equals(v)) {
           return true;
         }
       }

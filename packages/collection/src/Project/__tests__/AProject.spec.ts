@@ -1,4 +1,3 @@
-import { Absent } from '@jamashita/publikum-monad';
 import { MockNominative } from '@jamashita/publikum-object';
 import { BinaryPredicate } from '@jamashita/publikum-type';
 
@@ -23,12 +22,12 @@ describe('AProject', () => {
       );
 
       expect(nouns1.size()).toEqual(0);
-      expect(nouns1.get(noun1)).toBeInstanceOf(Absent);
-      expect(nouns1.get(noun2)).toBeInstanceOf(Absent);
+      expect(nouns1.get(noun1)).toBe(null);
+      expect(nouns1.get(noun2)).toBe(null);
       expect(nouns2.size()).toEqual(1);
-      expect(nouns2.get(noun1).get()).toBe(noun2);
-      expect(nouns2.get(noun2)).toBeInstanceOf(Absent);
-      expect(nouns2.get(noun3).get()).toBe(noun2);
+      expect(nouns2.get(noun1)).toBe(noun2);
+      expect(nouns2.get(noun2)).toBe(null);
+      expect(nouns2.get(noun3)).toBe(noun2);
     });
   });
 

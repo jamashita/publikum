@@ -1,6 +1,5 @@
 import { Cloneable, Nominative } from '@jamashita/publikum-interface';
-import { Quantum } from '@jamashita/publikum-monad';
-import { BinaryPredicate, Enumerator, Mapper, Predicate } from '@jamashita/publikum-type';
+import { BinaryPredicate, Enumerator, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
 
 import { Collection } from '../../Interface/Collection';
 
@@ -17,7 +16,7 @@ export interface Sequence<E extends Nominative<E>, N extends string = string>
 
   map<F extends Nominative<F>>(mapper: Mapper<E, F>): Sequence<F, N>;
 
-  find(predicate: Predicate<E>): Quantum<E>;
+  find(predicate: Predicate<E>): Nullable<E>;
 
   filter(iterator: Enumerator<number, E>): Sequence<E, N>;
 
