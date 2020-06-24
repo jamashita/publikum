@@ -131,12 +131,11 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
       }
 
       self.heisenberg = Present.of<T>(value);
+      done = true;
 
       const promises: Array<Promise<void>> = self.mapLaters.map<Promise<void>>((later: IPresentExecutor<T>) => {
         return later.onPresent(value);
       });
-
-      done = true;
 
       return Promise.all<void>(promises);
     };
@@ -151,12 +150,11 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
       }
 
       self.heisenberg = Absent.of<T>();
+      done = true;
 
       const promises: Array<Promise<void>> = self.recoverLaters.map<Promise<void>>((later: IAbsentExecutor) => {
         return later.onAbsent();
       });
-
-      done = true;
 
       return Promise.all<void>(promises);
     };
@@ -225,10 +223,10 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
     });
   }
 
-  public recover<U>(mapper: Supplier<PromiseLike<Suspicious<U>>>): Quantization<T | U>;
-  public recover<U>(mapper: Supplier<Quantization<U>>): Quantization<T | U>;
-  public recover<U>(mapper: Supplier<Suspicious<U>>): Quantization<T | U>;
-  public recover<U>(
+  private recover<U>(mapper: Supplier<PromiseLike<Suspicious<U>>>): Quantization<T | U>;
+  private recover<U>(mapper: Supplier<Quantization<U>>): Quantization<T | U>;
+  private recover<U>(mapper: Supplier<Suspicious<U>>): Quantization<T | U>;
+  private recover<U>(
     mapper: Supplier<PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U>>
   ): Quantization<T | U> {
     return Quantization.of<T | U>((resolve: Resolve<T | U>, reject: Reject<void>) => {
@@ -249,7 +247,7 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
       return executor.onPresent(this.heisenberg.get());
     }
 
-    return Promise.reject(new UnimplementedError());
+    return Promise.resolve();
   }
 
   private handleAbsent(executor: IAbsentExecutor): Promise<void> {
@@ -262,7 +260,7 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
       return executor.onAbsent();
     }
 
-    return Promise.reject(new UnimplementedError());
+    return Promise.resolve();
   }
 
   private transpose<S>(): Quantization<S> {
