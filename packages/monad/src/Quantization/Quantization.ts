@@ -12,10 +12,12 @@ import {
   UnaryFunction
 } from '@jamashita/publikum-type';
 
+import { Consumer } from '../../../type/src/Function';
 import { Superposition } from '../Superposition/Superposition';
 import { Absent } from './Absent';
 import { QuantizationError } from './Error/QuantizationError';
 import { AbsentNothingExecutor } from './Executor/AbsentNothingExecutor';
+import { ConsumerExecutor } from './Executor/ConsumerExecutor';
 import { IAbsentExecutor } from './Executor/Interface/IAbsentExecutor';
 import { IPresentExecutor } from './Executor/Interface/IPresentExecutor';
 import { PeekExecutor } from './Executor/PeekExecutor';
@@ -173,13 +175,14 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
     onrejected?: Suspicious<UnaryFunction<unknown, T2 | PromiseLike<T2>>>
   ): PromiseLike<T1 | T2> {
     const promise: Promise<T> = new Promise<T>((resolve: Resolve<T>, reject: Reject<QuantizationError>) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.map<void>((value: T) => {
-        resolve(value);
-      });
-      this.peek(() => {
-        reject(new QuantizationError('IS ABSENT'));
-      });
+      this.pass(
+        (value: T) => {
+          resolve(value);
+        },
+        () => {
+          reject(new QuantizationError('IS ABSENT'));
+        }
+      );
     });
 
     return promise.then<T1, T2>(onfulfilled, onrejected);
@@ -215,6 +218,13 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.handleAbsent(AbsentNothingExecutor.of(reject));
     });
+  }
+
+  private pass(present: Consumer<T>, absent: Peek): void {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.handlePresent(ConsumerExecutor.of<T>(present));
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.handleAbsent(PeekExecutor.of<T>(absent));
   }
 
   private peek(peek: Peek): void {

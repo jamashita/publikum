@@ -1,3 +1,5 @@
+import sinon, { SinonSpy } from 'sinon';
+
 import { Absent } from '../Absent';
 import { QuantizationError } from '../Error/QuantizationError';
 import { Heisenberg } from '../Interface/Heisenberg';
@@ -136,6 +138,69 @@ describe('Quantization', () => {
 
       expect(quantization1).toBe(present);
       expect(quantization2).toBe(absent);
+    });
+  });
+
+  describe('ofPromise', () => {
+    it('quantization case: returns itself', () => {
+      const present: Quantization<number> = Quantization.present(3);
+      const absent: Quantization<number> = Quantization.absent();
+
+      const quantization1: Quantization<number> = Quantization.ofPromise<number>(present);
+      const quantization2: Quantization<number> = Quantization.ofPromise<number>(absent);
+
+      expect(quantization1).toBe(present);
+      expect(quantization2).toBe(absent);
+    });
+
+    it('resolved case', async () => {
+      const value: number = 3;
+      const promise: Promise<number> = Promise.resolve<number>(value);
+      const quantization: Quantization<number> = Quantization.ofPromise(promise);
+
+      const spy1: SinonSpy = sinon.spy();
+
+      await quantization.map((v: number) => {
+        spy1();
+        expect(v).toBe(value);
+
+        return v + 1;
+      });
+
+      expect(spy1.called).toBe(true);
+    });
+
+    it('rejected case', async () => {
+      const promise1: Promise<void> = Promise.resolve();
+      const promise2: Promise<undefined> = Promise.resolve(undefined);
+      const promise3: Promise<null> = Promise.resolve(null);
+      const quantization1: Quantization<void> = Quantization.ofPromise(promise1);
+      const quantization2: Quantization<undefined> = Quantization.ofPromise(promise2);
+      const quantization3: Quantization<null> = Quantization.ofPromise(promise3);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await expect(
+        quantization1.map(() => {
+          spy1();
+        })
+      ).rejects.toThrow(QuantizationError);
+      await expect(
+        quantization2.map(() => {
+          spy2();
+        })
+      ).rejects.toThrow(QuantizationError);
+      await expect(
+        quantization3.map(() => {
+          spy3();
+        })
+      ).rejects.toThrow(QuantizationError);
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
     });
   });
 });
