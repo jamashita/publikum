@@ -45,7 +45,8 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     const promises: Promise<Array<Schrodinger<S, F>>> = Promise.all<Schrodinger<S, F>>(schrodingers);
 
     return Superposition.of<Array<S>, F>((resolve: Resolve<Array<S>>, reject: Reject<F>) => {
-      return promises.then<void, void>((sch: Array<Schrodinger<S, F>>) => {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      promises.then<void>((sch: Array<Schrodinger<S, F>>) => {
         const dead: Ambiguous<Dead<S, F>> = sch.find<Dead<S, F>>((s: Schrodinger<S, F>): s is Dead<S, F> => {
           return s.isDead();
         });
@@ -73,16 +74,16 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
   ): Superposition<S, F> {
     // prettier-ignore
     try {
-      const result: PromiseLike<S> | Superposition<S, F> | S = supplier();
+      const value: PromiseLike<S> | Superposition<S, F> | S = supplier();
 
-      if (result instanceof Superposition) {
-        return result;
+      if (value instanceof Superposition) {
+        return value;
       }
-      if (Kind.isPromiseLike(result)) {
-        return Superposition.ofPromise<S, F>(result);
+      if (Kind.isPromiseLike(value)) {
+        return Superposition.ofPromise<S, F>(value);
       }
 
-      return Superposition.alive<S, F>(result);
+      return Superposition.alive<S, F>(value);
     }
     catch (err) {
       return Superposition.dead<S, F>(err);
@@ -158,12 +159,11 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
       }
 
       self.schrodinger = Alive.of<S, F>(value);
+      done = true;
 
       const promises: Array<Promise<void>> = self.mapLaters.map<Promise<void>>((later: IAliveExecutor<S>) => {
         return later.onAlive(value);
       });
-
-      done = true;
 
       return Promise.all<void>(promises);
     };
@@ -178,12 +178,11 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
       }
 
       self.schrodinger = Dead.of<S, F>(err);
+      done = true;
 
       const promises: Array<Promise<void>> = self.recoverLaters.map<Promise<void>>((later: IDeadExecutor<F>) => {
         return later.onDead(err);
       });
-
-      done = true;
 
       return Promise.all<void>(promises);
     };
