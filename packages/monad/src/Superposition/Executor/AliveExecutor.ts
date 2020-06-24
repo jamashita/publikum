@@ -3,7 +3,7 @@ import { Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 import { Superposition } from '../Superposition';
 import { IAliveExecutor } from './Interface/IAliveExecutor';
 
-export class AliveExecutor<S, T, E extends Error> implements IAliveExecutor<S> {
+export class AliveExecutor<S, T, E extends Error> implements IAliveExecutor<S, 'AliveExecutor'> {
   public readonly noun: 'AliveExecutor' = 'AliveExecutor';
   private readonly mapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>;
   private readonly resolve: Resolve<T>;

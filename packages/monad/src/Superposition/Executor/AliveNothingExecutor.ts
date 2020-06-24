@@ -4,8 +4,8 @@ import { IAliveExecutor } from './Interface/IAliveExecutor';
 
 const promise: Promise<void> = Promise.resolve();
 
-export class AliveNothingExecutor<S> implements IAliveExecutor<S> {
-  public readonly noun: 'AliveExecutor' = 'AliveExecutor';
+export class AliveNothingExecutor<S> implements IAliveExecutor<S, 'AliveNothingExecutor'> {
+  public readonly noun: 'AliveNothingExecutor' = 'AliveNothingExecutor';
   private readonly resolve: Resolve<S>;
 
   public static of<S>(resolve: Resolve<S>): AliveNothingExecutor<S> {

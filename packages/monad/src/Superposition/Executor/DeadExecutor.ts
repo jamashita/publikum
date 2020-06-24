@@ -3,7 +3,7 @@ import { Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 import { Superposition } from '../Superposition';
 import { IDeadExecutor } from './Interface/IDeadExecutor';
 
-export class DeadExecutor<T, F extends Error, E extends Error> implements IDeadExecutor<F> {
+export class DeadExecutor<T, F extends Error, E extends Error> implements IDeadExecutor<F, 'DeadExecutor'> {
   public readonly noun: 'DeadExecutor' = 'DeadExecutor';
   private readonly mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>;
   private readonly resolve: Resolve<T>;

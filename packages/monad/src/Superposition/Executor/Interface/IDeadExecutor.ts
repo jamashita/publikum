@@ -1,7 +1,9 @@
 import { Noun } from '@jamashita/publikum-interface';
 
-export interface IDeadExecutor<F extends Error> extends Noun<'DeadExecutor'> {
-  readonly noun: 'DeadExecutor';
+type DeadExecutorType = 'DeadExecutor' | 'DeadNothingExecutor';
+
+export interface IDeadExecutor<F extends Error, N extends DeadExecutorType = DeadExecutorType> extends Noun<N> {
+  readonly noun: N;
 
   onDead(err: F): Promise<void>;
 }

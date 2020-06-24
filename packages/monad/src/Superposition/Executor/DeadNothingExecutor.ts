@@ -4,8 +4,8 @@ import { IDeadExecutor } from './Interface/IDeadExecutor';
 
 const promise: Promise<void> = Promise.resolve();
 
-export class DeadNothingExecutor<F extends Error> implements IDeadExecutor<F> {
-  public readonly noun: 'DeadExecutor' = 'DeadExecutor';
+export class DeadNothingExecutor<F extends Error> implements IDeadExecutor<F, 'DeadNothingExecutor'> {
+  public readonly noun: 'DeadNothingExecutor' = 'DeadNothingExecutor';
   private readonly reject: Reject<F>;
 
   public static of<F extends Error>(reject: Reject<F>): DeadNothingExecutor<F> {
