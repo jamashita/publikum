@@ -1,20 +1,10 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
 import { Noun } from '@jamashita/publikum-interface';
-import {
-  BinaryFunction,
-  Kind,
-  Predicate,
-  Reject,
-  Resolve,
-  Supplier,
-  Suspicious,
-  UnaryFunction
-} from '@jamashita/publikum-type';
+import { BinaryFunction, Kind, Predicate, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Superposition } from '../Superposition/Superposition';
 import { Absent } from './Absent';
 import { QuantizationError } from './Error/QuantizationError';
-import { AbsentExecutor } from './Executor/AbsentExecutor';
 import { AbsentNothingExecutor } from './Executor/AbsentNothingExecutor';
 import { IAbsentExecutor } from './Executor/Interface/IAbsentExecutor';
 import { IPresentExecutor } from './Executor/Interface/IPresentExecutor';
@@ -90,24 +80,20 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
     }
 
     return Quantization.of<T>((resolve: Resolve<T>, reject: Reject<void>) => {
-      promise.then<void, void>(
-        (value: Suspicious<T>) => {
-          switch (value) {
-            case null:
-            case undefined: {
-              reject();
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      promise.then<void>((value: Suspicious<T>) => {
+        switch (value) {
+          case null:
+          case undefined: {
+            reject();
 
-              return;
-            }
-            default: {
-              resolve(value);
-            }
+            return;
           }
-        },
-        () => {
-          reject();
+          default: {
+            resolve(value);
+          }
         }
-      );
+      });
     });
   }
 
@@ -167,9 +153,7 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
         resolve(this.heisenberg);
       });
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.recover<void>(() => {
-        resolve(this.heisenberg);
-      });
+      this.recover<void>();
     });
   }
 
@@ -177,15 +161,13 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
     onfulfilled?: Suspicious<UnaryFunction<T, T1 | PromiseLike<T1>>>,
     onrejected?: Suspicious<UnaryFunction<unknown, T2 | PromiseLike<T2>>>
   ): PromiseLike<T1 | T2> {
-    const promise: Promise<T> = new Promise<T>((resolve: Resolve<T>, reject: Reject<QuantizationError>) => {
+    const promise: Promise<T> = new Promise<T>((resolve: Resolve<T>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.map<void>((value: T) => {
         resolve(value);
       });
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.recover<void>(() => {
-        reject(new QuantizationError('IS ABSENT'));
-      });
+      this.recover<void>();
     });
 
     return promise.then<T1, T2>(onfulfilled, onrejected);
@@ -200,10 +182,10 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
       return Quantization.absent<T>();
     }
     if (this.heisenberg.isAbsent()) {
-      return Quantization.absent<T>();
+      return this;
     }
     if (this.heisenberg.isUncertain()) {
-      return Quantization.absent<T>();
+      return this;
     }
 
     throw new UnimplementedError();
@@ -223,17 +205,12 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
     });
   }
 
-  private recover<U>(mapper: Supplier<PromiseLike<Suspicious<U>>>): Quantization<T | U>;
-  private recover<U>(mapper: Supplier<Quantization<U>>): Quantization<T | U>;
-  private recover<U>(mapper: Supplier<Suspicious<U>>): Quantization<T | U>;
-  private recover<U>(
-    mapper: Supplier<PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U>>
-  ): Quantization<T | U> {
+  private recover<U>(): Quantization<T | U> {
     return Quantization.of<T | U>((resolve: Resolve<T | U>, reject: Reject<void>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.handlePresent(PresentNothingExecutor.of<T>(resolve));
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.handleAbsent(AbsentExecutor.of<U>(mapper, resolve, reject));
+      this.handleAbsent(AbsentNothingExecutor.of(reject));
     });
   }
 
