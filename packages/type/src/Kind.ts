@@ -141,8 +141,7 @@ export class Kind {
     if (!Kind.isObject(value)) {
       return false;
     }
-    // eslint-disable-next-line @typescript-eslint/no-base-to-string
-    if (value.toString() !== LITERAL_TOSTRING) {
+    if (Object.prototype.toString.call(value) !== LITERAL_TOSTRING) {
       return false;
     }
     if (Reference.isCircular(value)) {
