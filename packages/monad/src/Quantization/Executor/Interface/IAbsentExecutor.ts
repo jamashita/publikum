@@ -1,7 +1,9 @@
 import { Noun } from '@jamashita/publikum-interface';
 
-export interface IAbsentExecutor extends Noun<'AbsentExecutor'> {
-  readonly noun: 'AbsentExecutor';
+type AbsentExecutorType = 'AbsentExecutor' | 'AbsentNothingExecutor';
+
+export interface IAbsentExecutor<N extends AbsentExecutorType = AbsentExecutorType> extends Noun<N> {
+  readonly noun: N;
 
   onAbsent(): Promise<void>;
 }

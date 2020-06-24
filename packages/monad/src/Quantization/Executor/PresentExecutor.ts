@@ -3,7 +3,7 @@ import { Kind, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/pub
 import { Quantization } from '../Quantization';
 import { IPresentExecutor } from './Interface/IPresentExecutor';
 
-export class PresentExecutor<T, U> implements IPresentExecutor<T> {
+export class PresentExecutor<T, U> implements IPresentExecutor<T, 'PresentExecutor'> {
   public readonly noun: 'PresentExecutor' = 'PresentExecutor';
   private readonly mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U>>;
   private readonly resolve: Resolve<U>;
@@ -31,12 +31,14 @@ export class PresentExecutor<T, U> implements IPresentExecutor<T> {
     const mapped: PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U> = this.mapper(value);
 
     if (mapped instanceof Quantization) {
-      await mapped.map<void>((v: U) => {
-        this.resolve(v);
-      });
-      await mapped.recover<void>(() => {
-        this.reject();
-      });
+      await mapped.then<void, void>(
+        (v: U) => {
+          this.resolve(v);
+        },
+        () => {
+          this.reject();
+        }
+      );
 
       return;
     }

@@ -3,7 +3,7 @@ import { Kind, Reject, Resolve, Supplier, Suspicious } from '@jamashita/publikum
 import { Quantization } from '../Quantization';
 import { IAbsentExecutor } from './Interface/IAbsentExecutor';
 
-export class AbsentExecutor<U> implements IAbsentExecutor {
+export class AbsentExecutor<U> implements IAbsentExecutor<'AbsentExecutor'> {
   public readonly noun: 'AbsentExecutor' = 'AbsentExecutor';
   private readonly mapper: Supplier<PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U>>;
   private readonly resolve: Resolve<U>;
@@ -31,12 +31,14 @@ export class AbsentExecutor<U> implements IAbsentExecutor {
     const mapped: PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U> = this.mapper();
 
     if (mapped instanceof Quantization) {
-      await mapped.map<void>((v: U) => {
-        this.resolve(v);
-      });
-      await mapped.recover<void>(() => {
-        this.reject();
-      });
+      await mapped.then<void, void>(
+        (v: U) => {
+          this.resolve(v);
+        },
+        () => {
+          this.reject();
+        }
+      );
 
       return;
     }

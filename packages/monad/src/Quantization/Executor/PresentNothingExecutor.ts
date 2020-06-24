@@ -4,8 +4,8 @@ import { IPresentExecutor } from './Interface/IPresentExecutor';
 
 const promise: Promise<void> = Promise.resolve();
 
-export class PresentNothingExecutor<T> implements IPresentExecutor<T> {
-  public readonly noun: 'PresentExecutor' = 'PresentExecutor';
+export class PresentNothingExecutor<T> implements IPresentExecutor<T, 'PresentNothingExecutor'> {
+  public readonly noun: 'PresentNothingExecutor' = 'PresentNothingExecutor';
   private readonly resolve: Resolve<T>;
 
   public static of<T>(resolve: Resolve<T>): PresentNothingExecutor<T> {

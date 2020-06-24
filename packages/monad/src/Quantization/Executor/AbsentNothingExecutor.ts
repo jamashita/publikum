@@ -4,8 +4,8 @@ import { IAbsentExecutor } from './Interface/IAbsentExecutor';
 
 const promise: Promise<void> = Promise.resolve();
 
-export class AbsentNothingExecutor implements IAbsentExecutor {
-  public readonly noun: 'AbsentExecutor' = 'AbsentExecutor';
+export class AbsentNothingExecutor implements IAbsentExecutor<'AbsentNothingExecutor'> {
+  public readonly noun: 'AbsentNothingExecutor' = 'AbsentNothingExecutor';
   private readonly reject: Reject<void>;
 
   public static of(reject: Reject<void>): AbsentNothingExecutor {
