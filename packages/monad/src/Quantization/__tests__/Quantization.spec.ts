@@ -221,4 +221,16 @@ describe('Quantization', () => {
       }).toThrow(QuantizationError);
     });
   });
+
+  describe('then', () => {
+    it('returns inner value', async () => {
+      const value: number = -201;
+
+      const quantization1: Quantization<number> = Quantization.present(value);
+      const quantization2: Quantization<number> = Quantization.absent();
+
+      await expect(quantization1).resolves.toBe(value);
+      await expect(quantization2).rejects.toThrow(QuantizationError);
+    });
+  });
 });
