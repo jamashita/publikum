@@ -3,6 +3,7 @@ import { Noun } from '@jamashita/publikum-interface';
 import {
   BinaryFunction,
   Kind,
+  Omittable,
   Peek,
   Predicate,
   Reject,
@@ -29,25 +30,27 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
   private readonly mapLaters: Array<IPresentExecutor<T>>;
   private readonly recoverLaters: Array<IAbsentExecutor>;
 
-  public static maybe<T>(value: PromiseLike<Suspicious<T>>): Quantization<T>;
+  public static maybe<T>(value: PromiseLike<Omittable<Suspicious<T>>>): Quantization<T>;
   public static maybe<T>(value: Quantization<T>): Quantization<T>;
-  public static maybe<T>(value: Suspicious<T>): Quantization<T>;
-  public static maybe<T>(value: PromiseLike<Suspicious<T>> | Quantization<T> | Suspicious<T>): Quantization<T> {
+  public static maybe<T>(value: Omittable<Suspicious<T>>): Quantization<T>;
+  public static maybe<T>(
+    value: PromiseLike<Omittable<Suspicious<T>>> | Quantization<T> | Omittable<Suspicious<T>>
+  ): Quantization<T> {
     if (value instanceof Quantization) {
       return value;
     }
     if (Kind.isPromiseLike(value)) {
       return Quantization.ofPromise<T>(value);
     }
-    switch (value) {
-      case null:
-      case undefined: {
-        return Quantization.absent<T>();
-      }
-      default: {
-        return Quantization.present<T>(value);
-      }
+
+    if (value === undefined) {
+      return Quantization.absent<T>();
     }
+    if (value === null) {
+      return Quantization.absent<T>();
+    }
+
+    return Quantization.present<T>(value);
   }
 
   public static present<T>(value: Quantization<T>): Quantization<T>;
@@ -66,11 +69,12 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
     });
   }
 
-  public static absent<T>(): Quantization<T>;
   public static absent<T>(value: Quantization<T>): Quantization<T>;
-  public static absent<T>(value: PromiseLike<null | undefined>): Quantization<T>;
-  public static absent<T>(value: null | undefined): Quantization<T>;
-  public static absent<T>(value?: null | undefined | PromiseLike<null | undefined> | Quantization<T>): Quantization<T> {
+  public static absent<T>(value: PromiseLike<void | undefined | null>): Quantization<T>;
+  public static absent<T>(value: void | undefined | null): Quantization<T>;
+  public static absent<T>(
+    value: void | undefined | null | PromiseLike<void | undefined | null> | Quantization<T>
+  ): Quantization<T> {
     if (value instanceof Quantization) {
       return value;
     }
@@ -83,25 +87,26 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
     });
   }
 
-  public static ofPromise<T>(promise: PromiseLike<Suspicious<T>>): Quantization<T> {
+  public static ofPromise<T>(promise: PromiseLike<Omittable<Suspicious<T>>>): Quantization<T> {
     if (promise instanceof Quantization) {
       return promise.transpose<T>();
     }
 
     return Quantization.of<T>((resolve: Resolve<T>, reject: Reject<void>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      promise.then<void>((value: Suspicious<T>) => {
-        switch (value) {
-          case null:
-          case undefined: {
-            reject();
+      promise.then<void>((value: Omittable<Suspicious<T>>) => {
+        if (value === undefined) {
+          reject();
 
-            return;
-          }
-          default: {
-            resolve(value);
-          }
+          return;
         }
+        if (value === null) {
+          reject();
+
+          return;
+        }
+
+        resolve(value);
       });
     });
   }
