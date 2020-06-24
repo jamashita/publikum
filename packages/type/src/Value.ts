@@ -6,6 +6,9 @@ export type Suspicious<T> = T | null | undefined;
 export type Vague<T extends object> = {
   [P in keyof T]: unknown;
 };
+export type Inconnu = {
+  [key: string]: unknown;
+};
 export type Matter<I> = I extends PromiseLike<infer R> ? R : I;
 export type PlainObject = {
   [key: string]: PlainObjectItem;

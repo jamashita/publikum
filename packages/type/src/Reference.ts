@@ -1,8 +1,5 @@
 import { Kind } from './Kind';
-
-type Inconnu = Readonly<{
-  [key: string]: unknown;
-}>;
+import { Inconnu } from './Value';
 
 export class Reference {
   public static isCircular(value: unknown): boolean {
