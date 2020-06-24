@@ -249,9 +249,9 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
     });
   }
 
-  public recover<T, E extends Error = F>(mapper: UnaryFunction<F, PromiseLike<T>>): Superposition<S | T, F | E>;
-  public recover<T, E extends Error>(mapper: UnaryFunction<F, Superposition<T, E>>): Superposition<S | T, F | E>;
-  public recover<T, E extends Error = F>(mapper: UnaryFunction<F, T>): Superposition<S | T, F | E>;
+  public recover<T, E extends Error = F>(mapper: UnaryFunction<F, PromiseLike<T>>): Superposition<S | T, E>;
+  public recover<T, E extends Error>(mapper: UnaryFunction<F, Superposition<T, E>>): Superposition<S | T, E>;
+  public recover<T, E extends Error = F>(mapper: UnaryFunction<F, T>): Superposition<S | T, E>;
   public recover<T, E extends Error = F>(
     mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>
   ): Superposition<S | T, E> {
