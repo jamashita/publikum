@@ -9,7 +9,6 @@ import { AbsentNothingExecutor } from './Executor/AbsentNothingExecutor';
 import { IAbsentExecutor } from './Executor/Interface/IAbsentExecutor';
 import { IPresentExecutor } from './Executor/Interface/IPresentExecutor';
 import { PresentExecutor } from './Executor/PresentExecutor';
-import { PresentNothingExecutor } from './Executor/PresentNothingExecutor';
 import { Heisenberg } from './Interface/Heisenberg';
 import { Present } from './Present';
 import { Uncertain } from './Uncertain';
@@ -206,12 +205,7 @@ export class Quantization<T> implements PromiseLike<T>, Noun<'Quantization'> {
   }
 
   private recover<U>(): Quantization<T | U> {
-    return Quantization.of<T | U>((resolve: Resolve<T | U>, reject: Reject<void>) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.handlePresent(PresentNothingExecutor.of<T>(resolve));
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.handleAbsent(AbsentNothingExecutor.of(reject));
-    });
+    return this.transpose<T | U>();
   }
 
   private handlePresent(executor: IPresentExecutor<T>): Promise<void> {
