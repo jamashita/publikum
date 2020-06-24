@@ -83,7 +83,11 @@ export class Equality {
   }
 
   private static hasProperty(obj: object, key: string): boolean {
-    return Object.prototype.hasOwnProperty.call(obj, key);
+    if (key in obj) {
+      return true;
+    }
+
+    return false;
   }
 
   private constructor() {
