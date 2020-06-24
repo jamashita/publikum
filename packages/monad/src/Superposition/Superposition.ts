@@ -36,22 +36,33 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
       return Superposition.alive<Array<S>, F>([]);
     }
 
-    const dead: Ambiguous<Superposition<S, F>> = superpositions.find((s: Superposition<S, F>) => {
-      return s.schrodinger.isDead();
+    const schrodingers: Array<Promise<Schrodinger<S, F>>> = superpositions.map<Promise<Schrodinger<S, F>>>(
+      (s: Superposition<S, F>) => {
+        return s.get();
+      }
+    );
+
+    const promises: Promise<Array<Schrodinger<S, F>>> = Promise.all<Schrodinger<S, F>>(schrodingers);
+
+    return Superposition.of<Array<S>, F>((resolve: Resolve<Array<S>>, reject: Reject<F>) => {
+      return promises.then<void, void>((sch: Array<Schrodinger<S, F>>) => {
+        const dead: Ambiguous<Dead<S, F>> = sch.find<Dead<S, F>>((s: Schrodinger<S, F>): s is Dead<S, F> => {
+          return s.isDead();
+        });
+
+        if (dead !== undefined) {
+          reject(dead.getError());
+
+          return;
+        }
+
+        const ss: Array<S> = sch.map<S>((s: Schrodinger<S, F>) => {
+          return s.get();
+        });
+
+        resolve(ss);
+      });
     });
-
-    if (dead !== undefined) {
-      return dead.transpose<Array<S>, F>();
-    }
-
-    const promises: Array<Promise<S>> = superpositions.map<Promise<S>>(async (s: Superposition<S, F>) => {
-      const schrodinger: Schrodinger<S, F> = await s.get();
-
-      return schrodinger.get();
-    });
-    const values: Promise<Array<S>> = Promise.all<S>(promises);
-
-    return Superposition.alive<Array<S>, F>(values);
   }
 
   public static playground<S, F extends Error>(supplier: Supplier<PromiseLike<S>>): Superposition<S, F>;
@@ -288,7 +299,7 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
       return executor.onAlive(this.schrodinger.get());
     }
 
-    return Promise.reject(new UnimplementedError());
+    return Promise.resolve();
   }
 
   private handleDead(executor: IDeadExecutor<F>): Promise<void> {
@@ -301,7 +312,7 @@ export class Superposition<S, F extends Error> implements PromiseLike<S>, Noun<'
       return executor.onDead(this.schrodinger.getError());
     }
 
-    return Promise.reject(new UnimplementedError());
+    return Promise.resolve();
   }
 
   private transpose<T, E extends Error>(): Superposition<T, E> {
