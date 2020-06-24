@@ -468,7 +468,7 @@ describe('Superposition', () => {
   });
 
   describe('playground', () => {
-    it('alive case', async () => {
+    it('sync alive case', async () => {
       const v: number = 2;
       const superposition: Superposition<number, MockError> = Superposition.playground<number, MockError>(() => {
         return v;
@@ -480,7 +480,7 @@ describe('Superposition', () => {
       expect(schrodinger.get()).toBe(v);
     });
 
-    it('dead case', async () => {
+    it('sync dead case', async () => {
       const e: MockError = new MockError();
       const superposition: Superposition<number, MockError> = Superposition.playground<number, MockError>(() => {
         throw e;
@@ -506,7 +506,7 @@ describe('Superposition', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('promise alive case', async () => {
+    it('async alive case', async () => {
       const v: number = 2;
       const superposition: Superposition<number, MockError> = Superposition.playground<number, MockError>(
         // eslint-disable-next-line @typescript-eslint/require-await
@@ -521,7 +521,7 @@ describe('Superposition', () => {
       expect(schrodinger.get()).toBe(v);
     });
 
-    it('promise dead case', async () => {
+    it('async dead case', async () => {
       const e: MockError = new MockError();
       const superposition: Superposition<number, MockError> = Superposition.playground<number, MockError>(
         // eslint-disable-next-line @typescript-eslint/require-await
