@@ -1,18 +1,18 @@
 import { Absent } from '../Absent';
-import { QuantizationError } from '../Error/QuantizationError';
+import { UnscharferelationError } from '../Error/UnscharferelationError';
 
 describe('Absent', () => {
   describe('get', () => {
-    it('throws QuantizationError', () => {
+    it('throws UnscharferelationError', () => {
       const absent1: Absent<void> = Absent.of();
       const absent2: Absent<number> = Absent.of<number>();
 
       expect(() => {
         absent1.get();
-      }).toThrow(QuantizationError);
+      }).toThrow(UnscharferelationError);
       expect(() => {
         absent2.get();
-      }).toThrow(QuantizationError);
+      }).toThrow(UnscharferelationError);
     });
   });
 

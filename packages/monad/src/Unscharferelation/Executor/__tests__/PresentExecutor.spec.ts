@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { Quantization } from '../../Quantization';
+import { Unscharferelation } from '../../Unscharferelation';
 import { PresentExecutor } from '../PresentExecutor';
 
 describe('PresentExecutor', () => {
@@ -65,7 +65,7 @@ describe('PresentExecutor', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('Quantization.present<T> given', async () => {
+    it('Unscharferelation.present<T> given', async () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -77,7 +77,7 @@ describe('PresentExecutor', () => {
           spy1();
           expect(n).toBe(value);
 
-          return Quantization.present<number>(n - 6);
+          return Unscharferelation.present<number>(n - 6);
         },
         (n: number) => {
           spy2();
@@ -211,7 +211,7 @@ describe('PresentExecutor', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('Quantization.absent given', async () => {
+    it('Unscharferelation.absent given', async () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -223,7 +223,7 @@ describe('PresentExecutor', () => {
           spy1();
           expect(n).toBe(value);
 
-          return Quantization.absent<number>();
+          return Unscharferelation.absent<number>();
         },
         () => {
           spy2();

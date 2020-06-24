@@ -1,16 +1,16 @@
 import { Kind, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
-import { Quantization } from '../Quantization';
+import { Unscharferelation } from '../Unscharferelation';
 import { IPresentExecutor } from './Interface/IPresentExecutor';
 
 export class PresentExecutor<T, U> implements IPresentExecutor<T, 'PresentExecutor'> {
   public readonly noun: 'PresentExecutor' = 'PresentExecutor';
-  private readonly mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U>>;
+  private readonly mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Unscharferelation<U> | Suspicious<U>>;
   private readonly resolve: Resolve<U>;
   private readonly reject: Reject<void>;
 
   public static of<T, U>(
-    mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U>>,
+    mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Unscharferelation<U> | Suspicious<U>>,
     resolve: Resolve<U>,
     reject: Reject<void>
   ): PresentExecutor<T, U> {
@@ -18,7 +18,7 @@ export class PresentExecutor<T, U> implements IPresentExecutor<T, 'PresentExecut
   }
 
   protected constructor(
-    mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U>>,
+    mapper: UnaryFunction<T, PromiseLike<Suspicious<U>> | Unscharferelation<U> | Suspicious<U>>,
     resolve: Resolve<U>,
     reject: Reject<void>
   ) {
@@ -28,9 +28,9 @@ export class PresentExecutor<T, U> implements IPresentExecutor<T, 'PresentExecut
   }
 
   public async onPresent(value: T): Promise<void> {
-    const mapped: PromiseLike<Suspicious<U>> | Quantization<U> | Suspicious<U> = this.mapper(value);
+    const mapped: PromiseLike<Suspicious<U>> | Unscharferelation<U> | Suspicious<U> = this.mapper(value);
 
-    if (mapped instanceof Quantization) {
+    if (mapped instanceof Unscharferelation) {
       await mapped.then<void, void>(
         (v: U) => {
           this.resolve(v);

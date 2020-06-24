@@ -1,5 +1,5 @@
 import { Absent } from './Absent';
-import { QuantizationError } from './Error/QuantizationError';
+import { UnscharferelationError } from './Error/UnscharferelationError';
 import { Heisenberg } from './Interface/Heisenberg';
 import { Present } from './Present';
 
@@ -17,7 +17,7 @@ export class Uncertain<T> implements Heisenberg<T, 'Uncertain'> {
   }
 
   public get(): never {
-    throw new QuantizationError('UNCERTAIN');
+    throw new UnscharferelationError('UNCERTAIN');
   }
 
   public isPresent(): this is Present<T> {

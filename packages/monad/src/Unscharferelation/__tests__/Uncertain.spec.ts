@@ -1,18 +1,18 @@
-import { QuantizationError } from '../Error/QuantizationError';
+import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Uncertain } from '../Uncertain';
 
 describe('Uncertain', () => {
   describe('get', () => {
-    it('throws QuantizationError', () => {
+    it('throws UnscharferelationError', () => {
       const uncertain1: Uncertain<void> = Uncertain.of();
       const uncertain2: Uncertain<number> = Uncertain.of<number>();
 
       expect(() => {
         uncertain1.get();
-      }).toThrow(QuantizationError);
+      }).toThrow(UnscharferelationError);
       expect(() => {
         uncertain2.get();
-      }).toThrow(QuantizationError);
+      }).toThrow(UnscharferelationError);
     });
   });
 
