@@ -1,6 +1,6 @@
 import { Noun } from '@jamashita/publikum-interface';
 
-type DeadExecutorType = 'DeadExecutor' | 'DeadNothingExecutor';
+type DeadExecutorType = 'DeadExecutor' | 'DeadNothingExecutor' | 'DeadPeekExecutor';
 
 export interface IDeadExecutor<F extends Error, N extends DeadExecutorType = DeadExecutorType> extends Noun<N> {
   readonly noun: N;
