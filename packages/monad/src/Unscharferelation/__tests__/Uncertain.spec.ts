@@ -4,7 +4,7 @@ import { Uncertain } from '../Uncertain';
 describe('Uncertain', () => {
   describe('get', () => {
     it('throws UnscharferelationError', () => {
-      const uncertain1: Uncertain<void> = Uncertain.of();
+      const uncertain1: Uncertain<void> = Uncertain.of<void>();
       const uncertain2: Uncertain<number> = Uncertain.of<number>();
 
       expect(() => {
@@ -18,7 +18,7 @@ describe('Uncertain', () => {
 
   describe('isPresent', () => {
     it('returns false', () => {
-      const uncertain1: Uncertain<void> = Uncertain.of();
+      const uncertain1: Uncertain<void> = Uncertain.of<void>();
       const uncertain2: Uncertain<number> = Uncertain.of<number>();
 
       expect(uncertain1.isPresent()).toBe(false);
@@ -27,7 +27,7 @@ describe('Uncertain', () => {
   });
   describe('isAbsent', () => {
     it('returns false', () => {
-      const uncertain1: Uncertain<void> = Uncertain.of();
+      const uncertain1: Uncertain<void> = Uncertain.of<void>();
       const uncertain2: Uncertain<number> = Uncertain.of<number>();
 
       expect(uncertain1.isAbsent()).toBe(false);
@@ -37,7 +37,7 @@ describe('Uncertain', () => {
 
   describe('isUncertain', () => {
     it('returns true', () => {
-      const uncertain1: Uncertain<void> = Uncertain.of();
+      const uncertain1: Uncertain<void> = Uncertain.of<void>();
       const uncertain2: Uncertain<number> = Uncertain.of<number>();
 
       expect(uncertain1.isUncertain()).toBe(true);

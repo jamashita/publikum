@@ -1,32 +1,34 @@
+import { Etre } from '@jamashita/publikum-type';
+
 import { Absent } from './Absent';
 import { Heisenberg } from './Interface/Heisenberg';
 import { Uncertain } from './Uncertain';
 
-export class Present<T> implements Heisenberg<T, 'Present'> {
+export class Present<P> implements Heisenberg<P, 'Present'> {
   public readonly noun: 'Present' = 'Present';
-  private readonly value: T;
+  private readonly value: Etre<P>;
 
-  public static of<T>(value: T): Present<T> {
-    return new Present<T>(value);
+  public static of<P>(value: Etre<P>): Present<P> {
+    return new Present<P>(value);
   }
 
-  private constructor(value: T) {
+  private constructor(value: Etre<P>) {
     this.value = value;
   }
 
-  public get(): T {
+  public get(): P {
     return this.value;
   }
 
-  public isPresent(): this is Present<T> {
+  public isPresent(): this is Present<P> {
     return true;
   }
 
-  public isAbsent(): this is Absent<T> {
+  public isAbsent(): this is Absent<P> {
     return false;
   }
 
-  public isUncertain(): this is Uncertain<T> {
+  public isUncertain(): this is Uncertain<P> {
     return false;
   }
 }

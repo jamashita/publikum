@@ -3,13 +3,13 @@ import { Heisenberg } from './Interface/Heisenberg';
 import { Present } from './Present';
 import { Uncertain } from './Uncertain';
 
-export class Absent<T> implements Heisenberg<T, 'Absent'> {
+export class Absent<A> implements Heisenberg<A, 'Absent'> {
   public readonly noun: 'Absent' = 'Absent';
 
   private static readonly INSTANCE: Absent<unknown> = new Absent<unknown>();
 
-  public static of<T>(): Absent<T> {
-    return (Absent.INSTANCE as unknown) as Absent<T>;
+  public static of<A>(): Absent<A> {
+    return (Absent.INSTANCE as unknown) as Absent<A>;
   }
 
   private constructor() {
@@ -20,15 +20,15 @@ export class Absent<T> implements Heisenberg<T, 'Absent'> {
     throw new UnscharferelationError('ABSENT');
   }
 
-  public isPresent(): this is Present<T> {
+  public isPresent(): this is Present<A> {
     return false;
   }
 
-  public isAbsent(): this is Absent<T> {
+  public isAbsent(): this is Absent<A> {
     return true;
   }
 
-  public isUncertain(): this is Uncertain<T> {
+  public isUncertain(): this is Uncertain<A> {
     return false;
   }
 }

@@ -6,14 +6,14 @@ import { Uncertain } from '../Uncertain';
 
 type HeisenbergType = 'Present' | 'Absent' | 'Uncertain';
 
-export interface Heisenberg<T, N extends HeisenbergType = HeisenbergType> extends Noun<N> {
+export interface Heisenberg<H, N extends HeisenbergType = HeisenbergType> extends Noun<N> {
   readonly noun: N;
 
-  get(): T;
+  get(): H;
 
-  isPresent(): this is Present<T>;
+  isPresent(): this is Present<H>;
 
-  isAbsent(): this is Absent<T>;
+  isAbsent(): this is Absent<H>;
 
-  isUncertain(): this is Uncertain<T>;
+  isUncertain(): this is Uncertain<H>;
 }

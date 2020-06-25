@@ -4,7 +4,7 @@ import { UnscharferelationError } from '../Error/UnscharferelationError';
 describe('Absent', () => {
   describe('get', () => {
     it('throws UnscharferelationError', () => {
-      const absent1: Absent<void> = Absent.of();
+      const absent1: Absent<void> = Absent.of<void>();
       const absent2: Absent<number> = Absent.of<number>();
 
       expect(() => {
@@ -18,7 +18,7 @@ describe('Absent', () => {
 
   describe('isPresent', () => {
     it('returns false', () => {
-      const absent1: Absent<void> = Absent.of();
+      const absent1: Absent<void> = Absent.of<void>();
       const absent2: Absent<number> = Absent.of<number>();
 
       expect(absent1.isPresent()).toBe(false);
@@ -27,7 +27,7 @@ describe('Absent', () => {
   });
   describe('isAbsent', () => {
     it('returns true', () => {
-      const absent1: Absent<void> = Absent.of();
+      const absent1: Absent<void> = Absent.of<void>();
       const absent2: Absent<number> = Absent.of<number>();
 
       expect(absent1.isAbsent()).toBe(true);
@@ -37,7 +37,7 @@ describe('Absent', () => {
 
   describe('isUncertain', () => {
     it('returns false', () => {
-      const absent1: Absent<void> = Absent.of();
+      const absent1: Absent<void> = Absent.of<void>();
       const absent2: Absent<number> = Absent.of<number>();
 
       expect(absent1.isUncertain()).toBe(false);
