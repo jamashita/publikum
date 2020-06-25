@@ -7,7 +7,7 @@ import { DeadExecutor } from '../DeadExecutor';
 
 describe('DeadExecutor', () => {
   describe('onDead', () => {
-    it('T given', async () => {
+    it('A given', async () => {
       const value: number = 101;
       const error: MockError = new MockError();
 
@@ -38,7 +38,7 @@ describe('DeadExecutor', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('Promise<T> given', async () => {
+    it('Promise<A> given', async () => {
       const value: number = 101;
       const error: MockError = new MockError();
 
@@ -69,7 +69,7 @@ describe('DeadExecutor', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('Superposition.alive<T, E> given', async () => {
+    it('Superposition.alive<A, D> given', async () => {
       const value: number = 101;
       const error: MockError = new MockError();
 
@@ -100,7 +100,7 @@ describe('DeadExecutor', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('E thrown', async () => {
+    it('D thrown', async () => {
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -130,7 +130,7 @@ describe('DeadExecutor', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('Promise<T> rejected', async () => {
+    it('Promise<A> rejected', async () => {
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -160,7 +160,7 @@ describe('DeadExecutor', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('Superposition.dead<T, E> given', async () => {
+    it('Superposition.dead<A, D> given', async () => {
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();

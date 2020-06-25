@@ -232,17 +232,17 @@ describe('Unscharferelation', () => {
     });
 
     it('uncertain: predicate returns false', () => {
-      const unscharferelation1: Unscharferelation<void> = Unscharferelation.present(
-        new Promise((resolve: Resolve<void>) => {
+      const unscharferelation1: Unscharferelation<number> = Unscharferelation.present<number>(
+        new Promise<number>((resolve: Resolve<number>) => {
           setTimeout(() => {
-            resolve();
+            resolve(1);
           }, 30000);
         })
       );
-      const unscharferelation2: Unscharferelation<void> = unscharferelation1.filter(() => {
+      const unscharferelation2: Unscharferelation<number> = unscharferelation1.filter(() => {
         return true;
       });
-      const unscharferelation3: Unscharferelation<void> = unscharferelation1.filter(() => {
+      const unscharferelation3: Unscharferelation<number> = unscharferelation1.filter(() => {
         return false;
       });
 

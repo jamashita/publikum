@@ -5,7 +5,7 @@ import { AbsentExecutor } from '../AbsentExecutor';
 
 describe('AbsentExecutor', () => {
   describe('onAbsent', () => {
-    it('T given', async () => {
+    it('P given', async () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -21,7 +21,7 @@ describe('AbsentExecutor', () => {
       expect(spy1.called).toBe(true);
     });
 
-    it('Promise<T> given', async () => {
+    it('Promise<P> given', async () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -37,7 +37,7 @@ describe('AbsentExecutor', () => {
       expect(spy1.called).toBe(true);
     });
 
-    it('Unscharferelation.present<T> given', async () => {
+    it('Unscharferelation.present<P> given', async () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();

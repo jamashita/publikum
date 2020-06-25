@@ -2,23 +2,21 @@ import { Reject } from '@jamashita/publikum-type';
 
 import { IDeadExecutor } from './Interface/IDeadExecutor';
 
-const promise: Promise<void> = Promise.resolve();
-
-export class DeadNothingExecutor<F extends Error> implements IDeadExecutor<F, 'DeadNothingExecutor'> {
+export class DeadNothingExecutor<D extends Error> implements IDeadExecutor<D, 'DeadNothingExecutor'> {
   public readonly noun: 'DeadNothingExecutor' = 'DeadNothingExecutor';
-  private readonly reject: Reject<F>;
+  private readonly reject: Reject<D>;
 
-  public static of<F extends Error>(reject: Reject<F>): DeadNothingExecutor<F> {
-    return new DeadNothingExecutor<F>(reject);
+  public static of<D extends Error>(reject: Reject<D>): DeadNothingExecutor<D> {
+    return new DeadNothingExecutor<D>(reject);
   }
 
-  protected constructor(reject: Reject<F>) {
+  protected constructor(reject: Reject<D>) {
     this.reject = reject;
   }
 
-  public onDead(err: F): Promise<void> {
+  public onDead(err: D): Promise<void> {
     this.reject(err);
 
-    return promise;
+    return Promise.resolve();
   }
 }

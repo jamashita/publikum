@@ -5,30 +5,26 @@ import { PeekExecutor } from '../PeekExecutor';
 describe('PeekExecutor', () => {
   describe('onPresent', () => {
     it('sync', async () => {
-      const value: number = 101;
-
       const spy1: SinonSpy = sinon.spy();
 
-      const executor: PeekExecutor<number> = PeekExecutor.of<number>(() => {
+      const executor: PeekExecutor = PeekExecutor.of(() => {
         spy1();
       });
 
-      await executor.onPresent(value);
+      await executor.onPresent();
 
       expect(spy1.called).toBe(true);
     });
 
     it('async', async () => {
-      const value: number = 101;
-
       const spy1: SinonSpy = sinon.spy();
 
       // eslint-disable-next-line @typescript-eslint/require-await
-      const executor: PeekExecutor<number> = PeekExecutor.of<number>(async () => {
+      const executor: PeekExecutor = PeekExecutor.of(async () => {
         spy1();
       });
 
-      await executor.onPresent(value);
+      await executor.onPresent();
 
       expect(spy1.called).toBe(true);
     });
@@ -38,7 +34,7 @@ describe('PeekExecutor', () => {
     it('sync', async () => {
       const spy1: SinonSpy = sinon.spy();
 
-      const executor: PeekExecutor<number> = PeekExecutor.of<number>(() => {
+      const executor: PeekExecutor = PeekExecutor.of(() => {
         spy1();
       });
 
@@ -51,7 +47,7 @@ describe('PeekExecutor', () => {
       const spy1: SinonSpy = sinon.spy();
 
       // eslint-disable-next-line @typescript-eslint/require-await
-      const executor: PeekExecutor<number> = PeekExecutor.of<number>(async () => {
+      const executor: PeekExecutor = PeekExecutor.of(async () => {
         spy1();
       });
 

@@ -3,23 +3,23 @@ import { Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 import { Superposition } from '../Superposition';
 import { IDeadExecutor } from './Interface/IDeadExecutor';
 
-export class DeadExecutor<T, F extends Error, E extends Error> implements IDeadExecutor<F, 'DeadExecutor'> {
+export class DeadExecutor<B, D extends Error, E extends Error> implements IDeadExecutor<D, 'DeadExecutor'> {
   public readonly noun: 'DeadExecutor' = 'DeadExecutor';
-  private readonly mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>;
-  private readonly resolve: Resolve<T>;
+  private readonly mapper: UnaryFunction<D, PromiseLike<B> | Superposition<B, E> | B>;
+  private readonly resolve: Resolve<B>;
   private readonly reject: Reject<E>;
 
-  public static of<T, F extends Error, E extends Error>(
-    mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>,
-    resolve: Resolve<T>,
+  public static of<B, D extends Error, E extends Error>(
+    mapper: UnaryFunction<D, PromiseLike<B> | Superposition<B, E> | B>,
+    resolve: Resolve<B>,
     reject: Reject<E>
-  ): DeadExecutor<T, F, E> {
-    return new DeadExecutor<T, F, E>(mapper, resolve, reject);
+  ): DeadExecutor<B, D, E> {
+    return new DeadExecutor<B, D, E>(mapper, resolve, reject);
   }
 
   protected constructor(
-    mapper: UnaryFunction<F, PromiseLike<T> | Superposition<T, E> | T>,
-    resolve: Resolve<T>,
+    mapper: UnaryFunction<D, PromiseLike<B> | Superposition<B, E> | B>,
+    resolve: Resolve<B>,
     reject: Reject<E>
   ) {
     this.mapper = mapper;
@@ -27,15 +27,15 @@ export class DeadExecutor<T, F extends Error, E extends Error> implements IDeadE
     this.reject = reject;
   }
 
-  public async onDead(err: F): Promise<void> {
+  public async onDead(err: D): Promise<void> {
     // prettier-ignore
     try {
-      const mapped: PromiseLike<T> | Superposition<T, E> | T = this.mapper(err);
+      const mapped: PromiseLike<B> | Superposition<B, E> | B = this.mapper(err);
 
       if (mapped instanceof Superposition) {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         await mapped.transform<void>(
-          (v: T) => {
+          (v: B) => {
             this.resolve(v);
           },
           (e: E) => {
@@ -47,7 +47,7 @@ export class DeadExecutor<T, F extends Error, E extends Error> implements IDeadE
       }
       if (Kind.isPromiseLike(mapped)) {
         await mapped.then<void, void>(
-          (v: T) => {
+          (v: B) => {
             this.resolve(v);
           },
           (e: E) => {

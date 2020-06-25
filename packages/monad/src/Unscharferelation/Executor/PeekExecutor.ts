@@ -3,30 +3,28 @@ import { Peek } from '@jamashita/publikum-type';
 import { IAbsentExecutor } from './Interface/IAbsentExecutor';
 import { IPresentExecutor } from './Interface/IPresentExecutor';
 
-const promise: Promise<void> = Promise.resolve();
-
-export class PeekExecutor<T> implements IPresentExecutor<T, 'PeekExecutor'>, IAbsentExecutor<'PeekExecutor'> {
+export class PeekExecutor<P = void> implements IPresentExecutor<P, 'PeekExecutor'>, IAbsentExecutor<'PeekExecutor'> {
   public readonly noun: 'PeekExecutor' = 'PeekExecutor';
   private readonly peek: Peek;
 
-  public static of<T>(peek: Peek): PeekExecutor<T> {
-    return new PeekExecutor<T>(peek);
+  public static of<P>(peek: Peek): PeekExecutor<P> {
+    return new PeekExecutor(peek);
   }
 
   protected constructor(peek: Peek) {
     this.peek = peek;
   }
 
-  public onPresent(value: T): Promise<void>;
+  public onPresent(value: P): Promise<void>;
   public onPresent(): Promise<void> {
     this.peek();
 
-    return promise;
+    return Promise.resolve();
   }
 
   public onAbsent(): Promise<void> {
     this.peek();
 
-    return promise;
+    return Promise.resolve();
   }
 }

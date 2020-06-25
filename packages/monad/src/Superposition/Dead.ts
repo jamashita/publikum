@@ -2,15 +2,15 @@ import { Alive } from './Alive';
 import { Schrodinger } from './Interface/Schrodinger';
 import { Still } from './Still';
 
-export class Dead<S, F extends Error> implements Schrodinger<S, F, 'Dead'> {
+export class Dead<A, D extends Error> implements Schrodinger<A, D, 'Dead'> {
   public readonly noun: 'Dead' = 'Dead';
-  private readonly error: F;
+  private readonly error: D;
 
-  public static of<S, F extends Error>(error: F): Dead<S, F> {
-    return new Dead<S, F>(error);
+  public static of<A, D extends Error>(error: D): Dead<A, D> {
+    return new Dead<A, D>(error);
   }
 
-  protected constructor(error: F) {
+  protected constructor(error: D) {
     this.error = error;
   }
 
@@ -19,19 +19,19 @@ export class Dead<S, F extends Error> implements Schrodinger<S, F, 'Dead'> {
     throw this.error;
   }
 
-  public getError(): F {
+  public getError(): D {
     return this.error;
   }
 
-  public isAlive(): this is Alive<S, F> {
+  public isAlive(): this is Alive<A, D> {
     return false;
   }
 
-  public isDead(): this is Dead<S, F> {
+  public isDead(): this is Dead<A, D> {
     return true;
   }
 
-  public isStill(): this is Still<S, F> {
+  public isStill(): this is Still<A, D> {
     return false;
   }
 }

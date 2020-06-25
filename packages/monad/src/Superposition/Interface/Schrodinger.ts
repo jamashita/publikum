@@ -6,14 +6,14 @@ import { Still } from '../Still';
 
 type SchrodingerType = 'Alive' | 'Dead' | 'Still';
 
-export interface Schrodinger<S, F extends Error, N extends SchrodingerType = SchrodingerType> extends Noun<N> {
+export interface Schrodinger<A, D extends Error, N extends SchrodingerType = SchrodingerType> extends Noun<N> {
   readonly noun: N;
 
-  get(): S;
+  get(): A;
 
-  isAlive(): this is Alive<S, F>;
+  isAlive(): this is Alive<A, D>;
 
-  isDead(): this is Dead<S, F>;
+  isDead(): this is Dead<A, D>;
 
-  isStill(): this is Still<S, F>;
+  isStill(): this is Still<A, D>;
 }

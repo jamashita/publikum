@@ -3,28 +3,26 @@ import { Consumer } from '@jamashita/publikum-type';
 import { IAbsentExecutor } from './Interface/IAbsentExecutor';
 import { IPresentExecutor } from './Interface/IPresentExecutor';
 
-const promise: Promise<void> = Promise.resolve();
-
-export class ConsumerExecutor<T>
-  implements IPresentExecutor<T, 'ConsumerExecutor'>, IAbsentExecutor<'ConsumerExecutor'> {
+export class ConsumerExecutor<P>
+  implements IPresentExecutor<P, 'ConsumerExecutor'>, IAbsentExecutor<'ConsumerExecutor'> {
   public readonly noun: 'ConsumerExecutor' = 'ConsumerExecutor';
-  private readonly consumer: Consumer<T>;
+  private readonly consumer: Consumer<P>;
 
-  public static of<T>(consumer: Consumer<T>): ConsumerExecutor<T> {
-    return new ConsumerExecutor<T>(consumer);
+  public static of<P>(consumer: Consumer<P>): ConsumerExecutor<P> {
+    return new ConsumerExecutor<P>(consumer);
   }
 
-  protected constructor(consumer: Consumer<T>) {
+  protected constructor(consumer: Consumer<P>) {
     this.consumer = consumer;
   }
 
-  public onPresent(value: T): Promise<void> {
+  public onPresent(value: P): Promise<void> {
     this.consumer(value);
 
-    return promise;
+    return Promise.resolve();
   }
 
   public onAbsent(): Promise<void> {
-    return promise;
+    return Promise.resolve();
   }
 }

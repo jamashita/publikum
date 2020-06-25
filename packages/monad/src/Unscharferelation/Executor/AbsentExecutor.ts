@@ -2,8 +2,6 @@ import { Peek } from '@jamashita/publikum-type';
 
 import { IAbsentExecutor } from './Interface/IAbsentExecutor';
 
-const promise: Promise<void> = Promise.resolve();
-
 export class AbsentExecutor implements IAbsentExecutor<'AbsentExecutor'> {
   public readonly noun: 'AbsentExecutor' = 'AbsentExecutor';
   private readonly mapper: Peek;
@@ -19,6 +17,6 @@ export class AbsentExecutor implements IAbsentExecutor<'AbsentExecutor'> {
   public onAbsent(): Promise<void> {
     this.mapper();
 
-    return promise;
+    return Promise.resolve();
   }
 }

@@ -3,32 +3,30 @@ import { Peek } from '@jamashita/publikum-type';
 import { IAliveExecutor } from './Interface/IAliveExecutor';
 import { IDeadExecutor } from './Interface/IDeadExecutor';
 
-const promise: Promise<void> = Promise.resolve();
-
-export class PeekExecutor<S, F extends Error>
-  implements IAliveExecutor<S, 'PeekExecutor'>, IDeadExecutor<F, 'PeekExecutor'> {
+export class PeekExecutor<A, D extends Error>
+  implements IAliveExecutor<A, 'PeekExecutor'>, IDeadExecutor<D, 'PeekExecutor'> {
   public readonly noun: 'PeekExecutor' = 'PeekExecutor';
   private readonly peek: Peek;
 
-  public static of<S, F extends Error>(peek: Peek): PeekExecutor<S, F> {
-    return new PeekExecutor<S, F>(peek);
+  public static of<A, D extends Error>(peek: Peek): PeekExecutor<A, D> {
+    return new PeekExecutor<A, D>(peek);
   }
 
   protected constructor(peek: Peek) {
     this.peek = peek;
   }
 
-  public onAlive(value: S): Promise<void>;
+  public onAlive(value: A): Promise<void>;
   public onAlive(): Promise<void> {
     this.peek();
 
-    return promise;
+    return Promise.resolve();
   }
 
-  public onDead(err: F): Promise<void>;
+  public onDead(err: D): Promise<void>;
   public onDead(): Promise<void> {
     this.peek();
 
-    return promise;
+    return Promise.resolve();
   }
 }

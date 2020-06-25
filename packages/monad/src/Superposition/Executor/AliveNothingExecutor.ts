@@ -2,23 +2,21 @@ import { Resolve } from '@jamashita/publikum-type';
 
 import { IAliveExecutor } from './Interface/IAliveExecutor';
 
-const promise: Promise<void> = Promise.resolve();
-
-export class AliveNothingExecutor<S> implements IAliveExecutor<S, 'AliveNothingExecutor'> {
+export class AliveNothingExecutor<A> implements IAliveExecutor<A, 'AliveNothingExecutor'> {
   public readonly noun: 'AliveNothingExecutor' = 'AliveNothingExecutor';
-  private readonly resolve: Resolve<S>;
+  private readonly resolve: Resolve<A>;
 
-  public static of<S>(resolve: Resolve<S>): AliveNothingExecutor<S> {
-    return new AliveNothingExecutor<S>(resolve);
+  public static of<A>(resolve: Resolve<A>): AliveNothingExecutor<A> {
+    return new AliveNothingExecutor<A>(resolve);
   }
 
-  protected constructor(resolve: Resolve<S>) {
+  protected constructor(resolve: Resolve<A>) {
     this.resolve = resolve;
   }
 
-  public onAlive(value: S): Promise<void> {
+  public onAlive(value: A): Promise<void> {
     this.resolve(value);
 
-    return promise;
+    return Promise.resolve();
   }
 }

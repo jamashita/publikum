@@ -2,23 +2,21 @@ import { Resolve } from '@jamashita/publikum-type';
 
 import { IPresentExecutor } from './Interface/IPresentExecutor';
 
-const promise: Promise<void> = Promise.resolve();
-
-export class PresentNothingExecutor<T> implements IPresentExecutor<T, 'PresentNothingExecutor'> {
+export class PresentNothingExecutor<P> implements IPresentExecutor<P, 'PresentNothingExecutor'> {
   public readonly noun: 'PresentNothingExecutor' = 'PresentNothingExecutor';
-  private readonly resolve: Resolve<T>;
+  private readonly resolve: Resolve<P>;
 
-  public static of<T>(resolve: Resolve<T>): PresentNothingExecutor<T> {
-    return new PresentNothingExecutor<T>(resolve);
+  public static of<P>(resolve: Resolve<P>): PresentNothingExecutor<P> {
+    return new PresentNothingExecutor<P>(resolve);
   }
 
-  protected constructor(resolve: Resolve<T>) {
+  protected constructor(resolve: Resolve<P>) {
     this.resolve = resolve;
   }
 
-  public onPresent(value: T): Promise<void> {
+  public onPresent(value: P): Promise<void> {
     this.resolve(value);
 
-    return promise;
+    return Promise.resolve();
   }
 }

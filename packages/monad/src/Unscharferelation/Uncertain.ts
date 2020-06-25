@@ -3,13 +3,13 @@ import { UnscharferelationError } from './Error/UnscharferelationError';
 import { Heisenberg } from './Interface/Heisenberg';
 import { Present } from './Present';
 
-export class Uncertain<U> implements Heisenberg<U, 'Uncertain'> {
+export class Uncertain<P> implements Heisenberg<P, 'Uncertain'> {
   public readonly noun: 'Uncertain' = 'Uncertain';
 
   private static readonly INSTANCE: Uncertain<unknown> = new Uncertain<unknown>();
 
-  public static of<U>(): Uncertain<U> {
-    return (Uncertain.INSTANCE as unknown) as Uncertain<U>;
+  public static of<P>(): Uncertain<P> {
+    return (Uncertain.INSTANCE as unknown) as Uncertain<P>;
   }
 
   private constructor() {
@@ -20,15 +20,15 @@ export class Uncertain<U> implements Heisenberg<U, 'Uncertain'> {
     throw new UnscharferelationError('UNCERTAIN');
   }
 
-  public isPresent(): this is Present<U> {
+  public isPresent(): this is Present<P> {
     return false;
   }
 
-  public isAbsent(): this is Absent<U> {
+  public isAbsent(): this is Absent<P> {
     return false;
   }
 
-  public isUncertain(): this is Uncertain<U> {
+  public isUncertain(): this is Uncertain<P> {
     return true;
   }
 }

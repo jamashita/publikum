@@ -2,8 +2,6 @@ import { Reject } from '@jamashita/publikum-type';
 
 import { IAbsentExecutor } from './Interface/IAbsentExecutor';
 
-const promise: Promise<void> = Promise.resolve();
-
 export class AbsentNothingExecutor implements IAbsentExecutor<'AbsentNothingExecutor'> {
   public readonly noun: 'AbsentNothingExecutor' = 'AbsentNothingExecutor';
   private readonly reject: Reject<void>;
@@ -19,6 +17,6 @@ export class AbsentNothingExecutor implements IAbsentExecutor<'AbsentNothingExec
   public async onAbsent(): Promise<void> {
     this.reject();
 
-    return promise;
+    return Promise.resolve();
   }
 }

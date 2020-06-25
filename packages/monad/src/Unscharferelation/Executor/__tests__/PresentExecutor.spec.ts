@@ -5,7 +5,7 @@ import { PresentExecutor } from '../PresentExecutor';
 
 describe('PresentExecutor', () => {
   describe('onPresent', () => {
-    it('T given', async () => {
+    it('P given', async () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -35,7 +35,7 @@ describe('PresentExecutor', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('Promise<T> given', async () => {
+    it('Promise<P> given', async () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -65,7 +65,7 @@ describe('PresentExecutor', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('Unscharferelation.present<T> given', async () => {
+    it('Unscharferelation.present<P> given', async () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();

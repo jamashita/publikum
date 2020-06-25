@@ -3,23 +3,23 @@ import { Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 import { Superposition } from '../Superposition';
 import { IAliveExecutor } from './Interface/IAliveExecutor';
 
-export class AliveExecutor<S, T, E extends Error> implements IAliveExecutor<S, 'AliveExecutor'> {
+export class AliveExecutor<A, B, E extends Error> implements IAliveExecutor<A, 'AliveExecutor'> {
   public readonly noun: 'AliveExecutor' = 'AliveExecutor';
-  private readonly mapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>;
-  private readonly resolve: Resolve<T>;
+  private readonly mapper: UnaryFunction<A, PromiseLike<B> | Superposition<B, E> | B>;
+  private readonly resolve: Resolve<B>;
   private readonly reject: Reject<E>;
 
-  public static of<S, T, E extends Error>(
-    mapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>,
-    resolve: Resolve<T>,
+  public static of<A, B, E extends Error>(
+    mapper: UnaryFunction<A, PromiseLike<B> | Superposition<B, E> | B>,
+    resolve: Resolve<B>,
     reject: Reject<E>
-  ): AliveExecutor<S, T, E> {
-    return new AliveExecutor<S, T, E>(mapper, resolve, reject);
+  ): AliveExecutor<A, B, E> {
+    return new AliveExecutor<A, B, E>(mapper, resolve, reject);
   }
 
   protected constructor(
-    mapper: UnaryFunction<S, PromiseLike<T> | Superposition<T, E> | T>,
-    resolve: Resolve<T>,
+    mapper: UnaryFunction<A, PromiseLike<B> | Superposition<B, E> | B>,
+    resolve: Resolve<B>,
     reject: Reject<E>
   ) {
     this.mapper = mapper;
@@ -27,15 +27,15 @@ export class AliveExecutor<S, T, E extends Error> implements IAliveExecutor<S, '
     this.reject = reject;
   }
 
-  public async onAlive(value: S): Promise<void> {
+  public async onAlive(value: A): Promise<void> {
     // prettier-ignore
     try {
-      const mapped: PromiseLike<T> | Superposition<T, E> | T = this.mapper(value);
+      const mapped: PromiseLike<B> | Superposition<B, E> | B = this.mapper(value);
 
       if (mapped instanceof Superposition) {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         await mapped.transform<void>(
-          (v: T) => {
+          (v: B) => {
             this.resolve(v);
           },
           (e: E) => {
@@ -47,7 +47,7 @@ export class AliveExecutor<S, T, E extends Error> implements IAliveExecutor<S, '
       }
       if (Kind.isPromiseLike(mapped)) {
         await mapped.then<void, void>(
-          (v: T) => {
+          (v: B) => {
             this.resolve(v);
           },
           (e: E) => {

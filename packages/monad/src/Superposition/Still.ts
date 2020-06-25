@@ -3,13 +3,13 @@ import { Dead } from './Dead';
 import { SuperpositionError } from './Error/SuperpositionError';
 import { Schrodinger } from './Interface/Schrodinger';
 
-export class Still<S, F extends Error> implements Schrodinger<S, F, 'Still'> {
+export class Still<A, D extends Error> implements Schrodinger<A, D, 'Still'> {
   public readonly noun: 'Still' = 'Still';
 
-  private static readonly INSTANCE: Still<unknown, SuperpositionError> = new Still<unknown, SuperpositionError>();
+  private static readonly INSTANCE: Still<unknown, Error> = new Still<unknown, Error>();
 
-  public static of<S, F extends Error>(): Still<S, F> {
-    return Still.INSTANCE.transpose<S, F>();
+  public static of<A, D extends Error>(): Still<A, D> {
+    return Still.INSTANCE.transpose<A, D>();
   }
 
   protected constructor() {
@@ -20,19 +20,19 @@ export class Still<S, F extends Error> implements Schrodinger<S, F, 'Still'> {
     throw new SuperpositionError('STILL');
   }
 
-  public isAlive(): this is Alive<S, F> {
+  public isAlive(): this is Alive<A, D> {
     return false;
   }
 
-  public isDead(): this is Dead<S, F> {
+  public isDead(): this is Dead<A, D> {
     return false;
   }
 
-  public isStill(): this is Still<S, F> {
+  public isStill(): this is Still<A, D> {
     return true;
   }
 
-  public transpose<T, E extends Error>(): Still<T, E> {
-    return (this as unknown) as Still<T, E>;
+  public transpose<B, E extends Error>(): Still<B, E> {
+    return (this as unknown) as Still<B, E>;
   }
 }

@@ -1,28 +1,34 @@
-import { Kind, Omittable, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import { Etre, Kind, Omittable, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Unscharferelation } from '../Unscharferelation';
 import { IPresentExecutor } from './Interface/IPresentExecutor';
 
-export class PresentExecutor<T, U> implements IPresentExecutor<T, 'PresentExecutor'> {
+export class PresentExecutor<P, Q> implements IPresentExecutor<P, 'PresentExecutor'> {
   public readonly noun: 'PresentExecutor' = 'PresentExecutor';
   private readonly mapper: UnaryFunction<
-    T,
-    PromiseLike<Omittable<Suspicious<U>>> | Unscharferelation<U> | Omittable<Suspicious<U>>
+    P,
+    PromiseLike<Omittable<Suspicious<Etre<Q>>>> | Unscharferelation<Q> | Omittable<Suspicious<Etre<Q>>>
   >;
-  private readonly resolve: Resolve<U>;
+  private readonly resolve: Resolve<Etre<Q>>;
   private readonly reject: Reject<void>;
 
-  public static of<T, U>(
-    mapper: UnaryFunction<T, PromiseLike<Omittable<Suspicious<U>>> | Unscharferelation<U> | Omittable<Suspicious<U>>>,
-    resolve: Resolve<U>,
+  public static of<P, Q>(
+    mapper: UnaryFunction<
+      P,
+      PromiseLike<Omittable<Suspicious<Etre<Q>>>> | Unscharferelation<Q> | Omittable<Suspicious<Etre<Q>>>
+    >,
+    resolve: Resolve<Etre<Q>>,
     reject: Reject<void>
-  ): PresentExecutor<T, U> {
-    return new PresentExecutor<T, U>(mapper, resolve, reject);
+  ): PresentExecutor<P, Q> {
+    return new PresentExecutor<P, Q>(mapper, resolve, reject);
   }
 
   protected constructor(
-    mapper: UnaryFunction<T, PromiseLike<Omittable<Suspicious<U>>> | Unscharferelation<U> | Omittable<Suspicious<U>>>,
-    resolve: Resolve<U>,
+    mapper: UnaryFunction<
+      P,
+      PromiseLike<Omittable<Suspicious<Etre<Q>>>> | Unscharferelation<Q> | Omittable<Suspicious<Etre<Q>>>
+    >,
+    resolve: Resolve<Etre<Q>>,
     reject: Reject<void>
   ) {
     this.mapper = mapper;
@@ -30,14 +36,15 @@ export class PresentExecutor<T, U> implements IPresentExecutor<T, 'PresentExecut
     this.reject = reject;
   }
 
-  public async onPresent(value: T): Promise<void> {
-    const mapped: PromiseLike<Omittable<Suspicious<U>>> | Unscharferelation<U> | Omittable<Suspicious<U>> = this.mapper(
-      value
-    );
+  public async onPresent(value: P): Promise<void> {
+    const mapped:
+      | PromiseLike<Omittable<Suspicious<Etre<Q>>>>
+      | Unscharferelation<Q>
+      | Omittable<Suspicious<Etre<Q>>> = this.mapper(value);
 
     if (mapped instanceof Unscharferelation) {
       await mapped.then<void, void>(
-        (v: U) => {
+        (v: Etre<Q>) => {
           this.resolve(v);
         },
         () => {
@@ -49,7 +56,7 @@ export class PresentExecutor<T, U> implements IPresentExecutor<T, 'PresentExecut
     }
     if (Kind.isPromiseLike(mapped)) {
       await mapped.then<void, void>(
-        (v: Omittable<Suspicious<U>>) => {
+        (v: Omittable<Suspicious<Etre<Q>>>) => {
           if (v === undefined) {
             this.reject();
 
