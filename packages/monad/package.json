@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-monad",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "private": false,
   "repository": {
     "type": "git",
@@ -31,12 +31,12 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^2.1.0",
-    "@jamashita/publikum-interface": "^2.1.0",
-    "@jamashita/publikum-type": "^2.1.0"
+    "@jamashita/publikum-error": "^2.1.1",
+    "@jamashita/publikum-interface": "^2.1.1",
+    "@jamashita/publikum-type": "^2.1.1"
   },
   "devDependencies": {
-    "@jamashita/publikum-object": "^2.1.0",
+    "@jamashita/publikum-object": "^2.1.1",
     "@types/node": "14.0.14",
     "npm-check-updates": "7.0.1",
     "rimraf": "3.0.2",
