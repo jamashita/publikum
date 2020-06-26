@@ -3,7 +3,6 @@ import { Etre } from '@jamashita/publikum-type';
 
 import { Absent } from '../Absent';
 import { Present } from '../Present';
-import { Uncertain } from '../Uncertain';
 
 type HeisenbergType = 'Present' | 'Absent' | 'Uncertain';
 
@@ -15,6 +14,4 @@ export interface Heisenberg<P, N extends HeisenbergType = HeisenbergType> extend
   isPresent(): this is Present<P>;
 
   isAbsent(): this is Absent<P>;
-
-  isUncertain(): this is Uncertain<P>;
 }

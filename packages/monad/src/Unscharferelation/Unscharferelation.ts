@@ -1,4 +1,3 @@
-import { UnimplementedError } from '@jamashita/publikum-error';
 import { Noun } from '@jamashita/publikum-interface';
 import {
   BinaryFunction,
@@ -186,11 +185,8 @@ export class Unscharferelation<P> implements PromiseLike<Heisenberg<P>>, Noun<'U
     if (this.heisenberg.isAbsent()) {
       return this;
     }
-    if (this.heisenberg.isUncertain()) {
-      return this;
-    }
 
-    throw new UnimplementedError();
+    return this;
   }
 
   public map<V = P>(mapper: UnaryFunction<P, PromiseLike<Omittable<Suspicious<Etre<V>>>>>): Unscharferelation<V>;
@@ -227,27 +223,21 @@ export class Unscharferelation<P> implements PromiseLike<Heisenberg<P>>, Noun<'U
   }
 
   private handlePresent(executor: IPresentExecutor<P>): Promise<void> {
-    if (this.heisenberg.isUncertain()) {
-      this.mapLaters.push(executor);
-
-      return Promise.resolve();
-    }
     if (this.heisenberg.isPresent()) {
       return executor.onPresent(this.heisenberg.get());
     }
+
+    this.mapLaters.push(executor);
 
     return Promise.resolve();
   }
 
   private handleAbsent(executor: IAbsentExecutor): Promise<void> {
-    if (this.heisenberg.isUncertain()) {
-      this.passLaters.push(executor);
-
-      return Promise.resolve();
-    }
     if (this.heisenberg.isAbsent()) {
       return executor.onAbsent();
     }
+
+    this.passLaters.push(executor);
 
     return Promise.resolve();
   }

@@ -60,24 +60,4 @@ describe('Present', () => {
       expect(present7.isAbsent()).toBe(false);
     });
   });
-
-  describe('isUncertain', () => {
-    it('returns false', () => {
-      const present1: Present<number> = Present.of<number>(1);
-      const present2: Present<number> = Present.of<number>(0);
-      const present3: Present<number> = Present.of<number>(-1);
-      const present4: Present<string> = Present.of<string>('');
-      const present5: Present<string> = Present.of<string>('1');
-      const present6: Present<boolean> = Present.of<boolean>(true);
-      const present7: Present<boolean> = Present.of<boolean>(false);
-
-      expect(present1.isUncertain()).toBe(false);
-      expect(present2.isUncertain()).toBe(false);
-      expect(present3.isUncertain()).toBe(false);
-      expect(present4.isUncertain()).toBe(false);
-      expect(present5.isUncertain()).toBe(false);
-      expect(present6.isUncertain()).toBe(false);
-      expect(present7.isUncertain()).toBe(false);
-    });
-  });
 });

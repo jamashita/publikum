@@ -34,14 +34,4 @@ describe('Uncertain', () => {
       expect(uncertain2.isAbsent()).toBe(false);
     });
   });
-
-  describe('isUncertain', () => {
-    it('returns true', () => {
-      const uncertain1: Uncertain<void> = Uncertain.of<void>();
-      const uncertain2: Uncertain<number> = Uncertain.of<number>();
-
-      expect(uncertain1.isUncertain()).toBe(true);
-      expect(uncertain2.isUncertain()).toBe(true);
-    });
-  });
 });
