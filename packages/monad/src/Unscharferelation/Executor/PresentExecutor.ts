@@ -48,6 +48,8 @@ export class PresentExecutor<P, Q> implements IPresentExecutor<P, 'PresentExecut
         (v: Heisenberg<Q>) => {
           if (v.isPresent()) {
             this.resolve(v.get());
+
+            return;
           }
 
           this.reject();
