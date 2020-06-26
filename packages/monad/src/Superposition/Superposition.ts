@@ -1,4 +1,3 @@
-import { UnimplementedError } from '@jamashita/publikum-error';
 import { Noun } from '@jamashita/publikum-interface';
 import {
   Ambiguous,
@@ -28,7 +27,7 @@ import { PeekExecutor } from './Executor/PeekExecutor';
 import { Schrodinger } from './Interface/Schrodinger';
 import { Still } from './Still';
 
-export class Superposition<A, D extends Error> implements PromiseLike<A>, Noun<'Superposition'> {
+export class Superposition<A, D extends Error> implements PromiseLike<Schrodinger<A, D>>, Noun<'Superposition'> {
   public readonly noun: 'Superposition' = 'Superposition';
   private schrodinger: Schrodinger<A, D>;
   private readonly mapLaters: Array<IAliveExecutor<A>>;
@@ -39,9 +38,9 @@ export class Superposition<A, D extends Error> implements PromiseLike<A>, Noun<'
       return Superposition.alive<Array<A>, D>([]);
     }
 
-    const schrodingers: Array<Promise<Schrodinger<A, D>>> = superpositions.map<Promise<Schrodinger<A, D>>>(
+    const schrodingers: Array<PromiseLike<Schrodinger<A, D>>> = superpositions.map<PromiseLike<Schrodinger<A, D>>>(
       (s: Superposition<A, D>) => {
-        return s.get();
+        return s.then();
       }
     );
 
@@ -149,16 +148,21 @@ export class Superposition<A, D extends Error> implements PromiseLike<A>, Noun<'
     func(this.resolved(this), this.rejected(this));
   }
 
-  private resolved(self: Superposition<A, D>): Resolve<A> {
-    let done: boolean = false;
+  private done(): boolean {
+    if (this.schrodinger.isAlive() || this.schrodinger.isDead()) {
+      return true;
+    }
 
+    return false;
+  }
+
+  private resolved(self: Superposition<A, D>): Resolve<A> {
     return (value: A) => {
-      if (done) {
+      if (this.done()) {
         return Promise.resolve();
       }
 
       self.schrodinger = Alive.of<A, D>(value);
-      done = true;
 
       const promises: Array<Promise<void>> = self.mapLaters.map<Promise<void>>((later: IAliveExecutor<A>) => {
         return later.onAlive(value);
@@ -169,15 +173,12 @@ export class Superposition<A, D extends Error> implements PromiseLike<A>, Noun<'
   }
 
   private rejected(self: Superposition<A, D>): Reject<D> {
-    let done: boolean = false;
-
     return (err: D) => {
-      if (done) {
+      if (this.done()) {
         return Promise.resolve();
       }
 
       self.schrodinger = Dead.of<A, D>(err);
-      done = true;
 
       const promises: Array<Promise<void>> = self.recoverLaters.map<Promise<void>>((later: IDeadExecutor<D>) => {
         return later.onDead(err);
@@ -187,19 +188,8 @@ export class Superposition<A, D extends Error> implements PromiseLike<A>, Noun<'
     };
   }
 
-  public get(): Promise<Schrodinger<A, D>> {
-    return new Promise<Schrodinger<A, D>>((resolve: Resolve<Schrodinger<A, D>>) => {
-      this.peek(() => {
-        resolve(this.schrodinger);
-      });
-    });
-  }
-
-  public then<T1 = A, T2 = unknown>(
-    onfulfilled?: Suspicious<UnaryFunction<A, T1 | PromiseLike<T1>>>,
-    onrejected?: Suspicious<UnaryFunction<unknown, T2 | PromiseLike<T2>>>
-  ): PromiseLike<T1 | T2> {
-    const promise: Promise<A> = new Promise<A>((resolve: Resolve<A>, reject: Reject<D>) => {
+  public get(): Promise<A> {
+    return new Promise<A>((resolve: Resolve<A>, reject: Reject<D>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.transform<void>(
         (value: A) => {
@@ -210,6 +200,19 @@ export class Superposition<A, D extends Error> implements PromiseLike<A>, Noun<'
         }
       );
     });
+  }
+
+  public then<T1 = A, T2 = unknown>(
+    onfulfilled?: Suspicious<UnaryFunction<Schrodinger<A, D>, T1 | PromiseLike<T1>>>,
+    onrejected?: Suspicious<UnaryFunction<unknown, T2 | PromiseLike<T2>>>
+  ): PromiseLike<T1 | T2> {
+    const promise: Promise<Schrodinger<A, D>> = new Promise<Schrodinger<A, D>>(
+      (resolve: Resolve<Schrodinger<A, D>>) => {
+        this.peek(() => {
+          resolve(this.schrodinger);
+        });
+      }
+    );
 
     return promise.then<T1, T2>(onfulfilled, onrejected);
   }
@@ -225,11 +228,8 @@ export class Superposition<A, D extends Error> implements PromiseLike<A>, Noun<'
     if (this.schrodinger.isDead()) {
       return this.transpose<A, D | SuperpositionError>();
     }
-    if (this.schrodinger.isStill()) {
-      return this.transpose<A, D | SuperpositionError>();
-    }
 
-    throw new UnimplementedError();
+    return this.transpose<A, D | SuperpositionError>();
   }
 
   public map<B = A, E extends Error = D>(mapper: UnaryFunction<A, PromiseLike<B>>): Superposition<B, D | E>;
@@ -294,27 +294,21 @@ export class Superposition<A, D extends Error> implements PromiseLike<A>, Noun<'
   }
 
   private handleAlive(executor: IAliveExecutor<A>): Promise<void> {
-    if (this.schrodinger.isStill()) {
-      this.mapLaters.push(executor);
-
-      return Promise.resolve();
-    }
     if (this.schrodinger.isAlive()) {
       return executor.onAlive(this.schrodinger.get());
     }
+
+    this.mapLaters.push(executor);
 
     return Promise.resolve();
   }
 
   private handleDead(executor: IDeadExecutor<D>): Promise<void> {
-    if (this.schrodinger.isStill()) {
-      this.recoverLaters.push(executor);
-
-      return Promise.resolve();
-    }
     if (this.schrodinger.isDead()) {
       return executor.onDead(this.schrodinger.getError());
     }
+
+    this.recoverLaters.push(executor);
 
     return Promise.resolve();
   }
@@ -326,19 +320,22 @@ export class Superposition<A, D extends Error> implements PromiseLike<A>, Noun<'
   public toUnscharferelation(): Unscharferelation<A> {
     return Unscharferelation.of<A>((resolve: Resolve<Etre<A>>, reject: Reject<void>) => {
       this.then<void, void>(
-        (value: A) => {
-          if (value === null) {
-            reject();
+        (value: Schrodinger<A, D>) => {
+          if (value.isAlive()) {
+            const v: A = value.get();
+
+            if (v === undefined || v === null) {
+              reject();
+
+              return;
+            }
+
+            resolve(v as Etre<A>);
 
             return;
           }
-          if (value === null) {
-            reject();
 
-            return;
-          }
-
-          resolve(value as Etre<A>);
+          reject();
         },
         () => {
           reject();

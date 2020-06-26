@@ -28,10 +28,6 @@ export class Still<A, D extends Error> implements Schrodinger<A, D, 'Still'> {
     return false;
   }
 
-  public isStill(): this is Still<A, D> {
-    return true;
-  }
-
   public transpose<B, E extends Error>(): Still<B, E> {
     return (this as unknown) as Still<B, E>;
   }

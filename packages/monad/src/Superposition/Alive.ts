@@ -1,6 +1,5 @@
 import { Dead } from './Dead';
 import { Schrodinger } from './Interface/Schrodinger';
-import { Still } from './Still';
 
 export class Alive<A, D extends Error> implements Schrodinger<A, D, 'Alive'> {
   public readonly noun: 'Alive' = 'Alive';
@@ -23,10 +22,6 @@ export class Alive<A, D extends Error> implements Schrodinger<A, D, 'Alive'> {
   }
 
   public isDead(): this is Dead<A, D> {
-    return false;
-  }
-
-  public isStill(): this is Still<A, D> {
     return false;
   }
 }

@@ -6,6 +6,8 @@ import { Resolve } from '@jamashita/publikum-type';
 import { UnscharferelationError } from '../../Unscharferelation/Error/UnscharferelationError';
 import { Heisenberg } from '../../Unscharferelation/Interface/Heisenberg';
 import { Unscharferelation } from '../../Unscharferelation/Unscharferelation';
+import { Alive } from '../Alive';
+import { Dead } from '../Dead';
 import { SuperpositionError } from '../Error/SuperpositionError';
 import { Schrodinger } from '../Interface/Schrodinger';
 import { Superposition } from '../Superposition';
@@ -19,7 +21,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get().length).toBe(superpositions.length);
@@ -36,7 +38,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
 
       expect(schrodinger.isAlive()).toBe(true);
 
@@ -45,7 +47,7 @@ describe('Superposition', () => {
       expect(array.length).toBe(superpositions.length);
       for (let i: number = 0; i < array.length; i++) {
         // eslint-disable-next-line no-await-in-loop
-        const s: Schrodinger<number, MockError> = await superpositions[i].get();
+        const s: Schrodinger<number, MockError> = await superpositions[i];
 
         expect(array[i]).toBe(s.get());
       }
@@ -66,7 +68,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -98,7 +100,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -130,7 +132,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -163,7 +165,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -196,7 +198,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -230,7 +232,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -258,7 +260,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
 
       expect(schrodinger.isAlive()).toBe(true);
 
@@ -267,7 +269,7 @@ describe('Superposition', () => {
       expect(array.length).toBe(superpositions.length);
       for (let i: number = 0; i < array.length; i++) {
         // eslint-disable-next-line no-await-in-loop
-        const s: Schrodinger<number, MockError> = await superpositions[i].get();
+        const s: Schrodinger<number, MockError> = await superpositions[i];
 
         expect(array[i]).toBe(s.get());
       }
@@ -288,7 +290,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -320,7 +322,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -352,7 +354,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -385,7 +387,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -418,7 +420,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -452,7 +454,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -477,7 +479,7 @@ describe('Superposition', () => {
         return v;
       });
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<number, MockError> = await superposition;
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(v);
@@ -492,7 +494,7 @@ describe('Superposition', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<number, MockError> = await superposition;
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -518,7 +520,7 @@ describe('Superposition', () => {
         }
       );
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<number, MockError> = await superposition;
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(v);
@@ -536,7 +538,7 @@ describe('Superposition', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<number, MockError> = await superposition;
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -574,7 +576,7 @@ describe('Superposition', () => {
       const value: number = 1010;
       const superposition: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<number, MockError> = await superposition;
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(value);
@@ -586,7 +588,7 @@ describe('Superposition', () => {
         Promise.resolve<number>(value)
       );
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<number, MockError> = await superposition;
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(value);
@@ -609,7 +611,7 @@ describe('Superposition', () => {
       const error: MockError = new MockError();
       const superposition: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<number, MockError> = await superposition;
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -623,7 +625,7 @@ describe('Superposition', () => {
         Promise.reject<number>(error)
       );
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.get();
+      const schrodinger: Schrodinger<number, MockError> = await superposition;
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -644,26 +646,6 @@ describe('Superposition', () => {
   });
 
   describe('get', () => {
-    it('returns Schrodinger subclass isntance', async () => {
-      const value: number = -149;
-      const error: MockError = new MockError();
-
-      const superposition1: Superposition<number, MockError> = Superposition.alive(value);
-      const superposition2: Superposition<number, MockError> = Superposition.dead(error);
-
-      const schrodinger1: Schrodinger<number, MockError> = await superposition1.get();
-      const schrodinger2: Schrodinger<number, MockError> = await superposition2.get();
-
-      expect(schrodinger1.isAlive()).toBe(true);
-      expect(schrodinger1.get()).toBe(value);
-      expect(schrodinger2.isDead()).toBe(true);
-      expect(() => {
-        schrodinger2.get();
-      }).toThrow(MockError);
-    });
-  });
-
-  describe('then', () => {
     it('returns inner value', async () => {
       const value: number = -149;
       const error: MockError = new MockError();
@@ -671,8 +653,25 @@ describe('Superposition', () => {
       const superposition1: Superposition<number, MockError> = Superposition.alive(value);
       const superposition2: Superposition<number, MockError> = Superposition.dead(error);
 
-      await expect(superposition1).resolves.toBe(value);
-      await expect(superposition2).rejects.toThrow(MockError);
+      await expect(superposition1.get()).resolves.toEqual(value);
+      await expect(superposition2.get()).rejects.toThrow(MockError);
+    });
+  });
+
+  describe('then', () => {
+    it('returns Schrodinger subclass isntance', async () => {
+      const value: number = -149;
+      const error: MockError = new MockError();
+
+      const alive: Schrodinger<number, MockError> = await Superposition.alive(value);
+      const dead: Schrodinger<number, MockError> = await Superposition.dead(error);
+
+      expect(alive).toBeInstanceOf(Alive);
+      expect(alive.get()).toBe(value);
+      expect(dead).toBeInstanceOf(Dead);
+      expect(() => {
+        dead.get();
+      }).toThrow(MockError);
     });
   });
 
@@ -685,7 +684,7 @@ describe('Superposition', () => {
         return true;
       });
 
-      const shcrodiner: Schrodinger<number, MockError | SuperpositionError> = await superposition2.get();
+      const shcrodiner: Schrodinger<number, MockError | SuperpositionError> = await superposition2;
 
       expect(shcrodiner.isAlive()).toBe(true);
       expect(shcrodiner.get()).toBe(value);
@@ -699,7 +698,7 @@ describe('Superposition', () => {
         return false;
       });
 
-      const shcrodiner: Schrodinger<number, MockError | SuperpositionError> = await superposition2.get();
+      const shcrodiner: Schrodinger<number, MockError | SuperpositionError> = await superposition2;
 
       expect(shcrodiner.isDead()).toBe(true);
       expect(() => {
@@ -718,8 +717,8 @@ describe('Superposition', () => {
         return false;
       });
 
-      const shcrodiner1: Schrodinger<number, MockError | SuperpositionError> = await superposition2.get();
-      const shcrodiner2: Schrodinger<number, MockError | SuperpositionError> = await superposition3.get();
+      const shcrodiner1: Schrodinger<number, MockError | SuperpositionError> = await superposition2;
+      const shcrodiner2: Schrodinger<number, MockError | SuperpositionError> = await superposition3;
 
       expect(superposition1).toBe(superposition2);
       expect(shcrodiner1.isDead()).toBe(true);
@@ -1461,7 +1460,7 @@ describe('Superposition', () => {
       const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
 
       const unscharferelation: Unscharferelation<number> = alive.toUnscharferelation();
-      const heisenberg: Heisenberg<number> = await unscharferelation.get();
+      const heisenberg: Heisenberg<number> = await unscharferelation;
 
       expect(heisenberg.isPresent()).toBe(true);
       expect(heisenberg.get()).toBe(value);
@@ -1472,7 +1471,7 @@ describe('Superposition', () => {
       const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
 
       const unscharferelation: Unscharferelation<number> = dead.toUnscharferelation();
-      const heisenberg: Heisenberg<number> = await unscharferelation.get();
+      const heisenberg: Heisenberg<number> = await unscharferelation;
 
       expect(heisenberg.isAbsent()).toBe(true);
       expect(() => {
