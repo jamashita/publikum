@@ -1,5 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Ambiguous, CancellableEnumerator, Nullable, Peek, Predicate } from '@jamashita/publikum-type';
+import { CancellableEnumerator, Nullable, Peek, Predicate } from '@jamashita/publikum-type';
 
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
@@ -77,23 +77,13 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
   }
 
   public find(predicate: Predicate<E>): Nullable<E> {
-    const element: Ambiguous<E> = this.traverse(predicate);
-
-    if (element === undefined) {
-      return null;
-    }
-
-    return element;
-  }
-
-  private traverse(predicate: Predicate<E>): Ambiguous<E> {
     for (const [, element] of this.elements) {
       if (predicate(element)) {
         return element;
       }
     }
 
-    return undefined;
+    return null;
   }
 
   public every(predicate: Predicate<E>): boolean {
