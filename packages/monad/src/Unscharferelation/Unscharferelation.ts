@@ -110,16 +110,21 @@ export class Unscharferelation<P> implements PromiseLike<Heisenberg<P>>, Noun<'U
     func(this.resolved(this), this.rejected(this));
   }
 
-  private resolved(self: Unscharferelation<P>): Resolve<Etre<P>> {
-    let done: boolean = false;
+  private done(): boolean {
+    if (this.heisenberg.isPresent() || this.heisenberg.isAbsent()) {
+      return true;
+    }
 
+    return false;
+  }
+
+  private resolved(self: Unscharferelation<P>): Resolve<Etre<P>> {
     return (value: Etre<P>) => {
-      if (done) {
+      if (this.done()) {
         return Promise.resolve();
       }
 
       self.heisenberg = Present.of<P>(value);
-      done = true;
 
       const promises: Array<Promise<void>> = self.mapLaters.map<Promise<void>>((later: IPresentExecutor<P>) => {
         return later.onPresent(value);
@@ -130,15 +135,12 @@ export class Unscharferelation<P> implements PromiseLike<Heisenberg<P>>, Noun<'U
   }
 
   private rejected(self: Unscharferelation<P>): Reject<void> {
-    let done: boolean = false;
-
     return () => {
-      if (done) {
+      if (this.done()) {
         return Promise.resolve();
       }
 
       self.heisenberg = Absent.of<P>();
-      done = true;
 
       const promises: Array<Promise<void>> = self.passLaters.map<Promise<void>>((later: IAbsentExecutor) => {
         return later.onAbsent();
@@ -189,18 +191,18 @@ export class Unscharferelation<P> implements PromiseLike<Heisenberg<P>>, Noun<'U
     return this;
   }
 
-  public map<V = P>(mapper: UnaryFunction<P, PromiseLike<Omittable<Suspicious<Etre<V>>>>>): Unscharferelation<V>;
-  public map<V = P>(mapper: UnaryFunction<P, Unscharferelation<V>>): Unscharferelation<V>;
-  public map<V = P>(mapper: UnaryFunction<P, Omittable<Suspicious<Etre<V>>>>): Unscharferelation<V>;
-  public map<V = P>(
+  public map<Q = P>(mapper: UnaryFunction<P, PromiseLike<Omittable<Suspicious<Etre<Q>>>>>): Unscharferelation<Q>;
+  public map<Q = P>(mapper: UnaryFunction<P, Unscharferelation<Q>>): Unscharferelation<Q>;
+  public map<Q = P>(mapper: UnaryFunction<P, Omittable<Suspicious<Etre<Q>>>>): Unscharferelation<Q>;
+  public map<Q = P>(
     mapper: UnaryFunction<
       P,
-      PromiseLike<Omittable<Suspicious<Etre<V>>>> | Unscharferelation<V> | Omittable<Suspicious<Etre<V>>>
+      PromiseLike<Omittable<Suspicious<Etre<Q>>>> | Unscharferelation<Q> | Omittable<Suspicious<Etre<Q>>>
     >
-  ): Unscharferelation<V> {
-    return Unscharferelation.of<V>((resolve: Resolve<Etre<V>>, reject: Reject<void>) => {
+  ): Unscharferelation<Q> {
+    return Unscharferelation.of<Q>((resolve: Resolve<Etre<Q>>, reject: Reject<void>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.handlePresent(PresentExecutor.of<P, V>(mapper, resolve, reject));
+      this.handlePresent(PresentExecutor.of<P, Q>(mapper, resolve, reject));
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.handleAbsent(AbsentNothingExecutor.of(reject));
     });

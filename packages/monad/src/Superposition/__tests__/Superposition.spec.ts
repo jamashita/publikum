@@ -5,7 +5,6 @@ import { Resolve } from '@jamashita/publikum-type';
 
 import { UnscharferelationError } from '../../Unscharferelation/Error/UnscharferelationError';
 import { Heisenberg } from '../../Unscharferelation/Interface/Heisenberg';
-import { Unscharferelation } from '../../Unscharferelation/Unscharferelation';
 import { Alive } from '../Alive';
 import { Dead } from '../Dead';
 import { SuperpositionError } from '../Error/SuperpositionError';
@@ -1459,8 +1458,7 @@ describe('Superposition', () => {
       const value: number = 2;
       const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
 
-      const unscharferelation: Unscharferelation<number> = alive.toUnscharferelation();
-      const heisenberg: Heisenberg<number> = await unscharferelation;
+      const heisenberg: Heisenberg<number> = await alive.toUnscharferelation();
 
       expect(heisenberg.isPresent()).toBe(true);
       expect(heisenberg.get()).toBe(value);
@@ -1470,8 +1468,7 @@ describe('Superposition', () => {
       const error: MockError = new MockError();
       const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
 
-      const unscharferelation: Unscharferelation<number> = dead.toUnscharferelation();
-      const heisenberg: Heisenberg<number> = await unscharferelation;
+      const heisenberg: Heisenberg<number> = await dead.toUnscharferelation();
 
       expect(heisenberg.isAbsent()).toBe(true);
       expect(() => {

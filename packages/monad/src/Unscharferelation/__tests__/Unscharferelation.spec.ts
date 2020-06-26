@@ -3,7 +3,6 @@ import sinon, { SinonSpy } from 'sinon';
 import { Resolve } from '@jamashita/publikum-type';
 
 import { Schrodinger } from '../../Superposition/Interface/Schrodinger';
-import { Superposition } from '../../Superposition/Superposition';
 import { Absent } from '../Absent';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Heisenberg } from '../Interface/Heisenberg';
@@ -56,9 +55,8 @@ describe('Unscharferelation', () => {
   describe('present', () => {
     it('sync case', async () => {
       const value: number = 3;
-      const unscharferelation: Unscharferelation<number> = Unscharferelation.present<number>(value);
 
-      const heisenberg: Heisenberg<number> = await unscharferelation;
+      const heisenberg: Heisenberg<number> = await Unscharferelation.present<number>(value);
 
       expect(heisenberg.isPresent()).toBe(true);
       expect(heisenberg.get()).toBe(value);
@@ -66,11 +64,8 @@ describe('Unscharferelation', () => {
 
     it('async case', async () => {
       const value: number = 3;
-      const unscharferelation: Unscharferelation<number> = Unscharferelation.present<number>(
-        Promise.resolve<number>(value)
-      );
 
-      const heisenberg: Heisenberg<number> = await unscharferelation;
+      const heisenberg: Heisenberg<number> = await Unscharferelation.present<number>(Promise.resolve<number>(value));
 
       expect(heisenberg.isPresent()).toBe(true);
       expect(heisenberg.get()).toBe(value);
@@ -90,13 +85,9 @@ describe('Unscharferelation', () => {
 
   describe('absent', () => {
     it('sync case', async () => {
-      const unscharferelation1: Unscharferelation<number> = Unscharferelation.absent();
-      const unscharferelation2: Unscharferelation<number> = Unscharferelation.absent(undefined);
-      const unscharferelation3: Unscharferelation<number> = Unscharferelation.absent(null);
-
-      const heisenberg1: Heisenberg<number> = await unscharferelation1;
-      const heisenberg2: Heisenberg<number> = await unscharferelation2;
-      const heisenberg3: Heisenberg<number> = await unscharferelation3;
+      const heisenberg1: Heisenberg<number> = await Unscharferelation.absent();
+      const heisenberg2: Heisenberg<number> = await Unscharferelation.absent(undefined);
+      const heisenberg3: Heisenberg<number> = await Unscharferelation.absent(null);
 
       expect(heisenberg1.isAbsent()).toBe(true);
       expect(heisenberg2.isAbsent()).toBe(true);
@@ -113,13 +104,9 @@ describe('Unscharferelation', () => {
     });
 
     it('async case', async () => {
-      const unscharferelation1: Unscharferelation<number> = Unscharferelation.absent(Promise.resolve());
-      const unscharferelation2: Unscharferelation<number> = Unscharferelation.absent(Promise.resolve(undefined));
-      const unscharferelation3: Unscharferelation<number> = Unscharferelation.absent(Promise.resolve(null));
-
-      const heisenberg1: Heisenberg<number> = await unscharferelation1;
-      const heisenberg2: Heisenberg<number> = await unscharferelation2;
-      const heisenberg3: Heisenberg<number> = await unscharferelation3;
+      const heisenberg1: Heisenberg<number> = await Unscharferelation.absent(Promise.resolve());
+      const heisenberg2: Heisenberg<number> = await Unscharferelation.absent(Promise.resolve(undefined));
+      const heisenberg3: Heisenberg<number> = await Unscharferelation.absent(Promise.resolve(null));
 
       expect(heisenberg1.isAbsent()).toBe(true);
       expect(heisenberg2.isAbsent()).toBe(true);
@@ -148,24 +135,6 @@ describe('Unscharferelation', () => {
   });
 
   describe('get', () => {
-    it('returns Heisenberg subclass instance', async () => {
-      const value: number = -201;
-
-      const unscharferelation1: Unscharferelation<number> = Unscharferelation.present(value);
-      const unscharferelation2: Unscharferelation<number> = Unscharferelation.absent();
-
-      const heisenberg1: Heisenberg<number> = await unscharferelation1;
-      const heisenberg2: Heisenberg<number> = await unscharferelation2;
-
-      expect(heisenberg1.isPresent()).toBe(true);
-      expect(heisenberg1.get()).toBe(value);
-      expect(() => {
-        heisenberg2.get();
-      }).toThrow(UnscharferelationError);
-    });
-  });
-
-  describe('then', () => {
     it('returns inner value', async () => {
       const value: number = -201;
 
@@ -174,6 +143,21 @@ describe('Unscharferelation', () => {
 
       await expect(unscharferelation1.get()).resolves.toBe(value);
       await expect(unscharferelation2.get()).rejects.toThrow(UnscharferelationError);
+    });
+  });
+
+  describe('then', () => {
+    it('returns Heisenberg subclass instance', async () => {
+      const value: number = -201;
+
+      const heisenberg1: Heisenberg<number> = await Unscharferelation.present(value);
+      const heisenberg2: Heisenberg<number> = await Unscharferelation.absent();
+
+      expect(heisenberg1.isPresent()).toBe(true);
+      expect(heisenberg1.get()).toBe(value);
+      expect(() => {
+        heisenberg2.get();
+      }).toThrow(UnscharferelationError);
     });
   });
 
@@ -436,8 +420,7 @@ describe('Unscharferelation', () => {
       const value: number = -201;
       const present: Unscharferelation<number> = Unscharferelation.present(value);
 
-      const superposition: Superposition<number, UnscharferelationError> = present.toSuperposition();
-      const schrodinger: Schrodinger<number, UnscharferelationError> = await superposition.get();
+      const schrodinger: Schrodinger<number, UnscharferelationError> = await present.toSuperposition();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(value);
@@ -446,8 +429,7 @@ describe('Unscharferelation', () => {
     it('absent: will transform to dead', async () => {
       const absent: Unscharferelation<number> = Unscharferelation.absent();
 
-      const superposition: Superposition<number, UnscharferelationError> = absent.toSuperposition();
-      const schrodinger: Schrodinger<number, UnscharferelationError> = await superposition.get();
+      const schrodinger: Schrodinger<number, UnscharferelationError> = await absent.toSuperposition();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
