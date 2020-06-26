@@ -1,5 +1,6 @@
 import { Etre, Kind, Omittable, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
+import { Heisenberg } from '../Interface/Heisenberg';
 import { Unscharferelation } from '../Unscharferelation';
 import { IPresentExecutor } from './Interface/IPresentExecutor';
 
@@ -44,8 +45,12 @@ export class PresentExecutor<P, Q> implements IPresentExecutor<P, 'PresentExecut
 
     if (mapped instanceof Unscharferelation) {
       await mapped.then<void, void>(
-        (v: Etre<Q>) => {
-          this.resolve(v);
+        (v: Heisenberg<Q>) => {
+          if (v.isPresent()) {
+            this.resolve(v.get());
+          }
+
+          this.reject();
         },
         () => {
           this.reject();

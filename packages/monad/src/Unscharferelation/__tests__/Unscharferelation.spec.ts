@@ -13,43 +13,43 @@ import { Unscharferelation } from '../Unscharferelation';
 describe('Unscharferelation', () => {
   describe('maybe', () => {
     it('sync present case', async () => {
-      expect(await Unscharferelation.maybe(1).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(0).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe('a').get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe('').get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(true).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(false).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Symbol()).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(0n).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(1n).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(-1n).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe({}).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(new Error()).get()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(1)).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(0)).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe('a')).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe('')).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(true)).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(false)).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Symbol())).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(0n)).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(1n)).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(-1n)).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe({})).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(new Error())).toBeInstanceOf(Present);
     });
 
     it('sync absent case', async () => {
-      expect(await Unscharferelation.maybe(null).get()).toBeInstanceOf(Absent);
-      expect(await Unscharferelation.maybe(undefined).get()).toBeInstanceOf(Absent);
+      expect(await Unscharferelation.maybe(null)).toBeInstanceOf(Absent);
+      expect(await Unscharferelation.maybe(undefined)).toBeInstanceOf(Absent);
     });
 
     it('async present case', async () => {
-      expect(await Unscharferelation.maybe(Promise.resolve(1)).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve(0)).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve('a')).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve('')).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve(true)).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve(false)).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve(Symbol())).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve(0n)).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve(1n)).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve(-1n)).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve({})).get()).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve(new Error())).get()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(1))).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(0))).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve('a'))).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(''))).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(true))).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(false))).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(Symbol()))).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(0n))).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(1n))).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(-1n))).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve({}))).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(new Error()))).toBeInstanceOf(Present);
     });
 
     it('async absent case', async () => {
-      expect(await Unscharferelation.maybe(Promise.resolve(null)).get()).toBeInstanceOf(Absent);
-      expect(await Unscharferelation.maybe(Promise.resolve(undefined)).get()).toBeInstanceOf(Absent);
+      expect(await Unscharferelation.maybe(Promise.resolve(null))).toBeInstanceOf(Absent);
+      expect(await Unscharferelation.maybe(Promise.resolve(undefined))).toBeInstanceOf(Absent);
     });
   });
 
@@ -58,7 +58,7 @@ describe('Unscharferelation', () => {
       const value: number = 3;
       const unscharferelation: Unscharferelation<number> = Unscharferelation.present<number>(value);
 
-      const heisenberg: Heisenberg<number> = await unscharferelation.get();
+      const heisenberg: Heisenberg<number> = await unscharferelation;
 
       expect(heisenberg.isPresent()).toBe(true);
       expect(heisenberg.get()).toBe(value);
@@ -70,7 +70,7 @@ describe('Unscharferelation', () => {
         Promise.resolve<number>(value)
       );
 
-      const heisenberg: Heisenberg<number> = await unscharferelation.get();
+      const heisenberg: Heisenberg<number> = await unscharferelation;
 
       expect(heisenberg.isPresent()).toBe(true);
       expect(heisenberg.get()).toBe(value);
@@ -94,9 +94,9 @@ describe('Unscharferelation', () => {
       const unscharferelation2: Unscharferelation<number> = Unscharferelation.absent(undefined);
       const unscharferelation3: Unscharferelation<number> = Unscharferelation.absent(null);
 
-      const heisenberg1: Heisenberg<number> = await unscharferelation1.get();
-      const heisenberg2: Heisenberg<number> = await unscharferelation2.get();
-      const heisenberg3: Heisenberg<number> = await unscharferelation3.get();
+      const heisenberg1: Heisenberg<number> = await unscharferelation1;
+      const heisenberg2: Heisenberg<number> = await unscharferelation2;
+      const heisenberg3: Heisenberg<number> = await unscharferelation3;
 
       expect(heisenberg1.isAbsent()).toBe(true);
       expect(heisenberg2.isAbsent()).toBe(true);
@@ -117,9 +117,9 @@ describe('Unscharferelation', () => {
       const unscharferelation2: Unscharferelation<number> = Unscharferelation.absent(Promise.resolve(undefined));
       const unscharferelation3: Unscharferelation<number> = Unscharferelation.absent(Promise.resolve(null));
 
-      const heisenberg1: Heisenberg<number> = await unscharferelation1.get();
-      const heisenberg2: Heisenberg<number> = await unscharferelation2.get();
-      const heisenberg3: Heisenberg<number> = await unscharferelation3.get();
+      const heisenberg1: Heisenberg<number> = await unscharferelation1;
+      const heisenberg2: Heisenberg<number> = await unscharferelation2;
+      const heisenberg3: Heisenberg<number> = await unscharferelation3;
 
       expect(heisenberg1.isAbsent()).toBe(true);
       expect(heisenberg2.isAbsent()).toBe(true);
@@ -154,8 +154,8 @@ describe('Unscharferelation', () => {
       const unscharferelation1: Unscharferelation<number> = Unscharferelation.present(value);
       const unscharferelation2: Unscharferelation<number> = Unscharferelation.absent();
 
-      const heisenberg1: Heisenberg<number> = await unscharferelation1.get();
-      const heisenberg2: Heisenberg<number> = await unscharferelation2.get();
+      const heisenberg1: Heisenberg<number> = await unscharferelation1;
+      const heisenberg2: Heisenberg<number> = await unscharferelation2;
 
       expect(heisenberg1.isPresent()).toBe(true);
       expect(heisenberg1.get()).toBe(value);
@@ -172,8 +172,8 @@ describe('Unscharferelation', () => {
       const unscharferelation1: Unscharferelation<number> = Unscharferelation.present(value);
       const unscharferelation2: Unscharferelation<number> = Unscharferelation.absent();
 
-      await expect(unscharferelation1).resolves.toBe(value);
-      await expect(unscharferelation2).rejects.toThrow(UnscharferelationError);
+      await expect(unscharferelation1.get()).resolves.toBe(value);
+      await expect(unscharferelation2.get()).rejects.toThrow(UnscharferelationError);
     });
   });
 
@@ -186,7 +186,7 @@ describe('Unscharferelation', () => {
         return true;
       });
 
-      const heisenberg: Heisenberg<number> = await unscharferelation2.get();
+      const heisenberg: Heisenberg<number> = await unscharferelation2;
 
       expect(heisenberg.isPresent()).toBe(true);
       expect(heisenberg.get()).toBe(value);
@@ -200,7 +200,7 @@ describe('Unscharferelation', () => {
         return false;
       });
 
-      const heisenberg: Heisenberg<number> = await unscharferelation2.get();
+      const heisenberg: Heisenberg<number> = await unscharferelation2;
 
       expect(heisenberg.isAbsent()).toBe(true);
       expect(() => {
@@ -216,8 +216,8 @@ describe('Unscharferelation', () => {
       const unscharferelation3: Unscharferelation<number> = unscharferelation1.filter(() => {
         return false;
       });
-      const heisenberg1: Heisenberg<number> = await unscharferelation2.get();
-      const heisenberg2: Heisenberg<number> = await unscharferelation3.get();
+      const heisenberg1: Heisenberg<number> = await unscharferelation2;
+      const heisenberg2: Heisenberg<number> = await unscharferelation3;
 
       expect(unscharferelation1).toBe(unscharferelation2);
       expect(heisenberg1.isAbsent()).toBe(true);
@@ -349,7 +349,7 @@ describe('Unscharferelation', () => {
           return v;
         });
 
-      await expect(unscharferelation).rejects.toThrow(UnscharferelationError);
+      await expect(unscharferelation.get()).rejects.toThrow(UnscharferelationError);
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
     });
@@ -374,7 +374,7 @@ describe('Unscharferelation', () => {
           return v;
         });
 
-      await expect(unscharferelation).rejects.toThrow(UnscharferelationError);
+      await expect(unscharferelation.get()).rejects.toThrow(UnscharferelationError);
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
     });
@@ -400,7 +400,7 @@ describe('Unscharferelation', () => {
           return v;
         });
 
-      await expect(unscharferelation).rejects.toThrow(UnscharferelationError);
+      await expect(unscharferelation.get()).rejects.toThrow(UnscharferelationError);
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
     });

@@ -6,7 +6,7 @@ const LITERAL_TOSTRING: string = '[object Object]';
 
 export class Kind {
   public static isUndefined(value: unknown): value is undefined {
-    if (value === undefined) {
+    if (typeof value === 'undefined') {
       return true;
     }
 

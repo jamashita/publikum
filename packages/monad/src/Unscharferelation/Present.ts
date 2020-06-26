@@ -6,7 +6,7 @@ import { Uncertain } from './Uncertain';
 
 export class Present<P> implements Heisenberg<P, 'Present'> {
   public readonly noun: 'Present' = 'Present';
-  private readonly value: P;
+  private readonly value: Etre<P>;
 
   public static of<P>(value: Etre<P>): Present<P> {
     return new Present<P>(value);
@@ -16,7 +16,7 @@ export class Present<P> implements Heisenberg<P, 'Present'> {
     this.value = value;
   }
 
-  public get(): P {
+  public get(): Etre<P> {
     return this.value;
   }
 
