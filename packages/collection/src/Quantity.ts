@@ -1,5 +1,5 @@
 import { Objet } from '@jamashita/publikum-object';
-import { Enumerator, Nullable } from '@jamashita/publikum-type';
+import { CancellableEnumerator, Nullable } from '@jamashita/publikum-type';
 
 import { Collection } from './Interface/Collection';
 import { Pair } from './Pair';
@@ -18,7 +18,7 @@ export abstract class Quantity<T extends Quantity<T, K, V, N>, K, V, N extends s
 
   public abstract isEmpty(): boolean;
 
-  public abstract forEach(iteration: Enumerator<K, V>): void;
+  public abstract forEach(iteration: CancellableEnumerator<K, V>): void;
 
   public abstract iterator(): Iterator<Pair<K, V>>;
 }

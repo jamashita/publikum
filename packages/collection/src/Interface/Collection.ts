@@ -1,5 +1,5 @@
 import { Equalable, Noun, Serializable } from '@jamashita/publikum-interface';
-import { Enumerator, Nullable } from '@jamashita/publikum-type';
+import { CancellableEnumerator, Nullable } from '@jamashita/publikum-type';
 
 import { Pair } from '../Pair';
 
@@ -15,7 +15,7 @@ export interface Collection<T extends Collection<T, K, V, N>, K, V, N extends st
 
   isEmpty(): boolean;
 
-  forEach(iteration: Enumerator<K, V>): void;
+  forEach(iteration: CancellableEnumerator<K, V>): void;
 
   iterator(): Iterator<Pair<K, V>>;
 }

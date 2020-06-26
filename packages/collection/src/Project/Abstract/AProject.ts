@@ -1,10 +1,11 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Ambiguous, BinaryPredicate, Enumerator, Nullable } from '@jamashita/publikum-type';
+import { Ambiguous, BinaryPredicate, CancellableEnumerator, Nullable, Peek } from '@jamashita/publikum-type';
 
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Project } from '../Interface/Project';
 
+// TODO TESTS UNDONE
 export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>, N extends string = string>
   extends Quantity<Project<K, V, N>, K, V, N>
   implements Project<K, V, N> {
@@ -63,10 +64,19 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
     return this.elements.values()[Symbol.iterator]();
   }
 
-  public forEach(iteration: Enumerator<K, V>): void {
-    this.elements.forEach((element: Pair<K, V>) => {
-      iteration(element.getValue(), element.getKey());
-    });
+  public forEach(iteration: CancellableEnumerator<K, V>): void {
+    let done: boolean = false;
+    const cancel: Peek = () => {
+      done = true;
+    };
+
+    for (const [, p] of this.elements) {
+      iteration(p.getValue(), p.getKey(), cancel);
+
+      if (done) {
+        return;
+      }
+    }
   }
 
   public every(predicate: BinaryPredicate<K, V>): boolean {

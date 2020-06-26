@@ -1,10 +1,11 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Ambiguous, Enumerator, Nullable, Predicate } from '@jamashita/publikum-type';
+import { Ambiguous, CancellableEnumerator, Nullable, Peek, Predicate } from '@jamashita/publikum-type';
 
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Address } from '../Interface/Address';
 
+// TODO TESTS UNDONE
 export abstract class AAddress<E extends Nominative<E>, N extends string = string>
   extends Quantity<Address<E, N>, void, E, N>
   implements Address<E, N> {
@@ -60,10 +61,19 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     }
   }
 
-  public forEach(iteration: Enumerator<void, E>): void {
-    this.elements.forEach((element: E) => {
-      iteration(element);
-    });
+  public forEach(iteration: CancellableEnumerator<void, E>): void {
+    let done: boolean = false;
+    const cancel: Peek = () => {
+      done = true;
+    };
+
+    for (const [, v] of this.elements) {
+      iteration(v, undefined, cancel);
+
+      if (done) {
+        return;
+      }
+    }
   }
 
   public find(predicate: Predicate<E>): Nullable<E> {

@@ -1,10 +1,20 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Ambiguous, BinaryPredicate, Enumerator, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
+import {
+  Ambiguous,
+  BinaryPredicate,
+  CancellableEnumerator,
+  Enumerator,
+  Mapper,
+  Nullable,
+  Peek,
+  Predicate
+} from '@jamashita/publikum-type';
 
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Sequence } from '../Interface/Sequence';
 
+// TODO TESTS UNDONE
 export abstract class ASequence<E extends Nominative<E>, N extends string = string>
   extends Quantity<ASequence<E, N>, number, E, N>
   implements Sequence<E, N> {
@@ -66,8 +76,19 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
       [Symbol.iterator]();
   }
 
-  public forEach(iteration: Mapper<E, void>): void {
-    this.elements.forEach(iteration);
+  public forEach(iteration: CancellableEnumerator<number, E>): void {
+    let done: boolean = false;
+    const cancel: Peek = () => {
+      done = true;
+    };
+
+    for (let i: number = 0; i < this.elements.length; i++) {
+      iteration(this.elements[i], i, cancel);
+
+      if (done) {
+        return;
+      }
+    }
   }
 
   public find(predicate: Predicate<E>): Nullable<E> {
