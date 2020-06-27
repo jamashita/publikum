@@ -1,10 +1,10 @@
 import { Etre, Kind, Omittable, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
+import { IResolveExecutor } from '../../Executor/Interface/IResolveExecutor';
 import { Heisenberg } from '../Interface/Heisenberg';
 import { Unscharferelation } from '../Unscharferelation';
-import { IPresentExecutor } from './Interface/IPresentExecutor';
 
-export class PresentExecutor<P, Q> implements IPresentExecutor<P, 'PresentExecutor'> {
+export class PresentExecutor<P, Q> implements IResolveExecutor<P, 'PresentExecutor'> {
   public readonly noun: 'PresentExecutor' = 'PresentExecutor';
   private readonly mapper: UnaryFunction<
     P,
@@ -37,7 +37,7 @@ export class PresentExecutor<P, Q> implements IPresentExecutor<P, 'PresentExecut
     this.reject = reject;
   }
 
-  public async onPresent(value: P): Promise<void> {
+  public async onResolve(value: P): Promise<void> {
     const mapped:
       | PromiseLike<Omittable<Suspicious<Etre<Q>>>>
       | Unscharferelation<Q>
@@ -64,12 +64,7 @@ export class PresentExecutor<P, Q> implements IPresentExecutor<P, 'PresentExecut
     if (Kind.isPromiseLike(mapped)) {
       await mapped.then<void, void>(
         (v: Omittable<Suspicious<Etre<Q>>>) => {
-          if (v === undefined) {
-            this.reject();
-
-            return;
-          }
-          if (v === null) {
+          if (v === undefined || v === null) {
             this.reject();
 
             return;
@@ -85,12 +80,7 @@ export class PresentExecutor<P, Q> implements IPresentExecutor<P, 'PresentExecut
       return;
     }
 
-    if (mapped === undefined) {
-      this.reject();
-
-      return;
-    }
-    if (mapped === null) {
+    if (mapped === undefined || mapped === null) {
       this.reject();
 
       return;

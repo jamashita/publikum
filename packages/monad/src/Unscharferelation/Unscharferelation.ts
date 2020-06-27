@@ -14,14 +14,16 @@ import {
   UnaryFunction
 } from '@jamashita/publikum-type';
 
+import { DoneExecutor } from '../Executor/DoneExecutor';
+import { IRejectExecutor } from '../Executor/Interface/IRejectExecutor';
+import { IResolveExecutor } from '../Executor/Interface/IResolveExecutor';
+import { RejectConsumerExecutor } from '../Executor/RejectConsumerExecutor';
+import { RejectPeekExecutor } from '../Executor/RejectPeekExecutor';
+import { ResolveConsumerExecutor } from '../Executor/ResolveConsumerExecutor';
+import { ResolvePeekExecutor } from '../Executor/ResolvePeekExecutor';
 import { Superposition } from '../Superposition/Superposition';
 import { Absent } from './Absent';
 import { UnscharferelationError } from './Error/UnscharferelationError';
-import { AbsentNothingExecutor } from './Executor/AbsentNothingExecutor';
-import { ConsumerExecutor } from './Executor/ConsumerExecutor';
-import { IAbsentExecutor } from './Executor/Interface/IAbsentExecutor';
-import { IPresentExecutor } from './Executor/Interface/IPresentExecutor';
-import { PeekExecutor } from './Executor/PeekExecutor';
 import { PresentExecutor } from './Executor/PresentExecutor';
 import { Heisenberg } from './Interface/Heisenberg';
 import { Present } from './Present';
@@ -30,8 +32,7 @@ import { Uncertain } from './Uncertain';
 export class Unscharferelation<P> implements PromiseLike<Heisenberg<P>>, Noun<'Unscharferelation'> {
   public readonly noun: 'Unscharferelation' = 'Unscharferelation';
   private heisenberg: Heisenberg<P>;
-  private readonly mapLaters: Array<IPresentExecutor<P>>;
-  private readonly passLaters: Array<IAbsentExecutor>;
+  private readonly laters: Array<DoneExecutor<P, void>>;
 
   public static maybe<P>(value: Unscharferelation<P>): Unscharferelation<P>;
   public static maybe<P>(value: PromiseLike<Omittable<Suspicious<Etre<P>>>>): Unscharferelation<P>;
@@ -105,8 +106,7 @@ export class Unscharferelation<P> implements PromiseLike<Heisenberg<P>>, Noun<'U
 
   protected constructor(func: BinaryFunction<Resolve<Etre<P>>, Reject<void>, unknown>) {
     this.heisenberg = Uncertain.of<P>();
-    this.mapLaters = [];
-    this.passLaters = [];
+    this.laters = [];
     func(this.resolved(this), this.rejected(this));
   }
 
@@ -126,8 +126,8 @@ export class Unscharferelation<P> implements PromiseLike<Heisenberg<P>>, Noun<'U
 
       self.heisenberg = Present.of<P>(value);
 
-      const promises: Array<Promise<void>> = self.mapLaters.map<Promise<void>>((later: IPresentExecutor<P>) => {
-        return later.onPresent(value);
+      const promises: Array<Promise<void>> = self.laters.map<Promise<void>>((later: DoneExecutor<P, void>) => {
+        return later.onResolve(value);
       });
 
       return Promise.all<void>(promises);
@@ -142,8 +142,8 @@ export class Unscharferelation<P> implements PromiseLike<Heisenberg<P>>, Noun<'U
 
       self.heisenberg = Absent.of<P>();
 
-      const promises: Array<Promise<void>> = self.passLaters.map<Promise<void>>((later: IAbsentExecutor) => {
-        return later.onAbsent();
+      const promises: Array<Promise<void>> = self.laters.map<Promise<void>>((later: DoneExecutor<P, void>) => {
+        return later.onReject();
       });
 
       return Promise.all<void>(promises);
@@ -202,44 +202,33 @@ export class Unscharferelation<P> implements PromiseLike<Heisenberg<P>>, Noun<'U
   ): Unscharferelation<Q> {
     return Unscharferelation.of<Q>((resolve: Resolve<Etre<Q>>, reject: Reject<void>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.handlePresent(PresentExecutor.of<P, Q>(mapper, resolve, reject));
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.handleAbsent(AbsentNothingExecutor.of(reject));
+      this.handle(PresentExecutor.of<P, Q>(mapper, resolve, reject), RejectConsumerExecutor.of<void>(reject));
     });
   }
 
-  private pass(present: Consumer<Etre<P>>, absent: Peek): void {
+  // TODO RCOVER method
+
+  private pass(resolve: Consumer<Etre<P>>, reject: Peek): void {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.handlePresent(ConsumerExecutor.of<Etre<P>>(present));
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.handleAbsent(PeekExecutor.of(absent));
+    this.handle(ResolveConsumerExecutor.of<Etre<P>>(resolve), RejectPeekExecutor.of<void>(reject));
   }
 
   private peek(peek: Peek): void {
-    const executor: PeekExecutor<P> = PeekExecutor.of<P>(peek);
-
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.handlePresent(executor);
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.handleAbsent(executor);
+    this.handle(ResolvePeekExecutor.of<P>(peek), RejectPeekExecutor.of<void>(peek));
   }
 
-  private handlePresent(executor: IPresentExecutor<P>): Promise<void> {
+  private handle(resolve: IResolveExecutor<P>, reject: IRejectExecutor<void>): Promise<void> {
+    const done: DoneExecutor<P, void> = DoneExecutor.of<P, void>(resolve, reject);
+
     if (this.heisenberg.isPresent()) {
-      return executor.onPresent(this.heisenberg.get());
+      return done.onResolve(this.heisenberg.get());
     }
-
-    this.mapLaters.push(executor);
-
-    return Promise.resolve();
-  }
-
-  private handleAbsent(executor: IAbsentExecutor): Promise<void> {
     if (this.heisenberg.isAbsent()) {
-      return executor.onAbsent();
+      return done.onReject();
     }
 
-    this.passLaters.push(executor);
+    this.laters.push(done);
 
     return Promise.resolve();
   }
