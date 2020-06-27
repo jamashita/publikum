@@ -1,6 +1,6 @@
 import { Noun } from '@jamashita/publikum-interface';
 
-type RejectExecutorType = 'RejectExecutor' | 'PeekExecutor' | 'ConsumerExecutor';
+type RejectExecutorType = 'RejectExecutor' | 'PeekExecutor' | 'RejectConsumerExecutor';
 
 export interface IRejectExecutor<R, N extends RejectExecutorType = RejectExecutorType> extends Noun<N> {
   readonly noun: N;
