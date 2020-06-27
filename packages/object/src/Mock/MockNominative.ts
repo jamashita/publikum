@@ -1,4 +1,4 @@
-import { Primitive } from '@jamashita/publikum-type';
+import { Kind, Primitive } from '@jamashita/publikum-type';
 
 import { ValueObject } from '../ValueObject';
 
@@ -27,10 +27,10 @@ export class MockNominative<T extends Primitive> extends ValueObject<MockNominat
   }
 
   public serialize(): string {
-    if (this.value === undefined) {
+    if (Kind.isUndefined(this.value)) {
       return 'undefined';
     }
-    if (this.value === null) {
+    if (Kind.isNull(this.value)) {
       return 'null';
     }
 
