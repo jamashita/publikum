@@ -1,9 +1,9 @@
 import { Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 
+import { IResolveExecutor } from '../../Executor/Interface/IResolveExecutor';
 import { Superposition } from '../Superposition';
-import { IAliveExecutor } from './Interface/IAliveExecutor';
 
-export class AliveExecutor<A, B, E extends Error> implements IAliveExecutor<A, 'AliveExecutor'> {
+export class AliveExecutor<A, B, E extends Error> implements IResolveExecutor<A, 'AliveExecutor'> {
   public readonly noun: 'AliveExecutor' = 'AliveExecutor';
   private readonly mapper: UnaryFunction<A, PromiseLike<B> | Superposition<B, E> | B>;
   private readonly resolve: Resolve<B>;
@@ -27,7 +27,7 @@ export class AliveExecutor<A, B, E extends Error> implements IAliveExecutor<A, '
     this.reject = reject;
   }
 
-  public async onAlive(value: A): Promise<void> {
+  public async onResolve(value: A): Promise<void> {
     // prettier-ignore
     try {
       const mapped: PromiseLike<B> | Superposition<B, E> | B = this.mapper(value);

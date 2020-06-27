@@ -6,7 +6,7 @@ import { Superposition } from '../../Superposition';
 import { DeadExecutor } from '../DeadExecutor';
 
 describe('DeadExecutor', () => {
-  describe('onDead', () => {
+  describe('onReject', () => {
     it('A given', async () => {
       const value: number = 101;
       const error: MockError = new MockError();
@@ -31,7 +31,7 @@ describe('DeadExecutor', () => {
         }
       );
 
-      await executor.onDead(error);
+      await executor.onReject(error);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -62,7 +62,7 @@ describe('DeadExecutor', () => {
         }
       );
 
-      await executor.onDead(error);
+      await executor.onReject(error);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -93,7 +93,7 @@ describe('DeadExecutor', () => {
         }
       );
 
-      await executor.onDead(error);
+      await executor.onReject(error);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -123,7 +123,7 @@ describe('DeadExecutor', () => {
         }
       );
 
-      await executor.onDead(error);
+      await executor.onReject(error);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -153,7 +153,7 @@ describe('DeadExecutor', () => {
         }
       );
 
-      await executor.onDead(error);
+      await executor.onReject(error);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -183,7 +183,7 @@ describe('DeadExecutor', () => {
         }
       );
 
-      await executor.onDead(error);
+      await executor.onReject(error);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);

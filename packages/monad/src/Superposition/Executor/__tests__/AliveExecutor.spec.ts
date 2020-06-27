@@ -6,7 +6,7 @@ import { Superposition } from '../../Superposition';
 import { AliveExecutor } from '../AliveExecutor';
 
 describe('AliveExecutor', () => {
-  describe('onAlive', () => {
+  describe('onResolve', () => {
     it('A given', async () => {
       const value: number = 101;
 
@@ -30,7 +30,7 @@ describe('AliveExecutor', () => {
         }
       );
 
-      await executor.onAlive(value);
+      await executor.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -60,7 +60,7 @@ describe('AliveExecutor', () => {
         }
       );
 
-      await executor.onAlive(value);
+      await executor.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -90,7 +90,7 @@ describe('AliveExecutor', () => {
         }
       );
 
-      await executor.onAlive(value);
+      await executor.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -121,7 +121,7 @@ describe('AliveExecutor', () => {
         }
       );
 
-      await executor.onAlive(value);
+      await executor.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -152,7 +152,7 @@ describe('AliveExecutor', () => {
         }
       );
 
-      await executor.onAlive(value);
+      await executor.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -183,7 +183,7 @@ describe('AliveExecutor', () => {
         }
       );
 
-      await executor.onAlive(value);
+      await executor.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);

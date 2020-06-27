@@ -219,16 +219,14 @@ export class Unscharferelation<P> implements PromiseLike<Heisenberg<P>>, Noun<'U
   }
 
   private handle(resolve: IResolveExecutor<P>, reject: IRejectExecutor<void>): Promise<void> {
-    const done: DoneExecutor<P, void> = DoneExecutor.of<P, void>(resolve, reject);
-
     if (this.heisenberg.isPresent()) {
-      return done.onResolve(this.heisenberg.get());
+      return resolve.onResolve(this.heisenberg.get());
     }
     if (this.heisenberg.isAbsent()) {
-      return done.onReject();
+      return reject.onReject();
     }
 
-    this.laters.push(done);
+    this.laters.push(DoneExecutor.of<P, void>(resolve, reject));
 
     return Promise.resolve();
   }

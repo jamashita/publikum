@@ -1,9 +1,9 @@
 import { Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 
+import { IRejectExecutor } from '../../Executor/Interface/IRejectExecutor';
 import { Superposition } from '../Superposition';
-import { IDeadExecutor } from './Interface/IDeadExecutor';
 
-export class DeadExecutor<B, D extends Error, E extends Error> implements IDeadExecutor<D, 'DeadExecutor'> {
+export class DeadExecutor<B, D extends Error, E extends Error> implements IRejectExecutor<D, 'DeadExecutor'> {
   public readonly noun: 'DeadExecutor' = 'DeadExecutor';
   private readonly mapper: UnaryFunction<D, PromiseLike<B> | Superposition<B, E> | B>;
   private readonly resolve: Resolve<B>;
@@ -27,7 +27,7 @@ export class DeadExecutor<B, D extends Error, E extends Error> implements IDeadE
     this.reject = reject;
   }
 
-  public async onDead(err: D): Promise<void> {
+  public async onReject(err: D): Promise<void> {
     // prettier-ignore
     try {
       const mapped: PromiseLike<B> | Superposition<B, E> | B = this.mapper(err);
