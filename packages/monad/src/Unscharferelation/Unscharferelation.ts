@@ -1,5 +1,6 @@
 import { Noun } from '@jamashita/publikum-interface';
 import {
+  Ambiguous,
   BinaryFunction,
   Consumer,
   Etre,
@@ -36,6 +37,41 @@ export class Unscharferelation<P> implements PromiseLike<Heisenberg<P>>, Noun<'U
   private heisenberg: Heisenberg<P>;
   private readonly laters: Array<DoneExecutor<P, void>>;
 
+  public static all<P>(unscharferelations: Array<Unscharferelation<P>>): Unscharferelation<Array<P>> {
+    if (unscharferelations.length === 0) {
+      return Unscharferelation.present<Array<P>>([]);
+    }
+
+    const heisenbergs: Array<PromiseLike<Heisenberg<P>>> = unscharferelations.map<PromiseLike<Heisenberg<P>>>(
+      (u: Unscharferelation<P>) => {
+        return u.then();
+      }
+    );
+
+    const promises: Promise<Array<Heisenberg<P>>> = Promise.all<Heisenberg<P>>(heisenbergs);
+
+    return Unscharferelation.of<Array<P>>((resolve: Resolve<Array<P>>, reject: Reject<void>) => {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      promises.then<void>((hbg: Array<Heisenberg<P>>) => {
+        const absent: Ambiguous<Absent<P>> = hbg.find<Absent<P>>((h: Heisenberg<P>): h is Absent<P> => {
+          return h.isAbsent();
+        });
+
+        if (!Kind.isUndefined(absent)) {
+          reject();
+
+          return;
+        }
+
+        const hs: Array<P> = hbg.map<P>((h: Heisenberg<P>) => {
+          return h.get();
+        });
+
+        resolve(hs);
+      });
+    });
+  }
+
   public static maybe<P>(value: Unscharferelation<P>): Unscharferelation<P>;
   public static maybe<P>(value: PromiseLike<Omittable<Suspicious<Etre<P>>>>): Unscharferelation<P>;
   public static maybe<P>(value: Omittable<Suspicious<Etre<P>>>): Unscharferelation<P>;
@@ -48,7 +84,7 @@ export class Unscharferelation<P> implements PromiseLike<Heisenberg<P>>, Noun<'U
     if (Kind.isPromiseLike(value)) {
       return Unscharferelation.ofPromise<P>(value);
     }
-    if (value === undefined || value === null) {
+    if (Kind.isUndefined(value) || Kind.isNull(value)) {
       return Unscharferelation.absent<P>();
     }
 
@@ -91,7 +127,7 @@ export class Unscharferelation<P> implements PromiseLike<Heisenberg<P>>, Noun<'U
     return Unscharferelation.of<P>((resolve: Resolve<Etre<P>>, reject: Reject<void>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       promise.then<void>((value: Omittable<Suspicious<Etre<P>>>) => {
-        if (value === undefined || value === null) {
+        if (Kind.isUndefined(value) || Kind.isNull(value)) {
           reject();
 
           return;
