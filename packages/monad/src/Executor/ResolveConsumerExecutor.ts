@@ -1,16 +1,16 @@
-import { Consumer } from '@jamashita/publikum-type';
+import { Resolve } from '@jamashita/publikum-type';
 
 import { IResolveExecutor } from './Interface/IResolveExecutor';
 
 export class ResolveConsumerExecutor<R> implements IResolveExecutor<R, 'ResolveConsumerExecutor'> {
   public readonly noun: 'ResolveConsumerExecutor' = 'ResolveConsumerExecutor';
-  private readonly resolve: Consumer<R>;
+  private readonly resolve: Resolve<R>;
 
-  public static of<R>(resolve: Consumer<R>): ResolveConsumerExecutor<R> {
+  public static of<R>(resolve: Resolve<R>): ResolveConsumerExecutor<R> {
     return new ResolveConsumerExecutor<R>(resolve);
   }
 
-  protected constructor(resolve: Consumer<R>) {
+  protected constructor(resolve: Resolve<R>) {
     this.resolve = resolve;
   }
 
