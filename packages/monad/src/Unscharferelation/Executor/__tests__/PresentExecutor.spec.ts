@@ -4,7 +4,7 @@ import { Unscharferelation } from '../../Unscharferelation';
 import { PresentExecutor } from '../PresentExecutor';
 
 describe('PresentExecutor', () => {
-  describe('onPresent', () => {
+  describe('onResolve', () => {
     it('P given', async () => {
       const value: number = 10;
 
@@ -28,7 +28,7 @@ describe('PresentExecutor', () => {
         }
       );
 
-      await executor.onPresent(value);
+      await executor.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -58,7 +58,7 @@ describe('PresentExecutor', () => {
         }
       );
 
-      await executor.onPresent(value);
+      await executor.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -88,7 +88,7 @@ describe('PresentExecutor', () => {
         }
       );
 
-      await executor.onPresent(value);
+      await executor.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -117,7 +117,7 @@ describe('PresentExecutor', () => {
         }
       );
 
-      await executor.onPresent(value);
+      await executor.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -146,7 +146,7 @@ describe('PresentExecutor', () => {
         }
       );
 
-      await executor.onPresent(value);
+      await executor.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -175,7 +175,7 @@ describe('PresentExecutor', () => {
         }
       );
 
-      await executor.onPresent(value);
+      await executor.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -204,7 +204,7 @@ describe('PresentExecutor', () => {
         }
       );
 
-      await executor.onPresent(value);
+      await executor.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -233,7 +233,7 @@ describe('PresentExecutor', () => {
         }
       );
 
-      await executor.onPresent(value);
+      await executor.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
