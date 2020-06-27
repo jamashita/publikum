@@ -27,10 +27,10 @@ export class DeadExecutor<B, D extends Error, E extends Error> implements IRejec
     this.reject = reject;
   }
 
-  public async onReject(err: D): Promise<void> {
+  public async onReject(reject: D): Promise<void> {
     // prettier-ignore
     try {
-      const mapped: PromiseLike<B> | Superposition<B, E> | B = this.mapper(err);
+      const mapped: PromiseLike<B> | Superposition<B, E> | B = this.mapper(reject);
 
       if (mapped instanceof Superposition) {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises

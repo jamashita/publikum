@@ -10,6 +10,7 @@ import {
   Predicate,
   Reject,
   Resolve,
+  Supplier,
   Suspicious,
   UnaryFunction
 } from '@jamashita/publikum-type';
@@ -24,6 +25,7 @@ import { ResolvePeekExecutor } from '../Executor/ResolvePeekExecutor';
 import { Superposition } from '../Superposition/Superposition';
 import { Absent } from './Absent';
 import { UnscharferelationError } from './Error/UnscharferelationError';
+import { AbsentExecutor } from './Executor/AbsentExecutor';
 import { PresentExecutor } from './Executor/PresentExecutor';
 import { Heisenberg } from './Interface/Heisenberg';
 import { Present } from './Present';
@@ -206,7 +208,19 @@ export class Unscharferelation<P> implements PromiseLike<Heisenberg<P>>, Noun<'U
     });
   }
 
-  // TODO RCOVER method
+  public recover<Q = P>(mapper: Supplier<PromiseLike<Omittable<Suspicious<Etre<Q>>>>>): Unscharferelation<P | Q>;
+  public recover<Q = P>(mapper: Supplier<Unscharferelation<Q>>): Unscharferelation<P | Q>;
+  public recover<Q = P>(mapper: Supplier<Omittable<Suspicious<Etre<Q>>>>): Unscharferelation<P | Q>;
+  public recover<Q = P>(
+    mapper: Supplier<
+      PromiseLike<Omittable<Suspicious<Etre<Q>>>> | Unscharferelation<Q> | Omittable<Suspicious<Etre<Q>>>
+    >
+  ): Unscharferelation<P | Q> {
+    return Unscharferelation.of<P | Q>((resolve: Resolve<Etre<P | Q>>, reject: Reject<void>) => {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      this.handle(ResolveConsumerExecutor.of<Etre<P>>(resolve), AbsentExecutor.of<Q>(mapper, resolve, reject));
+    });
+  }
 
   private pass(resolve: Consumer<Etre<P>>, reject: Peek): void {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises

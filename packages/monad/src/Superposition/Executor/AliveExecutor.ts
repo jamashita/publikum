@@ -27,10 +27,10 @@ export class AliveExecutor<A, B, E extends Error> implements IResolveExecutor<A,
     this.reject = reject;
   }
 
-  public async onResolve(value: A): Promise<void> {
+  public async onResolve(resolve: A): Promise<void> {
     // prettier-ignore
     try {
-      const mapped: PromiseLike<B> | Superposition<B, E> | B = this.mapper(value);
+      const mapped: PromiseLike<B> | Superposition<B, E> | B = this.mapper(resolve);
 
       if (mapped instanceof Superposition) {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
