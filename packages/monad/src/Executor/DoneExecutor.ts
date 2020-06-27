@@ -1,9 +1,7 @@
-import { Noun } from '@jamashita/publikum-interface';
-
 import { IRejectExecutor } from './Interface/IRejectExecutor';
 import { IResolveExecutor } from './Interface/IResolveExecutor';
 
-export class DoneExecutor<F, R> implements Noun<'DoneExecutor'> {
+export class DoneExecutor<F, R> implements IResolveExecutor<F, 'DoneExecutor'>, IRejectExecutor<R, 'DoneExecutor'> {
   public readonly noun: 'DoneExecutor' = 'DoneExecutor';
   private readonly resolve: IResolveExecutor<F>;
   private readonly reject: IRejectExecutor<R>;
