@@ -1,5 +1,7 @@
-import { MockNominative } from '@jamashita/publikum-object';
-import { Nullable, Predicate } from '@jamashita/publikum-type';
+import sinon, { SinonSpy } from 'sinon';
+
+import { MockContent, MockNominative } from '@jamashita/publikum-object';
+import { Nullable, Peek, Predicate } from '@jamashita/publikum-type';
 
 import { MockAAddress } from '../Mock/MockAAddress';
 
@@ -80,6 +82,50 @@ describe('AAddress', () => {
         expect(noun).toBe(elements[i]);
         i++;
       });
+    });
+
+    it('can cancel iteration', () => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
+      const spy5: SinonSpy = sinon.spy();
+      const peeks: MockAAddress<MockContent<Peek>> = new MockAAddress<MockContent<Peek>>(
+        new Set<MockContent<Peek>>([
+          new MockContent<Peek>(() => {
+            spy1();
+          }),
+          new MockContent<Peek>(() => {
+            spy2();
+          }),
+          new MockContent<Peek>(() => {
+            spy3();
+          }),
+          new MockContent<Peek>(() => {
+            spy4();
+          }),
+          new MockContent<Peek>(() => {
+            spy5();
+          })
+        ])
+      );
+
+      let i: number = 0;
+
+      peeks.forEach((peek: MockContent<Peek>, index: void, cancel: Peek) => {
+        peek.get()();
+
+        if (i === 2) {
+          cancel();
+        }
+        i++;
+      });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(false);
+      expect(spy5.called).toBe(false);
     });
   });
 

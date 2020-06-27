@@ -1,6 +1,6 @@
 import mysql from 'mysql';
 
-import { Nullable, ObjectLiteral, Reject, Resolve } from '@jamashita/publikum-type';
+import { Kind, Nullable, ObjectLiteral, Reject, Resolve } from '@jamashita/publikum-type';
 
 import { MySQLError } from './Error/MySQLError';
 import { IConnection } from './Interface/IConnection';
@@ -15,7 +15,7 @@ export class Connection implements IConnection {
   public execute<R>(sql: string, value?: ObjectLiteral): Promise<R> {
     return new Promise<R>((resolve: Resolve<R>, reject: Reject) => {
       this.connection.query(sql, value, (err: Nullable<mysql.MysqlError>, result: R) => {
-        if (err !== null) {
+        if (!Kind.isNull(err)) {
           reject(new MySQLError('Connection.execute()', err));
 
           return;

@@ -110,7 +110,7 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
     return this.every((key: K, value: V) => {
       const v: Nullable<V> = other.get(key);
 
-      if (v !== null) {
+      if (!Kind.isNull(v)) {
         if (value.equals(v)) {
           return true;
         }

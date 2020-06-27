@@ -80,7 +80,7 @@ export class MySQL implements IMySQL {
   public execute<R>(sql: string, value?: ObjectLiteral): Promise<R> {
     return new Promise<R>((resolve: Resolve<R>, reject: Reject) => {
       this.pool.query(sql, value, (err: Nullable<mysql.MysqlError>, result: R) => {
-        if (err !== null) {
+        if (!Kind.isNull(err)) {
           reject(new MySQLError('MySQL.execute()', err));
 
           return;
