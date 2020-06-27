@@ -1,6 +1,6 @@
 import { Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 
-import { IRejectExecutor } from '../../Executor/Interface/IRejectExecutor';
+import { IRejectExecutor } from '../../Handler/Interface/IRejectExecutor';
 import { Superposition } from '../Superposition';
 
 export class DeadExecutor<B, D extends Error, E extends Error> implements IRejectExecutor<D, 'DeadExecutor'> {

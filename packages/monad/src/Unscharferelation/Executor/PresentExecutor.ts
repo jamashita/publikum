@@ -1,6 +1,6 @@
 import { Etre, Kind, Omittable, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
-import { IResolveExecutor } from '../../Executor/Interface/IResolveExecutor';
+import { IResolveExecutor } from '../../Handler/Interface/IResolveExecutor';
 import { Heisenberg } from '../Interface/Heisenberg';
 import { Unscharferelation } from '../Unscharferelation';
 

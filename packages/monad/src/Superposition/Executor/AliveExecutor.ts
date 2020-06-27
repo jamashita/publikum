@@ -1,6 +1,6 @@
 import { Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 
-import { IResolveExecutor } from '../../Executor/Interface/IResolveExecutor';
+import { IResolveExecutor } from '../../Handler/Interface/IResolveExecutor';
 import { Superposition } from '../Superposition';
 
 export class AliveExecutor<A, B, E extends Error> implements IResolveExecutor<A, 'AliveExecutor'> {

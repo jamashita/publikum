@@ -14,13 +14,13 @@ import {
   UnaryFunction
 } from '@jamashita/publikum-type';
 
-import { DoneExecutor } from '../Executor/DoneExecutor';
-import { IRejectExecutor } from '../Executor/Interface/IRejectExecutor';
-import { IResolveExecutor } from '../Executor/Interface/IResolveExecutor';
-import { RejectConsumerExecutor } from '../Executor/RejectConsumerExecutor';
-import { RejectPeekExecutor } from '../Executor/RejectPeekExecutor';
-import { ResolveConsumerExecutor } from '../Executor/ResolveConsumerExecutor';
-import { ResolvePeekExecutor } from '../Executor/ResolvePeekExecutor';
+import { DoneExecutor } from '../Handler/DoneExecutor';
+import { IRejectExecutor } from '../Handler/Interface/IRejectExecutor';
+import { IResolveExecutor } from '../Handler/Interface/IResolveExecutor';
+import { RejectConsumerExecutor } from '../Handler/RejectConsumerExecutor';
+import { RejectPeekExecutor } from '../Handler/RejectPeekExecutor';
+import { ResolveConsumerExecutor } from '../Handler/ResolveConsumerExecutor';
+import { ResolvePeekExecutor } from '../Handler/ResolvePeekExecutor';
 import { Unscharferelation } from '../Unscharferelation/Unscharferelation';
 import { Alive } from './Alive';
 import { Dead } from './Dead';
