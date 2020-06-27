@@ -1,6 +1,6 @@
 import mysql from 'mysql';
 
-import { Inconnu, Nullable, ObjectLiteral, Reject, Resolve } from '@jamashita/publikum-type';
+import { Inconnu, Kind, Nullable, ObjectLiteral, Reject, Resolve } from '@jamashita/publikum-type';
 
 import { Connection } from './Connection';
 import { MySQLError } from './Error/MySQLError';
@@ -17,7 +17,7 @@ export class MySQL implements IMySQL {
 
     pool.on('connection', (connection: mysql.Connection) => {
       connection.config.queryFormat = (query: string, value?: Inconnu) => {
-        if (value === undefined) {
+        if (Kind.isUndefined(value)) {
           return query;
         }
 

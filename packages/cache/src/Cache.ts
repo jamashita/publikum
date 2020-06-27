@@ -1,4 +1,4 @@
-import { Ambiguous } from '@jamashita/publikum-type';
+import { Ambiguous, Kind } from '@jamashita/publikum-type';
 
 import { CacheError } from './Error/CacheError';
 import { ICache } from './Interface/ICache';
@@ -17,7 +17,7 @@ export class Cache implements ICache {
   public get<H>(identifier: symbol): H {
     const instance: Ambiguous<unknown> = this.values.get(identifier);
 
-    if (instance === undefined) {
+    if (Kind.isUndefined(instance)) {
       throw new CacheError(`NO SUCH IDENTIFIER: ${identifier.toString()}`);
     }
 

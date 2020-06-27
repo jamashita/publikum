@@ -1,5 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Ambiguous, BinaryPredicate, CancellableEnumerator, Nullable, Peek } from '@jamashita/publikum-type';
+import { Ambiguous, BinaryPredicate, CancellableEnumerator, Kind, Nullable, Peek } from '@jamashita/publikum-type';
 
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
@@ -26,7 +26,7 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
   public get(key: K): Nullable<V> {
     const element: Ambiguous<Pair<K, V>> = this.elements.get(key.hashCode());
 
-    if (element === undefined) {
+    if (Kind.isUndefined(element)) {
       return null;
     }
 

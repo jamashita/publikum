@@ -90,7 +90,7 @@ export class Kind {
   }
 
   public static isPrimitive(value: unknown): value is Primitive {
-    if (value === null) {
+    if (Kind.isNull(value)) {
       return true;
     }
     switch (typeof value) {
@@ -112,7 +112,7 @@ export class Kind {
     if (typeof value !== 'object') {
       return false;
     }
-    if (value === null) {
+    if (Kind.isNull(value)) {
       return false;
     }
 

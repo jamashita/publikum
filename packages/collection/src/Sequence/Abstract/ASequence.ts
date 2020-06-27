@@ -4,6 +4,7 @@ import {
   BinaryPredicate,
   CancellableEnumerator,
   Enumerator,
+  Kind,
   Mapper,
   Nullable,
   Peek,
@@ -37,7 +38,7 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
   public get(index: number): Nullable<E> {
     const element: Ambiguous<E> = this.elements[index];
 
-    if (element === undefined) {
+    if (Kind.isUndefined(element)) {
       return null;
     }
 
@@ -49,7 +50,7 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
       return value.equals(element);
     });
 
-    if (found === undefined) {
+    if (Kind.isUndefined(found)) {
       return false;
     }
 
@@ -94,7 +95,7 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
   public find(predicate: Predicate<E>): Nullable<E> {
     const element: Ambiguous<E> = this.elements.find(predicate);
 
-    if (element === undefined) {
+    if (Kind.isUndefined(element)) {
       return null;
     }
 
