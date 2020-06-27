@@ -55,7 +55,7 @@ export class Superposition<A, D extends Error> implements PromiseLike<Schrodinge
           return s.isDead();
         });
 
-        if (dead !== undefined) {
+        if (!Kind.isUndefined(dead)) {
           reject(dead.getError());
 
           return;
@@ -308,23 +308,15 @@ export class Superposition<A, D extends Error> implements PromiseLike<Schrodinge
 
   public toUnscharferelation(): Unscharferelation<A> {
     return Unscharferelation.of<A>((resolve: Resolve<Etre<A>>, reject: Reject<void>) => {
-      this.then<void, void>(
-        (value: Schrodinger<A, D>) => {
-          if (value.isAlive()) {
-            const v: A = value.get();
-
-            if (v === undefined || v === null) {
-              reject();
-
-              return;
-            }
-
-            resolve(v as Etre<A>);
+      this.pass(
+        (v: A) => {
+          if (Kind.isUndefined(v) || Kind.isNull(v)) {
+            reject();
 
             return;
           }
 
-          reject();
+          resolve(v as Etre<A>);
         },
         () => {
           reject();
