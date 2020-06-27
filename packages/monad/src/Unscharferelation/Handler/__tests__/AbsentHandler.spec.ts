@@ -1,9 +1,9 @@
 import sinon, { SinonSpy } from 'sinon';
 
 import { Unscharferelation } from '../../Unscharferelation';
-import { AbsentExecutor } from '../AbsentExecutor';
+import { AbsentHandler } from '../AbsentHandler';
 
-describe('AbsentExecutor', () => {
+describe('AbsentHandler', () => {
   describe('onReject', () => {
     it('P given', async () => {
       const value: number = 10;
@@ -12,7 +12,7 @@ describe('AbsentExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: AbsentExecutor<number> = AbsentExecutor.of<number>(
+      const handler: AbsentHandler<number> = AbsentHandler.of<number>(
         () => {
           spy1();
 
@@ -27,7 +27,7 @@ describe('AbsentExecutor', () => {
         }
       );
 
-      await executor.onReject();
+      await handler.onReject();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -41,7 +41,7 @@ describe('AbsentExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: AbsentExecutor<number> = AbsentExecutor.of<number>(
+      const handler: AbsentHandler<number> = AbsentHandler.of<number>(
         () => {
           spy1();
 
@@ -56,7 +56,7 @@ describe('AbsentExecutor', () => {
         }
       );
 
-      await executor.onReject();
+      await handler.onReject();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -70,7 +70,7 @@ describe('AbsentExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: AbsentExecutor<number> = AbsentExecutor.of<number>(
+      const handler: AbsentHandler<number> = AbsentHandler.of<number>(
         () => {
           spy1();
 
@@ -85,7 +85,7 @@ describe('AbsentExecutor', () => {
         }
       );
 
-      await executor.onReject();
+      await handler.onReject();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -97,7 +97,7 @@ describe('AbsentExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: AbsentExecutor<number> = AbsentExecutor.of<number>(
+      const handler: AbsentHandler<number> = AbsentHandler.of<number>(
         () => {
           spy1();
 
@@ -111,7 +111,7 @@ describe('AbsentExecutor', () => {
         }
       );
 
-      await executor.onReject();
+      await handler.onReject();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -123,7 +123,7 @@ describe('AbsentExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: AbsentExecutor<number> = AbsentExecutor.of<number>(
+      const handler: AbsentHandler<number> = AbsentHandler.of<number>(
         () => {
           spy1();
 
@@ -137,7 +137,7 @@ describe('AbsentExecutor', () => {
         }
       );
 
-      await executor.onReject();
+      await handler.onReject();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -149,7 +149,7 @@ describe('AbsentExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: AbsentExecutor<number> = AbsentExecutor.of<number>(
+      const handler: AbsentHandler<number> = AbsentHandler.of<number>(
         () => {
           spy1();
 
@@ -163,7 +163,7 @@ describe('AbsentExecutor', () => {
         }
       );
 
-      await executor.onReject();
+      await handler.onReject();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -175,7 +175,7 @@ describe('AbsentExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: AbsentExecutor<number> = AbsentExecutor.of<number>(
+      const handler: AbsentHandler<number> = AbsentHandler.of<number>(
         () => {
           spy1();
 
@@ -189,7 +189,7 @@ describe('AbsentExecutor', () => {
         }
       );
 
-      await executor.onReject();
+      await handler.onReject();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -201,7 +201,7 @@ describe('AbsentExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: AbsentExecutor<number> = AbsentExecutor.of<number>(
+      const handler: AbsentHandler<number> = AbsentHandler.of<number>(
         () => {
           spy1();
 
@@ -215,7 +215,7 @@ describe('AbsentExecutor', () => {
         }
       );
 
-      await executor.onReject();
+      await handler.onReject();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);

@@ -1,10 +1,10 @@
 import { Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 
-import { IRejectExecutor } from '../../Handler/Interface/IRejectExecutor';
+import { IRejectHandler } from '../../Handler/Interface/IRejectHandler';
 import { Superposition } from '../Superposition';
 
-export class DeadExecutor<B, D extends Error, E extends Error> implements IRejectExecutor<D, 'DeadExecutor'> {
-  public readonly noun: 'DeadExecutor' = 'DeadExecutor';
+export class DeadHandler<B, D extends Error, E extends Error> implements IRejectHandler<D, 'DeadHandler'> {
+  public readonly noun: 'DeadHandler' = 'DeadHandler';
   private readonly mapper: UnaryFunction<D, PromiseLike<B> | Superposition<B, E> | B>;
   private readonly resolve: Resolve<B>;
   private readonly reject: Reject<E>;
@@ -13,8 +13,8 @@ export class DeadExecutor<B, D extends Error, E extends Error> implements IRejec
     mapper: UnaryFunction<D, PromiseLike<B> | Superposition<B, E> | B>,
     resolve: Resolve<B>,
     reject: Reject<E>
-  ): DeadExecutor<B, D, E> {
-    return new DeadExecutor<B, D, E>(mapper, resolve, reject);
+  ): DeadHandler<B, D, E> {
+    return new DeadHandler<B, D, E>(mapper, resolve, reject);
   }
 
   protected constructor(

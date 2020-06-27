@@ -1,20 +1,20 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { RejectConsumerExecutor } from '../RejectConsumerExecutor';
+import { ResolveConsumerHandler } from '../ResolveConsumerHandler';
 
-describe('RejectConsumerExecutor', () => {
-  describe('onReject', () => {
+describe('ResolveConsumerHandler', () => {
+  describe('onResolve', () => {
     it('sync', async () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
 
-      const executor: RejectConsumerExecutor<number> = RejectConsumerExecutor.of<number>((n: number) => {
+      const handler: ResolveConsumerHandler<number> = ResolveConsumerHandler.of<number>((n: number) => {
         spy1();
         expect(n).toBe(value);
       });
 
-      await executor.onReject(value);
+      await handler.onResolve(value);
 
       expect(spy1.called).toBe(true);
     });
@@ -25,12 +25,12 @@ describe('RejectConsumerExecutor', () => {
       const spy1: SinonSpy = sinon.spy();
 
       // eslint-disable-next-line @typescript-eslint/require-await
-      const executor: RejectConsumerExecutor<number> = RejectConsumerExecutor.of<number>(async (n: number) => {
+      const handler: ResolveConsumerHandler<number> = ResolveConsumerHandler.of<number>(async (n: number) => {
         spy1();
         expect(n).toBe(value);
       });
 
-      await executor.onReject(value);
+      await handler.onResolve(value);
 
       expect(spy1.called).toBe(true);
     });

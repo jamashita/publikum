@@ -1,9 +1,9 @@
 import sinon, { SinonSpy } from 'sinon';
 
 import { Unscharferelation } from '../../Unscharferelation';
-import { PresentExecutor } from '../PresentExecutor';
+import { PresentHandler } from '../PresentHandler';
 
-describe('PresentExecutor', () => {
+describe('PresentHandler', () => {
   describe('onResolve', () => {
     it('P given', async () => {
       const value: number = 10;
@@ -12,7 +12,7 @@ describe('PresentExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: PresentExecutor<number, number> = PresentExecutor.of<number, number>(
+      const handler: PresentHandler<number, number> = PresentHandler.of<number, number>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -28,7 +28,7 @@ describe('PresentExecutor', () => {
         }
       );
 
-      await executor.onResolve(value);
+      await handler.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -42,7 +42,7 @@ describe('PresentExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: PresentExecutor<number, number> = PresentExecutor.of<number, number>(
+      const handler: PresentHandler<number, number> = PresentHandler.of<number, number>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -58,7 +58,7 @@ describe('PresentExecutor', () => {
         }
       );
 
-      await executor.onResolve(value);
+      await handler.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -72,7 +72,7 @@ describe('PresentExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: PresentExecutor<number, number> = PresentExecutor.of<number, number>(
+      const handler: PresentHandler<number, number> = PresentHandler.of<number, number>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -88,7 +88,7 @@ describe('PresentExecutor', () => {
         }
       );
 
-      await executor.onResolve(value);
+      await handler.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -102,7 +102,7 @@ describe('PresentExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: PresentExecutor<number, number> = PresentExecutor.of<number, number>(
+      const handler: PresentHandler<number, number> = PresentHandler.of<number, number>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -117,7 +117,7 @@ describe('PresentExecutor', () => {
         }
       );
 
-      await executor.onResolve(value);
+      await handler.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -131,7 +131,7 @@ describe('PresentExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: PresentExecutor<number, number> = PresentExecutor.of<number, number>(
+      const handler: PresentHandler<number, number> = PresentHandler.of<number, number>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -146,7 +146,7 @@ describe('PresentExecutor', () => {
         }
       );
 
-      await executor.onResolve(value);
+      await handler.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -160,7 +160,7 @@ describe('PresentExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: PresentExecutor<number, number> = PresentExecutor.of<number, number>(
+      const handler: PresentHandler<number, number> = PresentHandler.of<number, number>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -175,7 +175,7 @@ describe('PresentExecutor', () => {
         }
       );
 
-      await executor.onResolve(value);
+      await handler.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -189,7 +189,7 @@ describe('PresentExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: PresentExecutor<number, number> = PresentExecutor.of<number, number>(
+      const handler: PresentHandler<number, number> = PresentHandler.of<number, number>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -204,7 +204,7 @@ describe('PresentExecutor', () => {
         }
       );
 
-      await executor.onResolve(value);
+      await handler.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -218,7 +218,7 @@ describe('PresentExecutor', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const executor: PresentExecutor<number, number> = PresentExecutor.of<number, number>(
+      const handler: PresentHandler<number, number> = PresentHandler.of<number, number>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -233,7 +233,7 @@ describe('PresentExecutor', () => {
         }
       );
 
-      await executor.onResolve(value);
+      await handler.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);

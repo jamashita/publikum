@@ -14,26 +14,26 @@ import {
   UnaryFunction
 } from '@jamashita/publikum-type';
 
-import { DoneExecutor } from '../Handler/DoneExecutor';
-import { IRejectExecutor } from '../Handler/Interface/IRejectExecutor';
-import { IResolveExecutor } from '../Handler/Interface/IResolveExecutor';
-import { RejectConsumerExecutor } from '../Handler/RejectConsumerExecutor';
-import { RejectPeekExecutor } from '../Handler/RejectPeekExecutor';
-import { ResolveConsumerExecutor } from '../Handler/ResolveConsumerExecutor';
-import { ResolvePeekExecutor } from '../Handler/ResolvePeekExecutor';
+import { DoneHandler } from '../Handler/DoneHandler';
+import { IRejectHandler } from '../Handler/Interface/IRejectHandler';
+import { IResolveHandler } from '../Handler/Interface/IResolveHandler';
+import { RejectConsumerHandler } from '../Handler/RejectConsumerHandler';
+import { RejectPeekHandler } from '../Handler/RejectPeekHandler';
+import { ResolveConsumerHandler } from '../Handler/ResolveConsumerHandler';
+import { ResolvePeekHandler } from '../Handler/ResolvePeekHandler';
 import { Unscharferelation } from '../Unscharferelation/Unscharferelation';
 import { Alive } from './Alive';
 import { Dead } from './Dead';
 import { SuperpositionError } from './Error/SuperpositionError';
-import { AliveExecutor } from './Executor/AliveExecutor';
-import { DeadExecutor } from './Executor/DeadExecutor';
+import { AliveHandler } from './Handler/AliveHandler';
+import { DeadHandler } from './Handler/DeadHandler';
 import { Schrodinger } from './Interface/Schrodinger';
 import { Still } from './Still';
 
 export class Superposition<A, D extends Error> implements PromiseLike<Schrodinger<A, D>>, Noun<'Superposition'> {
   public readonly noun: 'Superposition' = 'Superposition';
   private schrodinger: Schrodinger<A, D>;
-  private readonly laters: Array<DoneExecutor<A, D>>;
+  private readonly handlers: Array<DoneHandler<A, D>>;
 
   public static all<A, D extends Error>(superpositions: Array<Superposition<A, D>>): Superposition<Array<A>, D> {
     if (superpositions.length === 0) {
@@ -145,7 +145,7 @@ export class Superposition<A, D extends Error> implements PromiseLike<Schrodinge
 
   protected constructor(func: BinaryFunction<Resolve<A>, Reject<D>, unknown>) {
     this.schrodinger = Still.of<A, D>();
-    this.laters = [];
+    this.handlers = [];
     func(this.resolved(this), this.rejected(this));
   }
 
@@ -165,7 +165,7 @@ export class Superposition<A, D extends Error> implements PromiseLike<Schrodinge
 
       self.schrodinger = Alive.of<A, D>(value);
 
-      const promises: Array<Promise<void>> = self.laters.map<Promise<void>>((later: DoneExecutor<A, D>) => {
+      const promises: Array<Promise<void>> = self.handlers.map<Promise<void>>((later: DoneHandler<A, D>) => {
         return later.onResolve(value);
       });
 
@@ -181,7 +181,7 @@ export class Superposition<A, D extends Error> implements PromiseLike<Schrodinge
 
       self.schrodinger = Dead.of<A, D>(err);
 
-      const promises: Array<Promise<void>> = self.laters.map<Promise<void>>((later: DoneExecutor<A, D>) => {
+      const promises: Array<Promise<void>> = self.handlers.map<Promise<void>>((later: DoneHandler<A, D>) => {
         return later.onReject(err);
       });
 
@@ -241,7 +241,7 @@ export class Superposition<A, D extends Error> implements PromiseLike<Schrodinge
   ): Superposition<B, D | E> {
     return Superposition.of<B, D | E>((resolve: Resolve<B>, reject: Reject<D | E>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.handle(AliveExecutor.of<A, B, E>(mapper, resolve, reject), RejectConsumerExecutor.of<D>(reject));
+      this.handle(AliveHandler.of<A, B, E>(mapper, resolve, reject), RejectConsumerHandler.of<D>(reject));
     });
   }
 
@@ -253,7 +253,7 @@ export class Superposition<A, D extends Error> implements PromiseLike<Schrodinge
   ): Superposition<A | B, E> {
     return Superposition.of<A | B, E>((resolve: Resolve<A | B>, reject: Reject<E>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.handle(ResolveConsumerExecutor.of<A>(resolve), DeadExecutor.of<B, D, E>(mapper, resolve, reject));
+      this.handle(ResolveConsumerHandler.of<A>(resolve), DeadHandler.of<B, D, E>(mapper, resolve, reject));
     });
   }
 
@@ -275,21 +275,21 @@ export class Superposition<A, D extends Error> implements PromiseLike<Schrodinge
   ): Superposition<B, E> {
     return Superposition.of<B, E>((resolve: Resolve<B>, reject: Reject<E>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.handle(AliveExecutor.of<A, B, E>(alive, resolve, reject), DeadExecutor.of<B, D, E>(dead, resolve, reject));
+      this.handle(AliveHandler.of<A, B, E>(alive, resolve, reject), DeadHandler.of<B, D, E>(dead, resolve, reject));
     });
   }
 
   private pass(resolve: Consumer<A>, reject: Consumer<D>): void {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.handle(ResolveConsumerExecutor.of<A>(resolve), RejectConsumerExecutor.of<D>(reject));
+    this.handle(ResolveConsumerHandler.of<A>(resolve), RejectConsumerHandler.of<D>(reject));
   }
 
   private peek(peek: Peek): void {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.handle(ResolvePeekExecutor.of<A>(peek), RejectPeekExecutor.of<D>(peek));
+    this.handle(ResolvePeekHandler.of<A>(peek), RejectPeekHandler.of<D>(peek));
   }
 
-  private handle(resolve: IResolveExecutor<A>, reject: IRejectExecutor<D>): Promise<void> {
+  private handle(resolve: IResolveHandler<A>, reject: IRejectHandler<D>): Promise<void> {
     if (this.schrodinger.isAlive()) {
       return resolve.onResolve(this.schrodinger.get());
     }
@@ -297,7 +297,7 @@ export class Superposition<A, D extends Error> implements PromiseLike<Schrodinge
       return reject.onReject(this.schrodinger.getError());
     }
 
-    this.laters.push(DoneExecutor.of<A, D>(resolve, reject));
+    this.handlers.push(DoneHandler.of<A, D>(resolve, reject));
 
     return Promise.resolve();
   }

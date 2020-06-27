@@ -1,10 +1,10 @@
 import { Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 
-import { IResolveExecutor } from '../../Handler/Interface/IResolveExecutor';
+import { IResolveHandler } from '../../Handler/Interface/IResolveHandler';
 import { Superposition } from '../Superposition';
 
-export class AliveExecutor<A, B, E extends Error> implements IResolveExecutor<A, 'AliveExecutor'> {
-  public readonly noun: 'AliveExecutor' = 'AliveExecutor';
+export class AliveHandler<A, B, E extends Error> implements IResolveHandler<A, 'AliveHandler'> {
+  public readonly noun: 'AliveHandler' = 'AliveHandler';
   private readonly mapper: UnaryFunction<A, PromiseLike<B> | Superposition<B, E> | B>;
   private readonly resolve: Resolve<B>;
   private readonly reject: Reject<E>;
@@ -13,8 +13,8 @@ export class AliveExecutor<A, B, E extends Error> implements IResolveExecutor<A,
     mapper: UnaryFunction<A, PromiseLike<B> | Superposition<B, E> | B>,
     resolve: Resolve<B>,
     reject: Reject<E>
-  ): AliveExecutor<A, B, E> {
-    return new AliveExecutor<A, B, E>(mapper, resolve, reject);
+  ): AliveHandler<A, B, E> {
+    return new AliveHandler<A, B, E>(mapper, resolve, reject);
   }
 
   protected constructor(

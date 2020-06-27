@@ -1,32 +1,29 @@
-import { Etre, Kind, Omittable, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import { Etre, Kind, Omittable, Reject, Resolve, Supplier, Suspicious } from '@jamashita/publikum-type';
 
-import { IResolveExecutor } from '../../Handler/Interface/IResolveExecutor';
+import { IRejectHandler } from '../../Handler/Interface/IRejectHandler';
 import { Heisenberg } from '../Interface/Heisenberg';
 import { Unscharferelation } from '../Unscharferelation';
 
-export class PresentExecutor<P, Q> implements IResolveExecutor<P, 'PresentExecutor'> {
-  public readonly noun: 'PresentExecutor' = 'PresentExecutor';
-  private readonly mapper: UnaryFunction<
-    P,
+export class AbsentHandler<Q> implements IRejectHandler<void, 'AbsentHandler'> {
+  public readonly noun: 'AbsentHandler' = 'AbsentHandler';
+  private readonly mapper: Supplier<
     PromiseLike<Omittable<Suspicious<Etre<Q>>>> | Unscharferelation<Q> | Omittable<Suspicious<Etre<Q>>>
   >;
   private readonly resolve: Resolve<Etre<Q>>;
   private readonly reject: Reject<void>;
 
-  public static of<P, Q>(
-    mapper: UnaryFunction<
-      P,
+  public static of<Q>(
+    mapper: Supplier<
       PromiseLike<Omittable<Suspicious<Etre<Q>>>> | Unscharferelation<Q> | Omittable<Suspicious<Etre<Q>>>
     >,
     resolve: Resolve<Etre<Q>>,
     reject: Reject<void>
-  ): PresentExecutor<P, Q> {
-    return new PresentExecutor<P, Q>(mapper, resolve, reject);
+  ): AbsentHandler<Q> {
+    return new AbsentHandler<Q>(mapper, resolve, reject);
   }
 
   protected constructor(
-    mapper: UnaryFunction<
-      P,
+    mapper: Supplier<
       PromiseLike<Omittable<Suspicious<Etre<Q>>>> | Unscharferelation<Q> | Omittable<Suspicious<Etre<Q>>>
     >,
     resolve: Resolve<Etre<Q>>,
@@ -37,11 +34,11 @@ export class PresentExecutor<P, Q> implements IResolveExecutor<P, 'PresentExecut
     this.reject = reject;
   }
 
-  public async onResolve(resolve: P): Promise<void> {
+  public async onReject(): Promise<void> {
     const mapped:
       | PromiseLike<Omittable<Suspicious<Etre<Q>>>>
       | Unscharferelation<Q>
-      | Omittable<Suspicious<Etre<Q>>> = this.mapper(resolve);
+      | Omittable<Suspicious<Etre<Q>>> = this.mapper();
 
     if (mapped instanceof Unscharferelation) {
       await mapped.then<void, void>(
@@ -64,7 +61,7 @@ export class PresentExecutor<P, Q> implements IResolveExecutor<P, 'PresentExecut
     if (Kind.isPromiseLike(mapped)) {
       await mapped.then<void, void>(
         (v: Omittable<Suspicious<Etre<Q>>>) => {
-          if (v === undefined || v === null) {
+          if (Kind.isUndefined(v) || Kind.isNull(v)) {
             this.reject();
 
             return;
@@ -80,7 +77,7 @@ export class PresentExecutor<P, Q> implements IResolveExecutor<P, 'PresentExecut
       return;
     }
 
-    if (mapped === undefined || mapped === null) {
+    if (Kind.isUndefined(mapped) || Kind.isNull(mapped)) {
       this.reject();
 
       return;

@@ -1,17 +1,17 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { ResolvePeekExecutor } from '../ResolvePeekExecutor';
+import { ResolvePeekHandler } from '../ResolvePeekHandler';
 
-describe('ResolvePeekExecutor', () => {
+describe('ResolvePeekHandler', () => {
   describe('onResolve', () => {
     it('sync', async () => {
       const spy1: SinonSpy = sinon.spy();
 
-      const executor: ResolvePeekExecutor<void> = ResolvePeekExecutor.of<void>(() => {
+      const handler: ResolvePeekHandler<void> = ResolvePeekHandler.of<void>(() => {
         spy1();
       });
 
-      await executor.onResolve();
+      await handler.onResolve();
 
       expect(spy1.called).toBe(true);
     });
@@ -20,11 +20,11 @@ describe('ResolvePeekExecutor', () => {
       const spy1: SinonSpy = sinon.spy();
 
       // eslint-disable-next-line @typescript-eslint/require-await
-      const executor: ResolvePeekExecutor<void> = ResolvePeekExecutor.of<void>(async () => {
+      const handler: ResolvePeekHandler<void> = ResolvePeekHandler.of<void>(async () => {
         spy1();
       });
 
-      await executor.onResolve();
+      await handler.onResolve();
 
       expect(spy1.called).toBe(true);
     });

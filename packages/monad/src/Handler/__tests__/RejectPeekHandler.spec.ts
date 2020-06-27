@@ -1,17 +1,17 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { RejectPeekExecutor } from '../RejectPeekExecutor';
+import { RejectPeekHandler } from '../RejectPeekHandler';
 
-describe('RejectPeekExecutor', () => {
+describe('RejectPeekHandler', () => {
   describe('onReject', () => {
     it('sync', async () => {
       const spy1: SinonSpy = sinon.spy();
 
-      const executor: RejectPeekExecutor<void> = RejectPeekExecutor.of<void>(() => {
+      const handler: RejectPeekHandler<void> = RejectPeekHandler.of<void>(() => {
         spy1();
       });
 
-      await executor.onReject();
+      await handler.onReject();
 
       expect(spy1.called).toBe(true);
     });
@@ -20,11 +20,11 @@ describe('RejectPeekExecutor', () => {
       const spy1: SinonSpy = sinon.spy();
 
       // eslint-disable-next-line @typescript-eslint/require-await
-      const executor: RejectPeekExecutor<void> = RejectPeekExecutor.of<void>(async () => {
+      const handler: RejectPeekHandler<void> = RejectPeekHandler.of<void>(async () => {
         spy1();
       });
 
-      await executor.onReject();
+      await handler.onReject();
 
       expect(spy1.called).toBe(true);
     });
