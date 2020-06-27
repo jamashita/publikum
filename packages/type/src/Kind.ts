@@ -13,6 +13,10 @@ export class Kind {
     return false;
   }
 
+  public static isVoid(value: unknown): value is void {
+    return Kind.isUndefined(value);
+  }
+
   public static isNull(value: unknown): value is null {
     if (value === null) {
       return true;

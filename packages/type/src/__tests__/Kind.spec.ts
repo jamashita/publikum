@@ -19,6 +19,24 @@ describe('Kind', () => {
     });
   });
 
+  describe('isVoid', () => {
+    it('returns true only the value is undefined', () => {
+      expect(Kind.isVoid(null)).toBe(false);
+      expect(Kind.isVoid(undefined)).toBe(true);
+      expect(Kind.isVoid('')).toBe(false);
+      expect(Kind.isVoid('123')).toBe(false);
+      expect(Kind.isVoid('abcd')).toBe(false);
+      expect(Kind.isVoid(123)).toBe(false);
+      expect(Kind.isVoid(0)).toBe(false);
+      expect(Kind.isVoid(false)).toBe(false);
+      expect(Kind.isVoid(true)).toBe(false);
+      expect(Kind.isVoid(Symbol('p'))).toBe(false);
+      expect(Kind.isVoid(20n)).toBe(false);
+      expect(Kind.isVoid({})).toBe(false);
+      expect(Kind.isVoid([])).toBe(false);
+    });
+  });
+
   describe('isNull', () => {
     it('returns true only the value is null', () => {
       expect(Kind.isNull(null)).toBe(true);
