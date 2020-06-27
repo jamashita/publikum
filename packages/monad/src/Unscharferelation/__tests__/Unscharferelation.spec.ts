@@ -253,8 +253,6 @@ describe('Unscharferelation', () => {
         .map<number>((v: number) => {
           spy2();
           expect(v).toBe(value + 1);
-
-          return v;
         });
 
       expect(spy1.called).toBe(true);
@@ -278,8 +276,6 @@ describe('Unscharferelation', () => {
         .map<number>((v: number) => {
           spy2();
           expect(v).toBe(value + 1);
-
-          return v;
         });
 
       expect(spy1.called).toBe(true);
@@ -305,8 +301,6 @@ describe('Unscharferelation', () => {
         .map<number>((v: number) => {
           spy2();
           expect(v).toBe(value2);
-
-          return v;
         });
 
       expect(spy1.called).toBe(true);
@@ -320,20 +314,17 @@ describe('Unscharferelation', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const unscharferelation: Unscharferelation<number> = present
+      await present
         .map<number>((v: number) => {
           spy1();
           expect(v).toBe(value);
 
           return null;
         })
-        .map<number>((v: number) => {
+        .map<number>(() => {
           spy2();
-
-          return v;
         });
 
-      await expect(unscharferelation.get()).rejects.toThrow(UnscharferelationError);
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
     });
@@ -345,20 +336,17 @@ describe('Unscharferelation', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const unscharferelation: Unscharferelation<number> = present
+      await present
         .map<number>((v: number) => {
           spy1();
           expect(v).toBe(value);
 
           return Promise.resolve<null>(null);
         })
-        .map<number>((v: number) => {
+        .map<number>(() => {
           spy2();
-
-          return v;
         });
 
-      await expect(unscharferelation.get()).rejects.toThrow(UnscharferelationError);
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
     });
@@ -371,20 +359,17 @@ describe('Unscharferelation', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const unscharferelation: Unscharferelation<number> = present
+      await present
         .map<number>((v: number) => {
           spy1();
           expect(v).toBe(value);
 
           return absent;
         })
-        .map<number>((v: number) => {
+        .map<number>(() => {
           spy2();
-
-          return v;
         });
 
-      await expect(unscharferelation.get()).rejects.toThrow(UnscharferelationError);
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
     });
@@ -415,6 +400,209 @@ describe('Unscharferelation', () => {
     });
   });
 
+  describe('recover', () => {
+    it('sync case', async () => {
+      const value: number = -201;
+      const absent: Unscharferelation<number> = Unscharferelation.absent();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await absent
+        .map<number>((v: number) => {
+          spy1();
+
+          return v + 1;
+        })
+        .recover<number>(() => {
+          spy2();
+
+          return value + 23;
+        })
+        .map((v: number) => {
+          spy3();
+          expect(v).toBe(value + 23);
+        });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(true);
+    });
+
+    it('async case', async () => {
+      const value: number = -201;
+      const absent: Unscharferelation<number> = Unscharferelation.absent();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await absent
+        .map<number>((v: number) => {
+          spy1();
+
+          return v + 1;
+        })
+        .recover<number>(() => {
+          spy2();
+
+          return Promise.resolve<number>(value + 23);
+        })
+        .map<number>((v: number) => {
+          spy3();
+          expect(v).toBe(value + 23);
+        });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(true);
+    });
+
+    it('unscharferelation case', async () => {
+      const value: number = -20100;
+      const absent: Unscharferelation<number> = Unscharferelation.absent();
+      const present: Unscharferelation<number> = Unscharferelation.present(value);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await absent
+        .map<number>(() => {
+          spy1();
+
+          return present;
+        })
+        .recover<number>(() => {
+          spy2();
+
+          return present;
+        })
+        .map<number>((v: number) => {
+          spy3();
+          expect(v).toBe(value);
+        });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(true);
+    });
+
+    it('sync case: returns null', async () => {
+      const value: number = -201;
+      const present: Unscharferelation<number> = Unscharferelation.present(value);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await present
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return null;
+        })
+        .recover<number>(() => {
+          spy2();
+
+          return value + 23;
+        })
+        .map<number>((v: number) => {
+          spy3();
+          expect(v).toBe(value + 23);
+        });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('async case: returns resolved null', async () => {
+      const value: number = -201;
+      const present: Unscharferelation<number> = Unscharferelation.present(value);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await present
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return Promise.resolve<null>(null);
+        })
+        .recover<number>(() => {
+          spy2();
+
+          return value + 23;
+        })
+        .map<number>((v: number) => {
+          spy3();
+          expect(v).toBe(value + 23);
+        });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(true);
+    });
+
+    it('unscharferelation case: returns Absent Unscharferelation', async () => {
+      const value: number = -201;
+      const present: Unscharferelation<number> = Unscharferelation.present(value);
+      const absent: Unscharferelation<number> = Unscharferelation.absent();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await present
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return absent;
+        })
+        .recover<number>(() => {
+          spy2();
+
+          return value + 23;
+        })
+        .map<number>((v: number) => {
+          spy3();
+          expect(v).toBe(value + 23);
+        });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(true);
+    });
+
+    it('already resolved unscharferelation case', async () => {
+      const value: number = -201;
+      const present: Unscharferelation<number> = Unscharferelation.present(value);
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      await present
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return present;
+        })
+        .map<number>((v: number) => {
+          spy2();
+          expect(v).toBe(value);
+        });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+    });
+  });
   describe('toSuperposition', () => {
     it('present: will transform to alive', async () => {
       const value: number = -201;
