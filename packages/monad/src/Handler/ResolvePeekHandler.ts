@@ -14,8 +14,8 @@ export class ResolvePeekHandler<R> implements IResolveHandler<R, 'ResolvePeekHan
     this.peek = peek;
   }
 
-  public onResolve(value: R): Promise<void>;
-  public onResolve(): Promise<void> {
+  public onResolve(value: R): Promise<unknown>;
+  public onResolve(): Promise<unknown> {
     this.peek();
 
     return Promise.resolve();

@@ -5,8 +5,8 @@ import { IRejectHandler } from '../Interface/IRejectHandler';
 export class MockRejectHandler<R = void> implements IRejectHandler<R, 'MockRejectHandler'> {
   public readonly noun: 'MockRejectHandler' = 'MockRejectHandler';
 
-  public onReject(reject: R): Promise<void>;
-  public onReject(): Promise<void> {
+  public onReject(reject: R): Promise<unknown>;
+  public onReject(): Promise<unknown> {
     throw new UnimplementedError();
   }
 }

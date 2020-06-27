@@ -15,11 +15,11 @@ export class DoneHandler<F, R> implements IResolveHandler<F, 'DoneHandler'>, IRe
     this.reject = reject;
   }
 
-  public onResolve(resolve: F): Promise<void> {
+  public onResolve(resolve: F): Promise<unknown> {
     return this.resolve.onResolve(resolve);
   }
 
-  public onReject(reject: R): Promise<void> {
+  public onReject(reject: R): Promise<unknown> {
     return this.reject.onReject(reject);
   }
 }

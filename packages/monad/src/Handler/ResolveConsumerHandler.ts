@@ -14,7 +14,7 @@ export class ResolveConsumerHandler<R> implements IResolveHandler<R, 'ResolveCon
     this.resolve = resolve;
   }
 
-  public onResolve(resolve: R): Promise<void> {
+  public onResolve(resolve: R): Promise<unknown> {
     this.resolve(resolve);
 
     return Promise.resolve();

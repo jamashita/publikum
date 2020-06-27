@@ -14,7 +14,7 @@ export class RejectConsumerHandler<R> implements IRejectHandler<R, 'RejectConsum
     this.reject = reject;
   }
 
-  public onReject(reject: R): Promise<void> {
+  public onReject(reject: R): Promise<unknown> {
     this.reject(reject);
 
     return Promise.resolve();
