@@ -3,17 +3,17 @@ import { Schrodinger } from './Interface/Schrodinger';
 
 export class Alive<A, D extends Error> implements Schrodinger<A, D, 'Alive'> {
   public readonly noun: 'Alive' = 'Alive';
-  private readonly value: A;
+  private readonly value: Exclude<A, Error>;
 
-  public static of<A, D extends Error>(value: A): Alive<A, D> {
+  public static of<A, D extends Error>(value: Exclude<A, Error>): Alive<A, D> {
     return new Alive<A, D>(value);
   }
 
-  protected constructor(value: A) {
+  protected constructor(value: Exclude<A, Error>) {
     this.value = value;
   }
 
-  public get(): A {
+  public get(): Exclude<A, Error> {
     return this.value;
   }
 

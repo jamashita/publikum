@@ -1,13 +1,14 @@
 import sinon, { SinonSpy } from 'sinon';
 
 import { MockError } from '@jamashita/publikum-object';
+import { Resolve } from '@jamashita/publikum-type';
 
 import { Superposition } from '../../Superposition';
 import { AliveHandler } from '../AliveHandler';
 
 describe('AliveHandler', () => {
   describe('onResolve', () => {
-    it('A given', async () => {
+    it('A given', () => {
       const value: number = 101;
 
       const spy1: SinonSpy = sinon.spy();
@@ -30,7 +31,7 @@ describe('AliveHandler', () => {
         }
       );
 
-      await handler.onResolve(value);
+      handler.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -44,30 +45,36 @@ describe('AliveHandler', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const handler: AliveHandler<number, number, MockError> = AliveHandler.of<number, number, MockError>(
-        (n: number) => {
-          spy1();
-          expect(n).toBe(value);
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const handler: AliveHandler<number, number, MockError> = AliveHandler.of<number, number, MockError>(
+          (n: number) => {
+            spy1();
+            expect(n).toBe(value);
 
-          return Promise.resolve<number>(n - 2);
-        },
-        (n: number) => {
-          spy2();
-          expect(n).toBe(value - 2);
-        },
-        () => {
-          spy3();
-        }
-      );
+            return Promise.resolve<number>(n - 2);
+          },
+          (n: number) => {
+            spy2();
+            expect(n).toBe(value - 2);
 
-      await handler.onResolve(value);
+            resolve();
+          },
+          () => {
+            spy3();
+
+            resolve();
+          }
+        );
+
+        handler.onResolve(value);
+      });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(false);
     });
 
-    it('Superposition.alive<A, D> given', async () => {
+    it('Superposition.alive<A, D> given', () => {
       const value: number = 101;
 
       const spy1: SinonSpy = sinon.spy();
@@ -90,14 +97,14 @@ describe('AliveHandler', () => {
         }
       );
 
-      await handler.onResolve(value);
+      handler.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(false);
     });
 
-    it('D thrown', async () => {
+    it('D thrown', () => {
       const value: number = 101;
       const error: MockError = new MockError();
 
@@ -121,7 +128,7 @@ describe('AliveHandler', () => {
         }
       );
 
-      await handler.onResolve(value);
+      handler.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -136,30 +143,36 @@ describe('AliveHandler', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const handler: AliveHandler<number, number, MockError> = AliveHandler.of<number, number, MockError>(
-        (n: number) => {
-          spy1();
-          expect(n).toBe(value);
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const handler: AliveHandler<number, number, MockError> = AliveHandler.of<number, number, MockError>(
+          (n: number) => {
+            spy1();
+            expect(n).toBe(value);
 
-          return Promise.reject<number>(error);
-        },
-        () => {
-          spy2();
-        },
-        (e: MockError) => {
-          spy3();
-          expect(e).toBe(error);
-        }
-      );
+            return Promise.reject<number>(error);
+          },
+          () => {
+            spy2();
 
-      await handler.onResolve(value);
+            resolve();
+          },
+          (e: MockError) => {
+            spy3();
+            expect(e).toBe(error);
+
+            resolve();
+          }
+        );
+
+        handler.onResolve(value);
+      });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
     });
 
-    it('Superposition.dead<A, D> given', async () => {
+    it('Superposition.dead<A, D> given', () => {
       const value: number = 101;
       const error: MockError = new MockError();
 
@@ -183,7 +196,7 @@ describe('AliveHandler', () => {
         }
       );
 
-      await handler.onResolve(value);
+      handler.onResolve(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
