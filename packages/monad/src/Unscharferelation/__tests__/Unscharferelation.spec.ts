@@ -648,9 +648,9 @@ describe('Unscharferelation', () => {
       const present: Heisenberg<number> = await Unscharferelation.ofHeisenberg(Present.of<number>(value)).terminate();
       const absent: Heisenberg<number> = await Unscharferelation.ofHeisenberg(Absent.of<number>()).terminate();
 
-      expect(present).toBeInstanceOf(Present);
+      expect(present.isPresent()).toBe(true);
       expect(present.get()).toBe(value);
-      expect(absent).toBeInstanceOf(Absent);
+      expect(absent.isAbsent()).toBe(true);
       expect(() => {
         absent.get();
       }).toThrow(UnscharferelationError);

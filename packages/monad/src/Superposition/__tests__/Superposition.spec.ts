@@ -708,9 +708,9 @@ describe('Superposition', () => {
         Dead.of<number, MockError>(error)
       ).terminate();
 
-      expect(alive).toBeInstanceOf(Alive);
+      expect(alive.isAlive()).toBe(true);
       expect(alive.get()).toBe(value);
-      expect(dead).toBeInstanceOf(Dead);
+      expect(dead.isDead()).toBe(true);
       expect(() => {
         dead.get();
       }).toThrow(MockError);
