@@ -241,8 +241,7 @@ export class Superposition<A, D extends Error> implements Noun<'Superposition'> 
     mapper: UnaryFunction<Detoxicated<A>, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>
   ): Superposition<B, D | E> {
     return Superposition.of<B, D | E>((resolve: Resolve<Detoxicated<B>>, reject: Reject<D | E>) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.handle(AliveHandler.of<A, B, E>(mapper, resolve, reject), RejectConsumerHandler.of<D>(reject));
+      return this.handle(AliveHandler.of<A, B, E>(mapper, resolve, reject), RejectConsumerHandler.of<D>(reject));
     });
   }
 
@@ -255,8 +254,10 @@ export class Superposition<A, D extends Error> implements Noun<'Superposition'> 
     mapper: UnaryFunction<D, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>
   ): Superposition<A | B, E> {
     return Superposition.of<A | B, E>((resolve: Resolve<Detoxicated<A | B>>, reject: Reject<E>) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.handle(ResolveConsumerHandler.of<Detoxicated<A>>(resolve), DeadHandler.of<B, D, E>(mapper, resolve, reject));
+      return this.handle(
+        ResolveConsumerHandler.of<Detoxicated<A>>(resolve),
+        DeadHandler.of<B, D, E>(mapper, resolve, reject)
+      );
     });
   }
 
@@ -277,19 +278,19 @@ export class Superposition<A, D extends Error> implements Noun<'Superposition'> 
     dead: UnaryFunction<D, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>
   ): Superposition<B, E> {
     return Superposition.of<B, E>((resolve: Resolve<Detoxicated<B>>, reject: Reject<E>) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.handle(AliveHandler.of<A, B, E>(alive, resolve, reject), DeadHandler.of<B, D, E>(dead, resolve, reject));
+      return this.handle(
+        AliveHandler.of<A, B, E>(alive, resolve, reject),
+        DeadHandler.of<B, D, E>(dead, resolve, reject)
+      );
     });
   }
 
-  private pass(resolve: Consumer<Detoxicated<A>>, reject: Consumer<D>): void {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.handle(ResolveConsumerHandler.of<Detoxicated<A>>(resolve), RejectConsumerHandler.of<D>(reject));
+  private pass(resolve: Consumer<Detoxicated<A>>, reject: Consumer<D>): unknown {
+    return this.handle(ResolveConsumerHandler.of<Detoxicated<A>>(resolve), RejectConsumerHandler.of<D>(reject));
   }
 
-  private peek(peek: Peek): void {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.handle(ResolvePeekHandler.of<A>(peek), RejectPeekHandler.of<D>(peek));
+  private peek(peek: Peek): unknown {
+    return this.handle(ResolvePeekHandler.of<A>(peek), RejectPeekHandler.of<D>(peek));
   }
 
   private handle(resolve: IResolveHandler<A>, reject: IRejectHandler<D>): unknown {

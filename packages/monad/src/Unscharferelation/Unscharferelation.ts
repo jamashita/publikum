@@ -228,8 +228,7 @@ export class Unscharferelation<P> implements Noun<'Unscharferelation'> {
     mapper: UnaryFunction<Etre<P>, PromiseLike<Suspicious<Etre<Q>>> | Unscharferelation<Q> | Suspicious<Etre<Q>>>
   ): Unscharferelation<Q> {
     return Unscharferelation.of<Q>((resolve: Resolve<Etre<Q>>, reject: Reject<void>) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.handle(PresentHandler.of<P, Q>(mapper, resolve, reject), RejectConsumerHandler.of<void>(reject));
+      return this.handle(PresentHandler.of<P, Q>(mapper, resolve, reject), RejectConsumerHandler.of<void>(reject));
     });
   }
 
@@ -240,19 +239,16 @@ export class Unscharferelation<P> implements Noun<'Unscharferelation'> {
     mapper: Supplier<PromiseLike<Suspicious<Etre<Q>>> | Unscharferelation<Q> | Suspicious<Etre<Q>>>
   ): Unscharferelation<P | Q> {
     return Unscharferelation.of<P | Q>((resolve: Resolve<Etre<P | Q>>, reject: Reject<void>) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.handle(ResolveConsumerHandler.of<Etre<P>>(resolve), AbsentHandler.of<Q>(mapper, resolve, reject));
+      return this.handle(ResolveConsumerHandler.of<Etre<P>>(resolve), AbsentHandler.of<Q>(mapper, resolve, reject));
     });
   }
 
-  private pass(resolve: Consumer<Etre<P>>, reject: Peek): void {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.handle(ResolveConsumerHandler.of<Etre<P>>(resolve), RejectPeekHandler.of<void>(reject));
+  private pass(resolve: Consumer<Etre<P>>, reject: Peek): unknown {
+    return this.handle(ResolveConsumerHandler.of<Etre<P>>(resolve), RejectPeekHandler.of<void>(reject));
   }
 
-  private peek(peek: Peek): void {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.handle(ResolvePeekHandler.of<Etre<P>>(peek), RejectPeekHandler.of<void>(peek));
+  private peek(peek: Peek): unknown {
+    return this.handle(ResolvePeekHandler.of<Etre<P>>(peek), RejectPeekHandler.of<void>(peek));
   }
 
   private handle(resolve: IResolveHandler<P>, reject: IRejectHandler<void>): unknown {

@@ -15,7 +15,6 @@ import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Sequence } from '../Interface/Sequence';
 
-// TODO TESTS UNDONE
 export abstract class ASequence<E extends Nominative<E>, N extends string = string>
   extends Quantity<ASequence<E, N>, number, E, N>
   implements Sequence<E, N> {

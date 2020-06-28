@@ -5,7 +5,6 @@ import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Address } from '../Interface/Address';
 
-// TODO TESTS UNDONE
 export abstract class AAddress<E extends Nominative<E>, N extends string = string>
   extends Quantity<Address<E, N>, void, E, N>
   implements Address<E, N> {

@@ -5,7 +5,6 @@ import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Project } from '../Interface/Project';
 
-// TODO TESTS UNDONE
 export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>, N extends string = string>
   extends Quantity<Project<K, V, N>, K, V, N>
   implements Project<K, V, N> {
