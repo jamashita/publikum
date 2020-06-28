@@ -1,11 +1,13 @@
 import sinon, { SinonSpy } from 'sinon';
 
+import { Resolve } from '@jamashita/publikum-type';
+
 import { Unscharferelation } from '../../Unscharferelation';
 import { AbsentHandler } from '../AbsentHandler';
 
 describe('AbsentHandler', () => {
   describe('onReject', () => {
-    it('P given', async () => {
+    it('P given', () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -27,7 +29,7 @@ describe('AbsentHandler', () => {
         }
       );
 
-      await handler.onReject();
+      handler.onReject();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -41,29 +43,35 @@ describe('AbsentHandler', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const handler: AbsentHandler<number> = AbsentHandler.of<number>(
-        () => {
-          spy1();
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const handler: AbsentHandler<number> = AbsentHandler.of<number>(
+          () => {
+            spy1();
 
-          return Promise.resolve<number>(value - 6);
-        },
-        (n: number) => {
-          spy2();
-          expect(n).toBe(value - 6);
-        },
-        () => {
-          spy3();
-        }
-      );
+            return Promise.resolve<number>(value - 6);
+          },
+          (n: number) => {
+            spy2();
+            expect(n).toBe(value - 6);
 
-      await handler.onReject();
+            resolve();
+          },
+          () => {
+            spy3();
+
+            resolve();
+          }
+        );
+
+        handler.onReject();
+      });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(false);
     });
 
-    it('Unscharferelation.present<P> given', async () => {
+    it('Present Unscharferelation given', () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -85,7 +93,7 @@ describe('AbsentHandler', () => {
         }
       );
 
-      await handler.onReject();
+      handler.onReject();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -97,21 +105,27 @@ describe('AbsentHandler', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const handler: AbsentHandler<number> = AbsentHandler.of<number>(
-        () => {
-          spy1();
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const handler: AbsentHandler<number> = AbsentHandler.of<number>(
+          () => {
+            spy1();
 
-          return null;
-        },
-        () => {
-          spy2();
-        },
-        () => {
-          spy3();
-        }
-      );
+            return null;
+          },
+          () => {
+            spy2();
 
-      await handler.onReject();
+            resolve();
+          },
+          () => {
+            spy3();
+
+            resolve();
+          }
+        );
+
+        handler.onReject();
+      });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -123,21 +137,27 @@ describe('AbsentHandler', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const handler: AbsentHandler<number> = AbsentHandler.of<number>(
-        () => {
-          spy1();
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const handler: AbsentHandler<number> = AbsentHandler.of<number>(
+          () => {
+            spy1();
 
-          return undefined;
-        },
-        () => {
-          spy2();
-        },
-        () => {
-          spy3();
-        }
-      );
+            return null;
+          },
+          () => {
+            spy2();
 
-      await handler.onReject();
+            resolve();
+          },
+          () => {
+            spy3();
+
+            resolve();
+          }
+        );
+
+        handler.onReject();
+      });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -149,21 +169,27 @@ describe('AbsentHandler', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const handler: AbsentHandler<number> = AbsentHandler.of<number>(
-        () => {
-          spy1();
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const handler: AbsentHandler<number> = AbsentHandler.of<number>(
+          () => {
+            spy1();
 
-          return Promise.resolve<null>(null);
-        },
-        () => {
-          spy2();
-        },
-        () => {
-          spy3();
-        }
-      );
+            return Promise.resolve<null>(null);
+          },
+          () => {
+            spy2();
 
-      await handler.onReject();
+            resolve();
+          },
+          () => {
+            spy3();
+
+            resolve();
+          }
+        );
+
+        handler.onReject();
+      });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -175,28 +201,34 @@ describe('AbsentHandler', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const handler: AbsentHandler<number> = AbsentHandler.of<number>(
-        () => {
-          spy1();
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const handler: AbsentHandler<number> = AbsentHandler.of<number>(
+          () => {
+            spy1();
 
-          return Promise.resolve<undefined>(undefined);
-        },
-        () => {
-          spy2();
-        },
-        () => {
-          spy3();
-        }
-      );
+            return Promise.resolve<undefined>(undefined);
+          },
+          () => {
+            spy2();
 
-      await handler.onReject();
+            resolve();
+          },
+          () => {
+            spy3();
+
+            resolve();
+          }
+        );
+
+        handler.onReject();
+      });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
     });
 
-    it('Unscharferelation.absent given', async () => {
+    it('Absent Unscharferelation given', async () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();

@@ -37,14 +37,14 @@ export class PresentHandler<P, Q> implements IResolveHandler<P, 'PresentHandler'
     this.reject = reject;
   }
 
-  public async onResolve(resolve: P): Promise<void> {
+  public onResolve(resolve: P): unknown {
     const mapped:
       | PromiseLike<Omittable<Suspicious<Etre<Q>>>>
       | Unscharferelation<Q>
       | Omittable<Suspicious<Etre<Q>>> = this.mapper(resolve);
 
     if (mapped instanceof Unscharferelation) {
-      await mapped.then<void, void>(
+      return mapped.then<void, void>(
         (v: Heisenberg<Q>) => {
           if (v.isPresent()) {
             this.resolve(v.get());
@@ -58,11 +58,9 @@ export class PresentHandler<P, Q> implements IResolveHandler<P, 'PresentHandler'
           this.reject();
         }
       );
-
-      return;
     }
     if (Kind.isPromiseLike(mapped)) {
-      await mapped.then<void, void>(
+      return mapped.then<void, void>(
         (v: Omittable<Suspicious<Etre<Q>>>) => {
           if (Kind.isUndefined(v) || Kind.isNull(v)) {
             this.reject();
@@ -76,16 +74,12 @@ export class PresentHandler<P, Q> implements IResolveHandler<P, 'PresentHandler'
           this.reject();
         }
       );
-
-      return;
     }
 
     if (Kind.isUndefined(mapped) || Kind.isNull(mapped)) {
-      this.reject();
-
-      return;
+      return this.reject();
     }
 
-    this.resolve(mapped);
+    return this.resolve(mapped);
   }
 }
