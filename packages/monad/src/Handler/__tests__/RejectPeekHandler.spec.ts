@@ -4,19 +4,19 @@ import { RejectPeekHandler } from '../RejectPeekHandler';
 
 describe('RejectPeekHandler', () => {
   describe('onReject', () => {
-    it('sync', async () => {
+    it('sync', () => {
       const spy1: SinonSpy = sinon.spy();
 
       const handler: RejectPeekHandler<void> = RejectPeekHandler.of<void>(() => {
         spy1();
       });
 
-      await handler.onReject();
+      handler.onReject();
 
       expect(spy1.called).toBe(true);
     });
 
-    it('async', async () => {
+    it('async', () => {
       const spy1: SinonSpy = sinon.spy();
 
       // eslint-disable-next-line @typescript-eslint/require-await
@@ -24,7 +24,7 @@ describe('RejectPeekHandler', () => {
         spy1();
       });
 
-      await handler.onReject();
+      handler.onReject();
 
       expect(spy1.called).toBe(true);
     });

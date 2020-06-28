@@ -8,7 +8,7 @@ import { MockResolveHandler } from '../Mock/MockResolveHandler';
 
 describe('DoneHandler', () => {
   describe('onResolve', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -20,7 +20,7 @@ describe('DoneHandler', () => {
 
       const handler: DoneHandler<void, void> = DoneHandler.of<void, void>(resolve, reject);
 
-      await handler.onResolve();
+      handler.onResolve();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -28,7 +28,7 @@ describe('DoneHandler', () => {
   });
 
   describe('onReject', () => {
-    it('normal case', async () => {
+    it('normal case', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
@@ -40,7 +40,7 @@ describe('DoneHandler', () => {
 
       const handler: DoneHandler<void, void> = DoneHandler.of<void, void>(resolve, reject);
 
-      await handler.onReject();
+      handler.onReject();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

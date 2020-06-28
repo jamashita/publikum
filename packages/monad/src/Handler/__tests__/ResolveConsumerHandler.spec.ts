@@ -4,7 +4,7 @@ import { ResolveConsumerHandler } from '../ResolveConsumerHandler';
 
 describe('ResolveConsumerHandler', () => {
   describe('onResolve', () => {
-    it('sync', async () => {
+    it('sync', () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -14,12 +14,12 @@ describe('ResolveConsumerHandler', () => {
         expect(n).toBe(value);
       });
 
-      await handler.onResolve(value);
+      handler.onResolve(value);
 
       expect(spy1.called).toBe(true);
     });
 
-    it('async', async () => {
+    it('async', () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -30,7 +30,7 @@ describe('ResolveConsumerHandler', () => {
         expect(n).toBe(value);
       });
 
-      await handler.onResolve(value);
+      handler.onResolve(value);
 
       expect(spy1.called).toBe(true);
     });

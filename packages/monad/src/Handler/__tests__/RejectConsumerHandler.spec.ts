@@ -4,7 +4,7 @@ import { RejectConsumerHandler } from '../RejectConsumerHandler';
 
 describe('RejectConsumerHandler', () => {
   describe('onReject', () => {
-    it('sync', async () => {
+    it('sync', () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -14,12 +14,12 @@ describe('RejectConsumerHandler', () => {
         expect(n).toBe(value);
       });
 
-      await handler.onReject(value);
+      handler.onReject(value);
 
       expect(spy1.called).toBe(true);
     });
 
-    it('async', async () => {
+    it('async', () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -30,7 +30,7 @@ describe('RejectConsumerHandler', () => {
         expect(n).toBe(value);
       });
 
-      await handler.onReject(value);
+      handler.onReject(value);
 
       expect(spy1.called).toBe(true);
     });

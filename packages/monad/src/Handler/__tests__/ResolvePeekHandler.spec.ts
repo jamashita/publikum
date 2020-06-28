@@ -4,19 +4,19 @@ import { ResolvePeekHandler } from '../ResolvePeekHandler';
 
 describe('ResolvePeekHandler', () => {
   describe('onResolve', () => {
-    it('sync', async () => {
+    it('sync', () => {
       const spy1: SinonSpy = sinon.spy();
 
       const handler: ResolvePeekHandler<void> = ResolvePeekHandler.of<void>(() => {
         spy1();
       });
 
-      await handler.onResolve();
+      handler.onResolve();
 
       expect(spy1.called).toBe(true);
     });
 
-    it('async', async () => {
+    it('async', () => {
       const spy1: SinonSpy = sinon.spy();
 
       // eslint-disable-next-line @typescript-eslint/require-await
@@ -24,7 +24,7 @@ describe('ResolvePeekHandler', () => {
         spy1();
       });
 
-      await handler.onResolve();
+      handler.onResolve();
 
       expect(spy1.called).toBe(true);
     });
