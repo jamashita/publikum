@@ -38,6 +38,32 @@ describe('Cache', () => {
       expect(cache.get<number>(identifier5)).toBe(value5);
     });
 
+    it('timeout: timeout 0 is not going to be volate', async () => {
+      const cache: Cache = new Cache(0);
+      const identifier: symbol = Symbol();
+      const value: string = 'pppp';
+
+      cache.set(identifier, value);
+      expect(cache.get<string>(identifier)).toBe(value);
+
+      await wait(3000);
+
+      expect(cache.get<string>(identifier)).toBe(value);
+    });
+
+    it('timeout: timeout negative value is not going to be volate', async () => {
+      const cache: Cache = new Cache(-193);
+      const identifier: symbol = Symbol();
+      const value: string = 'pppp';
+
+      cache.set(identifier, value);
+      expect(cache.get<string>(identifier)).toBe(value);
+
+      await wait(3000);
+
+      expect(cache.get<string>(identifier)).toBe(value);
+    });
+
     it('timeout: perform volatilization', async () => {
       const cache: Cache = new Cache(1);
       const identifier: symbol = Symbol();
