@@ -1,6 +1,7 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Ambiguous, BinaryPredicate, CancellableEnumerator, Kind, Nullable, Peek } from '@jamashita/publikum-type';
+import { Ambiguous, BinaryPredicate, Kind, Nullable, Peek } from '@jamashita/publikum-type';
 
+import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Project } from '../Interface/Project';

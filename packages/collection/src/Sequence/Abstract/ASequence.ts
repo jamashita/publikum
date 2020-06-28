@@ -2,7 +2,6 @@ import { Nominative } from '@jamashita/publikum-interface';
 import {
   Ambiguous,
   BinaryPredicate,
-  CancellableEnumerator,
   Enumerator,
   Kind,
   Mapper,
@@ -11,6 +10,7 @@ import {
   Predicate
 } from '@jamashita/publikum-type';
 
+import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Sequence } from '../Interface/Sequence';

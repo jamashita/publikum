@@ -9,7 +9,6 @@ export type AsyncSupplier<T> = () => Promise<T>;
 export type Peek = () => unknown;
 export type AsyncPeek = () => Promise<unknown>;
 export type Enumerator<K, V> = (value: V, key: K) => void;
-export type CancellableEnumerator<K, V> = (value: V, index: K, cancel: Peek) => void;
 export type Mapper<I, O> = (value: I, index: number) => O;
 export type Resolve<T> = (arg: T) => unknown;
 export type Reject<E = unknown> = (arg: E) => unknown;

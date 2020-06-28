@@ -1,7 +1,8 @@
 import { Equalable, Noun, Serializable } from '@jamashita/publikum-interface';
-import { CancellableEnumerator, Nullable } from '@jamashita/publikum-type';
+import { Nullable } from '@jamashita/publikum-type';
 
 import { Pair } from '../Pair';
+import { CancellableEnumerator } from './CancellableEnumerator';
 
 export interface Collection<T extends Collection<T, K, V, N>, K, V, N extends string = string>
   extends Equalable<T>,
