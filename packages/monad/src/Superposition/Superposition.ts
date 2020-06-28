@@ -118,7 +118,7 @@ export class Superposition<A, D extends Error> implements Noun<'Superposition'> 
   ): Superposition<A, D> {
     if (Kind.isPromiseLike(schrodinger)) {
       return Superposition.of<A, D>((resolve: Resolve<Detoxicated<A>>, reject: Reject<D>) => {
-        return schrodinger.then<void, void>((v: Schrodinger<A, D>) => {
+        return schrodinger.then<void>((v: Schrodinger<A, D>) => {
           if (v.isAlive()) {
             resolve(v.get());
 
@@ -167,12 +167,12 @@ export class Superposition<A, D extends Error> implements Noun<'Superposition'> 
   private resolved(self: Superposition<A, D>): Resolve<Detoxicated<A>> {
     return (value: Detoxicated<A>) => {
       if (this.done()) {
-        return Promise.resolve();
+        return;
       }
 
       self.schrodinger = Alive.of<A, D>(value);
 
-      return self.handlers.map<unknown>((later: DoneHandler<A, D>) => {
+      self.handlers.map<unknown>((later: DoneHandler<A, D>) => {
         return later.onResolve(value);
       });
     };
@@ -181,12 +181,12 @@ export class Superposition<A, D extends Error> implements Noun<'Superposition'> 
   private rejected(self: Superposition<A, D>): Reject<D> {
     return (err: D) => {
       if (this.done()) {
-        return Promise.resolve();
+        return;
       }
 
       self.schrodinger = Dead.of<A, D>(err);
 
-      return self.handlers.map<unknown>((later: DoneHandler<A, D>) => {
+      self.handlers.map<unknown>((later: DoneHandler<A, D>) => {
         return later.onReject(err);
       });
     };

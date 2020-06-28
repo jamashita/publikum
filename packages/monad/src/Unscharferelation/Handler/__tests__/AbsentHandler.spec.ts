@@ -2,6 +2,8 @@ import sinon, { SinonSpy } from 'sinon';
 
 import { Resolve } from '@jamashita/publikum-type';
 
+import { Absent } from '../../Absent';
+import { Present } from '../../Present';
 import { Unscharferelation } from '../../Unscharferelation';
 import { AbsentHandler } from '../AbsentHandler';
 
@@ -82,7 +84,7 @@ describe('AbsentHandler', () => {
         () => {
           spy1();
 
-          return Unscharferelation.present<number>(value - 6);
+          return Unscharferelation.ofHeisenberg<number>(Present.of<number>(value - 6));
         },
         (n: number) => {
           spy2();
@@ -237,7 +239,7 @@ describe('AbsentHandler', () => {
         () => {
           spy1();
 
-          return Unscharferelation.absent<number>();
+          return Unscharferelation.ofHeisenberg<number>(Absent.of<number>());
         },
         () => {
           spy2();

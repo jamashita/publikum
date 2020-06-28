@@ -1,4 +1,4 @@
-import { Etre, Kind, Omittable, Reject, Resolve, Supplier, Suspicious } from '@jamashita/publikum-type';
+import { Etre, Kind, Reject, Resolve, Supplier, Suspicious } from '@jamashita/publikum-type';
 
 import { IRejectHandler } from '../../Handler/Interface/IRejectHandler';
 import { Heisenberg } from '../Interface/Heisenberg';
@@ -6,16 +6,12 @@ import { Unscharferelation } from '../Unscharferelation';
 
 export class AbsentHandler<Q> implements IRejectHandler<void, 'AbsentHandler'> {
   public readonly noun: 'AbsentHandler' = 'AbsentHandler';
-  private readonly mapper: Supplier<
-    PromiseLike<Omittable<Suspicious<Etre<Q>>>> | Unscharferelation<Q> | Omittable<Suspicious<Etre<Q>>>
-  >;
+  private readonly mapper: Supplier<PromiseLike<Suspicious<Etre<Q>>> | Unscharferelation<Q> | Suspicious<Etre<Q>>>;
   private readonly resolve: Resolve<Etre<Q>>;
   private readonly reject: Reject<void>;
 
   public static of<Q>(
-    mapper: Supplier<
-      PromiseLike<Omittable<Suspicious<Etre<Q>>>> | Unscharferelation<Q> | Omittable<Suspicious<Etre<Q>>>
-    >,
+    mapper: Supplier<PromiseLike<Suspicious<Etre<Q>>> | Unscharferelation<Q> | Suspicious<Etre<Q>>>,
     resolve: Resolve<Etre<Q>>,
     reject: Reject<void>
   ): AbsentHandler<Q> {
@@ -23,9 +19,7 @@ export class AbsentHandler<Q> implements IRejectHandler<void, 'AbsentHandler'> {
   }
 
   protected constructor(
-    mapper: Supplier<
-      PromiseLike<Omittable<Suspicious<Etre<Q>>>> | Unscharferelation<Q> | Omittable<Suspicious<Etre<Q>>>
-    >,
+    mapper: Supplier<PromiseLike<Suspicious<Etre<Q>>> | Unscharferelation<Q> | Suspicious<Etre<Q>>>,
     resolve: Resolve<Etre<Q>>,
     reject: Reject<void>
   ) {
@@ -35,13 +29,10 @@ export class AbsentHandler<Q> implements IRejectHandler<void, 'AbsentHandler'> {
   }
 
   public onReject(): unknown {
-    const mapped:
-      | PromiseLike<Omittable<Suspicious<Etre<Q>>>>
-      | Unscharferelation<Q>
-      | Omittable<Suspicious<Etre<Q>>> = this.mapper();
+    const mapped: PromiseLike<Suspicious<Etre<Q>>> | Unscharferelation<Q> | Suspicious<Etre<Q>> = this.mapper();
 
     if (mapped instanceof Unscharferelation) {
-      return mapped.then<void, void>(
+      return mapped.terminate().then<void, void>(
         (v: Heisenberg<Q>) => {
           if (v.isPresent()) {
             this.resolve(v.get());
@@ -58,7 +49,7 @@ export class AbsentHandler<Q> implements IRejectHandler<void, 'AbsentHandler'> {
     }
     if (Kind.isPromiseLike(mapped)) {
       return mapped.then<void, void>(
-        (v: Omittable<Suspicious<Etre<Q>>>) => {
+        (v: Suspicious<Etre<Q>>) => {
           if (Kind.isUndefined(v) || Kind.isNull(v)) {
             this.reject();
 
