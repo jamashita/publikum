@@ -1591,7 +1591,7 @@ describe('Superposition', () => {
         Alive.of<number, MockError>(value)
       );
 
-      const heisenberg: Heisenberg<number> = await alive.toUnscharferelation();
+      const heisenberg: Heisenberg<number> = await alive.toUnscharferelation().terminate();
 
       expect(heisenberg.isPresent()).toBe(true);
       expect(heisenberg.get()).toBe(value);
@@ -1603,7 +1603,7 @@ describe('Superposition', () => {
         Dead.of<number, MockError>(error)
       );
 
-      const heisenberg: Heisenberg<number> = await dead.toUnscharferelation();
+      const heisenberg: Heisenberg<number> = await dead.toUnscharferelation().terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
       expect(() => {

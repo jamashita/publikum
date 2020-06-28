@@ -1,12 +1,11 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { Resolve } from '@jamashita/publikum-type';
-
 import { Schrodinger } from '../../Superposition/Interface/Schrodinger';
 import { Absent } from '../Absent';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Heisenberg } from '../Interface/Heisenberg';
 import { Present } from '../Present';
+import { Uncertain } from '../Uncertain';
 import { Unscharferelation } from '../Unscharferelation';
 
 describe('Unscharferelation', () => {
@@ -14,7 +13,7 @@ describe('Unscharferelation', () => {
     it('sync: no unschrferelation', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [];
 
-      const heisenberg: Heisenberg<Array<number>> = await Unscharferelation.all<number>(unscharferelations);
+      const heisenberg: Heisenberg<Array<number>> = await Unscharferelation.all<number>(unscharferelations).terminate();
 
       expect(heisenberg.isPresent()).toBe(true);
       expect(heisenberg.get().length).toBe(unscharferelations.length);
@@ -22,12 +21,12 @@ describe('Unscharferelation', () => {
 
     it('sync: all are Present', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.present<number>(0),
-        Unscharferelation.present<number>(1),
-        Unscharferelation.present<number>(2)
+        Unscharferelation.ofHeisenberg<number>(Present.of<number>(0)),
+        Unscharferelation.ofHeisenberg<number>(Present.of<number>(1)),
+        Unscharferelation.ofHeisenberg<number>(Present.of<number>(2))
       ];
 
-      const heisenberg: Heisenberg<Array<number>> = await Unscharferelation.all<number>(unscharferelations);
+      const heisenberg: Heisenberg<Array<number>> = await Unscharferelation.all<number>(unscharferelations).terminate();
 
       expect(heisenberg.isPresent()).toBe(true);
 
@@ -36,7 +35,7 @@ describe('Unscharferelation', () => {
       expect(array.length).toBe(unscharferelations.length);
       for (let i: number = 0; i < array.length; i++) {
         // eslint-disable-next-line no-await-in-loop
-        const h: Heisenberg<number> = await unscharferelations[i];
+        const h: Heisenberg<number> = await unscharferelations[i].terminate();
 
         expect(array[i]).toBe(h.get());
       }
@@ -44,9 +43,9 @@ describe('Unscharferelation', () => {
 
     it('sync: contains Absent on first position', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.absent<number>(),
-        Unscharferelation.present<number>(1),
-        Unscharferelation.present<number>(2)
+        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
+        Unscharferelation.ofHeisenberg<number>(Present.of<number>(1)),
+        Unscharferelation.ofHeisenberg<number>(Present.of<number>(2))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -54,17 +53,22 @@ describe('Unscharferelation', () => {
 
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
-      const heisenberg: Heisenberg<Array<number>> = await unscharferelation;
+      const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
 
       await unscharferelation
-        .map<void>(() => {
+        .map<null>(() => {
           spy1();
+
+          return null;
         })
-        .recover<void>(() => {
+        .recover<null>(() => {
           spy2();
-        });
+
+          return null;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -72,9 +76,9 @@ describe('Unscharferelation', () => {
 
     it('sync: contains Absent on second position', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.present<number>(0),
-        Unscharferelation.absent<number>(),
-        Unscharferelation.present<number>(2)
+        Unscharferelation.ofHeisenberg<number>(Present.of<number>(0)),
+        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
+        Unscharferelation.ofHeisenberg<number>(Present.of<number>(2))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -82,17 +86,22 @@ describe('Unscharferelation', () => {
 
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
-      const heisenberg: Heisenberg<Array<number>> = await unscharferelation;
+      const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
 
       await unscharferelation
-        .map<void>(() => {
+        .map<null>(() => {
           spy1();
+
+          return null;
         })
-        .recover<void>(() => {
+        .recover<null>(() => {
           spy2();
-        });
+
+          return null;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -100,9 +109,9 @@ describe('Unscharferelation', () => {
 
     it('sync: contains Absent on last position', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.present<number>(0),
-        Unscharferelation.present<number>(1),
-        Unscharferelation.absent<number>()
+        Unscharferelation.ofHeisenberg<number>(Present.of<number>(0)),
+        Unscharferelation.ofHeisenberg<number>(Present.of<number>(1)),
+        Unscharferelation.ofHeisenberg<number>(Absent.of<number>())
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -110,17 +119,22 @@ describe('Unscharferelation', () => {
 
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
-      const heisenberg: Heisenberg<Array<number>> = await unscharferelation;
+      const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
 
       await unscharferelation
-        .map<void>(() => {
+        .map<null>(() => {
           spy1();
+
+          return null;
         })
-        .recover<void>(() => {
+        .recover<null>(() => {
           spy2();
-        });
+
+          return null;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -128,9 +142,9 @@ describe('Unscharferelation', () => {
 
     it('sync: contains more than 1 Absent, but the last one', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.absent<number>(),
-        Unscharferelation.absent<number>(),
-        Unscharferelation.present<number>(2)
+        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
+        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
+        Unscharferelation.ofHeisenberg<number>(Present.of<number>(2))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -138,17 +152,22 @@ describe('Unscharferelation', () => {
 
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
-      const heisenberg: Heisenberg<Array<number>> = await unscharferelation;
+      const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
 
       await unscharferelation
-        .map<void>(() => {
+        .map<null>(() => {
           spy1();
+
+          return null;
         })
-        .recover<void>(() => {
+        .recover<null>(() => {
           spy2();
-        });
+
+          return null;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -156,9 +175,9 @@ describe('Unscharferelation', () => {
 
     it('sync: contains more than 1 Absent, but the second one', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.absent<number>(),
-        Unscharferelation.present<number>(1),
-        Unscharferelation.absent<number>()
+        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
+        Unscharferelation.ofHeisenberg<number>(Present.of<number>(1)),
+        Unscharferelation.ofHeisenberg<number>(Absent.of<number>())
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -166,17 +185,22 @@ describe('Unscharferelation', () => {
 
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
-      const heisenberg: Heisenberg<Array<number>> = await unscharferelation;
+      const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
 
       await unscharferelation
-        .map<void>(() => {
+        .map<null>(() => {
           spy1();
+
+          return null;
         })
-        .recover<void>(() => {
+        .recover<null>(() => {
           spy2();
-        });
+
+          return null;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -184,9 +208,9 @@ describe('Unscharferelation', () => {
 
     it('sync: contains more than 1 Absent, but the first one', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.present<number>(0),
-        Unscharferelation.absent<number>(),
-        Unscharferelation.absent<number>()
+        Unscharferelation.ofHeisenberg<number>(Present.of<number>(0)),
+        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
+        Unscharferelation.ofHeisenberg<number>(Absent.of<number>())
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -194,17 +218,22 @@ describe('Unscharferelation', () => {
 
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
-      const heisenberg: Heisenberg<Array<number>> = await unscharferelation;
+      const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
 
       await unscharferelation
-        .map<void>(() => {
+        .map<null>(() => {
           spy1();
+
+          return null;
         })
-        .recover<void>(() => {
+        .recover<null>(() => {
           spy2();
-        });
+
+          return null;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -212,9 +241,9 @@ describe('Unscharferelation', () => {
 
     it('sync: contains more than 1 Absent, all', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.absent<number>(),
-        Unscharferelation.absent<number>(),
-        Unscharferelation.absent<number>()
+        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
+        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
+        Unscharferelation.ofHeisenberg<number>(Absent.of<number>())
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -222,17 +251,22 @@ describe('Unscharferelation', () => {
 
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
-      const heisenberg: Heisenberg<Array<number>> = await unscharferelation;
+      const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
 
       await unscharferelation
-        .map<void>(() => {
+        .map<null>(() => {
           spy1();
+
+          return null;
         })
-        .recover<void>(() => {
+        .recover<null>(() => {
           spy2();
-        });
+
+          return null;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -240,12 +274,12 @@ describe('Unscharferelation', () => {
 
     it('async: all are Alive', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.present(Promise.resolve<number>(0)),
-        Unscharferelation.present(Promise.resolve<number>(1)),
-        Unscharferelation.present(Promise.resolve<number>(2))
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(0))),
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(1))),
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(2)))
       ];
 
-      const heisenberg: Heisenberg<Array<number>> = await Unscharferelation.all<number>(unscharferelations);
+      const heisenberg: Heisenberg<Array<number>> = await Unscharferelation.all<number>(unscharferelations).terminate();
 
       expect(heisenberg.isPresent()).toBe(true);
 
@@ -254,7 +288,7 @@ describe('Unscharferelation', () => {
       expect(array.length).toBe(unscharferelations.length);
       for (let i: number = 0; i < array.length; i++) {
         // eslint-disable-next-line no-await-in-loop
-        const h: Heisenberg<number> = await unscharferelations[i];
+        const h: Heisenberg<number> = await unscharferelations[i].terminate();
 
         expect(array[i]).toBe(h.get());
       }
@@ -262,9 +296,9 @@ describe('Unscharferelation', () => {
 
     it('async: contains Absent on first position', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.absent<number>(Promise.resolve()),
-        Unscharferelation.present<number>(Promise.resolve<number>(1)),
-        Unscharferelation.present<number>(Promise.resolve<number>(2))
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>())),
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(1))),
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(2)))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -272,17 +306,22 @@ describe('Unscharferelation', () => {
 
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
-      const heisenberg: Heisenberg<Array<number>> = await unscharferelation;
+      const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
 
       await unscharferelation
-        .map<void>(() => {
+        .map<null>(() => {
           spy1();
+
+          return null;
         })
-        .recover<void>(() => {
+        .recover<null>(() => {
           spy2();
-        });
+
+          return null;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -290,9 +329,9 @@ describe('Unscharferelation', () => {
 
     it('async: contains Absent on second position', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.present<number>(Promise.resolve<number>(0)),
-        Unscharferelation.absent<number>(Promise.resolve()),
-        Unscharferelation.present<number>(Promise.resolve<number>(2))
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(0))),
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>())),
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(2)))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -300,17 +339,22 @@ describe('Unscharferelation', () => {
 
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
-      const heisenberg: Heisenberg<Array<number>> = await unscharferelation;
+      const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
 
       await unscharferelation
-        .map<void>(() => {
+        .map<null>(() => {
           spy1();
+
+          return null;
         })
-        .recover<void>(() => {
+        .recover<null>(() => {
           spy2();
-        });
+
+          return null;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -318,9 +362,9 @@ describe('Unscharferelation', () => {
 
     it('async: contains Absent on last position', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.present<number>(Promise.resolve<number>(0)),
-        Unscharferelation.present<number>(Promise.resolve<number>(1)),
-        Unscharferelation.absent<number>(Promise.resolve())
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(0))),
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(1))),
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>()))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -328,17 +372,22 @@ describe('Unscharferelation', () => {
 
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
-      const heisenberg: Heisenberg<Array<number>> = await unscharferelation;
+      const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
 
       await unscharferelation
-        .map<void>(() => {
+        .map<null>(() => {
           spy1();
+
+          return null;
         })
-        .recover<void>(() => {
+        .recover<null>(() => {
           spy2();
-        });
+
+          return null;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -346,9 +395,9 @@ describe('Unscharferelation', () => {
 
     it('async: contains more than 1 Absent, but the last one', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.absent<number>(Promise.resolve()),
-        Unscharferelation.absent<number>(Promise.resolve()),
-        Unscharferelation.present<number>(Promise.resolve<number>(2))
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>())),
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>())),
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(2)))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -356,17 +405,22 @@ describe('Unscharferelation', () => {
 
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
-      const heisenberg: Heisenberg<Array<number>> = await unscharferelation;
+      const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
 
       await unscharferelation
-        .map<void>(() => {
+        .map<null>(() => {
           spy1();
+
+          return null;
         })
-        .recover<void>(() => {
+        .recover<null>(() => {
           spy2();
-        });
+
+          return null;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -374,9 +428,9 @@ describe('Unscharferelation', () => {
 
     it('async: contains more than 1 Absent, but the second one', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.absent<number>(Promise.resolve()),
-        Unscharferelation.present<number>(Promise.resolve<number>(1)),
-        Unscharferelation.absent<number>(Promise.resolve())
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>())),
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(1))),
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>()))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -384,17 +438,22 @@ describe('Unscharferelation', () => {
 
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
-      const heisenberg: Heisenberg<Array<number>> = await unscharferelation;
+      const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
 
       await unscharferelation
-        .map<void>(() => {
+        .map<null>(() => {
           spy1();
+
+          return null;
         })
-        .recover<void>(() => {
+        .recover<null>(() => {
           spy2();
-        });
+
+          return null;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -402,9 +461,9 @@ describe('Unscharferelation', () => {
 
     it('async: contains more than 1 Absent, but the first one', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.present<number>(Promise.resolve<number>(0)),
-        Unscharferelation.absent<number>(Promise.resolve()),
-        Unscharferelation.absent<number>(Promise.resolve())
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(0))),
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>())),
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>()))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -412,17 +471,22 @@ describe('Unscharferelation', () => {
 
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
-      const heisenberg: Heisenberg<Array<number>> = await unscharferelation;
+      const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
 
       await unscharferelation
-        .map<void>(() => {
+        .map<null>(() => {
           spy1();
+
+          return null;
         })
-        .recover<void>(() => {
+        .recover<null>(() => {
           spy2();
-        });
+
+          return null;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -430,9 +494,9 @@ describe('Unscharferelation', () => {
 
     it('async: contains more than 1 Absent, all', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.absent<number>(Promise.resolve()),
-        Unscharferelation.absent<number>(Promise.resolve()),
-        Unscharferelation.absent<number>(Promise.resolve())
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>())),
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>())),
+        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>()))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -440,17 +504,22 @@ describe('Unscharferelation', () => {
 
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
-      const heisenberg: Heisenberg<Array<number>> = await unscharferelation;
+      const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
 
       await unscharferelation
-        .map<void>(() => {
+        .map<null>(() => {
           spy1();
+
+          return null;
         })
-        .recover<void>(() => {
+        .recover<null>(() => {
           spy2();
-        });
+
+          return null;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -459,125 +528,104 @@ describe('Unscharferelation', () => {
 
   describe('maybe', () => {
     it('sync present case', async () => {
-      expect(await Unscharferelation.maybe(1)).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(0)).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe('a')).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe('')).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(true)).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(false)).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Symbol())).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(0n)).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(1n)).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(-1n)).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe({})).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(new Error())).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(1).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(0).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe('a').terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe('').terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(true).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(false).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Symbol()).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(0n).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(1n).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(-1n).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe({}).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(new Error()).terminate()).toBeInstanceOf(Present);
     });
 
     it('sync absent case', async () => {
-      expect(await Unscharferelation.maybe(null)).toBeInstanceOf(Absent);
-      expect(await Unscharferelation.maybe(undefined)).toBeInstanceOf(Absent);
+      expect(await Unscharferelation.maybe(null).terminate()).toBeInstanceOf(Absent);
+      expect(await Unscharferelation.maybe(undefined).terminate()).toBeInstanceOf(Absent);
     });
 
     it('async present case', async () => {
-      expect(await Unscharferelation.maybe(Promise.resolve(1))).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve(0))).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve('a'))).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve(''))).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve(true))).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve(false))).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve(Symbol()))).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve(0n))).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve(1n))).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve(-1n))).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve({}))).toBeInstanceOf(Present);
-      expect(await Unscharferelation.maybe(Promise.resolve(new Error()))).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(1)).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(0)).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve('a')).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve('')).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(true)).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(false)).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(Symbol())).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(0n)).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(1n)).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(-1n)).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve({})).terminate()).toBeInstanceOf(Present);
+      expect(await Unscharferelation.maybe(Promise.resolve(new Error())).terminate()).toBeInstanceOf(Present);
     });
 
     it('async absent case', async () => {
-      expect(await Unscharferelation.maybe(Promise.resolve(null))).toBeInstanceOf(Absent);
-      expect(await Unscharferelation.maybe(Promise.resolve(undefined))).toBeInstanceOf(Absent);
+      expect(await Unscharferelation.maybe(Promise.resolve(null)).terminate()).toBeInstanceOf(Absent);
+      expect(await Unscharferelation.maybe(Promise.resolve(undefined)).terminate()).toBeInstanceOf(Absent);
     });
   });
 
-  describe('present', () => {
-    it('sync case', async () => {
+  describe('ofHeisenberg', () => {
+    it('sync: present', async () => {
       const value: number = 3;
+      const present: Present<number> = Present.of<number>(value);
 
-      const heisenberg: Heisenberg<number> = await Unscharferelation.present<number>(value);
+      const unshcarferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(present);
 
-      expect(heisenberg.isPresent()).toBe(true);
+      const heisenberg: Heisenberg<number> = await unshcarferelation.terminate();
+
       expect(heisenberg.get()).toBe(value);
     });
 
-    it('async case', async () => {
+    it('sync: absent', async () => {
+      const absent: Absent<number> = Absent.of<number>();
+
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(absent);
+
+      const heisenberg: Heisenberg<number> = await unscharferelation.terminate();
+
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
+    });
+
+    it('sync: uncertain', () => {
+      const uncertain: Uncertain<number> = Uncertain.of<number>();
+
+      expect(() => {
+        Unscharferelation.ofHeisenberg<number>(uncertain);
+      }).toThrow(UnscharferelationError);
+    });
+
+    it('async: alive', async () => {
       const value: number = 3;
 
-      const heisenberg: Heisenberg<number> = await Unscharferelation.present<number>(Promise.resolve<number>(value));
+      const present: Present<number> = Present.of<number>(value);
 
-      expect(heisenberg.isPresent()).toBe(true);
+      const unshcarferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(
+        Promise.resolve<Heisenberg<number>>(present)
+      );
+
+      const heisenberg: Heisenberg<number> = await unshcarferelation.terminate();
+
       expect(heisenberg.get()).toBe(value);
     });
 
-    it('unscharferelation case: returns itself', () => {
-      const present: Unscharferelation<number> = Unscharferelation.present(3);
-      const absent: Unscharferelation<number> = Unscharferelation.absent();
+    it('async: absent', async () => {
+      const absent: Absent<number> = Absent.of<number>();
 
-      const unscharferelation1: Unscharferelation<number> = Unscharferelation.present<number>(present);
-      const unscharferelation2: Unscharferelation<number> = Unscharferelation.present<number>(absent);
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(
+        Promise.resolve<Heisenberg<number>>(absent)
+      );
 
-      expect(unscharferelation1).toBe(present);
-      expect(unscharferelation2).toBe(absent);
-    });
-  });
+      const heisenberg: Heisenberg<number> = await unscharferelation.terminate();
 
-  describe('absent', () => {
-    it('sync case', async () => {
-      const heisenberg1: Heisenberg<number> = await Unscharferelation.absent();
-      const heisenberg2: Heisenberg<number> = await Unscharferelation.absent(undefined);
-      const heisenberg3: Heisenberg<number> = await Unscharferelation.absent(null);
-
-      expect(heisenberg1.isAbsent()).toBe(true);
-      expect(heisenberg2.isAbsent()).toBe(true);
-      expect(heisenberg3.isAbsent()).toBe(true);
       expect(() => {
-        heisenberg1.get();
+        heisenberg.get();
       }).toThrow(UnscharferelationError);
-      expect(() => {
-        heisenberg2.get();
-      }).toThrow(UnscharferelationError);
-      expect(() => {
-        heisenberg3.get();
-      }).toThrow(UnscharferelationError);
-    });
-
-    it('async case', async () => {
-      const heisenberg1: Heisenberg<number> = await Unscharferelation.absent(Promise.resolve());
-      const heisenberg2: Heisenberg<number> = await Unscharferelation.absent(Promise.resolve(undefined));
-      const heisenberg3: Heisenberg<number> = await Unscharferelation.absent(Promise.resolve(null));
-
-      expect(heisenberg1.isAbsent()).toBe(true);
-      expect(heisenberg2.isAbsent()).toBe(true);
-      expect(heisenberg3.isAbsent()).toBe(true);
-      expect(() => {
-        heisenberg1.get();
-      }).toThrow(UnscharferelationError);
-      expect(() => {
-        heisenberg2.get();
-      }).toThrow(UnscharferelationError);
-      expect(() => {
-        heisenberg3.get();
-      }).toThrow(UnscharferelationError);
-    });
-
-    it('unscharferelation case: returns itself', () => {
-      const present: Unscharferelation<number> = Unscharferelation.present(3);
-      const absent: Unscharferelation<number> = Unscharferelation.absent();
-
-      const unscharferelation1: Unscharferelation<number> = Unscharferelation.absent<number>(present);
-      const unscharferelation2: Unscharferelation<number> = Unscharferelation.absent<number>(absent);
-
-      expect(unscharferelation1).toBe(present);
-      expect(unscharferelation2).toBe(absent);
     });
   });
 
@@ -585,25 +633,26 @@ describe('Unscharferelation', () => {
     it('returns inner value', async () => {
       const value: number = -201;
 
-      const unscharferelation1: Unscharferelation<number> = Unscharferelation.present(value);
-      const unscharferelation2: Unscharferelation<number> = Unscharferelation.absent();
+      const unscharferelation1: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Present.of<number>(value));
+      const unscharferelation2: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Absent.of<number>());
 
       await expect(unscharferelation1.get()).resolves.toBe(value);
       await expect(unscharferelation2.get()).rejects.toThrow(UnscharferelationError);
     });
   });
 
-  describe('then', () => {
+  describe('terminate', () => {
     it('returns Heisenberg subclass instance', async () => {
       const value: number = -201;
 
-      const heisenberg1: Heisenberg<number> = await Unscharferelation.present(value);
-      const heisenberg2: Heisenberg<number> = await Unscharferelation.absent();
+      const present: Heisenberg<number> = await Unscharferelation.ofHeisenberg(Present.of<number>(value)).terminate();
+      const absent: Heisenberg<number> = await Unscharferelation.ofHeisenberg(Absent.of<number>()).terminate();
 
-      expect(heisenberg1.isPresent()).toBe(true);
-      expect(heisenberg1.get()).toBe(value);
+      expect(present).toBeInstanceOf(Present);
+      expect(present.get()).toBe(value);
+      expect(absent).toBeInstanceOf(Absent);
       expect(() => {
-        heisenberg2.get();
+        absent.get();
       }).toThrow(UnscharferelationError);
     });
   });
@@ -612,12 +661,12 @@ describe('Unscharferelation', () => {
     it('present: predicate returns true', async () => {
       const value: number = -201;
 
-      const unscharferelation1: Unscharferelation<number> = Unscharferelation.present(value);
+      const unscharferelation1: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Present.of<number>(value));
       const unscharferelation2: Unscharferelation<number> = unscharferelation1.filter(() => {
         return true;
       });
 
-      const heisenberg: Heisenberg<number> = await unscharferelation2;
+      const heisenberg: Heisenberg<number> = await unscharferelation2.terminate();
 
       expect(heisenberg.isPresent()).toBe(true);
       expect(heisenberg.get()).toBe(value);
@@ -626,12 +675,12 @@ describe('Unscharferelation', () => {
     it('present: predicate returns false', async () => {
       const value: number = -201;
 
-      const unscharferelation1: Unscharferelation<number> = Unscharferelation.present(value);
+      const unscharferelation1: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Present.of<number>(value));
       const unscharferelation2: Unscharferelation<number> = unscharferelation1.filter(() => {
         return false;
       });
 
-      const heisenberg: Heisenberg<number> = await unscharferelation2;
+      const heisenberg: Heisenberg<number> = await unscharferelation2.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
       expect(() => {
@@ -640,15 +689,15 @@ describe('Unscharferelation', () => {
     });
 
     it('absent: returns itself inspite of the return value of filter', async () => {
-      const unscharferelation1: Unscharferelation<number> = Unscharferelation.absent();
+      const unscharferelation1: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Absent.of<number>());
       const unscharferelation2: Unscharferelation<number> = unscharferelation1.filter(() => {
         return true;
       });
       const unscharferelation3: Unscharferelation<number> = unscharferelation1.filter(() => {
         return false;
       });
-      const heisenberg1: Heisenberg<number> = await unscharferelation2;
-      const heisenberg2: Heisenberg<number> = await unscharferelation3;
+      const heisenberg1: Heisenberg<number> = await unscharferelation2.terminate();
+      const heisenberg2: Heisenberg<number> = await unscharferelation3.terminate();
 
       expect(unscharferelation1).toBe(unscharferelation2);
       expect(heisenberg1.isAbsent()).toBe(true);
@@ -661,31 +710,12 @@ describe('Unscharferelation', () => {
         heisenberg2.get();
       }).toThrow(UnscharferelationError);
     });
-
-    it('uncertain: predicate returns false', () => {
-      const unscharferelation1: Unscharferelation<number> = Unscharferelation.present<number>(
-        new Promise<number>((resolve: Resolve<number>) => {
-          setTimeout(() => {
-            resolve(1);
-          }, 30000);
-        })
-      );
-      const unscharferelation2: Unscharferelation<number> = unscharferelation1.filter(() => {
-        return true;
-      });
-      const unscharferelation3: Unscharferelation<number> = unscharferelation1.filter(() => {
-        return false;
-      });
-
-      expect(unscharferelation1).toBe(unscharferelation2);
-      expect(unscharferelation1).toBe(unscharferelation3);
-    });
   });
 
   describe('map', () => {
     it('sync case', async () => {
       const value: number = -201;
-      const present: Unscharferelation<number> = Unscharferelation.present(value);
+      const present: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Present.of<number>(value));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -700,7 +730,10 @@ describe('Unscharferelation', () => {
         .map<number>((v: number) => {
           spy2();
           expect(v).toBe(value + 1);
-        });
+
+          return v + 1;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -708,7 +741,7 @@ describe('Unscharferelation', () => {
 
     it('async case', async () => {
       const value: number = -201;
-      const present: Unscharferelation<number> = Unscharferelation.present(value);
+      const present: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Present.of<number>(value));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -723,7 +756,10 @@ describe('Unscharferelation', () => {
         .map<number>((v: number) => {
           spy2();
           expect(v).toBe(value + 1);
-        });
+
+          return v + 1;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -732,8 +768,8 @@ describe('Unscharferelation', () => {
     it('unscharferelation case', async () => {
       const value1: number = -201;
       const value2: number = -20100;
-      const present1: Unscharferelation<number> = Unscharferelation.present(value1);
-      const present2: Unscharferelation<number> = Unscharferelation.present(value2);
+      const present1: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Present.of<number>(value1));
+      const present2: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Present.of<number>(value2));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -748,7 +784,10 @@ describe('Unscharferelation', () => {
         .map<number>((v: number) => {
           spy2();
           expect(v).toBe(value2);
-        });
+
+          return v + 1;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -756,7 +795,7 @@ describe('Unscharferelation', () => {
 
     it('sync case: returns null', async () => {
       const value: number = -201;
-      const present: Unscharferelation<number> = Unscharferelation.present(value);
+      const present: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Present.of<number>(value));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -770,7 +809,10 @@ describe('Unscharferelation', () => {
         })
         .map<number>(() => {
           spy2();
-        });
+
+          return null;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -778,7 +820,7 @@ describe('Unscharferelation', () => {
 
     it('async case: returns resolved null', async () => {
       const value: number = -201;
-      const present: Unscharferelation<number> = Unscharferelation.present(value);
+      const present: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Present.of<number>(value));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -792,7 +834,10 @@ describe('Unscharferelation', () => {
         })
         .map<number>(() => {
           spy2();
-        });
+
+          return null;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -800,8 +845,8 @@ describe('Unscharferelation', () => {
 
     it('unscharferelation case: returns Absent Unscharferelation', async () => {
       const value: number = -201;
-      const present: Unscharferelation<number> = Unscharferelation.present(value);
-      const absent: Unscharferelation<number> = Unscharferelation.absent();
+      const present: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Present.of<number>(value));
+      const absent: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Absent.of<number>());
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -815,7 +860,10 @@ describe('Unscharferelation', () => {
         })
         .map<number>(() => {
           spy2();
-        });
+
+          return null;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -823,7 +871,7 @@ describe('Unscharferelation', () => {
 
     it('already resolved unscharferelation case', async () => {
       const value: number = -201;
-      const present: Unscharferelation<number> = Unscharferelation.present(value);
+      const present: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Present.of<number>(value));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -839,8 +887,9 @@ describe('Unscharferelation', () => {
           spy2();
           expect(v).toBe(value);
 
-          return v;
-        });
+          return v + 230;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -850,7 +899,7 @@ describe('Unscharferelation', () => {
   describe('recover', () => {
     it('sync case', async () => {
       const value: number = -201;
-      const absent: Unscharferelation<number> = Unscharferelation.absent();
+      const absent: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Absent.of<number>());
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -867,10 +916,13 @@ describe('Unscharferelation', () => {
 
           return value + 23;
         })
-        .map((v: number) => {
+        .map<number>((v: number) => {
           spy3();
           expect(v).toBe(value + 23);
-        });
+
+          return v + 230;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -879,7 +931,7 @@ describe('Unscharferelation', () => {
 
     it('async case', async () => {
       const value: number = -201;
-      const absent: Unscharferelation<number> = Unscharferelation.absent();
+      const absent: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Absent.of<number>());
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -899,7 +951,10 @@ describe('Unscharferelation', () => {
         .map<number>((v: number) => {
           spy3();
           expect(v).toBe(value + 23);
-        });
+
+          return v + 340;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -908,8 +963,8 @@ describe('Unscharferelation', () => {
 
     it('unscharferelation case', async () => {
       const value: number = -20100;
-      const absent: Unscharferelation<number> = Unscharferelation.absent();
-      const present: Unscharferelation<number> = Unscharferelation.present(value);
+      const absent: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Absent.of<number>());
+      const present: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Present.of<number>(value));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -929,7 +984,10 @@ describe('Unscharferelation', () => {
         .map<number>((v: number) => {
           spy3();
           expect(v).toBe(value);
-        });
+
+          return v + 2;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -938,7 +996,7 @@ describe('Unscharferelation', () => {
 
     it('sync case: returns null', async () => {
       const value: number = -201;
-      const present: Unscharferelation<number> = Unscharferelation.present(value);
+      const present: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Present.of<number>(value));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -959,7 +1017,10 @@ describe('Unscharferelation', () => {
         .map<number>((v: number) => {
           spy3();
           expect(v).toBe(value + 23);
-        });
+
+          return v + 230;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -968,7 +1029,7 @@ describe('Unscharferelation', () => {
 
     it('async case: returns resolved null', async () => {
       const value: number = -201;
-      const present: Unscharferelation<number> = Unscharferelation.present(value);
+      const present: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Present.of<number>(value));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -989,7 +1050,10 @@ describe('Unscharferelation', () => {
         .map<number>((v: number) => {
           spy3();
           expect(v).toBe(value + 23);
-        });
+
+          return v + 230;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -998,8 +1062,8 @@ describe('Unscharferelation', () => {
 
     it('unscharferelation case: returns Absent Unscharferelation', async () => {
       const value: number = -201;
-      const present: Unscharferelation<number> = Unscharferelation.present(value);
-      const absent: Unscharferelation<number> = Unscharferelation.absent();
+      const present: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Present.of<number>(value));
+      const absent: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Absent.of<number>());
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1020,7 +1084,10 @@ describe('Unscharferelation', () => {
         .map<number>((v: number) => {
           spy3();
           expect(v).toBe(value + 23);
-        });
+
+          return value + 230;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -1029,7 +1096,7 @@ describe('Unscharferelation', () => {
 
     it('already resolved unscharferelation case', async () => {
       const value: number = -201;
-      const present: Unscharferelation<number> = Unscharferelation.present(value);
+      const present: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Present.of<number>(value));
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1044,7 +1111,10 @@ describe('Unscharferelation', () => {
         .map<number>((v: number) => {
           spy2();
           expect(v).toBe(value);
-        });
+
+          return v + 23;
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -1053,18 +1123,18 @@ describe('Unscharferelation', () => {
   describe('toSuperposition', () => {
     it('present: will transform to alive', async () => {
       const value: number = -201;
-      const present: Unscharferelation<number> = Unscharferelation.present(value);
+      const present: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Present.of<number>(value));
 
-      const schrodinger: Schrodinger<number, UnscharferelationError> = await present.toSuperposition();
+      const schrodinger: Schrodinger<number, UnscharferelationError> = await present.toSuperposition().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(value);
     });
 
     it('absent: will transform to dead', async () => {
-      const absent: Unscharferelation<number> = Unscharferelation.absent();
+      const absent: Unscharferelation<number> = Unscharferelation.ofHeisenberg(Absent.of<number>());
 
-      const schrodinger: Schrodinger<number, UnscharferelationError> = await absent.toSuperposition();
+      const schrodinger: Schrodinger<number, UnscharferelationError> = await absent.toSuperposition().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
