@@ -81,7 +81,7 @@ export class Superposition<A, D extends Error> implements Noun<'Superposition'> 
       }
       if (Kind.isPromiseLike(value)) {
         return Superposition.of<A, D>((resolve: Resolve<Detoxicated<A>>, reject: Reject<D>) => {
-          value.then<void, void>(
+          return value.then<void, void>(
             (v: Detoxicated<A>) => {
               resolve(v);
             },

@@ -5,7 +5,7 @@ const NUMBER_REGEX: RegExp = /^[+-]?[0-9]+\.?[0-9]*$/su;
 const LITERAL_TOSTRING: string = '[object Object]';
 
 export class Kind {
-  public static isUndefined(value: unknown): value is undefined | void {
+  public static isUndefined(value: unknown): value is undefined {
     if (typeof value === 'undefined') {
       return true;
     }
