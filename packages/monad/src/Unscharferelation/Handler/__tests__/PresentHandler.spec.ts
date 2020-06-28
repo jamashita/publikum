@@ -82,23 +82,29 @@ describe('PresentHandler', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const handler: PresentHandler<number, number> = PresentHandler.of<number, number>(
-        (n: number) => {
-          spy1();
-          expect(n).toBe(value);
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const handler: PresentHandler<number, number> = PresentHandler.of<number, number>(
+          (n: number) => {
+            spy1();
+            expect(n).toBe(value);
 
-          return Unscharferelation.ofHeisenberg<number>(Present.of<number>(n - 6));
-        },
-        (n: number) => {
-          spy2();
-          expect(n).toBe(value - 6);
-        },
-        () => {
-          spy3();
-        }
-      );
+            return Unscharferelation.ofHeisenberg<number>(Present.of<number>(n - 6));
+          },
+          (n: number) => {
+            spy2();
+            expect(n).toBe(value - 6);
 
-      await handler.onResolve(value);
+            resolve();
+          },
+          () => {
+            spy3();
+
+            resolve();
+          }
+        );
+
+        handler.onResolve(value);
+      });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -249,22 +255,29 @@ describe('PresentHandler', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const handler: PresentHandler<number, number> = PresentHandler.of<number, number>(
-        (n: number) => {
-          spy1();
-          expect(n).toBe(value);
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const handler: PresentHandler<number, number> = PresentHandler.of<number, number>(
+          (n: number) => {
+            spy1();
+            expect(n).toBe(value);
 
-          return Unscharferelation.ofHeisenberg<number>(Absent.of<number>());
-        },
-        () => {
-          spy2();
-        },
-        () => {
-          spy3();
-        }
-      );
+            return Unscharferelation.ofHeisenberg<number>(Absent.of<number>());
+          },
+          (n: number) => {
+            spy2();
+            expect(n).toBe(value - 6);
 
-      await handler.onResolve(value);
+            resolve();
+          },
+          () => {
+            spy3();
+
+            resolve();
+          }
+        );
+
+        handler.onResolve(value);
+      });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);

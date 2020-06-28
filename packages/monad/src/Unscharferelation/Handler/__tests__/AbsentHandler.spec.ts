@@ -73,29 +73,35 @@ describe('AbsentHandler', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('Present Unscharferelation given', () => {
+    it('Present Unscharferelation given', async () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const handler: AbsentHandler<number> = AbsentHandler.of<number>(
-        () => {
-          spy1();
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const handler: AbsentHandler<number> = AbsentHandler.of<number>(
+          () => {
+            spy1();
 
-          return Unscharferelation.ofHeisenberg<number>(Present.of<number>(value - 6));
-        },
-        (n: number) => {
-          spy2();
-          expect(n).toBe(value - 6);
-        },
-        () => {
-          spy3();
-        }
-      );
+            return Unscharferelation.ofHeisenberg<number>(Present.of<number>(value - 6));
+          },
+          (n: number) => {
+            spy2();
+            expect(n).toBe(value - 6);
 
-      handler.onReject();
+            resolve();
+          },
+          () => {
+            spy3();
+
+            resolve();
+          }
+        );
+
+        handler.onReject();
+      });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -235,21 +241,27 @@ describe('AbsentHandler', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const handler: AbsentHandler<number> = AbsentHandler.of<number>(
-        () => {
-          spy1();
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const handler: AbsentHandler<number> = AbsentHandler.of<number>(
+          () => {
+            spy1();
 
-          return Unscharferelation.ofHeisenberg<number>(Absent.of<number>());
-        },
-        () => {
-          spy2();
-        },
-        () => {
-          spy3();
-        }
-      );
+            return Unscharferelation.ofHeisenberg<number>(Absent.of<number>());
+          },
+          () => {
+            spy2();
 
-      await handler.onReject();
+            resolve();
+          },
+          () => {
+            spy3();
+
+            resolve();
+          }
+        );
+
+        handler.onReject();
+      });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
