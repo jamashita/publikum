@@ -1,8 +1,8 @@
 import { Noun } from '@jamashita/publikum-interface';
 import {
-  Ambiguous,
   BinaryFunction,
   Consumer,
+  Detoxicated,
   Etre,
   Kind,
   Peek,
@@ -10,7 +10,6 @@ import {
   Reject,
   Resolve,
   Supplier,
-  Suspicious,
   UnaryFunction
 } from '@jamashita/publikum-type';
 
@@ -30,7 +29,7 @@ import { DeadHandler } from './Handler/DeadHandler';
 import { Schrodinger } from './Interface/Schrodinger';
 import { Still } from './Still';
 
-export class Superposition<A, D extends Error> implements PromiseLike<Schrodinger<A, D>>, Noun<'Superposition'> {
+export class Superposition<A, D extends Error> implements Noun<'Superposition'> {
   public readonly noun: 'Superposition' = 'Superposition';
   private schrodinger: Schrodinger<A, D>;
   private readonly handlers: Array<DoneHandler<A, D>>;
@@ -42,49 +41,55 @@ export class Superposition<A, D extends Error> implements PromiseLike<Schrodinge
 
     const schrodingers: Array<PromiseLike<Schrodinger<A, D>>> = superpositions.map<PromiseLike<Schrodinger<A, D>>>(
       (s: Superposition<A, D>) => {
-        return s.then();
+        return s.terminate();
       }
     );
 
-    const promises: Promise<Array<Schrodinger<A, D>>> = Promise.all<Schrodinger<A, D>>(schrodingers);
-
     return Superposition.of<Array<A>, D>((resolve: Resolve<Array<A>>, reject: Reject<D>) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      promises.then<void>((sch: Array<Schrodinger<A, D>>) => {
-        const dead: Ambiguous<Dead<A, D>> = sch.find<Dead<A, D>>((s: Schrodinger<A, D>): s is Dead<A, D> => {
-          return s.isDead();
-        });
+      return Promise.all<Schrodinger<A, D>>(schrodingers).then<void>((sch: Array<Schrodinger<A, D>>) => {
+        const ss: Array<A> = [];
 
-        if (!Kind.isUndefined(dead)) {
-          reject(dead.getError());
+        for (let i: number = 0; i < sch.length; i++) {
+          const s: Schrodinger<A, D> = sch[i];
 
-          return;
+          if (s.isDead()) {
+            reject(s.getError());
+
+            return;
+          }
+
+          ss.push(s.get());
         }
-
-        const ss: Array<A> = sch.map<A>((s: Schrodinger<A, D>) => {
-          return s.get();
-        });
 
         resolve(ss);
       });
     });
   }
 
-  public static playground<A, D extends Error>(supplier: Supplier<PromiseLike<A>>): Superposition<A, D>;
   public static playground<A, D extends Error>(supplier: Supplier<Superposition<A, D>>): Superposition<A, D>;
-  public static playground<A, D extends Error>(supplier: Supplier<A>): Superposition<A, D>;
+  public static playground<A, D extends Error>(supplier: Supplier<PromiseLike<Detoxicated<A>>>): Superposition<A, D>;
+  public static playground<A, D extends Error>(supplier: Supplier<Detoxicated<A>>): Superposition<A, D>;
   public static playground<A, D extends Error>(
-    supplier: Supplier<PromiseLike<A> | Superposition<A, D> | A>
+    supplier: Supplier<Superposition<A, D> | PromiseLike<Detoxicated<A>> | Detoxicated<A>>
   ): Superposition<A, D> {
     // prettier-ignore
     try {
-      const value: PromiseLike<A> | Superposition<A, D> | A = supplier();
+      const value: Superposition<A, D> | PromiseLike<Detoxicated<A>> | Detoxicated<A> = supplier();
 
       if (value instanceof Superposition) {
         return value;
       }
       if (Kind.isPromiseLike(value)) {
-        return Superposition.ofPromise<A, D>(value);
+        return Superposition.of<A, D>((resolve: Resolve<Detoxicated<A>>, reject: Reject<D>) => {
+          value.then<void, void>(
+            (v: Detoxicated<A>) => {
+              resolve(v);
+            },
+            (err: D) => {
+              reject(err);
+            }
+          );
+        });
       }
 
       return Superposition.alive<A, D>(value);
@@ -94,56 +99,40 @@ export class Superposition<A, D extends Error> implements PromiseLike<Schrodinge
     }
   }
 
-  public static alive<A, D extends Error>(value: Superposition<A, D>): Superposition<A, D>;
-  public static alive<A, D extends Error>(value: PromiseLike<A>): Superposition<A, D>;
-  public static alive<A, D extends Error>(value: A): Superposition<A, D>;
-  public static alive<A, D extends Error>(value: Superposition<A, D> | PromiseLike<A> | A): Superposition<A, D> {
-    if (value instanceof Superposition) {
-      return value;
-    }
-    if (Kind.isPromiseLike(value)) {
-      return Superposition.ofPromise<A, D>(value);
-    }
-
-    return Superposition.of<A, D>((resolve: Resolve<A>) => {
+  private static alive<A, D extends Error>(value: Detoxicated<A>): Superposition<A, D> {
+    return Superposition.of<A, D>((resolve: Resolve<Detoxicated<A>>) => {
       resolve(value);
     });
   }
 
-  public static dead<A, D extends Error>(error: Superposition<A, D>): Superposition<A, D>;
-  public static dead<A, D extends Error>(error: PromiseLike<A | never>): Superposition<A, D>;
-  public static dead<A, D extends Error>(error: D): Superposition<A, D>;
-  public static dead<A, D extends Error>(error: Superposition<A, D> | PromiseLike<A | never> | D): Superposition<A, D> {
-    if (error instanceof Superposition) {
-      return error;
-    }
-    if (Kind.isPromiseLike(error)) {
-      return Superposition.ofPromise<A, D>(error);
-    }
-
+  private static dead<A, D extends Error>(error: D): Superposition<A, D> {
     return Superposition.of<A, D>((resolve: unknown, reject: Reject<D>) => {
       reject(error);
     });
   }
 
-  private static ofPromise<A, D extends Error>(promise: PromiseLike<A>): Superposition<A, D> {
-    return Superposition.of<A, D>((resolve: Resolve<A>, reject: Reject<D>) => {
-      promise.then<void, void>(
-        (value: A) => {
-          resolve(value);
-        },
-        (err: D) => {
-          reject(err);
-        }
-      );
-    });
+  public static ofSchrodinger<A, D extends Error>(schrodinger: Schrodinger<A, D>): Superposition<A, D> {
+    if (schrodinger.isAlive()) {
+      return new Superposition<A, D>((resolve: Resolve<Detoxicated<A>>) => {
+        resolve(schrodinger.get());
+      });
+    }
+    if (schrodinger.isDead()) {
+      return new Superposition<A, D>((resolve: unknown, reject: Reject<D>) => {
+        reject(schrodinger.getError());
+      });
+    }
+
+    throw new SuperpositionError(`THIS SCHRODINGER IS NOT DETERMINED :${schrodinger.noun}`);
   }
 
-  public static of<A, D extends Error>(func: BinaryFunction<Resolve<A>, Reject<D>, unknown>): Superposition<A, D> {
+  public static of<A, D extends Error>(
+    func: BinaryFunction<Resolve<Detoxicated<A>>, Reject<D>, unknown>
+  ): Superposition<A, D> {
     return new Superposition<A, D>(func);
   }
 
-  protected constructor(func: BinaryFunction<Resolve<A>, Reject<D>, unknown>) {
+  protected constructor(func: BinaryFunction<Resolve<Detoxicated<A>>, Reject<D>, unknown>) {
     this.schrodinger = Still.of<A, D>();
     this.handlers = [];
     func(this.resolved(this), this.rejected(this));
@@ -157,19 +146,17 @@ export class Superposition<A, D extends Error> implements PromiseLike<Schrodinge
     return false;
   }
 
-  private resolved(self: Superposition<A, D>): Resolve<A> {
-    return (value: A) => {
+  private resolved(self: Superposition<A, D>): Resolve<Detoxicated<A>> {
+    return (value: Detoxicated<A>) => {
       if (this.done()) {
         return Promise.resolve();
       }
 
       self.schrodinger = Alive.of<A, D>(value);
 
-      const promises: Array<Promise<void>> = self.handlers.map<Promise<void>>((later: DoneHandler<A, D>) => {
+      return self.handlers.map<unknown>((later: DoneHandler<A, D>) => {
         return later.onResolve(value);
       });
-
-      return Promise.all<void>(promises);
     };
   }
 
@@ -181,19 +168,16 @@ export class Superposition<A, D extends Error> implements PromiseLike<Schrodinge
 
       self.schrodinger = Dead.of<A, D>(err);
 
-      const promises: Array<Promise<void>> = self.handlers.map<Promise<void>>((later: DoneHandler<A, D>) => {
+      return self.handlers.map<unknown>((later: DoneHandler<A, D>) => {
         return later.onReject(err);
       });
-
-      return Promise.all<void>(promises);
     };
   }
 
-  public get(): Promise<A> {
-    return new Promise<A>((resolve: Resolve<A>, reject: Reject<D>) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  public get(): Promise<Detoxicated<A>> {
+    return new Promise<Detoxicated<A>>((resolve: Resolve<Detoxicated<A>>, reject: Reject<D>) => {
       this.pass(
-        (value: A) => {
+        (value: Detoxicated<A>) => {
           resolve(value);
         },
         (err: D) => {
@@ -203,19 +187,12 @@ export class Superposition<A, D extends Error> implements PromiseLike<Schrodinge
     });
   }
 
-  public then<T1 = A, T2 = unknown>(
-    onfulfilled?: Suspicious<UnaryFunction<Schrodinger<A, D>, T1 | PromiseLike<T1>>>,
-    onrejected?: Suspicious<UnaryFunction<unknown, T2 | PromiseLike<T2>>>
-  ): PromiseLike<T1 | T2> {
-    const promise: Promise<Schrodinger<A, D>> = new Promise<Schrodinger<A, D>>(
-      (resolve: Resolve<Schrodinger<A, D>>) => {
-        this.peek(() => {
-          resolve(this.schrodinger);
-        });
-      }
-    );
-
-    return promise.then<T1, T2>(onfulfilled, onrejected);
+  public terminate(): Promise<Schrodinger<A, D>> {
+    return new Promise<Schrodinger<A, D>>((resolve: Resolve<Schrodinger<A, D>>) => {
+      this.peek(() => {
+        resolve(this.schrodinger);
+      });
+    });
   }
 
   public filter(predicate: Predicate<A>): Superposition<A, D | SuperpositionError> {
@@ -233,55 +210,63 @@ export class Superposition<A, D extends Error> implements PromiseLike<Schrodinge
     return this.transpose<A, D | SuperpositionError>();
   }
 
-  public map<B = A, E extends Error = D>(mapper: UnaryFunction<A, PromiseLike<B>>): Superposition<B, D | E>;
-  public map<B = A, E extends Error = D>(mapper: UnaryFunction<A, Superposition<B, E>>): Superposition<B, D | E>;
-  public map<B = A, E extends Error = D>(mapper: UnaryFunction<A, B>): Superposition<B, D | E>;
   public map<B = A, E extends Error = D>(
-    mapper: UnaryFunction<A, PromiseLike<B> | Superposition<B, E> | B>
+    mapper: UnaryFunction<Detoxicated<A>, PromiseLike<Detoxicated<B>>>
+  ): Superposition<B, D | E>;
+  public map<B = A, E extends Error = D>(
+    mapper: UnaryFunction<Detoxicated<A>, Superposition<B, E>>
+  ): Superposition<B, D | E>;
+  public map<B = A, E extends Error = D>(
+    mapper: UnaryFunction<Detoxicated<A>, Detoxicated<B>>
+  ): Superposition<B, D | E>;
+  public map<B = A, E extends Error = D>(
+    mapper: UnaryFunction<Detoxicated<A>, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>
   ): Superposition<B, D | E> {
-    return Superposition.of<B, D | E>((resolve: Resolve<B>, reject: Reject<D | E>) => {
+    return Superposition.of<B, D | E>((resolve: Resolve<Detoxicated<B>>, reject: Reject<D | E>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.handle(AliveHandler.of<A, B, E>(mapper, resolve, reject), RejectConsumerHandler.of<D>(reject));
     });
   }
 
-  public recover<B = A, E extends Error = D>(mapper: UnaryFunction<D, PromiseLike<B>>): Superposition<A | B, E>;
-  public recover<B = A, E extends Error = D>(mapper: UnaryFunction<D, Superposition<B, E>>): Superposition<A | B, E>;
-  public recover<B = A, E extends Error = D>(mapper: UnaryFunction<D, B>): Superposition<A | B, E>;
   public recover<B = A, E extends Error = D>(
-    mapper: UnaryFunction<D, PromiseLike<B> | Superposition<B, E> | B>
+    mapper: UnaryFunction<D, PromiseLike<Detoxicated<B>>>
+  ): Superposition<A | B, E>;
+  public recover<B = A, E extends Error = D>(mapper: UnaryFunction<D, Superposition<B, E>>): Superposition<A | B, E>;
+  public recover<B = A, E extends Error = D>(mapper: UnaryFunction<D, Detoxicated<B>>): Superposition<A | B, E>;
+  public recover<B = A, E extends Error = D>(
+    mapper: UnaryFunction<D, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>
   ): Superposition<A | B, E> {
-    return Superposition.of<A | B, E>((resolve: Resolve<A | B>, reject: Reject<E>) => {
+    return Superposition.of<A | B, E>((resolve: Resolve<Detoxicated<A | B>>, reject: Reject<E>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.handle(ResolveConsumerHandler.of<A>(resolve), DeadHandler.of<B, D, E>(mapper, resolve, reject));
+      this.handle(ResolveConsumerHandler.of<Detoxicated<A>>(resolve), DeadHandler.of<B, D, E>(mapper, resolve, reject));
     });
   }
 
   public transform<B = A, E extends Error = D>(
-    alive: UnaryFunction<A, PromiseLike<B>>,
-    dead: UnaryFunction<D, PromiseLike<B>>
+    alive: UnaryFunction<Detoxicated<A>, PromiseLike<Detoxicated<B>>>,
+    dead: UnaryFunction<D, PromiseLike<Detoxicated<B>>>
   ): Superposition<B, E>;
   public transform<B = A, E extends Error = D>(
-    alive: UnaryFunction<A, Superposition<B, E>>,
+    alive: UnaryFunction<Detoxicated<A>, Superposition<B, E>>,
     dead: UnaryFunction<D, Superposition<B, E>>
   ): Superposition<B, E>;
   public transform<B = A, E extends Error = D>(
-    alive: UnaryFunction<A, B>,
-    dead: UnaryFunction<D, B>
+    alive: UnaryFunction<Detoxicated<A>, Detoxicated<B>>,
+    dead: UnaryFunction<D, Detoxicated<B>>
   ): Superposition<B, E>;
   public transform<B = A, E extends Error = D>(
-    alive: UnaryFunction<A, PromiseLike<B> | Superposition<B, E> | B>,
-    dead: UnaryFunction<D, PromiseLike<B> | Superposition<B, E> | B>
+    alive: UnaryFunction<Detoxicated<A>, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>,
+    dead: UnaryFunction<D, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>
   ): Superposition<B, E> {
-    return Superposition.of<B, E>((resolve: Resolve<B>, reject: Reject<E>) => {
+    return Superposition.of<B, E>((resolve: Resolve<Detoxicated<B>>, reject: Reject<E>) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.handle(AliveHandler.of<A, B, E>(alive, resolve, reject), DeadHandler.of<B, D, E>(dead, resolve, reject));
     });
   }
 
-  private pass(resolve: Consumer<A>, reject: Consumer<D>): void {
+  private pass(resolve: Consumer<Detoxicated<A>>, reject: Consumer<D>): void {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.handle(ResolveConsumerHandler.of<A>(resolve), RejectConsumerHandler.of<D>(reject));
+    this.handle(ResolveConsumerHandler.of<Detoxicated<A>>(resolve), RejectConsumerHandler.of<D>(reject));
   }
 
   private peek(peek: Peek): void {
@@ -289,7 +274,7 @@ export class Superposition<A, D extends Error> implements PromiseLike<Schrodinge
     this.handle(ResolvePeekHandler.of<A>(peek), RejectPeekHandler.of<D>(peek));
   }
 
-  private handle(resolve: IResolveHandler<A>, reject: IRejectHandler<D>): Promise<void> {
+  private handle(resolve: IResolveHandler<A>, reject: IRejectHandler<D>): unknown {
     if (this.schrodinger.isAlive()) {
       return resolve.onResolve(this.schrodinger.get());
     }
@@ -297,9 +282,7 @@ export class Superposition<A, D extends Error> implements PromiseLike<Schrodinge
       return reject.onReject(this.schrodinger.getError());
     }
 
-    this.handlers.push(DoneHandler.of<A, D>(resolve, reject));
-
-    return Promise.resolve();
+    return this.handlers.push(DoneHandler.of<A, D>(resolve, reject));
   }
 
   private transpose<T, E extends Error>(): Superposition<T, E> {

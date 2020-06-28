@@ -18,7 +18,7 @@ describe('Superposition', () => {
 
       const schrodinger: Schrodinger<Array<number>, MockError> = await Superposition.all<number, MockError>(
         superpositions
-      );
+      ).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get().length).toBe(superpositions.length);
@@ -26,14 +26,14 @@ describe('Superposition', () => {
 
     it('sync: all are Alive', async () => {
       const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.alive<number, MockError>(0),
-        Superposition.alive<number, MockError>(1),
-        Superposition.alive<number, MockError>(2)
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(0)),
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(1)),
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(2))
       ];
 
       const schrodinger: Schrodinger<Array<number>, MockError> = await Superposition.all<number, MockError>(
         superpositions
-      );
+      ).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
 
@@ -42,7 +42,7 @@ describe('Superposition', () => {
       expect(array.length).toBe(superpositions.length);
       for (let i: number = 0; i < array.length; i++) {
         // eslint-disable-next-line no-await-in-loop
-        const s: Schrodinger<number, MockError> = await superpositions[i];
+        const s: Schrodinger<number, MockError> = await superpositions[i].terminate();
 
         expect(array[i]).toBe(s.get());
       }
@@ -51,9 +51,9 @@ describe('Superposition', () => {
     it('sync: contains Dead on first position', async () => {
       const error: MockError = new MockError();
       const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.dead<number, MockError>(error),
-        Superposition.alive<number, MockError>(1),
-        Superposition.alive<number, MockError>(2)
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error)),
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(1)),
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(2))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -63,7 +63,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -74,7 +74,8 @@ describe('Superposition', () => {
         .recover<void>((err: MockError) => {
           spy2();
           expect(err).toBe(error);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -83,9 +84,9 @@ describe('Superposition', () => {
     it('sync: contains Dead on second position', async () => {
       const error: MockError = new MockError();
       const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.alive<number, MockError>(0),
-        Superposition.dead<number, MockError>(error),
-        Superposition.alive<number, MockError>(2)
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(0)),
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error)),
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(2))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -95,7 +96,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -106,7 +107,8 @@ describe('Superposition', () => {
         .recover<void>((err: MockError) => {
           spy2();
           expect(err).toBe(error);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -115,9 +117,9 @@ describe('Superposition', () => {
     it('sync: contains Dead on last position', async () => {
       const error: MockError = new MockError();
       const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.alive<number, MockError>(0),
-        Superposition.alive<number, MockError>(1),
-        Superposition.dead<number, MockError>(error)
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(0)),
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(1)),
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -127,7 +129,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -138,7 +140,8 @@ describe('Superposition', () => {
         .recover<void>((err: MockError) => {
           spy2();
           expect(err).toBe(error);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -148,9 +151,9 @@ describe('Superposition', () => {
       const error1: MockError = new MockError();
       const error2: MockError = new MockError();
       const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.dead<number, MockError>(error1),
-        Superposition.dead<number, MockError>(error2),
-        Superposition.alive<number, MockError>(2)
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error1)),
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error2)),
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(2))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -160,7 +163,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -171,7 +174,8 @@ describe('Superposition', () => {
         .recover<void>((err: MockError) => {
           spy2();
           expect(err).toBe(error1);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -181,9 +185,9 @@ describe('Superposition', () => {
       const error1: MockError = new MockError();
       const error2: MockError = new MockError();
       const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.dead<number, MockError>(error1),
-        Superposition.alive<number, MockError>(1),
-        Superposition.dead<number, MockError>(error2)
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error1)),
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(1)),
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error2))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -193,7 +197,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -204,7 +208,8 @@ describe('Superposition', () => {
         .recover<void>((err: MockError) => {
           spy2();
           expect(err).toBe(error1);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -214,9 +219,9 @@ describe('Superposition', () => {
       const error1: MockError = new MockError();
       const error2: MockError = new MockError();
       const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.alive<number, MockError>(0),
-        Superposition.dead<number, MockError>(error1),
-        Superposition.dead<number, MockError>(error2)
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(0)),
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error1)),
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error2))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -226,7 +231,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -237,7 +242,8 @@ describe('Superposition', () => {
         .recover<void>((err: MockError) => {
           spy2();
           expect(err).toBe(error1);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -248,9 +254,9 @@ describe('Superposition', () => {
       const error2: MockError = new MockError();
       const error3: MockError = new MockError();
       const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.dead<number, MockError>(error1),
-        Superposition.dead<number, MockError>(error2),
-        Superposition.dead<number, MockError>(error3)
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error1)),
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error2)),
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error3))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -260,7 +266,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -271,7 +277,8 @@ describe('Superposition', () => {
         .recover((err: MockError) => {
           spy2();
           expect(err).toBe(error1);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -279,14 +286,14 @@ describe('Superposition', () => {
 
     it('async: all are Alive', async () => {
       const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.alive<number, MockError>(Promise.resolve<number>(0)),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(1)),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(2))
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(0)),
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(1)),
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(2))
       ];
 
       const schrodinger: Schrodinger<Array<number>, MockError> = await Superposition.all<number, MockError>(
         superpositions
-      );
+      ).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
 
@@ -295,7 +302,7 @@ describe('Superposition', () => {
       expect(array.length).toBe(superpositions.length);
       for (let i: number = 0; i < array.length; i++) {
         // eslint-disable-next-line no-await-in-loop
-        const s: Schrodinger<number, MockError> = await superpositions[i];
+        const s: Schrodinger<number, MockError> = await superpositions[i].terminate();
 
         expect(array[i]).toBe(s.get());
       }
@@ -304,9 +311,9 @@ describe('Superposition', () => {
     it('async: contains Dead on first position', async () => {
       const error: MockError = new MockError();
       const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.dead<number, MockError>(Promise.reject<number>(error)),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(1)),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(2))
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error)),
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(1)),
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(2))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -316,7 +323,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -327,7 +334,8 @@ describe('Superposition', () => {
         .recover<void>((err: MockError) => {
           spy2();
           expect(err).toBe(error);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -336,9 +344,9 @@ describe('Superposition', () => {
     it('async: contains Dead on second position', async () => {
       const error: MockError = new MockError();
       const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.alive<number, MockError>(Promise.resolve<number>(0)),
-        Superposition.dead<number, MockError>(Promise.reject<number>(error)),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(2))
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(0)),
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error)),
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(2))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -348,7 +356,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -359,7 +367,8 @@ describe('Superposition', () => {
         .recover<void>((err: MockError) => {
           spy2();
           expect(err).toBe(error);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -368,9 +377,9 @@ describe('Superposition', () => {
     it('async: contains Dead on last position', async () => {
       const error: MockError = new MockError();
       const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.alive<number, MockError>(Promise.resolve<number>(0)),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(1)),
-        Superposition.dead<number, MockError>(Promise.reject<number>(error))
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(0)),
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(1)),
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -380,7 +389,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -391,7 +400,8 @@ describe('Superposition', () => {
         .recover<void>((err: MockError) => {
           spy2();
           expect(err).toBe(error);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -401,9 +411,9 @@ describe('Superposition', () => {
       const error1: MockError = new MockError();
       const error2: MockError = new MockError();
       const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.dead<number, MockError>(Promise.reject<number>(error1)),
-        Superposition.dead<number, MockError>(Promise.reject<number>(error2)),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(2))
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error1)),
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error2)),
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(2))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -413,7 +423,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -424,7 +434,8 @@ describe('Superposition', () => {
         .recover<void>((err: MockError) => {
           spy2();
           expect(err).toBe(error1);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -434,9 +445,9 @@ describe('Superposition', () => {
       const error1: MockError = new MockError();
       const error2: MockError = new MockError();
       const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.dead<number, MockError>(Promise.reject<number>(error1)),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(0)),
-        Superposition.dead<number, MockError>(Promise.reject<number>(error2))
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error1)),
+        Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(0)),
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error2))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -446,7 +457,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -457,7 +468,8 @@ describe('Superposition', () => {
         .recover<void>((err: MockError) => {
           spy2();
           expect(err).toBe(error1);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -468,9 +480,9 @@ describe('Superposition', () => {
       const error2: MockError = new MockError();
       const error3: MockError = new MockError();
       const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.dead<number, MockError>(Promise.reject<number>(error1)),
-        Superposition.dead<number, MockError>(Promise.reject<number>(error2)),
-        Superposition.dead<number, MockError>(Promise.reject<number>(error3))
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error1)),
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error2)),
+        Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error3))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -480,7 +492,7 @@ describe('Superposition', () => {
         superpositions
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition;
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -491,7 +503,8 @@ describe('Superposition', () => {
         .recover((err: MockError) => {
           spy2();
           expect(err).toBe(error1);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -505,7 +518,7 @@ describe('Superposition', () => {
         return v;
       });
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition;
+      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(v);
@@ -520,7 +533,7 @@ describe('Superposition', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition;
+      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -531,7 +544,8 @@ describe('Superposition', () => {
         .recover<void>((err: MockError) => {
           spy2();
           expect(e).toBe(err);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -546,7 +560,7 @@ describe('Superposition', () => {
         }
       );
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition;
+      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(v);
@@ -564,7 +578,7 @@ describe('Superposition', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition;
+      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
 
@@ -575,15 +589,20 @@ describe('Superposition', () => {
         .recover<void>((err: MockError) => {
           spy2();
           expect(e).toBe(err);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
     });
 
     it('superposition case', () => {
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(2);
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(new MockError());
+      const alive: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(2)
+      );
+      const dead: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(new MockError())
+      );
 
       const superposition1: Superposition<number, MockError> = Superposition.playground<number, MockError>(() => {
         return alive;
@@ -597,100 +616,34 @@ describe('Superposition', () => {
     });
   });
 
-  describe('alive', () => {
-    it('sync case', async () => {
-      const value: number = 1010;
-      const superposition: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
-
-      const schrodinger: Schrodinger<number, MockError> = await superposition;
-
-      expect(schrodinger.isAlive()).toBe(true);
-      expect(schrodinger.get()).toBe(value);
-    });
-
-    it('async case', async () => {
-      const value: number = 1010;
-      const superposition: Superposition<number, MockError> = Superposition.alive<number, MockError>(
-        Promise.resolve<number>(value)
-      );
-
-      const schrodinger: Schrodinger<number, MockError> = await superposition;
-
-      expect(schrodinger.isAlive()).toBe(true);
-      expect(schrodinger.get()).toBe(value);
-    });
-
-    it('superposition case: returns itself', () => {
-      const alive: Superposition<number, MockError> = Superposition.alive(1010);
-      const dead: Superposition<number, MockError> = Superposition.dead(new MockError());
-
-      const superposition1: Superposition<number, MockError> = Superposition.alive<number, MockError>(alive);
-      const superposition2: Superposition<number, MockError> = Superposition.alive<number, MockError>(dead);
-
-      expect(superposition1).toBe(alive);
-      expect(superposition2).toBe(dead);
-    });
-  });
-
-  describe('dead', () => {
-    it('sync case', async () => {
-      const error: MockError = new MockError();
-      const superposition: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
-
-      const schrodinger: Schrodinger<number, MockError> = await superposition;
-
-      expect(schrodinger.isDead()).toBe(true);
-      expect(() => {
-        schrodinger.get();
-      }).toThrow(MockError);
-    });
-
-    it('async case', async () => {
-      const error: MockError = new MockError();
-      const superposition: Superposition<number, MockError> = Superposition.dead<number, MockError>(
-        Promise.reject<number>(error)
-      );
-
-      const schrodinger: Schrodinger<number, MockError> = await superposition;
-
-      expect(schrodinger.isDead()).toBe(true);
-      expect(() => {
-        schrodinger.get();
-      }).toThrow(MockError);
-    });
-
-    it('superposition case: returns itself', () => {
-      const alive: Superposition<number, MockError> = Superposition.alive(1010);
-      const dead: Superposition<number, MockError> = Superposition.dead(new MockError());
-
-      const superposition1: Superposition<number, MockError> = Superposition.dead<number, MockError>(alive);
-      const superposition2: Superposition<number, MockError> = Superposition.dead<number, MockError>(dead);
-
-      expect(superposition1).toBe(alive);
-      expect(superposition2).toBe(dead);
-    });
-  });
-
   describe('get', () => {
     it('returns inner value', async () => {
       const value: number = -149;
       const error: MockError = new MockError();
 
-      const superposition1: Superposition<number, MockError> = Superposition.alive(value);
-      const superposition2: Superposition<number, MockError> = Superposition.dead(error);
+      const superposition1: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value)
+      );
+      const superposition2: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error)
+      );
 
       await expect(superposition1.get()).resolves.toEqual(value);
       await expect(superposition2.get()).rejects.toThrow(MockError);
     });
   });
 
-  describe('then', () => {
+  describe('terminate', () => {
     it('returns Schrodinger subclass isntance', async () => {
       const value: number = -149;
       const error: MockError = new MockError();
 
-      const alive: Schrodinger<number, MockError> = await Superposition.alive(value);
-      const dead: Schrodinger<number, MockError> = await Superposition.dead(error);
+      const alive: Schrodinger<number, MockError> = await Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value)
+      ).terminate();
+      const dead: Schrodinger<number, MockError> = await Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error)
+      ).terminate();
 
       expect(alive).toBeInstanceOf(Alive);
       expect(alive.get()).toBe(value);
@@ -705,12 +658,14 @@ describe('Superposition', () => {
     it('alive: predicate returns true', async () => {
       const value: number = -149;
 
-      const superposition1: Superposition<number, MockError> = Superposition.alive(value);
+      const superposition1: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value)
+      );
       const superposition2: Superposition<number, MockError | SuperpositionError> = superposition1.filter(() => {
         return true;
       });
 
-      const shcrodiner: Schrodinger<number, MockError | SuperpositionError> = await superposition2;
+      const shcrodiner: Schrodinger<number, MockError | SuperpositionError> = await superposition2.terminate();
 
       expect(shcrodiner.isAlive()).toBe(true);
       expect(shcrodiner.get()).toBe(value);
@@ -719,12 +674,14 @@ describe('Superposition', () => {
     it('alive: predicate returns false', async () => {
       const value: number = -149;
 
-      const superposition1: Superposition<number, MockError> = Superposition.alive(value);
+      const superposition1: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value)
+      );
       const superposition2: Superposition<number, MockError | SuperpositionError> = superposition1.filter(() => {
         return false;
       });
 
-      const shcrodiner: Schrodinger<number, MockError | SuperpositionError> = await superposition2;
+      const shcrodiner: Schrodinger<number, MockError | SuperpositionError> = await superposition2.terminate();
 
       expect(shcrodiner.isDead()).toBe(true);
       expect(() => {
@@ -735,7 +692,9 @@ describe('Superposition', () => {
     it('dead: returns itself inspite of the return value of filter', async () => {
       const error: MockError = new MockError();
 
-      const superposition1: Superposition<number, MockError> = Superposition.dead(error);
+      const superposition1: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error)
+      );
       const superposition2: Superposition<number, MockError | SuperpositionError> = superposition1.filter(() => {
         return true;
       });
@@ -743,8 +702,8 @@ describe('Superposition', () => {
         return false;
       });
 
-      const shcrodiner1: Schrodinger<number, MockError | SuperpositionError> = await superposition2;
-      const shcrodiner2: Schrodinger<number, MockError | SuperpositionError> = await superposition3;
+      const shcrodiner1: Schrodinger<number, MockError | SuperpositionError> = await superposition2.terminate();
+      const shcrodiner2: Schrodinger<number, MockError | SuperpositionError> = await superposition3.terminate();
 
       expect(superposition1).toBe(superposition2);
       expect(shcrodiner1.isDead()).toBe(true);
@@ -759,13 +718,13 @@ describe('Superposition', () => {
     });
 
     it('still: returns itself inspite of the return value of filter', () => {
-      const superposition1: Superposition<void, MockError> = Superposition.alive(
-        new Promise((resolve: Resolve<void>) => {
+      const superposition1: Superposition<void, MockError> = Superposition.playground<void, MockError>(() => {
+        return new Promise((resolve: Resolve<void>) => {
           setTimeout(() => {
             resolve();
           }, 30000);
-        })
-      );
+        });
+      });
       const superposition2: Superposition<void, MockError | SuperpositionError> = superposition1.filter(() => {
         return true;
       });
@@ -781,7 +740,9 @@ describe('Superposition', () => {
   describe('map', () => {
     it('sync case', async () => {
       const value: number = 2;
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
+      const alive: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -802,7 +763,8 @@ describe('Superposition', () => {
         .map<void>((v: number) => {
           spy3();
           expect(v).toBe(value + 1);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -811,7 +773,9 @@ describe('Superposition', () => {
 
     it('async case', async () => {
       const value: number = 2;
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
+      const alive: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -832,7 +796,8 @@ describe('Superposition', () => {
         .map<void>((v: number) => {
           spy3();
           expect(v).toBe(value + 1);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -842,8 +807,12 @@ describe('Superposition', () => {
     it('superposition case', async () => {
       const value1: number = 2;
       const value2: number = 200;
-      const alive1: Superposition<number, MockError> = Superposition.alive<number, MockError>(value1);
-      const alive2: Superposition<number, MockError> = Superposition.alive<number, MockError>(value2);
+      const alive1: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value1)
+      );
+      const alive2: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value2)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -864,7 +833,8 @@ describe('Superposition', () => {
         .map<void>((v: number) => {
           spy3();
           expect(v).toBe(value2);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -873,7 +843,9 @@ describe('Superposition', () => {
 
     it('sync case: throws error', async () => {
       const value: number = 2;
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
+      const alive: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -895,7 +867,8 @@ describe('Superposition', () => {
         .map<void>((v: number) => {
           spy3();
           expect(v).toBe(100);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -904,7 +877,9 @@ describe('Superposition', () => {
 
     it('async case: returns rejection', async () => {
       const value: number = 2;
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
+      const alive: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -926,7 +901,8 @@ describe('Superposition', () => {
         .map<void>((v: number) => {
           spy3();
           expect(v).toBe(100);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -936,8 +912,12 @@ describe('Superposition', () => {
     it('superposition case: returns Dead Superposition', async () => {
       const value: number = 2;
       const error: MockError = new MockError();
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
+      const alive: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value)
+      );
+      const dead: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -959,7 +939,8 @@ describe('Superposition', () => {
         .map<void>((v: number) => {
           spy3();
           expect(v).toBe(100);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -968,7 +949,9 @@ describe('Superposition', () => {
 
     it('already resoved superposition case', async () => {
       const value: number = 2;
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
+      const alive: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -989,7 +972,8 @@ describe('Superposition', () => {
         .map<void>((v: number) => {
           spy3();
           expect(v).toBe(value);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -1000,7 +984,9 @@ describe('Superposition', () => {
   describe('recover', () => {
     it('sync case', async () => {
       const error: MockError = new MockError();
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
+      const dead: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1021,7 +1007,8 @@ describe('Superposition', () => {
         .map<void>((v: number) => {
           spy3();
           expect(v).toBe(100);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -1030,7 +1017,9 @@ describe('Superposition', () => {
 
     it('async case', async () => {
       const error: MockError = new MockError();
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
+      const dead: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1051,7 +1040,8 @@ describe('Superposition', () => {
         .map<void>((v: number) => {
           spy3();
           expect(v).toBe(100);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -1061,8 +1051,12 @@ describe('Superposition', () => {
     it('superposition case', async () => {
       const error: MockError = new MockError();
       const value: number = 2;
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
+      const dead: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error)
+      );
+      const alive: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1083,7 +1077,8 @@ describe('Superposition', () => {
         .map<void>((v: number) => {
           spy3();
           expect(v).toBe(value);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -1092,7 +1087,9 @@ describe('Superposition', () => {
 
     it('sync case: throws error', async () => {
       const error: MockError = new MockError();
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
+      const dead: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1115,7 +1112,8 @@ describe('Superposition', () => {
         .map<void>((v: number) => {
           spy3();
           expect(v).toBe(100);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -1124,7 +1122,9 @@ describe('Superposition', () => {
 
     it('async case: returns rejection', async () => {
       const error: MockError = new MockError();
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
+      const dead: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1147,7 +1147,8 @@ describe('Superposition', () => {
         .map<void>((v: number) => {
           spy3();
           expect(v).toBe(100);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -1157,8 +1158,12 @@ describe('Superposition', () => {
     it('superposition case: returns Dead Superposition', async () => {
       const error1: MockError = new MockError();
       const error2: MockError = new MockError();
-      const dead1: Superposition<number, MockError> = Superposition.dead<number, MockError>(error1);
-      const dead2: Superposition<number, MockError> = Superposition.dead<number, MockError>(error2);
+      const dead1: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error1)
+      );
+      const dead2: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error2)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1180,7 +1185,8 @@ describe('Superposition', () => {
         .map<void>((v: number) => {
           spy3();
           expect(v).toBe(100);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -1189,7 +1195,9 @@ describe('Superposition', () => {
 
     it('already rejected superposition case', async () => {
       const error: MockError = new MockError();
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
+      const dead: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1210,7 +1218,8 @@ describe('Superposition', () => {
         .recover<void>((err: MockError) => {
           spy3();
           expect(err).toBe(error);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -1221,7 +1230,9 @@ describe('Superposition', () => {
   describe('transform', () => {
     it('alive: sync case', async () => {
       const value: number = 2;
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
+      const alive: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1243,7 +1254,8 @@ describe('Superposition', () => {
         .map<void>((v: number) => {
           spy3();
           expect(v).toBe(10);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -1252,7 +1264,9 @@ describe('Superposition', () => {
 
     it('alive: async case', async () => {
       const value: number = 2;
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
+      const alive: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1274,7 +1288,8 @@ describe('Superposition', () => {
         .map<void>((v: number) => {
           spy3();
           expect(v).toBe(10);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -1285,9 +1300,15 @@ describe('Superposition', () => {
       const value1: number = 2;
       const value2: number = 3;
       const value3: number = 4;
-      const alive1: Superposition<number, MockError> = Superposition.alive<number, MockError>(value1);
-      const alive2: Superposition<number, MockError> = Superposition.alive<number, MockError>(value2);
-      const alive3: Superposition<number, MockError> = Superposition.alive<number, MockError>(value3);
+      const alive1: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value1)
+      );
+      const alive2: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value2)
+      );
+      const alive3: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value3)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1309,7 +1330,8 @@ describe('Superposition', () => {
         .map<void>((v: number) => {
           spy3();
           expect(v).toBe(value2);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -1320,7 +1342,9 @@ describe('Superposition', () => {
       const error1: MockError = new MockError();
       const error2: MockError = new MockError();
       const error3: MockError = new MockError();
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error1);
+      const dead: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error1)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1342,7 +1366,8 @@ describe('Superposition', () => {
         .recover<void>((err: MockError) => {
           spy3();
           expect(err).toBe(error3);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -1353,7 +1378,9 @@ describe('Superposition', () => {
       const error1: MockError = new MockError();
       const error2: MockError = new MockError();
       const error3: MockError = new MockError();
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error1);
+      const dead: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error1)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1375,7 +1402,8 @@ describe('Superposition', () => {
         .recover<void>((err: MockError) => {
           spy3();
           expect(err).toBe(error3);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -1386,9 +1414,15 @@ describe('Superposition', () => {
       const error1: MockError = new MockError();
       const error2: MockError = new MockError();
       const error3: MockError = new MockError();
-      const dead1: Superposition<number, MockError> = Superposition.dead<number, MockError>(error1);
-      const dead2: Superposition<number, MockError> = Superposition.dead<number, MockError>(error2);
-      const dead3: Superposition<number, MockError> = Superposition.dead<number, MockError>(error3);
+      const dead1: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error1)
+      );
+      const dead2: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error2)
+      );
+      const dead3: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error3)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1410,7 +1444,8 @@ describe('Superposition', () => {
         .recover((err: MockError) => {
           spy3();
           expect(err).toBe(error3);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -1419,7 +1454,9 @@ describe('Superposition', () => {
 
     it('already resoved superposition case', async () => {
       const value: number = 2;
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
+      const alive: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1441,7 +1478,8 @@ describe('Superposition', () => {
         .map<void>((v: number) => {
           spy3();
           expect(v).toBe(value);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -1450,7 +1488,9 @@ describe('Superposition', () => {
 
     it('already rejected superposition case', async () => {
       const error: MockError = new MockError();
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
+      const dead: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error)
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -1472,7 +1512,8 @@ describe('Superposition', () => {
         .recover((err: MockError) => {
           spy3();
           expect(err).toBe(error);
-        });
+        })
+        .terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -1483,7 +1524,9 @@ describe('Superposition', () => {
   describe('toUnscharferelation', () => {
     it('alive: will transform to present', async () => {
       const value: number = 2;
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value);
+      const alive: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Alive.of<number, MockError>(value)
+      );
 
       const heisenberg: Heisenberg<number> = await alive.toUnscharferelation();
 
@@ -1493,7 +1536,9 @@ describe('Superposition', () => {
 
     it('dead: will transform to absent', async () => {
       const error: MockError = new MockError();
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
+      const dead: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Dead.of<number, MockError>(error)
+      );
 
       const heisenberg: Heisenberg<number> = await dead.toUnscharferelation();
 
