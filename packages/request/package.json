@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-request",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "private": false,
   "repository": {
     "type": "git",
@@ -31,8 +31,8 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^2.1.3",
-    "@jamashita/publikum-type": "^2.1.3",
+    "@jamashita/publikum-error": "^2.1.4",
+    "@jamashita/publikum-type": "^2.1.4",
     "got": "11.3.0"
   },
   "devDependencies": {
