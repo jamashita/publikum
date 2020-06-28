@@ -3,6 +3,8 @@ import sinon, { SinonSpy } from 'sinon';
 import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 
+import { Alive } from '../../Alive';
+import { Dead } from '../../Dead';
 import { Superposition } from '../../Superposition';
 import { AliveHandler } from '../AliveHandler';
 
@@ -74,7 +76,7 @@ describe('AliveHandler', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('Superposition.alive<A, D> given', () => {
+    it('Alive Superposition<A, D> given', () => {
       const value: number = 101;
 
       const spy1: SinonSpy = sinon.spy();
@@ -86,7 +88,7 @@ describe('AliveHandler', () => {
           spy1();
           expect(n).toBe(value);
 
-          return Superposition.alive<number, MockError>(n - 3);
+          return Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(n - 3));
         },
         (n: number) => {
           spy2();
@@ -172,7 +174,7 @@ describe('AliveHandler', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('Superposition.dead<A, D> given', () => {
+    it('Dead Superposition<A, D> given', () => {
       const value: number = 101;
       const error: MockError = new MockError();
 
@@ -185,7 +187,7 @@ describe('AliveHandler', () => {
           spy1();
           expect(n).toBe(value);
 
-          return Superposition.dead<number, MockError>(error);
+          return Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error));
         },
         () => {
           spy2();
