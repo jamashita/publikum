@@ -1,5 +1,15 @@
+import { Resolve } from '@jamashita/publikum-type';
+
 import { Cache } from '../Cache';
 import { CacheError } from '../Error/CacheError';
+
+const wait = (timeout: number): Promise<void> => {
+  return new Promise<void>((resolve: Resolve<void>) => {
+    setTimeout(() => {
+      resolve();
+    }, timeout);
+  });
+};
 
 describe('Cache', () => {
   describe('get', () => {
@@ -26,6 +36,39 @@ describe('Cache', () => {
       expect(cache.get<number>(identifier4)).toBe(value4);
       cache.set(identifier5, value5);
       expect(cache.get<number>(identifier5)).toBe(value5);
+    });
+
+    it('timeout: perform volatilization', async () => {
+      const cache: Cache = new Cache(1);
+      const identifier: symbol = Symbol();
+      const value: string = 'pppp';
+
+      cache.set(identifier, value);
+      expect(cache.get<string>(identifier)).toBe(value);
+
+      await wait(3000);
+
+      expect(() => {
+        cache.get<string>(identifier);
+      }).toThrow(CacheError);
+    });
+
+    it('timeout: update timeout', async () => {
+      const cache: Cache = new Cache(3);
+      const identifier: symbol = Symbol();
+      const value1: string = 'pppp';
+      const value2: string = 'qqqq';
+
+      cache.set(identifier, value1);
+
+      await wait(2000);
+
+      expect(cache.get<string>(identifier)).toBe(value1);
+      cache.set(identifier, value2);
+
+      await wait(2000);
+
+      expect(cache.get<string>(identifier)).toBe(value2);
     });
 
     it('only retains the last one', () => {
