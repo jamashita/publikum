@@ -618,7 +618,7 @@ describe('Superposition', () => {
   });
 
   describe('ofSchrodinger', () => {
-    it('alive', async () => {
+    it('sync: alive', async () => {
       const value: number = -149;
       const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
 
@@ -629,7 +629,7 @@ describe('Superposition', () => {
       expect(schrodinger.get()).toBe(value);
     });
 
-    it('dead', async () => {
+    it('sync: dead', async () => {
       const error: MockError = new MockError();
       const dead: Dead<number, MockError> = Dead.of<number, MockError>(error);
 
@@ -642,12 +642,40 @@ describe('Superposition', () => {
       }).toThrow(MockError);
     });
 
-    it('still', () => {
+    it('sync: still', () => {
       const still: Still<number, MockError> = Still.of<number, MockError>();
 
       expect(() => {
         Superposition.ofSchrodinger<number, MockError>(still);
       }).toThrow(SuperpositionError);
+    });
+
+    it('async: alive', async () => {
+      const value: number = -149;
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
+
+      const superposition: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Promise.resolve<Schrodinger<number, MockError>>(alive)
+      );
+
+      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
+
+      expect(schrodinger.get()).toBe(value);
+    });
+
+    it('async: dead', async () => {
+      const error: MockError = new MockError();
+      const dead: Dead<number, MockError> = Dead.of<number, MockError>(error);
+
+      const superposition: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
+        Promise.resolve<Schrodinger<number, MockError>>(dead)
+      );
+
+      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
+
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(MockError);
     });
   });
 

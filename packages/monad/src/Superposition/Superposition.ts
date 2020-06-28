@@ -111,14 +111,32 @@ export class Superposition<A, D extends Error> implements Noun<'Superposition'> 
     });
   }
 
-  public static ofSchrodinger<A, D extends Error>(schrodinger: Schrodinger<A, D>): Superposition<A, D> {
+  public static ofSchrodinger<A, D extends Error>(schrodinger: PromiseLike<Schrodinger<A, D>>): Superposition<A, D>;
+  public static ofSchrodinger<A, D extends Error>(schrodinger: Schrodinger<A, D>): Superposition<A, D>;
+  public static ofSchrodinger<A, D extends Error>(
+    schrodinger: PromiseLike<Schrodinger<A, D>> | Schrodinger<A, D>
+  ): Superposition<A, D> {
+    if (Kind.isPromiseLike(schrodinger)) {
+      return Superposition.of<A, D>((resolve: Resolve<Detoxicated<A>>, reject: Reject<D>) => {
+        return schrodinger.then<void, void>((v: Schrodinger<A, D>) => {
+          if (v.isAlive()) {
+            resolve(v.get());
+
+            return;
+          }
+          if (v.isDead()) {
+            reject(v.getError());
+          }
+        });
+      });
+    }
     if (schrodinger.isAlive()) {
-      return new Superposition<A, D>((resolve: Resolve<Detoxicated<A>>) => {
+      return Superposition.of<A, D>((resolve: Resolve<Detoxicated<A>>) => {
         resolve(schrodinger.get());
       });
     }
     if (schrodinger.isDead()) {
-      return new Superposition<A, D>((resolve: unknown, reject: Reject<D>) => {
+      return Superposition.of<A, D>((resolve: unknown, reject: Reject<D>) => {
         reject(schrodinger.getError());
       });
     }
