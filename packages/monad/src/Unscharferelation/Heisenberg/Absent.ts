@@ -1,4 +1,4 @@
-import { UnscharferelationError } from './Error/UnscharferelationError';
+import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Heisenberg } from './Interface/Heisenberg';
 import { Present } from './Present';
 
