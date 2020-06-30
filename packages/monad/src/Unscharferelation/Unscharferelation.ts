@@ -22,13 +22,13 @@ import { ResolvePeekHandler } from '../Handler/ResolvePeekHandler';
 import { Detoxicated } from '../Interface/Detoxicated';
 import { Matter } from '../Interface/Matter';
 import { Superposition } from '../Superposition/Superposition';
-import { Absent } from './Absent';
 import { UnscharferelationError } from './Error/UnscharferelationError';
 import { AbsentHandler } from './Handler/AbsentHandler';
 import { PresentHandler } from './Handler/PresentHandler';
-import { Heisenberg } from './Interface/Heisenberg';
-import { Present } from './Present';
-import { Uncertain } from './Uncertain';
+import { Absent } from './Heisenberg/Absent';
+import { Heisenberg } from './Heisenberg/Heisenberg';
+import { Present } from './Heisenberg/Present';
+import { Uncertain } from './Heisenberg/Uncertain';
 
 export class Unscharferelation<P> implements Noun<'Unscharferelation'> {
   public readonly noun: 'Unscharferelation' = 'Unscharferelation';

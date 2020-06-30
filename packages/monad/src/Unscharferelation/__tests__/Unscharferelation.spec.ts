@@ -1,11 +1,11 @@
 import sinon, { SinonSpy } from 'sinon';
 
 import { Schrodinger } from '../../Superposition/Interface/Schrodinger';
-import { Absent } from '../Absent';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
-import { Heisenberg } from '../Interface/Heisenberg';
-import { Present } from '../Present';
-import { Uncertain } from '../Uncertain';
+import { Absent } from '../Heisenberg/Absent';
+import { Heisenberg } from '../Heisenberg/Heisenberg';
+import { Present } from '../Heisenberg/Present';
+import { Uncertain } from '../Heisenberg/Uncertain';
 import { Unscharferelation } from '../Unscharferelation';
 
 describe('Unscharferelation', () => {
