@@ -2,7 +2,7 @@ import { Kind, Reject, Resolve, Supplier, Suspicious } from '@jamashita/publikum
 
 import { IRejectHandler } from '../../Handler/Interface/IRejectHandler';
 import { Matter } from '../../Interface/Matter';
-import { Heisenberg } from '../Interface/Heisenberg';
+import { Heisenberg } from '../Heisenberg/Interface/Heisenberg';
 import { Unscharferelation } from '../Unscharferelation';
 
 export class AbsentHandler<Q> implements IRejectHandler<void, 'AbsentHandler'> {

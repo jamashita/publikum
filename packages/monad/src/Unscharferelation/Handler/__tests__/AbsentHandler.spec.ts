@@ -2,8 +2,8 @@ import sinon, { SinonSpy } from 'sinon';
 
 import { Resolve } from '@jamashita/publikum-type';
 
-import { Absent } from '../../Absent';
-import { Present } from '../../Present';
+import { Absent } from '../../Heisenberg/Absent';
+import { Present } from '../../Heisenberg/Present';
 import { Unscharferelation } from '../../Unscharferelation';
 import { AbsentHandler } from '../AbsentHandler';
 
