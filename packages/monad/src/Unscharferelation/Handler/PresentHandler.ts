@@ -2,7 +2,7 @@ import { Kind, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/pub
 
 import { IResolveHandler } from '../../Handler/Interface/IResolveHandler';
 import { Matter } from '../../Interface/Matter';
-import { Heisenberg } from '../Heisenberg/Interface/Heisenberg';
+import { Heisenberg } from '../Heisenberg/Heisenberg';
 import { Unscharferelation } from '../Unscharferelation';
 
 export class PresentHandler<P, Q> implements IResolveHandler<P, 'PresentHandler'> {
