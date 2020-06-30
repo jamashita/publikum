@@ -32,7 +32,6 @@
   },
   "dependencies": {
     "@jamashita/publikum-interface": "^2.1.4",
-    "@jamashita/publikum-monad": "2.1.4",
     "@jamashita/publikum-object": "^2.1.4",
     "@jamashita/publikum-type": "^2.1.4"
   },
