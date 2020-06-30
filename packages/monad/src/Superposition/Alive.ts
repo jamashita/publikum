@@ -1,5 +1,4 @@
-import { Detoxicated } from '@jamashita/publikum-type';
-
+import { Detoxicated } from '../Interface/Detoxicated';
 import { Dead } from './Dead';
 import { Schrodinger } from './Interface/Schrodinger';
 

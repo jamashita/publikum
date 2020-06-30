@@ -1,6 +1,7 @@
-import { Detoxicated, Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
+import { Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 
 import { IResolveHandler } from '../../Handler/Interface/IResolveHandler';
+import { Detoxicated } from '../../Interface/Detoxicated';
 import { Superposition } from '../Superposition';
 
 export class AliveHandler<A, B, E extends Error> implements IResolveHandler<A, 'AliveHandler'> {

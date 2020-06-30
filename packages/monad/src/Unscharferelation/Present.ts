@@ -1,5 +1,4 @@
-import { Etre } from '@jamashita/publikum-type';
-
+import { Etre } from '../Interface/Etre';
 import { Absent } from './Absent';
 import { Heisenberg } from './Interface/Heisenberg';
 

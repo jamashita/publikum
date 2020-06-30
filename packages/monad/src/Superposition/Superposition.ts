@@ -2,8 +2,6 @@ import { Noun } from '@jamashita/publikum-interface';
 import {
   BinaryFunction,
   Consumer,
-  Detoxicated,
-  Etre,
   Kind,
   Peek,
   Predicate,
@@ -20,6 +18,8 @@ import { RejectConsumerHandler } from '../Handler/RejectConsumerHandler';
 import { RejectPeekHandler } from '../Handler/RejectPeekHandler';
 import { ResolveConsumerHandler } from '../Handler/ResolveConsumerHandler';
 import { ResolvePeekHandler } from '../Handler/ResolvePeekHandler';
+import { Detoxicated } from '../Interface/Detoxicated';
+import { Etre } from '../Interface/Etre';
 import { Unscharferelation } from '../Unscharferelation/Unscharferelation';
 import { Alive } from './Alive';
 import { Dead } from './Dead';

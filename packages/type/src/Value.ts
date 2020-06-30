@@ -4,8 +4,6 @@ export type Ambiguous<T> = T | undefined;
 export type Omittable<T> = T | void;
 export type Suspicious<T> = T | null | undefined;
 export type Nihil = void | undefined | null;
-export type Etre<T> = Exclude<T, Nihil>;
-export type Detoxicated<T> = Exclude<T, Error>;
 export type Matter<T> = T extends PromiseLike<infer R> ? R : T;
 export type Freeze<T extends object> = {
   readonly [P in keyof T]: T[P] extends object ? Freeze<T[P]> : T[P];
