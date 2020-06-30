@@ -1,4 +1,4 @@
-import { UnscharferelationError } from '../Error/UnscharferelationError';
+import { UnscharferelationError } from '../../Error/UnscharferelationError';
 import { Uncertain } from '../Uncertain';
 
 describe('Uncertain', () => {

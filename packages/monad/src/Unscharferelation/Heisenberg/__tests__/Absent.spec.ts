@@ -1,5 +1,5 @@
 import { Absent } from '../Absent';
-import { UnscharferelationError } from '../Error/UnscharferelationError';
+import { UnscharferelationError } from '../../Error/UnscharferelationError';
 
 describe('Absent', () => {
   describe('get', () => {
