@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-redis",
-  "version": "2.1.4",
+  "version": "2.1.6",
   "private": false,
   "repository": {
     "type": "git",
@@ -31,8 +31,8 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^2.1.4",
-    "@jamashita/publikum-type": "^2.1.4",
+    "@jamashita/publikum-error": "^2.1.6",
+    "@jamashita/publikum-type": "^2.1.6",
     "ioredis": "4.17.3"
   },
   "devDependencies": {
