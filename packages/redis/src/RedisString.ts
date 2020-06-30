@@ -24,27 +24,17 @@ export class RedisString implements IRedisString {
       return false;
     }
     catch (err) {
-      if (err instanceof Error) {
-        throw new RedisError('FAIL ON SET', err);
-      }
-
-      throw err;
+      throw new RedisError('FAIL ON SET', err);
     }
   }
 
   public async get(key: string): Promise<Nullable<string>> {
     // prettier-ignore
     try {
-      const result: Nullable<string> = await this.client.get(key);
-
-      return result;
+      return await this.client.get(key);
     }
     catch (err) {
-      if (err instanceof Error) {
-        throw new RedisError('FAIL ON GET', err);
-      }
-
-      throw err;
+      throw new RedisError('FAIL ON GET', err);
     }
   }
 }

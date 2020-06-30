@@ -9,18 +9,18 @@ export class MockRedisHash implements IRedisHash {
   }
 
   public get(): Promise<Nullable<string>> {
-    return Promise.reject<Nullable<string>>(new UnimplementedError());
+    throw new UnimplementedError();
   }
 
   public delete(): Promise<number> {
-    return Promise.reject<number>(new UnimplementedError());
+    throw new UnimplementedError();
   }
 
   public length(): Promise<number> {
-    return Promise.reject<number>(new UnimplementedError());
+    throw new UnimplementedError();
   }
 
   public has(): Promise<boolean> {
-    return Promise.reject<boolean>(new UnimplementedError());
+    throw new UnimplementedError();
   }
 }

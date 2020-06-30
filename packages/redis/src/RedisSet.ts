@@ -15,32 +15,20 @@ export class RedisSet implements IRedisSet {
   public async add(key: string, ...values: Array<string>): Promise<number> {
     // prettier-ignore
     try {
-      const result: number = await this.client.sadd(key, ...values);
-
-      return result;
+      return await this.client.sadd(key, ...values);
     }
     catch (err) {
-      if (err instanceof Error) {
-        throw new RedisError('FAIL ON SADD', err);
-      }
-
-      throw err;
+      throw new RedisError('FAIL ON SADD', err);
     }
   }
 
   public async remove(key: string, ...values: Array<string>): Promise<number> {
     // prettier-ignore
     try {
-      const result: number = await this.client.srem(key, ...values);
-
-      return result;
+      return await this.client.srem(key, ...values);
     }
     catch (err) {
-      if (err instanceof Error) {
-        throw new RedisError('FAIL ON SREM', err);
-      }
-
-      throw err;
+      throw new RedisError('FAIL ON SREM', err);
     }
   }
 
@@ -56,75 +44,47 @@ export class RedisSet implements IRedisSet {
       return true;
     }
     catch (err) {
-      if (err instanceof Error) {
-        throw new RedisError('FAIL ON SISMEMBER', err);
-      }
-
-      throw err;
+      throw new RedisError('FAIL ON SISMEMBER', err);
     }
   }
 
   public async length(key: string): Promise<number> {
     // prettier-ignore
     try {
-      const result: number = await this.client.scard(key);
-
-      return result;
+      return await this.client.scard(key);
     }
     catch (err) {
-      if (err instanceof Error) {
-        throw new RedisError('FAIL ON SCARD', err);
-      }
-
-      throw err;
+      throw new RedisError('FAIL ON SCARD', err);
     }
   }
 
   public async dump(key: string): Promise<Array<string>> {
     // prettier-ignore
     try {
-      const result: Array<string> = await this.client.smembers(key);
-
-      return result;
+      return await this.client.smembers(key);
     }
     catch (err) {
-      if (err instanceof Error) {
-        throw new RedisError('FAIL ON SMEMBERS', err);
-      }
-
-      throw err;
+      throw new RedisError('FAIL ON SMEMBERS', err);
     }
   }
 
   public async random(key: string): Promise<Nullable<string>> {
     // prettier-ignore
     try {
-      const result: Nullable<string> = await this.client.srandmember(key);
-
-      return result;
+      return await this.client.srandmember(key);
     }
     catch (err) {
-      if (err instanceof Error) {
-        throw new RedisError('FAIL ON SRANDMEMBER', err);
-      }
-
-      throw err;
+      throw new RedisError('FAIL ON SRANDMEMBER', err);
     }
   }
 
   public async pop(key: string): Promise<Nullable<string>> {
     // prettier-ignore
     try {
-      const result: Nullable<string> = await this.client.spop(key);
-
-      return result;
+      return await this.client.spop(key);
     }
     catch (err) {
-      if (err instanceof Error) {
-        throw new RedisError('FAIL ON SPOP', err);
-      }
-
-      throw err;
+      throw new RedisError('FAIL ON SPOP', err);
     }
   }
 }

@@ -24,59 +24,37 @@ export class RedisHash implements IRedisHash {
       return true;
     }
     catch (err) {
-      if (err instanceof Error) {
-        throw new RedisError('FAIL ON HSET', err);
-      }
-
-      throw err;
+      throw new RedisError('FAIL ON HSET', err);
     }
   }
 
   public async get(key: string, field: string): Promise<Nullable<string>> {
     // prettier-ignore
     try {
-      const result: Nullable<string> = await this.client.hget(key, field);
-
-      return result;
+      return await this.client.hget(key, field);
     }
     catch (err) {
-      if (err instanceof Error) {
-        throw new RedisError('FAIL ON HGET', err);
-      }
-
-      throw err;
+      throw new RedisError('FAIL ON HGET', err);
     }
   }
 
   public async delete(key: string, field: string): Promise<number> {
     // prettier-ignore
     try {
-      const result: number = await this.client.hdel(key, field);
-
-      return result;
+      return await this.client.hdel(key, field);
     }
     catch (err) {
-      if (err instanceof Error) {
-        throw new RedisError('FAIL ON HDEL', err);
-      }
-
-      throw err;
+      throw new RedisError('FAIL ON HDEL', err);
     }
   }
 
   public async length(key: string): Promise<number> {
     // prettier-ignore
     try {
-      const result: number = await this.client.hlen(key);
-
-      return result;
+      return await this.client.hlen(key);
     }
     catch (err) {
-      if (err instanceof Error) {
-        throw new RedisError('FAIL ON HLEN', err);
-      }
-
-      throw err;
+      throw new RedisError('FAIL ON HLEN', err);
     }
   }
 
@@ -92,11 +70,7 @@ export class RedisHash implements IRedisHash {
       return true;
     }
     catch (err) {
-      if (err instanceof Error) {
-        throw new RedisError('FAIL ON HEXISTS', err);
-      }
-
-      throw err;
+      throw new RedisError('FAIL ON HEXISTS', err);
     }
   }
 }
