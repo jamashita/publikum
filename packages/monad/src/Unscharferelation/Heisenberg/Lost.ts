@@ -1,5 +1,5 @@
 import { Absent } from './Absent';
-import { Heisenberg } from './Interface/Heisenberg';
+import { Heisenberg } from './Heisenberg';
 import { Present } from './Present';
 
 export class Lost<P> implements Heisenberg<P, 'Lost'> {

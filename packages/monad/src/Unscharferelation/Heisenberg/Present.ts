@@ -1,6 +1,6 @@
 import { Matter } from '../../Interface/Matter';
 import { Absent } from './Absent';
-import { Heisenberg } from './Interface/Heisenberg';
+import { Heisenberg } from './Heisenberg';
 
 export class Present<P> implements Heisenberg<P, 'Present'> {
   public readonly noun: 'Present' = 'Present';

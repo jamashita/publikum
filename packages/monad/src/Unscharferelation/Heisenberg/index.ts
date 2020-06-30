@@ -1,3 +1,3 @@
-export * from './Interface/Heisenberg';
+export * from './Heisenberg';
 export * from './Absent';
 export * from './Present';

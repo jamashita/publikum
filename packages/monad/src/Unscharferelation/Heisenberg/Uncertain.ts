@@ -1,6 +1,6 @@
-import { Absent } from './Absent';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
-import { Heisenberg } from './Interface/Heisenberg';
+import { Absent } from './Absent';
+import { Heisenberg } from './Heisenberg';
 import { Present } from './Present';
 
 export class Uncertain<P> implements Heisenberg<P, 'Uncertain'> {

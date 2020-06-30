@@ -1,5 +1,5 @@
 import { UnscharferelationError } from '../Error/UnscharferelationError';
-import { Heisenberg } from './Interface/Heisenberg';
+import { Heisenberg } from './Heisenberg';
 import { Present } from './Present';
 
 export class Absent<P> implements Heisenberg<P, 'Absent'> {
