@@ -1,3 +1,5 @@
+import { MockError } from '@jamashita/publikum-object';
+
 import { Kind } from '../Kind';
 
 describe('Kind', () => {
@@ -404,6 +406,16 @@ describe('Kind', () => {
       expect(Kind.isPlainObject({ e: { e: new Error() } })).toBe(false);
       expect(Kind.isPlainObject({ s: 1 })).toBe(true);
       expect(Kind.isPlainObject({ s: { s: 1 } })).toBe(true);
+    });
+  });
+
+  describe('isClass', () => {
+    it('returns false if array is given', () => {
+      expect(Kind.isClass({}, Object)).toBe(true);
+      expect(Kind.isClass([], Array)).toBe(true);
+      expect(Kind.isClass(new Error(), Error)).toBe(true);
+      expect(Kind.isClass(new MockError(), Error)).toBe(true);
+      expect(Kind.isClass(new MockError(), MockError)).toBe(true);
     });
   });
 });

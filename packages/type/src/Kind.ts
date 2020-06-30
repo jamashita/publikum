@@ -1,3 +1,4 @@
+import { Constructor } from './Function';
 import { Reference } from './Reference';
 import { PlainObject, PlainObjectItem, Primitive, Vague } from './Value';
 
@@ -175,6 +176,10 @@ export class Kind {
     return Object.keys(value).every((key: string) => {
       return Kind.isPlainObjectItemInternal(value[key]);
     });
+  }
+
+  public static isClass<T extends Constructor>(instance: unknown, klazz: T): instance is T {
+    return instance instanceof klazz;
   }
 
   private constructor() {

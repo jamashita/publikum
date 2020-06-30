@@ -12,3 +12,7 @@ export type Enumerator<K, V> = (value: V, key: K) => void;
 export type Mapper<I, O> = (value: I, index: number) => O;
 export type Resolve<T> = (arg: T) => unknown;
 export type Reject<E = unknown> = (arg: E) => unknown;
+export type Constructor = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  new (...args: Array<any>): any;
+};
