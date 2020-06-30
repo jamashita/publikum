@@ -4,7 +4,7 @@ import { Matter } from '../../Interface/Matter';
 import { Absent } from '../Absent';
 import { Present } from '../Present';
 
-type HeisenbergType = 'Present' | 'Absent' | 'Uncertain';
+type HeisenbergType = 'Present' | 'Absent' | 'Uncertain' | 'Lost';
 
 export interface Heisenberg<P, N extends HeisenbergType = HeisenbergType> extends Noun<N> {
   readonly noun: N;
