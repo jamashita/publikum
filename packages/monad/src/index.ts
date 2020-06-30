@@ -1,4 +1,4 @@
 export * from './Interface/Detoxicated';
-export * from './Interface/Etre';
+export * from './Interface/Matter';
 export * from './Superposition';
 export * from './Unscharferelation';

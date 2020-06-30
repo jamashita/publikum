@@ -19,7 +19,7 @@ import { RejectPeekHandler } from '../Handler/RejectPeekHandler';
 import { ResolveConsumerHandler } from '../Handler/ResolveConsumerHandler';
 import { ResolvePeekHandler } from '../Handler/ResolvePeekHandler';
 import { Detoxicated } from '../Interface/Detoxicated';
-import { Etre } from '../Interface/Etre';
+import { Matter } from '../Interface/Matter';
 import { Unscharferelation } from '../Unscharferelation/Unscharferelation';
 import { Alive } from './Alive';
 import { Dead } from './Dead';
@@ -309,7 +309,7 @@ export class Superposition<A, D extends Error> implements Noun<'Superposition'> 
   }
 
   public toUnscharferelation(): Unscharferelation<A> {
-    return Unscharferelation.of<A>((resolve: Resolve<Etre<A>>, reject: Reject<void>) => {
+    return Unscharferelation.of<A>((resolve: Resolve<Matter<A>>, reject: Reject<void>) => {
       this.pass(
         (v: A) => {
           if (Kind.isUndefined(v) || Kind.isNull(v)) {
@@ -318,7 +318,7 @@ export class Superposition<A, D extends Error> implements Noun<'Superposition'> 
             return;
           }
 
-          resolve(v as Etre<A>);
+          resolve(v as Matter<A>);
         },
         () => {
           reject();

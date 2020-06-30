@@ -1,20 +1,20 @@
-import { Etre } from '../Interface/Etre';
+import { Matter } from '../Interface/Matter';
 import { Absent } from './Absent';
 import { Heisenberg } from './Interface/Heisenberg';
 
 export class Present<P> implements Heisenberg<P, 'Present'> {
   public readonly noun: 'Present' = 'Present';
-  private readonly value: Etre<P>;
+  private readonly value: Matter<P>;
 
-  public static of<P>(value: Etre<P>): Present<P> {
+  public static of<P>(value: Matter<P>): Present<P> {
     return new Present<P>(value);
   }
 
-  private constructor(value: Etre<P>) {
+  private constructor(value: Matter<P>) {
     this.value = value;
   }
 
-  public get(): Etre<P> {
+  public get(): Matter<P> {
     return this.value;
   }
 

@@ -1,30 +1,30 @@
 import { Kind, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { IResolveHandler } from '../../Handler/Interface/IResolveHandler';
-import { Etre } from '../../Interface/Etre';
+import { Matter } from '../../Interface/Matter';
 import { Heisenberg } from '../Interface/Heisenberg';
 import { Unscharferelation } from '../Unscharferelation';
 
 export class PresentHandler<P, Q> implements IResolveHandler<P, 'PresentHandler'> {
   public readonly noun: 'PresentHandler' = 'PresentHandler';
   private readonly mapper: UnaryFunction<
-    Etre<P>,
-    PromiseLike<Suspicious<Etre<Q>>> | Unscharferelation<Q> | Suspicious<Etre<Q>>
+    Matter<P>,
+    PromiseLike<Suspicious<Matter<Q>>> | Unscharferelation<Q> | Suspicious<Matter<Q>>
   >;
-  private readonly resolve: Resolve<Etre<Q>>;
+  private readonly resolve: Resolve<Matter<Q>>;
   private readonly reject: Reject<void>;
 
   public static of<P, Q>(
-    mapper: UnaryFunction<Etre<P>, PromiseLike<Suspicious<Etre<Q>>> | Unscharferelation<Q> | Suspicious<Etre<Q>>>,
-    resolve: Resolve<Etre<Q>>,
+    mapper: UnaryFunction<Matter<P>, PromiseLike<Suspicious<Matter<Q>>> | Unscharferelation<Q> | Suspicious<Matter<Q>>>,
+    resolve: Resolve<Matter<Q>>,
     reject: Reject<void>
   ): PresentHandler<P, Q> {
     return new PresentHandler<P, Q>(mapper, resolve, reject);
   }
 
   protected constructor(
-    mapper: UnaryFunction<Etre<P>, PromiseLike<Suspicious<Etre<Q>>> | Unscharferelation<Q> | Suspicious<Etre<Q>>>,
-    resolve: Resolve<Etre<Q>>,
+    mapper: UnaryFunction<Matter<P>, PromiseLike<Suspicious<Matter<Q>>> | Unscharferelation<Q> | Suspicious<Matter<Q>>>,
+    resolve: Resolve<Matter<Q>>,
     reject: Reject<void>
   ) {
     this.mapper = mapper;
@@ -32,8 +32,10 @@ export class PresentHandler<P, Q> implements IResolveHandler<P, 'PresentHandler'
     this.reject = reject;
   }
 
-  public onResolve(resolve: Etre<P>): unknown {
-    const mapped: PromiseLike<Suspicious<Etre<Q>>> | Unscharferelation<Q> | Suspicious<Etre<Q>> = this.mapper(resolve);
+  public onResolve(resolve: Matter<P>): unknown {
+    const mapped: PromiseLike<Suspicious<Matter<Q>>> | Unscharferelation<Q> | Suspicious<Matter<Q>> = this.mapper(
+      resolve
+    );
 
     if (mapped instanceof Unscharferelation) {
       return mapped.terminate().then<void, void>(
@@ -53,7 +55,7 @@ export class PresentHandler<P, Q> implements IResolveHandler<P, 'PresentHandler'
     }
     if (Kind.isPromiseLike(mapped)) {
       return mapped.then<void, void>(
-        (v: Suspicious<Etre<Q>>) => {
+        (v: Suspicious<Matter<Q>>) => {
           if (Kind.isUndefined(v) || Kind.isNull(v)) {
             this.reject();
 
