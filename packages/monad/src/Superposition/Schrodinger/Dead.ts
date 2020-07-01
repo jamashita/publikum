@@ -1,5 +1,5 @@
 import { Alive } from './Alive';
-import { Schrodinger } from './Interface/Schrodinger';
+import { Schrodinger } from './Schrodinger';
 
 export class Dead<A, D extends Error> implements Schrodinger<A, D, 'Dead'> {
   public readonly noun: 'Dead' = 'Dead';

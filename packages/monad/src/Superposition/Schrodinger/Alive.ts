@@ -1,6 +1,6 @@
-import { Detoxicated } from '../Interface/Detoxicated';
+import { Detoxicated } from '../../Interface/Detoxicated';
 import { Dead } from './Dead';
-import { Schrodinger } from './Interface/Schrodinger';
+import { Schrodinger } from './Schrodinger';
 
 export class Alive<A, D extends Error> implements Schrodinger<A, D, 'Alive'> {
   public readonly noun: 'Alive' = 'Alive';

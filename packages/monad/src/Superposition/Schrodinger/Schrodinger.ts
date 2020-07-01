@@ -1,7 +1,7 @@
 import { Noun } from '@jamashita/publikum-interface';
 
-import { Alive } from '../Alive';
-import { Dead } from '../Dead';
+import { Alive } from './Alive';
+import { Dead } from './Dead';
 
 type SchrodingerType = 'Alive' | 'Dead' | 'Still';
 
