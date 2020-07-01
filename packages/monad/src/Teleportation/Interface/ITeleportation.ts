@@ -3,9 +3,7 @@ import { Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Bennett } from '../Bennett/Bennett';
 
-export interface ITeleportation<R, T extends ITeleportation<R, T, N>, N extends string>
-  extends PromiseLike<R>,
-    Noun<N> {
+export interface ITeleportation<R, N extends string = string> extends PromiseLike<R>, Noun<N> {
   cancel(): void;
 
   get(): Promise<R>;
@@ -17,11 +15,11 @@ export interface ITeleportation<R, T extends ITeleportation<R, T, N>, N extends 
     onrejected?: Suspicious<UnaryFunction<unknown, T2 | PromiseLike<T2>>>
   ): PromiseLike<T1 | T2>;
 
-  map<S = R>(mapper: UnaryFunction<R, PromiseLike<S>>): T;
-  map<S = R>(mapper: UnaryFunction<R, S>): T;
-  map<S = R>(mapper: UnaryFunction<R, PromiseLike<S> | S>): T;
+  map<S = R>(mapper: UnaryFunction<R, PromiseLike<S>>): ITeleportation<S, N>;
+  map<S = R>(mapper: UnaryFunction<R, S>): ITeleportation<S, N>;
+  map<S = R>(mapper: UnaryFunction<R, PromiseLike<S> | S>): ITeleportation<S, N>;
 
-  recover<S = R>(mapper: UnaryFunction<Error, PromiseLike<S>>): T;
-  recover<S = R>(mapper: UnaryFunction<Error, S>): T;
-  recover<S = R>(mapper: UnaryFunction<Error, PromiseLike<S> | S>): T;
+  recover<S = R>(mapper: UnaryFunction<Error, PromiseLike<S>>): ITeleportation<R | S, N>;
+  recover<S = R>(mapper: UnaryFunction<Error, S>): ITeleportation<R | S, N>;
+  recover<S = R>(mapper: UnaryFunction<Error, PromiseLike<S> | S>): ITeleportation<R | S, N>;
 }

@@ -18,8 +18,7 @@ import { DisappearedHandler } from './Handler/DisappearedHandler';
 import { ReceivedHandler } from './Handler/ReceivedHandler';
 import { ITeleportation } from './Interface/ITeleportation';
 
-export class TeleportationInternal<R>
-  implements ITeleportation<R, TeleportationInternal<R>, 'TeleportationInternal'>, Epoque<R, Error> {
+export class TeleportationInternal<R> implements ITeleportation<R, 'TeleportationInternal'>, Epoque<R, Error> {
   public readonly noun: 'TeleportationInternal' = 'TeleportationInternal';
   private bennett: Bennett<R>;
   private readonly handlers: Set<DoneHandler<R, Error>>;
