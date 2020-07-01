@@ -165,8 +165,8 @@ export class Unscharferelation<P> implements Noun<'Unscharferelation'> {
 
       self.heisenberg = Present.of<P>(value);
 
-      self.handlers.map<unknown>((later: DoneHandler<P, void>) => {
-        return later.onResolve(value);
+      self.handlers.map<unknown>((handler: DoneHandler<P, void>) => {
+        return handler.onResolve(value);
       });
     };
   }
@@ -179,8 +179,8 @@ export class Unscharferelation<P> implements Noun<'Unscharferelation'> {
 
       self.heisenberg = Absent.of<P>();
 
-      self.handlers.map<unknown>((later: DoneHandler<P, void>) => {
-        return later.onReject();
+      self.handlers.map<unknown>((handler: DoneHandler<P, void>) => {
+        return handler.onReject();
       });
     };
   }

@@ -172,8 +172,8 @@ export class Superposition<A, D extends Error> implements Noun<'Superposition'> 
 
       self.schrodinger = Alive.of<A, D>(value);
 
-      self.handlers.map<unknown>((later: DoneHandler<A, D>) => {
-        return later.onResolve(value);
+      self.handlers.map<unknown>((handler: DoneHandler<A, D>) => {
+        return handler.onResolve(value);
       });
     };
   }
@@ -186,8 +186,8 @@ export class Superposition<A, D extends Error> implements Noun<'Superposition'> 
 
       self.schrodinger = Dead.of<A, D>(err);
 
-      self.handlers.map<unknown>((later: DoneHandler<A, D>) => {
-        return later.onReject(err);
+      self.handlers.map<unknown>((handler: DoneHandler<A, D>) => {
+        return handler.onReject(err);
       });
     };
   }
