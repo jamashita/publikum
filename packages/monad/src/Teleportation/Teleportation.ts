@@ -1,14 +1,14 @@
-import { Noun } from '@jamashita/publikum-interface';
 import { Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { Bennett } from './Bennett/Bennett';
 import { TeleportationError } from './Error/TeleportationError';
+import { ITeleportation } from './Interface/ITeleportation';
 import { TeleportationInternal } from './TeleportationInternal';
 
-export class Teleportation<R> implements PromiseLike<R>, Noun<'Teleportation'> {
+export class Teleportation<R> implements ITeleportation<R, 'Teleportation'> {
   public readonly noun: 'Teleportation' = 'Teleportation';
-  private readonly internal: TeleportationInternal<R>;
+  private readonly internal: ITeleportation<R>;
 
   public static all<R>(promises: ArrayLike<PromiseLike<R>>): Teleportation<Array<R>> {
     if (promises.length === 0) {
@@ -171,10 +171,14 @@ export class Teleportation<R> implements PromiseLike<R>, Noun<'Teleportation'> {
   }
 
   public static of<R>(func: UnaryFunction<Epoque<R, Error>, unknown>): Teleportation<R> {
-    return new Teleportation<R>(TeleportationInternal.of<R>(func));
+    return Teleportation.ofTeleportatiion<R>(TeleportationInternal.of<R>(func));
   }
 
-  protected constructor(internal: TeleportationInternal<R>) {
+  public static ofTeleportatiion<R>(teleportation: ITeleportation<R>): Teleportation<R> {
+    return new Teleportation<R>(teleportation);
+  }
+
+  protected constructor(internal: ITeleportation<R>) {
     this.internal = internal;
   }
 
@@ -194,18 +198,18 @@ export class Teleportation<R> implements PromiseLike<R>, Noun<'Teleportation'> {
     onfulfilled?: Suspicious<UnaryFunction<R, T1 | PromiseLike<T1>>>,
     onrejected?: Suspicious<UnaryFunction<unknown, T2 | PromiseLike<T2>>>
   ): PromiseLike<T1 | T2> {
-    return this.internal.then(onfulfilled, onrejected);
+    return this.internal.then<T1, T2>(onfulfilled, onrejected);
   }
 
   public map<S = R>(mapper: UnaryFunction<R, PromiseLike<S>>): Teleportation<S>;
   public map<S = R>(mapper: UnaryFunction<R, S>): Teleportation<S>;
   public map<S = R>(mapper: UnaryFunction<R, PromiseLike<S> | S>): Teleportation<S> {
-    return new Teleportation<S>(this.internal.map<S>(mapper));
+    return Teleportation.ofTeleportatiion<S>(this.internal.map<S>(mapper));
   }
 
   public recover<S = R>(mapper: UnaryFunction<Error, PromiseLike<S>>): Teleportation<R | S>;
   public recover<S = R>(mapper: UnaryFunction<Error, S>): Teleportation<R | S>;
   public recover<S = R>(mapper: UnaryFunction<Error, PromiseLike<S> | S>): Teleportation<R | S> {
-    return new Teleportation<R | S>(this.internal.recover<S>(mapper));
+    return Teleportation.ofTeleportatiion<R | S>(this.internal.recover<S>(mapper));
   }
 }
