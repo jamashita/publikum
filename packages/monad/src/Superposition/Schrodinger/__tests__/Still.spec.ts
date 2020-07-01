@@ -1,6 +1,6 @@
 import { MockError } from '@jamashita/publikum-object';
 
-import { SuperpositionError } from '../Error/SuperpositionError';
+import { SuperpositionError } from '../../Error/SuperpositionError';
 import { Still } from '../Still';
 
 describe('Still', () => {
