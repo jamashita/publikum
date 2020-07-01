@@ -1,247 +1,211 @@
 import { Noun } from '@jamashita/publikum-interface';
-import { BinaryFunction, Consumer, Peek, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import { Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
-import { DoneHandler } from '../Handler/DoneHandler';
-import { IRejectHandler } from '../Handler/Interface/IRejectHandler';
-import { IResolveHandler } from '../Handler/Interface/IResolveHandler';
-import { RejectConsumerHandler } from '../Handler/RejectConsumerHandler';
-import { RejectPeekHandler } from '../Handler/RejectPeekHandler';
-import { ResolveConsumerHandler } from '../Handler/ResolveConsumerHandler';
-import { ResolvePeekHandler } from '../Handler/ResolvePeekHandler';
+import { Epoque } from '../Epoque/Interface/Epoque';
 import { Bennett } from './Bennett/Bennett';
-import { Disappeared } from './Bennett/Disappeared';
-import { Pending } from './Bennett/Pending';
-import { Received } from './Bennett/Received';
 import { TeleportationError } from './Error/TeleportationError';
-import { DisappearedHandler } from './Handler/DisappearedHandler';
-import { ReceivedHandler } from './Handler/ReceivedHandler';
+import { TeleportationInternal } from './TeleportationInternal';
 
 export class Teleportation<R> implements PromiseLike<R>, Noun<'Teleportation'> {
   public readonly noun: 'Teleportation' = 'Teleportation';
-  private bennett: Bennett<R>;
-  private readonly handlers: Set<DoneHandler<R, Error>>;
+  private readonly internal: TeleportationInternal<R>;
 
-  public static all<R>(array: ArrayLike<PromiseLike<R>>): Teleportation<Array<R>> {
-    if (array.length === 0) {
+  public static all<R>(promises: ArrayLike<PromiseLike<R>>): Teleportation<Array<R>> {
+    if (promises.length === 0) {
       return Teleportation.resolve<Array<R>>([]);
     }
 
-    return Teleportation.of<Array<R>>((resolve: Resolve<Array<R>>, reject: Reject<Error>) => {
+    return Teleportation.of<Array<R>>((epoque: Epoque<Array<R>, Error>) => {
       const map: Map<number, R> = new Map<number, R>();
+      const copied: Array<PromiseLike<R>> = Array.from<PromiseLike<R>>(promises);
+      let rejected: boolean = false;
 
-      // TODO CANCELLABLE
-      Array.from<PromiseLike<R>>(array).forEach((p: PromiseLike<R>, i: number) => {
-        p.then(
+      copied.forEach((promise: PromiseLike<R>, i: number) => {
+        if (rejected) {
+          return;
+        }
+
+        promise.then<void, void>(
           (t: R) => {
+            if (rejected) {
+              return;
+            }
+
             map.set(i, t);
 
-            if (map.size === array.length) {
+            if (map.size === promises.length) {
               const ret: Array<R> = [];
 
               map.forEach((v: R, k: number) => {
                 ret[k] = v;
               });
 
-              resolve(ret);
+              epoque.resolve(ret);
             }
           },
           (e: Error) => {
-            reject(e);
+            if (rejected) {
+              return;
+            }
+
+            rejected = true;
+
+            copied.forEach((p: PromiseLike<R>) => {
+              if (p instanceof Teleportation) {
+                p.cancel();
+              }
+            });
+
+            epoque.reject(e);
           }
         );
       });
     });
   }
 
-  public static sequence<R>(array: ArrayLike<PromiseLike<R>>): Teleportation<Array<R>> {
-    if (array.length === 0) {
+  public static sequence<R>(promises: ArrayLike<PromiseLike<R>>): Teleportation<Array<R>> {
+    if (promises.length === 0) {
       return Teleportation.resolve<Array<R>>([]);
     }
 
-    return Teleportation.of<Array<R>>((resolve: Resolve<Array<R>>, reject: Reject<Error>) => {
+    return Teleportation.of<Array<R>>((epoque: Epoque<Array<R>, Error>) => {
       const ts: Array<R> = [];
+      const copied: Array<PromiseLike<R>> = Array.from<PromiseLike<R>>(promises);
+      let rejected: boolean = false;
 
-      // TODO CANCELLABLE
-      return Array.from<PromiseLike<R>>(array)
+      return copied
         .reduce((prev: PromiseLike<R>, curr: PromiseLike<R>) => {
-          return prev.then(
+          if (rejected) {
+            return curr;
+          }
+
+          return prev.then<R, R>(
             (t: R) => {
+              if (rejected) {
+                return curr;
+              }
+
               ts.push(t);
 
               return curr;
             },
             (e: Error) => {
-              reject(e);
+              if (rejected) {
+                return curr;
+              }
+
+              rejected = true;
+
+              copied.forEach((p: PromiseLike<R>) => {
+                if (p instanceof Teleportation) {
+                  p.cancel();
+                }
+              });
+
+              epoque.reject(e);
 
               return curr;
             }
           );
         })
-        .then((t: R) => {
+        .then<void>((t: R) => {
+          if (rejected) {
+            return;
+          }
+
           ts.push(t);
 
-          resolve(ts);
+          epoque.resolve(ts);
         });
     });
   }
 
-  public static race<R>(array: ArrayLike<PromiseLike<R>>): Teleportation<R> {
-    if (array.length === 0) {
+  public static race<R>(promises: ArrayLike<PromiseLike<R>>): Teleportation<R> {
+    if (promises.length === 0) {
       return Teleportation.reject<R>(new TeleportationError('THIS ARRAY IS EMPTY'));
     }
 
-    return Teleportation.of<R>((resolve: Resolve<R>, reject: Reject<Error>) => {
-      // TODO CANCELLABLE
-      Array.from<PromiseLike<R>>(array).forEach((p: PromiseLike<R>) => {
-        p.then(
+    return Teleportation.of<R>((epoque: Epoque<R, Error>) => {
+      const copied: Array<PromiseLike<R>> = Array.from<PromiseLike<R>>(promises);
+      let done: boolean = false;
+
+      copied.forEach((promise: PromiseLike<R>) => {
+        if (done) {
+          return;
+        }
+
+        promise.then<void, void>(
           (t: R) => {
-            resolve(t);
+            if (done) {
+              return;
+            }
+
+            done = true;
+
+            epoque.resolve(t);
           },
           (e: Error) => {
-            reject(e);
+            if (done) {
+              return;
+            }
+
+            done = true;
+
+            epoque.reject(e);
           }
         );
       });
     });
   }
 
-  public static resolve<T>(value: T): Teleportation<T> {
-    return Teleportation.of<T>((resolve: Resolve<T>) => {
-      resolve(value);
+  public static resolve<R>(value: R): Teleportation<R> {
+    return Teleportation.of<R>((epoque: Epoque<R, Error>) => {
+      epoque.resolve(value);
     });
   }
 
-  public static reject<T>(error: Error): Teleportation<T> {
-    return Teleportation.of<T>((resolve: unknown, reject: Reject<Error>) => {
-      reject(error);
+  public static reject<R>(error: Error): Teleportation<R> {
+    return Teleportation.of<R>((epoque: Epoque<R, Error>) => {
+      epoque.reject(error);
     });
   }
 
-  public static of<T>(func: BinaryFunction<Resolve<T>, Reject<Error>, unknown>): Teleportation<T> {
-    return new Teleportation<T>(func);
+  public static of<R>(func: UnaryFunction<Epoque<R, Error>, unknown>): Teleportation<R> {
+    return new Teleportation<R>(TeleportationInternal.of<R>(func));
   }
 
-  protected constructor(func: BinaryFunction<Resolve<R>, Reject<Error>, unknown>) {
-    this.bennett = Pending.of<R>();
-    this.handlers = new Set<DoneHandler<R, Error>>();
-    func(this.resolved(this), this.rejected(this));
-  }
-
-  private done(): boolean {
-    if (this.bennett.isReceived() || this.bennett.isDisappeared()) {
-      return true;
-    }
-
-    return false;
-  }
-
-  private resolved(self: Teleportation<R>): Resolve<R> {
-    return (value: R) => {
-      if (this.done()) {
-        return;
-      }
-
-      self.bennett = Received.of<R>(value);
-
-      self.handlers.forEach((handler: DoneHandler<R, Error>) => {
-        return handler.onResolve(value);
-      });
-    };
-  }
-
-  private rejected(self: Teleportation<R>): Reject<Error> {
-    return (error: Error) => {
-      if (this.done()) {
-        return;
-      }
-
-      self.bennett = Disappeared.of<R>(error);
-
-      self.handlers.forEach((handler: DoneHandler<R, Error>) => {
-        return handler.onReject(error);
-      });
-    };
+  protected constructor(internal: TeleportationInternal<R>) {
+    this.internal = internal;
   }
 
   public cancel(): void {
-    if (this.done()) {
-      return;
-    }
-
-    this.handlers.clear();
+    this.internal.cancel();
   }
 
   public get(): Promise<R> {
-    return new Promise<R>((resolve: Resolve<R>, reject: Reject<Error>) => {
-      this.pass(
-        (value: R) => {
-          resolve(value);
-        },
-        (err: Error) => {
-          reject(err);
-        }
-      );
-    });
+    return this.internal.get();
   }
 
   public terminate(): Promise<Bennett<R>> {
-    return new Promise<Bennett<R>>((resolve: Resolve<Bennett<R>>) => {
-      this.peek(() => {
-        resolve(this.bennett);
-      });
-    });
+    return this.internal.terminate();
   }
 
   public then<T1 = R, T2 = never>(
     onfulfilled?: Suspicious<UnaryFunction<R, T1 | PromiseLike<T1>>>,
     onrejected?: Suspicious<UnaryFunction<unknown, T2 | PromiseLike<T2>>>
   ): PromiseLike<T1 | T2> {
-    const promise: Promise<R> = new Promise<R>((resolve: Resolve<R>, reject: Reject<Error>) => {
-      this.pass(
-        (value: R) => {
-          resolve(value);
-        },
-        (err: Error) => {
-          reject(err);
-        }
-      );
-    });
-
-    return promise.then<T1, T2>(onfulfilled, onrejected);
+    return this.internal.then(onfulfilled, onrejected);
   }
 
   public map<S = R>(mapper: UnaryFunction<R, PromiseLike<S>>): Teleportation<S>;
   public map<S = R>(mapper: UnaryFunction<R, S>): Teleportation<S>;
   public map<S = R>(mapper: UnaryFunction<R, PromiseLike<S> | S>): Teleportation<S> {
-    return Teleportation.of<S>((resolve: Resolve<S>, reject: Reject<Error>) => {
-      return this.handle(ReceivedHandler.of<R, S>(mapper, resolve, reject), RejectConsumerHandler.of<Error>(reject));
-    });
+    return new Teleportation<S>(this.internal.map<S>(mapper));
   }
 
   public recover<S = R>(mapper: UnaryFunction<Error, PromiseLike<S>>): Teleportation<R | S>;
   public recover<S = R>(mapper: UnaryFunction<Error, S>): Teleportation<R | S>;
   public recover<S = R>(mapper: UnaryFunction<Error, PromiseLike<S> | S>): Teleportation<R | S> {
-    return Teleportation.of<R | S>((resolve: Resolve<R | S>, reject: Reject<Error>) => {
-      return this.handle(ResolveConsumerHandler.of<R | S>(resolve), DisappearedHandler.of<S>(mapper, resolve, reject));
-    });
-  }
-
-  private pass(resolve: Consumer<R>, reject: Consumer<Error>): unknown {
-    return this.handle(ResolveConsumerHandler.of<R>(resolve), RejectConsumerHandler.of<Error>(reject));
-  }
-
-  private peek(peek: Peek): unknown {
-    return this.handle(ResolvePeekHandler.of<R>(peek), RejectPeekHandler.of<Error>(peek));
-  }
-
-  private handle(resolve: IResolveHandler<R>, reject: IRejectHandler<Error>): unknown {
-    if (this.bennett.isReceived()) {
-      return resolve.onResolve(this.bennett.get());
-    }
-    if (this.bennett.isDisappeared()) {
-      return reject.onReject(this.bennett.getError());
-    }
-
-    return this.handlers.add(DoneHandler.of<R, Error>(resolve, reject));
+    return new Teleportation<R | S>(this.internal.recover<S>(mapper));
   }
 }
