@@ -347,9 +347,256 @@ describe('TeleportationInternal', () => {
         })
         .terminate();
 
-      await teleportation.map<void>((v: number) => {
+      await teleportation
+        .map<void>((v: number) => {
+          spy2();
+          expect(v).toBe(value);
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+    });
+  });
+
+  describe('recover', () => {
+    it('sync', async () => {
+      const error: MockError = new MockError();
+      const value: number = 14;
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const teleportation: TeleportationInternal<number> = TeleportationInternal.of<number>(
+        (epoque: Epoque<number, Error>) => {
+          epoque.reject(error);
+        }
+      );
+
+      await teleportation
+        .recover<number>((e: Error) => {
+          spy1();
+          expect(e).toBe(error);
+
+          return value + 3;
+        })
+        .map<void>((v: number) => {
+          spy2();
+          expect(v).toBe(value + 3);
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('sync: throws error', async () => {
+      const error: MockError = new MockError();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const teleportation: TeleportationInternal<number> = TeleportationInternal.of<number>(
+        (epoque: Epoque<number, Error>) => {
+          epoque.reject(error);
+        }
+      );
+
+      await teleportation
+        .recover<number>((e: Error) => {
+          spy1();
+          expect(e).toBe(error);
+
+          throw error;
+        })
+        .map<void>(() => {
+          spy2();
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+    });
+
+    it('sync: multiple handlers', async () => {
+      const error: MockError = new MockError();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const teleportation: TeleportationInternal<number> = TeleportationInternal.of<number>(
+        (epoque: Epoque<number, Error>) => {
+          epoque.reject(error);
+        }
+      );
+
+      const promise1: Promise<Bennett<number | void>> = teleportation
+        .recover<void>((e: Error) => {
+          spy1();
+          expect(e).toBe(error);
+        })
+        .terminate();
+
+      const promise2: Promise<Bennett<number | void>> = teleportation
+        .recover<void>((e: Error) => {
+          spy2();
+          expect(e).toBe(error);
+        })
+        .terminate();
+
+      await promise1;
+      await promise2;
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('sync: handle immediately for recieved Teleportation', async () => {
+      const error: MockError = new MockError();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const teleportation: TeleportationInternal<number> = TeleportationInternal.of<number>(
+        (epoque: Epoque<number, Error>) => {
+          epoque.reject(error);
+        }
+      );
+
+      await teleportation
+        .recover<void>((e: Error) => {
+          spy1();
+          expect(e).toBe(error);
+        })
+        .terminate();
+
+      await teleportation
+        .recover<void>((e: Error) => {
+          spy2();
+          expect(e).toBe(error);
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('async', async () => {
+      const error: MockError = new MockError();
+      const value: number = 14;
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const teleportation: TeleportationInternal<number> = TeleportationInternal.of<number>(
+        (epoque: Epoque<number, Error>) => {
+          epoque.reject(error);
+        }
+      );
+
+      await teleportation
+        .recover<number>((e: Error) => {
+          spy1();
+          expect(e).toBe(error);
+
+          return Promise.resolve<number>(value + 3);
+        })
+        .map<void>((v: number) => {
+          spy2();
+          expect(v).toBe(value + 3);
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('async: rejects error', async () => {
+      const error: MockError = new MockError();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const teleportation: TeleportationInternal<number> = TeleportationInternal.of<number>(
+        (epoque: Epoque<number, Error>) => {
+          epoque.reject(error);
+        }
+      );
+
+      await teleportation
+        .recover<number>((e: Error) => {
+          spy1();
+          expect(e).toBe(error);
+
+          return Promise.reject<number>(error);
+        })
+        .map<void>(() => {
+          spy2();
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+    });
+
+    it('async: multiple handlers', async () => {
+      const error: MockError = new MockError();
+      const value: number = 14;
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const teleportation: TeleportationInternal<number> = TeleportationInternal.of<number>(
+        (epoque: Epoque<number, Error>) => {
+          epoque.reject(error);
+        }
+      );
+
+      const promise1: Promise<Bennett<number>> = teleportation
+        .recover<number>((e: Error) => {
+          spy1();
+          expect(e).toBe(error);
+
+          return Promise.resolve<number>(value + 3);
+        })
+        .terminate();
+
+      const promise2: Promise<Bennett<number | void>> = teleportation
+        .recover<void>((e: Error) => {
+          spy2();
+          expect(e).toBe(error);
+        })
+        .terminate();
+
+      await promise1;
+      await promise2;
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+    });
+
+    it('async: handle immediately for recieved Teleportation', async () => {
+      const error: MockError = new MockError();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const teleportation: TeleportationInternal<number> = TeleportationInternal.of<number>(
+        (epoque: Epoque<number, Error>) => {
+          epoque.reject(error);
+        }
+      );
+
+      await teleportation
+        .recover<void>((e: Error) => {
+          spy1();
+          expect(e).toBe(error);
+        })
+        .terminate();
+
+      await teleportation.recover<void>((e: Error) => {
         spy2();
-        expect(v).toBe(value);
+        expect(e).toBe(error);
       });
 
       expect(spy1.called).toBe(true);
