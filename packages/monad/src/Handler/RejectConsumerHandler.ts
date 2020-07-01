@@ -1,20 +1,19 @@
-import { Reject } from '@jamashita/publikum-type';
-
+import { Epoque } from '../Interface/Epoque';
 import { IRejectHandler } from './Interface/IRejectHandler';
 
 export class RejectConsumerHandler<R> implements IRejectHandler<R, 'RejectConsumerHandler'> {
   public readonly noun: 'RejectConsumerHandler' = 'RejectConsumerHandler';
-  private readonly reject: Reject<R>;
+  private readonly epoque: Epoque<unknown, R>;
 
-  public static of<R>(reject: Reject<R>): RejectConsumerHandler<R> {
-    return new RejectConsumerHandler<R>(reject);
+  public static of<R>(epoque: Epoque<unknown, R>): RejectConsumerHandler<R> {
+    return new RejectConsumerHandler<R>(epoque);
   }
 
-  protected constructor(reject: Reject<R>) {
-    this.reject = reject;
+  protected constructor(epoque: Epoque<unknown, R>) {
+    this.epoque = epoque;
   }
 
   public onReject(reject: R): unknown {
-    return this.reject(reject);
+    return this.epoque.reject(reject);
   }
 }

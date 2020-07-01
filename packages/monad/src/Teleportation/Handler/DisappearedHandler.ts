@@ -1,25 +1,23 @@
-import { Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
+import { Kind, UnaryFunction } from '@jamashita/publikum-type';
 
 import { IRejectHandler } from '../../Handler/Interface/IRejectHandler';
+import { Epoque } from '../../Interface/Epoque';
 
 export class DisappearedHandler<S> implements IRejectHandler<Error, 'DisappearedHandler'> {
   public readonly noun: 'DisappearedHandler' = 'DisappearedHandler';
   private readonly mapper: UnaryFunction<Error, PromiseLike<S> | S>;
-  private readonly resolve: Resolve<S>;
-  private readonly reject: Reject<Error>;
+  private readonly epoque: Epoque<S, Error>;
 
   public static of<S>(
     mapper: UnaryFunction<Error, PromiseLike<S> | S>,
-    resolve: Resolve<S>,
-    reject: Reject<Error>
+    epoque: Epoque<S, Error>
   ): DisappearedHandler<S> {
-    return new DisappearedHandler<S>(mapper, resolve, reject);
+    return new DisappearedHandler<S>(mapper, epoque);
   }
 
-  protected constructor(mapper: UnaryFunction<Error, PromiseLike<S> | S>, resolve: Resolve<S>, reject: Reject<Error>) {
+  protected constructor(mapper: UnaryFunction<Error, PromiseLike<S> | S>, epoque: Epoque<S, Error>) {
     this.mapper = mapper;
-    this.resolve = resolve;
-    this.reject = reject;
+    this.epoque = epoque;
   }
 
   public onReject(reject: Error): unknown {
@@ -30,18 +28,18 @@ export class DisappearedHandler<S> implements IRejectHandler<Error, 'Disappeared
       if (Kind.isPromiseLike(mapped)) {
         return mapped.then<void, void>(
           (v: S) => {
-            this.resolve(v);
+            this.epoque.resolve(v);
           },
           (e: Error) => {
-            this.reject(e);
+            this.epoque.reject(e);
           }
         );
       }
 
-      return this.resolve(mapped);
+      return this.epoque.resolve(mapped);
     }
     catch (err) {
-      return this.reject(err);
+      return this.epoque.reject(err);
     }
   }
 }

@@ -1,20 +1,19 @@
-import { Resolve } from '@jamashita/publikum-type';
-
+import { Epoque } from '../Interface/Epoque';
 import { IResolveHandler } from './Interface/IResolveHandler';
 
 export class ResolveConsumerHandler<R> implements IResolveHandler<R, 'ResolveConsumerHandler'> {
   public readonly noun: 'ResolveConsumerHandler' = 'ResolveConsumerHandler';
-  private readonly resolve: Resolve<R>;
+  private readonly epoque: Epoque<R, unknown>;
 
-  public static of<R>(resolve: Resolve<R>): ResolveConsumerHandler<R> {
-    return new ResolveConsumerHandler<R>(resolve);
+  public static of<R>(epoque: Epoque<R, unknown>): ResolveConsumerHandler<R> {
+    return new ResolveConsumerHandler<R>(epoque);
   }
 
-  protected constructor(resolve: Resolve<R>) {
-    this.resolve = resolve;
+  protected constructor(epoque: Epoque<R, unknown>) {
+    this.epoque = epoque;
   }
 
   public onResolve(resolve: R): unknown {
-    return this.resolve(resolve);
+    return this.epoque.resolve(resolve);
   }
 }
