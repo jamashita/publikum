@@ -33,4 +33,12 @@ describe('Cancelled', () => {
       expect(cancelled.isDisappeared()).toBe(false);
     });
   });
+
+  describe('isCancelled', () => {
+    it('always returns true', () => {
+      const cancelled: Cancelled<number> = Cancelled.of<number>();
+
+      expect(cancelled.isCancelled()).toBe(true);
+    });
+  });
 });

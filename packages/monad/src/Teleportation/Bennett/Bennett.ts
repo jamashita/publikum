@@ -1,5 +1,6 @@
 import { Noun } from '@jamashita/publikum-interface';
 
+import { Cancelled } from './Cancelled';
 import { Disappeared } from './Disappeared';
 import { Received } from './Received';
 
@@ -13,4 +14,6 @@ export interface Bennett<R, N extends BennettType = BennettType> extends Noun<N>
   isReceived(): this is Received<R>;
 
   isDisappeared(): this is Disappeared<R>;
+
+  isCancelled(): this is Cancelled<R>;
 }

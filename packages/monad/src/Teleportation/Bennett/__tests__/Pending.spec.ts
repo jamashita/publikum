@@ -33,4 +33,12 @@ describe('Pending', () => {
       expect(pending.isDisappeared()).toBe(false);
     });
   });
+
+  describe('isCancelled', () => {
+    it('always returns false', () => {
+      const pending: Pending<number> = Pending.of<number>();
+
+      expect(pending.isCancelled()).toBe(false);
+    });
+  });
 });

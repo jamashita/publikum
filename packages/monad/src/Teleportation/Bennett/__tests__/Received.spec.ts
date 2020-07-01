@@ -35,11 +35,25 @@ describe('Received', () => {
 
   describe('isDisappeared', () => {
     it('always returns false', () => {
-      const received1: Received<number> = Received.of<number>(1);
-      const received2: Received<string> = Received.of<string>('aiutare');
+      const value1: number = 1;
+      const value2: string = 'aiutare';
+      const received1: Received<number> = Received.of<number>(value1);
+      const received2: Received<string> = Received.of<string>(value2);
 
       expect(received1.isDisappeared()).toBe(false);
       expect(received2.isDisappeared()).toBe(false);
+    });
+  });
+
+  describe('isCancelled', () => {
+    it('always returns false', () => {
+      const value1: number = 1;
+      const value2: string = 'aiutare';
+      const received1: Received<number> = Received.of<number>(value1);
+      const received2: Received<string> = Received.of<string>(value2);
+
+      expect(received1.isCancelled()).toBe(false);
+      expect(received2.isCancelled()).toBe(false);
     });
   });
 });

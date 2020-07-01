@@ -27,4 +27,8 @@ export class Cancelled<R> implements Bennett<R, 'Cancelled'> {
   public isDisappeared(): this is Disappeared<R> {
     return false;
   }
+
+  public isCancelled(): this is Cancelled<R> {
+    return true;
+  }
 }
