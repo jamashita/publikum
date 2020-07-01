@@ -6,8 +6,10 @@ import { Received } from './Received';
 export class Sent<R> implements Bennett<R, 'Sent'> {
   public readonly noun: 'Sent' = 'Sent';
 
-  public static of<R>(): Sent<R> {
-    return new Sent<R>();
+  private static readonly INSTANCE: Sent<unknown> = new Sent<unknown>();
+
+  public static of<P>(): Sent<P> {
+    return (Sent.INSTANCE as unknown) as Sent<P>;
   }
 
   protected constructor() {
