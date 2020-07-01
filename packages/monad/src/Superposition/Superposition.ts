@@ -21,13 +21,13 @@ import { ResolvePeekHandler } from '../Handler/ResolvePeekHandler';
 import { Detoxicated } from '../Interface/Detoxicated';
 import { Matter } from '../Interface/Matter';
 import { Unscharferelation } from '../Unscharferelation/Unscharferelation';
-import { Alive } from './Alive';
-import { Dead } from './Dead';
 import { SuperpositionError } from './Error/SuperpositionError';
 import { AliveHandler } from './Handler/AliveHandler';
 import { DeadHandler } from './Handler/DeadHandler';
-import { Schrodinger } from './Interface/Schrodinger';
-import { Still } from './Still';
+import { Alive } from './Schrodinger/Alive';
+import { Dead } from './Schrodinger/Dead';
+import { Schrodinger } from './Schrodinger/Schrodinger';
+import { Still } from './Schrodinger/Still';
 
 export class Superposition<A, D extends Error> implements Noun<'Superposition'> {
   public readonly noun: 'Superposition' = 'Superposition';

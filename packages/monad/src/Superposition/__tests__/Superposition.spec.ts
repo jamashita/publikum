@@ -4,12 +4,12 @@ import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 
 import { UnscharferelationError } from '../../Unscharferelation/Error/UnscharferelationError';
-import { Heisenberg } from '../../Unscharferelation/Interface/Heisenberg';
-import { Alive } from '../Alive';
-import { Dead } from '../Dead';
+import { Heisenberg } from '../../Unscharferelation/Heisenberg/Heisenberg';
 import { SuperpositionError } from '../Error/SuperpositionError';
-import { Schrodinger } from '../Interface/Schrodinger';
-import { Still } from '../Still';
+import { Alive } from '../Schrodinger/Alive';
+import { Dead } from '../Schrodinger/Dead';
+import { Schrodinger } from '../Schrodinger/Schrodinger';
+import { Still } from '../Schrodinger/Still';
 import { Superposition } from '../Superposition';
 
 describe('Superposition', () => {
