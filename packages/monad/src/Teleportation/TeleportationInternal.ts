@@ -41,7 +41,7 @@ export class TeleportationInternal<R> implements ITeleportation<R, 'Teleportatio
     return false;
   }
 
-  public resolve(this: TeleportationInternal<R>, value: R): unknown {
+  public resolve(value: R): unknown {
     if (this.done()) {
       return;
     }
@@ -53,7 +53,7 @@ export class TeleportationInternal<R> implements ITeleportation<R, 'Teleportatio
     });
   }
 
-  public reject(this: TeleportationInternal<R>, error: Error): unknown {
+  public reject(error: Error): unknown {
     if (this.done()) {
       return;
     }
