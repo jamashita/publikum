@@ -7,8 +7,94 @@ import { Bennett } from '../Bennett/Bennett';
 import { TeleportationInternal } from '../TeleportationInternal';
 
 describe('TeleportationInternal', () => {
+  describe('resolve', () => {
+    it('if done once, do nothing', async () => {
+      const error: MockError = new MockError();
+
+      const teleportation: TeleportationInternal<void> = TeleportationInternal.of<void>(
+        (epoque: Epoque<void, Error>) => {
+          epoque.resolve();
+        }
+      );
+
+      const bennett1: Bennett<void> = await teleportation.terminate();
+
+      expect(bennett1.isReceived()).toBe(true);
+
+      teleportation.reject(error);
+
+      const bennett2: Bennett<void> = await teleportation.terminate();
+
+      expect(bennett2.isReceived()).toBe(true);
+    });
+
+    it('call multiple maps', async () => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const teleportation: TeleportationInternal<void> = TeleportationInternal.of<void>(
+        (epoque: Epoque<void, Error>) => {
+          epoque.resolve();
+        }
+      );
+
+      await teleportation.map<void>(() => {
+        spy1();
+      });
+
+      await teleportation.map<void>(() => {
+        spy2();
+      });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+    });
+  });
+
   describe('reject', () => {
-    //
+    it('if done once, do nothing', async () => {
+      const error: MockError = new MockError();
+
+      const teleportation: TeleportationInternal<void> = TeleportationInternal.of<void>(
+        (epoque: Epoque<void, Error>) => {
+          epoque.reject(error);
+        }
+      );
+
+      const bennett1: Bennett<void> = await teleportation.terminate();
+
+      expect(bennett1.isDisappeared()).toBe(true);
+
+      teleportation.resolve();
+
+      const bennett2: Bennett<void> = await teleportation.terminate();
+
+      expect(bennett2.isDisappeared()).toBe(true);
+    });
+
+    it('call multiple maps', async () => {
+      const error: MockError = new MockError();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const teleportation: TeleportationInternal<void> = TeleportationInternal.of<void>(
+        (epoque: Epoque<void, Error>) => {
+          epoque.reject(error);
+        }
+      );
+
+      await teleportation.recover<void>(() => {
+        spy1();
+      });
+
+      await teleportation.recover<void>(() => {
+        spy2();
+      });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+    });
   });
 
   describe('cancel', () => {
