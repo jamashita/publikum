@@ -39,12 +39,11 @@ export class Superposition<A, D extends Error> implements Noun<'Superposition'> 
       return Superposition.alive<Array<A>, D>([]);
     }
 
-    const array: Array<Superposition<A, D>> = Array.from<Superposition<A, D>>(superpositions);
-    const schrodingers: Array<PromiseLike<Schrodinger<A, D>>> = array.map<PromiseLike<Schrodinger<A, D>>>(
-      (s: Superposition<A, D>) => {
-        return s.terminate();
-      }
-    );
+    const schrodingers: Array<PromiseLike<Schrodinger<A, D>>> = Array.from<Superposition<A, D>>(superpositions).map<
+      PromiseLike<Schrodinger<A, D>>
+    >((s: Superposition<A, D>) => {
+      return s.terminate();
+    });
 
     return Superposition.of<Array<A>, D>((resolve: Resolve<Array<A>>, reject: Reject<D>) => {
       return Promise.all<Schrodinger<A, D>>(schrodingers).then<void>((sch: Array<Schrodinger<A, D>>) => {

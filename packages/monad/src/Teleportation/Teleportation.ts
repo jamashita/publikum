@@ -27,11 +27,10 @@ export class Teleportation<R> implements PromiseLike<R>, Noun<'Teleportation'> {
     }
 
     return Teleportation.of<Array<R>>((resolve: Resolve<Array<R>>, reject: Reject<Error>) => {
-      const copied: Array<PromiseLike<R>> = Array.from<PromiseLike<R>>(array);
       const map: Map<number, R> = new Map<number, R>();
 
       // TODO CANCELLABLE
-      copied.forEach((p: PromiseLike<R>, i: number) => {
+      Array.from<PromiseLike<R>>(array).forEach((p: PromiseLike<R>, i: number) => {
         p.then(
           (t: R) => {
             map.set(i, t);
@@ -60,11 +59,10 @@ export class Teleportation<R> implements PromiseLike<R>, Noun<'Teleportation'> {
     }
 
     return Teleportation.of<Array<R>>((resolve: Resolve<Array<R>>, reject: Reject<Error>) => {
-      const copied: Array<PromiseLike<R>> = Array.from<PromiseLike<R>>(array);
       const ts: Array<R> = [];
 
       // TODO CANCELLABLE
-      return copied
+      return Array.from<PromiseLike<R>>(array)
         .reduce((prev: PromiseLike<R>, curr: PromiseLike<R>) => {
           return prev.then(
             (t: R) => {
@@ -93,10 +91,8 @@ export class Teleportation<R> implements PromiseLike<R>, Noun<'Teleportation'> {
     }
 
     return Teleportation.of<R>((resolve: Resolve<R>, reject: Reject<Error>) => {
-      const copied: Array<PromiseLike<R>> = Array.from<PromiseLike<R>>(array);
-
       // TODO CANCELLABLE
-      copied.forEach((p: PromiseLike<R>) => {
+      Array.from<PromiseLike<R>>(array).forEach((p: PromiseLike<R>) => {
         p.then(
           (t: R) => {
             resolve(t);

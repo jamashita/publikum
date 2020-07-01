@@ -40,12 +40,11 @@ export class Unscharferelation<P> implements Noun<'Unscharferelation'> {
       return Unscharferelation.present<Array<P>>([]);
     }
 
-    const array: Array<Unscharferelation<P>> = Array.from<Unscharferelation<P>>(unscharferelations);
-    const heisenbergs: Array<PromiseLike<Heisenberg<P>>> = array.map<PromiseLike<Heisenberg<P>>>(
-      (u: Unscharferelation<P>) => {
-        return u.terminate();
-      }
-    );
+    const heisenbergs: Array<PromiseLike<Heisenberg<P>>> = Array.from<Unscharferelation<P>>(unscharferelations).map<
+      PromiseLike<Heisenberg<P>>
+    >((u: Unscharferelation<P>) => {
+      return u.terminate();
+    });
 
     return Unscharferelation.of<Array<P>>((resolve: Resolve<Array<P>>, reject: Reject<void>) => {
       return Promise.all<Heisenberg<P>>(heisenbergs).then<void>((hbg: Array<Heisenberg<P>>) => {
