@@ -34,12 +34,13 @@ export class Superposition<A, D extends Error> implements Noun<'Superposition'> 
   private schrodinger: Schrodinger<A, D>;
   private readonly handlers: Array<DoneHandler<A, D>>;
 
-  public static all<A, D extends Error>(superpositions: Array<Superposition<A, D>>): Superposition<Array<A>, D> {
+  public static all<A, D extends Error>(superpositions: ArrayLike<Superposition<A, D>>): Superposition<Array<A>, D> {
     if (superpositions.length === 0) {
       return Superposition.alive<Array<A>, D>([]);
     }
 
-    const schrodingers: Array<PromiseLike<Schrodinger<A, D>>> = superpositions.map<PromiseLike<Schrodinger<A, D>>>(
+    const array: Array<Superposition<A, D>> = Array.from<Superposition<A, D>>(superpositions);
+    const schrodingers: Array<PromiseLike<Schrodinger<A, D>>> = array.map<PromiseLike<Schrodinger<A, D>>>(
       (s: Superposition<A, D>) => {
         return s.terminate();
       }

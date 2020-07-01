@@ -35,12 +35,13 @@ export class Unscharferelation<P> implements Noun<'Unscharferelation'> {
   private heisenberg: Heisenberg<P>;
   private readonly handlers: Array<DoneHandler<P, void>>;
 
-  public static all<P>(unscharferelations: Array<Unscharferelation<P>>): Unscharferelation<Array<P>> {
+  public static all<P>(unscharferelations: ArrayLike<Unscharferelation<P>>): Unscharferelation<Array<P>> {
     if (unscharferelations.length === 0) {
       return Unscharferelation.present<Array<P>>([]);
     }
 
-    const heisenbergs: Array<PromiseLike<Heisenberg<P>>> = unscharferelations.map<PromiseLike<Heisenberg<P>>>(
+    const array: Array<Unscharferelation<P>> = Array.from<Unscharferelation<P>>(unscharferelations);
+    const heisenbergs: Array<PromiseLike<Heisenberg<P>>> = array.map<PromiseLike<Heisenberg<P>>>(
       (u: Unscharferelation<P>) => {
         return u.terminate();
       }
