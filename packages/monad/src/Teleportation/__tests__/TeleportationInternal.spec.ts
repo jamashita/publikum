@@ -7,7 +7,76 @@ import { Bennett } from '../Bennett/Bennett';
 import { TeleportationInternal } from '../TeleportationInternal';
 
 describe('TeleportationInternal', () => {
-  // TODO CANCEL()
+  describe('cancel', () => {
+    it('if cancelled, will not be received', (done: jest.DoneCallback) => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const teleportation: TeleportationInternal<void> = TeleportationInternal.of<void>(
+        (epoque: Epoque<void, Error>) => {
+          setTimeout(() => {
+            epoque.resolve();
+          }, 1000);
+        }
+      );
+
+      teleportation.cancel();
+
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      teleportation
+        .map<void>(() => {
+          spy1();
+        })
+        .terminate();
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      teleportation
+        .map<void>(() => {
+          spy2();
+        })
+        .terminate();
+
+      setTimeout(() => {
+        expect(spy1.called).toBe(false);
+        expect(spy2.called).toBe(false);
+        done();
+      }, 3000);
+    });
+
+    it('if cancelled, will not be disappeared', (done: jest.DoneCallback) => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const teleportation: TeleportationInternal<void> = TeleportationInternal.of<void>(
+        (epoque: Epoque<void, Error>) => {
+          setTimeout(() => {
+            epoque.resolve();
+          }, 1000);
+        }
+      );
+
+      teleportation.cancel();
+
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      teleportation
+        .recover<void>(() => {
+          spy1();
+        })
+        .terminate();
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      teleportation
+        .recover<void>(() => {
+          spy2();
+        })
+        .terminate();
+
+      setTimeout(() => {
+        expect(spy1.called).toBe(false);
+        expect(spy2.called).toBe(false);
+        done();
+      }, 3000);
+    });
+  });
+
   describe('get', () => {
     it('returns inner value', async () => {
       const value: number = 14;
