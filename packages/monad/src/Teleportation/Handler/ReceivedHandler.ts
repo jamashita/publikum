@@ -1,7 +1,7 @@
 import { Kind, UnaryFunction } from '@jamashita/publikum-type';
 
+import { Epoque } from '../../Epoque/Interface/Epoque';
 import { IResolveHandler } from '../../Handler/Interface/IResolveHandler';
-import { Epoque } from '../../Interface/Epoque';
 
 export class ReceivedHandler<R, S> implements IResolveHandler<R, 'ReceivedHandler'> {
   public readonly noun: 'ReceivedHandler' = 'ReceivedHandler';

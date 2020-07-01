@@ -3,6 +3,7 @@ import sinon, { SinonSpy } from 'sinon';
 import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 
+import { PassEpoque } from '../../../Epoque/PassEpoque';
 import { DisappearedHandler } from '../DisappearedHandler';
 
 describe('DisappearedHandler', () => {
@@ -22,13 +23,15 @@ describe('DisappearedHandler', () => {
 
           return value - 1;
         },
-        (n: number) => {
-          spy2();
-          expect(n).toBe(value - 1);
-        },
-        () => {
-          spy3();
-        }
+        PassEpoque.of<number, Error>(
+          (n: number) => {
+            spy2();
+            expect(n).toBe(value - 1);
+          },
+          () => {
+            spy3();
+          }
+        )
       );
 
       handler.onReject(error);
@@ -54,17 +57,19 @@ describe('DisappearedHandler', () => {
 
             return Promise.resolve<number>(value - 2);
           },
-          (n: number) => {
-            spy2();
-            expect(n).toBe(value - 2);
+          PassEpoque.of<number, Error>(
+            (n: number) => {
+              spy2();
+              expect(n).toBe(value - 2);
 
-            resolve();
-          },
-          () => {
-            spy3();
+              resolve();
+            },
+            () => {
+              spy3();
 
-            resolve();
-          }
+              resolve();
+            }
+          )
         );
 
         handler.onReject(error);
@@ -90,13 +95,15 @@ describe('DisappearedHandler', () => {
 
           throw error2;
         },
-        () => {
-          spy2();
-        },
-        (e: Error) => {
-          spy3();
-          expect(e).toBe(error2);
-        }
+        PassEpoque.of<number, Error>(
+          () => {
+            spy2();
+          },
+          (e: Error) => {
+            spy3();
+            expect(e).toBe(error2);
+          }
+        )
       );
 
       handler.onReject(error1);
@@ -122,17 +129,19 @@ describe('DisappearedHandler', () => {
 
             return Promise.reject<number>(error2);
           },
-          () => {
-            spy2();
+          PassEpoque.of<number, Error>(
+            () => {
+              spy2();
 
-            resolve();
-          },
-          (e: Error) => {
-            spy3();
-            expect(e).toBe(error2);
+              resolve();
+            },
+            (e: Error) => {
+              spy3();
+              expect(e).toBe(error2);
 
-            resolve();
-          }
+              resolve();
+            }
+          )
         );
 
         handler.onReject(error1);
