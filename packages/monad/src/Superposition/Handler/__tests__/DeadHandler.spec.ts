@@ -3,8 +3,8 @@ import sinon, { SinonSpy } from 'sinon';
 import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 
-import { Alive } from '../../Alive';
-import { Dead } from '../../Dead';
+import { Alive } from '../../Schrodinger/Alive';
+import { Dead } from '../../Schrodinger/Dead';
 import { Superposition } from '../../Superposition';
 import { DeadHandler } from '../DeadHandler';
 
