@@ -1,25 +1,23 @@
-import { Kind, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
+import { Kind, UnaryFunction } from '@jamashita/publikum-type';
 
 import { IResolveHandler } from '../../Handler/Interface/IResolveHandler';
+import { Epoque } from '../../Interface/Epoque';
 
 export class ReceivedHandler<R, S> implements IResolveHandler<R, 'ReceivedHandler'> {
   public readonly noun: 'ReceivedHandler' = 'ReceivedHandler';
   private readonly mapper: UnaryFunction<R, PromiseLike<S> | S>;
-  private readonly resolve: Resolve<S>;
-  private readonly reject: Reject<Error>;
+  private readonly epoque: Epoque<S, Error>;
 
   public static of<R, S>(
     mapper: UnaryFunction<R, PromiseLike<S> | S>,
-    resolve: Resolve<S>,
-    reject: Reject<Error>
+    epoque: Epoque<S, Error>
   ): ReceivedHandler<R, S> {
-    return new ReceivedHandler<R, S>(mapper, resolve, reject);
+    return new ReceivedHandler<R, S>(mapper, epoque);
   }
 
-  protected constructor(mapper: UnaryFunction<R, PromiseLike<S> | S>, resolve: Resolve<S>, reject: Reject<Error>) {
+  protected constructor(mapper: UnaryFunction<R, PromiseLike<S> | S>, epoque: Epoque<S, Error>) {
     this.mapper = mapper;
-    this.resolve = resolve;
-    this.reject = reject;
+    this.epoque = epoque;
   }
 
   public onResolve(resolve: R): unknown {
@@ -30,18 +28,18 @@ export class ReceivedHandler<R, S> implements IResolveHandler<R, 'ReceivedHandle
       if (Kind.isPromiseLike(mapped)) {
         return mapped.then<void, void>(
           (v: S) => {
-            this.resolve(v);
+            this.epoque.resolve(v);
           },
           (e: Error) => {
-            this.reject(e);
+            this.epoque.reject(e);
           }
         );
       }
 
-      return this.resolve(mapped);
+      return this.epoque.resolve(mapped);
     }
     catch (err) {
-      return this.reject(err);
+      return this.epoque.reject(err);
     }
   }
 }
