@@ -1,19 +1,19 @@
-import { Epoque } from '../Interface/Epoque';
+import { ResolveEpoque } from '../Epoque/Interface/ResolveEpoque';
 import { IResolveHandler } from './Interface/IResolveHandler';
 
-export class ResolvePeekHandler<R> implements IResolveHandler<R, 'ResolvePeekHandler'> {
+export class ResolvePeekHandler implements IResolveHandler<void, 'ResolvePeekHandler'> {
   public readonly noun: 'ResolvePeekHandler' = 'ResolvePeekHandler';
-  private readonly epoque: Epoque<unknown, unknown>;
+  private readonly epoque: ResolveEpoque<void>;
 
-  public static of<R>(epoque: Epoque<unknown, unknown>): ResolvePeekHandler<R> {
+  public static of(epoque: ResolveEpoque<void>): ResolvePeekHandler {
     return new ResolvePeekHandler(epoque);
   }
 
-  protected constructor(epoque: Epoque<unknown, unknown>) {
+  protected constructor(epoque: ResolveEpoque<void>) {
     this.epoque = epoque;
   }
 
-  public onResolve(value: R): unknown {
-    return this.epoque.resolve(value);
+  public onResolve(): unknown {
+    return this.epoque.resolve();
   }
 }

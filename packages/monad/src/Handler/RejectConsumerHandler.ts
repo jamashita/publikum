@@ -1,15 +1,15 @@
-import { Epoque } from '../Interface/Epoque';
+import { RejectEpoque } from '../Epoque/Interface/RejectEpoque';
 import { IRejectHandler } from './Interface/IRejectHandler';
 
 export class RejectConsumerHandler<R> implements IRejectHandler<R, 'RejectConsumerHandler'> {
   public readonly noun: 'RejectConsumerHandler' = 'RejectConsumerHandler';
-  private readonly epoque: Epoque<unknown, R>;
+  private readonly epoque: RejectEpoque<R>;
 
-  public static of<R>(epoque: Epoque<unknown, R>): RejectConsumerHandler<R> {
+  public static of<R>(epoque: RejectEpoque<R>): RejectConsumerHandler<R> {
     return new RejectConsumerHandler<R>(epoque);
   }
 
-  protected constructor(epoque: Epoque<unknown, R>) {
+  protected constructor(epoque: RejectEpoque<R>) {
     this.epoque = epoque;
   }
 
