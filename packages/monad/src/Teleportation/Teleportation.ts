@@ -10,8 +10,8 @@ import { ResolveConsumerHandler } from '../Handler/ResolveConsumerHandler';
 import { ResolvePeekHandler } from '../Handler/ResolvePeekHandler';
 import { Bennett } from './Bennett/Bennett';
 import { Disappeared } from './Bennett/Disappeared';
+import { Pending } from './Bennett/Pending';
 import { Received } from './Bennett/Received';
-import { Sent } from './Bennett/Sent';
 import { TeleportationError } from './Error/TeleportationError';
 import { DisappearedHandler } from './Handler/DisappearedHandler';
 import { ReceivedHandler } from './Handler/ReceivedHandler';
@@ -122,7 +122,7 @@ export class Teleportation<R> implements PromiseLike<R>, Noun<'Teleportation'> {
   }
 
   protected constructor(func: BinaryFunction<Resolve<R>, Reject<Error>, unknown>) {
-    this.bennett = Sent.of<R>();
+    this.bennett = Pending.of<R>();
     this.handlers = [];
     func(this.resolved(this), this.rejected(this));
   }

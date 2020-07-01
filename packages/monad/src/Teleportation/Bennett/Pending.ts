@@ -3,13 +3,13 @@ import { Bennett } from './Bennett';
 import { Disappeared } from './Disappeared';
 import { Received } from './Received';
 
-export class Sent<R> implements Bennett<R, 'Sent'> {
-  public readonly noun: 'Sent' = 'Sent';
+export class Pending<R> implements Bennett<R, 'Pending'> {
+  public readonly noun: 'Pending' = 'Pending';
 
-  private static readonly INSTANCE: Sent<unknown> = new Sent<unknown>();
+  private static readonly INSTANCE: Pending<unknown> = new Pending<unknown>();
 
-  public static of<P>(): Sent<P> {
-    return (Sent.INSTANCE as unknown) as Sent<P>;
+  public static of<P>(): Pending<P> {
+    return (Pending.INSTANCE as unknown) as Pending<P>;
   }
 
   protected constructor() {
