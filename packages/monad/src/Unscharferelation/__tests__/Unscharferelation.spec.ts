@@ -1,6 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { Schrodinger } from '../../Superposition/Interface/Schrodinger';
+import { Schrodinger } from '../../Superposition/Schrodinger/Schrodinger';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Absent } from '../Heisenberg/Absent';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
