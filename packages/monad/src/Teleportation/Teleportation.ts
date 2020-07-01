@@ -19,7 +19,7 @@ import { ReceivedHandler } from './Handler/ReceivedHandler';
 export class Teleportation<R> implements PromiseLike<R>, Noun<'Teleportation'> {
   public readonly noun: 'Teleportation' = 'Teleportation';
   private bennett: Bennett<R>;
-  private readonly handlers: Array<DoneHandler<R, Error>>;
+  private readonly handlers: Set<DoneHandler<R, Error>>;
 
   public static all<R>(array: ArrayLike<PromiseLike<R>>): Teleportation<Array<R>> {
     if (array.length === 0) {
@@ -123,7 +123,7 @@ export class Teleportation<R> implements PromiseLike<R>, Noun<'Teleportation'> {
 
   protected constructor(func: BinaryFunction<Resolve<R>, Reject<Error>, unknown>) {
     this.bennett = Pending.of<R>();
-    this.handlers = [];
+    this.handlers = new Set<DoneHandler<R, Error>>();
     func(this.resolved(this), this.rejected(this));
   }
 
@@ -143,7 +143,7 @@ export class Teleportation<R> implements PromiseLike<R>, Noun<'Teleportation'> {
 
       self.bennett = Received.of<R>(value);
 
-      self.handlers.map<unknown>((handler: DoneHandler<R, Error>) => {
+      self.handlers.forEach((handler: DoneHandler<R, Error>) => {
         return handler.onResolve(value);
       });
     };
@@ -157,10 +157,18 @@ export class Teleportation<R> implements PromiseLike<R>, Noun<'Teleportation'> {
 
       self.bennett = Disappeared.of<R>(error);
 
-      self.handlers.map<unknown>((handler: DoneHandler<R, Error>) => {
+      self.handlers.forEach((handler: DoneHandler<R, Error>) => {
         return handler.onReject(error);
       });
     };
+  }
+
+  public cancel(): void {
+    if (this.done()) {
+      return;
+    }
+
+    this.handlers.clear();
   }
 
   public get(): Promise<R> {
@@ -234,6 +242,6 @@ export class Teleportation<R> implements PromiseLike<R>, Noun<'Teleportation'> {
       return reject.onReject(this.bennett.getError());
     }
 
-    return this.handlers.push(DoneHandler.of<R, Error>(resolve, reject));
+    return this.handlers.add(DoneHandler.of<R, Error>(resolve, reject));
   }
 }
