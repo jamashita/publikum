@@ -138,6 +138,35 @@ describe('TeleportationInternal', () => {
       expect(spy2.called).toBe(true);
     });
 
+    it('sync: throws error', async () => {
+      const value: number = 14;
+      const error: MockError = new MockError();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+
+      const teleportation: TeleportationInternal<number> = TeleportationInternal.of<number>(
+        (epoque: Epoque<number, Error>) => {
+          epoque.resolve(value);
+        }
+      );
+
+      await teleportation
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          throw error;
+        })
+        .map<void>(() => {
+          spy2();
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+    });
+
     it('sync: multiple handlers', async () => {
       const value: number = 14;
 
@@ -231,6 +260,36 @@ describe('TeleportationInternal', () => {
 
     expect(spy1.called).toBe(true);
     expect(spy2.called).toBe(true);
+  });
+
+  it('async: rejects error', async () => {
+    const value: number = 14;
+    const error: MockError = new MockError();
+
+    const spy1: SinonSpy = sinon.spy();
+    const spy2: SinonSpy = sinon.spy();
+
+    const teleportation: TeleportationInternal<number> = TeleportationInternal.of<number>(
+      (epoque: Epoque<number, Error>) => {
+        epoque.resolve(value);
+      }
+    );
+
+    await teleportation
+      .map<number>((v: number) => {
+        spy1();
+        expect(v).toBe(value);
+
+        return Promise.reject<number>(error);
+      })
+      .map<void>((v: number) => {
+        spy2();
+        expect(v).toBe(value + 3);
+      })
+      .terminate();
+
+    expect(spy1.called).toBe(true);
+    expect(spy2.called).toBe(false);
   });
 
   it('async: multiple handlers', async () => {
