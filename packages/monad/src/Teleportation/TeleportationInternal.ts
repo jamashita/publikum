@@ -1,5 +1,4 @@
-import { Noun } from '@jamashita/publikum-interface';
-import { Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import { Peek, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { PassEpoque } from '../Epoque/PassEpoque';
@@ -11,13 +10,16 @@ import { RejectPeekHandler } from '../Handler/RejectPeekHandler';
 import { ResolveConsumerHandler } from '../Handler/ResolveConsumerHandler';
 import { ResolvePeekHandler } from '../Handler/ResolvePeekHandler';
 import { Bennett } from './Bennett/Bennett';
+import { Cancelled } from './Bennett/Cancelled';
 import { Disappeared } from './Bennett/Disappeared';
 import { Pending } from './Bennett/Pending';
 import { Received } from './Bennett/Received';
 import { DisappearedHandler } from './Handler/DisappearedHandler';
 import { ReceivedHandler } from './Handler/ReceivedHandler';
+import { ITeleportation } from './Interface/ITeleportation';
 
-export class TeleportationInternal<R> implements Epoque<R, Error>, PromiseLike<R>, Noun<'TeleportationInternal'> {
+export class TeleportationInternal<R>
+  implements ITeleportation<R, TeleportationInternal<R>, 'TeleportationInternal'>, Epoque<R, Error> {
   public readonly noun: 'TeleportationInternal' = 'TeleportationInternal';
   private bennett: Bennett<R>;
   private readonly handlers: Set<DoneHandler<R, Error>>;
@@ -33,7 +35,7 @@ export class TeleportationInternal<R> implements Epoque<R, Error>, PromiseLike<R
   }
 
   private done(): boolean {
-    if (this.bennett.isReceived() || this.bennett.isDisappeared()) {
+    if (this.bennett.isReceived() || this.bennett.isDisappeared() || this.bennett.isCancelled()) {
       return true;
     }
 
@@ -69,36 +71,29 @@ export class TeleportationInternal<R> implements Epoque<R, Error>, PromiseLike<R
       return;
     }
 
+    this.bennett = Cancelled.of<R>();
+
     this.handlers.clear();
   }
 
   public get(): Promise<R> {
     return new Promise<R>((resolve: Resolve<R>, reject: Reject<Error>) => {
       this.pass(
-        PassEpoque.of<R, Error>(
-          (value: R) => {
-            resolve(value);
-          },
-          (err: Error) => {
-            reject(err);
-          }
-        )
+        (value: R) => {
+          resolve(value);
+        },
+        (err: Error) => {
+          reject(err);
+        }
       );
     });
   }
 
   public terminate(): Promise<Bennett<R>> {
     return new Promise<Bennett<R>>((resolve: Resolve<Bennett<R>>) => {
-      this.peek(
-        PassEpoque.of<void, void>(
-          () => {
-            resolve(this.bennett);
-          },
-          () => {
-            resolve(this.bennett);
-          }
-        )
-      );
+      this.peek(() => {
+        resolve(this.bennett);
+      });
     });
   }
 
@@ -106,20 +101,7 @@ export class TeleportationInternal<R> implements Epoque<R, Error>, PromiseLike<R
     onfulfilled?: Suspicious<UnaryFunction<R, T1 | PromiseLike<T1>>>,
     onrejected?: Suspicious<UnaryFunction<unknown, T2 | PromiseLike<T2>>>
   ): PromiseLike<T1 | T2> {
-    const promise: Promise<R> = new Promise<R>((resolve: Resolve<R>, reject: Reject<Error>) => {
-      this.pass(
-        PassEpoque.of<R, Error>(
-          (value: R) => {
-            resolve(value);
-          },
-          (err: Error) => {
-            reject(err);
-          }
-        )
-      );
-    });
-
-    return promise.then<T1, T2>(onfulfilled, onrejected);
+    return this.get().then<T1, T2>(onfulfilled, onrejected);
   }
 
   public map<S = R>(mapper: UnaryFunction<R, PromiseLike<S> | S>): TeleportationInternal<S> {
@@ -134,22 +116,33 @@ export class TeleportationInternal<R> implements Epoque<R, Error>, PromiseLike<R
     });
   }
 
-  private pass(epoque: Epoque<R, Error>): unknown {
+  private pass(resolve: Resolve<R>, reject: Reject<Error>): unknown {
+    const epoque: Epoque<R, Error> = PassEpoque.of<R, Error>(resolve, reject);
+
     return this.handle(ResolveConsumerHandler.of<R>(epoque), RejectConsumerHandler.of<Error>(epoque));
   }
 
-  private peek(epoque: Epoque<void, void>): unknown {
+  private peek(peek: Peek): unknown {
+    const epoque: Epoque<void, void> = PassEpoque.of<void, void>(peek, peek);
+
     return this.handle(ResolvePeekHandler.of(epoque), RejectPeekHandler.of(epoque));
   }
 
-  private handle(resolve: IResolveHandler<R>, reject: IRejectHandler<Error>): unknown {
+  private handle(resolve: IResolveHandler<R>, reject: IRejectHandler<Error>): void {
     if (this.bennett.isReceived()) {
-      return resolve.onResolve(this.bennett.get());
+      resolve.onResolve(this.bennett.get());
+
+      return;
     }
     if (this.bennett.isDisappeared()) {
-      return reject.onReject(this.bennett.getError());
+      reject.onReject(this.bennett.getError());
+
+      return;
+    }
+    if (this.bennett.isCancelled()) {
+      return;
     }
 
-    return this.handlers.add(DoneHandler.of<R, Error>(resolve, reject));
+    this.handlers.add(DoneHandler.of<R, Error>(resolve, reject));
   }
 }

@@ -1,6 +1,7 @@
 import { MockError } from '@jamashita/publikum-object';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
+import { Bennett } from '../Bennett/Bennett';
 import { TeleportationInternal } from '../TeleportationInternal';
 
 describe('TeleportationInternal', () => {
@@ -27,6 +28,27 @@ describe('TeleportationInternal', () => {
       );
 
       await expect(teleportation1.get()).rejects.toBe(error);
+    });
+  });
+
+  describe('terminate', () => {
+    it('returns Bennett subclass instance', async () => {
+      const value: number = 14;
+      const error: MockError = new MockError();
+
+      const received: Bennett<number> = await TeleportationInternal.of<number>((epoque: Epoque<number, Error>) => {
+        epoque.resolve(value);
+      }).terminate();
+      const disappeared: Bennett<number> = await TeleportationInternal.of<number>((epoque: Epoque<number, Error>) => {
+        epoque.reject(error);
+      }).terminate();
+
+      expect(received.isReceived()).toBe(true);
+      expect(received.get()).toBe(value);
+      expect(disappeared.isDisappeared()).toBe(true);
+      expect(() => {
+        disappeared.get();
+      }).toThrow(MockError);
     });
   });
 });
