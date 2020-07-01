@@ -3,7 +3,7 @@ import { Noun } from '@jamashita/publikum-interface';
 import { Disappeared } from './Disappeared';
 import { Received } from './Received';
 
-type BennettType = 'Received' | 'Disappeared' | 'Sent';
+type BennettType = 'Received' | 'Disappeared' | 'Sent' | 'Cancelled';
 
 export interface Bennett<R, N extends BennettType = BennettType> extends Noun<N> {
   readonly noun: N;
