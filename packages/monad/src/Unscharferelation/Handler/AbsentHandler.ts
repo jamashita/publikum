@@ -1,50 +1,49 @@
-import { Kind, Reject, Resolve, Supplier, Suspicious } from '@jamashita/publikum-type';
+import { Kind, Supplier, Suspicious } from '@jamashita/publikum-type';
 
+import { Epoque } from '../../Epoque/Interface/Epoque';
 import { IRejectHandler } from '../../Handler/Interface/IRejectHandler';
 import { Matter } from '../../Interface/Matter';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
+import { IUnscharferelation } from '../Interface/IUnscharferelation';
 import { Unscharferelation } from '../Unscharferelation';
 
 export class AbsentHandler<Q> implements IRejectHandler<void, 'AbsentHandler'> {
   public readonly noun: 'AbsentHandler' = 'AbsentHandler';
-  private readonly mapper: Supplier<PromiseLike<Suspicious<Matter<Q>>> | Unscharferelation<Q> | Suspicious<Matter<Q>>>;
-  private readonly resolve: Resolve<Matter<Q>>;
-  private readonly reject: Reject<void>;
+  private readonly mapper: Supplier<PromiseLike<Suspicious<Matter<Q>>> | IUnscharferelation<Q> | Suspicious<Matter<Q>>>;
+  private readonly epoque: Epoque<Matter<Q>, void>;
 
   public static of<Q>(
-    mapper: Supplier<PromiseLike<Suspicious<Matter<Q>>> | Unscharferelation<Q> | Suspicious<Matter<Q>>>,
-    resolve: Resolve<Matter<Q>>,
-    reject: Reject<void>
+    mapper: Supplier<PromiseLike<Suspicious<Matter<Q>>> | IUnscharferelation<Q> | Suspicious<Matter<Q>>>,
+    epoque: Epoque<Matter<Q>, void>
   ): AbsentHandler<Q> {
-    return new AbsentHandler<Q>(mapper, resolve, reject);
+    return new AbsentHandler<Q>(mapper, epoque);
   }
 
   protected constructor(
-    mapper: Supplier<PromiseLike<Suspicious<Matter<Q>>> | Unscharferelation<Q> | Suspicious<Matter<Q>>>,
-    resolve: Resolve<Matter<Q>>,
-    reject: Reject<void>
+    mapper: Supplier<PromiseLike<Suspicious<Matter<Q>>> | IUnscharferelation<Q> | Suspicious<Matter<Q>>>,
+    epoque: Epoque<Matter<Q>, void>
   ) {
     this.mapper = mapper;
-    this.resolve = resolve;
-    this.reject = reject;
+    this.epoque = epoque;
   }
 
   public onReject(): unknown {
-    const mapped: PromiseLike<Suspicious<Matter<Q>>> | Unscharferelation<Q> | Suspicious<Matter<Q>> = this.mapper();
+    const mapped: PromiseLike<Suspicious<Matter<Q>>> | IUnscharferelation<Q> | Suspicious<Matter<Q>> = this.mapper();
 
     if (mapped instanceof Unscharferelation) {
       return mapped.terminate().then<void, void>(
         (v: Heisenberg<Q>) => {
           if (v.isPresent()) {
-            this.resolve(v.get());
+            this.epoque.resolve(v.get());
 
             return;
           }
 
-          this.reject();
+          this.epoque.reject();
         },
         () => {
-          this.reject();
+          // TODO TERMINATE
+          this.epoque.reject();
         }
       );
     }
@@ -52,23 +51,24 @@ export class AbsentHandler<Q> implements IRejectHandler<void, 'AbsentHandler'> {
       return mapped.then<void, void>(
         (v: Suspicious<Matter<Q>>) => {
           if (Kind.isUndefined(v) || Kind.isNull(v)) {
-            this.reject();
+            this.epoque.reject();
 
             return;
           }
 
-          this.resolve(v);
+          this.epoque.resolve(v);
         },
         () => {
-          this.reject();
+          // TODO TERMINATE
+          this.epoque.reject();
         }
       );
     }
 
     if (Kind.isUndefined(mapped) || Kind.isNull(mapped)) {
-      return this.reject();
+      return this.epoque.reject();
     }
 
-    return this.resolve(mapped);
+    return this.epoque.resolve(mapped);
   }
 }

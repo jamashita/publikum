@@ -2,6 +2,7 @@ import sinon, { SinonSpy } from 'sinon';
 
 import { Resolve } from '@jamashita/publikum-type';
 
+import { PassEpoque } from '../../../Epoque/PassEpoque';
 import { Absent } from '../../Heisenberg/Absent';
 import { Present } from '../../Heisenberg/Present';
 import { Unscharferelation } from '../../Unscharferelation';
@@ -23,13 +24,15 @@ describe('PresentHandler', () => {
 
           return n - 6;
         },
-        (n: number) => {
-          spy2();
-          expect(n).toBe(value - 6);
-        },
-        () => {
-          spy3();
-        }
+        PassEpoque.of<number, void>(
+          (n: number) => {
+            spy2();
+            expect(n).toBe(value - 6);
+          },
+          () => {
+            spy3();
+          }
+        )
       );
 
       handler.onResolve(value);
@@ -54,17 +57,19 @@ describe('PresentHandler', () => {
 
             return Promise.resolve<number>(n - 6);
           },
-          (n: number) => {
-            spy2();
-            expect(n).toBe(value - 6);
+          PassEpoque.of<number, void>(
+            (n: number) => {
+              spy2();
+              expect(n).toBe(value - 6);
 
-            resolve();
-          },
-          () => {
-            spy3();
+              resolve();
+            },
+            () => {
+              spy3();
 
-            resolve();
-          }
+              resolve();
+            }
+          )
         );
 
         handler.onResolve(value);
@@ -90,17 +95,19 @@ describe('PresentHandler', () => {
 
             return Unscharferelation.ofHeisenberg<number>(Present.of<number>(n - 6));
           },
-          (n: number) => {
-            spy2();
-            expect(n).toBe(value - 6);
+          PassEpoque.of<number, void>(
+            (n: number) => {
+              spy2();
+              expect(n).toBe(value - 6);
 
-            resolve();
-          },
-          () => {
-            spy3();
+              resolve();
+            },
+            () => {
+              spy3();
 
-            resolve();
-          }
+              resolve();
+            }
+          )
         );
 
         handler.onResolve(value);
@@ -125,12 +132,14 @@ describe('PresentHandler', () => {
 
           return null;
         },
-        () => {
-          spy2();
-        },
-        () => {
-          spy3();
-        }
+        PassEpoque.of<number, void>(
+          () => {
+            spy2();
+          },
+          () => {
+            spy3();
+          }
+        )
       );
 
       handler.onResolve(value);
@@ -155,17 +164,19 @@ describe('PresentHandler', () => {
 
             return undefined;
           },
-          (n: number) => {
-            spy2();
-            expect(n).toBe(value - 6);
+          PassEpoque.of<number, void>(
+            (n: number) => {
+              spy2();
+              expect(n).toBe(value - 6);
 
-            resolve();
-          },
-          () => {
-            spy3();
+              resolve();
+            },
+            () => {
+              spy3();
 
-            resolve();
-          }
+              resolve();
+            }
+          )
         );
 
         handler.onResolve(value);
@@ -191,17 +202,19 @@ describe('PresentHandler', () => {
 
             return Promise.resolve<null>(null);
           },
-          (n: number) => {
-            spy2();
-            expect(n).toBe(value - 6);
+          PassEpoque.of<number, void>(
+            (n: number) => {
+              spy2();
+              expect(n).toBe(value - 6);
 
-            resolve();
-          },
-          () => {
-            spy3();
+              resolve();
+            },
+            () => {
+              spy3();
 
-            resolve();
-          }
+              resolve();
+            }
+          )
         );
 
         handler.onResolve(value);
@@ -227,17 +240,19 @@ describe('PresentHandler', () => {
 
             return Promise.resolve<undefined>(undefined);
           },
-          (n: number) => {
-            spy2();
-            expect(n).toBe(value - 6);
+          PassEpoque.of<number, void>(
+            (n: number) => {
+              spy2();
+              expect(n).toBe(value - 6);
 
-            resolve();
-          },
-          () => {
-            spy3();
+              resolve();
+            },
+            () => {
+              spy3();
 
-            resolve();
-          }
+              resolve();
+            }
+          )
         );
 
         handler.onResolve(value);
@@ -263,17 +278,19 @@ describe('PresentHandler', () => {
 
             return Unscharferelation.ofHeisenberg<number>(Absent.of<number>());
           },
-          (n: number) => {
-            spy2();
-            expect(n).toBe(value - 6);
+          PassEpoque.of<number, void>(
+            (n: number) => {
+              spy2();
+              expect(n).toBe(value - 6);
 
-            resolve();
-          },
-          () => {
-            spy3();
+              resolve();
+            },
+            () => {
+              spy3();
 
-            resolve();
-          }
+              resolve();
+            }
+          )
         );
 
         handler.onResolve(value);

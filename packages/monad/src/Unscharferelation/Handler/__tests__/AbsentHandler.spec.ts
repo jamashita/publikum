@@ -2,6 +2,7 @@ import sinon, { SinonSpy } from 'sinon';
 
 import { Resolve } from '@jamashita/publikum-type';
 
+import { PassEpoque } from '../../../Epoque/PassEpoque';
 import { Absent } from '../../Heisenberg/Absent';
 import { Present } from '../../Heisenberg/Present';
 import { Unscharferelation } from '../../Unscharferelation';
@@ -22,13 +23,15 @@ describe('AbsentHandler', () => {
 
           return value - 6;
         },
-        (n: number) => {
-          spy2();
-          expect(n).toBe(value - 6);
-        },
-        () => {
-          spy3();
-        }
+        PassEpoque.of<number, void>(
+          (n: number) => {
+            spy2();
+            expect(n).toBe(value - 6);
+          },
+          () => {
+            spy3();
+          }
+        )
       );
 
       handler.onReject();
@@ -52,17 +55,19 @@ describe('AbsentHandler', () => {
 
             return Promise.resolve<number>(value - 6);
           },
-          (n: number) => {
-            spy2();
-            expect(n).toBe(value - 6);
+          PassEpoque.of<number, void>(
+            (n: number) => {
+              spy2();
+              expect(n).toBe(value - 6);
 
-            resolve();
-          },
-          () => {
-            spy3();
+              resolve();
+            },
+            () => {
+              spy3();
 
-            resolve();
-          }
+              resolve();
+            }
+          )
         );
 
         handler.onReject();
@@ -87,17 +92,19 @@ describe('AbsentHandler', () => {
 
             return Unscharferelation.ofHeisenberg<number>(Present.of<number>(value - 6));
           },
-          (n: number) => {
-            spy2();
-            expect(n).toBe(value - 6);
+          PassEpoque.of<number, void>(
+            (n: number) => {
+              spy2();
+              expect(n).toBe(value - 6);
 
-            resolve();
-          },
-          () => {
-            spy3();
+              resolve();
+            },
+            () => {
+              spy3();
 
-            resolve();
-          }
+              resolve();
+            }
+          )
         );
 
         handler.onReject();
@@ -120,16 +127,18 @@ describe('AbsentHandler', () => {
 
             return null;
           },
-          () => {
-            spy2();
+          PassEpoque.of<number, void>(
+            () => {
+              spy2();
 
-            resolve();
-          },
-          () => {
-            spy3();
+              resolve();
+            },
+            () => {
+              spy3();
 
-            resolve();
-          }
+              resolve();
+            }
+          )
         );
 
         handler.onReject();
@@ -152,16 +161,18 @@ describe('AbsentHandler', () => {
 
             return null;
           },
-          () => {
-            spy2();
+          PassEpoque.of<number, void>(
+            () => {
+              spy2();
 
-            resolve();
-          },
-          () => {
-            spy3();
+              resolve();
+            },
+            () => {
+              spy3();
 
-            resolve();
-          }
+              resolve();
+            }
+          )
         );
 
         handler.onReject();
@@ -184,16 +195,18 @@ describe('AbsentHandler', () => {
 
             return Promise.resolve<null>(null);
           },
-          () => {
-            spy2();
+          PassEpoque.of<number, void>(
+            () => {
+              spy2();
 
-            resolve();
-          },
-          () => {
-            spy3();
+              resolve();
+            },
+            () => {
+              spy3();
 
-            resolve();
-          }
+              resolve();
+            }
+          )
         );
 
         handler.onReject();
@@ -216,16 +229,18 @@ describe('AbsentHandler', () => {
 
             return Promise.resolve<undefined>(undefined);
           },
-          () => {
-            spy2();
+          PassEpoque.of<number, void>(
+            () => {
+              spy2();
 
-            resolve();
-          },
-          () => {
-            spy3();
+              resolve();
+            },
+            () => {
+              spy3();
 
-            resolve();
-          }
+              resolve();
+            }
+          )
         );
 
         handler.onReject();
@@ -248,16 +263,18 @@ describe('AbsentHandler', () => {
 
             return Unscharferelation.ofHeisenberg<number>(Absent.of<number>());
           },
-          () => {
-            spy2();
+          PassEpoque.of<number, void>(
+            () => {
+              spy2();
 
-            resolve();
-          },
-          () => {
-            spy3();
+              resolve();
+            },
+            () => {
+              spy3();
 
-            resolve();
-          }
+              resolve();
+            }
+          )
         );
 
         handler.onReject();
