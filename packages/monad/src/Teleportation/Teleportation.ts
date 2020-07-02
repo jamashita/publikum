@@ -201,14 +201,10 @@ export class Teleportation<R> implements ITeleportation<R, 'Teleportation'> {
     return this.internal.then<T1, T2>(onfulfilled, onrejected);
   }
 
-  public map<S = R>(mapper: UnaryFunction<R, PromiseLike<S>>): Teleportation<S>;
-  public map<S = R>(mapper: UnaryFunction<R, S>): Teleportation<S>;
   public map<S = R>(mapper: UnaryFunction<R, PromiseLike<S> | S>): Teleportation<S> {
     return Teleportation.ofTeleportatiion<S>(this.internal.map<S>(mapper));
   }
 
-  public recover<S = R>(mapper: UnaryFunction<Error, PromiseLike<S>>): Teleportation<R | S>;
-  public recover<S = R>(mapper: UnaryFunction<Error, S>): Teleportation<R | S>;
   public recover<S = R>(mapper: UnaryFunction<Error, PromiseLike<S> | S>): Teleportation<R | S> {
     return Teleportation.ofTeleportatiion<R | S>(this.internal.recover<S>(mapper));
   }
