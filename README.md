@@ -64,6 +64,10 @@ HTTP Request implementation.
 
 ### Monads
 
+#### Teleportation
+Alias for `Promise`.
+Cancellable.
+
 #### Unscharferelation
 Alias for `Optional` for scala.
 Applicable for async operation, especially `Promise`.
@@ -137,7 +141,9 @@ Class for random string, random number.
 ### TODO
 + [ ] `sequence.set()`
 + [ ] `sequence.remove()`
-* [ ] `Teleportation cancellation: detail`
+* [ ] `Teleportation` cancellation
+* [ ] `Unschrferelation` error handling
+* [ ] `Superposition` error handling
 
 ## License
 

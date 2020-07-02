@@ -21,10 +21,6 @@ export class Teleportation<R> implements ITeleportation<R, 'Teleportation'> {
       let rejected: boolean = false;
 
       copied.forEach((promise: PromiseLike<R>, i: number) => {
-        if (rejected) {
-          return;
-        }
-
         promise.then<void, void>(
           (t: R) => {
             if (rejected) {
