@@ -137,6 +137,7 @@ Class for random string, random number.
 ### TODO
 + [ ] `sequence.set()`
 + [ ] `sequence.remove()`
+* [ ] `Teleportation cancellation: detail`
 
 ## License
 

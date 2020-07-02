@@ -37,10 +37,10 @@
   },
   "devDependencies": {
     "@types/node": "14.0.14",
-    "nock": "13.0.0",
+    "nock": "13.0.2",
     "npm-check-updates": "7.0.1",
     "rimraf": "3.0.2",
-    "typescript": "3.9.5"
+    "typescript": "3.9.6"
   },
   "engines": {
     "node": ">= 14.0.0",
