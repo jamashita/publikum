@@ -2,20 +2,20 @@ import { Kind, Peek, Predicate, Reject, Resolve, UnaryFunction } from '@jamashit
 
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { PassEpoque } from '../Epoque/PassEpoque';
-import { DoneHandler } from '../Plan/DoneHandler';
-import { IRejectHandler } from '../Plan/Interface/IRejectHandler';
-import { IResolveHandler } from '../Plan/Interface/IResolveHandler';
-import { RejectConsumerHandler } from '../Plan/RejectConsumerHandler';
-import { RejectPeekHandler } from '../Plan/RejectPeekHandler';
-import { ResolveConsumerHandler } from '../Plan/ResolveConsumerHandler';
-import { ResolvePeekHandler } from '../Plan/ResolvePeekHandler';
 import { Detoxicated } from '../Interface/Detoxicated';
 import { Matter } from '../Interface/Matter';
+import { CombinedPlan } from '../Plan/CombinedPlan';
+import { MappingPlan } from '../Plan/Interface/MappingPlan';
+import { RecoveryPlan } from '../Plan/Interface/RecoveryPlan';
+import { MappingConsumerPlan } from '../Plan/MappingConsumerPlan';
+import { MappingPeekPlan } from '../Plan/MappingPeekPlan';
+import { RecoveryConsumerPlan } from '../Plan/RecoveryConsumerPlan';
+import { RecoveryPeekPlan } from '../Plan/RecoveryPeekPlan';
 import { UnscharferelationInternal } from '../Unscharferelation/UnscharferelationInternal';
 import { SuperpositionError } from './Error/SuperpositionError';
-import { AliveHandler } from './Handler/AliveHandler';
-import { DeadHandler } from './Handler/DeadHandler';
 import { ISuperposition } from './Interface/ISuperposition';
+import { AlivePlan } from './Plan/AlivePlan';
+import { DeadPlan } from './Plan/DeadPlan';
 import { Alive } from './Schrodinger/Alive';
 import { Dead } from './Schrodinger/Dead';
 import { Schrodinger } from './Schrodinger/Schrodinger';
@@ -25,7 +25,7 @@ export class SuperpositionInternal<A, D extends Error>
   implements ISuperposition<A, D, 'SuperpositionInternal'>, Epoque<Detoxicated<A>, D> {
   public readonly noun: 'SuperpositionInternal' = 'SuperpositionInternal';
   private schrodinger: Schrodinger<A, D>;
-  private readonly handlers: Set<DoneHandler<A, D>>;
+  private readonly plans: Set<CombinedPlan<A, D>>;
 
   public static of<A, D extends Error>(
     func: UnaryFunction<Epoque<Detoxicated<A>, D>, unknown>
@@ -35,7 +35,7 @@ export class SuperpositionInternal<A, D extends Error>
 
   protected constructor(func: UnaryFunction<Epoque<Detoxicated<A>, D>, unknown>) {
     this.schrodinger = Still.of<A, D>();
-    this.handlers = new Set<DoneHandler<A, D>>();
+    this.plans = new Set<CombinedPlan<A, D>>();
     func(this);
   }
 
@@ -54,8 +54,8 @@ export class SuperpositionInternal<A, D extends Error>
 
     this.schrodinger = Alive.of<A, D>(value);
 
-    this.handlers.forEach((handler: DoneHandler<A, D>) => {
-      return handler.onResolve(value);
+    this.plans.forEach((plan: MappingPlan<A>) => {
+      return plan.onResolve(value);
     });
   }
 
@@ -66,8 +66,8 @@ export class SuperpositionInternal<A, D extends Error>
 
     this.schrodinger = Dead.of<A, D>(error);
 
-    this.handlers.forEach((handler: DoneHandler<A, D>) => {
-      return handler.onReject(error);
+    this.plans.forEach((plan: RecoveryPlan<D>) => {
+      return plan.onReject(error);
     });
   }
 
@@ -115,7 +115,7 @@ export class SuperpositionInternal<A, D extends Error>
     mapper: UnaryFunction<Detoxicated<A>, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>
   ): SuperpositionInternal<B, D | E> {
     return SuperpositionInternal.of<B, D | E>((epoque: Epoque<Detoxicated<B>, D | E>) => {
-      return this.handle(AliveHandler.of<A, B, E>(mapper, epoque), RejectConsumerHandler.of<D>(epoque));
+      return this.handle(AlivePlan.of<A, B, E>(mapper, epoque), RecoveryConsumerPlan.of<D>(epoque));
     });
   }
 
@@ -123,7 +123,7 @@ export class SuperpositionInternal<A, D extends Error>
     mapper: UnaryFunction<D, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>
   ): SuperpositionInternal<A | B, E> {
     return SuperpositionInternal.of<A | B, E>((epoque: Epoque<Detoxicated<A | B>, E>) => {
-      return this.handle(ResolveConsumerHandler.of<Detoxicated<A>>(epoque), DeadHandler.of<B, D, E>(mapper, epoque));
+      return this.handle(MappingConsumerPlan.of<Detoxicated<A>>(epoque), DeadPlan.of<B, D, E>(mapper, epoque));
     });
   }
 
@@ -132,23 +132,23 @@ export class SuperpositionInternal<A, D extends Error>
     dead: UnaryFunction<D, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>
   ): SuperpositionInternal<B, E> {
     return SuperpositionInternal.of<B, E>((epoque: Epoque<Detoxicated<B>, E>) => {
-      return this.handle(AliveHandler.of<A, B, E>(alive, epoque), DeadHandler.of<B, D, E>(dead, epoque));
+      return this.handle(AlivePlan.of<A, B, E>(alive, epoque), DeadPlan.of<B, D, E>(dead, epoque));
     });
   }
 
   private pass(resolve: Resolve<Detoxicated<A>>, reject: Reject<D>): unknown {
     const epoque: Epoque<Detoxicated<A>, D> = PassEpoque.of<Detoxicated<A>, D>(resolve, reject);
 
-    return this.handle(ResolveConsumerHandler.of<Detoxicated<A>>(epoque), RejectConsumerHandler.of<D>(epoque));
+    return this.handle(MappingConsumerPlan.of<Detoxicated<A>>(epoque), RecoveryConsumerPlan.of<D>(epoque));
   }
 
   private peek(peek: Peek): unknown {
     const epoque: Epoque<void, void> = PassEpoque.of<void, void>(peek, peek);
 
-    return this.handle(ResolvePeekHandler.of(epoque), RejectPeekHandler.of(epoque));
+    return this.handle(MappingPeekPlan.of(epoque), RecoveryPeekPlan.of(epoque));
   }
 
-  private handle(resolve: IResolveHandler<A>, reject: IRejectHandler<D>): unknown {
+  private handle(resolve: MappingPlan<A>, reject: RecoveryPlan<D>): unknown {
     if (this.schrodinger.isAlive()) {
       return resolve.onResolve(this.schrodinger.get());
     }
@@ -156,7 +156,7 @@ export class SuperpositionInternal<A, D extends Error>
       return reject.onReject(this.schrodinger.getError());
     }
 
-    return this.handlers.add(DoneHandler.of<A, D>(resolve, reject));
+    return this.plans.add(CombinedPlan.of<A, D>(resolve, reject));
   }
 
   private transpose<T, E extends Error>(): SuperpositionInternal<T, E> {

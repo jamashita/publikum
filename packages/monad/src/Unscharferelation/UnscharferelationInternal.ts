@@ -2,30 +2,30 @@ import { Peek, Predicate, Reject, Resolve, Supplier, Suspicious, UnaryFunction }
 
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { PassEpoque } from '../Epoque/PassEpoque';
-import { DoneHandler } from '../Plan/DoneHandler';
-import { IRejectHandler } from '../Plan/Interface/IRejectHandler';
-import { IResolveHandler } from '../Plan/Interface/IResolveHandler';
-import { RejectConsumerHandler } from '../Plan/RejectConsumerHandler';
-import { RejectPeekHandler } from '../Plan/RejectPeekHandler';
-import { ResolveConsumerHandler } from '../Plan/ResolveConsumerHandler';
-import { ResolvePeekHandler } from '../Plan/ResolvePeekHandler';
 import { Detoxicated } from '../Interface/Detoxicated';
 import { Matter } from '../Interface/Matter';
+import { CombinedPlan } from '../Plan/CombinedPlan';
+import { MappingPlan } from '../Plan/Interface/MappingPlan';
+import { RecoveryPlan } from '../Plan/Interface/RecoveryPlan';
+import { MappingConsumerPlan } from '../Plan/MappingConsumerPlan';
+import { MappingPeekPlan } from '../Plan/MappingPeekPlan';
+import { RecoveryConsumerPlan } from '../Plan/RecoveryConsumerPlan';
+import { RecoveryPeekPlan } from '../Plan/RecoveryPeekPlan';
 import { SuperpositionInternal } from '../Superposition/SuperpositionInternal';
 import { UnscharferelationError } from './Error/UnscharferelationError';
-import { AbsentHandler } from './Handler/AbsentHandler';
-import { PresentHandler } from './Handler/PresentHandler';
 import { Absent } from './Heisenberg/Absent';
 import { Heisenberg } from './Heisenberg/Heisenberg';
 import { Present } from './Heisenberg/Present';
 import { Uncertain } from './Heisenberg/Uncertain';
 import { IUnscharferelation } from './Interface/IUnscharferelation';
+import { AbsentPlan } from './Plan/AbsentPlan';
+import { PresentPlan } from './Plan/PresentPlan';
 
 export class UnscharferelationInternal<P>
   implements IUnscharferelation<P, 'UnscharferelationInternal'>, Epoque<Matter<P>, void> {
   public readonly noun: 'UnscharferelationInternal' = 'UnscharferelationInternal';
   private heisenberg: Heisenberg<P>;
-  private readonly handlers: Set<DoneHandler<P, void>>;
+  private readonly plans: Set<CombinedPlan<P, void>>;
 
   public static of<P>(func: UnaryFunction<Epoque<Matter<P>, void>, unknown>): UnscharferelationInternal<P> {
     return new UnscharferelationInternal<P>(func);
@@ -33,7 +33,7 @@ export class UnscharferelationInternal<P>
 
   protected constructor(func: UnaryFunction<Epoque<Matter<P>, void>, unknown>) {
     this.heisenberg = Uncertain.of<P>();
-    this.handlers = new Set<DoneHandler<P, void>>();
+    this.plans = new Set<CombinedPlan<P, void>>();
     func(this);
   }
 
@@ -52,8 +52,8 @@ export class UnscharferelationInternal<P>
 
     this.heisenberg = Present.of<P>(value);
 
-    this.handlers.forEach((handler: DoneHandler<P, void>) => {
-      return handler.onResolve(value);
+    this.plans.forEach((plan: MappingPlan<P>) => {
+      return plan.onResolve(value);
     });
   }
 
@@ -64,8 +64,8 @@ export class UnscharferelationInternal<P>
 
     this.heisenberg = Absent.of<P>();
 
-    this.handlers.forEach((handler: DoneHandler<P, void>) => {
-      return handler.onReject();
+    this.plans.forEach((plan: RecoveryPlan<void>) => {
+      return plan.onReject();
     });
   }
 
@@ -114,7 +114,7 @@ export class UnscharferelationInternal<P>
     >
   ): UnscharferelationInternal<Q> {
     return UnscharferelationInternal.of<Q>((epoque: Epoque<Matter<Q>, void>) => {
-      return this.handle(PresentHandler.of<P, Q>(mapper, epoque), RejectConsumerHandler.of<void>(epoque));
+      return this.handle(PresentPlan.of<P, Q>(mapper, epoque), RecoveryConsumerPlan.of<void>(epoque));
     });
   }
 
@@ -122,23 +122,23 @@ export class UnscharferelationInternal<P>
     mapper: Supplier<UnscharferelationInternal<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>
   ): UnscharferelationInternal<P | Q> {
     return UnscharferelationInternal.of<P | Q>((epoque: Epoque<Matter<P | Q>, void>) => {
-      return this.handle(ResolveConsumerHandler.of<Matter<P>>(epoque), AbsentHandler.of<Q>(mapper, epoque));
+      return this.handle(MappingConsumerPlan.of<Matter<P>>(epoque), AbsentPlan.of<Q>(mapper, epoque));
     });
   }
 
   private pass(resolve: Resolve<Matter<P>>, reject: Reject<void>): unknown {
     const epoque: Epoque<Matter<P>, void> = PassEpoque.of<Matter<P>, void>(resolve, reject);
 
-    return this.handle(ResolveConsumerHandler.of<Matter<P>>(epoque), RejectPeekHandler.of(epoque));
+    return this.handle(MappingConsumerPlan.of<Matter<P>>(epoque), RecoveryConsumerPlan.of(epoque));
   }
 
   private peek(peek: Peek): unknown {
     const epoque: Epoque<void, void> = PassEpoque.of<void, void>(peek, peek);
 
-    return this.handle(ResolvePeekHandler.of(epoque), RejectPeekHandler.of(epoque));
+    return this.handle(MappingPeekPlan.of(epoque), RecoveryPeekPlan.of(epoque));
   }
 
-  private handle(resolve: IResolveHandler<P>, reject: IRejectHandler<void>): unknown {
+  private handle(resolve: MappingPlan<P>, reject: RecoveryPlan<void>): unknown {
     if (this.heisenberg.isPresent()) {
       return resolve.onResolve(this.heisenberg.get());
     }
@@ -146,7 +146,7 @@ export class UnscharferelationInternal<P>
       return reject.onReject();
     }
 
-    return this.handlers.add(DoneHandler.of<Matter<P>, void>(resolve, reject));
+    return this.plans.add(CombinedPlan.of<Matter<P>, void>(resolve, reject));
   }
 
   public toSuperposition(): SuperpositionInternal<P, UnscharferelationError> {

@@ -2,26 +2,26 @@ import { Peek, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/pub
 
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { PassEpoque } from '../Epoque/PassEpoque';
-import { DoneHandler } from '../Plan/DoneHandler';
-import { IRejectHandler } from '../Plan/Interface/IRejectHandler';
-import { IResolveHandler } from '../Plan/Interface/IResolveHandler';
-import { RejectConsumerHandler } from '../Plan/RejectConsumerHandler';
-import { RejectPeekHandler } from '../Plan/RejectPeekHandler';
-import { ResolveConsumerHandler } from '../Plan/ResolveConsumerHandler';
-import { ResolvePeekHandler } from '../Plan/ResolvePeekHandler';
+import { CombinedPlan } from '../Plan/CombinedPlan';
+import { MappingPlan } from '../Plan/Interface/MappingPlan';
+import { RecoveryPlan } from '../Plan/Interface/RecoveryPlan';
+import { MappingConsumerPlan } from '../Plan/MappingConsumerPlan';
+import { MappingPeekPlan } from '../Plan/MappingPeekPlan';
+import { RecoveryConsumerPlan } from '../Plan/RecoveryConsumerPlan';
+import { RecoveryPeekPlan } from '../Plan/RecoveryPeekPlan';
 import { Bennett } from './Bennett/Bennett';
 import { Cancelled } from './Bennett/Cancelled';
 import { Disappeared } from './Bennett/Disappeared';
 import { Pending } from './Bennett/Pending';
 import { Received } from './Bennett/Received';
-import { DisappearedHandler } from './Handler/DisappearedHandler';
-import { ReceivedHandler } from './Handler/ReceivedHandler';
 import { ITeleportation } from './Interface/ITeleportation';
+import { DisappearedPlan } from './Plan/DisappearedPlan';
+import { ReceivedPlan } from './Plan/ReceivedPlan';
 
 export class TeleportationInternal<R> implements ITeleportation<R, 'TeleportationInternal'>, Epoque<R, Error> {
   public readonly noun: 'TeleportationInternal' = 'TeleportationInternal';
   private bennett: Bennett<R>;
-  private readonly handlers: Set<DoneHandler<R, Error>>;
+  private readonly plans: Set<CombinedPlan<R, Error>>;
 
   public static of<R>(func: UnaryFunction<Epoque<R, Error>, unknown>): TeleportationInternal<R> {
     return new TeleportationInternal<R>(func);
@@ -29,7 +29,7 @@ export class TeleportationInternal<R> implements ITeleportation<R, 'Teleportatio
 
   protected constructor(func: UnaryFunction<Epoque<R, Error>, unknown>) {
     this.bennett = Pending.of<R>();
-    this.handlers = new Set<DoneHandler<R, Error>>();
+    this.plans = new Set<CombinedPlan<R, Error>>();
     func(this);
   }
 
@@ -48,8 +48,8 @@ export class TeleportationInternal<R> implements ITeleportation<R, 'Teleportatio
 
     this.bennett = Received.of<R>(value);
 
-    this.handlers.forEach((handler: DoneHandler<R, Error>) => {
-      return handler.onResolve(value);
+    this.plans.forEach((plan: MappingPlan<R>) => {
+      return plan.onResolve(value);
     });
   }
 
@@ -60,8 +60,8 @@ export class TeleportationInternal<R> implements ITeleportation<R, 'Teleportatio
 
     this.bennett = Disappeared.of<R>(error);
 
-    this.handlers.forEach((handler: DoneHandler<R, Error>) => {
-      return handler.onReject(error);
+    this.plans.forEach((plan: RecoveryPlan<Error>) => {
+      return plan.onReject(error);
     });
   }
 
@@ -72,7 +72,7 @@ export class TeleportationInternal<R> implements ITeleportation<R, 'Teleportatio
 
     this.bennett = Cancelled.of<R>();
 
-    this.handlers.clear();
+    this.plans.clear();
   }
 
   public get(): Promise<R> {
@@ -105,29 +105,29 @@ export class TeleportationInternal<R> implements ITeleportation<R, 'Teleportatio
 
   public map<S = R>(mapper: UnaryFunction<R, PromiseLike<S> | S>): TeleportationInternal<S> {
     return TeleportationInternal.of<S>((epoque: Epoque<S, Error>) => {
-      return this.handle(ReceivedHandler.of<R, S>(mapper, epoque), RejectConsumerHandler.of<Error>(epoque));
+      return this.handle(ReceivedPlan.of<R, S>(mapper, epoque), RecoveryConsumerPlan.of<Error>(epoque));
     });
   }
 
   public recover<S = R>(mapper: UnaryFunction<Error, PromiseLike<S> | S>): TeleportationInternal<R | S> {
     return TeleportationInternal.of<R | S>((epoque: Epoque<R | S, Error>) => {
-      return this.handle(ResolveConsumerHandler.of<R | S>(epoque), DisappearedHandler.of<S>(mapper, epoque));
+      return this.handle(MappingConsumerPlan.of<R | S>(epoque), DisappearedPlan.of<S>(mapper, epoque));
     });
   }
 
   private pass(resolve: Resolve<R>, reject: Reject<Error>): unknown {
     const epoque: Epoque<R, Error> = PassEpoque.of<R, Error>(resolve, reject);
 
-    return this.handle(ResolveConsumerHandler.of<R>(epoque), RejectConsumerHandler.of<Error>(epoque));
+    return this.handle(MappingConsumerPlan.of<R>(epoque), RecoveryConsumerPlan.of<Error>(epoque));
   }
 
   private peek(peek: Peek): unknown {
     const epoque: Epoque<void, void> = PassEpoque.of<void, void>(peek, peek);
 
-    return this.handle(ResolvePeekHandler.of(epoque), RejectPeekHandler.of(epoque));
+    return this.handle(MappingPeekPlan.of(epoque), RecoveryPeekPlan.of(epoque));
   }
 
-  private handle(resolve: IResolveHandler<R>, reject: IRejectHandler<Error>): void {
+  private handle(resolve: MappingPlan<R>, reject: RecoveryPlan<Error>): void {
     if (this.bennett.isReceived()) {
       resolve.onResolve(this.bennett.get());
 
@@ -142,6 +142,6 @@ export class TeleportationInternal<R> implements ITeleportation<R, 'Teleportatio
       return;
     }
 
-    this.handlers.add(DoneHandler.of<R, Error>(resolve, reject));
+    this.plans.add(CombinedPlan.of<R, Error>(resolve, reject));
   }
 }

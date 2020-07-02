@@ -397,7 +397,7 @@ describe('TeleportationInternal', () => {
       expect(spy2.called).toBe(false);
     });
 
-    it('sync: multiple handlers', async () => {
+    it('sync: multiple plans', async () => {
       const value: number = 14;
 
       const spy1: SinonSpy = sinon.spy();
@@ -521,7 +521,7 @@ describe('TeleportationInternal', () => {
       expect(spy2.called).toBe(false);
     });
 
-    it('async: multiple handlers', async () => {
+    it('async: multiple plans', async () => {
       const value: number = 14;
 
       const spy1: SinonSpy = sinon.spy();
@@ -648,7 +648,7 @@ describe('TeleportationInternal', () => {
       expect(spy2.called).toBe(false);
     });
 
-    it('sync: multiple handlers', async () => {
+    it('sync: multiple plans', async () => {
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -769,7 +769,7 @@ describe('TeleportationInternal', () => {
       expect(spy2.called).toBe(false);
     });
 
-    it('async: multiple handlers', async () => {
+    it('async: multiple plans', async () => {
       const error: MockError = new MockError();
       const value: number = 14;
 
