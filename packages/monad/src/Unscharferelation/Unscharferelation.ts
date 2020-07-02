@@ -148,6 +148,6 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
   }
 
   public toSuperposition(): Superposition<P, UnscharferelationError> {
-    return this.internal.toSuperposition();
+    return Superposition.ofSuperposition<P, UnscharferelationError>(this.internal.toSuperposition());
   }
 }

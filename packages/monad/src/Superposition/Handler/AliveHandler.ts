@@ -3,25 +3,26 @@ import { Kind, UnaryFunction } from '@jamashita/publikum-type';
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { IResolveHandler } from '../../Handler/Interface/IResolveHandler';
 import { Detoxicated } from '../../Interface/Detoxicated';
-import { Superposition } from '../Superposition';
+import { BeSuperposition } from '../BeSuperposition';
+import { ISuperposition } from '../Interface/ISuperposition';
 
 export class AliveHandler<A, B, E extends Error> implements IResolveHandler<A, 'AliveHandler'> {
   public readonly noun: 'AliveHandler' = 'AliveHandler';
   private readonly mapper: UnaryFunction<
     Detoxicated<A>,
-    PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>
+    ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>
   >;
   private readonly epoque: Epoque<Detoxicated<B>, E>;
 
   public static of<A, B, E extends Error>(
-    mapper: UnaryFunction<Detoxicated<A>, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>,
+    mapper: UnaryFunction<Detoxicated<A>, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
     epoque: Epoque<Detoxicated<B>, E>
   ): AliveHandler<A, B, E> {
     return new AliveHandler<A, B, E>(mapper, epoque);
   }
 
   protected constructor(
-    mapper: UnaryFunction<Detoxicated<A>, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>,
+    mapper: UnaryFunction<Detoxicated<A>, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
     epoque: Epoque<Detoxicated<B>, E>
   ) {
     this.mapper = mapper;
@@ -31,9 +32,9 @@ export class AliveHandler<A, B, E extends Error> implements IResolveHandler<A, '
   public onResolve(resolve: Detoxicated<A>): unknown {
     // prettier-ignore
     try {
-      const mapped: PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B> = this.mapper(resolve);
+      const mapped: ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B> = this.mapper(resolve);
 
-      if (mapped instanceof Superposition) {
+      if (BeSuperposition.is<B, E>(mapped)) {
         return mapped.transform<void>(
           (v: Detoxicated<B>) => {
             this.epoque.resolve(v);

@@ -1,1 +1,1 @@
-export type Matter<T> = Exclude<T, undefined | null>;
+export type Matter<T> = Exclude<T, void | undefined | null>;

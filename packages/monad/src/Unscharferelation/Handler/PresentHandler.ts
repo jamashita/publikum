@@ -3,10 +3,9 @@ import { Kind, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { IResolveHandler } from '../../Handler/Interface/IResolveHandler';
 import { Matter } from '../../Interface/Matter';
+import { BeUnscharferelation } from '../BeUnscharferelation';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
 import { IUnscharferelation } from '../Interface/IUnscharferelation';
-import { Unscharferelation } from '../Unscharferelation';
-import { UnscharferelationInternal } from '../UnscharferelationInternal';
 
 export class PresentHandler<P, Q> implements IResolveHandler<P, 'PresentHandler'> {
   public readonly noun: 'PresentHandler' = 'PresentHandler';
@@ -37,23 +36,12 @@ export class PresentHandler<P, Q> implements IResolveHandler<P, 'PresentHandler'
     this.epoque = epoque;
   }
 
-  private isIUnscharferelation<P>(value: unknown): value is IUnscharferelation<P> {
-    if (value instanceof Unscharferelation) {
-      return true;
-    }
-    if (value instanceof UnscharferelationInternal) {
-      return true;
-    }
-
-    return false;
-  }
-
   public onResolve(resolve: Matter<P>): unknown {
     const mapped: IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>> = this.mapper(
       resolve
     );
 
-    if (this.isIUnscharferelation<Q>(mapped)) {
+    if (BeUnscharferelation.is(mapped)) {
       return mapped.terminate().then<void, void>(
         (v: Heisenberg<Q>) => {
           if (v.isPresent()) {

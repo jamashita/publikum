@@ -3,9 +3,9 @@ import { Kind, Supplier, Suspicious } from '@jamashita/publikum-type';
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { IRejectHandler } from '../../Handler/Interface/IRejectHandler';
 import { Matter } from '../../Interface/Matter';
+import { BeUnscharferelation } from '../BeUnscharferelation';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
 import { IUnscharferelation } from '../Interface/IUnscharferelation';
-import { Unscharferelation } from '../Unscharferelation';
 
 export class AbsentHandler<Q> implements IRejectHandler<void, 'AbsentHandler'> {
   public readonly noun: 'AbsentHandler' = 'AbsentHandler';
@@ -30,7 +30,7 @@ export class AbsentHandler<Q> implements IRejectHandler<void, 'AbsentHandler'> {
   public onReject(): unknown {
     const mapped: IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>> = this.mapper();
 
-    if (mapped instanceof Unscharferelation) {
+    if (BeUnscharferelation.is(mapped)) {
       return mapped.terminate().then<void, void>(
         (v: Heisenberg<Q>) => {
           if (v.isPresent()) {

@@ -3,22 +3,23 @@ import { Kind, UnaryFunction } from '@jamashita/publikum-type';
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { IRejectHandler } from '../../Handler/Interface/IRejectHandler';
 import { Detoxicated } from '../../Interface/Detoxicated';
-import { Superposition } from '../Superposition';
+import { BeSuperposition } from '../BeSuperposition';
+import { ISuperposition } from '../Interface/ISuperposition';
 
 export class DeadHandler<B, D extends Error, E extends Error> implements IRejectHandler<D, 'DeadHandler'> {
   public readonly noun: 'DeadHandler' = 'DeadHandler';
-  private readonly mapper: UnaryFunction<D, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>;
+  private readonly mapper: UnaryFunction<D, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>;
   private readonly epoque: Epoque<Detoxicated<B>, E>;
 
   public static of<B, D extends Error, E extends Error>(
-    mapper: UnaryFunction<D, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>,
+    mapper: UnaryFunction<D, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
     epoque: Epoque<Detoxicated<B>, E>
   ): DeadHandler<B, D, E> {
     return new DeadHandler<B, D, E>(mapper, epoque);
   }
 
   protected constructor(
-    mapper: UnaryFunction<D, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>,
+    mapper: UnaryFunction<D, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
     epoque: Epoque<Detoxicated<B>, E>
   ) {
     this.mapper = mapper;
@@ -28,9 +29,9 @@ export class DeadHandler<B, D extends Error, E extends Error> implements IReject
   public onReject(reject: D): unknown {
     // prettier-ignore
     try {
-      const mapped: PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B> = this.mapper(reject);
+      const mapped: ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B> = this.mapper(reject);
 
-      if (mapped instanceof Superposition) {
+      if (BeSuperposition.is<B, E>(mapped)) {
         return mapped.transform<void>(
           (v: Detoxicated<B>) => {
             this.epoque.resolve(v);
