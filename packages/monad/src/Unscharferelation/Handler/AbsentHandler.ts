@@ -1,7 +1,7 @@
 import { Kind, Supplier, Suspicious } from '@jamashita/publikum-type';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
-import { IRejectHandler } from '../../Handler/Interface/IRejectHandler';
+import { IRejectHandler } from '../../Plan/Interface/IRejectHandler';
 import { Matter } from '../../Interface/Matter';
 import { BeUnscharferelation } from '../BeUnscharferelation';
 import { Heisenberg } from '../Heisenberg/Heisenberg';

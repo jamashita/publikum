@@ -1,7 +1,7 @@
 import { Kind, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
-import { IRejectHandler } from '../../Handler/Interface/IRejectHandler';
+import { IRejectHandler } from '../../Plan/Interface/IRejectHandler';
 
 export class DisappearedHandler<S> implements IRejectHandler<Error, 'DisappearedHandler'> {
   public readonly noun: 'DisappearedHandler' = 'DisappearedHandler';

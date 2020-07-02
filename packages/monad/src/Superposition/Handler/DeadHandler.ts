@@ -1,7 +1,7 @@
 import { Kind, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
-import { IRejectHandler } from '../../Handler/Interface/IRejectHandler';
+import { IRejectHandler } from '../../Plan/Interface/IRejectHandler';
 import { Detoxicated } from '../../Interface/Detoxicated';
 import { BeSuperposition } from '../BeSuperposition';
 import { ISuperposition } from '../Interface/ISuperposition';

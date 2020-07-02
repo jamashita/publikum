@@ -1,7 +1,7 @@
 import { Kind, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
-import { IResolveHandler } from '../../Handler/Interface/IResolveHandler';
+import { IResolveHandler } from '../../Plan/Interface/IResolveHandler';
 import { Matter } from '../../Interface/Matter';
 import { BeUnscharferelation } from '../BeUnscharferelation';
 import { Heisenberg } from '../Heisenberg/Heisenberg';

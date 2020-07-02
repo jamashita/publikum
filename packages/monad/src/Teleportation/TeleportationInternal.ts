@@ -2,13 +2,13 @@ import { Peek, Reject, Resolve, Suspicious, UnaryFunction } from '@jamashita/pub
 
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { PassEpoque } from '../Epoque/PassEpoque';
-import { DoneHandler } from '../Handler/DoneHandler';
-import { IRejectHandler } from '../Handler/Interface/IRejectHandler';
-import { IResolveHandler } from '../Handler/Interface/IResolveHandler';
-import { RejectConsumerHandler } from '../Handler/RejectConsumerHandler';
-import { RejectPeekHandler } from '../Handler/RejectPeekHandler';
-import { ResolveConsumerHandler } from '../Handler/ResolveConsumerHandler';
-import { ResolvePeekHandler } from '../Handler/ResolvePeekHandler';
+import { DoneHandler } from '../Plan/DoneHandler';
+import { IRejectHandler } from '../Plan/Interface/IRejectHandler';
+import { IResolveHandler } from '../Plan/Interface/IResolveHandler';
+import { RejectConsumerHandler } from '../Plan/RejectConsumerHandler';
+import { RejectPeekHandler } from '../Plan/RejectPeekHandler';
+import { ResolveConsumerHandler } from '../Plan/ResolveConsumerHandler';
+import { ResolvePeekHandler } from '../Plan/ResolvePeekHandler';
 import { Bennett } from './Bennett/Bennett';
 import { Cancelled } from './Bennett/Cancelled';
 import { Disappeared } from './Bennett/Disappeared';
