@@ -1,39 +1,17 @@
 import { Noun } from '@jamashita/publikum-interface';
-import {
-  BinaryFunction,
-  Consumer,
-  Kind,
-  Peek,
-  Predicate,
-  Reject,
-  Resolve,
-  Supplier,
-  Suspicious,
-  UnaryFunction
-} from '@jamashita/publikum-type';
+import { Kind, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
-import { DoneHandler } from '../Handler/DoneHandler';
-import { IRejectHandler } from '../Handler/Interface/IRejectHandler';
-import { IResolveHandler } from '../Handler/Interface/IResolveHandler';
-import { RejectConsumerHandler } from '../Handler/RejectConsumerHandler';
-import { RejectPeekHandler } from '../Handler/RejectPeekHandler';
-import { ResolveConsumerHandler } from '../Handler/ResolveConsumerHandler';
-import { ResolvePeekHandler } from '../Handler/ResolvePeekHandler';
-import { Detoxicated } from '../Interface/Detoxicated';
+import { Epoque } from '../Epoque/Interface/Epoque';
 import { Matter } from '../Interface/Matter';
 import { Superposition } from '../Superposition/Superposition';
 import { UnscharferelationError } from './Error/UnscharferelationError';
-import { AbsentHandler } from './Handler/AbsentHandler';
-import { PresentHandler } from './Handler/PresentHandler';
-import { Absent } from './Heisenberg/Absent';
 import { Heisenberg } from './Heisenberg/Heisenberg';
-import { Present } from './Heisenberg/Present';
-import { Uncertain } from './Heisenberg/Uncertain';
+import { IUnscharferelation } from './Interface/IUnscharferelation';
+import { UnscharferelationInternal } from './UnscharferelationInternal';
 
 export class Unscharferelation<P> implements Noun<'Unscharferelation'> {
   public readonly noun: 'Unscharferelation' = 'Unscharferelation';
-  private heisenberg: Heisenberg<P>;
-  private readonly handlers: Array<DoneHandler<P, void>>;
+  private readonly internal: IUnscharferelation<P>;
 
   public static all<P>(unscharferelations: ArrayLike<Unscharferelation<P>>): Unscharferelation<Array<P>> {
     if (unscharferelations.length === 0) {
@@ -46,7 +24,7 @@ export class Unscharferelation<P> implements Noun<'Unscharferelation'> {
       return u.terminate();
     });
 
-    return Unscharferelation.of<Array<P>>((resolve: Resolve<Array<P>>, reject: Reject<void>) => {
+    return Unscharferelation.of<Array<P>>((epoque: Epoque<Array<P>, void>) => {
       return Promise.all<Heisenberg<P>>(heisenbergs).then<void>((hbg: Array<Heisenberg<P>>) => {
         const hs: Array<P> = [];
 
@@ -54,7 +32,7 @@ export class Unscharferelation<P> implements Noun<'Unscharferelation'> {
           const h: Heisenberg<P> = hbg[i];
 
           if (h.isAbsent()) {
-            reject();
+            epoque.reject();
 
             return;
           }
@@ -62,14 +40,11 @@ export class Unscharferelation<P> implements Noun<'Unscharferelation'> {
           hs.push(h.get());
         }
 
-        resolve(hs);
+        epoque.resolve(hs);
       });
     });
   }
 
-  public static maybe<P>(value: Unscharferelation<P>): Unscharferelation<P>;
-  public static maybe<P>(value: PromiseLike<Suspicious<Matter<P>>>): Unscharferelation<P>;
-  public static maybe<P>(value: Suspicious<Matter<P>>): Unscharferelation<P>;
   public static maybe<P>(
     value: Unscharferelation<P> | PromiseLike<Suspicious<Matter<P>>> | Suspicious<Matter<P>>
   ): Unscharferelation<P> {
@@ -77,15 +52,15 @@ export class Unscharferelation<P> implements Noun<'Unscharferelation'> {
       return value;
     }
     if (Kind.isPromiseLike(value)) {
-      return Unscharferelation.of<P>((resolve: Resolve<Matter<P>>, reject: Reject<void>) => {
+      return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
         return value.then<void>((v: Suspicious<Matter<P>>) => {
           if (Kind.isUndefined(v) || Kind.isNull(v)) {
-            reject();
+            epoque.reject();
 
             return;
           }
 
-          resolve(v);
+          epoque.resolve(v);
         });
       });
     }
@@ -97,189 +72,83 @@ export class Unscharferelation<P> implements Noun<'Unscharferelation'> {
   }
 
   private static present<P>(value: Matter<P>): Unscharferelation<P> {
-    return Unscharferelation.of<P>((resolve: Resolve<Matter<P>>) => {
-      resolve(value);
+    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
+      epoque.resolve(value);
     });
   }
 
   private static absent<P>(): Unscharferelation<P> {
-    return Unscharferelation.of<P>((resolve: unknown, reject: Reject<void>) => {
-      reject();
+    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
+      epoque.reject();
     });
   }
 
-  public static ofHeisenberg<P>(heisenberg: PromiseLike<Heisenberg<P>>): Unscharferelation<P>;
-  public static ofHeisenberg<P>(heisenberg: Heisenberg<P>): Unscharferelation<P>;
   public static ofHeisenberg<P>(heisenberg: PromiseLike<Heisenberg<P>> | Heisenberg<P>): Unscharferelation<P> {
     if (Kind.isPromiseLike(heisenberg)) {
-      return Unscharferelation.of<P>((resolve: Resolve<Matter<P>>, reject: Reject<void>) => {
+      return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
         return heisenberg.then<void>((v: Heisenberg<P>) => {
           if (v.isPresent()) {
-            resolve(v.get());
+            epoque.resolve(v.get());
 
             return;
           }
           if (v.isAbsent()) {
-            reject();
+            epoque.reject();
           }
         });
       });
     }
     if (heisenberg.isPresent()) {
-      return Unscharferelation.of<P>((resolve: Resolve<Matter<P>>) => {
-        resolve(heisenberg.get());
+      return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
+        epoque.resolve(heisenberg.get());
       });
     }
     if (heisenberg.isAbsent()) {
-      return Unscharferelation.of<P>((resolve: unknown, reject: Reject<void>) => {
-        reject();
+      return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
+        epoque.reject();
       });
     }
 
     throw new UnscharferelationError('THIS UNSCHARFERELATION IS  NOT DETERMINED');
   }
 
-  public static of<P>(func: BinaryFunction<Resolve<Matter<P>>, Reject<void>, unknown>): Unscharferelation<P> {
-    return new Unscharferelation<P>(func);
+  public static of<P>(func: UnaryFunction<Epoque<Matter<P>, void>, unknown>): Unscharferelation<P> {
+    return Unscharferelation.ofUnscharferelation<P>(UnscharferelationInternal.of<P>(func));
   }
 
-  protected constructor(func: BinaryFunction<Resolve<Matter<P>>, Reject<void>, unknown>) {
-    this.heisenberg = Uncertain.of<P>();
-    this.handlers = [];
-    func(this.resolved(this), this.rejected(this));
+  public static ofUnscharferelation<P>(unscharferelation: IUnscharferelation<P>): Unscharferelation<P> {
+    return new Unscharferelation<P>(unscharferelation);
   }
 
-  private done(): boolean {
-    if (this.heisenberg.isPresent() || this.heisenberg.isAbsent()) {
-      return true;
-    }
-
-    return false;
-  }
-
-  private resolved(self: Unscharferelation<P>): Resolve<Matter<P>> {
-    return (value: Matter<P>) => {
-      if (this.done()) {
-        return;
-      }
-
-      self.heisenberg = Present.of<P>(value);
-
-      self.handlers.map<unknown>((handler: DoneHandler<P, void>) => {
-        return handler.onResolve(value);
-      });
-    };
-  }
-
-  private rejected(self: Unscharferelation<P>): Reject<void> {
-    return () => {
-      if (this.done()) {
-        return;
-      }
-
-      self.heisenberg = Absent.of<P>();
-
-      self.handlers.map<unknown>((handler: DoneHandler<P, void>) => {
-        return handler.onReject();
-      });
-    };
+  protected constructor(internal: IUnscharferelation<P>) {
+    this.internal = internal;
   }
 
   public get(): Promise<Matter<P>> {
-    return new Promise<Matter<P>>((resolve: Resolve<Matter<P>>, reject: Reject<UnscharferelationError>) => {
-      this.pass(
-        (value: Matter<P>) => {
-          resolve(value);
-        },
-        () => {
-          reject(new UnscharferelationError('ABSENT'));
-        }
-      );
-    });
+    return this.internal.get();
   }
 
   public terminate(): Promise<Heisenberg<P>> {
-    return new Promise<Heisenberg<P>>((resolve: Resolve<Heisenberg<P>>) => {
-      this.peek(() => {
-        resolve(this.heisenberg);
-      });
-    });
+    return this.internal.terminate();
   }
 
   public filter(predicate: Predicate<P>): Unscharferelation<P> {
-    if (this.heisenberg.isPresent()) {
-      if (predicate(this.heisenberg.get())) {
-        return this;
-      }
-
-      return Unscharferelation.absent<P>();
-    }
-    if (this.heisenberg.isAbsent()) {
-      return this;
-    }
-
-    return this;
+    return Unscharferelation.ofUnscharferelation<P>(this.internal.filter(predicate));
   }
 
-  public map<Q = P>(mapper: UnaryFunction<Matter<P>, PromiseLike<Suspicious<Matter<Q>>>>): Unscharferelation<Q>;
-  public map<Q = P>(mapper: UnaryFunction<Matter<P>, Unscharferelation<Q>>): Unscharferelation<Q>;
-  public map<Q = P>(mapper: UnaryFunction<Matter<P>, Suspicious<Matter<Q>>>): Unscharferelation<Q>;
   public map<Q = P>(
     mapper: UnaryFunction<Matter<P>, PromiseLike<Suspicious<Matter<Q>>> | Unscharferelation<Q> | Suspicious<Matter<Q>>>
   ): Unscharferelation<Q> {
-    return Unscharferelation.of<Q>((resolve: Resolve<Matter<Q>>, reject: Reject<void>) => {
-      return this.handle(PresentHandler.of<P, Q>(mapper, resolve, reject), RejectConsumerHandler.of<void>(reject));
-    });
+    return Unscharferelation.ofUnscharferelation<Q>(this.internal.map(mapper));
   }
 
-  public recover<Q = P>(mapper: Supplier<PromiseLike<Suspicious<Matter<Q>>>>): Unscharferelation<P | Q>;
-  public recover<Q = P>(mapper: Supplier<Unscharferelation<Q>>): Unscharferelation<P | Q>;
-  public recover<Q = P>(mapper: Supplier<Suspicious<Matter<Q>>>): Unscharferelation<P | Q>;
   public recover<Q = P>(
     mapper: Supplier<PromiseLike<Suspicious<Matter<Q>>> | Unscharferelation<Q> | Suspicious<Matter<Q>>>
   ): Unscharferelation<P | Q> {
-    return Unscharferelation.of<P | Q>((resolve: Resolve<Matter<P | Q>>, reject: Reject<void>) => {
-      return this.handle(ResolveConsumerHandler.of<Matter<P>>(resolve), AbsentHandler.of<Q>(mapper, resolve, reject));
-    });
-  }
-
-  private pass(resolve: Consumer<Matter<P>>, reject: Peek): unknown {
-    return this.handle(ResolveConsumerHandler.of<Matter<P>>(resolve), RejectPeekHandler.of<void>(reject));
-  }
-
-  private peek(peek: Peek): unknown {
-    return this.handle(ResolvePeekHandler.of<Matter<P>>(peek), RejectPeekHandler.of<void>(peek));
-  }
-
-  private handle(resolve: IResolveHandler<P>, reject: IRejectHandler<void>): unknown {
-    if (this.heisenberg.isPresent()) {
-      return resolve.onResolve(this.heisenberg.get());
-    }
-    if (this.heisenberg.isAbsent()) {
-      return reject.onReject();
-    }
-
-    return this.handlers.push(DoneHandler.of<Matter<P>, void>(resolve, reject));
+    return Unscharferelation.ofUnscharferelation<P | Q>(this.internal.recover(mapper));
   }
 
   public toSuperposition(): Superposition<P, UnscharferelationError> {
-    return Superposition.of<P, UnscharferelationError>(
-      (resolve: Resolve<Detoxicated<P>>, reject: Reject<UnscharferelationError>) => {
-        this.pass(
-          (value: Matter<P>) => {
-            if (value instanceof Error) {
-              reject(new UnscharferelationError('ABSENT'));
-
-              return;
-            }
-
-            resolve((value as unknown) as Detoxicated<P>);
-          },
-          () => {
-            reject(new UnscharferelationError('ABSENT'));
-          }
-        );
-      }
-    );
+    return this.internal.toSuperposition();
   }
 }
