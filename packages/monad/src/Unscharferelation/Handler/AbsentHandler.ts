@@ -9,18 +9,18 @@ import { Unscharferelation } from '../Unscharferelation';
 
 export class AbsentHandler<Q> implements IRejectHandler<void, 'AbsentHandler'> {
   public readonly noun: 'AbsentHandler' = 'AbsentHandler';
-  private readonly mapper: Supplier<PromiseLike<Suspicious<Matter<Q>>> | IUnscharferelation<Q> | Suspicious<Matter<Q>>>;
+  private readonly mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>;
   private readonly epoque: Epoque<Matter<Q>, void>;
 
   public static of<Q>(
-    mapper: Supplier<PromiseLike<Suspicious<Matter<Q>>> | IUnscharferelation<Q> | Suspicious<Matter<Q>>>,
+    mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>,
     epoque: Epoque<Matter<Q>, void>
   ): AbsentHandler<Q> {
     return new AbsentHandler<Q>(mapper, epoque);
   }
 
   protected constructor(
-    mapper: Supplier<PromiseLike<Suspicious<Matter<Q>>> | IUnscharferelation<Q> | Suspicious<Matter<Q>>>,
+    mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>,
     epoque: Epoque<Matter<Q>, void>
   ) {
     this.mapper = mapper;
@@ -28,7 +28,7 @@ export class AbsentHandler<Q> implements IRejectHandler<void, 'AbsentHandler'> {
   }
 
   public onReject(): unknown {
-    const mapped: PromiseLike<Suspicious<Matter<Q>>> | IUnscharferelation<Q> | Suspicious<Matter<Q>> = this.mapper();
+    const mapped: IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>> = this.mapper();
 
     if (mapped instanceof Unscharferelation) {
       return mapped.terminate().then<void, void>(

@@ -1,4 +1,3 @@
-import { Noun } from '@jamashita/publikum-interface';
 import { Kind, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../Epoque/Interface/Epoque';
@@ -9,7 +8,7 @@ import { Heisenberg } from './Heisenberg/Heisenberg';
 import { IUnscharferelation } from './Interface/IUnscharferelation';
 import { UnscharferelationInternal } from './UnscharferelationInternal';
 
-export class Unscharferelation<P> implements Noun<'Unscharferelation'> {
+export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferelation'> {
   public readonly noun: 'Unscharferelation' = 'Unscharferelation';
   private readonly internal: IUnscharferelation<P>;
 

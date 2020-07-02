@@ -3,6 +3,7 @@ import sinon, { SinonSpy } from 'sinon';
 import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 
+import { PassEpoque } from '../../../Epoque/PassEpoque';
 import { Alive } from '../../Schrodinger/Alive';
 import { Dead } from '../../Schrodinger/Dead';
 import { Superposition } from '../../Superposition';
@@ -24,13 +25,15 @@ describe('AliveHandler', () => {
 
           return n - 1;
         },
-        (n: number) => {
-          spy2();
-          expect(n).toBe(value - 1);
-        },
-        () => {
-          spy3();
-        }
+        PassEpoque.of<number, MockError>(
+          (n: number) => {
+            spy2();
+            expect(n).toBe(value - 1);
+          },
+          () => {
+            spy3();
+          }
+        )
       );
 
       handler.onResolve(value);
@@ -55,17 +58,19 @@ describe('AliveHandler', () => {
 
             return Promise.resolve<number>(n - 2);
           },
-          (n: number) => {
-            spy2();
-            expect(n).toBe(value - 2);
+          PassEpoque.of<number, MockError>(
+            (n: number) => {
+              spy2();
+              expect(n).toBe(value - 2);
 
-            resolve();
-          },
-          () => {
-            spy3();
+              resolve();
+            },
+            () => {
+              spy3();
 
-            resolve();
-          }
+              resolve();
+            }
+          )
         );
 
         handler.onResolve(value);
@@ -90,13 +95,15 @@ describe('AliveHandler', () => {
 
           return Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(n - 3));
         },
-        (n: number) => {
-          spy2();
-          expect(n).toBe(value - 3);
-        },
-        () => {
-          spy3();
-        }
+        PassEpoque.of<number, MockError>(
+          (n: number) => {
+            spy2();
+            expect(n).toBe(value - 3);
+          },
+          () => {
+            spy3();
+          }
+        )
       );
 
       handler.onResolve(value);
@@ -121,13 +128,15 @@ describe('AliveHandler', () => {
 
           throw error;
         },
-        () => {
-          spy2();
-        },
-        (e: MockError) => {
-          spy3();
-          expect(e).toBe(error);
-        }
+        PassEpoque.of<number, MockError>(
+          () => {
+            spy2();
+          },
+          (e: MockError) => {
+            spy3();
+            expect(e).toBe(error);
+          }
+        )
       );
 
       handler.onResolve(value);
@@ -153,17 +162,19 @@ describe('AliveHandler', () => {
 
             return Promise.reject<number>(error);
           },
-          () => {
-            spy2();
+          PassEpoque.of<number, MockError>(
+            () => {
+              spy2();
 
-            resolve();
-          },
-          (e: MockError) => {
-            spy3();
-            expect(e).toBe(error);
+              resolve();
+            },
+            (e: MockError) => {
+              spy3();
+              expect(e).toBe(error);
 
-            resolve();
-          }
+              resolve();
+            }
+          )
         );
 
         handler.onResolve(value);
@@ -189,13 +200,15 @@ describe('AliveHandler', () => {
 
           return Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error));
         },
-        () => {
-          spy2();
-        },
-        (e: MockError) => {
-          spy3();
-          expect(e).toBe(error);
-        }
+        PassEpoque.of<number, MockError>(
+          () => {
+            spy2();
+          },
+          (e: MockError) => {
+            spy3();
+            expect(e).toBe(error);
+          }
+        )
       );
 
       handler.onResolve(value);

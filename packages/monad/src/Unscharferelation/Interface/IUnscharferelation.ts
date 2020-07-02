@@ -2,7 +2,7 @@ import { Noun } from '@jamashita/publikum-interface';
 import { Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Matter } from '../../Interface/Matter';
-import { Superposition } from '../../Superposition/Superposition';
+import { ISuperposition } from '../../Superposition/Interface/ISuperposition';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
 
@@ -14,12 +14,12 @@ export interface IUnscharferelation<P, N extends string = string> extends Noun<N
   filter(predicate: Predicate<P>): IUnscharferelation<P>;
 
   map<Q = P>(
-    mapper: UnaryFunction<Matter<P>, PromiseLike<Suspicious<Matter<Q>>> | Unscharferelation<Q> | Suspicious<Matter<Q>>>
+    mapper: UnaryFunction<Matter<P>, IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>
   ): IUnscharferelation<Q>;
 
   recover<Q = P>(
-    mapper: Supplier<PromiseLike<Suspicious<Matter<Q>>> | IUnscharferelation<Q> | Suspicious<Matter<Q>>>
+    mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>
   ): IUnscharferelation<P | Q>;
 
-  toSuperposition(): Superposition<P, UnscharferelationError>;
+  toSuperposition(): ISuperposition<P, UnscharferelationError>;
 }

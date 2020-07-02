@@ -12,14 +12,14 @@ export class PresentHandler<P, Q> implements IResolveHandler<P, 'PresentHandler'
   public readonly noun: 'PresentHandler' = 'PresentHandler';
   private readonly mapper: UnaryFunction<
     Matter<P>,
-    PromiseLike<Suspicious<Matter<Q>>> | IUnscharferelation<Q> | Suspicious<Matter<Q>>
+    IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>
   >;
   private readonly epoque: Epoque<Matter<Q>, void>;
 
   public static of<P, Q>(
     mapper: UnaryFunction<
       Matter<P>,
-      PromiseLike<Suspicious<Matter<Q>>> | IUnscharferelation<Q> | Suspicious<Matter<Q>>
+      IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>
     >,
     epoque: Epoque<Matter<Q>, void>
   ): PresentHandler<P, Q> {
@@ -29,7 +29,7 @@ export class PresentHandler<P, Q> implements IResolveHandler<P, 'PresentHandler'
   protected constructor(
     mapper: UnaryFunction<
       Matter<P>,
-      PromiseLike<Suspicious<Matter<Q>>> | IUnscharferelation<Q> | Suspicious<Matter<Q>>
+      IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>
     >,
     epoque: Epoque<Matter<Q>, void>
   ) {
@@ -49,7 +49,7 @@ export class PresentHandler<P, Q> implements IResolveHandler<P, 'PresentHandler'
   }
 
   public onResolve(resolve: Matter<P>): unknown {
-    const mapped: PromiseLike<Suspicious<Matter<Q>>> | IUnscharferelation<Q> | Suspicious<Matter<Q>> = this.mapper(
+    const mapped: IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>> = this.mapper(
       resolve
     );
 
