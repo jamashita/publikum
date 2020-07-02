@@ -5,7 +5,23 @@ import { MockTeleportation } from '../Mock/MockTeleportation';
 import { Teleportation } from '../Teleportation';
 
 describe('Teleportation', () => {
-  // TODO CANCEL()
+  // TODO STATIC METHODS
+  describe('cancel', () => {
+    it('delegate inner Teleportation', () => {
+      const mock: MockTeleportation<number> = new MockTeleportation<number>();
+
+      const spy: SinonSpy = sinon.spy();
+
+      mock.cancel = spy;
+
+      const teleportation: Teleportation<number> = Teleportation.ofTeleportatiion<number>(mock);
+
+      teleportation.cancel();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
   describe('get', () => {
     it('delegate inner Teleportation', async () => {
       const mock: MockTeleportation<number> = new MockTeleportation<number>();
@@ -64,7 +80,7 @@ describe('Teleportation', () => {
 
       mock1.map = stub1;
       stub1.returns(mock2);
-      mock2.then = stub2;
+      mock2.terminate = stub2;
       stub2.resolves(Cancelled.of<number>());
 
       const teleportation: Teleportation<number> = Teleportation.ofTeleportatiion<number>(mock1);
