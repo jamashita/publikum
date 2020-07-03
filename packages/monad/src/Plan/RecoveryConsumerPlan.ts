@@ -13,7 +13,7 @@ export class RecoveryConsumerPlan<R> implements RecoveryPlan<R, 'RecovertConsume
     this.epoque = epoque;
   }
 
-  public onRecover(reject: R): unknown {
-    return this.epoque.decline(reject);
+  public onRecover(value: R): unknown {
+    return this.epoque.decline(value);
   }
 }
