@@ -1,8 +1,7 @@
-import { RejectEpoque } from './RejectEpoque';
-import { ResolveEpoque } from './ResolveEpoque';
+import { AcceptEpoque } from './AcceptEpoque';
+import { DeclineEpoque } from './DeclineEpoque';
+import { ThrowEpoque } from './ThrowEpoque';
 
-export interface Epoque<V, E> extends ResolveEpoque<V>, RejectEpoque<E> {
-  resolve(value: V): unknown;
-
-  reject(error: E): unknown;
+export interface Epoque<V, E> extends AcceptEpoque<V>, DeclineEpoque<E>, ThrowEpoque {
+  // NOOP
 }
