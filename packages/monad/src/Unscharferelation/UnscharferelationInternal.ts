@@ -187,18 +187,16 @@ export class UnscharferelationInternal<P>
         this.pass(
           (value: Matter<P>) => {
             if (value instanceof Error) {
-              epoque.decline(new UnscharferelationError('ABSENT'));
-
-              return;
+              return epoque.decline(new UnscharferelationError('ABSENT'));
             }
 
-            epoque.accept((value as unknown) as Detoxicated<P>);
+            return epoque.accept((value as unknown) as Detoxicated<P>);
           },
           () => {
-            epoque.decline(new UnscharferelationError('ABSENT'));
+            return epoque.decline(new UnscharferelationError('ABSENT'));
           },
           (e: unknown) => {
-            epoque.throw(e);
+            return epoque.throw(e);
           }
         );
       }

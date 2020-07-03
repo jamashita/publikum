@@ -31,7 +31,7 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
           const s: Schrodinger<A, D> = sch[i];
 
           if (s.isDead()) {
-            epoque.reject(s.getError());
+            epoque.decline(s.getError());
 
             return;
           }
@@ -39,14 +39,11 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
           ss.push(s.get());
         }
 
-        epoque.resolve(ss);
+        epoque.accept(ss);
       });
     });
   }
 
-  public static playground<A, D extends Error>(supplier: Supplier<Superposition<A, D>>): Superposition<A, D>;
-  public static playground<A, D extends Error>(supplier: Supplier<PromiseLike<Detoxicated<A>>>): Superposition<A, D>;
-  public static playground<A, D extends Error>(supplier: Supplier<Detoxicated<A>>): Superposition<A, D>;
   public static playground<A, D extends Error>(
     supplier: Supplier<Superposition<A, D> | PromiseLike<Detoxicated<A>> | Detoxicated<A>>
   ): Superposition<A, D> {
@@ -61,10 +58,10 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
         return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
           return value.then<void, void>(
             (v: Detoxicated<A>) => {
-              epoque.resolve(v);
+              epoque.accept(v);
             },
             (err: D) => {
-              epoque.reject(err);
+              epoque.decline(err);
             }
           );
         });
@@ -79,47 +76,43 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
 
   private static alive<A, D extends Error>(value: Detoxicated<A>): Superposition<A, D> {
     return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
-      epoque.resolve(value);
+      epoque.accept(value);
     });
   }
 
   private static dead<A, D extends Error>(error: D): Superposition<A, D> {
     return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
-      epoque.reject(error);
+      epoque.decline(error);
     });
   }
 
-  public static ofSchrodinger<A, D extends Error>(schrodinger: PromiseLike<Schrodinger<A, D>>): Superposition<A, D>;
-  public static ofSchrodinger<A, D extends Error>(schrodinger: Schrodinger<A, D>): Superposition<A, D>;
   public static ofSchrodinger<A, D extends Error>(
     schrodinger: PromiseLike<Schrodinger<A, D>> | Schrodinger<A, D>
   ): Superposition<A, D> {
-    if (Kind.isPromiseLike(schrodinger)) {
-      return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
-        return schrodinger.then<void>((v: Schrodinger<A, D>) => {
+    return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
+      if (Kind.isPromiseLike(schrodinger)) {
+        return schrodinger.then<unknown, unknown>((v: Schrodinger<A, D>) => {
           if (v.isAlive()) {
-            epoque.resolve(v.get());
-
-            return;
+            return epoque.accept(v.get());
           }
           if (v.isDead()) {
-            epoque.reject(v.getError());
+            return epoque.decline(v.getError());
           }
-        });
-      });
-    }
-    if (schrodinger.isAlive()) {
-      return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
-        epoque.resolve(schrodinger.get());
-      });
-    }
-    if (schrodinger.isDead()) {
-      return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
-        epoque.reject(schrodinger.getError());
-      });
-    }
 
-    throw new SuperpositionError(`THIS SCHRODINGER IS NOT DETERMINED :${schrodinger.noun}`);
+          // TODO INNER VALUE
+          return epoque.throw(v);
+        });
+      }
+      if (schrodinger.isAlive()) {
+        return epoque.accept(schrodinger.get());
+      }
+      if (schrodinger.isDead()) {
+        return epoque.decline(schrodinger.getError());
+      }
+
+      // TODO INNER VALUE
+      return epoque.throw(schrodinger.get());
+    });
   }
 
   public static of<A, D extends Error>(func: UnaryFunction<Epoque<Detoxicated<A>, D>, unknown>): Superposition<A, D> {

@@ -1,8 +1,10 @@
-import { Kind, Peek, Predicate, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
+import { Consumer, Kind, Peek, Predicate, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { PassEpoque } from '../Epoque/PassEpoque';
 import { CombinedPlan } from '../Plan/CombinedPlan';
+import { DisasterConsumerPlan } from '../Plan/DisasterConsumerPlan';
+import { DisasterPlan } from '../Plan/Interface/DisasterPlan';
 import { MappingPlan } from '../Plan/Interface/MappingPlan';
 import { RecoveryPlan } from '../Plan/Interface/RecoveryPlan';
 import { MappingConsumerPlan } from '../Plan/MappingConsumerPlan';
@@ -17,6 +19,7 @@ import { ISuperposition } from './Interface/ISuperposition';
 import { AlivePlan } from './Plan/AlivePlan';
 import { DeadPlan } from './Plan/DeadPlan';
 import { Alive } from './Schrodinger/Alive';
+import { Contradiction } from './Schrodinger/Contradiction';
 import { Dead } from './Schrodinger/Dead';
 import { Schrodinger } from './Schrodinger/Schrodinger';
 import { Still } from './Schrodinger/Still';
@@ -39,46 +42,54 @@ export class SuperpositionInternal<A, D extends Error>
     func(this);
   }
 
-  private done(): boolean {
-    if (this.schrodinger.isAlive() || this.schrodinger.isDead()) {
-      return true;
-    }
-
-    return false;
-  }
-
-  public resolve(value: Detoxicated<A>): unknown {
-    if (this.done()) {
+  public accept(value: Detoxicated<A>): unknown {
+    if (this.schrodinger.isSettled()) {
       return;
     }
 
     this.schrodinger = Alive.of<A, D>(value);
 
     this.plans.forEach((plan: MappingPlan<A>) => {
-      return plan.onResolve(value);
+      return plan.onMap(value);
     });
   }
 
-  public reject(error: D): unknown {
-    if (this.done()) {
+  public decline(error: D): unknown {
+    if (this.schrodinger.isSettled()) {
       return;
     }
 
     this.schrodinger = Dead.of<A, D>(error);
 
     this.plans.forEach((plan: RecoveryPlan<D>) => {
-      return plan.onReject(error);
+      return plan.onRecover(error);
+    });
+  }
+
+  // TODO TEST UNDONE
+  public throw(error: unknown): unknown {
+    if (this.schrodinger.isSettled()) {
+      return;
+    }
+
+    this.schrodinger = Contradiction.of<A, D>();
+
+    this.plans.forEach((plan: DisasterPlan) => {
+      return plan.onDisaster(error);
     });
   }
 
   public get(): Promise<Detoxicated<A>> {
-    return new Promise<Detoxicated<A>>((resolve: Resolve<Detoxicated<A>>, reject: Reject<D>) => {
+    return new Promise<Detoxicated<A>>((resolve: Resolve<Detoxicated<A>>, reject: Reject<D | unknown>) => {
       this.pass(
         (value: Detoxicated<A>) => {
           resolve(value);
         },
         (err: D) => {
           reject(err);
+        },
+        (e: unknown) => {
+          reject(e);
         }
       );
     });
@@ -100,7 +111,7 @@ export class SuperpositionInternal<A, D extends Error>
 
       return SuperpositionInternal.of<A, D | SuperpositionError>(
         (epoque: Epoque<Detoxicated<A>, D | SuperpositionError>) => {
-          epoque.reject(new SuperpositionError('DEAD'));
+          epoque.decline(new SuperpositionError('DEAD'));
         }
       );
     }
@@ -115,7 +126,11 @@ export class SuperpositionInternal<A, D extends Error>
     mapper: UnaryFunction<Detoxicated<A>, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>
   ): SuperpositionInternal<B, D | E> {
     return SuperpositionInternal.of<B, D | E>((epoque: Epoque<Detoxicated<B>, D | E>) => {
-      return this.handle(AlivePlan.of<A, B, E>(mapper, epoque), RecoveryConsumerPlan.of<D>(epoque));
+      return this.handle(
+        AlivePlan.of<A, B, E>(mapper, epoque),
+        RecoveryConsumerPlan.of<D>(epoque),
+        DisasterConsumerPlan.of(epoque)
+      );
     });
   }
 
@@ -123,7 +138,11 @@ export class SuperpositionInternal<A, D extends Error>
     mapper: UnaryFunction<D, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>
   ): SuperpositionInternal<A | B, E> {
     return SuperpositionInternal.of<A | B, E>((epoque: Epoque<Detoxicated<A | B>, E>) => {
-      return this.handle(MappingConsumerPlan.of<Detoxicated<A>>(epoque), DeadPlan.of<B, D, E>(mapper, epoque));
+      return this.handle(
+        MappingConsumerPlan.of<Detoxicated<A>>(epoque),
+        DeadPlan.of<B, D, E>(mapper, epoque),
+        DisasterConsumerPlan.of(epoque)
+      );
     });
   }
 
@@ -132,31 +151,39 @@ export class SuperpositionInternal<A, D extends Error>
     dead: UnaryFunction<D, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>
   ): SuperpositionInternal<B, E> {
     return SuperpositionInternal.of<B, E>((epoque: Epoque<Detoxicated<B>, E>) => {
-      return this.handle(AlivePlan.of<A, B, E>(alive, epoque), DeadPlan.of<B, D, E>(dead, epoque));
+      return this.handle(
+        AlivePlan.of<A, B, E>(alive, epoque),
+        DeadPlan.of<B, D, E>(dead, epoque),
+        DisasterConsumerPlan.of(epoque)
+      );
     });
   }
 
-  private pass(resolve: Resolve<Detoxicated<A>>, reject: Reject<D>): unknown {
-    const epoque: Epoque<Detoxicated<A>, D> = PassEpoque.of<Detoxicated<A>, D>(resolve, reject);
+  private pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): unknown {
+    const epoque: Epoque<Detoxicated<A>, D> = PassEpoque.of<Detoxicated<A>, D>(accepted, declined, thrown);
 
-    return this.handle(MappingConsumerPlan.of<Detoxicated<A>>(epoque), RecoveryConsumerPlan.of<D>(epoque));
+    return this.handle(
+      MappingConsumerPlan.of<Detoxicated<A>>(epoque),
+      RecoveryConsumerPlan.of<D>(epoque),
+      DisasterConsumerPlan.of(epoque)
+    );
   }
 
   private peek(peek: Peek): unknown {
-    const epoque: Epoque<void, void> = PassEpoque.of<void, void>(peek, peek);
+    const epoque: Epoque<void, void> = PassEpoque.of<void, void>(peek, peek, peek);
 
-    return this.handle(MappingPeekPlan.of(epoque), RecoveryPeekPlan.of(epoque));
+    return this.handle(MappingPeekPlan.of(epoque), RecoveryPeekPlan.of(epoque), DisasterConsumerPlan.of(epoque));
   }
 
-  private handle(resolve: MappingPlan<A>, reject: RecoveryPlan<D>): unknown {
+  private handle(mapping: MappingPlan<A>, recovery: RecoveryPlan<D>, disaster: DisasterPlan): unknown {
     if (this.schrodinger.isAlive()) {
-      return resolve.onResolve(this.schrodinger.get());
+      return mapping.onMap(this.schrodinger.get());
     }
     if (this.schrodinger.isDead()) {
-      return reject.onReject(this.schrodinger.getError());
+      return recovery.onRecover(this.schrodinger.getError());
     }
 
-    return this.plans.add(CombinedPlan.of<A, D>(resolve, reject));
+    return this.plans.add(CombinedPlan.of<A, D>(mapping, recovery, disaster));
   }
 
   private transpose<T, E extends Error>(): SuperpositionInternal<T, E> {
@@ -168,15 +195,16 @@ export class SuperpositionInternal<A, D extends Error>
       this.pass(
         (v: Detoxicated<A>) => {
           if (Kind.isUndefined(v) || Kind.isNull(v)) {
-            epoque.reject();
-
-            return;
+            return epoque.decline();
           }
 
-          epoque.resolve((v as unknown) as Matter<A>);
+          return epoque.accept((v as unknown) as Matter<A>);
         },
         () => {
-          epoque.reject();
+          return epoque.decline();
+        },
+        (e: unknown) => {
+          return epoque.throw(e);
         }
       );
     });

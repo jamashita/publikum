@@ -85,7 +85,7 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
   public static ofHeisenberg<P>(heisenberg: PromiseLike<Heisenberg<P>> | Heisenberg<P>): Unscharferelation<P> {
     return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
       if (Kind.isPromiseLike(heisenberg)) {
-        return heisenberg.then<void, void>(
+        return heisenberg.then<unknown, unknown>(
           (v: Heisenberg<P>) => {
             if (v.isPresent()) {
               return epoque.accept(v.get());
@@ -94,6 +94,7 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
               return epoque.decline();
             }
 
+            // TODO INNER VALUE
             return epoque.throw(v);
           },
           (e: unknown) => {
@@ -109,6 +110,7 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
         return epoque.decline();
       }
 
+      // TODO INNER VALUE
       return epoque.throw(heisenberg.get());
     });
   }
