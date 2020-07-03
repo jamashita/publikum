@@ -1,9 +1,9 @@
 import { Kind, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
-import { Detoxicated } from '../../Interface/Detoxicated';
 import { RecoveryPlan } from '../../Plan/Interface/RecoveryPlan';
 import { BeSuperposition } from '../BeSuperposition';
+import { Detoxicated } from '../Interface/Detoxicated';
 import { ISuperposition } from '../Interface/ISuperposition';
 
 export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPlan<D, 'DeadPlan'> {

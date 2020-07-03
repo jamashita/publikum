@@ -2,8 +2,6 @@ import { Peek, Predicate, Reject, Resolve, Supplier, Suspicious, UnaryFunction }
 
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { PassEpoque } from '../Epoque/PassEpoque';
-import { Detoxicated } from '../Interface/Detoxicated';
-import { Matter } from '../Interface/Matter';
 import { CombinedPlan } from '../Plan/CombinedPlan';
 import { MappingPlan } from '../Plan/Interface/MappingPlan';
 import { RecoveryPlan } from '../Plan/Interface/RecoveryPlan';
@@ -11,6 +9,7 @@ import { MappingConsumerPlan } from '../Plan/MappingConsumerPlan';
 import { MappingPeekPlan } from '../Plan/MappingPeekPlan';
 import { RecoveryConsumerPlan } from '../Plan/RecoveryConsumerPlan';
 import { RecoveryPeekPlan } from '../Plan/RecoveryPeekPlan';
+import { Detoxicated } from '../Superposition/Interface/Detoxicated';
 import { SuperpositionInternal } from '../Superposition/SuperpositionInternal';
 import { UnscharferelationError } from './Error/UnscharferelationError';
 import { Absent } from './Heisenberg/Absent';
@@ -18,6 +17,7 @@ import { Heisenberg } from './Heisenberg/Heisenberg';
 import { Present } from './Heisenberg/Present';
 import { Uncertain } from './Heisenberg/Uncertain';
 import { IUnscharferelation } from './Interface/IUnscharferelation';
+import { Matter } from './Interface/Matter';
 import { AbsentPlan } from './Plan/AbsentPlan';
 import { PresentPlan } from './Plan/PresentPlan';
 

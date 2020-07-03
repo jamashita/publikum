@@ -1,9 +1,9 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
 import { Predicate, UnaryFunction } from '@jamashita/publikum-type';
 
-import { Detoxicated } from '../../Interface/Detoxicated';
 import { IUnscharferelation } from '../../Unscharferelation/Interface/IUnscharferelation';
 import { SuperpositionError } from '../Error/SuperpositionError';
+import { Detoxicated } from '../Interface/Detoxicated';
 import { ISuperposition } from '../Interface/ISuperposition';
 import { Schrodinger } from '../Schrodinger/Schrodinger';
 

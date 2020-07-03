@@ -1,5 +1,6 @@
 import { Noun } from '@jamashita/publikum-interface';
 
+import { Detoxicated } from '../Interface/Detoxicated';
 import { Alive } from './Alive';
 import { Dead } from './Dead';
 
@@ -8,7 +9,7 @@ type SchrodingerType = 'Alive' | 'Dead' | 'Still';
 export interface Schrodinger<A, D extends Error, N extends SchrodingerType = SchrodingerType> extends Noun<N> {
   readonly noun: N;
 
-  get(): A;
+  get(): Detoxicated<A>;
 
   isAlive(): this is Alive<A, D>;
 

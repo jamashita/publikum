@@ -2,8 +2,6 @@ import { Kind, Peek, Predicate, Reject, Resolve, UnaryFunction } from '@jamashit
 
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { PassEpoque } from '../Epoque/PassEpoque';
-import { Detoxicated } from '../Interface/Detoxicated';
-import { Matter } from '../Interface/Matter';
 import { CombinedPlan } from '../Plan/CombinedPlan';
 import { MappingPlan } from '../Plan/Interface/MappingPlan';
 import { RecoveryPlan } from '../Plan/Interface/RecoveryPlan';
@@ -11,8 +9,10 @@ import { MappingConsumerPlan } from '../Plan/MappingConsumerPlan';
 import { MappingPeekPlan } from '../Plan/MappingPeekPlan';
 import { RecoveryConsumerPlan } from '../Plan/RecoveryConsumerPlan';
 import { RecoveryPeekPlan } from '../Plan/RecoveryPeekPlan';
+import { Matter } from '../Unscharferelation/Interface/Matter';
 import { UnscharferelationInternal } from '../Unscharferelation/UnscharferelationInternal';
 import { SuperpositionError } from './Error/SuperpositionError';
+import { Detoxicated } from './Interface/Detoxicated';
 import { ISuperposition } from './Interface/ISuperposition';
 import { AlivePlan } from './Plan/AlivePlan';
 import { DeadPlan } from './Plan/DeadPlan';

@@ -1,4 +1,4 @@
-import { Matter } from '../../Interface/Matter';
+import { Matter } from '../Interface/Matter';
 import { Absent } from './Absent';
 import { Heisenberg } from './Heisenberg';
 

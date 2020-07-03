@@ -1,9 +1,9 @@
 import { Kind, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
-import { Detoxicated } from '../../Interface/Detoxicated';
 import { MappingPlan } from '../../Plan/Interface/MappingPlan';
 import { BeSuperposition } from '../BeSuperposition';
+import { Detoxicated } from '../Interface/Detoxicated';
 import { ISuperposition } from '../Interface/ISuperposition';
 
 export class AlivePlan<A, B, E extends Error> implements MappingPlan<A, 'AlivePlan'> {

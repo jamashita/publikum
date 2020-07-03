@@ -1,11 +1,11 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
 import { Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
-import { Matter } from '../../Interface/Matter';
 import { ISuperposition } from '../../Superposition/Interface/ISuperposition';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
 import { IUnscharferelation } from '../Interface/IUnscharferelation';
+import { Matter } from '../Interface/Matter';
 
 export class MockUnscharferelation<P> implements IUnscharferelation<P, 'MockUnscharferelation'> {
   public readonly noun: 'MockUnscharferelation' = 'MockUnscharferelation';

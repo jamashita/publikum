@@ -1,4 +1,4 @@
-import { Detoxicated } from '../../Interface/Detoxicated';
+import { Detoxicated } from '../Interface/Detoxicated';
 import { Dead } from './Dead';
 import { Schrodinger } from './Schrodinger';
 

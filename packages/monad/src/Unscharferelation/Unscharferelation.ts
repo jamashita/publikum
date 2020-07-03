@@ -1,11 +1,11 @@
 import { Kind, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../Epoque/Interface/Epoque';
-import { Matter } from '../Interface/Matter';
 import { Superposition } from '../Superposition/Superposition';
 import { UnscharferelationError } from './Error/UnscharferelationError';
 import { Heisenberg } from './Heisenberg/Heisenberg';
 import { IUnscharferelation } from './Interface/IUnscharferelation';
+import { Matter } from './Interface/Matter';
 import { UnscharferelationInternal } from './UnscharferelationInternal';
 
 export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferelation'> {

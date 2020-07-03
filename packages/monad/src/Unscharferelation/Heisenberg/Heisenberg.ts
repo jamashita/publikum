@@ -1,6 +1,6 @@
 import { Noun } from '@jamashita/publikum-interface';
 
-import { Matter } from '../../Interface/Matter';
+import { Matter } from '../Interface/Matter';
 import { Absent } from './Absent';
 import { Present } from './Present';
 

@@ -1,11 +1,11 @@
 import { Kind, Supplier, Suspicious } from '@jamashita/publikum-type';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
-import { Matter } from '../../Interface/Matter';
 import { RecoveryPlan } from '../../Plan/Interface/RecoveryPlan';
 import { BeUnscharferelation } from '../BeUnscharferelation';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
 import { IUnscharferelation } from '../Interface/IUnscharferelation';
+import { Matter } from '../Interface/Matter';
 
 export class AbsentPlan<Q> implements RecoveryPlan<void, 'AbsentPlan'> {
   public readonly noun: 'AbsentPlan' = 'AbsentPlan';

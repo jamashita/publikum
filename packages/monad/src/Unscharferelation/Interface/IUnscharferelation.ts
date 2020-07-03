@@ -1,10 +1,10 @@
 import { Noun } from '@jamashita/publikum-interface';
 import { Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
-import { Matter } from '../../Interface/Matter';
 import { ISuperposition } from '../../Superposition/Interface/ISuperposition';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
+import { Matter } from './Matter';
 
 export interface IUnscharferelation<P, N extends string = string> extends Noun<N> {
   get(): Promise<Matter<P>>;

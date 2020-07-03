@@ -1,10 +1,10 @@
 import { Noun } from '@jamashita/publikum-interface';
 import { Predicate, UnaryFunction } from '@jamashita/publikum-type';
 
-import { Detoxicated } from '../../Interface/Detoxicated';
 import { IUnscharferelation } from '../../Unscharferelation/Interface/IUnscharferelation';
 import { SuperpositionError } from '../Error/SuperpositionError';
 import { Schrodinger } from '../Schrodinger/Schrodinger';
+import { Detoxicated } from './Detoxicated';
 
 export interface ISuperposition<A, D extends Error, N extends string = string> extends Noun<N> {
   get(): Promise<Detoxicated<A>>;
