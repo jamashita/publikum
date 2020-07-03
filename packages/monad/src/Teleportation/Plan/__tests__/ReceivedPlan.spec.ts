@@ -7,13 +7,14 @@ import { PassEpoque } from '../../../Epoque/PassEpoque';
 import { ReceivedPlan } from '../ReceivedPlan';
 
 describe('ReceivedPlan', () => {
-  describe('onResolve', () => {
+  describe('onMap', () => {
     it('R given', () => {
       const value: number = 101;
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       const plan: ReceivedPlan<number, number> = ReceivedPlan.of<number, number>(
         (n: number) => {
@@ -29,15 +30,19 @@ describe('ReceivedPlan', () => {
           },
           () => {
             spy3();
+          },
+          () => {
+            spy4();
           }
         )
       );
 
-      plan.onResolve(value);
+      plan.onMap(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
     });
 
     it('Promise<R> given', async () => {
@@ -46,6 +51,7 @@ describe('ReceivedPlan', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: ReceivedPlan<number, number> = ReceivedPlan.of<number, number>(
@@ -66,16 +72,22 @@ describe('ReceivedPlan', () => {
               spy3();
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
           )
         );
 
-        plan.onResolve(value);
+        plan.onMap(value);
       });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
     });
 
     it('Error thrown', () => {
@@ -85,6 +97,7 @@ describe('ReceivedPlan', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       const plan: ReceivedPlan<number, number> = ReceivedPlan.of<number, number>(
         (n: number) => {
@@ -100,15 +113,19 @@ describe('ReceivedPlan', () => {
           (e: Error) => {
             spy3();
             expect(e).toBe(error);
+          },
+          () => {
+            spy4();
           }
         )
       );
 
-      plan.onResolve(value);
+      plan.onMap(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(true);
     });
 
     it('Promise<R> rejected', async () => {
@@ -118,6 +135,7 @@ describe('ReceivedPlan', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: ReceivedPlan<number, number> = ReceivedPlan.of<number, number>(
@@ -138,16 +156,22 @@ describe('ReceivedPlan', () => {
               expect(e).toBe(error);
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
           )
         );
 
-        plan.onResolve(value);
+        plan.onMap(value);
       });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(true);
     });
   });
 });

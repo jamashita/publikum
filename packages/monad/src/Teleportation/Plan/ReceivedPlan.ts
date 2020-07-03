@@ -17,7 +17,7 @@ export class ReceivedPlan<R, S> implements MappingPlan<R, 'ReceivedPlan'> {
     this.epoque = epoque;
   }
 
-  public onResolve(resolve: R): unknown {
+  public onMap(resolve: R): unknown {
     // prettier-ignore
     try {
       const mapped: PromiseLike<S> | S = this.mapper(resolve);
@@ -25,18 +25,18 @@ export class ReceivedPlan<R, S> implements MappingPlan<R, 'ReceivedPlan'> {
       if (Kind.isPromiseLike(mapped)) {
         return mapped.then<void, void>(
           (v: S) => {
-            this.epoque.resolve(v);
+            this.epoque.accept(v);
           },
           (e: Error) => {
-            this.epoque.reject(e);
+            this.epoque.decline(e);
           }
         );
       }
 
-      return this.epoque.resolve(mapped);
+      return this.epoque.accept(mapped);
     }
     catch (err) {
-      return this.epoque.reject(err);
+      return this.epoque.decline(err);
     }
   }
 }

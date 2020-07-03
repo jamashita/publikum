@@ -17,7 +17,7 @@ export class DisappearedPlan<S> implements RecoveryPlan<Error, 'DisappearedPlan'
     this.epoque = epoque;
   }
 
-  public onReject(reject: Error): unknown {
+  public onRecover(reject: Error): unknown {
     // prettier-ignore
     try {
       const mapped: PromiseLike<S> | S = this.mapper(reject);
@@ -25,18 +25,18 @@ export class DisappearedPlan<S> implements RecoveryPlan<Error, 'DisappearedPlan'
       if (Kind.isPromiseLike(mapped)) {
         return mapped.then<void, void>(
           (v: S) => {
-            this.epoque.resolve(v);
+            this.epoque.accept(v);
           },
           (e: Error) => {
-            this.epoque.reject(e);
+            this.epoque.decline(e);
           }
         );
       }
 
-      return this.epoque.resolve(mapped);
+      return this.epoque.accept(mapped);
     }
     catch (err) {
-      return this.epoque.reject(err);
+      return this.epoque.decline(err);
     }
   }
 }
