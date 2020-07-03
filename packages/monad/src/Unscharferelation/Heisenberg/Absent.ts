@@ -26,4 +26,8 @@ export class Absent<P> implements Heisenberg<P, 'Absent'> {
   public isAbsent(): this is Absent<P> {
     return true;
   }
+
+  public isSettled(): boolean {
+    return true;
+  }
 }

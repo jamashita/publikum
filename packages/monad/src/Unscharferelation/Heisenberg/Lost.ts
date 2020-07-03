@@ -4,18 +4,18 @@ import { Present } from './Present';
 
 export class Lost<P> implements Heisenberg<P, 'Lost'> {
   public readonly noun: 'Lost' = 'Lost';
-  private readonly error: unknown;
+  private readonly thrown: unknown;
 
-  public static of<P>(error: unknown): Lost<P> {
-    return new Lost<P>(error);
+  public static of<P>(thrown: unknown): Lost<P> {
+    return new Lost<P>(thrown);
   }
 
-  private constructor(error: unknown) {
-    this.error = error;
+  private constructor(thrown: unknown) {
+    this.thrown = thrown;
   }
 
   public get(): never {
-    throw this.error;
+    throw this.thrown;
   }
 
   public isPresent(): this is Present<P> {
@@ -24,5 +24,9 @@ export class Lost<P> implements Heisenberg<P, 'Lost'> {
 
   public isAbsent(): this is Absent<P> {
     return false;
+  }
+
+  public isSettled(): boolean {
+    return true;
   }
 }

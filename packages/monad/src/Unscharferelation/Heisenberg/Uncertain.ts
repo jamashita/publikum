@@ -27,4 +27,8 @@ export class Uncertain<P> implements Heisenberg<P, 'Uncertain'> {
   public isAbsent(): this is Absent<P> {
     return false;
   }
+
+  public isSettled(): boolean {
+    return false;
+  }
 }

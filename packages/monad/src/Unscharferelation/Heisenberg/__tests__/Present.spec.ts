@@ -60,4 +60,24 @@ describe('Present', () => {
       expect(present7.isAbsent()).toBe(false);
     });
   });
+
+  describe('isSettled', () => {
+    it('returns true', () => {
+      const present1: Present<number> = Present.of<number>(1);
+      const present2: Present<number> = Present.of<number>(0);
+      const present3: Present<number> = Present.of<number>(-1);
+      const present4: Present<string> = Present.of<string>('');
+      const present5: Present<string> = Present.of<string>('1');
+      const present6: Present<boolean> = Present.of<boolean>(true);
+      const present7: Present<boolean> = Present.of<boolean>(false);
+
+      expect(present1.isSettled()).toBe(true);
+      expect(present2.isSettled()).toBe(true);
+      expect(present3.isSettled()).toBe(true);
+      expect(present4.isSettled()).toBe(true);
+      expect(present5.isSettled()).toBe(true);
+      expect(present6.isSettled()).toBe(true);
+      expect(present7.isSettled()).toBe(true);
+    });
+  });
 });
