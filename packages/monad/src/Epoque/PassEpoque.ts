@@ -1,9 +1,8 @@
-import { Noun } from '@jamashita/publikum-interface';
 import { Consumer } from '@jamashita/publikum-type';
 
 import { Epoque } from './Interface/Epoque';
 
-export class PassEpoque<V, E> implements Epoque<V, E>, Noun<'PassEpoque'> {
+export class PassEpoque<V, E> implements Epoque<V, E, 'PassEpoque'> {
   public readonly noun: 'PassEpoque' = 'PassEpoque';
   private readonly accepted: Consumer<V>;
   private readonly declined: Consumer<E>;
@@ -20,14 +19,14 @@ export class PassEpoque<V, E> implements Epoque<V, E>, Noun<'PassEpoque'> {
   }
 
   public accept(value: V): unknown {
-    return this.accept(value);
+    return this.accepted(value);
   }
 
   public decline(value: E): unknown {
-    return this.decline(value);
+    return this.declined(value);
   }
 
   public throw(error: E): unknown {
-    return this.throw(error);
+    return this.thrown(error);
   }
 }

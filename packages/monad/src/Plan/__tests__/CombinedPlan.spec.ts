@@ -7,7 +7,7 @@ import { MockMappingPlan } from '../Mock/MockMappingPlan';
 import { MockRecoveryPlan } from '../Mock/MockRecoveryPlan';
 
 describe('CombinedPlan', () => {
-  describe('onResolve', () => {
+  describe('onMap', () => {
     it('normal case', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -15,19 +15,19 @@ describe('CombinedPlan', () => {
       const resolve: MappingPlan<void> = new MockMappingPlan();
       const reject: RecoveryPlan<void> = new MockRecoveryPlan();
 
-      resolve.onResolve = spy1;
-      reject.onReject = spy2;
+      resolve.onMap = spy1;
+      reject.onRecover = spy2;
 
       const plan: CombinedPlan<void, void> = CombinedPlan.of<void, void>(resolve, reject);
 
-      plan.onResolve();
+      plan.onMap();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
     });
   });
 
-  describe('onReject', () => {
+  describe('onRecover', () => {
     it('normal case', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -35,12 +35,12 @@ describe('CombinedPlan', () => {
       const resolve: MappingPlan<void> = new MockMappingPlan();
       const reject: RecoveryPlan<void> = new MockRecoveryPlan();
 
-      resolve.onResolve = spy1;
-      reject.onReject = spy2;
+      resolve.onMap = spy1;
+      reject.onRecover = spy2;
 
       const plan: CombinedPlan<void, void> = CombinedPlan.of<void, void>(resolve, reject);
 
-      plan.onReject();
+      plan.onRecover();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);

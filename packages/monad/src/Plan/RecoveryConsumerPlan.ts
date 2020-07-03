@@ -1,19 +1,19 @@
-import { RejectEpoque } from '../Epoque/Interface/RejectEpoque';
+import { DeclineEpoque } from '../Epoque/Interface/DeclineEpoque';
 import { RecoveryPlan } from './Interface/RecoveryPlan';
 
 export class RecoveryConsumerPlan<R> implements RecoveryPlan<R, 'RecovertConsumerPlan'> {
   public readonly noun: 'RecovertConsumerPlan' = 'RecovertConsumerPlan';
-  private readonly epoque: RejectEpoque<R>;
+  private readonly epoque: DeclineEpoque<R>;
 
-  public static of<R>(epoque: RejectEpoque<R>): RecoveryConsumerPlan<R> {
+  public static of<R>(epoque: DeclineEpoque<R>): RecoveryConsumerPlan<R> {
     return new RecoveryConsumerPlan<R>(epoque);
   }
 
-  protected constructor(epoque: RejectEpoque<R>) {
+  protected constructor(epoque: DeclineEpoque<R>) {
     this.epoque = epoque;
   }
 
-  public onReject(reject: R): unknown {
-    return this.epoque.reject(reject);
+  public onRecover(reject: R): unknown {
+    return this.epoque.decline(reject);
   }
 }

@@ -15,11 +15,11 @@ export class CombinedPlan<F, R> implements MappingPlan<F, 'CompinedPlan'>, Recov
     this.reject = reject;
   }
 
-  public onResolve(resolve: F): unknown {
-    return this.resolve.onResolve(resolve);
+  public onMap(resolve: F): unknown {
+    return this.resolve.onMap(resolve);
   }
 
-  public onReject(reject: R): unknown {
-    return this.reject.onReject(reject);
+  public onRecover(reject: R): unknown {
+    return this.reject.onRecover(reject);
   }
 }

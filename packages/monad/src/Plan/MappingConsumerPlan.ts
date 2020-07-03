@@ -1,19 +1,19 @@
-import { ResolveEpoque } from '../Epoque/Interface/ResolveEpoque';
+import { AcceptEpoque } from '../Epoque/Interface/AcceptEpoque';
 import { MappingPlan } from './Interface/MappingPlan';
 
 export class MappingConsumerPlan<R> implements MappingPlan<R, 'MappingConsumerPlan'> {
   public readonly noun: 'MappingConsumerPlan' = 'MappingConsumerPlan';
-  private readonly epoque: ResolveEpoque<R>;
+  private readonly epoque: AcceptEpoque<R>;
 
-  public static of<R>(epoque: ResolveEpoque<R>): MappingConsumerPlan<R> {
+  public static of<R>(epoque: AcceptEpoque<R>): MappingConsumerPlan<R> {
     return new MappingConsumerPlan<R>(epoque);
   }
 
-  protected constructor(epoque: ResolveEpoque<R>) {
+  protected constructor(epoque: AcceptEpoque<R>) {
     this.epoque = epoque;
   }
 
-  public onResolve(resolve: R): unknown {
-    return this.epoque.resolve(resolve);
+  public onMap(resolve: R): unknown {
+    return this.epoque.accept(resolve);
   }
 }
