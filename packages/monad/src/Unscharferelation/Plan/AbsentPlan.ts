@@ -27,48 +27,52 @@ export class AbsentPlan<Q> implements RecoveryPlan<void, 'AbsentPlan'> {
     this.epoque = epoque;
   }
 
-  public onReject(): unknown {
-    const mapped: IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>> = this.mapper();
+  public onRecover(): unknown {
+    // prettier-ignore
+    try {
+      const mapped: IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>> = this.mapper();
 
-    if (BeUnscharferelation.is(mapped)) {
-      return mapped.terminate().then<void, void>(
-        (v: Heisenberg<Q>) => {
-          if (v.isPresent()) {
-            this.epoque.resolve(v.get());
+      if (BeUnscharferelation.is(mapped)) {
+        return mapped.terminate().then<void, void>(
+          (v: Heisenberg<Q>) => {
+            if (v.isPresent()) {
+              this.epoque.accept(v.get());
 
-            return;
+              return;
+            }
+
+            this.epoque.decline();
+          },
+          (e: unknown) => {
+            this.epoque.throw(e);
           }
+        );
+      }
+      if (Kind.isPromiseLike(mapped)) {
+        return mapped.then<void, void>(
+          (v: Suspicious<Matter<Q>>) => {
+            if (Kind.isUndefined(v) || Kind.isNull(v)) {
+              this.epoque.decline();
 
-          this.epoque.reject();
-        },
-        () => {
-          // TODO TERMINATE
-          this.epoque.reject();
-        }
-      );
-    }
-    if (Kind.isPromiseLike(mapped)) {
-      return mapped.then<void, void>(
-        (v: Suspicious<Matter<Q>>) => {
-          if (Kind.isUndefined(v) || Kind.isNull(v)) {
-            this.epoque.reject();
+              return;
+            }
 
-            return;
+            this.epoque.accept(v);
+          },
+          (e: unknown) => {
+            this.epoque.throw(e);
           }
+        );
+      }
 
-          this.epoque.resolve(v);
-        },
-        () => {
-          // TODO TERMINATE
-          this.epoque.reject();
-        }
-      );
+      if (Kind.isUndefined(mapped) || Kind.isNull(mapped)) {
+        return this.epoque.decline();
+      }
+
+      return this.epoque.accept(mapped);
     }
-
-    if (Kind.isUndefined(mapped) || Kind.isNull(mapped)) {
-      return this.epoque.reject();
+    catch (err) {
+      return this.epoque.throw(err);
     }
-
-    return this.epoque.resolve(mapped);
   }
 }

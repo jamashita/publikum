@@ -8,14 +8,16 @@ import { Present } from '../../Heisenberg/Present';
 import { Unscharferelation } from '../../Unscharferelation';
 import { PresentPlan } from '../PresentPlan';
 
+// TODO THROW CASE
 describe('PresentPlan', () => {
-  describe('onResolve', () => {
+  describe('onMap', () => {
     it('P given', () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       const plan: PresentPlan<number, number> = PresentPlan.of<number, number>(
         (n: number) => {
@@ -31,15 +33,19 @@ describe('PresentPlan', () => {
           },
           () => {
             spy3();
+          },
+          () => {
+            spy4();
           }
         )
       );
 
-      plan.onResolve(value);
+      plan.onMap(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
     });
 
     it('Promise<P> given', async () => {
@@ -48,6 +54,7 @@ describe('PresentPlan', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: PresentPlan<number, number> = PresentPlan.of<number, number>(
@@ -68,16 +75,22 @@ describe('PresentPlan', () => {
               spy3();
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
           )
         );
 
-        plan.onResolve(value);
+        plan.onMap(value);
       });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
     });
 
     it('Present Unscharferelation given', async () => {
@@ -86,6 +99,7 @@ describe('PresentPlan', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: PresentPlan<number, number> = PresentPlan.of<number, number>(
@@ -106,16 +120,22 @@ describe('PresentPlan', () => {
               spy3();
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
           )
         );
 
-        plan.onResolve(value);
+        plan.onMap(value);
       });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
     });
 
     it('null given', () => {
@@ -124,6 +144,7 @@ describe('PresentPlan', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       const plan: PresentPlan<number, number> = PresentPlan.of<number, number>(
         (n: number) => {
@@ -138,15 +159,19 @@ describe('PresentPlan', () => {
           },
           () => {
             spy3();
+          },
+          () => {
+            spy4();
           }
         )
       );
 
-      plan.onResolve(value);
+      plan.onMap(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(false);
     });
 
     it('undefined given', async () => {
@@ -155,6 +180,7 @@ describe('PresentPlan', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: PresentPlan<number, number> = PresentPlan.of<number, number>(
@@ -175,16 +201,22 @@ describe('PresentPlan', () => {
               spy3();
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
           )
         );
 
-        plan.onResolve(value);
+        plan.onMap(value);
       });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(true);
     });
 
     it('Promise<null> given', async () => {
@@ -193,6 +225,7 @@ describe('PresentPlan', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: PresentPlan<number, number> = PresentPlan.of<number, number>(
@@ -213,16 +246,22 @@ describe('PresentPlan', () => {
               spy3();
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
           )
         );
 
-        plan.onResolve(value);
+        plan.onMap(value);
       });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(false);
     });
 
     it('Promise<undefined> given', async () => {
@@ -231,6 +270,7 @@ describe('PresentPlan', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: PresentPlan<number, number> = PresentPlan.of<number, number>(
@@ -251,16 +291,22 @@ describe('PresentPlan', () => {
               spy3();
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
           )
         );
 
-        plan.onResolve(value);
+        plan.onMap(value);
       });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(false);
     });
 
     it('Absent Unscharferelation given', async () => {
@@ -269,6 +315,7 @@ describe('PresentPlan', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: PresentPlan<number, number> = PresentPlan.of<number, number>(
@@ -289,16 +336,22 @@ describe('PresentPlan', () => {
               spy3();
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
           )
         );
 
-        plan.onResolve(value);
+        plan.onMap(value);
       });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(true);
     });
   });
 });

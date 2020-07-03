@@ -8,14 +8,16 @@ import { Present } from '../../Heisenberg/Present';
 import { Unscharferelation } from '../../Unscharferelation';
 import { AbsentPlan } from '../AbsentPlan';
 
+// TODO THROW CASE
 describe('AbsentPlan', () => {
-  describe('onReject', () => {
+  describe('onRecover', () => {
     it('P given', () => {
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       const plan: AbsentPlan<number> = AbsentPlan.of<number>(
         () => {
@@ -30,15 +32,19 @@ describe('AbsentPlan', () => {
           },
           () => {
             spy3();
+          },
+          () => {
+            spy4();
           }
         )
       );
 
-      plan.onReject();
+      plan.onRecover();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
     });
 
     it('Promise<P> given', async () => {
@@ -47,6 +53,7 @@ describe('AbsentPlan', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: AbsentPlan<number> = AbsentPlan.of<number>(
@@ -66,16 +73,22 @@ describe('AbsentPlan', () => {
               spy3();
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
           )
         );
 
-        plan.onReject();
+        plan.onRecover();
       });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
     });
 
     it('Present Unscharferelation given', async () => {
@@ -84,6 +97,7 @@ describe('AbsentPlan', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: AbsentPlan<number> = AbsentPlan.of<number>(
@@ -103,22 +117,29 @@ describe('AbsentPlan', () => {
               spy3();
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
           )
         );
 
-        plan.onReject();
+        plan.onRecover();
       });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
     });
 
     it('null given', async () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: AbsentPlan<number> = AbsentPlan.of<number>(
@@ -137,22 +158,29 @@ describe('AbsentPlan', () => {
               spy3();
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
           )
         );
 
-        plan.onReject();
+        plan.onRecover();
       });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(false);
     });
 
     it('undefined given', async () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: AbsentPlan<number> = AbsentPlan.of<number>(
@@ -171,22 +199,29 @@ describe('AbsentPlan', () => {
               spy3();
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
           )
         );
 
-        plan.onReject();
+        plan.onRecover();
       });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(false);
     });
 
     it('Promise<null> given', async () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: AbsentPlan<number> = AbsentPlan.of<number>(
@@ -205,22 +240,29 @@ describe('AbsentPlan', () => {
               spy3();
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
           )
         );
 
-        plan.onReject();
+        plan.onRecover();
       });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(true);
     });
 
     it('Promise<undefined> given', async () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: AbsentPlan<number> = AbsentPlan.of<number>(
@@ -239,22 +281,29 @@ describe('AbsentPlan', () => {
               spy3();
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
           )
         );
 
-        plan.onReject();
+        plan.onRecover();
       });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(false);
     });
 
     it('Absent Unscharferelation given', async () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: AbsentPlan<number> = AbsentPlan.of<number>(
@@ -273,16 +322,22 @@ describe('AbsentPlan', () => {
               spy3();
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
           )
         );
 
-        plan.onReject();
+        plan.onRecover();
       });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(false);
     });
   });
 });
