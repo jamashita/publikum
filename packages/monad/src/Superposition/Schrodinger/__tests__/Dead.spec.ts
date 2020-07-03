@@ -2,6 +2,7 @@ import { MockError } from '@jamashita/publikum-object';
 
 import { Dead } from '../Dead';
 
+// TODO ISSETTLED
 describe('Dead', () => {
   describe('of', () => {
     it('normal case', () => {

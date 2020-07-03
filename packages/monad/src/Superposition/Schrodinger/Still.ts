@@ -1,6 +1,6 @@
+import { SuperpositionError } from '../Error/SuperpositionError';
 import { Alive } from './Alive';
 import { Dead } from './Dead';
-import { SuperpositionError } from '../Error/SuperpositionError';
 import { Schrodinger } from './Schrodinger';
 
 export class Still<A, D extends Error> implements Schrodinger<A, D, 'Still'> {
@@ -9,7 +9,7 @@ export class Still<A, D extends Error> implements Schrodinger<A, D, 'Still'> {
   private static readonly INSTANCE: Still<unknown, Error> = new Still<unknown, Error>();
 
   public static of<A, D extends Error>(): Still<A, D> {
-    return Still.INSTANCE.transpose<A, D>();
+    return (Still.INSTANCE as unknown) as Still<A, D>;
   }
 
   protected constructor() {
@@ -28,7 +28,7 @@ export class Still<A, D extends Error> implements Schrodinger<A, D, 'Still'> {
     return false;
   }
 
-  public transpose<B, E extends Error>(): Still<B, E> {
-    return (this as unknown) as Still<B, E>;
+  public isSettled(): boolean {
+    return false;
   }
 }

@@ -3,6 +3,7 @@ import { MockError } from '@jamashita/publikum-object';
 import { SuperpositionError } from '../../Error/SuperpositionError';
 import { Still } from '../Still';
 
+// TODO ISSETTLED
 describe('Still', () => {
   describe('of', () => {
     it('returns a single instance', () => {
@@ -33,14 +34,6 @@ describe('Still', () => {
       const still: Still<number, MockError> = Still.of<number, MockError>();
 
       expect(still.isDead()).toBe(false);
-    });
-  });
-
-  describe('transpose', () => {
-    it('returns itself', () => {
-      const still: Still<number, MockError> = Still.of<number, MockError>();
-
-      expect(still.transpose<void, MockError>()).toBe(still);
     });
   });
 });

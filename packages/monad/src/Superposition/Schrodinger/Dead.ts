@@ -29,4 +29,8 @@ export class Dead<A, D extends Error> implements Schrodinger<A, D, 'Dead'> {
   public isDead(): this is Dead<A, D> {
     return true;
   }
+
+  public isSettled(): boolean {
+    return true;
+  }
 }

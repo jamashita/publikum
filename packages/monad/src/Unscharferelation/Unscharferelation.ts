@@ -31,7 +31,7 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
           const h: Heisenberg<P> = hbg[i];
 
           if (h.isAbsent()) {
-            epoque.reject();
+            epoque.decline();
 
             return;
           }
@@ -39,7 +39,7 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
           hs.push(h.get());
         }
 
-        epoque.resolve(hs);
+        epoque.accept(hs);
       });
     });
   }
@@ -54,12 +54,12 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
       return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
         return value.then<void>((v: Suspicious<Matter<P>>) => {
           if (Kind.isUndefined(v) || Kind.isNull(v)) {
-            epoque.reject();
+            epoque.decline();
 
             return;
           }
 
-          epoque.resolve(v);
+          epoque.accept(v);
         });
       });
     }
@@ -72,43 +72,45 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
 
   private static present<P>(value: Matter<P>): Unscharferelation<P> {
     return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
-      epoque.resolve(value);
+      epoque.accept(value);
     });
   }
 
   private static absent<P>(): Unscharferelation<P> {
     return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
-      epoque.reject();
+      epoque.decline();
     });
   }
 
   public static ofHeisenberg<P>(heisenberg: PromiseLike<Heisenberg<P>> | Heisenberg<P>): Unscharferelation<P> {
-    if (Kind.isPromiseLike(heisenberg)) {
-      return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
-        return heisenberg.then<void>((v: Heisenberg<P>) => {
-          if (v.isPresent()) {
-            epoque.resolve(v.get());
+    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
+      if (Kind.isPromiseLike(heisenberg)) {
+        return heisenberg.then<void, void>(
+          (v: Heisenberg<P>) => {
+            if (v.isPresent()) {
+              return epoque.accept(v.get());
+            }
+            if (v.isAbsent()) {
+              return epoque.decline();
+            }
 
-            return;
+            return epoque.throw(v);
+          },
+          (e: unknown) => {
+            return epoque.throw(e);
           }
-          if (v.isAbsent()) {
-            epoque.reject();
-          }
-        });
-      });
-    }
-    if (heisenberg.isPresent()) {
-      return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
-        epoque.resolve(heisenberg.get());
-      });
-    }
-    if (heisenberg.isAbsent()) {
-      return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
-        epoque.reject();
-      });
-    }
+        );
+      }
 
-    throw new UnscharferelationError('THIS UNSCHARFERELATION IS  NOT DETERMINED');
+      if (heisenberg.isPresent()) {
+        return epoque.accept(heisenberg.get());
+      }
+      if (heisenberg.isAbsent()) {
+        return epoque.decline();
+      }
+
+      return epoque.throw(heisenberg.get());
+    });
   }
 
   public static of<P>(func: UnaryFunction<Epoque<Matter<P>, void>, unknown>): Unscharferelation<P> {

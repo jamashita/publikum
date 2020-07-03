@@ -1,8 +1,19 @@
-import { Peek, Predicate, Reject, Resolve, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import {
+  Consumer,
+  Peek,
+  Predicate,
+  Reject,
+  Resolve,
+  Supplier,
+  Suspicious,
+  UnaryFunction
+} from '@jamashita/publikum-type';
 
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { PassEpoque } from '../Epoque/PassEpoque';
 import { CombinedPlan } from '../Plan/CombinedPlan';
+import { DisasterConsumerPlan } from '../Plan/DisasterConsumerPlan';
+import { DisasterPlan } from '../Plan/Interface/DisasterPlan';
 import { MappingPlan } from '../Plan/Interface/MappingPlan';
 import { RecoveryPlan } from '../Plan/Interface/RecoveryPlan';
 import { MappingConsumerPlan } from '../Plan/MappingConsumerPlan';
@@ -14,6 +25,7 @@ import { SuperpositionInternal } from '../Superposition/SuperpositionInternal';
 import { UnscharferelationError } from './Error/UnscharferelationError';
 import { Absent } from './Heisenberg/Absent';
 import { Heisenberg } from './Heisenberg/Heisenberg';
+import { Lost } from './Heisenberg/Lost';
 import { Present } from './Heisenberg/Present';
 import { Uncertain } from './Heisenberg/Uncertain';
 import { IUnscharferelation } from './Interface/IUnscharferelation';
@@ -37,46 +49,54 @@ export class UnscharferelationInternal<P>
     func(this);
   }
 
-  private done(): boolean {
-    if (this.heisenberg.isPresent() || this.heisenberg.isAbsent()) {
-      return true;
-    }
-
-    return false;
-  }
-
-  public resolve(value: Matter<P>): unknown {
-    if (this.done()) {
+  public accept(value: Matter<P>): unknown {
+    if (this.heisenberg.isSettled()) {
       return;
     }
 
     this.heisenberg = Present.of<P>(value);
 
     this.plans.forEach((plan: MappingPlan<P>) => {
-      return plan.onResolve(value);
+      return plan.onMap(value);
     });
   }
 
-  public reject(): unknown {
-    if (this.done()) {
+  public decline(): unknown {
+    if (this.heisenberg.isSettled()) {
       return;
     }
 
     this.heisenberg = Absent.of<P>();
 
     this.plans.forEach((plan: RecoveryPlan<void>) => {
-      return plan.onReject();
+      return plan.onRecover();
+    });
+  }
+
+  // TODO TEST UNDONE
+  public throw(error: unknown): unknown {
+    if (this.heisenberg.isSettled()) {
+      return;
+    }
+
+    this.heisenberg = Lost.of<P>(error);
+
+    this.plans.forEach((plan: DisasterPlan) => {
+      return plan.onDisaster(error);
     });
   }
 
   public get(): Promise<Matter<P>> {
-    return new Promise<Matter<P>>((resolve: Resolve<Matter<P>>, reject: Reject<UnscharferelationError>) => {
+    return new Promise<Matter<P>>((resolve: Resolve<Matter<P>>, reject: Reject<UnscharferelationError | unknown>) => {
       this.pass(
         (value: Matter<P>) => {
           resolve(value);
         },
         () => {
           reject(new UnscharferelationError('ABSENT'));
+        },
+        (e: unknown) => {
+          reject(e);
         }
       );
     });
@@ -97,7 +117,7 @@ export class UnscharferelationInternal<P>
       }
 
       return UnscharferelationInternal.of<P>((epoque: Epoque<Matter<P>, void>) => {
-        epoque.reject();
+        epoque.decline();
       });
     }
     if (this.heisenberg.isAbsent()) {
@@ -114,7 +134,11 @@ export class UnscharferelationInternal<P>
     >
   ): UnscharferelationInternal<Q> {
     return UnscharferelationInternal.of<Q>((epoque: Epoque<Matter<Q>, void>) => {
-      return this.handle(PresentPlan.of<P, Q>(mapper, epoque), RecoveryConsumerPlan.of<void>(epoque));
+      return this.handle(
+        PresentPlan.of<P, Q>(mapper, epoque),
+        RecoveryConsumerPlan.of<void>(epoque),
+        DisasterConsumerPlan.of(epoque)
+      );
     });
   }
 
@@ -122,31 +146,39 @@ export class UnscharferelationInternal<P>
     mapper: Supplier<UnscharferelationInternal<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>
   ): UnscharferelationInternal<P | Q> {
     return UnscharferelationInternal.of<P | Q>((epoque: Epoque<Matter<P | Q>, void>) => {
-      return this.handle(MappingConsumerPlan.of<Matter<P>>(epoque), AbsentPlan.of<Q>(mapper, epoque));
+      return this.handle(
+        MappingConsumerPlan.of<Matter<P>>(epoque),
+        AbsentPlan.of<Q>(mapper, epoque),
+        DisasterConsumerPlan.of(epoque)
+      );
     });
   }
 
-  private pass(resolve: Resolve<Matter<P>>, reject: Reject<void>): unknown {
-    const epoque: Epoque<Matter<P>, void> = PassEpoque.of<Matter<P>, void>(resolve, reject);
+  private pass(accepted: Consumer<Matter<P>>, declined: Consumer<void>, thrown: Consumer<unknown>): unknown {
+    const epoque: Epoque<Matter<P>, void> = PassEpoque.of<Matter<P>, void>(accepted, declined, thrown);
 
-    return this.handle(MappingConsumerPlan.of<Matter<P>>(epoque), RecoveryConsumerPlan.of(epoque));
+    return this.handle(
+      MappingConsumerPlan.of<Matter<P>>(epoque),
+      RecoveryConsumerPlan.of(epoque),
+      DisasterConsumerPlan.of(epoque)
+    );
   }
 
   private peek(peek: Peek): unknown {
-    const epoque: Epoque<void, void> = PassEpoque.of<void, void>(peek, peek);
+    const epoque: Epoque<void, void> = PassEpoque.of<void, void>(peek, peek, peek);
 
-    return this.handle(MappingPeekPlan.of(epoque), RecoveryPeekPlan.of(epoque));
+    return this.handle(MappingPeekPlan.of(epoque), RecoveryPeekPlan.of(epoque), DisasterConsumerPlan.of(epoque));
   }
 
-  private handle(resolve: MappingPlan<P>, reject: RecoveryPlan<void>): unknown {
+  private handle(mapping: MappingPlan<P>, recovery: RecoveryPlan<void>, disaster: DisasterPlan): unknown {
     if (this.heisenberg.isPresent()) {
-      return resolve.onResolve(this.heisenberg.get());
+      return mapping.onMap(this.heisenberg.get());
     }
     if (this.heisenberg.isAbsent()) {
-      return reject.onReject();
+      return recovery.onRecover();
     }
 
-    return this.plans.add(CombinedPlan.of<Matter<P>, void>(resolve, reject));
+    return this.plans.add(CombinedPlan.of<Matter<P>, void>(mapping, recovery, disaster));
   }
 
   public toSuperposition(): SuperpositionInternal<P, UnscharferelationError> {
@@ -155,15 +187,18 @@ export class UnscharferelationInternal<P>
         this.pass(
           (value: Matter<P>) => {
             if (value instanceof Error) {
-              epoque.reject(new UnscharferelationError('ABSENT'));
+              epoque.decline(new UnscharferelationError('ABSENT'));
 
               return;
             }
 
-            epoque.resolve((value as unknown) as Detoxicated<P>);
+            epoque.accept((value as unknown) as Detoxicated<P>);
           },
           () => {
-            epoque.reject(new UnscharferelationError('ABSENT'));
+            epoque.decline(new UnscharferelationError('ABSENT'));
+          },
+          (e: unknown) => {
+            epoque.throw(e);
           }
         );
       }
