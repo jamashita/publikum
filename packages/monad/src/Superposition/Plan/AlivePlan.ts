@@ -29,7 +29,7 @@ export class AlivePlan<A, B, E extends Error> implements MappingPlan<A, 'AlivePl
     this.epoque = epoque;
   }
 
-  public onResolve(resolve: Detoxicated<A>): unknown {
+  public onMap(resolve: Detoxicated<A>): unknown {
     // prettier-ignore
     try {
       const mapped: ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B> = this.mapper(resolve);
@@ -37,28 +37,31 @@ export class AlivePlan<A, B, E extends Error> implements MappingPlan<A, 'AlivePl
       if (BeSuperposition.is<B, E>(mapped)) {
         return mapped.transform<void>(
           (v: Detoxicated<B>) => {
-            this.epoque.resolve(v);
+            this.epoque.accept(v);
           },
           (e: E) => {
-            this.epoque.reject(e);
+            // TODO ERROR HANDLING
+            this.epoque.decline(e);
           }
         );
       }
       if (Kind.isPromiseLike(mapped)) {
         return mapped.then<void, void>(
           (v: Detoxicated<B>) => {
-            this.epoque.resolve(v);
+            this.epoque.accept(v);
           },
           (e: E) => {
-            this.epoque.reject(e);
+            // TODO ERROR HANDLING
+            this.epoque.decline(e);
           }
         );
       }
 
-      return this.epoque.resolve(mapped);
+      return this.epoque.accept(mapped);
     }
     catch (err) {
-      return this.epoque.reject(err);
+      // TODO ERROR HANDLING
+      return this.epoque.decline(err);
     }
   }
 }

@@ -26,7 +26,7 @@ export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPl
     this.epoque = epoque;
   }
 
-  public onReject(reject: D): unknown {
+  public onRecover(reject: D): unknown {
     // prettier-ignore
     try {
       const mapped: ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B> = this.mapper(reject);
@@ -34,28 +34,31 @@ export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPl
       if (BeSuperposition.is<B, E>(mapped)) {
         return mapped.transform<void>(
           (v: Detoxicated<B>) => {
-            this.epoque.resolve(v);
+            this.epoque.accept(v);
           },
           (e: E) => {
-            this.epoque.reject(e);
+            // TODO ERROR HANDLING
+            this.epoque.decline(e);
           }
         );
       }
       if (Kind.isPromiseLike(mapped)) {
         return mapped.then<void, void>(
           (v: Detoxicated<B>) => {
-            this.epoque.resolve(v);
+            this.epoque.accept(v);
           },
           (e: E) => {
-            this.epoque.reject(e);
+            // TODO ERROR HANDLING
+            this.epoque.decline(e);
           }
         );
       }
 
-      return this.epoque.resolve(mapped);
+      return this.epoque.accept(mapped);
     }
     catch (e) {
-      return this.epoque.reject(e);
+      // TODO ERROR HANDLING
+      return this.epoque.decline(e);
     }
   }
 }

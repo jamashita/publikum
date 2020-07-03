@@ -10,13 +10,14 @@ import { Superposition } from '../../Superposition';
 import { AlivePlan } from '../AlivePlan';
 
 describe('AlivePlan', () => {
-  describe('onResolve', () => {
+  describe('onMap', () => {
     it('A given', () => {
       const value: number = 101;
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       const plan: AlivePlan<number, number, MockError> = AlivePlan.of<number, number, MockError>(
         (n: number) => {
@@ -32,15 +33,19 @@ describe('AlivePlan', () => {
           },
           () => {
             spy3();
+          },
+          () => {
+            spy4();
           }
         )
       );
 
-      plan.onResolve(value);
+      plan.onMap(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
     });
 
     it('Promise<A> given', async () => {
@@ -49,6 +54,7 @@ describe('AlivePlan', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: AlivePlan<number, number, MockError> = AlivePlan.of<number, number, MockError>(
@@ -69,16 +75,22 @@ describe('AlivePlan', () => {
               spy3();
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
           )
         );
 
-        plan.onResolve(value);
+        plan.onMap(value);
       });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
     });
 
     it('Alive Superposition<A, D> given', () => {
@@ -87,6 +99,7 @@ describe('AlivePlan', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       const plan: AlivePlan<number, number, MockError> = AlivePlan.of<number, number, MockError>(
         (n: number) => {
@@ -102,15 +115,19 @@ describe('AlivePlan', () => {
           },
           () => {
             spy3();
+          },
+          () => {
+            spy4();
           }
         )
       );
 
-      plan.onResolve(value);
+      plan.onMap(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
     });
 
     it('D thrown', () => {
@@ -120,6 +137,7 @@ describe('AlivePlan', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       const plan: AlivePlan<number, number, MockError> = AlivePlan.of<number, number, MockError>(
         (n: number) => {
@@ -135,15 +153,19 @@ describe('AlivePlan', () => {
           (e: MockError) => {
             spy3();
             expect(e).toBe(error);
+          },
+          () => {
+            spy4();
           }
         )
       );
 
-      plan.onResolve(value);
+      plan.onMap(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(false);
     });
 
     it('Promise<A> rejected', async () => {
@@ -153,6 +175,7 @@ describe('AlivePlan', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: AlivePlan<number, number, MockError> = AlivePlan.of<number, number, MockError>(
@@ -173,16 +196,22 @@ describe('AlivePlan', () => {
               expect(e).toBe(error);
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
           )
         );
 
-        plan.onResolve(value);
+        plan.onMap(value);
       });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(false);
     });
 
     it('Dead Superposition<A, D> given', () => {
@@ -192,6 +221,7 @@ describe('AlivePlan', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
 
       const plan: AlivePlan<number, number, MockError> = AlivePlan.of<number, number, MockError>(
         (n: number) => {
@@ -207,15 +237,19 @@ describe('AlivePlan', () => {
           (e: MockError) => {
             spy3();
             expect(e).toBe(error);
+          },
+          () => {
+            spy4();
           }
         )
       );
 
-      plan.onResolve(value);
+      plan.onMap(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(true);
     });
   });
 });
