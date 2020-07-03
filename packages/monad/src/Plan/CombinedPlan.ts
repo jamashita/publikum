@@ -1,25 +1,33 @@
+import { DisasterPlan } from './Interface/DisasterPlan';
 import { MappingPlan } from './Interface/MappingPlan';
 import { RecoveryPlan } from './Interface/RecoveryPlan';
 
-export class CombinedPlan<F, R> implements MappingPlan<F, 'CompinedPlan'>, RecoveryPlan<R, 'CompinedPlan'> {
+export class CombinedPlan<F, R>
+  implements MappingPlan<F, 'CompinedPlan'>, RecoveryPlan<R, 'CompinedPlan'>, DisasterPlan<'CompinedPlan'> {
   public readonly noun: 'CompinedPlan' = 'CompinedPlan';
-  private readonly resolve: MappingPlan<F>;
-  private readonly reject: RecoveryPlan<R>;
+  private readonly map: MappingPlan<F>;
+  private readonly recover: RecoveryPlan<R>;
+  private readonly disaster: DisasterPlan;
 
-  public static of<F, R>(resolve: MappingPlan<F>, reject: RecoveryPlan<R>): CombinedPlan<F, R> {
-    return new CombinedPlan<F, R>(resolve, reject);
+  public static of<F, R>(map: MappingPlan<F>, recover: RecoveryPlan<R>, disaster: DisasterPlan): CombinedPlan<F, R> {
+    return new CombinedPlan<F, R>(map, recover, disaster);
   }
 
-  protected constructor(resolve: MappingPlan<F>, reject: RecoveryPlan<R>) {
-    this.resolve = resolve;
-    this.reject = reject;
+  protected constructor(map: MappingPlan<F>, recover: RecoveryPlan<R>, disaster: DisasterPlan) {
+    this.map = map;
+    this.recover = recover;
+    this.disaster = disaster;
   }
 
-  public onMap(resolve: F): unknown {
-    return this.resolve.onMap(resolve);
+  public onMap(value: F): unknown {
+    return this.map.onMap(value);
   }
 
-  public onRecover(reject: R): unknown {
-    return this.reject.onRecover(reject);
+  public onRecover(value: R): unknown {
+    return this.recover.onRecover(value);
+  }
+
+  public onDisaster(error: unknown): unknown {
+    return this.disaster.onDisaster(error);
   }
 }
