@@ -1,1 +1,3 @@
-export type Matter<T> = Exclude<T, void | undefined | null>;
+import { Nihil } from './Nihil';
+
+export type Matter<T> = Exclude<T, Nihil>;

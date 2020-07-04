@@ -6,6 +6,7 @@ import { UnscharferelationError } from './Error/UnscharferelationError';
 import { Heisenberg } from './Heisenberg/Heisenberg';
 import { IUnscharferelation } from './Interface/IUnscharferelation';
 import { Matter } from './Interface/Matter';
+import { Nihil } from './Interface/Nihil';
 import { UnscharferelationInternal } from './UnscharferelationInternal';
 
 export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferelation'> {
@@ -63,8 +64,8 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
   }
 
   public static maybe<P>(value: PromiseLike<Suspicious<Matter<P>>> | Suspicious<Matter<P>>): Unscharferelation<P> {
-    if (Kind.isPromiseLike(value)) {
-      return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
+    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
+      if (Kind.isPromiseLike(value)) {
         return value.then<void, void>(
           (v: Suspicious<Matter<P>>) => {
             if (Kind.isUndefined(v) || Kind.isNull(v)) {
@@ -79,22 +80,37 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
             epoque.throw(new UnscharferelationError('REJECTED'));
           }
         );
-      });
-    }
-    if (Kind.isUndefined(value) || Kind.isNull(value)) {
-      return Unscharferelation.absent<P>();
-    }
+      }
 
-    return Unscharferelation.present<P>(value);
-  }
+      if (Kind.isUndefined(value) || Kind.isNull(value)) {
+        return epoque.decline();
+      }
 
-  private static present<P>(value: Matter<P>): Unscharferelation<P> {
-    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
-      epoque.accept(value);
+      return epoque.accept(value);
     });
   }
 
-  private static absent<P>(): Unscharferelation<P> {
+  // TODO TESTS UNDONE
+  public static present<P>(value: PromiseLike<Matter<P>> | Matter<P>): Unscharferelation<P> {
+    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
+      if (Kind.isPromiseLike(value)) {
+        return value.then<void, void>(
+          (v: Matter<P>) => {
+            epoque.accept(v);
+          },
+          (e: unknown) => {
+            epoque.throw(e);
+          }
+        );
+      }
+
+      return epoque.accept(value);
+    });
+  }
+
+  // TODO TESTS UNDONE
+  public static absent<P>(value: PromiseLike<Nihil> | Nihil): Unscharferelation<P>;
+  public static absent<P>(): Unscharferelation<P> {
     return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
       epoque.decline();
     });
