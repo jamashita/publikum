@@ -50,15 +50,4 @@ describe('Lost', () => {
       expect(lost2.isLost()).toBe(true);
     });
   });
-
-  describe('isSettled', () => {
-    it('returns true', () => {
-      const error: MockError = new MockError();
-      const lost1: Lost<void> = Lost.of<void>(error);
-      const lost2: Lost<number> = Lost.of<number>(error);
-
-      expect(lost1.isSettled()).toBe(true);
-      expect(lost2.isSettled()).toBe(true);
-    });
-  });
 });

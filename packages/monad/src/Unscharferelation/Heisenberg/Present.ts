@@ -30,8 +30,4 @@ export class Present<P> implements Heisenberg<P, 'Present'> {
   public isLost(): this is Lost<P> {
     return false;
   }
-
-  public isSettled(): boolean {
-    return true;
-  }
 }

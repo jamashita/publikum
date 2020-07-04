@@ -17,6 +17,4 @@ export interface Heisenberg<P, N extends HeisenbergType = HeisenbergType> extend
   isAbsent(): this is Absent<P>;
 
   isLost(): this is Lost<P>;
-
-  isSettled(): boolean;
 }
