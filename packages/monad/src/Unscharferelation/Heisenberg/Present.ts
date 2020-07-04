@@ -1,6 +1,7 @@
 import { Matter } from '../Interface/Matter';
 import { Absent } from './Absent';
 import { Heisenberg } from './Heisenberg';
+import { Lost } from './Lost';
 
 export class Present<P> implements Heisenberg<P, 'Present'> {
   public readonly noun: 'Present' = 'Present';
@@ -23,6 +24,10 @@ export class Present<P> implements Heisenberg<P, 'Present'> {
   }
 
   public isAbsent(): this is Absent<P> {
+    return false;
+  }
+
+  public isLost(): this is Lost<P> {
     return false;
   }
 

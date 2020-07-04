@@ -35,6 +35,16 @@ describe('Absent', () => {
     });
   });
 
+  describe('isLost', () => {
+    it('returns false', () => {
+      const absent1: Absent<void> = Absent.of<void>();
+      const absent2: Absent<number> = Absent.of<number>();
+
+      expect(absent1.isLost()).toBe(false);
+      expect(absent2.isLost()).toBe(false);
+    });
+  });
+
   describe('isSettled', () => {
     it('returns true', () => {
       const absent1: Absent<void> = Absent.of<void>();

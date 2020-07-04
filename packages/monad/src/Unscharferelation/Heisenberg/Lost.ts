@@ -26,6 +26,10 @@ export class Lost<P> implements Heisenberg<P, 'Lost'> {
     return false;
   }
 
+  public isLost(): this is Lost<P> {
+    return true;
+  }
+
   public isSettled(): boolean {
     return true;
   }

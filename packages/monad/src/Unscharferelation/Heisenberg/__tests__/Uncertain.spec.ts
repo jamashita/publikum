@@ -36,6 +36,16 @@ describe('Uncertain', () => {
     });
   });
 
+  describe('isLost', () => {
+    it('returns false', () => {
+      const uncertain1: Uncertain<void> = Uncertain.of<void>();
+      const uncertain2: Uncertain<number> = Uncertain.of<number>();
+
+      expect(uncertain1.isLost()).toBe(false);
+      expect(uncertain2.isLost()).toBe(false);
+    });
+  });
+
   describe('isSettled', () => {
     it('returns false', () => {
       const uncertain1: Uncertain<void> = Uncertain.of<void>();

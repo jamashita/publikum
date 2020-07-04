@@ -1,6 +1,7 @@
 import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Absent } from './Absent';
 import { Heisenberg } from './Heisenberg';
+import { Lost } from './Lost';
 import { Present } from './Present';
 
 export class Uncertain<P> implements Heisenberg<P, 'Uncertain'> {
@@ -25,6 +26,10 @@ export class Uncertain<P> implements Heisenberg<P, 'Uncertain'> {
   }
 
   public isAbsent(): this is Absent<P> {
+    return false;
+  }
+
+  public isLost(): this is Lost<P> {
     return false;
   }
 

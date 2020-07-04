@@ -61,6 +61,26 @@ describe('Present', () => {
     });
   });
 
+  describe('isLost', () => {
+    it('returns false', () => {
+      const present1: Present<number> = Present.of<number>(1);
+      const present2: Present<number> = Present.of<number>(0);
+      const present3: Present<number> = Present.of<number>(-1);
+      const present4: Present<string> = Present.of<string>('');
+      const present5: Present<string> = Present.of<string>('1');
+      const present6: Present<boolean> = Present.of<boolean>(true);
+      const present7: Present<boolean> = Present.of<boolean>(false);
+
+      expect(present1.isLost()).toBe(false);
+      expect(present2.isLost()).toBe(false);
+      expect(present3.isLost()).toBe(false);
+      expect(present4.isLost()).toBe(false);
+      expect(present5.isLost()).toBe(false);
+      expect(present6.isLost()).toBe(false);
+      expect(present7.isLost()).toBe(false);
+    });
+  });
+
   describe('isSettled', () => {
     it('returns true', () => {
       const present1: Present<number> = Present.of<number>(1);
