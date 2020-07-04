@@ -38,6 +38,9 @@ export class AbsentPlan<Q> implements RecoveryPlan<void, 'AbsentPlan'> {
             if (v.isPresent()) {
               return this.epoque.accept(v.get());
             }
+            if (v.isLost()) {
+              return this.epoque.throw(v.getCause());
+            }
 
             return this.epoque.decline();
           },

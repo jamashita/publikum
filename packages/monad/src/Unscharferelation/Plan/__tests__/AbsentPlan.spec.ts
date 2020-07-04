@@ -5,6 +5,7 @@ import { Resolve } from '@jamashita/publikum-type';
 
 import { PassEpoque } from '../../../Epoque/PassEpoque';
 import { Absent } from '../../Heisenberg/Absent';
+import { Lost } from '../../Heisenberg/Lost';
 import { Present } from '../../Heisenberg/Present';
 import { Unscharferelation } from '../../Unscharferelation';
 import { AbsentPlan } from '../AbsentPlan';
@@ -390,6 +391,50 @@ describe('AbsentPlan', () => {
             spy1();
 
             return Promise.reject<number>(error);
+          },
+          PassEpoque.of<number, void>(
+            () => {
+              spy2();
+
+              resolve();
+            },
+            () => {
+              spy3();
+
+              resolve();
+            },
+            (n: unknown) => {
+              spy4();
+              expect(n).toBe(error);
+
+              resolve();
+            }
+          )
+        );
+
+        plan.onRecover();
+      });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(true);
+    });
+
+    it('Lost Unscharferelation given', async () => {
+      const error: MockError = new MockError();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
+
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const plan: AbsentPlan<number> = AbsentPlan.of<number>(
+          () => {
+            spy1();
+
+            return Unscharferelation.ofHeisenberg<number>(Lost.of<number>(error));
           },
           PassEpoque.of<number, void>(
             () => {
