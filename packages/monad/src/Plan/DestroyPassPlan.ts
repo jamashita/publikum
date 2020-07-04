@@ -1,7 +1,6 @@
 import { ThrowEpoque } from '../Epoque/Interface/ThrowEpoque';
 import { DestroyPlan } from './Interface/DestroyPlan';
 
-// TODO
 export class DestroyPassPlan implements DestroyPlan<'DestroyPassPlan'> {
   public readonly noun: 'DestroyPassPlan' = 'DestroyPassPlan';
   private readonly epoque: ThrowEpoque;

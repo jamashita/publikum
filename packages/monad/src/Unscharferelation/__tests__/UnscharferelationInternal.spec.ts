@@ -1,17 +1,20 @@
 import sinon, { SinonSpy } from 'sinon';
 
+import { MockError } from '@jamashita/publikum-object';
+
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { Schrodinger } from '../../Superposition/Schrodinger/Schrodinger';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
+import { Lost } from '../Heisenberg/Lost';
 import { UnscharferelationInternal } from '../UnscharferelationInternal';
 
 describe('UnscharferelationInternal', () => {
-  describe('resolve', () => {
+  describe('accept', () => {
     it('if done once, do nothing', async () => {
       const unscharferelation: UnscharferelationInternal<void> = UnscharferelationInternal.of<void>(
         (epoque: Epoque<void, void>) => {
-          epoque.resolve();
+          epoque.accept();
         }
       );
 
@@ -19,7 +22,7 @@ describe('UnscharferelationInternal', () => {
 
       expect(heisenberg1.isPresent()).toBe(true);
 
-      unscharferelation.reject();
+      unscharferelation.decline();
 
       const heisenberg2: Heisenberg<void> = await unscharferelation.terminate();
 
@@ -34,7 +37,7 @@ describe('UnscharferelationInternal', () => {
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value);
+          epoque.accept(value);
         }
       );
 
@@ -61,13 +64,13 @@ describe('UnscharferelationInternal', () => {
     });
   });
 
-  describe('reject', () => {
+  describe('decline', () => {
     it('if done once, do nothing', async () => {
       const value: number = -1.3;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.reject();
+          epoque.decline();
         }
       );
 
@@ -75,7 +78,7 @@ describe('UnscharferelationInternal', () => {
 
       expect(heisenberg1.isAbsent()).toBe(true);
 
-      unscharferelation.resolve(value);
+      unscharferelation.accept(value);
 
       const heisenberg2: Heisenberg<number> = await unscharferelation.terminate();
 
@@ -88,7 +91,7 @@ describe('UnscharferelationInternal', () => {
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.reject();
+          epoque.decline();
         }
       );
 
@@ -113,18 +116,91 @@ describe('UnscharferelationInternal', () => {
     });
   });
 
+  describe('throw', () => {
+    it('if done once, do nothing', async () => {
+      const value: number = -1.3;
+      const error: MockError = new MockError();
+
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.throw(error);
+        }
+      );
+
+      const heisenberg1: Heisenberg<number> = await unscharferelation.terminate();
+
+      expect(heisenberg1).toBeInstanceOf(Lost);
+
+      unscharferelation.accept(value);
+
+      const heisenberg2: Heisenberg<number> = await unscharferelation.terminate();
+
+      expect(heisenberg2).toBeInstanceOf(Lost);
+    });
+
+    it('call multiple maps, but nothing will be invoked', async () => {
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
+
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.decline();
+        }
+      );
+
+      await unscharferelation
+        .map<number>(() => {
+          spy1();
+
+          return 4;
+        })
+        .terminate();
+
+      await unscharferelation
+        .recover<number>(() => {
+          spy3();
+
+          return 3;
+        })
+        .terminate();
+
+      await unscharferelation
+        .map<number>(() => {
+          spy3();
+
+          return 2;
+        })
+        .terminate();
+
+      await unscharferelation
+        .recover<number>(() => {
+          spy4();
+
+          return 1;
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
+    });
+  });
+
   describe('get', () => {
     it('returns inner value', async () => {
       const value: number = -201;
 
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value);
+          epoque.accept(value);
         }
       );
       const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.reject();
+          epoque.decline();
         }
       );
 
@@ -138,10 +214,10 @@ describe('UnscharferelationInternal', () => {
       const value: number = -201;
 
       const present: Heisenberg<number> = await UnscharferelationInternal.of<number>((epoque: Epoque<number, void>) => {
-        epoque.resolve(value);
+        epoque.accept(value);
       }).terminate();
       const absent: Heisenberg<number> = await UnscharferelationInternal.of<number>((epoque: Epoque<number, void>) => {
-        epoque.reject();
+        epoque.decline();
       }).terminate();
 
       expect(present.isPresent()).toBe(true);
@@ -159,7 +235,7 @@ describe('UnscharferelationInternal', () => {
 
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value);
+          epoque.accept(value);
         }
       );
       const unscharferelation2: UnscharferelationInternal<number> = unscharferelation1.filter(() => {
@@ -177,7 +253,7 @@ describe('UnscharferelationInternal', () => {
 
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value);
+          epoque.accept(value);
         }
       );
       const unscharferelation2: UnscharferelationInternal<number> = unscharferelation1.filter(() => {
@@ -195,7 +271,7 @@ describe('UnscharferelationInternal', () => {
     it('absent: returns itself inspite of the return value of filter', async () => {
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.reject();
+          epoque.decline();
         }
       );
       const unscharferelation2: UnscharferelationInternal<number> = unscharferelation1.filter(() => {
@@ -225,7 +301,7 @@ describe('UnscharferelationInternal', () => {
       const value: number = -201;
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value);
+          epoque.accept(value);
         }
       );
 
@@ -255,7 +331,7 @@ describe('UnscharferelationInternal', () => {
       const value: number = -201;
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value);
+          epoque.accept(value);
         }
       );
 
@@ -286,12 +362,12 @@ describe('UnscharferelationInternal', () => {
       const value2: number = -20100;
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value1);
+          epoque.accept(value1);
         }
       );
       const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value2);
+          epoque.accept(value2);
         }
       );
 
@@ -321,7 +397,7 @@ describe('UnscharferelationInternal', () => {
       const value: number = -201;
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value);
+          epoque.accept(value);
         }
       );
 
@@ -346,11 +422,11 @@ describe('UnscharferelationInternal', () => {
       expect(spy2.called).toBe(false);
     });
 
-    it('async case: returns resolved null', async () => {
+    it('async case: returns acceptd null', async () => {
       const value: number = -201;
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value);
+          epoque.accept(value);
         }
       );
 
@@ -379,12 +455,12 @@ describe('UnscharferelationInternal', () => {
       const value: number = -201;
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value);
+          epoque.accept(value);
         }
       );
       const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.reject();
+          epoque.decline();
         }
       );
 
@@ -409,11 +485,11 @@ describe('UnscharferelationInternal', () => {
       expect(spy2.called).toBe(false);
     });
 
-    it('already resolved unscharferelation case', async () => {
+    it('already acceptd unscharferelation case', async () => {
       const value: number = -201;
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value);
+          epoque.accept(value);
         }
       );
 
@@ -445,7 +521,7 @@ describe('UnscharferelationInternal', () => {
       const value: number = -201;
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.reject();
+          epoque.decline();
         }
       );
 
@@ -481,7 +557,7 @@ describe('UnscharferelationInternal', () => {
       const value: number = -201;
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.reject();
+          epoque.decline();
         }
       );
 
@@ -517,12 +593,12 @@ describe('UnscharferelationInternal', () => {
       const value: number = -20100;
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.reject();
+          epoque.decline();
         }
       );
       const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value);
+          epoque.accept(value);
         }
       );
 
@@ -558,7 +634,7 @@ describe('UnscharferelationInternal', () => {
       const value: number = -201;
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value);
+          epoque.accept(value);
         }
       );
 
@@ -591,11 +667,11 @@ describe('UnscharferelationInternal', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('async case: returns resolved null', async () => {
+    it('async case: returns acceptd null', async () => {
       const value: number = -201;
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value);
+          epoque.accept(value);
         }
       );
 
@@ -632,12 +708,12 @@ describe('UnscharferelationInternal', () => {
       const value: number = -201;
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value);
+          epoque.accept(value);
         }
       );
       const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.reject();
+          epoque.decline();
         }
       );
 
@@ -670,11 +746,11 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('already resolved unscharferelation case', async () => {
+    it('already acceptd unscharferelation case', async () => {
       const value: number = -201;
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value);
+          epoque.accept(value);
         }
       );
 
@@ -700,12 +776,13 @@ describe('UnscharferelationInternal', () => {
       expect(spy2.called).toBe(true);
     });
   });
+
   describe('toSuperposition', () => {
     it('present: will transform to alive', async () => {
       const value: number = -201;
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.resolve(value);
+          epoque.accept(value);
         }
       );
 
@@ -721,7 +798,7 @@ describe('UnscharferelationInternal', () => {
     it('absent: will transform to dead', async () => {
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.reject();
+          epoque.decline();
         }
       );
 
