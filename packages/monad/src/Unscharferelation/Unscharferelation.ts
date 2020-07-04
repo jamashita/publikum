@@ -17,50 +17,68 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
       return Unscharferelation.present<Array<P>>([]);
     }
 
-    const heisenbergs: Array<PromiseLike<Heisenberg<P>>> = Array.from<Unscharferelation<P>>(unscharferelations).map<
+    const promises: Array<PromiseLike<Heisenberg<P>>> = Array.from<Unscharferelation<P>>(unscharferelations).map<
       PromiseLike<Heisenberg<P>>
     >((u: Unscharferelation<P>) => {
       return u.terminate();
     });
 
     return Unscharferelation.of<Array<P>>((epoque: Epoque<Array<P>, void>) => {
-      return Promise.all<Heisenberg<P>>(heisenbergs).then<void>((hbg: Array<Heisenberg<P>>) => {
-        const hs: Array<P> = [];
+      return Promise.all<Heisenberg<P>>(promises).then<void, void>(
+        (heisenbergs: Array<Heisenberg<P>>) => {
+          const hs: Array<P> = [];
+          let absent: boolean = false;
 
-        for (let i: number = 0; i < hbg.length; i++) {
-          const h: Heisenberg<P> = hbg[i];
+          for (let i: number = 0; i < heisenbergs.length; i++) {
+            const heisenberg: Heisenberg<P> = heisenbergs[i];
 
-          if (h.isAbsent()) {
+            if (heisenberg.isLost()) {
+              epoque.throw(heisenberg.getCause());
+
+              return;
+            }
+            if (heisenberg.isPresent()) {
+              hs.push(heisenberg.get());
+
+              continue;
+            }
+            if (heisenberg.isAbsent()) {
+              absent = true;
+            }
+          }
+
+          if (absent) {
             epoque.decline();
 
             return;
           }
 
-          hs.push(h.get());
+          epoque.accept(hs);
+        },
+        (e: unknown) => {
+          epoque.throw(e);
         }
-
-        epoque.accept(hs);
-      });
+      );
     });
   }
 
-  public static maybe<P>(
-    value: Unscharferelation<P> | PromiseLike<Suspicious<Matter<P>>> | Suspicious<Matter<P>>
-  ): Unscharferelation<P> {
-    if (value instanceof Unscharferelation) {
-      return value;
-    }
+  public static maybe<P>(value: PromiseLike<Suspicious<Matter<P>>> | Suspicious<Matter<P>>): Unscharferelation<P> {
     if (Kind.isPromiseLike(value)) {
       return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
-        return value.then<void>((v: Suspicious<Matter<P>>) => {
-          if (Kind.isUndefined(v) || Kind.isNull(v)) {
-            epoque.decline();
+        return value.then<void, void>(
+          (v: Suspicious<Matter<P>>) => {
+            if (Kind.isUndefined(v) || Kind.isNull(v)) {
+              epoque.decline();
 
-            return;
+              return;
+            }
+
+            epoque.accept(v);
+          },
+          () => {
+            epoque.throw(new UnscharferelationError('REJECTED'));
           }
-
-          epoque.accept(v);
-        });
+        );
       });
     }
     if (Kind.isUndefined(value) || Kind.isNull(value)) {
@@ -93,12 +111,14 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
             if (v.isAbsent()) {
               return epoque.decline();
             }
+            if (v.isLost()) {
+              return epoque.throw(v.getCause());
+            }
 
-            // TODO INNER VALUE
-            return epoque.throw(v);
+            return epoque.throw(new UnscharferelationError('UNKNOWN HEISENBERG'));
           },
-          (e: unknown) => {
-            return epoque.throw(e);
+          () => {
+            return epoque.throw(new UnscharferelationError('REJECTED'));
           }
         );
       }
@@ -109,9 +129,11 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
       if (heisenberg.isAbsent()) {
         return epoque.decline();
       }
+      if (heisenberg.isLost()) {
+        return epoque.throw(heisenberg.getCause());
+      }
 
-      // TODO INNER VALUE
-      return epoque.throw(heisenberg.get());
+      return epoque.throw(new UnscharferelationError('UNKNOWN HEISENBERG'));
     });
   }
 
@@ -142,13 +164,13 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
   public map<Q = P>(
     mapper: UnaryFunction<Matter<P>, PromiseLike<Suspicious<Matter<Q>>> | Unscharferelation<Q> | Suspicious<Matter<Q>>>
   ): Unscharferelation<Q> {
-    return Unscharferelation.ofUnscharferelation<Q>(this.internal.map(mapper));
+    return Unscharferelation.ofUnscharferelation<Q>(this.internal.map<Q>(mapper));
   }
 
   public recover<Q = P>(
     mapper: Supplier<PromiseLike<Suspicious<Matter<Q>>> | Unscharferelation<Q> | Suspicious<Matter<Q>>>
   ): Unscharferelation<P | Q> {
-    return Unscharferelation.ofUnscharferelation<P | Q>(this.internal.recover(mapper));
+    return Unscharferelation.ofUnscharferelation<P | Q>(this.internal.recover<Q>(mapper));
   }
 
   public toSuperposition(): Superposition<P, UnscharferelationError> {

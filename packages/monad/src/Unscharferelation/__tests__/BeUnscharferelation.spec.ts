@@ -12,7 +12,7 @@ describe('BeUnscharferelation', () => {
       );
       const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.reject();
+          epoque.decline();
         }
       );
 
