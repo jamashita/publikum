@@ -19,15 +19,15 @@ describe('Lost', () => {
     });
   });
 
-  describe('getError', () => {
+  describe('getCause', () => {
     it('returns given error', () => {
       const error1: MockError = new MockError();
       const error2: MockError = new MockError();
       const lost1: Lost<void> = Lost.of<void>(error1);
       const lost2: Lost<number> = Lost.of<number>(error2);
 
-      expect(lost1.getError()).toBe(error1);
-      expect(lost2.getError()).toBe(error2);
+      expect(lost1.getCause()).toBe(error1);
+      expect(lost2.getCause()).toBe(error2);
     });
   });
 

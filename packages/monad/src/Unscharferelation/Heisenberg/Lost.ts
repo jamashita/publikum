@@ -18,7 +18,7 @@ export class Lost<P> implements Heisenberg<P, 'Lost'> {
     throw this.cause;
   }
 
-  public getError(): unknown {
+  public getCause(): unknown {
     return this.cause;
   }
 

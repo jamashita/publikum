@@ -1,5 +1,12 @@
 import {
-    Consumer, Peek, Predicate, Reject, Resolve, Supplier, Suspicious, UnaryFunction
+  Consumer,
+  Peek,
+  Predicate,
+  Reject,
+  Resolve,
+  Supplier,
+  Suspicious,
+  UnaryFunction
 } from '@jamashita/publikum-type';
 
 import { Epoque } from '../Epoque/Interface/Epoque';
@@ -42,8 +49,16 @@ export class UnscharferelationInternal<P>
     func(this);
   }
 
+  private done(): boolean {
+    if (this.heisenberg instanceof Present || this.heisenberg instanceof Absent || this.heisenberg instanceof Lost) {
+      return true;
+    }
+
+    return false;
+  }
+
   public accept(value: Matter<P>): unknown {
-    if (this.heisenberg.isSettled()) {
+    if (this.done()) {
       return;
     }
 
@@ -55,7 +70,7 @@ export class UnscharferelationInternal<P>
   }
 
   public decline(): unknown {
-    if (this.heisenberg.isSettled()) {
+    if (this.done()) {
       return;
     }
 
@@ -66,9 +81,8 @@ export class UnscharferelationInternal<P>
     });
   }
 
-  // TODO TEST UNDONE
   public throw(error: unknown): unknown {
-    if (this.heisenberg.isSettled()) {
+    if (this.done()) {
       return;
     }
 
@@ -159,15 +173,18 @@ export class UnscharferelationInternal<P>
     return this.handle(MappingPeekPlan.of(epoque), RecoveryPeekPlan.of(epoque), DestroyPassPlan.of(epoque));
   }
 
-  private handle(mapping: MappingPlan<P>, recovery: RecoveryPlan<void>, disaster: DestroyPlan): unknown {
+  private handle(mapping: MappingPlan<P>, recovery: RecoveryPlan<void>, destroy: DestroyPlan): unknown {
     if (this.heisenberg.isPresent()) {
       return mapping.onMap(this.heisenberg.get());
     }
     if (this.heisenberg.isAbsent()) {
       return recovery.onRecover();
     }
+    if (this.heisenberg.isLost()) {
+      return destroy.onDestroy(this.heisenberg.getCause());
+    }
 
-    return this.plans.add(CombinedPlan.of<Matter<P>, void>(mapping, recovery, disaster));
+    return this.plans.add(CombinedPlan.of<Matter<P>, void>(mapping, recovery, destroy));
   }
 
   public toSuperposition(): SuperpositionInternal<P, UnscharferelationError> {

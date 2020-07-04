@@ -139,6 +139,8 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('call multiple maps, but nothing will be invoked', async () => {
+      const error: MockError = new MockError();
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
@@ -146,7 +148,7 @@ describe('UnscharferelationInternal', () => {
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.decline();
+          epoque.throw(error);
         }
       );
 
