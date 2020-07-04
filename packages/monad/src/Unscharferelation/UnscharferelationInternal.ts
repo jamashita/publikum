@@ -118,20 +118,23 @@ export class UnscharferelationInternal<P>
   }
 
   public filter(predicate: Predicate<P>): UnscharferelationInternal<P> {
-    if (this.heisenberg.isPresent()) {
-      if (predicate(this.heisenberg.get())) {
-        return this;
-      }
+    return UnscharferelationInternal.of<P>((epoque: Epoque<Matter<P>, void>) => {
+      this.pass(
+        (value: Matter<P>) => {
+          if (predicate(value)) {
+            return epoque.accept(value);
+          }
 
-      return UnscharferelationInternal.of<P>((epoque: Epoque<Matter<P>, void>) => {
-        epoque.decline();
-      });
-    }
-    if (this.heisenberg.isAbsent()) {
-      return this;
-    }
-
-    return this;
+          return epoque.decline();
+        },
+        () => {
+          return epoque.decline();
+        },
+        (e: unknown) => {
+          return epoque.throw(e);
+        }
+      );
+    });
   }
 
   public map<Q = P>(

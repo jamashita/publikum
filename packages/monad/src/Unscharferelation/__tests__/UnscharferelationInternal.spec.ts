@@ -285,7 +285,7 @@ describe('UnscharferelationInternal', () => {
       }).toThrow(UnscharferelationError);
     });
 
-    it('absent: returns itself inspite of the return value of filter', async () => {
+    it('absent: returns its copy inspite of the return value of filter', async () => {
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
           epoque.decline();
@@ -300,19 +300,17 @@ describe('UnscharferelationInternal', () => {
       const heisenberg1: Heisenberg<number> = await unscharferelation2.terminate();
       const heisenberg2: Heisenberg<number> = await unscharferelation3.terminate();
 
-      expect(unscharferelation1).toBe(unscharferelation2);
       expect(heisenberg1.isAbsent()).toBe(true);
       expect(() => {
         heisenberg1.get();
       }).toThrow(UnscharferelationError);
-      expect(unscharferelation1).toBe(unscharferelation3);
       expect(heisenberg2.isAbsent()).toBe(true);
       expect(() => {
         heisenberg2.get();
       }).toThrow(UnscharferelationError);
     });
 
-    it('lost: does nothing', async () => {
+    it('lost: returns its copy', async () => {
       const error: MockError = new MockError();
 
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -329,11 +327,9 @@ describe('UnscharferelationInternal', () => {
       const heisenberg1: Heisenberg<number> = await unscharferelation2.terminate();
       const heisenberg2: Heisenberg<number> = await unscharferelation3.terminate();
 
-      expect(unscharferelation1).toBe(unscharferelation2);
       expect(() => {
         heisenberg1.get();
       }).toThrow(error);
-      expect(unscharferelation1).toBe(unscharferelation3);
       expect(() => {
         heisenberg2.get();
       }).toThrow(error);
