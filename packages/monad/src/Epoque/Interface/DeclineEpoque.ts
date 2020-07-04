@@ -1,5 +1,5 @@
 import { Noun } from '@jamashita/publikum-interface';
 
-export interface DeclineEpoque<E, N extends string = string> extends Noun<N> {
-  decline(value: E): unknown;
+export interface DeclineEpoque<D, N extends string = string> extends Noun<N> {
+  decline(value: D): unknown;
 }

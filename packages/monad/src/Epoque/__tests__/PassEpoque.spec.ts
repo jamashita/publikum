@@ -73,12 +73,12 @@ describe('PassEpoque', () => {
         () => {
           spy1();
         },
-        (v: number) => {
-          spy2();
-          expect(v).toBe(value);
-        },
         () => {
+          spy2();
+        },
+        (v: unknown) => {
           spy3();
+          expect(v).toBe(value);
         }
       );
 

@@ -2,31 +2,31 @@ import { Consumer } from '@jamashita/publikum-type';
 
 import { Epoque } from './Interface/Epoque';
 
-export class PassEpoque<V, E> implements Epoque<V, E, 'PassEpoque'> {
+export class PassEpoque<A, D> implements Epoque<A, D, 'PassEpoque'> {
   public readonly noun: 'PassEpoque' = 'PassEpoque';
-  private readonly accepted: Consumer<V>;
-  private readonly declined: Consumer<E>;
+  private readonly accepted: Consumer<A>;
+  private readonly declined: Consumer<D>;
   private readonly thrown: Consumer<unknown>;
 
-  public static of<V, E>(accepted: Consumer<V>, declined: Consumer<E>, thrown: Consumer<unknown>): PassEpoque<V, E> {
-    return new PassEpoque<V, E>(accepted, declined, thrown);
+  public static of<A, D>(accepted: Consumer<A>, declined: Consumer<D>, thrown: Consumer<unknown>): PassEpoque<A, D> {
+    return new PassEpoque<A, D>(accepted, declined, thrown);
   }
 
-  protected constructor(accepted: Consumer<V>, declined: Consumer<E>, thrown: Consumer<unknown>) {
+  protected constructor(accepted: Consumer<A>, declined: Consumer<D>, thrown: Consumer<unknown>) {
     this.accepted = accepted;
     this.declined = declined;
     this.thrown = thrown;
   }
 
-  public accept(value: V): unknown {
+  public accept(value: A): unknown {
     return this.accepted(value);
   }
 
-  public decline(value: E): unknown {
+  public decline(value: D): unknown {
     return this.declined(value);
   }
 
-  public throw(error: E): unknown {
+  public throw(error: D): unknown {
     return this.thrown(error);
   }
 }
