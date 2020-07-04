@@ -19,6 +19,18 @@ describe('Lost', () => {
     });
   });
 
+  describe('getError', () => {
+    it('returns given error', () => {
+      const error1: MockError = new MockError();
+      const error2: MockError = new MockError();
+      const lost1: Lost<void> = Lost.of<void>(error1);
+      const lost2: Lost<number> = Lost.of<number>(error2);
+
+      expect(lost1.getError()).toBe(error1);
+      expect(lost2.getError()).toBe(error2);
+    });
+  });
+
   describe('isPresent', () => {
     it('returns false', () => {
       const error: MockError = new MockError();
