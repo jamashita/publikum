@@ -242,7 +242,7 @@ describe('UnscharferelationInternal', () => {
       expect(lost.isLost()).toBe(true);
       expect(() => {
         lost.get();
-      }).toThrow(MockError);
+      }).toThrow(error);
     });
   });
 
@@ -311,6 +311,33 @@ describe('UnscharferelationInternal', () => {
         heisenberg2.get();
       }).toThrow(UnscharferelationError);
     });
+
+    it('lost: does nothing', async () => {
+      const error: MockError = new MockError();
+
+      const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.throw(error);
+        }
+      );
+      const unscharferelation2: UnscharferelationInternal<number> = unscharferelation1.filter(() => {
+        return true;
+      });
+      const unscharferelation3: UnscharferelationInternal<number> = unscharferelation1.filter(() => {
+        return false;
+      });
+      const heisenberg1: Heisenberg<number> = await unscharferelation2.terminate();
+      const heisenberg2: Heisenberg<number> = await unscharferelation3.terminate();
+
+      expect(unscharferelation1).toBe(unscharferelation2);
+      expect(() => {
+        heisenberg1.get();
+      }).toThrow(error);
+      expect(unscharferelation1).toBe(unscharferelation3);
+      expect(() => {
+        heisenberg2.get();
+      }).toThrow(error);
+    });
   });
 
   describe('map', () => {
@@ -325,6 +352,7 @@ describe('UnscharferelationInternal', () => {
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
 
       await unscharferelation
         .map<number>((v: number) => {
@@ -339,10 +367,17 @@ describe('UnscharferelationInternal', () => {
 
           return v + 1;
         })
+        .map<number>((v: number) => {
+          spy3();
+          expect(v).toBe(value + 2);
+
+          return v + 1;
+        })
         .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(true);
     });
 
     it('async case', async () => {
@@ -356,6 +391,7 @@ describe('UnscharferelationInternal', () => {
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
 
       await unscharferelation
         .map<number>((v: number) => {
@@ -368,17 +404,25 @@ describe('UnscharferelationInternal', () => {
           spy2();
           expect(v).toBe(value + 1);
 
-          return v + 1;
+          return Promise.resolve<number>(v + 1);
+        })
+        .map<number>((v: number) => {
+          spy3();
+          expect(v).toBe(value + 2);
+
+          return Promise.resolve<number>(v + 1);
         })
         .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(true);
     });
 
     it('Present Unscharferelation case', async () => {
       const value1: number = -201;
       const value2: number = -20100;
+      const value3: number = -20100;
 
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
@@ -390,9 +434,14 @@ describe('UnscharferelationInternal', () => {
           epoque.accept(value2);
         }
       );
-
+      const unscharferelation3: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value3);
+        }
+      );
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
 
       await unscharferelation1
         .map<number>((v: number) => {
@@ -405,12 +454,19 @@ describe('UnscharferelationInternal', () => {
           spy2();
           expect(v).toBe(value2);
 
-          return v + 1;
+          return unscharferelation3;
+        })
+        .map<number>((v: number) => {
+          spy3();
+          expect(v).toBe(value3);
+
+          return unscharferelation3;
         })
         .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(true);
     });
 
     it('sync case: returns null', async () => {
@@ -424,6 +480,7 @@ describe('UnscharferelationInternal', () => {
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
 
       await unscharferelation
         .map<number>((v: number) => {
@@ -437,13 +494,19 @@ describe('UnscharferelationInternal', () => {
 
           return null;
         })
+        .map<number>(() => {
+          spy3();
+
+          return null;
+        })
         .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
     });
 
-    it('async case: returns acceptd null', async () => {
+    it('async case: returns Promise null', async () => {
       const value: number = -201;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -454,6 +517,7 @@ describe('UnscharferelationInternal', () => {
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
 
       await unscharferelation
         .map<number>((v: number) => {
@@ -465,12 +529,18 @@ describe('UnscharferelationInternal', () => {
         .map<number>(() => {
           spy2();
 
-          return null;
+          return Promise.resolve<null>(null);
+        })
+        .map<number>(() => {
+          spy3();
+
+          return Promise.resolve<null>(null);
         })
         .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
     });
 
     it('Absent Unscharferelation case', async () => {
@@ -486,9 +556,15 @@ describe('UnscharferelationInternal', () => {
           epoque.decline();
         }
       );
+      const unscharferelation3: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.decline();
+        }
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
 
       await unscharferelation1
         .map<number>((v: number) => {
@@ -500,15 +576,260 @@ describe('UnscharferelationInternal', () => {
         .map<number>(() => {
           spy2();
 
-          return null;
+          return unscharferelation3;
+        })
+        .map<number>(() => {
+          spy3();
+
+          return unscharferelation3;
         })
         .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
+    });
+
+    it('sync case: throw error', async () => {
+      const value: number = -201;
+      const error: MockError = new MockError();
+
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value);
+        }
+      );
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
+
+      await unscharferelation
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          throw error;
+        })
+        .map<number>(() => {
+          spy2();
+
+          throw error;
+        })
+        .map<number>(() => {
+          spy3();
+
+          throw error;
+        })
+        .recover<number>(() => {
+          spy4();
+
+          throw error;
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
+    });
+
+    it('async case: returns Promise reject', async () => {
+      const value: number = -201;
+      const error: MockError = new MockError();
+
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value);
+        }
+      );
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
+
+      await unscharferelation
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return Promise.reject<null>(error);
+        })
+        .map<number>(() => {
+          spy2();
+
+          return Promise.reject<null>(error);
+        })
+        .map<number>(() => {
+          spy3();
+
+          return Promise.reject<null>(error);
+        })
+        .recover<number>(() => {
+          spy4();
+
+          return Promise.reject<null>(error);
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
     });
 
     it('Lost Unscharferelation case', async () => {
+      const value: number = -201;
+      const error1: MockError = new MockError();
+      const error2: MockError = new MockError();
+      const error3: MockError = new MockError();
+
+      const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value);
+        }
+      );
+      const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.throw(error1);
+        }
+      );
+      const unscharferelation3: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.throw(error2);
+        }
+      );
+      const unscharferelation4: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.throw(error3);
+        }
+      );
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
+
+      await unscharferelation1
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return unscharferelation2;
+        })
+        .map<number>(() => {
+          spy2();
+
+          return unscharferelation3;
+        })
+        .map<number>(() => {
+          spy3();
+
+          return unscharferelation4;
+        })
+        .recover<number>(() => {
+          spy4();
+
+          return unscharferelation4;
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
+    });
+
+    it('already accepted Unscharferelation case', async () => {
+      const value1: number = -201;
+      const value2: number = -220;
+
+      const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value1);
+        }
+      );
+      const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value2);
+        }
+      );
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await unscharferelation1
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value1);
+
+          return unscharferelation2;
+        })
+        .map<number>((v: number) => {
+          spy2();
+          expect(v).toBe(value2);
+
+          return unscharferelation2;
+        })
+        .map<number>((v: number) => {
+          spy3();
+          expect(v).toBe(value2);
+
+          return unscharferelation2;
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(true);
+    });
+
+    it('already declined Unscharferelation case', async () => {
+      const value: number = -201;
+
+      const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value);
+        }
+      );
+      const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.decline();
+        }
+      );
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await unscharferelation1
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return unscharferelation2;
+        })
+        .recover<number>(() => {
+          spy2();
+
+          return unscharferelation2;
+        })
+        .recover<number>(() => {
+          spy3();
+
+          return unscharferelation2;
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(true);
+    });
+
+    it('already thrown Unscharferelation case', async () => {
       const value: number = -201;
       const error: MockError = new MockError();
 
@@ -525,6 +846,7 @@ describe('UnscharferelationInternal', () => {
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
 
       await unscharferelation1
         .map<number>((v: number) => {
@@ -533,46 +855,21 @@ describe('UnscharferelationInternal', () => {
 
           return unscharferelation2;
         })
-        .map<number>(() => {
+        .recover<number>(() => {
           spy2();
 
-          return null;
+          return unscharferelation2;
+        })
+        .map<number>(() => {
+          spy3();
+
+          return unscharferelation2;
         })
         .terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
-    });
-
-    it('already accepted Unscharferelation case', async () => {
-      const value: number = -201;
-
-      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
-        (epoque: Epoque<number, void>) => {
-          epoque.accept(value);
-        }
-      );
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      await unscharferelation
-        .map<number>((v: number) => {
-          spy1();
-          expect(v).toBe(value);
-
-          return unscharferelation;
-        })
-        .map<number>((v: number) => {
-          spy2();
-          expect(v).toBe(value);
-
-          return v + 230;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(true);
-      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(false);
     });
   });
 
@@ -628,10 +925,10 @@ describe('UnscharferelationInternal', () => {
       const spy3: SinonSpy = sinon.spy();
 
       await unscharferelation
-        .map<number>((v: number) => {
+        .map<number>(() => {
           spy1();
 
-          return v + 1;
+          return Promise.resolve<number>(value + 23);
         })
         .recover<number>(() => {
           spy2();
@@ -642,7 +939,7 @@ describe('UnscharferelationInternal', () => {
           spy3();
           expect(v).toBe(value + 23);
 
-          return v + 340;
+          return Promise.resolve<number>(value + 23);
         })
         .terminate();
 
@@ -652,7 +949,8 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('Present Unscharferelation case', async () => {
-      const value: number = -20100;
+      const value1: number = -20100;
+      const value2: number = -2010;
 
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
@@ -661,7 +959,12 @@ describe('UnscharferelationInternal', () => {
       );
       const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.accept(value);
+          epoque.accept(value1);
+        }
+      );
+      const unscharferelation3: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value2);
         }
       );
 
@@ -678,13 +981,13 @@ describe('UnscharferelationInternal', () => {
         .recover<number>(() => {
           spy2();
 
-          return unscharferelation2;
+          return unscharferelation3;
         })
         .map<number>((v: number) => {
           spy3();
-          expect(v).toBe(value);
+          expect(v).toBe(value2);
 
-          return v + 2;
+          return unscharferelation3;
         })
         .terminate();
 
@@ -731,7 +1034,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('async case: returns acceptd null', async () => {
+    it('async case: returns accepted null', async () => {
       const value: number = -201;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -782,6 +1085,11 @@ describe('UnscharferelationInternal', () => {
           epoque.decline();
         }
       );
+      const unscharferelation3: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.decline();
+        }
+      );
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -797,13 +1105,211 @@ describe('UnscharferelationInternal', () => {
         .recover<number>(() => {
           spy2();
 
-          return value + 23;
+          return unscharferelation3;
         })
         .map<number>((v: number) => {
           spy3();
           expect(v).toBe(value + 23);
 
-          return v + 230;
+          return unscharferelation3;
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(false);
+    });
+
+    it('sync case: throw error', async () => {
+      const value: number = -201;
+      const error: MockError = new MockError();
+
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value);
+        }
+      );
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
+
+      await unscharferelation
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          throw error;
+        })
+        .recover<number>(() => {
+          spy2();
+
+          throw error;
+        })
+        .map<number>((v: number) => {
+          spy3();
+          expect(v).toBe(value + 23);
+
+          throw error;
+        })
+        .recover<number>(() => {
+          spy4();
+
+          throw error;
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
+    });
+
+    it('async case: returns Promise reject', async () => {
+      const value: number = -201;
+      const error: MockError = new MockError();
+
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value);
+        }
+      );
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
+
+      await unscharferelation
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return Promise.reject<null>(error);
+        })
+        .recover<number>(() => {
+          spy2();
+
+          return Promise.reject<null>(error);
+        })
+        .map<number>(() => {
+          spy3();
+
+          return Promise.reject<null>(error);
+        })
+        .recover<number>(() => {
+          spy4();
+
+          throw error;
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
+    });
+
+    it('Lost Unscharferelation case', async () => {
+      const value: number = -201;
+      const error1: MockError = new MockError();
+      const error2: MockError = new MockError();
+      const error3: MockError = new MockError();
+
+      const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value);
+        }
+      );
+      const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.throw(error1);
+        }
+      );
+      const unscharferelation3: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.throw(error2);
+        }
+      );
+      const unscharferelation4: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.throw(error3);
+        }
+      );
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
+
+      await unscharferelation1
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return unscharferelation2;
+        })
+        .recover<number>(() => {
+          spy2();
+
+          return unscharferelation3;
+        })
+        .map<number>(() => {
+          spy3();
+
+          return unscharferelation4;
+        })
+        .recover<number>(() => {
+          spy4();
+
+          return unscharferelation4;
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
+    });
+
+    it('already accepted Unscharferelation case', async () => {
+      const value1: number = -201;
+      const value2: number = -201;
+
+      const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value1);
+        }
+      );
+      const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value2);
+        }
+      );
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await unscharferelation1
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value1);
+
+          return unscharferelation2;
+        })
+        .map<number>((v: number) => {
+          spy2();
+          expect(v).toBe(value2);
+
+          return unscharferelation2;
+        })
+        .map<number>((v: number) => {
+          spy3();
+          expect(v).toBe(value2);
+
+          return unscharferelation2;
         })
         .terminate();
 
@@ -812,7 +1318,49 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('Lost Unscharferelation case', async () => {
+    it('already delined Unscharferelation case', async () => {
+      const value: number = -201;
+
+      const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value);
+        }
+      );
+      const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.decline();
+        }
+      );
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await unscharferelation1
+        .map<number>((v: number) => {
+          spy1();
+          expect(v).toBe(value);
+
+          return unscharferelation2;
+        })
+        .recover<number>(() => {
+          spy2();
+
+          return unscharferelation2;
+        })
+        .recover<number>(() => {
+          spy3();
+
+          return unscharferelation2;
+        })
+        .terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(true);
+    });
+
+    it('already thrown Unscharferelation case', async () => {
       const value: number = -201;
       const error: MockError = new MockError();
 
@@ -841,12 +1389,12 @@ describe('UnscharferelationInternal', () => {
         .recover<number>(() => {
           spy2();
 
-          return value + 23;
+          return unscharferelation2;
         })
-        .map<number>((v: number) => {
+        .map<number>(() => {
           spy3();
 
-          return v + 230;
+          return unscharferelation2;
         })
         .terminate();
 
@@ -854,39 +1402,9 @@ describe('UnscharferelationInternal', () => {
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(false);
     });
-
-    it('already acceptd unscharferelation case', async () => {
-      const value: number = -201;
-
-      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
-        (epoque: Epoque<number, void>) => {
-          epoque.accept(value);
-        }
-      );
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
-      await unscharferelation
-        .map<number>((v: number) => {
-          spy1();
-          expect(v).toBe(value);
-
-          return unscharferelation;
-        })
-        .map<number>((v: number) => {
-          spy2();
-          expect(v).toBe(value);
-
-          return v + 23;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(true);
-      expect(spy2.called).toBe(true);
-    });
   });
 
+  // TODO THROW CASE, VALUE IS ERROR CASE
   describe('toSuperposition', () => {
     it('present: will transform to alive', async () => {
       const value: number = -201;
