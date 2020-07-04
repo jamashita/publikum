@@ -2,9 +2,9 @@ import sinon, { SinonSpy } from 'sinon';
 
 import { DeclineEpoque } from '../../Epoque/Interface/DeclineEpoque';
 import { PassEpoque } from '../../Epoque/PassEpoque';
-import { RecoveryConsumerPlan } from '../RecoveryConsumerPlan';
+import { RecoveryPassPlan } from '../RecoveryPassPlan';
 
-describe('RecoveryConsumerPlan', () => {
+describe('RecoveryPassPlan', () => {
   describe('onRecover', () => {
     it('sync', () => {
       const value: number = 10;
@@ -25,7 +25,7 @@ describe('RecoveryConsumerPlan', () => {
           spy3();
         }
       );
-      const plan: RecoveryConsumerPlan<number> = RecoveryConsumerPlan.of<number>(epoque);
+      const plan: RecoveryPassPlan<number> = RecoveryPassPlan.of<number>(epoque);
 
       plan.onRecover(value);
 
@@ -56,7 +56,7 @@ describe('RecoveryConsumerPlan', () => {
           spy3();
         }
       );
-      const plan: RecoveryConsumerPlan<number> = RecoveryConsumerPlan.of<number>(epoque);
+      const plan: RecoveryPassPlan<number> = RecoveryPassPlan.of<number>(epoque);
 
       plan.onRecover(value);
 

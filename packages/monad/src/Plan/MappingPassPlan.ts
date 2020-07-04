@@ -1,12 +1,12 @@
 import { AcceptEpoque } from '../Epoque/Interface/AcceptEpoque';
 import { MappingPlan } from './Interface/MappingPlan';
 
-export class MappingConsumerPlan<M> implements MappingPlan<M, 'MappingConsumerPlan'> {
-  public readonly noun: 'MappingConsumerPlan' = 'MappingConsumerPlan';
+export class MappingPassPlan<M> implements MappingPlan<M, 'MappingPassPlan'> {
+  public readonly noun: 'MappingPassPlan' = 'MappingPassPlan';
   private readonly epoque: AcceptEpoque<M>;
 
-  public static of<R>(epoque: AcceptEpoque<R>): MappingConsumerPlan<R> {
-    return new MappingConsumerPlan<R>(epoque);
+  public static of<R>(epoque: AcceptEpoque<R>): MappingPassPlan<R> {
+    return new MappingPassPlan<R>(epoque);
   }
 
   protected constructor(epoque: AcceptEpoque<M>) {

@@ -1,10 +1,10 @@
 import sinon, { SinonSpy } from 'sinon';
 
 import { CombinedPlan } from '../CombinedPlan';
-import { DisasterPlan } from '../Interface/DisasterPlan';
+import { DestroyPlan } from '../Interface/DestroyPlan';
 import { MappingPlan } from '../Interface/MappingPlan';
 import { RecoveryPlan } from '../Interface/RecoveryPlan';
-import { MockDisasterPlan } from '../Mock/MockDisasterPlan';
+import { MockDestroyPlan } from '../Mock/MockDestroyPlan';
 import { MockMappingPlan } from '../Mock/MockMappingPlan';
 import { MockRecoveryPlan } from '../Mock/MockRecoveryPlan';
 
@@ -17,13 +17,13 @@ describe('CombinedPlan', () => {
 
       const mapping: MappingPlan<void> = new MockMappingPlan();
       const recovery: RecoveryPlan<void> = new MockRecoveryPlan();
-      const disaster: DisasterPlan = new MockDisasterPlan();
+      const destroy: DestroyPlan = new MockDestroyPlan();
 
       mapping.onMap = spy1;
       recovery.onRecover = spy2;
-      disaster.onDisaster = spy3;
+      destroy.onDestroy = spy3;
 
-      const plan: CombinedPlan<void, void> = CombinedPlan.of<void, void>(mapping, recovery, disaster);
+      const plan: CombinedPlan<void, void> = CombinedPlan.of<void, void>(mapping, recovery, destroy);
 
       plan.onMap();
 
@@ -41,13 +41,13 @@ describe('CombinedPlan', () => {
 
       const mapping: MappingPlan<void> = new MockMappingPlan();
       const recovery: RecoveryPlan<void> = new MockRecoveryPlan();
-      const disaster: DisasterPlan = new MockDisasterPlan();
+      const destroy: DestroyPlan = new MockDestroyPlan();
 
       mapping.onMap = spy1;
       recovery.onRecover = spy2;
-      disaster.onDisaster = spy3;
+      destroy.onDestroy = spy3;
 
-      const plan: CombinedPlan<void, void> = CombinedPlan.of<void, void>(mapping, recovery, disaster);
+      const plan: CombinedPlan<void, void> = CombinedPlan.of<void, void>(mapping, recovery, destroy);
 
       plan.onRecover();
 
@@ -57,7 +57,7 @@ describe('CombinedPlan', () => {
     });
   });
 
-  describe('onDisaster', () => {
+  describe('onDestroy', () => {
     it('normal case', () => {
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -65,15 +65,15 @@ describe('CombinedPlan', () => {
 
       const mapping: MappingPlan<void> = new MockMappingPlan();
       const recovery: RecoveryPlan<void> = new MockRecoveryPlan();
-      const disaster: DisasterPlan = new MockDisasterPlan();
+      const destroy: DestroyPlan = new MockDestroyPlan();
 
       mapping.onMap = spy1;
       recovery.onRecover = spy2;
-      disaster.onDisaster = spy3;
+      destroy.onDestroy = spy3;
 
-      const plan: CombinedPlan<void, void> = CombinedPlan.of<void, void>(mapping, recovery, disaster);
+      const plan: CombinedPlan<void, void> = CombinedPlan.of<void, void>(mapping, recovery, destroy);
 
-      plan.onDisaster(undefined);
+      plan.onDestroy(undefined);
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(false);

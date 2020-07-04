@@ -2,9 +2,9 @@ import sinon, { SinonSpy } from 'sinon';
 
 import { AcceptEpoque } from '../../Epoque/Interface/AcceptEpoque';
 import { PassEpoque } from '../../Epoque/PassEpoque';
-import { MappingConsumerPlan } from '../MappingConsumerPlan';
+import { MappingPassPlan } from '../MappingPassPlan';
 
-describe('MappingConsumerPlan', () => {
+describe('MappingPassPlan', () => {
   describe('onMap', () => {
     it('sync', () => {
       const value: number = 10;
@@ -14,9 +14,9 @@ describe('MappingConsumerPlan', () => {
       const spy3: SinonSpy = sinon.spy();
 
       const epoque: AcceptEpoque<number> = PassEpoque.of<number, unknown>(
-        (n: number) => {
+        (v: number) => {
           spy1();
-          expect(n).toBe(value);
+          expect(v).toBe(value);
         },
         () => {
           spy2();
@@ -25,7 +25,7 @@ describe('MappingConsumerPlan', () => {
           spy3();
         }
       );
-      const plan: MappingConsumerPlan<number> = MappingConsumerPlan.of<number>(epoque);
+      const plan: MappingPassPlan<number> = MappingPassPlan.of<number>(epoque);
 
       plan.onMap(value);
 
@@ -43,9 +43,9 @@ describe('MappingConsumerPlan', () => {
 
       const epoque: AcceptEpoque<number> = PassEpoque.of<number, unknown>(
         // eslint-disable-next-line @typescript-eslint/require-await
-        async (n: number) => {
+        async (v: number) => {
           spy1();
-          expect(n).toBe(value);
+          expect(v).toBe(value);
         },
         // eslint-disable-next-line @typescript-eslint/require-await
         async () => {
@@ -56,7 +56,7 @@ describe('MappingConsumerPlan', () => {
           spy3();
         }
       );
-      const plan: MappingConsumerPlan<number> = MappingConsumerPlan.of<number>(epoque);
+      const plan: MappingPassPlan<number> = MappingPassPlan.of<number>(epoque);
 
       plan.onMap(value);
 
