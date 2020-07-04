@@ -49,6 +49,9 @@ export class PresentPlan<P, Q> implements MappingPlan<P, 'PresentPlan'> {
             if (v.isPresent()) {
               return this.epoque.accept(v.get());
             }
+            if (v.isLost()) {
+              return this.epoque.throw(v.getCause());
+            }
 
             return this.epoque.decline();
           },

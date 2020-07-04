@@ -164,7 +164,11 @@ export class UnscharferelationInternal<P>
   private pass(accepted: Consumer<Matter<P>>, declined: Consumer<void>, thrown: Consumer<unknown>): unknown {
     const epoque: Epoque<Matter<P>, void> = PassEpoque.of<Matter<P>, void>(accepted, declined, thrown);
 
-    return this.handle(MappingPassPlan.of<Matter<P>>(epoque), RecoveryPassPlan.of(epoque), DestroyPassPlan.of(epoque));
+    return this.handle(
+      MappingPassPlan.of<Matter<P>>(epoque),
+      RecoveryPassPlan.of<void>(epoque),
+      DestroyPassPlan.of(epoque)
+    );
   }
 
   private peek(peek: Peek): unknown {
