@@ -81,15 +81,15 @@ export class UnscharferelationInternal<P>
     });
   }
 
-  public throw(error: unknown): unknown {
+  public throw(cause: unknown): unknown {
     if (this.done()) {
       return;
     }
 
-    this.heisenberg = Lost.of<P>(error);
+    this.heisenberg = Lost.of<P>(cause);
 
     this.plans.forEach((plan: DestroyPlan) => {
-      return plan.onDestroy(error);
+      return plan.onDestroy(cause);
     });
   }
 

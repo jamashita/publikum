@@ -27,7 +27,7 @@ export class CombinedPlan<M, R>
     return this.recover.onRecover(value);
   }
 
-  public onDestroy(error: unknown): unknown {
-    return this.destroy.onDestroy(error);
+  public onDestroy(cause: unknown): unknown {
+    return this.destroy.onDestroy(cause);
   }
 }

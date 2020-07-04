@@ -26,7 +26,7 @@ export class PassEpoque<A, D> implements Epoque<A, D, 'PassEpoque'> {
     return this.declined(value);
   }
 
-  public throw(error: D): unknown {
-    return this.thrown(error);
+  public throw(cause: D): unknown {
+    return this.thrown(cause);
   }
 }
