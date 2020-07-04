@@ -33,34 +33,30 @@ export class AbsentPlan<Q> implements RecoveryPlan<void, 'AbsentPlan'> {
       const mapped: IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>> = this.mapper();
 
       if (BeUnscharferelation.is(mapped)) {
-        return mapped.terminate().then<void, void>(
+        return mapped.terminate().then<unknown, unknown>(
           (v: Heisenberg<Q>) => {
             if (v.isPresent()) {
-              this.epoque.accept(v.get());
-
-              return;
+              return this.epoque.accept(v.get());
             }
 
-            this.epoque.decline();
+            return this.epoque.decline();
           },
           (e: unknown) => {
-            this.epoque.throw(e);
+            return this.epoque.throw(e);
           }
         );
       }
       if (Kind.isPromiseLike(mapped)) {
-        return mapped.then<void, void>(
+        return mapped.then<unknown, unknown>(
           (v: Suspicious<Matter<Q>>) => {
             if (Kind.isUndefined(v) || Kind.isNull(v)) {
-              this.epoque.decline();
-
-              return;
+              return this.epoque.decline();
             }
 
-            this.epoque.accept(v);
+            return this.epoque.accept(v);
           },
           (e: unknown) => {
-            this.epoque.throw(e);
+            return this.epoque.throw(e);
           }
         );
       }

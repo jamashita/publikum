@@ -1,5 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 
+import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 
 import { PassEpoque } from '../../../Epoque/PassEpoque';
@@ -8,7 +9,6 @@ import { Present } from '../../Heisenberg/Present';
 import { Unscharferelation } from '../../Unscharferelation';
 import { AbsentPlan } from '../AbsentPlan';
 
-// TODO THROW CASE
 describe('AbsentPlan', () => {
   describe('onRecover', () => {
     it('P given', () => {
@@ -255,7 +255,7 @@ describe('AbsentPlan', () => {
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
-      expect(spy4.called).toBe(true);
+      expect(spy4.called).toBe(false);
     });
 
     it('Promise<undefined> given', async () => {
@@ -338,6 +338,86 @@ describe('AbsentPlan', () => {
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
       expect(spy4.called).toBe(false);
+    });
+
+    it('error thrown', () => {
+      const error: MockError = new MockError();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
+
+      const plan: AbsentPlan<number> = AbsentPlan.of<number>(
+        () => {
+          spy1();
+
+          throw error;
+        },
+        PassEpoque.of<number, void>(
+          () => {
+            spy2();
+          },
+          () => {
+            spy3();
+          },
+          (n: unknown) => {
+            spy4();
+            expect(n).toBe(error);
+          }
+        )
+      );
+
+      plan.onRecover();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(true);
+    });
+
+    it('Promise rejected given', async () => {
+      const error: MockError = new MockError();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
+
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const plan: AbsentPlan<number> = AbsentPlan.of<number>(
+          () => {
+            spy1();
+
+            return Promise.reject<number>(error);
+          },
+          PassEpoque.of<number, void>(
+            () => {
+              spy2();
+
+              resolve();
+            },
+            () => {
+              spy3();
+
+              resolve();
+            },
+            (n: unknown) => {
+              spy4();
+              expect(n).toBe(error);
+
+              resolve();
+            }
+          )
+        );
+
+        plan.onRecover();
+      });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(true);
     });
   });
 });
