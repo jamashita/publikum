@@ -13,7 +13,7 @@ export class DestroyPassPlan implements DestroyPlan<'DestroyPassPlan'> {
     this.epoque = epoque;
   }
 
-  public onDestroy(error: unknown): unknown {
-    return this.epoque.throw(error);
+  public onDestroy(cause: unknown): unknown {
+    return this.epoque.throw(cause);
   }
 }
