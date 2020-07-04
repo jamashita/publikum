@@ -1,5 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 
+import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 
 import { PassEpoque } from '../../../Epoque/PassEpoque';
@@ -8,7 +9,6 @@ import { Present } from '../../Heisenberg/Present';
 import { Unscharferelation } from '../../Unscharferelation';
 import { PresentPlan } from '../PresentPlan';
 
-// TODO THROW CASE
 describe('PresentPlan', () => {
   describe('onMap', () => {
     it('P given', () => {
@@ -216,7 +216,7 @@ describe('PresentPlan', () => {
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
-      expect(spy4.called).toBe(true);
+      expect(spy4.called).toBe(false);
     });
 
     it('Promise<null> given', async () => {
@@ -351,6 +351,90 @@ describe('PresentPlan', () => {
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(false);
+    });
+
+    it('error thrown', () => {
+      const value: number = 10;
+      const error: MockError = new MockError();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
+
+      const plan: PresentPlan<number, number> = PresentPlan.of<number, number>(
+        (n: number) => {
+          spy1();
+          expect(n).toBe(value);
+
+          throw error;
+        },
+        PassEpoque.of<number, void>(
+          () => {
+            spy2();
+          },
+          () => {
+            spy3();
+          },
+          (n: unknown) => {
+            spy4();
+            expect(n).toBe(error);
+          }
+        )
+      );
+
+      plan.onMap(value);
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(true);
+    });
+
+    it('Promise rejected given', async () => {
+      const value: number = 10;
+      const error: MockError = new MockError();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
+
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const plan: PresentPlan<number, number> = PresentPlan.of<number, number>(
+          (n: number) => {
+            spy1();
+            expect(n).toBe(value);
+
+            return Promise.reject<number>(error);
+          },
+          PassEpoque.of<number, void>(
+            () => {
+              spy2();
+
+              resolve();
+            },
+            () => {
+              spy3();
+
+              resolve();
+            },
+            (n: unknown) => {
+              spy4();
+              expect(n).toBe(error);
+
+              resolve();
+            }
+          )
+        );
+
+        plan.onMap(value);
+      });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
       expect(spy4.called).toBe(true);
     });
   });
