@@ -14,8 +14,9 @@ describe('BeSuperposition', () => {
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
-          epoque.reject(new MockError());
-        }
+          epoque.decline(new MockError());
+        },
+        MockError
       );
 
       expect(BeSuperposition.is<number, MockError>(superposition1)).toBe(true);
@@ -33,6 +34,118 @@ describe('BeSuperposition', () => {
       expect(BeSuperposition.is<number, MockError>(20n)).toBe(false);
       expect(BeSuperposition.is<number, MockError>({})).toBe(false);
       expect(BeSuperposition.is<number, MockError>([])).toBe(false);
+      expect(
+        BeSuperposition.is<number, MockError>({
+          get() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        BeSuperposition.is<number, MockError>({
+          get() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        BeSuperposition.is<number, MockError>({
+          get() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          },
+          filter() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        BeSuperposition.is<number, MockError>({
+          get() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          },
+          filter() {
+            // NOOP
+          },
+          map() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        BeSuperposition.is<number, MockError>({
+          get() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          },
+          filter() {
+            // NOOP
+          },
+          map() {
+            // NOOP
+          },
+          recover() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        BeSuperposition.is<number, MockError>({
+          get() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          },
+          filter() {
+            // NOOP
+          },
+          map() {
+            // NOOP
+          },
+          recover() {
+            // NOOP
+          },
+          transform() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        BeSuperposition.is<number, MockError>({
+          get() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          },
+          filter() {
+            // NOOP
+          },
+          map() {
+            // NOOP
+          },
+          recover() {
+            // NOOP
+          },
+          transform() {
+            // NOOP
+          },
+          toUnscharferelation() {
+            // NOOP
+          }
+        })
+      ).toBe(true);
     });
   });
 });
