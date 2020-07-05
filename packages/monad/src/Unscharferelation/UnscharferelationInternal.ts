@@ -49,7 +49,7 @@ export class UnscharferelationInternal<P>
     func(this);
   }
 
-  private done(): boolean {
+  private settled(): boolean {
     if (this.heisenberg instanceof Present || this.heisenberg instanceof Absent || this.heisenberg instanceof Lost) {
       return true;
     }
@@ -58,7 +58,7 @@ export class UnscharferelationInternal<P>
   }
 
   public accept(value: Matter<P>): unknown {
-    if (this.done()) {
+    if (this.settled()) {
       return;
     }
 
@@ -70,7 +70,7 @@ export class UnscharferelationInternal<P>
   }
 
   public decline(): unknown {
-    if (this.done()) {
+    if (this.settled()) {
       return;
     }
 
@@ -82,7 +82,7 @@ export class UnscharferelationInternal<P>
   }
 
   public throw(cause: unknown): unknown {
-    if (this.done()) {
+    if (this.settled()) {
       return;
     }
 
