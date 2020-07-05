@@ -1,6 +1,5 @@
-import { Constructor } from './Function';
 import { Reference } from './Reference';
-import { PlainObject, PlainObjectItem, Primitive, Vague } from './Value';
+import { Constructor, PlainObject, PlainObjectItem, Primitive, Vague } from './Value';
 
 const NUMBER_REGEX: RegExp = /^[+-]?[0-9]+\.?[0-9]*$/su;
 const LITERAL_TOSTRING: string = '[object Object]';

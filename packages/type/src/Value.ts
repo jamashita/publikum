@@ -3,6 +3,10 @@ export type Nullable<T> = T | null;
 export type Ambiguous<T> = T | undefined;
 export type Omittable<T> = T | void;
 export type Suspicious<T> = T | null | undefined;
+export type Constructor = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  new (...args: Array<any>): any;
+};
 export type Freeze<T extends object> = {
   readonly [P in keyof T]: T[P] extends object ? Freeze<T[P]> : T[P];
 };
