@@ -14,6 +14,7 @@ import { RecoveryPeekPlan } from '../Plan/RecoveryPeekPlan';
 import { Matter } from '../Unscharferelation/Interface/Matter';
 import { UnscharferelationInternal } from '../Unscharferelation/UnscharferelationInternal';
 import { SuperpositionError } from './Error/SuperpositionError';
+import { DeadConstructor } from './Interface/DeadConstructor';
 import { Detoxicated } from './Interface/Detoxicated';
 import { ISuperposition } from './Interface/ISuperposition';
 import { AlivePlan } from './Plan/AlivePlan';
@@ -29,15 +30,18 @@ export class SuperpositionInternal<A, D extends Error>
   public readonly noun: 'SuperpositionInternal' = 'SuperpositionInternal';
   private schrodinger: Schrodinger<A, D>;
   private readonly plans: Set<CombinedPlan<A, D>>;
+  private readonly errors: Set<DeadConstructor>;
 
   public static of<A, D extends Error>(
-    func: UnaryFunction<Epoque<Detoxicated<A>, D>, unknown>
+    func: UnaryFunction<Epoque<Detoxicated<A>, D>, unknown>,
+    ...errors: Array<DeadConstructor>
   ): SuperpositionInternal<A, D> {
-    return new SuperpositionInternal<A, D>(func);
+    return new SuperpositionInternal<A, D>(func, errors);
   }
 
-  protected constructor(func: UnaryFunction<Epoque<Detoxicated<A>, D>, unknown>) {
+  protected constructor(func: UnaryFunction<Epoque<Detoxicated<A>, D>, unknown>, errors: Array<DeadConstructor>) {
     this.schrodinger = Still.of<A, D>();
+    this.errors = new Set<DeadConstructor>(errors);
     this.plans = new Set<CombinedPlan<A, D>>();
     func(this);
   }
@@ -116,60 +120,71 @@ export class SuperpositionInternal<A, D extends Error>
   }
 
   public filter(predicate: Predicate<A>): SuperpositionInternal<A, D | SuperpositionError> {
-    return SuperpositionInternal.of<A, D | SuperpositionError>((epoque: Epoque<Detoxicated<A>, D | SuperpositionError>) => {
-      this.pass(
-        (value: Detoxicated<A>) => {
-          if (predicate(this.schrodinger.get())) {
-            return epoque.accept(value);
-          }
+    return SuperpositionInternal.of<A, D | SuperpositionError>(
+      (epoque: Epoque<Detoxicated<A>, D | SuperpositionError>) => {
+        this.pass(
+          (value: Detoxicated<A>) => {
+            if (predicate(value)) {
+              return epoque.accept(value);
+            }
 
-          return epoque.decline(new SuperpositionError('DEAD'));
-        },
-        (value: D) => {
-          return epoque.decline(value);
-        },
-        (e: unknown) => {
-          return epoque.throw(e);
-        }
-      );
-    });
+            return epoque.decline(new SuperpositionError('DEAD'));
+          },
+          (value: D) => {
+            return epoque.decline(value);
+          },
+          (e: unknown) => {
+            return epoque.throw(e);
+          }
+        );
+      }
+    );
   }
 
   public map<B = A, E extends Error = D>(
-    mapper: UnaryFunction<Detoxicated<A>, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>
+    mapper: UnaryFunction<Detoxicated<A>, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
+    ...errors: Array<DeadConstructor>
   ): SuperpositionInternal<B, D | E> {
-    return SuperpositionInternal.of<B, D | E>((epoque: Epoque<Detoxicated<B>, D | E>) => {
-      return this.handle(
-        AlivePlan.of<A, B, E>(mapper, epoque),
-        RecoveryPassPlan.of<D>(epoque),
-        DestroyPassPlan.of(epoque)
-      );
-    });
+    return SuperpositionInternal.of<B, D | E>(
+      (epoque: Epoque<Detoxicated<B>, D | E>) => {
+        return this.handle(
+          AlivePlan.of<A, B, E>(mapper, epoque, [...this.errors.values()]),
+          RecoveryPassPlan.of<D>(epoque),
+          DestroyPassPlan.of(epoque)
+        );
+      },
+      ...this.errors,
+      ...errors
+    );
   }
 
   public recover<B = A, E extends Error = D>(
-    mapper: UnaryFunction<D, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>
+    mapper: UnaryFunction<D, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
+    ...errors: Array<DeadConstructor>
   ): SuperpositionInternal<A | B, E> {
     return SuperpositionInternal.of<A | B, E>((epoque: Epoque<Detoxicated<A | B>, E>) => {
       return this.handle(
         MappingPassPlan.of<Detoxicated<A>>(epoque),
-        DeadPlan.of<B, D, E>(mapper, epoque),
+        DeadPlan.of<B, D, E>(mapper, epoque, [...this.errors.values()]),
         DestroyPassPlan.of(epoque)
       );
-    });
+    }, ...errors);
   }
 
   public transform<B = A, E extends Error = D>(
     alive: UnaryFunction<Detoxicated<A>, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
-    dead: UnaryFunction<D, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>
+    dead: UnaryFunction<D, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
+    ...errors: Array<DeadConstructor>
   ): SuperpositionInternal<B, E> {
     return SuperpositionInternal.of<B, E>((epoque: Epoque<Detoxicated<B>, E>) => {
+      const constructors: Array<DeadConstructor> = [...this.errors.values()];
+
       return this.handle(
-        AlivePlan.of<A, B, E>(alive, epoque),
-        DeadPlan.of<B, D, E>(dead, epoque),
+        AlivePlan.of<A, B, E>(alive, epoque, constructors),
+        DeadPlan.of<B, D, E>(dead, epoque, constructors),
         DestroyPassPlan.of(epoque)
       );
-    });
+    }, ...errors);
   }
 
   private pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): unknown {

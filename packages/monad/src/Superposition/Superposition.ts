@@ -56,12 +56,12 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
       }
       if (Kind.isPromiseLike(value)) {
         return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
-          return value.then<void, void>(
+          return value.then<unknown, unknown>(
             (v: Detoxicated<A>) => {
-              epoque.accept(v);
+              return epoque.accept(v);
             },
             (err: D) => {
-              epoque.decline(err);
+              return epoque.decline(err);
             }
           );
         });
@@ -86,22 +86,30 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
     });
   }
 
+  // TODO TESTS UNDONE
   public static ofSchrodinger<A, D extends Error>(
     schrodinger: PromiseLike<Schrodinger<A, D>> | Schrodinger<A, D>
   ): Superposition<A, D> {
     return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
       if (Kind.isPromiseLike(schrodinger)) {
-        return schrodinger.then<unknown, unknown>((v: Schrodinger<A, D>) => {
-          if (v.isAlive()) {
-            return epoque.accept(v.get());
-          }
-          if (v.isDead()) {
-            return epoque.decline(v.getError());
-          }
+        return schrodinger.then<unknown, unknown>(
+          (v: Schrodinger<A, D>) => {
+            if (v.isAlive()) {
+              return epoque.accept(v.get());
+            }
+            if (v.isDead()) {
+              return epoque.decline(v.getError());
+            }
+            if (v.isContradiction()) {
+              return epoque.throw(v.getCause());
+            }
 
-          // TODO INNER VALUE
-          return epoque.throw(v);
-        });
+            return epoque.throw(new SuperpositionError('UNKNOWN SCHRODINGER'));
+          },
+          () => {
+            return epoque.throw(new SuperpositionError('REJECTED'));
+          }
+        );
       }
       if (schrodinger.isAlive()) {
         return epoque.accept(schrodinger.get());
@@ -109,9 +117,11 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
       if (schrodinger.isDead()) {
         return epoque.decline(schrodinger.getError());
       }
+      if (schrodinger.isContradiction()) {
+        return epoque.throw(schrodinger.getCause());
+      }
 
-      // TODO INNER VALUE
-      return epoque.throw(schrodinger.get());
+      return epoque.throw(new SuperpositionError('UNKNOWN SCHRODINGER'));
     });
   }
 

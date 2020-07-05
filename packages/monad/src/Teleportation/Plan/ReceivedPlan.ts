@@ -23,12 +23,12 @@ export class ReceivedPlan<R, S> implements MappingPlan<R, 'ReceivedPlan'> {
       const mapped: PromiseLike<S> | S = this.mapper(resolve);
 
       if (Kind.isPromiseLike(mapped)) {
-        return mapped.then<void, void>(
+        return mapped.then<unknown, unknown>(
           (v: S) => {
-            this.epoque.accept(v);
+            return this.epoque.accept(v);
           },
           (e: Error) => {
-            this.epoque.decline(e);
+            return this.epoque.decline(e);
           }
         );
       }

@@ -25,7 +25,7 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
     });
 
     return Unscharferelation.of<Array<P>>((epoque: Epoque<Array<P>, void>) => {
-      return Promise.all<Heisenberg<P>>(promises).then<void, void>(
+      return Promise.all<Heisenberg<P>>(promises).then<unknown, unknown>(
         (heisenbergs: Array<Heisenberg<P>>) => {
           const hs: Array<P> = [];
           let absent: boolean = false;
@@ -34,9 +34,7 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
             const heisenberg: Heisenberg<P> = heisenbergs[i];
 
             if (heisenberg.isLost()) {
-              epoque.throw(heisenberg.getCause());
-
-              return;
+              return epoque.throw(heisenberg.getCause());
             }
             if (heisenberg.isPresent()) {
               hs.push(heisenberg.get());
@@ -49,15 +47,13 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
           }
 
           if (absent) {
-            epoque.decline();
-
-            return;
+            return epoque.decline();
           }
 
-          epoque.accept(hs);
+          return epoque.accept(hs);
         },
         (e: unknown) => {
-          epoque.throw(e);
+          return epoque.throw(e);
         }
       );
     });
@@ -66,18 +62,16 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
   public static maybe<P>(value: PromiseLike<Suspicious<Matter<P>>> | Suspicious<Matter<P>>): Unscharferelation<P> {
     return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
       if (Kind.isPromiseLike(value)) {
-        return value.then<void, void>(
+        return value.then<unknown, unknown>(
           (v: Suspicious<Matter<P>>) => {
             if (Kind.isUndefined(v) || Kind.isNull(v)) {
-              epoque.decline();
-
-              return;
+              return epoque.decline();
             }
 
-            epoque.accept(v);
+            return epoque.accept(v);
           },
           () => {
-            epoque.throw(new UnscharferelationError('REJECTED'));
+            return epoque.throw(new UnscharferelationError('REJECTED'));
           }
         );
       }
@@ -94,12 +88,12 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
   public static present<P>(value: PromiseLike<Matter<P>> | Matter<P>): Unscharferelation<P> {
     return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
       if (Kind.isPromiseLike(value)) {
-        return value.then<void, void>(
+        return value.then<unknown, unknown>(
           (v: Matter<P>) => {
-            epoque.accept(v);
+            return epoque.accept(v);
           },
           (e: unknown) => {
-            epoque.throw(e);
+            return epoque.throw(e);
           }
         );
       }
