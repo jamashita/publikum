@@ -212,7 +212,8 @@ export class UnscharferelationInternal<P>
             return epoque.throw(e);
           }
         );
-      }
+      },
+      UnscharferelationError
     );
   }
 }
