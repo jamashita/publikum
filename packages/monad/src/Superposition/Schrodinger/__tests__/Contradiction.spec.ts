@@ -1,46 +1,60 @@
 import { MockError } from '@jamashita/publikum-object';
 
-import { SuperpositionError } from '../../Error/SuperpositionError';
 import { Contradiction } from '../Contradiction';
 
 describe('Contradiction', () => {
-  describe('of', () => {
-    it('returns a single instance', () => {
-      expect(Contradiction.of<number, MockError>()).toBe(Contradiction.of<number, MockError>());
+  describe('get', () => {
+    it('throws given error', () => {
+      const error1: MockError = new MockError();
+      const error2: MockError = new MockError();
+      const contradiction1: Contradiction<number, MockError> = Contradiction.of<number, MockError>(error1);
+      const contradiction2: Contradiction<number, MockError> = Contradiction.of<number, MockError>(error2);
+
+      expect(() => {
+        contradiction1.get();
+      }).toThrow(error1);
+      expect(() => {
+        contradiction2.get();
+      }).toThrow(error2);
     });
   });
 
-  describe('get', () => {
-    it('throws the inside error', () => {
-      const still: Contradiction<number, MockError> = Contradiction.of<number, MockError>();
+  describe('getCause', () => {
+    it('returns given error', () => {
+      const error1: MockError = new MockError();
+      const error2: MockError = new MockError();
+      const contradiction1: Contradiction<number, MockError> = Contradiction.of<number, MockError>(error1);
+      const contradiction2: Contradiction<number, MockError> = Contradiction.of<number, MockError>(error2);
 
-      expect(() => {
-        still.get();
-      }).toThrow(SuperpositionError);
+      expect(contradiction1.getCause()).toBe(error1);
+      expect(contradiction2.getCause()).toBe(error2);
     });
   });
 
   describe('isAlive', () => {
     it('always returns false', () => {
-      const still: Contradiction<number, MockError> = Contradiction.of<number, MockError>();
+      const error: MockError = new MockError();
+      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(error);
 
-      expect(still.isAlive()).toBe(false);
+      expect(contradiction.isAlive()).toBe(false);
     });
   });
 
   describe('isDead', () => {
     it('always returns false', () => {
-      const still: Contradiction<number, MockError> = Contradiction.of<number, MockError>();
+      const error: MockError = new MockError();
+      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(error);
 
-      expect(still.isDead()).toBe(false);
+      expect(contradiction.isDead()).toBe(false);
     });
   });
 
   describe('isContradiction', () => {
     it('always returns true', () => {
-      const still: Contradiction<number, MockError> = Contradiction.of<number, MockError>();
+      const error: MockError = new MockError();
+      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(error);
 
-      expect(still.isContradiction()).toBe(true);
+      expect(contradiction.isContradiction()).toBe(true);
     });
   });
 });

@@ -1,24 +1,25 @@
-import { SuperpositionError } from '../Error/SuperpositionError';
 import { Alive } from './Alive';
 import { Dead } from './Dead';
 import { Schrodinger } from './Schrodinger';
 
-// TODO TEST UNDONE
 export class Contradiction<A, D extends Error> implements Schrodinger<A, D, 'Contradiction'> {
   public readonly noun: 'Contradiction' = 'Contradiction';
+  private readonly cause: unknown;
 
-  private static readonly INSTANCE: Contradiction<unknown, Error> = new Contradiction<unknown, Error>();
-
-  public static of<A, D extends Error>(): Contradiction<A, D> {
-    return (Contradiction.INSTANCE as unknown) as Contradiction<A, D>;
+  public static of<A, D extends Error>(cause: unknown): Contradiction<A, D> {
+    return new Contradiction<A, D>(cause);
   }
 
-  protected constructor() {
-    // NOOP
+  protected constructor(cause: unknown) {
+    this.cause = cause;
   }
 
   public get(): never {
-    throw new SuperpositionError('CONTRADICTION');
+    throw this.cause;
+  }
+
+  public getCause(): unknown {
+    return this.cause;
   }
 
   public isAlive(): this is Alive<A, D> {

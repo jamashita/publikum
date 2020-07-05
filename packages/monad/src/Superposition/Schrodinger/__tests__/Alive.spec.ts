@@ -3,15 +3,6 @@ import { MockError } from '@jamashita/publikum-object';
 import { Alive } from '../Alive';
 
 describe('Alive', () => {
-  describe('of', () => {
-    it('normal case', () => {
-      const value: number = 113;
-      const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
-
-      expect(alive.get()).toBe(value);
-    });
-  });
-
   describe('get', () => {
     it('returns the inside value', () => {
       const value: string = 'the lazy fox';

@@ -3,16 +3,6 @@ import { MockError } from '@jamashita/publikum-object';
 import { Dead } from '../Dead';
 
 describe('Dead', () => {
-  describe('of', () => {
-    it('normal case', () => {
-      const dead: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
-
-      expect(() => {
-        dead.get();
-      }).toThrow(MockError);
-    });
-  });
-
   describe('get', () => {
     it('throws the inside error', () => {
       const dead: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
