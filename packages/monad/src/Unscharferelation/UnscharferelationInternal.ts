@@ -50,7 +50,7 @@ export class UnscharferelationInternal<P>
   }
 
   private settled(): boolean {
-    if (this.heisenberg instanceof Present || this.heisenberg instanceof Absent || this.heisenberg instanceof Lost) {
+    if (this.heisenberg.isPresent() || this.heisenberg.isAbsent() || this.heisenberg.isLost()) {
       return true;
     }
 

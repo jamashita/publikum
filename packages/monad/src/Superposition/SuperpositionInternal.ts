@@ -47,11 +47,7 @@ export class SuperpositionInternal<A, D extends Error>
   }
 
   public isSettled(): boolean {
-    if (
-      this.schrodinger instanceof Alive ||
-      this.schrodinger instanceof Dead ||
-      this.schrodinger instanceof Contradiction
-    ) {
+    if (this.schrodinger.isAlive() || this.schrodinger.isDead() || this.schrodinger.isContradiction()) {
       return true;
     }
 
