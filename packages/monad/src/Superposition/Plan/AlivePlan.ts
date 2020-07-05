@@ -1,8 +1,9 @@
-import { Constructor, Kind, UnaryFunction } from '@jamashita/publikum-type';
+import { Kind, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { MappingPlan } from '../../Plan/Interface/MappingPlan';
 import { BeSuperposition } from '../BeSuperposition';
+import { DeadConstructor } from '../Interface/DeadConstructor';
 import { Detoxicated } from '../Interface/Detoxicated';
 import { ISuperposition } from '../Interface/ISuperposition';
 
@@ -13,12 +14,12 @@ export class AlivePlan<A, B, E extends Error> implements MappingPlan<A, 'AlivePl
     ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>
   >;
   private readonly epoque: Epoque<Detoxicated<B>, E>;
-  private readonly errors: Array<Constructor>;
+  private readonly errors: Array<DeadConstructor>;
 
   public static of<A, B, E extends Error>(
     mapper: UnaryFunction<Detoxicated<A>, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
     epoque: Epoque<Detoxicated<B>, E>,
-    errors: Array<Constructor>
+    errors: Array<DeadConstructor>
   ): AlivePlan<A, B, E> {
     return new AlivePlan<A, B, E>(mapper, epoque, errors);
   }
@@ -26,15 +27,15 @@ export class AlivePlan<A, B, E extends Error> implements MappingPlan<A, 'AlivePl
   protected constructor(
     mapper: UnaryFunction<Detoxicated<A>, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
     epoque: Epoque<Detoxicated<B>, E>,
-    errors: Array<Constructor>
+    errors: Array<DeadConstructor>
   ) {
     this.mapper = mapper;
     this.epoque = epoque;
     this.errors = errors;
   }
 
-  private isSpecifiedError(err: unknown): boolean {
-    return this.errors.some((error: Constructor) => {
+  private isSpecifiedError(err: unknown): err is E {
+    return this.errors.some((error: DeadConstructor) => {
       return Kind.isClass(err, error);
     });
   }
