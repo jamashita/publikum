@@ -6,7 +6,6 @@ import { Alive } from '../Schrodinger/Alive';
 import { Superposition } from '../Superposition';
 import { SuperpositionInternal } from '../SuperpositionInternal';
 
-// TODO NOT DONE YET
 describe('BeSuperposition', () => {
   describe('is', () => {
     it('normal case', () => {
