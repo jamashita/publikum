@@ -1,18 +1,18 @@
 import { MockError } from '@jamashita/publikum-object';
 
 import { SuperpositionError } from '../../Error/SuperpositionError';
-import { Still } from '../Still';
+import { Contradiction } from '../Contradiction';
 
-describe('Still', () => {
+describe('Contradiction', () => {
   describe('of', () => {
     it('returns a single instance', () => {
-      expect(Still.of<number, MockError>()).toBe(Still.of<number, MockError>());
+      expect(Contradiction.of<number, MockError>()).toBe(Contradiction.of<number, MockError>());
     });
   });
 
   describe('get', () => {
     it('throws the inside error', () => {
-      const still: Still<number, MockError> = Still.of<number, MockError>();
+      const still: Contradiction<number, MockError> = Contradiction.of<number, MockError>();
 
       expect(() => {
         still.get();
@@ -22,7 +22,7 @@ describe('Still', () => {
 
   describe('isAlive', () => {
     it('always returns false', () => {
-      const still: Still<number, MockError> = Still.of<number, MockError>();
+      const still: Contradiction<number, MockError> = Contradiction.of<number, MockError>();
 
       expect(still.isAlive()).toBe(false);
     });
@@ -30,17 +30,17 @@ describe('Still', () => {
 
   describe('isDead', () => {
     it('always returns false', () => {
-      const still: Still<number, MockError> = Still.of<number, MockError>();
+      const still: Contradiction<number, MockError> = Contradiction.of<number, MockError>();
 
       expect(still.isDead()).toBe(false);
     });
   });
 
   describe('isContradiction', () => {
-    it('always returns false', () => {
-      const still: Still<number, MockError> = Still.of<number, MockError>();
+    it('always returns true', () => {
+      const still: Contradiction<number, MockError> = Contradiction.of<number, MockError>();
 
-      expect(still.isContradiction()).toBe(false);
+      expect(still.isContradiction()).toBe(true);
     });
   });
 });

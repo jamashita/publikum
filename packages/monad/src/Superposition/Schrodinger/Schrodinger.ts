@@ -2,6 +2,7 @@ import { Noun } from '@jamashita/publikum-interface';
 
 import { Detoxicated } from '../Interface/Detoxicated';
 import { Alive } from './Alive';
+import { Contradiction } from './Contradiction';
 import { Dead } from './Dead';
 
 type SchrodingerType = 'Alive' | 'Dead' | 'Still' | 'Contradiction';
@@ -15,5 +16,5 @@ export interface Schrodinger<A, D extends Error, N extends SchrodingerType = Sch
 
   isDead(): this is Dead<A, D>;
 
-  isSettled(): boolean;
+  isContradiction(): this is Contradiction<A, D>;
 }

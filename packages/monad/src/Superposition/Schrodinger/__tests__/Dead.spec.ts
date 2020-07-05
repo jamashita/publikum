@@ -2,7 +2,6 @@ import { MockError } from '@jamashita/publikum-object';
 
 import { Dead } from '../Dead';
 
-// TODO ISSETTLED
 describe('Dead', () => {
   describe('of', () => {
     it('normal case', () => {
@@ -50,6 +49,16 @@ describe('Dead', () => {
 
       expect(dead1.isDead()).toBe(true);
       expect(dead2.isDead()).toBe(true);
+    });
+  });
+
+  describe('isContradiction', () => {
+    it('always returns false', () => {
+      const dead1: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
+      const dead2: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
+
+      expect(dead1.isContradiction()).toBe(false);
+      expect(dead2.isContradiction()).toBe(false);
     });
   });
 });

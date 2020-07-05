@@ -2,7 +2,6 @@ import { MockError } from '@jamashita/publikum-object';
 
 import { Alive } from '../Alive';
 
-// TODO ISSETTLED
 describe('Alive', () => {
   describe('of', () => {
     it('normal case', () => {
@@ -43,6 +42,16 @@ describe('Alive', () => {
 
       expect(alive1.isDead()).toBe(false);
       expect(alive2.isDead()).toBe(false);
+    });
+  });
+
+  describe('isContradiction', () => {
+    it('always returns false', () => {
+      const alive1: Alive<number, MockError> = Alive.of<number, MockError>(1);
+      const alive2: Alive<string, MockError> = Alive.of<string, MockError>('aiutare');
+
+      expect(alive1.isContradiction()).toBe(false);
+      expect(alive2.isContradiction()).toBe(false);
     });
   });
 });

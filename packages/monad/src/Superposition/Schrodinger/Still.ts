@@ -1,5 +1,6 @@
 import { SuperpositionError } from '../Error/SuperpositionError';
 import { Alive } from './Alive';
+import { Contradiction } from './Contradiction';
 import { Dead } from './Dead';
 import { Schrodinger } from './Schrodinger';
 
@@ -28,7 +29,7 @@ export class Still<A, D extends Error> implements Schrodinger<A, D, 'Still'> {
     return false;
   }
 
-  public isSettled(): boolean {
+  public isContradiction(): this is Contradiction<A, D> {
     return false;
   }
 }

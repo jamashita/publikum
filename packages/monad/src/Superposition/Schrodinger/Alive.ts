@@ -1,4 +1,5 @@
 import { Detoxicated } from '../Interface/Detoxicated';
+import { Contradiction } from './Contradiction';
 import { Dead } from './Dead';
 import { Schrodinger } from './Schrodinger';
 
@@ -26,7 +27,7 @@ export class Alive<A, D extends Error> implements Schrodinger<A, D, 'Alive'> {
     return false;
   }
 
-  public isSettled(): boolean {
-    return true;
+  public isContradiction(): this is Contradiction<A, D> {
+    return false;
   }
 }

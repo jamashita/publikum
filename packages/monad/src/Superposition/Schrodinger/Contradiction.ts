@@ -29,7 +29,7 @@ export class Contradiction<A, D extends Error> implements Schrodinger<A, D, 'Con
     return false;
   }
 
-  public isSettled(): boolean {
+  public isContradiction(): this is Contradiction<A, D> {
     return true;
   }
 }
