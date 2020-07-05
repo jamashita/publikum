@@ -16,8 +16,6 @@ describe('BeUnscharferelation', () => {
         }
       );
 
-      expect(BeUnscharferelation.is<number>(unscharferelation1)).toBe(true);
-      expect(BeUnscharferelation.is<number>(unscharferelation2)).toBe(true);
       expect(BeUnscharferelation.is<number>(null)).toBe(false);
       expect(BeUnscharferelation.is<number>(undefined)).toBe(false);
       expect(BeUnscharferelation.is<number>('')).toBe(false);
@@ -31,6 +29,95 @@ describe('BeUnscharferelation', () => {
       expect(BeUnscharferelation.is<number>(20n)).toBe(false);
       expect(BeUnscharferelation.is<number>({})).toBe(false);
       expect(BeUnscharferelation.is<number>([])).toBe(false);
+      expect(
+        BeUnscharferelation.is<number>({
+          get() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        BeUnscharferelation.is<number>({
+          get() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        BeUnscharferelation.is<number>({
+          get() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          },
+          filter() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        BeUnscharferelation.is<number>({
+          get() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          },
+          filter() {
+            // NOOP
+          },
+          map() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        BeUnscharferelation.is<number>({
+          get() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          },
+          filter() {
+            // NOOP
+          },
+          map() {
+            // NOOP
+          },
+          recover() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        BeUnscharferelation.is<number>({
+          get() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          },
+          filter() {
+            // NOOP
+          },
+          map() {
+            // NOOP
+          },
+          recover() {
+            // NOOP
+          },
+          toSuperposition() {
+            // NOOP
+          }
+        })
+      ).toBe(true);
+      expect(BeUnscharferelation.is<number>(unscharferelation1)).toBe(true);
+      expect(BeUnscharferelation.is<number>(unscharferelation2)).toBe(true);
     });
   });
 });
