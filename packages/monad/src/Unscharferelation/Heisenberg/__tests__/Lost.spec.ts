@@ -34,32 +34,26 @@ describe('Lost', () => {
   describe('isPresent', () => {
     it('returns false', () => {
       const error: MockError = new MockError();
-      const lost1: Lost<void> = Lost.of<void>(error);
-      const lost2: Lost<number> = Lost.of<number>(error);
+      const lost: Lost<void> = Lost.of<void>(error);
 
-      expect(lost1.isPresent()).toBe(false);
-      expect(lost2.isPresent()).toBe(false);
+      expect(lost.isPresent()).toBe(false);
     });
   });
   describe('isAbsent', () => {
     it('returns false', () => {
       const error: MockError = new MockError();
-      const lost1: Lost<void> = Lost.of<void>(error);
-      const lost2: Lost<number> = Lost.of<number>(error);
+      const lost: Lost<void> = Lost.of<void>(error);
 
-      expect(lost1.isAbsent()).toBe(false);
-      expect(lost2.isAbsent()).toBe(false);
+      expect(lost.isAbsent()).toBe(false);
     });
   });
 
   describe('isLost', () => {
     it('returns true', () => {
       const error: MockError = new MockError();
-      const lost1: Lost<void> = Lost.of<void>(error);
-      const lost2: Lost<number> = Lost.of<number>(error);
+      const lost: Lost<void> = Lost.of<void>(error);
 
-      expect(lost1.isLost()).toBe(true);
-      expect(lost2.isLost()).toBe(true);
+      expect(lost.isLost()).toBe(true);
     });
   });
 });
