@@ -834,6 +834,32 @@ describe('Unscharferelation', () => {
     });
   });
 
+  describe('pass', () => {
+    it('delegate inner Unscharferelation', () => {
+      const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
+
+      const spy: SinonSpy = sinon.spy();
+
+      mock.pass = spy;
+
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofUnscharferelation<number>(mock);
+
+      unscharferelation.pass(
+        () => {
+          return 1;
+        },
+        () => {
+          return 2;
+        },
+        () => {
+          return 3;
+        }
+      );
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
   describe('toSuperposition', () => {
     it('delegate inner Unscharferelation', () => {
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();

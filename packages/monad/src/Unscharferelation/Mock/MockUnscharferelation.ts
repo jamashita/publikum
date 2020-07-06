@@ -1,5 +1,5 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
-import { Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import { Consumer, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { ISuperposition } from '../../Superposition/Interface/ISuperposition';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
@@ -34,6 +34,11 @@ export class MockUnscharferelation<P> implements IUnscharferelation<P, 'MockUnsc
     mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>
   ): MockUnscharferelation<P | Q>;
   public recover<Q = P>(): MockUnscharferelation<P | Q> {
+    throw new UnimplementedError();
+  }
+
+  public pass(accepted: Consumer<Matter<P>>, declined: Consumer<void>, thrown: Consumer<unknown>): unknown;
+  public pass(): unknown {
     throw new UnimplementedError();
   }
 

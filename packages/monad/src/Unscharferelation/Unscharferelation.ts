@@ -1,4 +1,4 @@
-import { Kind, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import { Consumer, Kind, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { Superposition } from '../Superposition/Superposition';
@@ -172,15 +172,19 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
   }
 
   public map<Q = P>(
-    mapper: UnaryFunction<Matter<P>, PromiseLike<Suspicious<Matter<Q>>> | Unscharferelation<Q> | Suspicious<Matter<Q>>>
+    mapper: UnaryFunction<Matter<P>, Unscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>
   ): Unscharferelation<Q> {
     return Unscharferelation.ofUnscharferelation<Q>(this.internal.map<Q>(mapper));
   }
 
   public recover<Q = P>(
-    mapper: Supplier<PromiseLike<Suspicious<Matter<Q>>> | Unscharferelation<Q> | Suspicious<Matter<Q>>>
+    mapper: Supplier<Unscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>
   ): Unscharferelation<P | Q> {
     return Unscharferelation.ofUnscharferelation<P | Q>(this.internal.recover<Q>(mapper));
+  }
+
+  public pass(accepted: Consumer<Matter<P>>, declined: Consumer<void>, thrown: Consumer<unknown>): unknown {
+    return this.internal.pass(accepted, declined, thrown);
   }
 
   public toSuperposition(): Superposition<P, UnscharferelationError> {
