@@ -46,7 +46,7 @@ export class SuperpositionInternal<A, D extends Error>
     func(this);
   }
 
-  public isSettled(): boolean {
+  private settled(): boolean {
     if (this.schrodinger.isAlive() || this.schrodinger.isDead() || this.schrodinger.isContradiction()) {
       return true;
     }
@@ -55,7 +55,7 @@ export class SuperpositionInternal<A, D extends Error>
   }
 
   public accept(value: Detoxicated<A>): unknown {
-    if (this.isSettled()) {
+    if (this.settled()) {
       return;
     }
 
@@ -67,7 +67,7 @@ export class SuperpositionInternal<A, D extends Error>
   }
 
   public decline(error: D): unknown {
-    if (this.isSettled()) {
+    if (this.settled()) {
       return;
     }
 
@@ -78,9 +78,8 @@ export class SuperpositionInternal<A, D extends Error>
     });
   }
 
-  // TODO TEST UNDONE
   public throw(cause: unknown): unknown {
-    if (this.isSettled()) {
+    if (this.settled()) {
       return;
     }
 
@@ -144,7 +143,7 @@ export class SuperpositionInternal<A, D extends Error>
     return SuperpositionInternal.of<B, D | E>(
       (epoque: Epoque<Detoxicated<B>, D | E>) => {
         return this.handle(
-          AlivePlan.of<A, B, E>(mapper, epoque, [...this.errors.values()]),
+          AlivePlan.of<A, B, E>(mapper, epoque, [...this.errors]),
           RecoveryPassPlan.of<D>(epoque),
           DestroyPassPlan.of(epoque)
         );
@@ -161,7 +160,7 @@ export class SuperpositionInternal<A, D extends Error>
     return SuperpositionInternal.of<A | B, E>((epoque: Epoque<Detoxicated<A | B>, E>) => {
       return this.handle(
         MappingPassPlan.of<Detoxicated<A>>(epoque),
-        DeadPlan.of<B, D, E>(mapper, epoque, [...this.errors.values()]),
+        DeadPlan.of<B, D, E>(mapper, epoque, [...this.errors]),
         DestroyPassPlan.of(epoque)
       );
     }, ...errors);
@@ -173,7 +172,7 @@ export class SuperpositionInternal<A, D extends Error>
     ...errors: Array<DeadConstructor>
   ): SuperpositionInternal<B, E> {
     return SuperpositionInternal.of<B, E>((epoque: Epoque<Detoxicated<B>, E>) => {
-      const constructors: Array<DeadConstructor> = [...this.errors.values()];
+      const constructors: Array<DeadConstructor> = [...this.errors];
 
       return this.handle(
         AlivePlan.of<A, B, E>(alive, epoque, constructors),
