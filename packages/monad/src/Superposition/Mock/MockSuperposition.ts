@@ -1,5 +1,5 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
-import { Predicate, UnaryFunction } from '@jamashita/publikum-type';
+import { Consumer, Predicate, UnaryFunction } from '@jamashita/publikum-type';
 
 import { IUnscharferelation } from '../../Unscharferelation/Interface/IUnscharferelation';
 import { SuperpositionError } from '../Error/SuperpositionError';
@@ -42,6 +42,11 @@ export class MockSuperposition<A, D extends Error> implements ISuperposition<A, 
     dead: UnaryFunction<D, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>
   ): MockSuperposition<B, E>;
   public transform<B = A, E extends Error = D>(): MockSuperposition<B, E> {
+    throw new UnimplementedError();
+  }
+
+  public pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): unknown;
+  public pass(): unknown {
     throw new UnimplementedError();
   }
 

@@ -50,8 +50,8 @@ export class PresentPlan<P, Q> implements MappingPlan<P, 'PresentPlan'> {
           () => {
             return this.epoque.decline();
           },
-          (e: unknown) => {
-            return this.epoque.throw(e);
+          (c: unknown) => {
+            return this.epoque.throw(c);
           }
         );
       }

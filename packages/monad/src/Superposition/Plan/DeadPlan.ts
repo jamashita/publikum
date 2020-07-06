@@ -50,8 +50,8 @@ export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPl
           (e: E) => {
             return this.epoque.decline(e);
           },
-          (e: unknown) => {
-            return this.epoque.throw(e);
+          (c: unknown) => {
+            return this.epoque.throw(c);
           }
         );
       }

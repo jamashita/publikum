@@ -39,8 +39,8 @@ export class AbsentPlan<Q> implements RecoveryPlan<void, 'AbsentPlan'> {
           () => {
             return this.epoque.decline();
           },
-          (e: unknown) => {
-            return this.epoque.throw(e);
+          (c: unknown) => {
+            return this.epoque.throw(c);
           }
         );
       }

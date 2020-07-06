@@ -14,12 +14,12 @@ export class AlivePlan<A, B, E extends Error> implements MappingPlan<A, 'AlivePl
     ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>
   >;
   private readonly epoque: Epoque<Detoxicated<B>, E>;
-  private readonly errors: Array<DeadConstructor>;
+  private readonly errors: Array<DeadConstructor<E>>;
 
   public static of<A, B, E extends Error>(
     mapper: UnaryFunction<Detoxicated<A>, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
     epoque: Epoque<Detoxicated<B>, E>,
-    errors: Array<DeadConstructor>
+    errors: Array<DeadConstructor<E>>
   ): AlivePlan<A, B, E> {
     return new AlivePlan<A, B, E>(mapper, epoque, errors);
   }
@@ -27,7 +27,7 @@ export class AlivePlan<A, B, E extends Error> implements MappingPlan<A, 'AlivePl
   protected constructor(
     mapper: UnaryFunction<Detoxicated<A>, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
     epoque: Epoque<Detoxicated<B>, E>,
-    errors: Array<DeadConstructor>
+    errors: Array<DeadConstructor<E>>
   ) {
     this.mapper = mapper;
     this.epoque = epoque;
@@ -35,7 +35,7 @@ export class AlivePlan<A, B, E extends Error> implements MappingPlan<A, 'AlivePl
   }
 
   private isSpecifiedError(err: unknown): err is E {
-    return this.errors.some((error: DeadConstructor) => {
+    return this.errors.some((error: DeadConstructor<E>) => {
       return Kind.isClass(err, error);
     });
   }
@@ -53,8 +53,8 @@ export class AlivePlan<A, B, E extends Error> implements MappingPlan<A, 'AlivePl
           (e: E) => {
             return this.epoque.decline(e);
           },
-          (e: unknown) => {
-            return this.epoque.throw(e);
+          (c: unknown) => {
+            return this.epoque.throw(c);
           }
         );
       }

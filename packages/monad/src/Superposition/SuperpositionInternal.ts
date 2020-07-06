@@ -30,18 +30,18 @@ export class SuperpositionInternal<A, D extends Error>
   public readonly noun: 'SuperpositionInternal' = 'SuperpositionInternal';
   private schrodinger: Schrodinger<A, D>;
   private readonly plans: Set<CombinedPlan<A, D>>;
-  private readonly errors: Set<DeadConstructor>;
+  private readonly errors: Set<DeadConstructor<D>>;
 
   public static of<A, D extends Error>(
     func: UnaryFunction<Epoque<Detoxicated<A>, D>, unknown>,
-    ...errors: Array<DeadConstructor>
+    errors: Array<DeadConstructor<D>>
   ): SuperpositionInternal<A, D> {
     return new SuperpositionInternal<A, D>(func, errors);
   }
 
-  protected constructor(func: UnaryFunction<Epoque<Detoxicated<A>, D>, unknown>, errors: Array<DeadConstructor>) {
+  protected constructor(func: UnaryFunction<Epoque<Detoxicated<A>, D>, unknown>, errors: Array<DeadConstructor<D>>) {
     this.schrodinger = Still.of<A, D>();
-    this.errors = new Set<DeadConstructor>(errors);
+    this.errors = new Set<DeadConstructor<D>>(errors);
     this.plans = new Set<CombinedPlan<A, D>>();
     func(this);
   }
@@ -132,57 +132,54 @@ export class SuperpositionInternal<A, D extends Error>
             return epoque.throw(e);
           }
         );
-      }
+      },
+      [...this.errors]
     );
   }
 
   public map<B = A, E extends Error = D>(
     mapper: UnaryFunction<Detoxicated<A>, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
-    ...errors: Array<DeadConstructor>
+    ...errors: Array<DeadConstructor<E>>
   ): SuperpositionInternal<B, D | E> {
-    return SuperpositionInternal.of<B, D | E>(
-      (epoque: Epoque<Detoxicated<B>, D | E>) => {
-        return this.handle(
-          AlivePlan.of<A, B, E>(mapper, epoque, [...this.errors]),
-          RecoveryPassPlan.of<D>(epoque),
-          DestroyPassPlan.of(epoque)
-        );
-      },
-      ...this.errors,
-      ...errors
-    );
+    const es: Array<DeadConstructor<D | E>> = [...this.errors, ...errors];
+
+    return SuperpositionInternal.of<B, D | E>((epoque: Epoque<Detoxicated<B>, D | E>) => {
+      return this.handle(
+        AlivePlan.of<A, B, D | E>(mapper, epoque, es),
+        RecoveryPassPlan.of<D>(epoque),
+        DestroyPassPlan.of(epoque)
+      );
+    }, es);
   }
 
   public recover<B = A, E extends Error = D>(
     mapper: UnaryFunction<D, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
-    ...errors: Array<DeadConstructor>
+    ...errors: Array<DeadConstructor<E>>
   ): SuperpositionInternal<A | B, E> {
     return SuperpositionInternal.of<A | B, E>((epoque: Epoque<Detoxicated<A | B>, E>) => {
       return this.handle(
         MappingPassPlan.of<Detoxicated<A>>(epoque),
-        DeadPlan.of<B, D, E>(mapper, epoque, [...this.errors]),
+        DeadPlan.of<B, D, E>(mapper, epoque, errors),
         DestroyPassPlan.of(epoque)
       );
-    }, ...errors);
+    }, errors);
   }
 
   public transform<B = A, E extends Error = D>(
     alive: UnaryFunction<Detoxicated<A>, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
     dead: UnaryFunction<D, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
-    ...errors: Array<DeadConstructor>
+    ...errors: Array<DeadConstructor<E>>
   ): SuperpositionInternal<B, E> {
     return SuperpositionInternal.of<B, E>((epoque: Epoque<Detoxicated<B>, E>) => {
-      const constructors: Array<DeadConstructor> = [...this.errors];
-
       return this.handle(
-        AlivePlan.of<A, B, E>(alive, epoque, constructors),
-        DeadPlan.of<B, D, E>(dead, epoque, constructors),
+        AlivePlan.of<A, B, E>(alive, epoque, errors),
+        DeadPlan.of<B, D, E>(dead, epoque, errors),
         DestroyPassPlan.of(epoque)
       );
-    }, ...errors);
+    }, errors);
   }
 
-  private pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): unknown {
+  public pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): unknown {
     const epoque: Epoque<Detoxicated<A>, D> = PassEpoque.of<Detoxicated<A>, D>(accepted, declined, thrown);
 
     return this.handle(
