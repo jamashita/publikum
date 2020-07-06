@@ -46,15 +46,14 @@ export class AlivePlan<A, B, E extends Error> implements MappingPlan<A, 'AlivePl
       const mapped: ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B> = this.mapper(resolve);
 
       if (BeSuperposition.is<B, E>(mapped)) {
-        return mapped.transform<unknown, Error>(
+        return mapped.pass(
           (v: Detoxicated<B>) => {
             return this.epoque.accept(v);
           },
           (e: E) => {
-            if (this.isSpecifiedError(e)) {
-              return this.epoque.decline(e);
-            }
-
+            return this.epoque.decline(e);
+          },
+          (e: unknown) => {
             return this.epoque.throw(e);
           }
         );
