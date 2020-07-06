@@ -109,48 +109,11 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
     });
   }
 
-  private static ofHeisenberg<P>(heisenberg: PromiseLike<Heisenberg<P>> | Heisenberg<P>): Unscharferelation<P> {
-    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
-      if (Kind.isPromiseLike(heisenberg)) {
-        return heisenberg.then<unknown, unknown>(
-          (v: Heisenberg<P>) => {
-            if (v.isPresent()) {
-              return epoque.accept(v.get());
-            }
-            if (v.isAbsent()) {
-              return epoque.decline();
-            }
-            if (v.isLost()) {
-              return epoque.throw(v.getCause());
-            }
-
-            return epoque.throw(new UnscharferelationError('UNKNOWN HEISENBERG'));
-          },
-          () => {
-            return epoque.throw(new UnscharferelationError('REJECTED'));
-          }
-        );
-      }
-
-      if (heisenberg.isPresent()) {
-        return epoque.accept(heisenberg.get());
-      }
-      if (heisenberg.isAbsent()) {
-        return epoque.decline();
-      }
-      if (heisenberg.isLost()) {
-        return epoque.throw(heisenberg.getCause());
-      }
-
-      return epoque.throw(new UnscharferelationError('UNKNOWN HEISENBERG'));
-    });
-  }
-
   public static of<P>(func: UnaryFunction<Epoque<Matter<P>, void>, unknown>): Unscharferelation<P> {
     return Unscharferelation.ofUnscharferelation<P>(UnscharferelationInternal.of<P>(func));
   }
 
-  public static ofUnscharferelation<P>(unscharferelation: IUnscharferelation<P>): Unscharferelation<P> {
+  private static ofUnscharferelation<P>(unscharferelation: IUnscharferelation<P>): Unscharferelation<P> {
     return new Unscharferelation<P>(unscharferelation);
   }
 

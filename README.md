@@ -142,8 +142,8 @@ Class for random string, random number.
 + [ ] `sequence.set()`
 + [ ] `sequence.remove()`
 * [ ] `Teleportation` cancellation
-* [ ] `Unschrferelation` error handling
-* [ ] `Superposition` error handling
+* [x] `Unschrferelation` error handling
+* [x] `Superposition` error handling
 
 ## License
 
