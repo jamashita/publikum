@@ -109,7 +109,7 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
     });
   }
 
-  public static ofHeisenberg<P>(heisenberg: PromiseLike<Heisenberg<P>> | Heisenberg<P>): Unscharferelation<P> {
+  private static ofHeisenberg<P>(heisenberg: PromiseLike<Heisenberg<P>> | Heisenberg<P>): Unscharferelation<P> {
     return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
       if (Kind.isPromiseLike(heisenberg)) {
         return heisenberg.then<unknown, unknown>(
