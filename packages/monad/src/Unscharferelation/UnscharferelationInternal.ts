@@ -213,7 +213,7 @@ export class UnscharferelationInternal<P>
           }
         );
       },
-      UnscharferelationError
+      [UnscharferelationError]
     );
   }
 }

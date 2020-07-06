@@ -1,6 +1,7 @@
 import { Consumer, Kind, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../Epoque/Interface/Epoque';
+import { Detoxicated } from '../Superposition/Interface/Detoxicated';
 import { Superposition } from '../Superposition/Superposition';
 import { UnscharferelationError } from './Error/UnscharferelationError';
 import { Heisenberg } from './Heisenberg/Heisenberg';
@@ -84,7 +85,6 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
     });
   }
 
-  // TODO TESTS UNDONE
   public static present<P>(value: PromiseLike<Matter<P>> | Matter<P>): Unscharferelation<P> {
     return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
       if (Kind.isPromiseLike(value)) {
@@ -102,7 +102,6 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
     });
   }
 
-  // TODO TESTS UNDONE
   public static absent<P>(value: PromiseLike<Nihil> | Nihil): Unscharferelation<P>;
   public static absent<P>(): Unscharferelation<P> {
     return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
@@ -188,6 +187,22 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
   }
 
   public toSuperposition(): Superposition<P, UnscharferelationError> {
-    return Superposition.ofSuperposition<P, UnscharferelationError>(this.internal.toSuperposition());
+    return Superposition.of<P, UnscharferelationError>((epoque: Epoque<Detoxicated<P>, UnscharferelationError>) => {
+      this.pass(
+        (value: Matter<P>) => {
+          if (value instanceof Error) {
+            return epoque.decline(new UnscharferelationError('ABSENT'));
+          }
+
+          return epoque.accept((value as unknown) as Detoxicated<P>);
+        },
+        () => {
+          return epoque.decline(new UnscharferelationError('ABSENT'));
+        },
+        (e: unknown) => {
+          return epoque.throw(e);
+        }
+      );
+    }, UnscharferelationError);
   }
 }
