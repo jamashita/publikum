@@ -6,7 +6,6 @@ import { Epoque } from '../../Epoque/Interface/Epoque';
 import { Schrodinger } from '../../Superposition/Schrodinger/Schrodinger';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
-import { Lost } from '../Heisenberg/Lost';
 import { UnscharferelationInternal } from '../UnscharferelationInternal';
 
 describe('UnscharferelationInternal', () => {
@@ -129,13 +128,13 @@ describe('UnscharferelationInternal', () => {
 
       const heisenberg1: Heisenberg<number> = await unscharferelation.terminate();
 
-      expect(heisenberg1).toBeInstanceOf(Lost);
+      expect(heisenberg1.isLost()).toBe(true);
 
       unscharferelation.accept(value);
 
       const heisenberg2: Heisenberg<number> = await unscharferelation.terminate();
 
-      expect(heisenberg2).toBeInstanceOf(Lost);
+      expect(heisenberg2.isLost()).toBe(true);
     });
 
     it('call multiple maps, but nothing will be invoked', async () => {
@@ -162,7 +161,7 @@ describe('UnscharferelationInternal', () => {
 
       await unscharferelation
         .recover<number>(() => {
-          spy3();
+          spy2();
 
           return 3;
         })
@@ -327,9 +326,11 @@ describe('UnscharferelationInternal', () => {
       const heisenberg1: Heisenberg<number> = await unscharferelation2.terminate();
       const heisenberg2: Heisenberg<number> = await unscharferelation3.terminate();
 
+      expect(heisenberg1.isLost()).toBe(true);
       expect(() => {
         heisenberg1.get();
       }).toThrow(error);
+      expect(heisenberg2.isLost()).toBe(true);
       expect(() => {
         heisenberg2.get();
       }).toThrow(error);
@@ -921,10 +922,10 @@ describe('UnscharferelationInternal', () => {
       const spy3: SinonSpy = sinon.spy();
 
       await unscharferelation
-        .map<number>(() => {
+        .map<number>((v: number) => {
           spy1();
 
-          return Promise.resolve<number>(value + 23);
+          return Promise.resolve<number>(v + 23);
         })
         .recover<number>(() => {
           spy2();
@@ -997,7 +998,7 @@ describe('UnscharferelationInternal', () => {
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.accept(value);
+          epoque.decline();
         }
       );
 
@@ -1006,9 +1007,8 @@ describe('UnscharferelationInternal', () => {
       const spy3: SinonSpy = sinon.spy();
 
       await unscharferelation
-        .map<number>((v: number) => {
+        .recover<number>(() => {
           spy1();
-          expect(v).toBe(value);
 
           return null;
         })
@@ -1035,7 +1035,7 @@ describe('UnscharferelationInternal', () => {
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
-          epoque.accept(value);
+          epoque.decline();
         }
       );
 
@@ -1044,9 +1044,8 @@ describe('UnscharferelationInternal', () => {
       const spy3: SinonSpy = sinon.spy();
 
       await unscharferelation
-        .map<number>((v: number) => {
+        .recover<number>(() => {
           spy1();
-          expect(v).toBe(value);
 
           return Promise.resolve<null>(null);
         })
@@ -1143,9 +1142,8 @@ describe('UnscharferelationInternal', () => {
 
           throw error;
         })
-        .map<number>((v: number) => {
+        .map<number>(() => {
           spy3();
-          expect(v).toBe(value + 23);
 
           throw error;
         })
@@ -1400,7 +1398,6 @@ describe('UnscharferelationInternal', () => {
     });
   });
 
-  // TODO THROW CASE, VALUE IS ERROR CASE
   describe('toSuperposition', () => {
     it('present: will transform to alive', async () => {
       const value: number = -201;
@@ -1420,6 +1417,26 @@ describe('UnscharferelationInternal', () => {
       expect(schrodinger.get()).toBe(value);
     });
 
+    it('present: if the value is Error, will transform to dead', async () => {
+      const value: MockError = new MockError();
+
+      const unscharferelation: UnscharferelationInternal<MockError> = UnscharferelationInternal.of<MockError>(
+        (epoque: Epoque<MockError, void>) => {
+          epoque.accept(value);
+        }
+      );
+
+      const schrodinger: Schrodinger<
+        MockError,
+        UnscharferelationError
+      > = await unscharferelation.toSuperposition().terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(UnscharferelationError);
+    });
+
     it('absent: will transform to dead', async () => {
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
@@ -1436,6 +1453,26 @@ describe('UnscharferelationInternal', () => {
       expect(() => {
         schrodinger.get();
       }).toThrow(UnscharferelationError);
+    });
+
+    it('lost: will transform to contradiction', async () => {
+      const error: MockError = new MockError();
+
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.throw(error);
+        }
+      );
+
+      const schrodinger: Schrodinger<
+        number,
+        UnscharferelationError
+      > = await unscharferelation.toSuperposition().terminate();
+
+      expect(schrodinger.isContradiction()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(error);
     });
   });
 });
