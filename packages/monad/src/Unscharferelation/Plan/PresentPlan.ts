@@ -3,7 +3,6 @@ import { Kind, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { MappingPlan } from '../../Plan/Interface/MappingPlan';
 import { BeUnscharferelation } from '../BeUnscharferelation';
-import { Heisenberg } from '../Heisenberg/Heisenberg';
 import { IUnscharferelation } from '../Interface/IUnscharferelation';
 import { Matter } from '../Interface/Matter';
 
@@ -44,15 +43,11 @@ export class PresentPlan<P, Q> implements MappingPlan<P, 'PresentPlan'> {
       );
 
       if (BeUnscharferelation.is(mapped)) {
-        return mapped.terminate().then<unknown, unknown>(
-          (v: Heisenberg<Q>) => {
-            if (v.isPresent()) {
-              return this.epoque.accept(v.get());
-            }
-            if (v.isLost()) {
-              return this.epoque.throw(v.getCause());
-            }
-
+        return mapped.pass(
+          (v: Matter<Q>) => {
+            return this.epoque.accept(v);
+          },
+          () => {
             return this.epoque.decline();
           },
           (e: unknown) => {
