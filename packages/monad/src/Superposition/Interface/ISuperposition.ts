@@ -1,5 +1,5 @@
 import { Noun } from '@jamashita/publikum-interface';
-import { Predicate, UnaryFunction } from '@jamashita/publikum-type';
+import { Consumer, Predicate, UnaryFunction } from '@jamashita/publikum-type';
 
 import { IUnscharferelation } from '../../Unscharferelation/Interface/IUnscharferelation';
 import { SuperpositionError } from '../Error/SuperpositionError';
@@ -25,6 +25,8 @@ export interface ISuperposition<A, D extends Error, N extends string = string> e
     alive: UnaryFunction<Detoxicated<A>, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
     dead: UnaryFunction<D, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>
   ): ISuperposition<B, E>;
+
+  pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): unknown;
 
   toUnscharferelation(): IUnscharferelation<A>;
 }

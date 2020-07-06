@@ -141,6 +141,34 @@ describe('BeSuperposition', () => {
           transform() {
             // NOOP
           },
+          pass() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        BeSuperposition.is<number, MockError>({
+          get() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          },
+          filter() {
+            // NOOP
+          },
+          map() {
+            // NOOP
+          },
+          recover() {
+            // NOOP
+          },
+          transform() {
+            // NOOP
+          },
+          pass() {
+            // NOOP
+          },
           toUnscharferelation() {
             // NOOP
           }

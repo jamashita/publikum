@@ -25,6 +25,9 @@ export class BeSuperposition {
     if (typeof value.transform !== 'function') {
       return false;
     }
+    if (typeof value.pass !== 'function') {
+      return false;
+    }
     if (typeof value.toUnscharferelation !== 'function') {
       return false;
     }
