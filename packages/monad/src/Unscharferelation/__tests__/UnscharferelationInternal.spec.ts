@@ -1,6 +1,7 @@
 import sinon, { SinonSpy } from 'sinon';
 
 import { MockError } from '@jamashita/publikum-object';
+import { Resolve } from '@jamashita/publikum-type';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { Schrodinger } from '../../Superposition/Schrodinger/Schrodinger';
@@ -1395,6 +1396,115 @@ describe('UnscharferelationInternal', () => {
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(false);
+    });
+  });
+
+  describe('pass', () => {
+    it('Present case', async () => {
+      const value: number = -201;
+
+      const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value);
+        }
+      );
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await new Promise<void>((resolve: Resolve<void>) => {
+        unscharferelation1.pass(
+          (v: number) => {
+            spy1();
+            expect(v).toBe(value);
+
+            resolve();
+          },
+          () => {
+            spy2();
+            resolve();
+          },
+          () => {
+            spy3();
+            resolve();
+          }
+        );
+      });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
+    });
+
+    it('Absent case', async () => {
+      const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.decline();
+        }
+      );
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await new Promise<void>((resolve: Resolve<void>) => {
+        unscharferelation1.pass(
+          () => {
+            spy1();
+            resolve();
+          },
+          () => {
+            spy2();
+            resolve();
+          },
+          () => {
+            spy3();
+            resolve();
+          }
+        );
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(false);
+    });
+
+    it('Lost case', async () => {
+      const error: MockError = new MockError();
+
+      const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.throw(error);
+        }
+      );
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await new Promise<void>((resolve: Resolve<void>) => {
+        unscharferelation1.pass(
+          () => {
+            spy1();
+            resolve();
+          },
+          () => {
+            spy2();
+            resolve();
+          },
+          (e: unknown) => {
+            spy3();
+            expect(e).toBe(error);
+
+            resolve();
+          }
+        );
+      });
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(true);
     });
   });
 

@@ -164,7 +164,7 @@ export class UnscharferelationInternal<P>
     });
   }
 
-  private pass(accepted: Consumer<Matter<P>>, declined: Consumer<void>, thrown: Consumer<unknown>): unknown {
+  public pass(accepted: Consumer<Matter<P>>, declined: Consumer<void>, thrown: Consumer<unknown>): unknown {
     const epoque: Epoque<Matter<P>, void> = PassEpoque.of<Matter<P>, void>(accepted, declined, thrown);
 
     return this.handle(
