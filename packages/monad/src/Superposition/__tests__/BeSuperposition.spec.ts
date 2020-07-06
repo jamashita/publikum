@@ -16,7 +16,7 @@ describe('BeSuperposition', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(new MockError());
         },
-        MockError
+        [MockError]
       );
 
       expect(BeSuperposition.is<number, MockError>(superposition1)).toBe(true);

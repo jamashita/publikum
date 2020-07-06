@@ -11,12 +11,12 @@ export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPl
   public readonly noun: 'DeadPlan' = 'DeadPlan';
   private readonly mapper: UnaryFunction<D, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>;
   private readonly epoque: Epoque<Detoxicated<B>, E>;
-  private readonly errors: Array<DeadConstructor>;
+  private readonly errors: Array<DeadConstructor<E>>;
 
   public static of<B, D extends Error, E extends Error>(
     mapper: UnaryFunction<D, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
     epoque: Epoque<Detoxicated<B>, E>,
-    errors: Array<DeadConstructor>
+    errors: Array<DeadConstructor<E>>
   ): DeadPlan<B, D, E> {
     return new DeadPlan<B, D, E>(mapper, epoque, errors);
   }
@@ -24,7 +24,7 @@ export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPl
   protected constructor(
     mapper: UnaryFunction<D, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
     epoque: Epoque<Detoxicated<B>, E>,
-    errors: Array<DeadConstructor>
+    errors: Array<DeadConstructor<E>>
   ) {
     this.mapper = mapper;
     this.epoque = epoque;
@@ -32,7 +32,7 @@ export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPl
   }
 
   private isSpecifiedError(err: unknown): err is E {
-    return this.errors.some((error: DeadConstructor) => {
+    return this.errors.some((error: DeadConstructor<E>) => {
       return Kind.isClass(err, error);
     });
   }

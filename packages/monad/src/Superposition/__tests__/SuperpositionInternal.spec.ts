@@ -18,7 +18,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<void, MockError>) => {
           epoque.accept();
         },
-        MockError
+        [MockError]
       );
 
       const schrodinger1: Schrodinger<void, MockError> = await superposition.terminate();
@@ -42,7 +42,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
         },
-        MockError
+        [MockError]
       );
 
       await superposition
@@ -77,7 +77,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error);
         },
-        MockError
+        [MockError]
       );
 
       const schrodinger1: Schrodinger<number, MockError> = await superposition.terminate();
@@ -101,7 +101,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error);
         },
-        MockError
+        [MockError]
       );
 
       await superposition
@@ -134,7 +134,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.throw(error);
         },
-        MockError
+        [MockError]
       );
 
       const schrodinger1: Schrodinger<number, MockError> = await superposition.terminate();
@@ -160,7 +160,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.throw(error);
         },
-        MockError
+        [MockError]
       );
 
       await superposition
@@ -211,19 +211,19 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error);
         },
-        MockError
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.throw(error);
         },
-        MockError
+        [MockError]
       );
 
       await expect(superposition1.get()).resolves.toEqual(value);
@@ -241,19 +241,19 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
         },
-        MockError
+        [MockError]
       ).terminate();
       const dead: Schrodinger<number, MockError> = await SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error);
         },
-        MockError
+        [MockError]
       ).terminate();
       const contradiction: Schrodinger<number, MockError> = await SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.throw(error);
         },
-        MockError
+        [MockError]
       ).terminate();
 
       expect(alive.isAlive()).toBe(true);
@@ -277,7 +277,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError | SuperpositionError> = superposition1.filter(
         () => {
@@ -298,7 +298,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError | SuperpositionError> = superposition1.filter(
         () => {
@@ -321,7 +321,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError | SuperpositionError> = superposition1.filter(
         () => {
@@ -354,7 +354,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.throw(error);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError | SuperpositionError> = superposition1.filter(
         () => {
@@ -389,7 +389,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -429,7 +429,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -471,19 +471,19 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value1);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value2);
         },
-        MockError
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value3);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -523,7 +523,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -562,7 +562,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -601,19 +601,19 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error);
         },
-        MockError
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -651,7 +651,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
-        }
+        },
+        []
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -696,7 +697,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
-        }
+        },
+        []
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -743,25 +745,26 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
-        }
+        },
+        []
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.throw(error1);
         },
-        MockError
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.throw(error2);
         },
-        MockError
+        [MockError]
       );
       const superposition4: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.throw(error3);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -807,13 +810,13 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value1);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value2);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -854,13 +857,13 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value1);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -899,13 +902,13 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value1);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.throw(error);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -947,7 +950,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -987,7 +990,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1028,19 +1031,19 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value1);
         },
-        MockError
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value2);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1081,7 +1084,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error1);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1123,7 +1126,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error1);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1165,19 +1168,19 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error1);
         },
-        MockError
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error2);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1217,7 +1220,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
-        }
+        },
+        []
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1262,7 +1266,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
-        }
+        },
+        []
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1310,25 +1315,25 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.throw(error1);
         },
-        MockError
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.throw(error2);
         },
-        MockError
+        [MockError]
       );
       const superposition4: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.throw(error3);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1369,13 +1374,13 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value1);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value1);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1416,13 +1421,13 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1466,7 +1471,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value1);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1520,7 +1525,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value1);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1574,19 +1579,19 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value1);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value2);
         },
-        MockError
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value3);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1639,7 +1644,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error1);
-        }
+        },
+        []
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1691,7 +1697,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error1);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1745,19 +1751,19 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error1);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error2);
         },
-        MockError
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error3);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1810,13 +1816,13 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value1);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value2);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1887,13 +1893,13 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error1);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error2);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1926,7 +1932,7 @@ describe('SuperpositionInternal', () => {
           },
           (err: MockError) => {
             spy4();
-            expect(err).toBe(error1);
+            expect(err).toBe(error2);
 
             return superposition2;
           },
@@ -1940,7 +1946,7 @@ describe('SuperpositionInternal', () => {
           },
           (err: MockError) => {
             spy6();
-            expect(err).toBe(error1);
+            expect(err).toBe(error2);
 
             return superposition2;
           },
@@ -1964,13 +1970,13 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.throw(error1);
         },
-        MockError
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.throw(error2);
         },
-        MockError
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -2039,7 +2045,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.accept(value);
         },
-        MockError
+        [MockError]
       );
 
       const heisenberg: Heisenberg<number> = await superposition.toUnscharferelation().terminate();
@@ -2055,7 +2061,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<undefined, MockError>) => {
           epoque.accept(value);
         },
-        MockError
+        [MockError]
       );
 
       const heisenberg: Heisenberg<undefined> = await superposition.toUnscharferelation().terminate();
@@ -2073,7 +2079,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(error);
         },
-        MockError
+        [MockError]
       );
 
       const heisenberg: Heisenberg<number> = await superposition.toUnscharferelation().terminate();
@@ -2091,7 +2097,7 @@ describe('SuperpositionInternal', () => {
         (epoque: Epoque<number, MockError>) => {
           epoque.throw(error);
         },
-        MockError
+        [MockError]
       );
 
       const heisenberg: Heisenberg<number> = await superposition.toUnscharferelation().terminate();
