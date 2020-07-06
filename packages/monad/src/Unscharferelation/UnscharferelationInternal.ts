@@ -28,13 +28,11 @@ import { Heisenberg } from './Heisenberg/Heisenberg';
 import { Lost } from './Heisenberg/Lost';
 import { Present } from './Heisenberg/Present';
 import { Uncertain } from './Heisenberg/Uncertain';
-import { IUnscharferelation } from './Interface/IUnscharferelation';
 import { Matter } from './Interface/Matter';
 import { AbsentPlan } from './Plan/AbsentPlan';
 import { PresentPlan } from './Plan/PresentPlan';
 
-export class UnscharferelationInternal<P>
-  implements IUnscharferelation<P, 'UnscharferelationInternal'>, Epoque<Matter<P>, void> {
+export class UnscharferelationInternal<P> implements Epoque<Matter<P>, void> {
   public readonly noun: 'UnscharferelationInternal' = 'UnscharferelationInternal';
   private heisenberg: Heisenberg<P>;
   private readonly plans: Set<CombinedPlan<P, void>>;
@@ -174,7 +172,7 @@ export class UnscharferelationInternal<P>
     );
   }
 
-  private peek(peek: Peek): unknown {
+  public peek(peek: Peek): unknown {
     const epoque: Epoque<void, void> = PassEpoque.of<void, void>(peek, peek, peek);
 
     return this.handle(MappingPeekPlan.of(epoque), RecoveryPeekPlan.of(epoque), DestroyPassPlan.of(epoque));

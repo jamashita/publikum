@@ -2,23 +2,21 @@ import { Kind, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { MappingPlan } from '../../Plan/Interface/MappingPlan';
-import { BeUnscharferelation } from '../BeUnscharferelation';
-import { Heisenberg } from '../Heisenberg/Heisenberg';
-import { IUnscharferelation } from '../Interface/IUnscharferelation';
 import { Matter } from '../Interface/Matter';
+import { UnscharferelationInternal } from '../UnscharferelationInternal';
 
 export class PresentPlan<P, Q> implements MappingPlan<P, 'PresentPlan'> {
   public readonly noun: 'PresentPlan' = 'PresentPlan';
   private readonly mapper: UnaryFunction<
     Matter<P>,
-    IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>
+    UnscharferelationInternal<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>
   >;
   private readonly epoque: Epoque<Matter<Q>, void>;
 
   public static of<P, Q>(
     mapper: UnaryFunction<
       Matter<P>,
-      IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>
+      UnscharferelationInternal<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>
     >,
     epoque: Epoque<Matter<Q>, void>
   ): PresentPlan<P, Q> {
@@ -28,7 +26,7 @@ export class PresentPlan<P, Q> implements MappingPlan<P, 'PresentPlan'> {
   protected constructor(
     mapper: UnaryFunction<
       Matter<P>,
-      IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>
+      UnscharferelationInternal<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>
     >,
     epoque: Epoque<Matter<Q>, void>
   ) {
@@ -39,20 +37,16 @@ export class PresentPlan<P, Q> implements MappingPlan<P, 'PresentPlan'> {
   public onMap(resolve: Matter<P>): unknown {
     // prettier-ignore
     try {
-      const mapped: IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>> = this.mapper(
+      const mapped: UnscharferelationInternal<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>> = this.mapper(
         resolve
       );
 
-      if (BeUnscharferelation.is(mapped)) {
-        return mapped.terminate().then<unknown, unknown>(
-          (v: Heisenberg<Q>) => {
-            if (v.isPresent()) {
-              return this.epoque.accept(v.get());
-            }
-            if (v.isLost()) {
-              return this.epoque.throw(v.getCause());
-            }
-
+      if (mapped instanceof UnscharferelationInternal) {
+        return mapped.pass(
+          (v: Matter<Q>) => {
+            return this.epoque.accept(v);
+          },
+          () => {
             return this.epoque.decline();
           },
           (e: unknown) => {

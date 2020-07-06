@@ -3,11 +3,10 @@ import sinon, { SinonSpy } from 'sinon';
 import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 
+import { Epoque } from '../../../Epoque/Interface/Epoque';
 import { PassEpoque } from '../../../Epoque/PassEpoque';
-import { Absent } from '../../Heisenberg/Absent';
-import { Lost } from '../../Heisenberg/Lost';
-import { Present } from '../../Heisenberg/Present';
-import { Unscharferelation } from '../../Unscharferelation';
+import { Matter } from '../../Interface/Matter';
+import { UnscharferelationInternal } from '../../UnscharferelationInternal';
 import { AbsentPlan } from '../AbsentPlan';
 
 describe('AbsentPlan', () => {
@@ -105,7 +104,9 @@ describe('AbsentPlan', () => {
           () => {
             spy1();
 
-            return Unscharferelation.ofHeisenberg<number>(Present.of<number>(value - 6));
+            return UnscharferelationInternal.of<number>((epoque: Epoque<Matter<number>, void>) => {
+              epoque.accept(value - 6);
+            });
           },
           PassEpoque.of<number, void>(
             (n: number) => {
@@ -311,7 +312,9 @@ describe('AbsentPlan', () => {
           () => {
             spy1();
 
-            return Unscharferelation.ofHeisenberg<number>(Absent.of<number>());
+            return UnscharferelationInternal.of<number>((epoque: Epoque<Matter<number>, void>) => {
+              epoque.decline();
+            });
           },
           PassEpoque.of<number, void>(
             () => {
@@ -434,7 +437,9 @@ describe('AbsentPlan', () => {
           () => {
             spy1();
 
-            return Unscharferelation.ofHeisenberg<number>(Lost.of<number>(error));
+            return UnscharferelationInternal.of<number>((epoque: Epoque<Matter<number>, void>) => {
+              epoque.throw(error);
+            });
           },
           PassEpoque.of<number, void>(
             () => {
