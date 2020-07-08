@@ -9,7 +9,6 @@ import { Absent } from '../Heisenberg/Absent';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
 import { Lost } from '../Heisenberg/Lost';
 import { Present } from '../Heisenberg/Present';
-import { Uncertain } from '../Heisenberg/Uncertain';
 import { MockUnscharferelation } from '../Mock/MockUnscharferelation';
 import { Unscharferelation } from '../Unscharferelation';
 
@@ -26,9 +25,9 @@ describe('Unscharferelation', () => {
 
     it('sync: all are Present', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Present.of<number>(0)),
-        Unscharferelation.ofHeisenberg<number>(Present.of<number>(1)),
-        Unscharferelation.ofHeisenberg<number>(Present.of<number>(2))
+        Unscharferelation.present<number>(0),
+        Unscharferelation.present<number>(1),
+        Unscharferelation.present<number>(2)
       ];
 
       const heisenberg: Heisenberg<Array<number>> = await Unscharferelation.all<number>(unscharferelations).terminate();
@@ -48,9 +47,9 @@ describe('Unscharferelation', () => {
 
     it('sync: contains Absent on first position', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
-        Unscharferelation.ofHeisenberg<number>(Present.of<number>(1)),
-        Unscharferelation.ofHeisenberg<number>(Present.of<number>(2))
+        Unscharferelation.absent<number>(),
+        Unscharferelation.present<number>(1),
+        Unscharferelation.present<number>(2)
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -81,9 +80,9 @@ describe('Unscharferelation', () => {
 
     it('sync: contains Absent on second position', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Present.of<number>(0)),
-        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
-        Unscharferelation.ofHeisenberg<number>(Present.of<number>(2))
+        Unscharferelation.present<number>(1),
+        Unscharferelation.absent<number>(),
+        Unscharferelation.present<number>(2)
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -114,9 +113,9 @@ describe('Unscharferelation', () => {
 
     it('sync: contains Absent on last position', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Present.of<number>(0)),
-        Unscharferelation.ofHeisenberg<number>(Present.of<number>(1)),
-        Unscharferelation.ofHeisenberg<number>(Absent.of<number>())
+        Unscharferelation.present<number>(0),
+        Unscharferelation.present<number>(1),
+        Unscharferelation.absent<number>()
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -147,9 +146,9 @@ describe('Unscharferelation', () => {
 
     it('sync: contains more than 1 Absent, but the last one', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
-        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
-        Unscharferelation.ofHeisenberg<number>(Present.of<number>(2))
+        Unscharferelation.absent<number>(),
+        Unscharferelation.absent<number>(),
+        Unscharferelation.present<number>(2)
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -180,9 +179,9 @@ describe('Unscharferelation', () => {
 
     it('sync: contains more than 1 Absent, but the second one', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
-        Unscharferelation.ofHeisenberg<number>(Present.of<number>(1)),
-        Unscharferelation.ofHeisenberg<number>(Absent.of<number>())
+        Unscharferelation.absent<number>(),
+        Unscharferelation.present<number>(1),
+        Unscharferelation.absent<number>()
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -213,9 +212,9 @@ describe('Unscharferelation', () => {
 
     it('sync: contains more than 1 Absent, but the first one', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Present.of<number>(0)),
-        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
-        Unscharferelation.ofHeisenberg<number>(Absent.of<number>())
+        Unscharferelation.present<number>(0),
+        Unscharferelation.absent<number>(),
+        Unscharferelation.absent<number>()
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -246,9 +245,9 @@ describe('Unscharferelation', () => {
 
     it('sync: contains more than 1 Absent, all', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
-        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
-        Unscharferelation.ofHeisenberg<number>(Absent.of<number>())
+        Unscharferelation.absent<number>(),
+        Unscharferelation.absent<number>(),
+        Unscharferelation.absent<number>()
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -279,9 +278,9 @@ describe('Unscharferelation', () => {
 
     it('async: all are Alive', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(0))),
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(1))),
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(2)))
+        Unscharferelation.present<number>(Promise.resolve<number>(0)),
+        Unscharferelation.present<number>(Promise.resolve<number>(1)),
+        Unscharferelation.present<number>(Promise.resolve<number>(2))
       ];
 
       const heisenberg: Heisenberg<Array<number>> = await Unscharferelation.all<number>(unscharferelations).terminate();
@@ -301,9 +300,9 @@ describe('Unscharferelation', () => {
 
     it('async: contains Absent on first position', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>())),
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(1))),
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(2)))
+        Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
+        Unscharferelation.present<number>(Promise.resolve<number>(1)),
+        Unscharferelation.present<number>(Promise.resolve<number>(2))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -334,9 +333,9 @@ describe('Unscharferelation', () => {
 
     it('async: contains Absent on second position', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(0))),
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>())),
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(2)))
+        Unscharferelation.present<number>(Promise.resolve<number>(0)),
+        Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
+        Unscharferelation.present<number>(Promise.resolve<number>(2))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -367,9 +366,9 @@ describe('Unscharferelation', () => {
 
     it('async: contains Absent on last position', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(0))),
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(1))),
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>()))
+        Unscharferelation.present<number>(Promise.resolve<number>(0)),
+        Unscharferelation.present<number>(Promise.resolve<number>(1)),
+        Unscharferelation.absent<number>(Promise.resolve<void>(undefined))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -400,9 +399,9 @@ describe('Unscharferelation', () => {
 
     it('async: contains more than 1 Absent, but the last one', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>())),
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>())),
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(2)))
+        Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
+        Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
+        Unscharferelation.present<number>(Promise.resolve<number>(2))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -433,9 +432,9 @@ describe('Unscharferelation', () => {
 
     it('async: contains more than 1 Absent, but the second one', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>())),
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(1))),
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>()))
+        Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
+        Unscharferelation.present<number>(Promise.resolve<number>(1)),
+        Unscharferelation.absent<number>(Promise.resolve<void>(undefined))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -466,9 +465,9 @@ describe('Unscharferelation', () => {
 
     it('async: contains more than 1 Absent, but the first one', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Present<number>>(Present.of<number>(0))),
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>())),
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>()))
+        Unscharferelation.present<number>(Promise.resolve<number>(0)),
+        Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
+        Unscharferelation.absent<number>(Promise.resolve<void>(undefined))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -499,9 +498,9 @@ describe('Unscharferelation', () => {
 
     it('async: contains more than 1 Absent, all', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>())),
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>())),
-        Unscharferelation.ofHeisenberg<number>(Promise.resolve<Absent<number>>(Absent.of<number>()))
+        Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
+        Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
+        Unscharferelation.absent<number>(Promise.resolve<void>(undefined))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -532,9 +531,11 @@ describe('Unscharferelation', () => {
 
     it('including at least one lost, returns lost, comes faster than Absent', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Lost.of<number>(null)),
-        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
-        Unscharferelation.ofHeisenberg<number>(Present.of<number>(2))
+        Unscharferelation.of<number>((epoque: Epoque<Matter<number>, void>) => {
+          epoque.throw(null);
+        }),
+        Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
+        Unscharferelation.present<number>(Promise.resolve<number>(2))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -565,9 +566,11 @@ describe('Unscharferelation', () => {
 
     it('including at least one lost, returns lost, comes later than Absent', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.ofHeisenberg<number>(Absent.of<number>()),
-        Unscharferelation.ofHeisenberg<number>(Lost.of<number>(null)),
-        Unscharferelation.ofHeisenberg<number>(Present.of<number>(2))
+        Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
+        Unscharferelation.of<number>((epoque: Epoque<Matter<number>, void>) => {
+          epoque.throw(null);
+        }),
+        Unscharferelation.present<number>(Promise.resolve<number>(2))
       ];
 
       const spy1: SinonSpy = sinon.spy();
@@ -640,113 +643,6 @@ describe('Unscharferelation', () => {
 
     it('async: Lost case', async () => {
       expect(await Unscharferelation.maybe(Promise.reject(new MockError())).terminate()).toBeInstanceOf(Lost);
-    });
-  });
-
-  describe('ofHeisenberg', () => {
-    it('sync: Present', async () => {
-      const value: number = 3;
-      const present: Present<number> = Present.of<number>(value);
-
-      const unshcarferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(present);
-
-      const heisenberg: Heisenberg<number> = await unshcarferelation.terminate();
-
-      expect(heisenberg.get()).toBe(value);
-    });
-
-    it('sync: Absent', async () => {
-      const absent: Absent<number> = Absent.of<number>();
-
-      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(absent);
-
-      const heisenberg: Heisenberg<number> = await unscharferelation.terminate();
-
-      expect(() => {
-        heisenberg.get();
-      }).toThrow(UnscharferelationError);
-    });
-
-    it('sync: Lost', async () => {
-      const error: MockError = new MockError();
-      const lost: Lost<number> = Lost.of<number>(error);
-
-      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(lost);
-
-      const heisenberg: Heisenberg<number> = await unscharferelation.terminate();
-
-      expect(() => {
-        heisenberg.get();
-      }).toThrow(error);
-    });
-
-    it('sync: Uncertain', async () => {
-      const uncertain: Uncertain<number> = Uncertain.of<number>();
-
-      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(uncertain);
-
-      const heisenberg: Heisenberg<number> = await unscharferelation.terminate();
-
-      expect(() => {
-        heisenberg.get();
-      }).toThrow(UnscharferelationError);
-    });
-
-    it('async: Present', async () => {
-      const value: number = 3;
-
-      const present: Present<number> = Present.of<number>(value);
-
-      const unshcarferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(
-        Promise.resolve<Heisenberg<number>>(present)
-      );
-
-      const heisenberg: Heisenberg<number> = await unshcarferelation.terminate();
-
-      expect(heisenberg.get()).toBe(value);
-    });
-
-    it('async: Absent', async () => {
-      const absent: Absent<number> = Absent.of<number>();
-
-      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(
-        Promise.resolve<Heisenberg<number>>(absent)
-      );
-
-      const heisenberg: Heisenberg<number> = await unscharferelation.terminate();
-
-      expect(() => {
-        heisenberg.get();
-      }).toThrow(UnscharferelationError);
-    });
-
-    it('async: Lost', async () => {
-      const error: MockError = new MockError();
-      const lost: Lost<number> = Lost.of<number>(error);
-
-      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(
-        Promise.resolve<Heisenberg<number>>(lost)
-      );
-
-      const heisenberg: Heisenberg<number> = await unscharferelation.terminate();
-
-      expect(() => {
-        heisenberg.get();
-      }).toThrow(error);
-    });
-
-    it('async: Uncertain', async () => {
-      const uncertain: Uncertain<number> = Uncertain.of<number>();
-
-      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(
-        Promise.resolve<Heisenberg<number>>(uncertain)
-      );
-
-      const heisenberg: Heisenberg<number> = await unscharferelation.terminate();
-
-      expect(() => {
-        heisenberg.get();
-      }).toThrow(UnscharferelationError);
     });
   });
 

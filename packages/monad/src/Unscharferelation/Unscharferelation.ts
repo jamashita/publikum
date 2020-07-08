@@ -113,7 +113,7 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
     return Unscharferelation.ofUnscharferelation<P>(UnscharferelationInternal.of<P>(func));
   }
 
-  private static ofUnscharferelation<P>(unscharferelation: IUnscharferelation<P>): Unscharferelation<P> {
+  public static ofUnscharferelation<P>(unscharferelation: IUnscharferelation<P>): Unscharferelation<P> {
     return new Unscharferelation<P>(unscharferelation);
   }
 
