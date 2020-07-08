@@ -530,7 +530,7 @@ describe('Unscharferelation', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('including at least one lost, returns lost, comes faster than Absent', async () => {
+    it('includes at least one Lost, will return Lost, Lost comes faster than Absent', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.of<number>((epoque: Epoque<Matter<number>, void>) => {
           epoque.throw(null);
@@ -565,7 +565,7 @@ describe('Unscharferelation', () => {
       expect(spy2.called).toBe(false);
     });
 
-    it('including at least one lost, returns lost, comes later than Absent', async () => {
+    it('includes at least one Lost, will return Lost, Lost comes later than Absent', async () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
         Unscharferelation.of<number>((epoque: Epoque<Matter<number>, void>) => {

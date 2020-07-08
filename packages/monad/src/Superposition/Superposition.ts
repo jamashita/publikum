@@ -1,4 +1,4 @@
-import { Consumer, Kind, Predicate, Supplier, UnaryFunction } from '@jamashita/publikum-type';
+import { Consumer, Kind, Nullable, Predicate, Supplier, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { Matter } from '../Unscharferelation/Interface/Matter';
@@ -8,6 +8,7 @@ import { SuperpositionError } from './Error/SuperpositionError';
 import { DeadConstructor } from './Interface/DeadConstructor';
 import { Detoxicated } from './Interface/Detoxicated';
 import { ISuperposition } from './Interface/ISuperposition';
+import { Dead } from './Schrodinger/Dead';
 import { Schrodinger } from './Schrodinger/Schrodinger';
 import { SuperpositionInternal } from './SuperpositionInternal';
 
@@ -23,30 +24,44 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
       return Superposition.alive<Array<A>, D>([]);
     }
 
-    const schrodingers: Array<PromiseLike<Schrodinger<A, D>>> = Array.from<Superposition<A, D>>(superpositions).map<
+    const promises: Array<PromiseLike<Schrodinger<A, D>>> = Array.from<Superposition<A, D>>(superpositions).map<
       PromiseLike<Schrodinger<A, D>>
     >((s: Superposition<A, D>) => {
       return s.terminate();
     });
 
     return Superposition.of<Array<A>, D>((epoque: Epoque<Array<A>, D>) => {
-      return Promise.all<Schrodinger<A, D>>(schrodingers).then<void>((sch: Array<Schrodinger<A, D>>) => {
-        const ss: Array<A> = [];
+      return Promise.all<Schrodinger<A, D>>(promises).then<unknown, unknown>(
+        (schrodingers: Array<Schrodinger<A, D>>) => {
+          const ss: Array<A> = [];
+          let dead: Nullable<Dead<A, D>> = null;
 
-        for (let i: number = 0; i < sch.length; i++) {
-          const s: Schrodinger<A, D> = sch[i];
+          for (let i: number = 0; i < schrodingers.length; i++) {
+            const schrodinger: Schrodinger<A, D> = schrodingers[i];
 
-          if (s.isDead()) {
-            epoque.decline(s.getError());
+            if (schrodinger.isContradiction()) {
+              return epoque.throw(schrodinger.getCause());
+            }
+            if (schrodinger.isAlive()) {
+              ss.push(schrodinger.get());
 
-            return;
+              continue;
+            }
+            if (schrodinger.isDead()) {
+              dead = schrodinger;
+            }
           }
 
-          ss.push(s.get());
-        }
+          if (!Kind.isNull(dead)) {
+            return epoque.decline(dead.getError());
+          }
 
-        epoque.accept(ss);
-      });
+          return epoque.accept(ss);
+        },
+        (e: unknown) => {
+          return epoque.throw(e);
+        }
+      );
     }, ...errors);
   }
 

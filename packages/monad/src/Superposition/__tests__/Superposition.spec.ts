@@ -5,6 +5,7 @@ import { MockError } from '@jamashita/publikum-object';
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { UnscharferelationError } from '../../Unscharferelation/Error/UnscharferelationError';
 import { Heisenberg } from '../../Unscharferelation/Heisenberg/Heisenberg';
+import { SuperpositionError } from '../Error/SuperpositionError';
 import { MockSuperposition } from '../Mock/MockSuperposition';
 import { Schrodinger } from '../Schrodinger/Schrodinger';
 import { Superposition } from '../Superposition';
@@ -358,6 +359,7 @@ describe('Superposition', () => {
       const error1: MockError = new MockError();
       const error2: MockError = new MockError();
       const error3: MockError = new MockError();
+
       const superpositions: Array<Superposition<number, MockError>> = [
         Superposition.dead<number, MockError>(Promise.reject<number>(error1), MockError),
         Superposition.dead<number, MockError>(Promise.reject<number>(error2), MockError),
@@ -375,6 +377,56 @@ describe('Superposition', () => {
       expect(() => {
         schrodinger.get();
       }).toThrow(error1);
+    });
+
+    it('includes at least one Contradiction, will return Contradiction, Contradiction comes faster than Dead', async () => {
+      const error1: MockError = new MockError();
+      const error2: MockError = new MockError();
+
+      const superpositions: Array<Superposition<number, MockError>> = [
+        Superposition.of<number, MockError>((epoque: Epoque<number, MockError>) => {
+          epoque.throw(error1);
+        }, MockError),
+        Superposition.dead<number, MockError>(Promise.reject<number>(error2), MockError),
+        Superposition.alive<number, MockError>(Promise.resolve<number>(2), MockError)
+      ];
+
+      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+        superpositions,
+        MockError
+      );
+
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+
+      expect(schrodinger.isContradiction()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(error1);
+    });
+
+    it('includes at least one Contradiction, will return Contradiction, Contradiction comes later than Dead', async () => {
+      const error1: MockError = new MockError();
+      const error2: MockError = new MockError();
+
+      const superpositions: Array<Superposition<number, MockError>> = [
+        Superposition.dead<number, MockError>(Promise.reject<number>(error1), MockError),
+        Superposition.of<number, MockError>((epoque: Epoque<number, MockError>) => {
+          epoque.throw(error2);
+        }, MockError),
+        Superposition.alive<number, MockError>(Promise.resolve<number>(2), MockError)
+      ];
+
+      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+        superpositions,
+        MockError
+      );
+
+      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+
+      expect(schrodinger.isContradiction()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(error2);
     });
   });
 
@@ -402,6 +454,21 @@ describe('Superposition', () => {
       const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(error);
+    });
+
+    it('sync: Contradiction case', async () => {
+      const error: MockError = new MockError();
+
+      const superposition: Superposition<number, MockError> = Superposition.playground<number, MockError>(() => {
+        throw error;
+      });
+
+      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
+
+      expect(schrodinger.isContradiction()).toBe(true);
       expect(() => {
         schrodinger.get();
       }).toThrow(error);
@@ -536,10 +603,10 @@ describe('Superposition', () => {
     it('promise is rejected: no error constructors', async () => {
       const error: MockError = new MockError();
 
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(
+      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(
         Promise.reject<number>(error)
       );
-      const schrodinger: Schrodinger<number, MockError> = await alive.terminate();
+      const schrodinger: Schrodinger<number, MockError> = await dead.terminate();
 
       expect(schrodinger.isContradiction()).toBe(true);
       expect(() => {
@@ -547,14 +614,26 @@ describe('Superposition', () => {
       }).toThrow(error);
     });
 
-    it('promise is rejected: error constructor', async () => {
-      const error: MockError = new MockError();
+    it('promise is resolved', async () => {
+      const value: number = -6;
 
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(
-        Promise.reject<number>(error),
+      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(
+        Promise.resolve<number>(value),
         MockError
       );
-      const schrodinger: Schrodinger<number, MockError> = await alive.terminate();
+      const schrodinger: Schrodinger<number, MockError> = await dead.terminate();
+
+      expect(schrodinger.isContradiction()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(SuperpositionError);
+    });
+
+    it('unexpected error given', async () => {
+      const error: MockError = new MockError();
+
+      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
+      const schrodinger: Schrodinger<number, MockError> = await dead.terminate();
 
       expect(schrodinger.isContradiction()).toBe(true);
       expect(() => {
