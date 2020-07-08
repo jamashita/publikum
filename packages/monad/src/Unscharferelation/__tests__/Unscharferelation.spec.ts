@@ -9,6 +9,7 @@ import { Absent } from '../Heisenberg/Absent';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
 import { Lost } from '../Heisenberg/Lost';
 import { Present } from '../Heisenberg/Present';
+import { Matter } from '../Interface/Matter';
 import { MockUnscharferelation } from '../Mock/MockUnscharferelation';
 import { Unscharferelation } from '../Unscharferelation';
 
