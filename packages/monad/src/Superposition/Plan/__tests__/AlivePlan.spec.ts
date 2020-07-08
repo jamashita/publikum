@@ -3,10 +3,9 @@ import sinon, { SinonSpy } from 'sinon';
 import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 
+import { Epoque } from '../../../Epoque/Interface/Epoque';
 import { PassEpoque } from '../../../Epoque/PassEpoque';
-import { Alive } from '../../Schrodinger/Alive';
-import { Contradiction } from '../../Schrodinger/Contradiction';
-import { Dead } from '../../Schrodinger/Dead';
+import { Detoxicated } from '../../Interface/Detoxicated';
 import { Superposition } from '../../Superposition';
 import { AlivePlan } from '../AlivePlan';
 
@@ -110,7 +109,7 @@ describe('AlivePlan', () => {
             spy1();
             expect(n).toBe(value);
 
-            return Superposition.ofSchrodinger<number, MockError>(Alive.of<number, MockError>(n - 3));
+            return Superposition.alive<number, MockError>(n - 3);
           },
           PassEpoque.of<number, MockError>(
             (n: number) => {
@@ -243,7 +242,7 @@ describe('AlivePlan', () => {
             spy1();
             expect(n).toBe(value);
 
-            return Superposition.ofSchrodinger<number, MockError>(Dead.of<number, MockError>(error));
+            return Superposition.dead<number, MockError>(error);
           },
           PassEpoque.of<number, MockError>(
             () => {
@@ -376,7 +375,9 @@ describe('AlivePlan', () => {
             spy1();
             expect(n).toBe(value);
 
-            return Superposition.ofSchrodinger<number, MockError>(Contradiction.of<number, MockError>(error));
+            return Superposition.of<number, MockError>((epoque: Epoque<Detoxicated<number>, MockError>) => {
+              return epoque.throw(error);
+            });
           },
           PassEpoque.of<number, MockError>(
             () => {

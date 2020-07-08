@@ -1,8 +1,10 @@
-import { Kind, Predicate, Supplier, UnaryFunction } from '@jamashita/publikum-type';
+import { Consumer, Kind, Predicate, Supplier, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../Epoque/Interface/Epoque';
+import { Matter } from '../Unscharferelation/Interface/Matter';
 import { Unscharferelation } from '../Unscharferelation/Unscharferelation';
 import { SuperpositionError } from './Error/SuperpositionError';
+import { DeadConstructor } from './Interface/DeadConstructor';
 import { Detoxicated } from './Interface/Detoxicated';
 import { ISuperposition } from './Interface/ISuperposition';
 import { Schrodinger } from './Schrodinger/Schrodinger';
@@ -45,17 +47,15 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
   }
 
   public static playground<A, D extends Error>(
-    supplier: Supplier<Superposition<A, D> | PromiseLike<Detoxicated<A>> | Detoxicated<A>>
+    supplier: Supplier<PromiseLike<Detoxicated<A>> | Detoxicated<A>>,
+    ...errors: Array<DeadConstructor<D>>
   ): Superposition<A, D> {
-    // prettier-ignore
-    try {
-      const value: Superposition<A, D> | PromiseLike<Detoxicated<A>> | Detoxicated<A> = supplier();
+    return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
+      // prettier-ignore
+      try {
+        const value: PromiseLike<Detoxicated<A>> | Detoxicated<A> = supplier();
 
-      if (value instanceof Superposition) {
-        return value;
-      }
-      if (Kind.isPromiseLike(value)) {
-        return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
+        if (Kind.isPromiseLike(value)) {
           return value.then<unknown, unknown>(
             (v: Detoxicated<A>) => {
               return epoque.accept(v);
@@ -64,69 +64,74 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
               return epoque.decline(err);
             }
           );
-        });
+        }
+
+        return epoque.accept(value);
       }
+      catch (err) {
+        if (Superposition.isSpecifiedError(err, errors)) {
+          return epoque.decline(err);
+        }
 
-      return Superposition.alive<A, D>(value);
-    }
-    catch (err) {
-      return Superposition.dead<A, D>(err);
-    }
-  }
-
-  private static alive<A, D extends Error>(value: Detoxicated<A>): Superposition<A, D> {
-    return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
-      epoque.accept(value);
-    });
-  }
-
-  private static dead<A, D extends Error>(error: D): Superposition<A, D> {
-    return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
-      epoque.decline(error);
-    });
+        return epoque.throw(err);
+      }
+    }, ...errors);
   }
 
   // TODO TESTS UNDONE
-  public static ofSchrodinger<A, D extends Error>(
-    schrodinger: PromiseLike<Schrodinger<A, D>> | Schrodinger<A, D>
+  public static alive<A, D extends Error>(
+    value: PromiseLike<Detoxicated<A>> | Detoxicated<A>,
+    ...errors: Array<DeadConstructor<D>>
   ): Superposition<A, D> {
     return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
-      if (Kind.isPromiseLike(schrodinger)) {
-        return schrodinger.then<unknown, unknown>(
-          (v: Schrodinger<A, D>) => {
-            if (v.isAlive()) {
-              return epoque.accept(v.get());
-            }
-            if (v.isDead()) {
-              return epoque.decline(v.getError());
-            }
-            if (v.isContradiction()) {
-              return epoque.throw(v.getCause());
-            }
-
-            return epoque.throw(new SuperpositionError('UNKNOWN SCHRODINGER'));
+      if (Kind.isPromiseLike(value)) {
+        return value.then<unknown, unknown>(
+          (v: Detoxicated<A>) => {
+            return epoque.accept(v);
           },
-          () => {
-            return epoque.throw(new SuperpositionError('REJECTED'));
+          (e: unknown) => {
+            return epoque.throw(e);
           }
         );
       }
-      if (schrodinger.isAlive()) {
-        return epoque.accept(schrodinger.get());
-      }
-      if (schrodinger.isDead()) {
-        return epoque.decline(schrodinger.getError());
-      }
-      if (schrodinger.isContradiction()) {
-        return epoque.throw(schrodinger.getCause());
+
+      return epoque.accept(value);
+    }, ...errors);
+  }
+
+  // TODO TESTS UNDONE
+  public static dead<A, D extends Error>(
+    error: PromiseLike<A> | D,
+    ...errors: Array<DeadConstructor<D>>
+  ): Superposition<A, D> {
+    return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
+      if (Kind.isPromiseLike(error)) {
+        return error.then<unknown, unknown>(
+          () => {
+            return epoque.throw(new SuperpositionError('NOT REJECTED'));
+          },
+          (e: unknown) => {
+            // TODO IROIRO
+            return epoque.throw(e);
+          }
+        );
       }
 
-      return epoque.throw(new SuperpositionError('UNKNOWN SCHRODINGER'));
+      return epoque.decline(error);
+    }, ...errors);
+  }
+
+  private static isSpecifiedError<D extends Error>(err: unknown, errors: Array<DeadConstructor<D>>): err is D {
+    return errors.some((error: DeadConstructor<D>) => {
+      return Kind.isClass(err, error);
     });
   }
 
-  public static of<A, D extends Error>(func: UnaryFunction<Epoque<Detoxicated<A>, D>, unknown>): Superposition<A, D> {
-    return Superposition.ofSuperposition<A, D>(SuperpositionInternal.of<A, D>(func));
+  public static of<A, D extends Error>(
+    func: UnaryFunction<Epoque<Detoxicated<A>, D>, unknown>,
+    ...errors: Array<DeadConstructor<D>>
+  ): Superposition<A, D> {
+    return Superposition.ofSuperposition<A, D>(SuperpositionInternal.of<A, D>(func, errors));
   }
 
   public static ofSuperposition<A, D extends Error>(superposition: ISuperposition<A, D>): Superposition<A, D> {
@@ -168,7 +173,27 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
     return Superposition.ofSuperposition<B, E>(this.internal.transform(alive, dead));
   }
 
+  public pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): unknown {
+    return this.internal.pass(accepted, declined, thrown);
+  }
+
   public toUnscharferelation(): Unscharferelation<A> {
-    return Unscharferelation.ofUnscharferelation<A>(this.internal.toUnscharferelation());
+    return Unscharferelation.of<A>((epoque: Epoque<Matter<A>, void>) => {
+      this.pass(
+        (v: Detoxicated<A>) => {
+          if (Kind.isUndefined(v) || Kind.isNull(v)) {
+            return epoque.decline();
+          }
+
+          return epoque.accept((v as unknown) as Matter<A>);
+        },
+        () => {
+          return epoque.decline();
+        },
+        (e: unknown) => {
+          return epoque.throw(e);
+        }
+      );
+    });
   }
 }
