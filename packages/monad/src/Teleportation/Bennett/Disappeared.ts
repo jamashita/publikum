@@ -1,5 +1,6 @@
 import { Bennett } from './Bennett';
 import { Cancelled } from './Cancelled';
+import { Failed } from './Failed';
 import { Received } from './Received';
 
 export class Disappeared<R> implements Bennett<R, 'Disappeared'> {
@@ -28,6 +29,10 @@ export class Disappeared<R> implements Bennett<R, 'Disappeared'> {
 
   public isDisappeared(): this is Disappeared<R> {
     return true;
+  }
+
+  public isFailed(): this is Failed<R> {
+    return false;
   }
 
   public isCancelled(): this is Cancelled<R> {

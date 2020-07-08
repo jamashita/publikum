@@ -48,6 +48,14 @@ describe('Disappeared', () => {
     });
   });
 
+  describe('isFailed', () => {
+    it('always returns false', () => {
+      const disappeared: Disappeared<number> = Disappeared.of<number>(new MockError());
+
+      expect(disappeared.isFailed()).toBe(false);
+    });
+  });
+
   describe('isCancelled', () => {
     it('always returns false', () => {
       const disappeared: Disappeared<number> = Disappeared.of<number>(new MockError());

@@ -1,6 +1,7 @@
 import { TeleportationError } from '../Error/TeleportationError';
 import { Bennett } from './Bennett';
 import { Disappeared } from './Disappeared';
+import { Failed } from './Failed';
 import { Received } from './Received';
 
 export class Cancelled<R> implements Bennett<R, 'Cancelled'> {
@@ -25,6 +26,10 @@ export class Cancelled<R> implements Bennett<R, 'Cancelled'> {
   }
 
   public isDisappeared(): this is Disappeared<R> {
+    return false;
+  }
+
+  public isFailed(): this is Failed<R> {
     return false;
   }
 
