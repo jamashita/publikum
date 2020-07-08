@@ -622,7 +622,7 @@ describe('Unscharferelation', () => {
       expect(await Unscharferelation.maybe(undefined).terminate()).toBeInstanceOf(Absent);
     });
 
-    it('async Present case', async () => {
+    it('async: Present case', async () => {
       expect(await Unscharferelation.maybe(Promise.resolve(1)).terminate()).toBeInstanceOf(Present);
       expect(await Unscharferelation.maybe(Promise.resolve(0)).terminate()).toBeInstanceOf(Present);
       expect(await Unscharferelation.maybe(Promise.resolve('a')).terminate()).toBeInstanceOf(Present);
@@ -637,13 +637,81 @@ describe('Unscharferelation', () => {
       expect(await Unscharferelation.maybe(Promise.resolve(new Error())).terminate()).toBeInstanceOf(Present);
     });
 
-    it('async Absent case', async () => {
+    it('async: Absent case', async () => {
       expect(await Unscharferelation.maybe(Promise.resolve(null)).terminate()).toBeInstanceOf(Absent);
       expect(await Unscharferelation.maybe(Promise.resolve(undefined)).terminate()).toBeInstanceOf(Absent);
     });
 
     it('async: Lost case', async () => {
       expect(await Unscharferelation.maybe(Promise.reject(new MockError())).terminate()).toBeInstanceOf(Lost);
+    });
+  });
+
+  describe('present', () => {
+    it('sync', async () => {
+      const value: number = -8;
+
+      const present: Unscharferelation<number> = Unscharferelation.present<number>(value);
+      const heisenberg: Heisenberg<number> = await present.terminate();
+
+      expect(heisenberg.isPresent()).toBe(true);
+      expect(heisenberg.get()).toBe(value);
+    });
+
+    it('async', async () => {
+      const value: number = -8;
+
+      const present: Unscharferelation<number> = Unscharferelation.present<number>(Promise.resolve<number>(value));
+      const heisenberg: Heisenberg<number> = await present.terminate();
+
+      expect(heisenberg.isPresent()).toBe(true);
+      expect(heisenberg.get()).toBe(value);
+    });
+
+    it('promise is rejected', async () => {
+      const error: MockError = new MockError();
+
+      const present: Unscharferelation<number> = Unscharferelation.present<number>(Promise.reject<number>(error));
+      const heisenberg: Heisenberg<number> = await present.terminate();
+
+      expect(heisenberg.isLost()).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(error);
+    });
+  });
+
+  describe('absent', () => {
+    it('sync', async () => {
+      const absent: Unscharferelation<number> = Unscharferelation.absent<number>();
+      const heisenberg: Heisenberg<number> = await absent.terminate();
+
+      expect(heisenberg.isAbsent()).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
+    });
+
+    it('async', async () => {
+      const absent: Unscharferelation<number> = Unscharferelation.absent<number>(Promise.resolve<null>(null));
+      const heisenberg: Heisenberg<number> = await absent.terminate();
+
+      expect(heisenberg.isAbsent()).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
+    });
+
+    it('promise is rejected', async () => {
+      const error: MockError = new MockError();
+
+      const absent: Unscharferelation<number> = Unscharferelation.absent<number>(Promise.reject<null>(error));
+      const heisenberg: Heisenberg<number> = await absent.terminate();
+
+      expect(heisenberg.isLost()).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(error);
     });
   });
 

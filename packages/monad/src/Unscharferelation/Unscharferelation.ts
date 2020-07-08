@@ -102,10 +102,20 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
     });
   }
 
-  public static absent<P>(value: PromiseLike<Nihil> | Nihil): Unscharferelation<P>;
-  public static absent<P>(): Unscharferelation<P> {
+  public static absent<P>(value: PromiseLike<Nihil> | Nihil): Unscharferelation<P> {
     return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
-      epoque.decline();
+      if (Kind.isPromiseLike(value)) {
+        return value.then<unknown, unknown>(
+          () => {
+            return epoque.decline();
+          },
+          (e: unknown) => {
+            return epoque.throw(e);
+          }
+        );
+      }
+
+      return epoque.decline();
     });
   }
 
