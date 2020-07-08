@@ -3,6 +3,7 @@ import { Kind, UnaryFunction } from '@jamashita/publikum-type';
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { RecoveryPlan } from '../../Plan/Interface/RecoveryPlan';
 import { BeSuperposition } from '../BeSuperposition';
+import { DeadErrorDetective } from '../DeadErrorDetective';
 import { DeadConstructor } from '../Interface/DeadConstructor';
 import { Detoxicated } from '../Interface/Detoxicated';
 import { ISuperposition } from '../Interface/ISuperposition';
@@ -31,12 +32,6 @@ export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPl
     this.errors = errors;
   }
 
-  private isSpecifiedError(err: unknown): err is E {
-    return this.errors.some((error: DeadConstructor<E>) => {
-      return Kind.isClass(err, error);
-    });
-  }
-
   public onRecover(reject: D): unknown {
     // prettier-ignore
     try {
@@ -61,7 +56,7 @@ export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPl
             return this.epoque.accept(v);
           },
           (e: E) => {
-            if (this.isSpecifiedError(e)) {
+            if (DeadErrorDetective.contains(e, this.errors)) {
               return this.epoque.decline(e);
             }
 
@@ -73,7 +68,7 @@ export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPl
       return this.epoque.accept(mapped);
     }
     catch (err) {
-      if (this.isSpecifiedError(err)) {
+      if (DeadErrorDetective.contains(err, this.errors)) {
         return this.epoque.decline(err);
       }
 

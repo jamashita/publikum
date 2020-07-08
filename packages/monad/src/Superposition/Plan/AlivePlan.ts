@@ -3,6 +3,7 @@ import { Kind, UnaryFunction } from '@jamashita/publikum-type';
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { MappingPlan } from '../../Plan/Interface/MappingPlan';
 import { BeSuperposition } from '../BeSuperposition';
+import { DeadErrorDetective } from '../DeadErrorDetective';
 import { DeadConstructor } from '../Interface/DeadConstructor';
 import { Detoxicated } from '../Interface/Detoxicated';
 import { ISuperposition } from '../Interface/ISuperposition';
@@ -34,12 +35,6 @@ export class AlivePlan<A, B, E extends Error> implements MappingPlan<A, 'AlivePl
     this.errors = errors;
   }
 
-  private isSpecifiedError(err: unknown): err is E {
-    return this.errors.some((error: DeadConstructor<E>) => {
-      return Kind.isClass(err, error);
-    });
-  }
-
   public onMap(resolve: Detoxicated<A>): unknown {
     // prettier-ignore
     try {
@@ -64,7 +59,7 @@ export class AlivePlan<A, B, E extends Error> implements MappingPlan<A, 'AlivePl
             return this.epoque.accept(v);
           },
           (e: E) => {
-            if (this.isSpecifiedError(e)) {
+            if (DeadErrorDetective.contains(e, this.errors)) {
               return this.epoque.decline(e);
             }
 
@@ -76,7 +71,7 @@ export class AlivePlan<A, B, E extends Error> implements MappingPlan<A, 'AlivePl
       return this.epoque.accept(mapped);
     }
     catch (err) {
-      if (this.isSpecifiedError(err)) {
+      if (DeadErrorDetective.contains(err, this.errors)) {
         return this.epoque.decline(err);
       }
 
