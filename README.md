@@ -64,10 +64,6 @@ HTTP Request implementation.
 
 ### Monads
 
-#### Teleportation
-Alias for `Promise`.
-Cancellable.
-
 #### Unscharferelation
 Alias for `Optional` for scala.
 Applicable for async operation, especially `Promise`.
@@ -83,6 +79,10 @@ Subclass for `Unscharferelation`, it represents `None` case.
 
 #### Present
 Subclass for `Unscharferelation`, it represents `Some` case.
+
+#### Lost
+
+Status for representing `pending` for `Promise` .
 
 #### Superposition
 Alias for `Try` class in scala.
@@ -100,6 +100,10 @@ Subclass for `Superposition`, it represents `Success` case.
 #### Dead
 Subclass for `Superposition`, it represents `Failure` case.
  
+#### Contradiction
+
+Status for representing `pending` for `Promise` .
+
 ### Types
 Class for type definition.
 
@@ -141,7 +145,6 @@ Class for random string, random number.
 ### TODO
 + [ ] `sequence.set()`
 + [ ] `sequence.remove()`
-* [ ] `Teleportation` cancellation
 * [x] `Unschrferelation` error handling
 * [x] `Superposition` error handling
 
