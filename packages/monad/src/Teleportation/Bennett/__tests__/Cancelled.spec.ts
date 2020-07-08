@@ -2,12 +2,6 @@ import { TeleportationError } from '../../Error/TeleportationError';
 import { Cancelled } from '../Cancelled';
 
 describe('Cancelled', () => {
-  describe('of', () => {
-    it('returns a single instance', () => {
-      expect(Cancelled.of<number>()).toBe(Cancelled.of<number>());
-    });
-  });
-
   describe('get', () => {
     it('throws the inside error', () => {
       const cancelled: Cancelled<number> = Cancelled.of<number>();

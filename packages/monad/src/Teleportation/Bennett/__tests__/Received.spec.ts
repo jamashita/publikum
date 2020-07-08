@@ -1,15 +1,6 @@
 import { Received } from '../Received';
 
 describe('Received', () => {
-  describe('of', () => {
-    it('normal case', () => {
-      const value: number = 113;
-      const received: Received<number> = Received.of<number>(value);
-
-      expect(received.get()).toBe(value);
-    });
-  });
-
   describe('get', () => {
     it('returns the inside value', () => {
       const value: string = 'the lazy fox';

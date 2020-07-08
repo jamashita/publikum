@@ -3,16 +3,6 @@ import { MockError } from '@jamashita/publikum-object';
 import { Disappeared } from '../Disappeared';
 
 describe('Disappeared', () => {
-  describe('of', () => {
-    it('normal case', () => {
-      const disappeared: Disappeared<number> = Disappeared.of<number>(new MockError());
-
-      expect(() => {
-        disappeared.get();
-      }).toThrow(MockError);
-    });
-  });
-
   describe('get', () => {
     it('throws the inside error', () => {
       const disappeared: Disappeared<number> = Disappeared.of<number>(new MockError());

@@ -2,12 +2,6 @@ import { TeleportationError } from '../../Error/TeleportationError';
 import { Pending } from '../Pending';
 
 describe('Pending', () => {
-  describe('of', () => {
-    it('returns a single instance', () => {
-      expect(Pending.of<number>()).toBe(Pending.of<number>());
-    });
-  });
-
   describe('get', () => {
     it('throws the inside error', () => {
       const pending: Pending<number> = Pending.of<number>();
