@@ -3,6 +3,7 @@ import { Consumer, Kind, Predicate, Supplier, UnaryFunction } from '@jamashita/p
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { Matter } from '../Unscharferelation/Interface/Matter';
 import { Unscharferelation } from '../Unscharferelation/Unscharferelation';
+import { DeadErrorDetective } from './DeadErrorDetective';
 import { SuperpositionError } from './Error/SuperpositionError';
 import { DeadConstructor } from './Interface/DeadConstructor';
 import { Detoxicated } from './Interface/Detoxicated';
@@ -14,7 +15,10 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
   public readonly noun: 'Superposition' = 'Superposition';
   private readonly internal: ISuperposition<A, D>;
 
-  public static all<A, D extends Error>(superpositions: ArrayLike<Superposition<A, D>>): Superposition<Array<A>, D> {
+  public static all<A, D extends Error>(
+    superpositions: ArrayLike<Superposition<A, D>>,
+    ...errors: Array<DeadConstructor<D>>
+  ): Superposition<Array<A>, D> {
     if (superpositions.length === 0) {
       return Superposition.alive<Array<A>, D>([]);
     }
@@ -43,7 +47,7 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
 
         epoque.accept(ss);
       });
-    });
+    }, ...errors);
   }
 
   public static playground<A, D extends Error>(
@@ -61,7 +65,11 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
               return epoque.accept(v);
             },
             (err: D) => {
-              return epoque.decline(err);
+              if (DeadErrorDetective.contains<D>(err, errors)) {
+                return epoque.decline(err);
+              }
+
+              return epoque.throw(err);
             }
           );
         }
@@ -69,7 +77,7 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
         return epoque.accept(value);
       }
       catch (err) {
-        if (Superposition.isSpecifiedError(err, errors)) {
+        if (DeadErrorDetective.contains<D>(err, errors)) {
           return epoque.decline(err);
         }
 
@@ -78,7 +86,6 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
     }, ...errors);
   }
 
-  // TODO TESTS UNDONE
   public static alive<A, D extends Error>(
     value: PromiseLike<Detoxicated<A>> | Detoxicated<A>,
     ...errors: Array<DeadConstructor<D>>
@@ -99,9 +106,8 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
     }, ...errors);
   }
 
-  // TODO TESTS UNDONE
   public static dead<A, D extends Error>(
-    error: PromiseLike<A> | D,
+    error: PromiseLike<Detoxicated<A>> | D,
     ...errors: Array<DeadConstructor<D>>
   ): Superposition<A, D> {
     return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
@@ -111,7 +117,10 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
             return epoque.throw(new SuperpositionError('NOT REJECTED'));
           },
           (e: unknown) => {
-            // TODO IROIRO
+            if (DeadErrorDetective.contains<D>(e, errors)) {
+              return epoque.decline(e);
+            }
+
             return epoque.throw(e);
           }
         );
@@ -119,12 +128,6 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
 
       return epoque.decline(error);
     }, ...errors);
-  }
-
-  private static isSpecifiedError<D extends Error>(err: unknown, errors: Array<DeadConstructor<D>>): err is D {
-    return errors.some((error: DeadConstructor<D>) => {
-      return Kind.isClass(err, error);
-    });
   }
 
   public static of<A, D extends Error>(
@@ -155,22 +158,25 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
   }
 
   public map<B = A, E extends Error = D>(
-    mapper: UnaryFunction<Detoxicated<A>, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>
+    mapper: UnaryFunction<Detoxicated<A>, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>,
+    ...errors: Array<DeadConstructor<E>>
   ): Superposition<B, D | E> {
-    return Superposition.ofSuperposition<B, D | E>(this.internal.map(mapper));
+    return Superposition.ofSuperposition<B, D | E>(this.internal.map(mapper, ...errors));
   }
 
   public recover<B = A, E extends Error = D>(
-    mapper: UnaryFunction<D, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>
+    mapper: UnaryFunction<D, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>,
+    ...errors: Array<DeadConstructor<E>>
   ): Superposition<A | B, E> {
-    return Superposition.ofSuperposition<A | B, E>(this.internal.recover(mapper));
+    return Superposition.ofSuperposition<A | B, E>(this.internal.recover(mapper, ...errors));
   }
 
   public transform<B = A, E extends Error = D>(
     alive: UnaryFunction<Detoxicated<A>, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>,
-    dead: UnaryFunction<D, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>
+    dead: UnaryFunction<D, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>,
+    ...errors: Array<DeadConstructor<E>>
   ): Superposition<B, E> {
-    return Superposition.ofSuperposition<B, E>(this.internal.transform(alive, dead));
+    return Superposition.ofSuperposition<B, E>(this.internal.transform(alive, dead, ...errors));
   }
 
   public pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): unknown {
