@@ -2,16 +2,13 @@ import { MockError } from '@jamashita/publikum-object';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { BeSuperposition } from '../BeSuperposition';
-import { Alive } from '../Schrodinger/Alive';
 import { Superposition } from '../Superposition';
 import { SuperpositionInternal } from '../SuperpositionInternal';
 
 describe('BeSuperposition', () => {
   describe('is', () => {
     it('normal case', () => {
-      const superposition1: Superposition<number, MockError> = Superposition.ofSchrodinger<number, MockError>(
-        Alive.of<number, MockError>(4)
-      );
+      const superposition1: Superposition<number, MockError> = Superposition.alive<number, MockError>(4);
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (epoque: Epoque<number, MockError>) => {
           epoque.decline(new MockError());
