@@ -23,7 +23,7 @@ describe('ReceivedPlan', () => {
 
           return n - 1;
         },
-        PassEpoque.of<number, Error>(
+        PassEpoque.of<number, unknown>(
           (n: number) => {
             spy2();
             expect(n).toBe(value - 1);
@@ -61,7 +61,7 @@ describe('ReceivedPlan', () => {
 
             return Promise.resolve<number>(n - 2);
           },
-          PassEpoque.of<number, Error>(
+          PassEpoque.of<number, unknown>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 2);
@@ -106,11 +106,11 @@ describe('ReceivedPlan', () => {
 
           throw error;
         },
-        PassEpoque.of<number, Error>(
+        PassEpoque.of<number, unknown>(
           () => {
             spy2();
           },
-          (e: Error) => {
+          (e: unknown) => {
             spy3();
             expect(e).toBe(error);
           },
@@ -125,7 +125,7 @@ describe('ReceivedPlan', () => {
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
-      expect(spy4.called).toBe(true);
+      expect(spy4.called).toBe(false);
     });
 
     it('Promise<R> rejected', async () => {
@@ -145,13 +145,13 @@ describe('ReceivedPlan', () => {
 
             return Promise.reject<number>(error);
           },
-          PassEpoque.of<number, Error>(
+          PassEpoque.of<number, unknown>(
             () => {
               spy2();
 
               resolve();
             },
-            (e: Error) => {
+            (e: unknown) => {
               spy3();
               expect(e).toBe(error);
 
@@ -171,7 +171,7 @@ describe('ReceivedPlan', () => {
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
-      expect(spy4.called).toBe(true);
+      expect(spy4.called).toBe(false);
     });
   });
 });

@@ -18,13 +18,13 @@ describe('DisappearedPlan', () => {
       const spy4: SinonSpy = sinon.spy();
 
       const plan: DisappearedPlan<number> = DisappearedPlan.of<number>(
-        (err: Error) => {
+        (err: unknown) => {
           spy1();
           expect(err).toBe(error);
 
           return value - 1;
         },
-        PassEpoque.of<number, Error>(
+        PassEpoque.of<number, unknown>(
           (n: number) => {
             spy2();
             expect(n).toBe(value - 1);
@@ -57,13 +57,13 @@ describe('DisappearedPlan', () => {
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: DisappearedPlan<number> = DisappearedPlan.of<number>(
-          (err: Error) => {
+          (err: unknown) => {
             spy1();
             expect(err).toBe(error);
 
             return Promise.resolve<number>(value - 2);
           },
-          PassEpoque.of<number, Error>(
+          PassEpoque.of<number, unknown>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 2);
@@ -102,17 +102,17 @@ describe('DisappearedPlan', () => {
       const spy4: SinonSpy = sinon.spy();
 
       const plan: DisappearedPlan<number> = DisappearedPlan.of<number>(
-        (err: Error) => {
+        (err: unknown) => {
           spy1();
           expect(err).toBe(error1);
 
           throw error2;
         },
-        PassEpoque.of<number, Error>(
+        PassEpoque.of<number, unknown>(
           () => {
             spy2();
           },
-          (e: Error) => {
+          (e: unknown) => {
             spy3();
             expect(e).toBe(error2);
           },
@@ -127,7 +127,7 @@ describe('DisappearedPlan', () => {
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
-      expect(spy4.called).toBe(true);
+      expect(spy4.called).toBe(false);
     });
 
     it('Promise<R> rejected', async () => {
@@ -141,19 +141,19 @@ describe('DisappearedPlan', () => {
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const plan: DisappearedPlan<number> = DisappearedPlan.of<number>(
-          (err: Error) => {
+          (err: unknown) => {
             spy1();
             expect(err).toBe(error1);
 
             return Promise.reject<number>(error2);
           },
-          PassEpoque.of<number, Error>(
+          PassEpoque.of<number, unknown>(
             () => {
               spy2();
 
               resolve();
             },
-            (e: Error) => {
+            (e: unknown) => {
               spy3();
               expect(e).toBe(error2);
 
@@ -173,7 +173,7 @@ describe('DisappearedPlan', () => {
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
-      expect(spy4.called).toBe(true);
+      expect(spy4.called).toBe(false);
     });
   });
 });
