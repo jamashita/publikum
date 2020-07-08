@@ -1,15 +1,12 @@
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { BeUnscharferelation } from '../BeUnscharferelation';
-import { Present } from '../Heisenberg/Present';
 import { Unscharferelation } from '../Unscharferelation';
 import { UnscharferelationInternal } from '../UnscharferelationInternal';
 
 describe('BeUnscharferelation', () => {
   describe('is', () => {
     it('normal case', () => {
-      const unscharferelation1: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(
-        Present.of<number>(4)
-      );
+      const unscharferelation1: Unscharferelation<number> = Unscharferelation.present<number>(4);
       const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
           epoque.decline();
