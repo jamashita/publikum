@@ -19,6 +19,10 @@ export class Failed<R> implements Bennett<R, 'Failed'> {
     throw this.cause;
   }
 
+  public getCause(): unknown {
+    return this.cause;
+  }
+
   public isReceived(): this is Received<R> {
     return false;
   }
