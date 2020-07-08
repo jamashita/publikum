@@ -33,10 +33,10 @@
   "dependencies": {
     "@jamashita/publikum-error": "^2.1.6",
     "@jamashita/publikum-type": "^2.1.6",
-    "got": "11.3.0"
+    "got": "11.5.0"
   },
   "devDependencies": {
-    "@types/node": "14.0.14",
+    "@types/node": "14.0.19",
     "nock": "13.0.2",
     "npm-check-updates": "7.0.1",
     "rimraf": "3.0.2",

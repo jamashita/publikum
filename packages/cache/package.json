@@ -35,7 +35,7 @@
     "@jamashita/publikum-type": "^2.1.6"
   },
   "devDependencies": {
-    "@types/node": "14.0.14",
+    "@types/node": "14.0.19",
     "npm-check-updates": "7.0.1",
     "rimraf": "3.0.2",
     "typescript": "3.9.6"
