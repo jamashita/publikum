@@ -37,7 +37,7 @@
     "object-hash": "2.0.3"
   },
   "devDependencies": {
-    "@types/node": "14.0.19",
+    "@types/node": "14.0.20",
     "npm-check-updates": "7.0.1",
     "rimraf": "3.0.2",
     "typescript": "3.9.6"

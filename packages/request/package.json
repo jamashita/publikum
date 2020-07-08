@@ -36,7 +36,7 @@
     "got": "11.5.0"
   },
   "devDependencies": {
-    "@types/node": "14.0.19",
+    "@types/node": "14.0.20",
     "nock": "13.0.2",
     "npm-check-updates": "7.0.1",
     "rimraf": "3.0.2",
