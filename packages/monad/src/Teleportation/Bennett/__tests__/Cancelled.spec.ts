@@ -28,14 +28,6 @@ describe('Cancelled', () => {
     });
   });
 
-  describe('isFailed', () => {
-    it('always returns false', () => {
-      const cancelled: Cancelled<number> = Cancelled.of<number>();
-
-      expect(cancelled.isFailed()).toBe(false);
-    });
-  });
-
   describe('isCancelled', () => {
     it('always returns true', () => {
       const cancelled: Cancelled<number> = Cancelled.of<number>();

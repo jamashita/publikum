@@ -36,18 +36,6 @@ describe('Received', () => {
     });
   });
 
-  describe('isFailed', () => {
-    it('always returns false', () => {
-      const value1: number = 1;
-      const value2: string = 'aiutare';
-      const received1: Received<number> = Received.of<number>(value1);
-      const received2: Received<string> = Received.of<string>(value2);
-
-      expect(received1.isFailed()).toBe(false);
-      expect(received2.isFailed()).toBe(false);
-    });
-  });
-
   describe('isCancelled', () => {
     it('always returns false', () => {
       const value1: number = 1;

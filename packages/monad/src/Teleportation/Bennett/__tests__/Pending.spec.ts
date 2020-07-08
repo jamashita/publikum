@@ -28,14 +28,6 @@ describe('Pending', () => {
     });
   });
 
-  describe('isFailed', () => {
-    it('always returns false', () => {
-      const pending: Pending<number> = Pending.of<number>();
-
-      expect(pending.isFailed()).toBe(false);
-    });
-  });
-
   describe('isCancelled', () => {
     it('always returns false', () => {
       const pending: Pending<number> = Pending.of<number>();

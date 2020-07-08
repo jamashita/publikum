@@ -1,7 +1,6 @@
 import { Bennett } from './Bennett';
 import { Cancelled } from './Cancelled';
 import { Disappeared } from './Disappeared';
-import { Failed } from './Failed';
 
 export class Received<R> implements Bennett<R, 'Received'> {
   public readonly noun: 'Received' = 'Received';
@@ -24,10 +23,6 @@ export class Received<R> implements Bennett<R, 'Received'> {
   }
 
   public isDisappeared(): this is Disappeared<R> {
-    return false;
-  }
-
-  public isFailed(): this is Failed<R> {
     return false;
   }
 

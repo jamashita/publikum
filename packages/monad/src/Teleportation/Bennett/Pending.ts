@@ -2,7 +2,6 @@ import { TeleportationError } from '../Error/TeleportationError';
 import { Bennett } from './Bennett';
 import { Cancelled } from './Cancelled';
 import { Disappeared } from './Disappeared';
-import { Failed } from './Failed';
 import { Received } from './Received';
 
 export class Pending<R> implements Bennett<R, 'Pending'> {
@@ -27,10 +26,6 @@ export class Pending<R> implements Bennett<R, 'Pending'> {
   }
 
   public isDisappeared(): this is Disappeared<R> {
-    return false;
-  }
-
-  public isFailed(): this is Failed<R> {
     return false;
   }
 
