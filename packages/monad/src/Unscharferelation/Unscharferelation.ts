@@ -35,7 +35,7 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
             const heisenberg: Heisenberg<P> = heisenbergs[i];
 
             if (heisenberg.isLost()) {
-              return epoque.throw(heisenberg.getCause());
+              return epoque.throw(new UnscharferelationError('REJECTED'));
             }
             if (heisenberg.isPresent()) {
               hs.push(heisenberg.get());

@@ -53,30 +53,14 @@ describe('Unscharferelation', () => {
         Unscharferelation.present<number>(2)
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
       const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
-
-      await unscharferelation
-        .map<null>(() => {
-          spy1();
-
-          return null;
-        })
-        .recover<null>(() => {
-          spy2();
-
-          return null;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
 
     it('sync: contains Absent on second position', async () => {
@@ -86,30 +70,14 @@ describe('Unscharferelation', () => {
         Unscharferelation.present<number>(2)
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
       const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
-
-      await unscharferelation
-        .map<null>(() => {
-          spy1();
-
-          return null;
-        })
-        .recover<null>(() => {
-          spy2();
-
-          return null;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
 
     it('sync: contains Absent on last position', async () => {
@@ -119,30 +87,14 @@ describe('Unscharferelation', () => {
         Unscharferelation.absent<number>()
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
       const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
-
-      await unscharferelation
-        .map<null>(() => {
-          spy1();
-
-          return null;
-        })
-        .recover<null>(() => {
-          spy2();
-
-          return null;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
 
     it('sync: contains more than 1 Absent, but the last one', async () => {
@@ -152,30 +104,14 @@ describe('Unscharferelation', () => {
         Unscharferelation.present<number>(2)
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
       const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
-
-      await unscharferelation
-        .map<null>(() => {
-          spy1();
-
-          return null;
-        })
-        .recover<null>(() => {
-          spy2();
-
-          return null;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
 
     it('sync: contains more than 1 Absent, but the second one', async () => {
@@ -185,30 +121,14 @@ describe('Unscharferelation', () => {
         Unscharferelation.absent<number>()
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
       const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
-
-      await unscharferelation
-        .map<null>(() => {
-          spy1();
-
-          return null;
-        })
-        .recover<null>(() => {
-          spy2();
-
-          return null;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
 
     it('sync: contains more than 1 Absent, but the first one', async () => {
@@ -218,30 +138,14 @@ describe('Unscharferelation', () => {
         Unscharferelation.absent<number>()
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
       const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
-
-      await unscharferelation
-        .map<null>(() => {
-          spy1();
-
-          return null;
-        })
-        .recover<null>(() => {
-          spy2();
-
-          return null;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
 
     it('sync: contains more than 1 Absent, all', async () => {
@@ -251,30 +155,14 @@ describe('Unscharferelation', () => {
         Unscharferelation.absent<number>()
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
       const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
-
-      await unscharferelation
-        .map<null>(() => {
-          spy1();
-
-          return null;
-        })
-        .recover<null>(() => {
-          spy2();
-
-          return null;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
 
     it('async: all are Alive', async () => {
@@ -306,30 +194,14 @@ describe('Unscharferelation', () => {
         Unscharferelation.present<number>(Promise.resolve<number>(2))
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
       const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
-
-      await unscharferelation
-        .map<null>(() => {
-          spy1();
-
-          return null;
-        })
-        .recover<null>(() => {
-          spy2();
-
-          return null;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
 
     it('async: contains Absent on second position', async () => {
@@ -339,30 +211,14 @@ describe('Unscharferelation', () => {
         Unscharferelation.present<number>(Promise.resolve<number>(2))
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
       const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
-
-      await unscharferelation
-        .map<null>(() => {
-          spy1();
-
-          return null;
-        })
-        .recover<null>(() => {
-          spy2();
-
-          return null;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
 
     it('async: contains Absent on last position', async () => {
@@ -372,30 +228,14 @@ describe('Unscharferelation', () => {
         Unscharferelation.absent<number>(Promise.resolve<void>(undefined))
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
       const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
-
-      await unscharferelation
-        .map<null>(() => {
-          spy1();
-
-          return null;
-        })
-        .recover<null>(() => {
-          spy2();
-
-          return null;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
 
     it('async: contains more than 1 Absent, but the last one', async () => {
@@ -405,30 +245,14 @@ describe('Unscharferelation', () => {
         Unscharferelation.present<number>(Promise.resolve<number>(2))
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
       const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
-
-      await unscharferelation
-        .map<null>(() => {
-          spy1();
-
-          return null;
-        })
-        .recover<null>(() => {
-          spy2();
-
-          return null;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
 
     it('async: contains more than 1 Absent, but the second one', async () => {
@@ -438,30 +262,14 @@ describe('Unscharferelation', () => {
         Unscharferelation.absent<number>(Promise.resolve<void>(undefined))
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
       const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
-
-      await unscharferelation
-        .map<null>(() => {
-          spy1();
-
-          return null;
-        })
-        .recover<null>(() => {
-          spy2();
-
-          return null;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
 
     it('async: contains more than 1 Absent, but the first one', async () => {
@@ -471,30 +279,14 @@ describe('Unscharferelation', () => {
         Unscharferelation.absent<number>(Promise.resolve<void>(undefined))
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
       const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
-
-      await unscharferelation
-        .map<null>(() => {
-          spy1();
-
-          return null;
-        })
-        .recover<null>(() => {
-          spy2();
-
-          return null;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
 
     it('async: contains more than 1 Absent, all', async () => {
@@ -504,30 +296,14 @@ describe('Unscharferelation', () => {
         Unscharferelation.absent<number>(Promise.resolve<void>(undefined))
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
       const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isAbsent()).toBe(true);
-
-      await unscharferelation
-        .map<null>(() => {
-          spy1();
-
-          return null;
-        })
-        .recover<null>(() => {
-          spy2();
-
-          return null;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(true);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
 
     it('includes at least one Lost, will return Lost, Lost comes faster than Absent', async () => {
@@ -539,30 +315,14 @@ describe('Unscharferelation', () => {
         Unscharferelation.present<number>(Promise.resolve<number>(2))
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
       const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isLost()).toBe(true);
-
-      await unscharferelation
-        .map<null>(() => {
-          spy1();
-
-          return null;
-        })
-        .recover<null>(() => {
-          spy2();
-
-          return null;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(false);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
 
     it('includes at least one Lost, will return Lost, Lost comes later than Absent', async () => {
@@ -574,30 +334,14 @@ describe('Unscharferelation', () => {
         Unscharferelation.present<number>(Promise.resolve<number>(2))
       ];
 
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-
       const unscharferelation: Unscharferelation<Array<number>> = Unscharferelation.all<number>(unscharferelations);
 
       const heisenberg: Heisenberg<Array<number>> = await unscharferelation.terminate();
 
       expect(heisenberg.isLost()).toBe(true);
-
-      await unscharferelation
-        .map<null>(() => {
-          spy1();
-
-          return null;
-        })
-        .recover<null>(() => {
-          spy2();
-
-          return null;
-        })
-        .terminate();
-
-      expect(spy1.called).toBe(false);
-      expect(spy2.called).toBe(false);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
   });
 
