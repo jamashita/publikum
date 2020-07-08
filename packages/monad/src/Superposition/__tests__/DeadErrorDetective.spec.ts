@@ -7,19 +7,25 @@ describe('DeadErrorDetective', () => {
     it('returns true if the very class is included', () => {
       const error: MockError = new MockError();
 
-      expect(DeadErrorDetective.contains(error, [TypeError, SyntaxError, MockError])).toBe(true);
+      expect(
+        DeadErrorDetective.contains<Error>(error, [TypeError, SyntaxError, MockError])
+      ).toBe(true);
     });
 
     it('returns false if the class is not included', () => {
       const error: MockError = new MockError();
 
-      expect(DeadErrorDetective.contains(error, [TypeError, SyntaxError])).toBe(false);
+      expect(
+        DeadErrorDetective.contains<Error>(error, [TypeError, SyntaxError])
+      ).toBe(false);
     });
 
     it('returns true if super class of the class is included', () => {
       const error: MockError = new MockError();
 
-      expect(DeadErrorDetective.contains(error, [TypeError, SyntaxError, Error])).toBe(true);
+      expect(
+        DeadErrorDetective.contains<Error>(error, [TypeError, SyntaxError, Error])
+      ).toBe(true);
     });
   });
 });
