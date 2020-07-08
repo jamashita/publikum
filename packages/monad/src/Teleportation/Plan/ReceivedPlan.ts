@@ -6,13 +6,13 @@ import { MappingPlan } from '../../Plan/Interface/MappingPlan';
 export class ReceivedPlan<R, S> implements MappingPlan<R, 'ReceivedPlan'> {
   public readonly noun: 'ReceivedPlan' = 'ReceivedPlan';
   private readonly mapper: UnaryFunction<R, PromiseLike<S> | S>;
-  private readonly epoque: Epoque<S, Error>;
+  private readonly epoque: Epoque<S, unknown>;
 
-  public static of<R, S>(mapper: UnaryFunction<R, PromiseLike<S> | S>, epoque: Epoque<S, Error>): ReceivedPlan<R, S> {
+  public static of<R, S>(mapper: UnaryFunction<R, PromiseLike<S> | S>, epoque: Epoque<S, unknown>): ReceivedPlan<R, S> {
     return new ReceivedPlan<R, S>(mapper, epoque);
   }
 
-  protected constructor(mapper: UnaryFunction<R, PromiseLike<S> | S>, epoque: Epoque<S, Error>) {
+  protected constructor(mapper: UnaryFunction<R, PromiseLike<S> | S>, epoque: Epoque<S, unknown>) {
     this.mapper = mapper;
     this.epoque = epoque;
   }
