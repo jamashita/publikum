@@ -125,8 +125,11 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
           }
         );
       }
+      if (DeadErrorDetective.contains<D>(error, errors)) {
+        return epoque.decline(error);
+      }
 
-      return epoque.decline(error);
+      return epoque.throw(error);
     }, ...errors);
   }
 
