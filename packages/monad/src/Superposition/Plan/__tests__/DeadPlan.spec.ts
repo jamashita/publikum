@@ -242,7 +242,7 @@ describe('DeadPlan', () => {
             spy1();
             expect(e).toBe(error);
 
-            return Superposition.dead<number, MockError>(error);
+            return Superposition.dead<number, MockError>(error, MockError);
           },
           PassEpoque.of<number, MockError>(
             () => {
