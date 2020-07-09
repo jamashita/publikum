@@ -15,7 +15,7 @@ const res: Res = {
   nu: false,
   pq: -13
 };
-const url: string = 'http://d9ba7103-e6a4-4415-b65d-8867f2caaad6.com';
+const url: string = 'https://d9ba7103-e6a4-4415-b65d-8867f2caaad6.com';
 const OK: number = 200;
 const MULTIPLE_CHOISE: number = 300;
 const BAD_REQUEST: number = 400;

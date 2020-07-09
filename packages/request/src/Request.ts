@@ -1,5 +1,6 @@
 import got, { RequestError as ReqError, Response } from 'got';
 
+import { JSONA } from '@jamashita/publikum-json';
 import { ObjectLiteral } from '@jamashita/publikum-type';
 
 import { RequestError } from './Error/RequestError';
@@ -7,19 +8,18 @@ import { IRequest } from './Interface/IRequest';
 import { RequestResponse } from './RequestResponse';
 
 export class Request implements IRequest {
-  public async get<T>(url: string): Promise<RequestResponse<T>> {
+  public async get<T extends ObjectLiteral>(url: string): Promise<RequestResponse<T>> {
     // prettier-ignore
     try {
       const {
         statusCode,
         body
-      }: Response<T> = await got.get<T>(url, {
-        responseType: 'json'
-      });
+      }: Response<string> = await got.get(url);
+      const json: T = await JSONA.parse<T>(body);
 
       return {
         status: statusCode,
-        body
+        body: json
       };
     }
     catch (err) {
@@ -31,20 +31,20 @@ export class Request implements IRequest {
     }
   }
 
-  public async post<T>(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>> {
+  public async post<T extends ObjectLiteral>(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>> {
     // prettier-ignore
     try {
       const {
         statusCode,
         body
-      }: Response<T> = await got.post<T>(url, {
-        json: payload,
-        responseType: 'json'
+      }: Response<string> = await got.post(url, {
+        json: payload
       });
+      const json: T = await JSONA.parse<T>(body);
 
       return {
         status: statusCode,
-        body
+        body: json
       };
     }
     catch (err) {
@@ -56,20 +56,20 @@ export class Request implements IRequest {
     }
   }
 
-  public async put<T>(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>> {
+  public async put<T extends ObjectLiteral>(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>> {
     // prettier-ignore
     try {
       const {
         statusCode,
         body
-      }: Response<T> = await got.put<T>(url, {
-        json: payload,
-        responseType: 'json'
+      }: Response<string> = await got.put(url, {
+        json: payload
       });
+      const json: T = await JSONA.parse<T>(body);
 
       return {
         status: statusCode,
-        body
+        body: json
       };
     }
     catch (err) {
@@ -81,19 +81,18 @@ export class Request implements IRequest {
     }
   }
 
-  public async delete<T>(url: string): Promise<RequestResponse<T>> {
+  public async delete<T extends ObjectLiteral>(url: string): Promise<RequestResponse<T>> {
     // prettier-ignore
     try {
       const {
         statusCode,
         body
-      }: Response<T> = await got.delete<T>(url, {
-        responseType: 'json'
-      });
+      }: Response<string> = await got.delete(url);
+      const json: T = await JSONA.parse<T>(body);
 
       return {
         status: statusCode,
-        body
+        body: json
       };
     }
     catch (err) {
