@@ -10,7 +10,6 @@ export class Request implements IRequest {
   public async get<T>(url: string): Promise<RequestResponse<T>> {
     // prettier-ignore
     try {
-      // prettier-ignore
       const {
         statusCode,
         body
@@ -35,7 +34,6 @@ export class Request implements IRequest {
   public async post<T>(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>> {
     // prettier-ignore
     try {
-      // prettier-ignore
       const {
         statusCode,
         body
@@ -61,7 +59,6 @@ export class Request implements IRequest {
   public async put<T>(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>> {
     // prettier-ignore
     try {
-      // prettier-ignore
       const {
         statusCode,
         body
@@ -87,7 +84,6 @@ export class Request implements IRequest {
   public async delete<T>(url: string): Promise<RequestResponse<T>> {
     // prettier-ignore
     try {
-      // prettier-ignore
       const {
         statusCode,
         body
