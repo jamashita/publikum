@@ -4,7 +4,7 @@ export abstract class DataSourceError<N extends string = string, S extends strin
   public abstract readonly noun: N;
   public abstract readonly source: S;
 
-  protected constructor(message: string, cause?: Error) {
+  public constructor(message: string, cause?: Error) {
     super(message, cause);
   }
 }
