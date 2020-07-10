@@ -2037,6 +2037,178 @@ describe('SuperpositionInternal', () => {
     });
   });
 
+  describe('pass', () => {
+    it('accept case', () => {
+      const value: number = 2;
+
+      const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
+        (epoque: Epoque<number, MockError>) => {
+          epoque.accept(value);
+        },
+        [MockError]
+      );
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      superposition.pass(
+        () => {
+          spy1();
+
+          return 1;
+        },
+        () => {
+          spy2();
+
+          return 2;
+        },
+        () => {
+          spy3();
+
+          return 3;
+        }
+      );
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
+    });
+
+    it('decline case', () => {
+      const error: MockError = new MockError();
+
+      const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
+        (epoque: Epoque<number, MockError>) => {
+          epoque.decline(error);
+        },
+        [MockError]
+      );
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      superposition.pass(
+        () => {
+          spy1();
+
+          return 1;
+        },
+        () => {
+          spy2();
+
+          return 2;
+        },
+        () => {
+          spy3();
+
+          return 3;
+        }
+      );
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(false);
+    });
+
+    it('throw case', () => {
+      const error: MockError = new MockError();
+
+      const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
+        (epoque: Epoque<number, MockError>) => {
+          epoque.throw(error);
+        },
+        [MockError]
+      );
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      superposition.pass(
+        () => {
+          spy1();
+
+          return 1;
+        },
+        () => {
+          spy2();
+
+          return 2;
+        },
+        () => {
+          spy3();
+
+          return 3;
+        }
+      );
+
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(true);
+    });
+  });
+
+  describe('peek', () => {
+    it('accept case', () => {
+      const value: number = 2;
+
+      const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
+        (epoque: Epoque<number, MockError>) => {
+          epoque.accept(value);
+        },
+        [MockError]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      superposition.peek(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(true);
+    });
+
+    it('decline case', () => {
+      const error: MockError = new MockError();
+
+      const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
+        (epoque: Epoque<number, MockError>) => {
+          epoque.decline(error);
+        },
+        [MockError]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      superposition.peek(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(true);
+    });
+
+    it('throw case', () => {
+      const error: MockError = new MockError();
+
+      const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
+        (epoque: Epoque<number, MockError>) => {
+          epoque.throw(error);
+        },
+        [MockError]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      superposition.peek(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
   describe('toUnscharferelation', () => {
     it('alive: will transform to present', async () => {
       const value: number = 2;

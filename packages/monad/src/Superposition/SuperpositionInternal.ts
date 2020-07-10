@@ -179,20 +179,24 @@ export class SuperpositionInternal<A, D extends Error>
     }, errors);
   }
 
-  public pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): unknown {
+  public pass(
+    accepted: Consumer<Detoxicated<A>>,
+    declined: Consumer<D>,
+    thrown: Consumer<unknown>
+  ): SuperpositionInternal<A, D> {
     const epoque: Epoque<Detoxicated<A>, D> = PassEpoque.of<Detoxicated<A>, D>(accepted, declined, thrown);
 
-    return this.handle(
-      MappingPassPlan.of<Detoxicated<A>>(epoque),
-      RecoveryPassPlan.of<D>(epoque),
-      DestroyPassPlan.of(epoque)
-    );
+    this.handle(MappingPassPlan.of<Detoxicated<A>>(epoque), RecoveryPassPlan.of<D>(epoque), DestroyPassPlan.of(epoque));
+
+    return this;
   }
 
-  private peek(peek: Peek): unknown {
+  public peek(peek: Peek): SuperpositionInternal<A, D> {
     const epoque: Epoque<void, void> = PassEpoque.of<void, void>(peek, peek, peek);
 
-    return this.handle(MappingPeekPlan.of(epoque), RecoveryPeekPlan.of(epoque), DestroyPassPlan.of(epoque));
+    this.handle(MappingPeekPlan.of(epoque), RecoveryPeekPlan.of(epoque), DestroyPassPlan.of(epoque));
+
+    return this;
   }
 
   private handle(mapping: MappingPlan<A>, recovery: RecoveryPlan<D>, destroy: DestroyPlan): unknown {

@@ -1,5 +1,5 @@
 import { Noun } from '@jamashita/publikum-interface';
-import { Consumer, Predicate, UnaryFunction } from '@jamashita/publikum-type';
+import { Consumer, Peek, Predicate, UnaryFunction } from '@jamashita/publikum-type';
 
 import { IUnscharferelation } from '../../Unscharferelation/Interface/IUnscharferelation';
 import { SuperpositionError } from '../Error/SuperpositionError';
@@ -30,7 +30,9 @@ export interface ISuperposition<A, D extends Error, N extends string = string> e
     ...errors: Array<DeadConstructor<E>>
   ): ISuperposition<B, E>;
 
-  pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): unknown;
+  pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): ISuperposition<A, D>;
+
+  peek(peek: Peek): ISuperposition<A, D>;
 
   toUnscharferelation(): IUnscharferelation<A>;
 }

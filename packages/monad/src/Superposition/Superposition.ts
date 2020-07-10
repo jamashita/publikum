@@ -197,8 +197,20 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
     return Superposition.ofSuperposition<B, E>(this.internal.transform(alive, dead, ...errors));
   }
 
-  public pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): unknown {
-    return this.internal.pass(accepted, declined, thrown);
+  public pass(
+    accepted: Consumer<Detoxicated<A>>,
+    declined: Consumer<D>,
+    thrown: Consumer<unknown>
+  ): Superposition<A, D> {
+    this.internal.pass(accepted, declined, thrown);
+
+    return this;
+  }
+
+  public peek(peek: Peek): Superposition<A, D> {
+    this.internal.peek(peek);
+
+    return this;
   }
 
   public toUnscharferelation(): Unscharferelation<A> {
