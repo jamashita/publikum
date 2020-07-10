@@ -15,7 +15,7 @@ export class RedisString implements IRedisString {
   public async set(key: string, value: string): Promise<boolean> {
     // prettier-ignore
     try {
-      const result: string = await this.client.set(key, value);
+      const result: Nullable<'OK'> = await this.client.set(key, value);
 
       if (result === 'OK') {
         return true;
