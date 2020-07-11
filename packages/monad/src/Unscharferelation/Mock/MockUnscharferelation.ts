@@ -1,5 +1,5 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
-import { Consumer, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import { Consumer, Peek, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { ISuperposition } from '../../Superposition/Interface/ISuperposition';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
@@ -37,8 +37,17 @@ export class MockUnscharferelation<P> implements IUnscharferelation<P, 'MockUnsc
     throw new UnimplementedError();
   }
 
-  public pass(accepted: Consumer<Matter<P>>, declined: Consumer<void>, thrown: Consumer<unknown>): unknown;
-  public pass(): unknown {
+  public pass(
+    accepted: Consumer<Matter<P>>,
+    declined: Consumer<void>,
+    thrown: Consumer<unknown>
+  ): MockUnscharferelation<P>;
+  public pass(): MockUnscharferelation<P> {
+    throw new UnimplementedError();
+  }
+
+  public peek(peek: Peek): MockUnscharferelation<P>;
+  public peek(): MockUnscharferelation<P> {
     throw new UnimplementedError();
   }
 

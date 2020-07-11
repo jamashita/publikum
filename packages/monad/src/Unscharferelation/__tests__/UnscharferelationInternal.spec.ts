@@ -1,7 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 
 import { MockError } from '@jamashita/publikum-object';
-import { Resolve } from '@jamashita/publikum-type';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { Schrodinger } from '../../Superposition/Schrodinger/Schrodinger';
@@ -1400,10 +1399,10 @@ describe('UnscharferelationInternal', () => {
   });
 
   describe('pass', () => {
-    it('Present case', async () => {
+    it('accpet case', () => {
       const value: number = -201;
 
-      const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
           epoque.accept(value);
         }
@@ -1413,32 +1412,26 @@ describe('UnscharferelationInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await new Promise<void>((resolve: Resolve<void>) => {
-        unscharferelation1.pass(
-          (v: number) => {
-            spy1();
-            expect(v).toBe(value);
-
-            resolve();
-          },
-          () => {
-            spy2();
-            resolve();
-          },
-          () => {
-            spy3();
-            resolve();
-          }
-        );
-      });
+      unscharferelation.pass(
+        (v: number) => {
+          spy1();
+          expect(v).toBe(value);
+        },
+        () => {
+          spy2();
+        },
+        () => {
+          spy3();
+        }
+      );
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(false);
     });
 
-    it('Absent case', async () => {
-      const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+    it('decline case', () => {
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
           epoque.decline();
         }
@@ -1448,32 +1441,27 @@ describe('UnscharferelationInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await new Promise<void>((resolve: Resolve<void>) => {
-        unscharferelation1.pass(
-          () => {
-            spy1();
-            resolve();
-          },
-          () => {
-            spy2();
-            resolve();
-          },
-          () => {
-            spy3();
-            resolve();
-          }
-        );
-      });
+      unscharferelation.pass(
+        () => {
+          spy1();
+        },
+        () => {
+          spy2();
+        },
+        () => {
+          spy3();
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(false);
     });
 
-    it('Lost case', async () => {
+    it('throw case', () => {
       const error: MockError = new MockError();
 
-      const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number, void>) => {
           epoque.throw(error);
         }
@@ -1483,28 +1471,76 @@ describe('UnscharferelationInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await new Promise<void>((resolve: Resolve<void>) => {
-        unscharferelation1.pass(
-          () => {
-            spy1();
-            resolve();
-          },
-          () => {
-            spy2();
-            resolve();
-          },
-          (e: unknown) => {
-            spy3();
-            expect(e).toBe(error);
-
-            resolve();
-          }
-        );
-      });
+      unscharferelation.pass(
+        () => {
+          spy1();
+        },
+        () => {
+          spy2();
+        },
+        (e: unknown) => {
+          spy3();
+          expect(e).toBe(error);
+        }
+      );
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(false);
       expect(spy3.called).toBe(true);
+    });
+  });
+
+  describe('peek', () => {
+    it('accept case', () => {
+      const value: number = -201;
+
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value);
+        }
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      unscharferelation.peek(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(true);
+    });
+
+    it('decline case', () => {
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.decline();
+        }
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      unscharferelation.peek(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(true);
+    });
+
+    it('throw case', () => {
+      const error: MockError = new MockError();
+
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.throw(error);
+        }
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      unscharferelation.peek(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(true);
     });
   });
 

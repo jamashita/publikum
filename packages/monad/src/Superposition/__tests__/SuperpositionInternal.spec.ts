@@ -2053,20 +2053,15 @@ describe('SuperpositionInternal', () => {
       const spy3: SinonSpy = sinon.spy();
 
       superposition.pass(
-        () => {
+        (v: number) => {
           spy1();
-
-          return 1;
+          expect(v).toBe(value);
         },
         () => {
           spy2();
-
-          return 2;
         },
         () => {
           spy3();
-
-          return 3;
         }
       );
 
@@ -2092,18 +2087,13 @@ describe('SuperpositionInternal', () => {
       superposition.pass(
         () => {
           spy1();
-
-          return 1;
         },
-        () => {
+        (e: MockError) => {
           spy2();
-
-          return 2;
+          expect(e).toBe(error);
         },
         () => {
           spy3();
-
-          return 3;
         }
       );
 
@@ -2129,18 +2119,13 @@ describe('SuperpositionInternal', () => {
       superposition.pass(
         () => {
           spy1();
-
-          return 1;
         },
         () => {
           spy2();
-
-          return 2;
         },
-        () => {
+        (e: unknown) => {
           spy3();
-
-          return 3;
+          expect(e).toBe(error);
         }
       );
 

@@ -571,6 +571,24 @@ describe('Unscharferelation', () => {
     });
   });
 
+  describe('peek', () => {
+    it('delegate inner Unscharferelation', () => {
+      const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
+
+      const spy: SinonSpy = sinon.spy();
+
+      mock.peek = spy;
+
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofUnscharferelation<number>(mock);
+
+      unscharferelation.peek(() => {
+        // NOOP
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
   describe('toSuperposition', () => {
     it('present: will transform to alive', async () => {
       const value: number = -201;
