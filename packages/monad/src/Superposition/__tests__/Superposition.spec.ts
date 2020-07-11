@@ -777,6 +777,24 @@ describe('Superposition', () => {
     });
   });
 
+  describe('peek', () => {
+    it('delegate inner Superposition', () => {
+      const mock: MockSuperposition<number, MockError> = new MockSuperposition<number, MockError>();
+
+      const spy: SinonSpy = sinon.spy();
+
+      mock.peek = spy;
+
+      const superposition: Superposition<number, MockError> = Superposition.ofSuperposition<number, MockError>(mock);
+
+      superposition.peek(() => {
+        // NOOP
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
   describe('toUnscharferelation', () => {
     it('alive: will transform to present', async () => {
       const value: number = 2;

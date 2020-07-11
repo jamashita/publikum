@@ -1,4 +1,4 @@
-import { Consumer, Kind, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import { Consumer, Kind, Peek, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { Detoxicated } from '../Superposition/Interface/Detoxicated';
@@ -155,8 +155,20 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
     return Unscharferelation.ofUnscharferelation<P | Q>(this.internal.recover<Q>(mapper));
   }
 
-  public pass(accepted: Consumer<Matter<P>>, declined: Consumer<void>, thrown: Consumer<unknown>): unknown {
-    return this.internal.pass(accepted, declined, thrown);
+  public pass(
+    accepted: Consumer<Matter<P>>,
+    declined: Consumer<void>,
+    thrown: Consumer<unknown>
+  ): Unscharferelation<P> {
+    this.internal.pass(accepted, declined, thrown);
+
+    return this;
+  }
+
+  public peek(peek: Peek): Unscharferelation<P> {
+    this.internal.peek(peek);
+
+    return this;
   }
 
   public toSuperposition(): Superposition<P, UnscharferelationError> {

@@ -1,4 +1,4 @@
-import { Consumer, Kind, Nullable, Predicate, Supplier, UnaryFunction } from '@jamashita/publikum-type';
+import { Consumer, Kind, Nullable, Peek, Predicate, Supplier, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { Matter } from '../Unscharferelation/Interface/Matter';
@@ -176,25 +176,25 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
   }
 
   public map<B = A, E extends Error = D>(
-    mapper: UnaryFunction<Detoxicated<A>, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>,
+    mapper: UnaryFunction<Detoxicated<A>, Superposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
     ...errors: Array<DeadConstructor<E>>
   ): Superposition<B, D | E> {
-    return Superposition.ofSuperposition<B, D | E>(this.internal.map(mapper, ...errors));
+    return Superposition.ofSuperposition<B, D | E>(this.internal.map<B, E>(mapper, ...errors));
   }
 
   public recover<B = A, E extends Error = D>(
-    mapper: UnaryFunction<D, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>,
+    mapper: UnaryFunction<D, Superposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
     ...errors: Array<DeadConstructor<E>>
   ): Superposition<A | B, E> {
-    return Superposition.ofSuperposition<A | B, E>(this.internal.recover(mapper, ...errors));
+    return Superposition.ofSuperposition<A | B, E>(this.internal.recover<B, E>(mapper, ...errors));
   }
 
   public transform<B = A, E extends Error = D>(
-    alive: UnaryFunction<Detoxicated<A>, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>,
-    dead: UnaryFunction<D, PromiseLike<Detoxicated<B>> | Superposition<B, E> | Detoxicated<B>>,
+    alive: UnaryFunction<Detoxicated<A>, Superposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
+    dead: UnaryFunction<D, Superposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
     ...errors: Array<DeadConstructor<E>>
   ): Superposition<B, E> {
-    return Superposition.ofSuperposition<B, E>(this.internal.transform(alive, dead, ...errors));
+    return Superposition.ofSuperposition<B, E>(this.internal.transform<B, E>(alive, dead, ...errors));
   }
 
   public pass(
