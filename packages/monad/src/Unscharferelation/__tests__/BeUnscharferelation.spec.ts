@@ -133,6 +133,34 @@ describe('BeUnscharferelation', () => {
           pass() {
             // NOOP
           },
+          peek() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        BeUnscharferelation.is<number>({
+          get() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          },
+          filter() {
+            // NOOP
+          },
+          map() {
+            // NOOP
+          },
+          recover() {
+            // NOOP
+          },
+          pass() {
+            // NOOP
+          },
+          peek() {
+            // NOOP
+          },
           toSuperposition() {
             // NOOP
           }

@@ -25,6 +25,9 @@ export class BeUnscharferelation {
     if (typeof value.pass !== 'function') {
       return false;
     }
+    if (typeof value.peek !== 'function') {
+      return false;
+    }
     if (typeof value.toSuperposition !== 'function') {
       return false;
     }
