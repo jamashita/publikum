@@ -1,5 +1,5 @@
 import { Noun } from '@jamashita/publikum-interface';
-import { Consumer, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import { Consumer, Peek, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { ISuperposition } from '../../Superposition/Interface/ISuperposition';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
@@ -21,7 +21,9 @@ export interface IUnscharferelation<P, N extends string = string> extends Noun<N
     mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>
   ): IUnscharferelation<P | Q>;
 
-  pass(accepted: Consumer<Matter<P>>, declined: Consumer<void>, thrown: Consumer<unknown>): unknown;
+  pass(accepted: Consumer<Matter<P>>, declined: Consumer<void>, thrown: Consumer<unknown>): IUnscharferelation<P>;
+
+  peek(peek: Peek): IUnscharferelation<P>;
 
   toSuperposition(): ISuperposition<P, UnscharferelationError>;
 }
