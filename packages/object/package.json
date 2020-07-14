@@ -38,7 +38,7 @@
     "object-hash": "2.0.3"
   },
   "devDependencies": {
-    "@types/node": "14.0.22",
+    "@types/node": "14.0.23",
     "typescript": "3.9.6"
   },
   "engines": {
