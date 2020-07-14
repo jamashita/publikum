@@ -16,8 +16,8 @@ export class Reference {
 
     visitStack.add(value);
 
-    return Object.keys(value).every((key: string) => {
-      return Reference.isSerializable(value[key], visitStack);
+    return !Object.keys(value).some((key: string) => {
+      return !Reference.isSerializable(value[key], visitStack);
     });
   }
 
