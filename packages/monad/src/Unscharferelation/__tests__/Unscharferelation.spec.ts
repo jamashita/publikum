@@ -545,6 +545,24 @@ describe('Unscharferelation', () => {
     });
   });
 
+  describe('ifPresent', () => {
+    it('delegate inner Unscharferelation', () => {
+      const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
+
+      const spy: SinonSpy = sinon.spy();
+
+      mock.ifPresent = spy;
+
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofUnscharferelation<number>(mock);
+
+      unscharferelation.ifPresent(() => {
+        return 2;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
   describe('pass', () => {
     it('delegate inner Unscharferelation', () => {
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();

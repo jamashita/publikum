@@ -108,6 +108,31 @@ describe('BeUnscharferelation', () => {
           recover() {
             // NOOP
           },
+          ifPresent() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        BeUnscharferelation.is<number>({
+          get() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          },
+          filter() {
+            // NOOP
+          },
+          map() {
+            // NOOP
+          },
+          recover() {
+            // NOOP
+          },
+          ifPresent() {
+            // NOOP
+          },
           pass() {
             // NOOP
           }
@@ -153,6 +178,9 @@ describe('BeUnscharferelation', () => {
             // NOOP
           },
           recover() {
+            // NOOP
+          },
+          ifPresent() {
             // NOOP
           },
           pass() {

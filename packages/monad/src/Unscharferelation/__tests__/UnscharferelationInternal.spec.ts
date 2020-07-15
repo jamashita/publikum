@@ -1398,6 +1398,152 @@ describe('UnscharferelationInternal', () => {
     });
   });
 
+  describe('ifPresent', () => {
+    it('sync case: if present, the callback will be invoked', async () => {
+      const value: number = -201;
+
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value);
+        }
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      const heisenberg: Heisenberg<number> = await unscharferelation
+        .ifPresent((v: number) => {
+          spy();
+          expect(v).toBe(value);
+
+          return v + 100;
+        })
+        .terminate();
+
+      expect(spy.called).toBe(true);
+      expect(heisenberg.isPresent()).toBe(true);
+      expect(heisenberg.get()).toBe(value);
+    });
+
+    it('async case: if present, the callback will be invoked', async () => {
+      const value: number = -201;
+
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.accept(value);
+        }
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      const heisenberg: Heisenberg<number> = await unscharferelation
+        .ifPresent((v: number) => {
+          spy();
+          expect(v).toBe(value);
+
+          return Promise.resolve<number>(v + 100);
+        })
+        .terminate();
+
+      expect(spy.called).toBe(true);
+      expect(heisenberg.isPresent()).toBe(true);
+      expect(heisenberg.get()).toBe(value);
+    });
+
+    it('sync case: if absent, the callback will not be invoked', async () => {
+      const value: number = -201;
+
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.decline();
+        }
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      const heisenberg: Heisenberg<number> = await unscharferelation
+        .ifPresent(() => {
+          spy();
+
+          return value;
+        })
+        .terminate();
+
+      expect(spy.called).toBe(false);
+      expect(heisenberg.isAbsent()).toBe(true);
+    });
+
+    it('async case: if absent, the callback will not be invoked', async () => {
+      const value: number = -201;
+
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.decline();
+        }
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      const heisenberg: Heisenberg<number> = await unscharferelation
+        .ifPresent(() => {
+          spy();
+
+          return Promise.resolve<number>(value);
+        })
+        .terminate();
+
+      expect(spy.called).toBe(false);
+      expect(heisenberg.isAbsent()).toBe(true);
+    });
+
+    it('sync case: if lost, the callback will be invoked', async () => {
+      const value: number = -201;
+      const error: MockError = new MockError();
+
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.throw(error);
+        }
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      const heisenberg: Heisenberg<number> = await unscharferelation
+        .ifPresent(() => {
+          spy();
+
+          return value;
+        })
+        .terminate();
+
+      expect(spy.called).toBe(false);
+      expect(heisenberg.isLost()).toBe(true);
+    });
+
+    it('async case: if lost, the callback will be invoked', async () => {
+      const value: number = -201;
+      const error: MockError = new MockError();
+
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number, void>) => {
+          epoque.throw(error);
+        }
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      const heisenberg: Heisenberg<number> = await unscharferelation
+        .ifPresent(() => {
+          spy();
+
+          return Promise.resolve<number>(value);
+        })
+        .terminate();
+
+      expect(spy.called).toBe(false);
+      expect(heisenberg.isLost()).toBe(true);
+    });
+  });
+
   describe('pass', () => {
     it('accpet case', () => {
       const value: number = -201;

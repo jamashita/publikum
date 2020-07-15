@@ -37,6 +37,11 @@ export class MockUnscharferelation<P> implements IUnscharferelation<P, 'MockUnsc
     throw new UnimplementedError();
   }
 
+  public ifPresent(consumer: Consumer<P>): this;
+  public ifPresent(): this {
+    throw new UnimplementedError();
+  }
+
   public pass(
     accepted: Consumer<Matter<P>>,
     declined: Consumer<void>,

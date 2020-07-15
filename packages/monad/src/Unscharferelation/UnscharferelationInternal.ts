@@ -164,6 +164,18 @@ export class UnscharferelationInternal<P>
     });
   }
 
+  public ifPresent(consumer: Consumer<P>): this {
+    const peek: Peek = () => {
+      // NOOP
+    };
+
+    const epoque: Epoque<Matter<P>, void> = PassEpoque.of<Matter<P>, void>(consumer, peek, peek);
+
+    this.handle(MappingPassPlan.of<Matter<P>>(epoque), RecoveryPeekPlan.of(epoque), DestroyPassPlan.of(epoque));
+
+    return this;
+  }
+
   public pass(
     accepted: Consumer<Matter<P>>,
     declined: Consumer<void>,

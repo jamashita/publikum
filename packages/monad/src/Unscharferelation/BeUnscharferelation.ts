@@ -22,6 +22,9 @@ export class BeUnscharferelation {
     if (typeof value.recover !== 'function') {
       return false;
     }
+    if (typeof value.ifPresent !== 'function') {
+      return false;
+    }
     if (typeof value.pass !== 'function') {
       return false;
     }

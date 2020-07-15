@@ -155,6 +155,12 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
     return Unscharferelation.ofUnscharferelation<P | Q>(this.internal.recover<Q>(mapper));
   }
 
+  public ifPresent(consumer: Consumer<P>): this {
+    this.internal.ifPresent(consumer);
+
+    return this;
+  }
+
   public pass(
     accepted: Consumer<Matter<P>>,
     declined: Consumer<void>,
