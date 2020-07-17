@@ -204,7 +204,7 @@ describe('AProject', () => {
 
         return false;
       });
-      const every2: boolean = nouns.every((key: MockNominative<number>, value: MockNominative<number>) => {
+      const every2: boolean = nouns.every((_: MockNominative<number>, value: MockNominative<number>) => {
         if (value.get() % 2 === 0) {
           return true;
         }
@@ -295,7 +295,7 @@ describe('AProject', () => {
       );
 
       const predicate: BinaryPredicate<MockNominative<number>, MockNominative<number>> = (
-        key: MockNominative<number>,
+        _: MockNominative<number>,
         value: MockNominative<number>
       ) => {
         if (value.get() % 2 === 0) {
@@ -341,7 +341,7 @@ describe('AProject', () => {
       >(new Map<MockNominative<number>, MockNominative<number>>(elements));
 
       const predicate: BinaryPredicate<MockNominative<number>, MockNominative<number>> = (
-        key: MockNominative<number>,
+        _: MockNominative<number>,
         value: MockNominative<number>
       ) => {
         if (value.get() % 2 === 0) {
@@ -426,7 +426,7 @@ describe('AProject', () => {
       );
 
       const predicate: BinaryPredicate<MockNominative<number>, MockNominative<number>> = (
-        key: MockNominative<number>,
+        _: MockNominative<number>,
         value: MockNominative<number>
       ) => {
         if (value.get() % 2 === 1) {

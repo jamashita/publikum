@@ -19,15 +19,15 @@ export class CombinedPlan<M, R>
     this.destroy = destroy;
   }
 
-  public onMap(value: M): unknown {
+  public onMap(value: M): unknown | void {
     return this.map.onMap(value);
   }
 
-  public onRecover(value: R): unknown {
+  public onRecover(value: R): unknown | void {
     return this.recover.onRecover(value);
   }
 
-  public onDestroy(cause: unknown): unknown {
+  public onDestroy(cause: unknown): unknown | void {
     return this.destroy.onDestroy(cause);
   }
 }

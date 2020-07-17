@@ -112,7 +112,7 @@ describe('AAddress', () => {
 
       let i: number = 0;
 
-      peeks.forEach((peek: MockContent<Peek>, index: void, cancel: Peek) => {
+      peeks.forEach((peek: MockContent<Peek>, _: void, cancel: Peek) => {
         peek.get()();
 
         if (i === 2) {

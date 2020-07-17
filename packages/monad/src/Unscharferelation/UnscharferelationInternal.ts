@@ -57,7 +57,7 @@ export class UnscharferelationInternal<P>
     return false;
   }
 
-  public accept(value: Matter<P>): unknown {
+  public accept(value: Matter<P>): unknown | void {
     if (this.settled()) {
       return;
     }
@@ -69,7 +69,7 @@ export class UnscharferelationInternal<P>
     });
   }
 
-  public decline(): unknown {
+  public decline(): unknown | void {
     if (this.settled()) {
       return;
     }
@@ -81,7 +81,7 @@ export class UnscharferelationInternal<P>
     });
   }
 
-  public throw(cause: unknown): unknown {
+  public throw(cause: unknown): unknown | void {
     if (this.settled()) {
       return;
     }

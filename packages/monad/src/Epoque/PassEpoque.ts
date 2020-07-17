@@ -18,15 +18,15 @@ export class PassEpoque<A, D> implements Epoque<A, D, 'PassEpoque'> {
     this.thrown = thrown;
   }
 
-  public accept(value: A): unknown {
+  public accept(value: A): unknown | void {
     return this.accepted(value);
   }
 
-  public decline(value: D): unknown {
+  public decline(value: D): unknown | void {
     return this.declined(value);
   }
 
-  public throw(cause: D): unknown {
+  public throw(cause: D): unknown | void {
     return this.thrown(cause);
   }
 }

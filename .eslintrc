@@ -393,7 +393,8 @@
           "camelCase",
           "PascalCase",
           "UPPER_CASE"
-        ]
+        ],
+        "leadingUnderscore": "allow"
       },
       {
         "selector": "memberLike",
