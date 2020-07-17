@@ -1,8 +1,8 @@
 import sinon, { SinonSpy } from 'sinon';
 
-import { PassEpoque } from '../PassEpoque';
+import { CombinedEpoque } from '../CombinedEpoque';
 
-describe('PassEpoque', () => {
+describe('CombinedEpoque', () => {
   describe('accept', () => {
     it('normal case', () => {
       const value: number = -35;
@@ -11,7 +11,7 @@ describe('PassEpoque', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const epoque: PassEpoque<number, number> = PassEpoque.of<number, number>(
+      const epoque: CombinedEpoque<number, number> = CombinedEpoque.of<number, number>(
         (v: number) => {
           spy1();
           expect(v).toBe(value);
@@ -40,7 +40,7 @@ describe('PassEpoque', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const epoque: PassEpoque<number, number> = PassEpoque.of<number, number>(
+      const epoque: CombinedEpoque<number, number> = CombinedEpoque.of<number, number>(
         () => {
           spy1();
         },
@@ -69,7 +69,7 @@ describe('PassEpoque', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const epoque: PassEpoque<number, number> = PassEpoque.of<number, number>(
+      const epoque: CombinedEpoque<number, number> = CombinedEpoque.of<number, number>(
         () => {
           spy1();
         },
