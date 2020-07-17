@@ -1,7 +1,7 @@
 import { Consumer, Kind, Peek, Predicate, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 
+import { CombinedEpoque } from '../Epoque/CombinedEpoque';
 import { Epoque } from '../Epoque/Interface/Epoque';
-import { PassEpoque } from '../Epoque/PassEpoque';
 import { CombinedPlan } from '../Plan/CombinedPlan';
 import { DestroyPassPlan } from '../Plan/DestroyPassPlan';
 import { DestroyPlan } from '../Plan/Interface/DestroyPlan';
@@ -184,7 +184,7 @@ export class SuperpositionInternal<A, D extends Error>
     declined: Consumer<D>,
     thrown: Consumer<unknown>
   ): SuperpositionInternal<A, D> {
-    const epoque: Epoque<Detoxicated<A>, D> = PassEpoque.of<Detoxicated<A>, D>(accepted, declined, thrown);
+    const epoque: Epoque<Detoxicated<A>, D> = CombinedEpoque.of<Detoxicated<A>, D>(accepted, declined, thrown);
 
     this.handle(MappingPassPlan.of<Detoxicated<A>>(epoque), RecoveryPassPlan.of<D>(epoque), DestroyPassPlan.of(epoque));
 
@@ -192,7 +192,7 @@ export class SuperpositionInternal<A, D extends Error>
   }
 
   public peek(peek: Peek): SuperpositionInternal<A, D> {
-    const epoque: Epoque<void, void> = PassEpoque.of<void, void>(peek, peek, peek);
+    const epoque: Epoque<void, void> = CombinedEpoque.of<void, void>(peek, peek, peek);
 
     this.handle(MappingPeekPlan.of(epoque), RecoveryPeekPlan.of(epoque), DestroyPassPlan.of(epoque));
 

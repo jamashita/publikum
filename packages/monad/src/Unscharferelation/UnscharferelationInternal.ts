@@ -9,8 +9,8 @@ import {
   UnaryFunction
 } from '@jamashita/publikum-type';
 
+import { CombinedEpoque } from '../Epoque/CombinedEpoque';
 import { Epoque } from '../Epoque/Interface/Epoque';
-import { PassEpoque } from '../Epoque/PassEpoque';
 import { CombinedPlan } from '../Plan/CombinedPlan';
 import { DestroyPassPlan } from '../Plan/DestroyPassPlan';
 import { DestroyPlan } from '../Plan/Interface/DestroyPlan';
@@ -169,7 +169,7 @@ export class UnscharferelationInternal<P>
       // NOOP
     };
 
-    const epoque: Epoque<Matter<P>, void> = PassEpoque.of<Matter<P>, void>(consumer, peek, peek);
+    const epoque: Epoque<Matter<P>, void> = CombinedEpoque.of<Matter<P>, void>(consumer, peek, peek);
 
     this.handle(MappingPassPlan.of<Matter<P>>(epoque), RecoveryPeekPlan.of(epoque), DestroyPassPlan.of(epoque));
 
@@ -181,7 +181,7 @@ export class UnscharferelationInternal<P>
     declined: Consumer<void>,
     thrown: Consumer<unknown>
   ): UnscharferelationInternal<P> {
-    const epoque: Epoque<Matter<P>, void> = PassEpoque.of<Matter<P>, void>(accepted, declined, thrown);
+    const epoque: Epoque<Matter<P>, void> = CombinedEpoque.of<Matter<P>, void>(accepted, declined, thrown);
 
     this.handle(MappingPassPlan.of<Matter<P>>(epoque), RecoveryPassPlan.of<void>(epoque), DestroyPassPlan.of(epoque));
 
@@ -189,7 +189,7 @@ export class UnscharferelationInternal<P>
   }
 
   public peek(peek: Peek): UnscharferelationInternal<P> {
-    const epoque: Epoque<void, void> = PassEpoque.of<void, void>(peek, peek, peek);
+    const epoque: Epoque<void, void> = CombinedEpoque.of<void, void>(peek, peek, peek);
 
     this.handle(MappingPeekPlan.of(epoque), RecoveryPeekPlan.of(epoque), DestroyPassPlan.of(epoque));
 

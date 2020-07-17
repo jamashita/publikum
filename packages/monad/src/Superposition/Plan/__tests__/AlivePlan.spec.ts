@@ -3,8 +3,8 @@ import sinon, { SinonSpy } from 'sinon';
 import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 
+import { CombinedEpoque } from '../../../Epoque/CombinedEpoque';
 import { Epoque } from '../../../Epoque/Interface/Epoque';
-import { PassEpoque } from '../../../Epoque/PassEpoque';
 import { Detoxicated } from '../../Interface/Detoxicated';
 import { Superposition } from '../../Superposition';
 import { AlivePlan } from '../AlivePlan';
@@ -26,7 +26,7 @@ describe('AlivePlan', () => {
 
           return n - 1;
         },
-        PassEpoque.of<number, MockError>(
+        CombinedEpoque.of<number, MockError>(
           (n: number) => {
             spy2();
             expect(n).toBe(value - 1);
@@ -65,7 +65,7 @@ describe('AlivePlan', () => {
 
             return Promise.resolve<number>(n - 2);
           },
-          PassEpoque.of<number, MockError>(
+          CombinedEpoque.of<number, MockError>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 2);
@@ -111,7 +111,7 @@ describe('AlivePlan', () => {
 
             return Superposition.alive<number, MockError>(n - 3);
           },
-          PassEpoque.of<number, MockError>(
+          CombinedEpoque.of<number, MockError>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 3);
@@ -157,7 +157,7 @@ describe('AlivePlan', () => {
 
           throw error;
         },
-        PassEpoque.of<number, MockError>(
+        CombinedEpoque.of<number, MockError>(
           () => {
             spy2();
           },
@@ -197,7 +197,7 @@ describe('AlivePlan', () => {
 
             return Promise.reject<number>(error);
           },
-          PassEpoque.of<number, MockError>(
+          CombinedEpoque.of<number, MockError>(
             () => {
               spy2();
 
@@ -244,7 +244,7 @@ describe('AlivePlan', () => {
 
             return Superposition.dead<number, MockError>(error, MockError);
           },
-          PassEpoque.of<number, MockError>(
+          CombinedEpoque.of<number, MockError>(
             () => {
               spy2();
 
@@ -290,7 +290,7 @@ describe('AlivePlan', () => {
 
           throw error;
         },
-        PassEpoque.of<number, MockError>(
+        CombinedEpoque.of<number, MockError>(
           () => {
             spy2();
           },
@@ -330,7 +330,7 @@ describe('AlivePlan', () => {
 
             return Promise.reject<number>(error);
           },
-          PassEpoque.of<number, MockError>(
+          CombinedEpoque.of<number, MockError>(
             () => {
               spy2();
 
@@ -379,7 +379,7 @@ describe('AlivePlan', () => {
               return epoque.throw(error);
             });
           },
-          PassEpoque.of<number, MockError>(
+          CombinedEpoque.of<number, MockError>(
             () => {
               spy2();
 

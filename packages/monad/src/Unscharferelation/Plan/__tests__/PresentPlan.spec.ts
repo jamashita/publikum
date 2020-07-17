@@ -3,8 +3,8 @@ import sinon, { SinonSpy } from 'sinon';
 import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 
+import { CombinedEpoque } from '../../../Epoque/CombinedEpoque';
 import { Epoque } from '../../../Epoque/Interface/Epoque';
-import { PassEpoque } from '../../../Epoque/PassEpoque';
 import { Matter } from '../../Interface/Matter';
 import { Unscharferelation } from '../../Unscharferelation';
 import { PresentPlan } from '../PresentPlan';
@@ -26,7 +26,7 @@ describe('PresentPlan', () => {
 
           return n - 6;
         },
-        PassEpoque.of<number, void>(
+        CombinedEpoque.of<number, void>(
           (n: number) => {
             spy2();
             expect(n).toBe(value - 6);
@@ -64,7 +64,7 @@ describe('PresentPlan', () => {
 
             return Promise.resolve<number>(n - 6);
           },
-          PassEpoque.of<number, void>(
+          CombinedEpoque.of<number, void>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 6);
@@ -111,7 +111,7 @@ describe('PresentPlan', () => {
               return epoque.accept(value - 6);
             });
           },
-          PassEpoque.of<number, void>(
+          CombinedEpoque.of<number, void>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 6);
@@ -155,7 +155,7 @@ describe('PresentPlan', () => {
 
           return null;
         },
-        PassEpoque.of<number, void>(
+        CombinedEpoque.of<number, void>(
           () => {
             spy2();
           },
@@ -192,7 +192,7 @@ describe('PresentPlan', () => {
 
             return undefined;
           },
-          PassEpoque.of<number, void>(
+          CombinedEpoque.of<number, void>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 6);
@@ -237,7 +237,7 @@ describe('PresentPlan', () => {
 
             return Promise.resolve<null>(null);
           },
-          PassEpoque.of<number, void>(
+          CombinedEpoque.of<number, void>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 6);
@@ -282,7 +282,7 @@ describe('PresentPlan', () => {
 
             return Promise.resolve<undefined>(undefined);
           },
-          PassEpoque.of<number, void>(
+          CombinedEpoque.of<number, void>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 6);
@@ -329,7 +329,7 @@ describe('PresentPlan', () => {
               return epoque.decline();
             });
           },
-          PassEpoque.of<number, void>(
+          CombinedEpoque.of<number, void>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 6);
@@ -374,7 +374,7 @@ describe('PresentPlan', () => {
 
           throw error;
         },
-        PassEpoque.of<number, void>(
+        CombinedEpoque.of<number, void>(
           () => {
             spy2();
           },
@@ -413,7 +413,7 @@ describe('PresentPlan', () => {
 
             return Promise.reject<number>(error);
           },
-          PassEpoque.of<number, void>(
+          CombinedEpoque.of<number, void>(
             () => {
               spy2();
 
@@ -461,7 +461,7 @@ describe('PresentPlan', () => {
               return epoque.throw(error);
             });
           },
-          PassEpoque.of<number, void>(
+          CombinedEpoque.of<number, void>(
             () => {
               spy2();
 
