@@ -2,8 +2,8 @@ import { Consumer } from '@jamashita/publikum-type';
 
 import { Epoque } from './Interface/Epoque';
 
-export class CombinedEpoque<A, D> implements Epoque<A, D, 'PassEpoque'> {
-  public readonly noun: 'PassEpoque' = 'PassEpoque';
+export class CombinedEpoque<A, D> implements Epoque<A, D, 'CombinedEpoque'> {
+  public readonly noun: 'CombinedEpoque' = 'CombinedEpoque';
   private readonly accepted: Consumer<A>;
   private readonly declined: Consumer<D>;
   private readonly thrown: Consumer<unknown>;

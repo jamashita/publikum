@@ -1,7 +1,7 @@
 import sinon, { SinonSpy } from 'sinon';
 
+import { CombinedEpoque } from '../../Epoque/CombinedEpoque';
 import { AcceptEpoque } from '../../Epoque/Interface/AcceptEpoque';
-import { PassEpoque } from '../../Epoque/PassEpoque';
 import { MappingPeekPlan } from '../MappingPeekPlan';
 
 describe('MappingPeekPlan', () => {
@@ -11,7 +11,7 @@ describe('MappingPeekPlan', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const epoque: AcceptEpoque<void> = PassEpoque.of<void, unknown>(
+      const epoque: AcceptEpoque<void> = CombinedEpoque.of<void, unknown>(
         () => {
           spy1();
         },
@@ -36,7 +36,7 @@ describe('MappingPeekPlan', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const epoque: AcceptEpoque<void> = PassEpoque.of<void, unknown>(
+      const epoque: AcceptEpoque<void> = CombinedEpoque.of<void, unknown>(
         // eslint-disable-next-line @typescript-eslint/require-await
         async () => {
           spy1();
