@@ -54,7 +54,7 @@ export class SuperpositionInternal<A, D extends Error>
     return false;
   }
 
-  public accept(value: Detoxicated<A>): unknown | void {
+  public accept(value: Detoxicated<A>): void {
     if (this.settled()) {
       return;
     }
@@ -66,7 +66,7 @@ export class SuperpositionInternal<A, D extends Error>
     });
   }
 
-  public decline(error: D): unknown | void {
+  public decline(error: D): void {
     if (this.settled()) {
       return;
     }
@@ -78,7 +78,7 @@ export class SuperpositionInternal<A, D extends Error>
     });
   }
 
-  public throw(cause: unknown): unknown | void {
+  public throw(cause: unknown): void {
     if (this.settled()) {
       return;
     }
