@@ -1,6 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
-
 import { ObjectLiteral } from '@jamashita/publikum-type';
+import axios, { AxiosResponse } from 'axios';
 
 import { AJAXResponse } from './AJAXResponse';
 import { IAJAX } from './Interface/IAJAX';
