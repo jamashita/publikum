@@ -26,7 +26,19 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
     this.elements = elements;
   }
 
+  public [Symbol.iterator](): Iterator<Pair<number, E>> {
+    return this.elements
+      .map<Pair<number, E>>((e: E, index: number) => {
+        return Pair.of(index, e);
+      })
+      [Symbol.iterator]();
+  }
+
   public abstract add(...elements: Array<E>): Sequence<E, N>;
+
+  public abstract remove(element: E): Sequence<E>;
+
+  public abstract set(element: E): Sequence<E>;
 
   public abstract map<F extends Nominative<F>>(mapper: Mapper<E, F>): Sequence<F, N>;
 
@@ -49,11 +61,7 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
       return value.equals(element);
     });
 
-    if (Kind.isUndefined(found)) {
-      return false;
-    }
-
-    return true;
+    return !Kind.isUndefined(found);
   }
 
   public size(): number {
@@ -66,14 +74,6 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
     }
 
     return false;
-  }
-
-  public iterator(): Iterator<Pair<number, E>> {
-    return this.elements
-      .map<Pair<number, E>>((e: E, index: number) => {
-        return Pair.of(index, e);
-      })
-      [Symbol.iterator]();
   }
 
   public forEach(iteration: CancellableEnumerator<number, E>): void {
@@ -117,13 +117,10 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
       return false;
     }
 
-    const thisIterator: Iterator<Pair<number, E>> = this.iterator();
-    const otherIterator: Iterator<Pair<number, E>> = other.iterator();
-
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      const thisRes: IteratorResult<Pair<number, E>> = thisIterator.next();
-      const otherRes: IteratorResult<Pair<number, E>> = otherIterator.next();
+      const thisRes: IteratorResult<Pair<number, E>> = this[Symbol.iterator]().next();
+      const otherRes: IteratorResult<Pair<number, E>> = other[Symbol.iterator]().next();
 
       if (thisRes.done !== true && otherRes.done !== true) {
         if (!thisRes.value.getValue().equals(otherRes.value.getValue())) {

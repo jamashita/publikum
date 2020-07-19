@@ -9,10 +9,9 @@ export interface Sequence<E extends Nominative<E>, N extends string = string>
     Nominative<Sequence<E, N>, N> {
   add(...elements: Array<E>): Sequence<E, N>;
 
-  /*
-   * TODO set(element: E): Sequence<E>;
-   * TODO remove(element: E): Sequence<E>;
-   */
+  set(element: E): Sequence<E>;
+
+  remove(element: E): Sequence<E>;
 
   map<F extends Nominative<F>>(mapper: Mapper<E, F>): Sequence<F, N>;
 

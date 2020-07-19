@@ -14,6 +14,14 @@ export class MockASequence<E extends Nominative<E>> extends ASequence<E, 'MockAS
     throw new UnimplementedError();
   }
 
+  public remove(): MockASequence<E> {
+    throw new UnimplementedError();
+  }
+
+  public set(): MockASequence<E> {
+    throw new UnimplementedError();
+  }
+
   public map<F extends Nominative<F>>(): MockASequence<F> {
     throw new UnimplementedError();
   }
