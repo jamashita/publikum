@@ -7,7 +7,8 @@ import { CancellableEnumerator } from './CancellableEnumerator';
 export interface Collection<T extends Collection<T, K, V, N>, K, V, N extends string = string>
   extends Equalable<T>,
     Serializable,
-    Noun<N> {
+    Noun<N>,
+    Iterable<Pair<K, V>> {
   get(key: K): Nullable<V>;
 
   contains(value: V): boolean;
@@ -17,6 +18,4 @@ export interface Collection<T extends Collection<T, K, V, N>, K, V, N extends st
   isEmpty(): boolean;
 
   forEach(iteration: CancellableEnumerator<K, V>): void;
-
-  iterator(): Iterator<Pair<K, V>>;
 }

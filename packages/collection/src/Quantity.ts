@@ -11,6 +11,8 @@ export abstract class Quantity<T extends Quantity<T, K, V, N>, K, V, N extends s
     super();
   }
 
+  public abstract [Symbol.iterator](): Iterator<Pair<K, V>>;
+
   public abstract get(key: K): Nullable<V>;
 
   public abstract contains(value: V): boolean;
@@ -20,6 +22,4 @@ export abstract class Quantity<T extends Quantity<T, K, V, N>, K, V, N extends s
   public abstract isEmpty(): boolean;
 
   public abstract forEach(iteration: CancellableEnumerator<K, V>): void;
-
-  public abstract iterator(): Iterator<Pair<K, V>>;
 }
