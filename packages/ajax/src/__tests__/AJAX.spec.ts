@@ -18,7 +18,7 @@ const strRes: string = JSON.stringify(res);
 const url: string = '/morceau/de/poitrine';
 const CONTINUE: number = 100;
 const OK: number = 200;
-const MULTIPLE_CHOISE: number = 300;
+const MULTIPLE_CHOICE: number = 300;
 const BAD_REQUEST: number = 400;
 const INTERNAL_SERVER_ERROR: number = 500;
 
@@ -71,7 +71,7 @@ describe('AJAX', () => {
 
       server.autoRespond = true;
       server.respondWith('GET', url, [
-        MULTIPLE_CHOISE,
+        MULTIPLE_CHOICE,
         {
           'Content-Type': 'application/json'
         },
@@ -82,7 +82,7 @@ describe('AJAX', () => {
 
       const r: AJAXResponse<Res> = await ajax.get<Res>(url);
 
-      expect(r.status).toBe(MULTIPLE_CHOISE);
+      expect(r.status).toBe(MULTIPLE_CHOICE);
       expect(r.body).toEqual(res);
       server.restore();
     });
@@ -178,7 +178,7 @@ describe('AJAX', () => {
 
       server.autoRespond = true;
       server.respondWith('POST', url, [
-        MULTIPLE_CHOISE,
+        MULTIPLE_CHOICE,
         {
           'Content-Type': 'application/json'
         },
@@ -189,7 +189,7 @@ describe('AJAX', () => {
 
       const r: AJAXResponse<Res> = await ajax.post<Res>(url);
 
-      expect(r.status).toBe(MULTIPLE_CHOISE);
+      expect(r.status).toBe(MULTIPLE_CHOICE);
       expect(r.body).toEqual(res);
       server.restore();
     });
@@ -285,7 +285,7 @@ describe('AJAX', () => {
 
       server.autoRespond = true;
       server.respondWith('PUT', url, [
-        MULTIPLE_CHOISE,
+        MULTIPLE_CHOICE,
         {
           'Content-Type': 'application/json'
         },
@@ -296,7 +296,7 @@ describe('AJAX', () => {
 
       const r: AJAXResponse<Res> = await ajax.put<Res>(url);
 
-      expect(r.status).toBe(MULTIPLE_CHOISE);
+      expect(r.status).toBe(MULTIPLE_CHOICE);
       expect(r.body).toEqual(res);
       server.restore();
     });
@@ -392,7 +392,7 @@ describe('AJAX', () => {
 
       server.autoRespond = true;
       server.respondWith('DELETE', url, [
-        MULTIPLE_CHOISE,
+        MULTIPLE_CHOICE,
         {
           'Content-Type': 'application/json'
         },
@@ -403,7 +403,7 @@ describe('AJAX', () => {
 
       const r: AJAXResponse<Res> = await ajax.delete<Res>(url);
 
-      expect(r.status).toBe(MULTIPLE_CHOISE);
+      expect(r.status).toBe(MULTIPLE_CHOICE);
       expect(r.body).toEqual(res);
       server.restore();
     });
