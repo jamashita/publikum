@@ -23,10 +23,6 @@ export abstract class Entity<
     return this.getIdentifier().equals(other.getIdentifier());
   }
 
-  /**
-   * TODO isSame
-   */
-
   public hashCode(): string {
     return this.getIdentifier().hashCode();
   }
