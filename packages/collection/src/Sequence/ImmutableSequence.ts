@@ -25,16 +25,20 @@ export class ImmutableSequence<E extends Nominative<E>> extends ASequence<E, 'Im
   }
 
   public set(index: number, element: E): ImmutableSequence<E> {
-    if (index > this.elements.length) {
+    if (index >= this.elements.length) {
       return this;
     }
 
-    const elements: Array<E> = [...this.elements.slice(0, index), element, ...this.elements.slice(index)];
+    const elements: Array<E> = [...this.elements.slice(0, index), element, ...this.elements.slice(index + 1)];
 
     return ImmutableSequence.of<E>(elements);
   }
 
   public remove(index: number): ImmutableSequence<E> {
+    if (index >= this.elements.length) {
+      return this;
+    }
+
     const elements: Array<E> = [...this.elements.slice(0, index), ...this.elements.slice(index + 1)];
 
     return ImmutableSequence.of<E>(elements);
