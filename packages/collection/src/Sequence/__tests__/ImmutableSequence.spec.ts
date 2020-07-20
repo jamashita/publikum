@@ -124,6 +124,94 @@ describe('ImmutableSequence', () => {
     });
   });
 
+  describe('set', () => {
+    it('insert elements into first position', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const noun4: MockNominative<number> = new MockNominative<number>(4);
+
+      const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3
+      ]);
+
+      const nouns2: ImmutableSequence<MockNominative<number>> = nouns1.set(0, noun4);
+
+      expect(nouns1).not.toBe(nouns2);
+      expect(nouns1.size()).toBe(3);
+      expect(nouns2.size()).toBe(4);
+      expect(nouns2.get(0)).toBe(noun4);
+      expect(nouns2.get(1)).toBe(noun1);
+      expect(nouns2.get(2)).toBe(noun2);
+      expect(nouns2.get(3)).toBe(noun3);
+    });
+
+    it('insert elements into middle position', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const noun4: MockNominative<number> = new MockNominative<number>(4);
+
+      const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3
+      ]);
+
+      const nouns2: ImmutableSequence<MockNominative<number>> = nouns1.set(2, noun4);
+
+      expect(nouns1).not.toBe(nouns2);
+      expect(nouns1.size()).toBe(3);
+      expect(nouns2.size()).toBe(4);
+      expect(nouns2.get(0)).toBe(noun1);
+      expect(nouns2.get(1)).toBe(noun2);
+      expect(nouns2.get(2)).toBe(noun4);
+      expect(nouns2.get(3)).toBe(noun3);
+    });
+
+    it('insert elements into last position', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const noun4: MockNominative<number> = new MockNominative<number>(4);
+
+      const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3
+      ]);
+
+      const nouns2: ImmutableSequence<MockNominative<number>> = nouns1.set(3, noun4);
+
+      expect(nouns1).not.toBe(nouns2);
+      expect(nouns1.size()).toBe(3);
+      expect(nouns2.size()).toBe(4);
+      expect(nouns2.get(0)).toBe(noun1);
+      expect(nouns2.get(1)).toBe(noun2);
+      expect(nouns2.get(2)).toBe(noun3);
+      expect(nouns2.get(3)).toBe(noun4);
+    });
+
+    it('returns itself when give index is greater than sequence length', () => {
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const noun4: MockNominative<number> = new MockNominative<number>(4);
+
+      const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
+        noun1,
+        noun2,
+        noun3
+      ]);
+
+      const nouns2: ImmutableSequence<MockNominative<number>> = nouns1.set(4, noun4);
+
+      expect(nouns1).toBe(nouns2);
+    });
+  });
+
   describe('isEmpty', () => {
     it('returns true if the elements are 0', () => {
       const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
@@ -202,25 +290,13 @@ describe('ImmutableSequence', () => {
       ]);
 
       const filtered1: ImmutableSequence<MockNominative<number>> = nouns.filter((mock: MockNominative<number>) => {
-        if (mock.get() % 2 === 0) {
-          return true;
-        }
-
-        return false;
+        return mock.get() % 2 === 0;
       });
       const filtered2: ImmutableSequence<MockNominative<number>> = nouns.filter((mock: MockNominative<number>) => {
-        if (mock === noun4) {
-          return true;
-        }
-
-        return false;
+        return mock === noun4;
       });
       const filtered3: ImmutableSequence<MockNominative<number>> = nouns.filter((mock: MockNominative<number>) => {
-        if (mock === noun5) {
-          return true;
-        }
-
-        return false;
+        return mock === noun5;
       });
 
       expect(filtered1.size()).toBe(2);
