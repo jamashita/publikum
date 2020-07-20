@@ -1,3 +1,4 @@
+import sinon, { SinonSpy } from 'sinon';
 import { UnscharferelationError } from '../../Error/UnscharferelationError';
 import { Uncertain } from '../Uncertain';
 
@@ -43,6 +44,48 @@ describe('Uncertain', () => {
 
       expect(uncertain1.isLost()).toBe(false);
       expect(uncertain2.isLost()).toBe(false);
+    });
+  });
+
+  describe('ifPresent', () => {
+    it('will not be invoked', () => {
+      const spy: SinonSpy = sinon.spy();
+
+      const uncertain: Uncertain<number> = Uncertain.of<number>();
+
+      uncertain.ifPresent(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(false);
+    });
+  });
+
+  describe('ifAbsent', () => {
+    it('will not be invoked', () => {
+      const spy: SinonSpy = sinon.spy();
+
+      const uncertain: Uncertain<number> = Uncertain.of<number>();
+
+      uncertain.ifAbsent(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(false);
+    });
+  });
+
+  describe('ifLost', () => {
+    it('will not be invoked', () => {
+      const spy: SinonSpy = sinon.spy();
+
+      const uncertain: Uncertain<number> = Uncertain.of<number>();
+
+      uncertain.ifLost(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(false);
     });
   });
 });

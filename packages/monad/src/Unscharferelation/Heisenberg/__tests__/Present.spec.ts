@@ -1,3 +1,4 @@
+import sinon, { SinonSpy } from 'sinon';
 import { Present } from '../Present';
 
 describe('Present', () => {
@@ -78,6 +79,55 @@ describe('Present', () => {
       expect(present5.isLost()).toBe(false);
       expect(present6.isLost()).toBe(false);
       expect(present7.isLost()).toBe(false);
+    });
+  });
+
+  describe('ifPresent', () => {
+    it('will be invoked', () => {
+      const value: number = 1;
+
+      const spy: SinonSpy = sinon.spy();
+
+      const present: Present<number> = Present.of<number>(value);
+
+      present.ifPresent((v: number) => {
+        spy();
+        expect(v).toBe(value);
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('ifAbsent', () => {
+    it('will not be invoked', () => {
+      const value: number = 1;
+
+      const spy: SinonSpy = sinon.spy();
+
+      const present: Present<number> = Present.of<number>(value);
+
+      present.ifAbsent(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(false);
+    });
+  });
+
+  describe('ifLost', () => {
+    it('will not be invoked', () => {
+      const value: number = 1;
+
+      const spy: SinonSpy = sinon.spy();
+
+      const present: Present<number> = Present.of<number>(value);
+
+      present.ifLost(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(false);
     });
   });
 });

@@ -1,4 +1,5 @@
 import { MockError } from '@jamashita/publikum-object';
+import sinon, { SinonSpy } from 'sinon';
 
 import { Lost } from '../Lost';
 
@@ -54,6 +55,54 @@ describe('Lost', () => {
       const lost: Lost<void> = Lost.of<void>(error);
 
       expect(lost.isLost()).toBe(true);
+    });
+  });
+
+  describe('ifPresent', () => {
+    it('will not be invoked', () => {
+      const error: MockError = new MockError();
+
+      const spy: SinonSpy = sinon.spy();
+
+      const lost: Lost<number> = Lost.of<number>(error);
+
+      lost.ifPresent(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(false);
+    });
+  });
+
+  describe('ifAbsent', () => {
+    it('will not be invoked', () => {
+      const error: MockError = new MockError();
+
+      const spy: SinonSpy = sinon.spy();
+
+      const lost: Lost<number> = Lost.of<number>(error);
+
+      lost.ifAbsent(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(false);
+    });
+  });
+
+  describe('ifLost', () => {
+    it('will be invoked', () => {
+      const error: MockError = new MockError();
+
+      const spy: SinonSpy = sinon.spy();
+
+      const lost: Lost<number> = Lost.of<number>(error);
+
+      lost.ifLost(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(true);
     });
   });
 });

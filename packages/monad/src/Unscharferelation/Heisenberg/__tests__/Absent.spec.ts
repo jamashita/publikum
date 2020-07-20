@@ -1,3 +1,4 @@
+import sinon, { SinonSpy } from 'sinon';
 import { UnscharferelationError } from '../../Error/UnscharferelationError';
 import { Absent } from '../Absent';
 
@@ -42,6 +43,48 @@ describe('Absent', () => {
 
       expect(absent1.isLost()).toBe(false);
       expect(absent2.isLost()).toBe(false);
+    });
+  });
+
+  describe('ifPresent', () => {
+    it('will not be invoked', () => {
+      const spy: SinonSpy = sinon.spy();
+
+      const absent: Absent<number> = Absent.of<number>();
+
+      absent.ifPresent(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(false);
+    });
+  });
+
+  describe('ifAbsent', () => {
+    it('will be invoked', () => {
+      const spy: SinonSpy = sinon.spy();
+
+      const absent: Absent<number> = Absent.of<number>();
+
+      absent.ifAbsent(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('ifLost', () => {
+    it('will not be invoked', () => {
+      const spy: SinonSpy = sinon.spy();
+
+      const absent: Absent<number> = Absent.of<number>();
+
+      absent.ifLost(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(false);
     });
   });
 });

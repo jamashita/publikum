@@ -1,3 +1,4 @@
+import { Consumer } from '@jamashita/publikum-type';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Absent } from './Absent';
 import { Heisenberg } from './Heisenberg';
@@ -31,5 +32,20 @@ export class Uncertain<P> implements Heisenberg<P, 'Uncertain'> {
 
   public isLost(): this is Lost<P> {
     return false;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public ifPresent(_consumer: Consumer<P>): void {
+    // NOOP
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public ifAbsent(_consumer: Consumer<void>): void {
+    // NOOP
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public ifLost(_consumer: Consumer<unknown>): void {
+    // NOOP
   }
 }

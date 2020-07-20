@@ -1,3 +1,4 @@
+import { Consumer } from '@jamashita/publikum-type';
 import { Matter } from '../Interface/Matter';
 import { Absent } from './Absent';
 import { Heisenberg } from './Heisenberg';
@@ -29,5 +30,19 @@ export class Present<P> implements Heisenberg<P, 'Present'> {
 
   public isLost(): this is Lost<P> {
     return false;
+  }
+
+  public ifPresent(consumer: Consumer<P>): void {
+    consumer(this.value);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public ifAbsent(_consumer: Consumer<void>): void {
+    // NOOP
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public ifLost(_consumer: Consumer<unknown>): void {
+    // NOOP
   }
 }
