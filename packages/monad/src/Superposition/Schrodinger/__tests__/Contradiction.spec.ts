@@ -1,4 +1,5 @@
 import { MockError } from '@jamashita/publikum-object';
+import sinon, { SinonSpy } from 'sinon';
 
 import { Contradiction } from '../Contradiction';
 
@@ -55,6 +56,55 @@ describe('Contradiction', () => {
       const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(error);
 
       expect(contradiction.isContradiction()).toBe(true);
+    });
+  });
+
+  describe('ifAlive', () => {
+    it('will not be invoked', () => {
+      const value: number = 1;
+
+      const spy: SinonSpy = sinon.spy();
+
+      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(value);
+
+      contradiction.ifAlive(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(false);
+    });
+  });
+
+  describe('ifDead', () => {
+    it('will not be invoked', () => {
+      const value: number = 1;
+
+      const spy: SinonSpy = sinon.spy();
+
+      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(value);
+
+      contradiction.ifDead(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(false);
+    });
+  });
+
+  describe('ifContradiction', () => {
+    it('will be invoked', () => {
+      const value: number = 1;
+
+      const spy: SinonSpy = sinon.spy();
+
+      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(value);
+
+      contradiction.ifContradiction((v: unknown) => {
+        spy();
+        expect(v).toBe(value);
+      });
+
+      expect(spy.called).toBe(true);
     });
   });
 });

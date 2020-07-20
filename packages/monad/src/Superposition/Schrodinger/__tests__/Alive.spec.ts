@@ -1,4 +1,5 @@
 import { MockError } from '@jamashita/publikum-object';
+import sinon, { SinonSpy } from 'sinon';
 
 import { Alive } from '../Alive';
 
@@ -43,6 +44,55 @@ describe('Alive', () => {
 
       expect(alive1.isContradiction()).toBe(false);
       expect(alive2.isContradiction()).toBe(false);
+    });
+  });
+
+  describe('ifAlive', () => {
+    it('will be invoked', () => {
+      const value: number = 1;
+
+      const spy: SinonSpy = sinon.spy();
+
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
+
+      alive.ifAlive((v: number) => {
+        spy();
+        expect(v).toBe(value);
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('ifDead', () => {
+    it('will not be invoked', () => {
+      const value: number = 1;
+
+      const spy: SinonSpy = sinon.spy();
+
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
+
+      alive.ifDead(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(false);
+    });
+  });
+
+  describe('ifContradiction', () => {
+    it('will not be invoked', () => {
+      const value: number = 1;
+
+      const spy: SinonSpy = sinon.spy();
+
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
+
+      alive.ifContradiction(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(false);
     });
   });
 });

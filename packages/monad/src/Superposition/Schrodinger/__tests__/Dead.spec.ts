@@ -1,4 +1,5 @@
 import { MockError } from '@jamashita/publikum-object';
+import sinon, { SinonSpy } from 'sinon';
 
 import { Dead } from '../Dead';
 
@@ -49,6 +50,55 @@ describe('Dead', () => {
 
       expect(dead1.isContradiction()).toBe(false);
       expect(dead2.isContradiction()).toBe(false);
+    });
+  });
+
+  describe('ifAlive', () => {
+    it('will not be invoked', () => {
+      const error: MockError = new MockError();
+
+      const spy: SinonSpy = sinon.spy();
+
+      const dead: Dead<number, MockError> = Dead.of<number, MockError>(error);
+
+      dead.ifAlive(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(false);
+    });
+  });
+
+  describe('ifDead', () => {
+    it('will be invoked', () => {
+      const error: MockError = new MockError();
+
+      const spy: SinonSpy = sinon.spy();
+
+      const dead: Dead<number, MockError> = Dead.of<number, MockError>(error);
+
+      dead.ifDead((e: MockError) => {
+        spy();
+        expect(e).toBe(error);
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('ifContradiction', () => {
+    it('will not be invoked', () => {
+      const error: MockError = new MockError();
+
+      const spy: SinonSpy = sinon.spy();
+
+      const dead: Dead<number, MockError> = Dead.of<number, MockError>(error);
+
+      dead.ifContradiction(() => {
+        spy();
+      });
+
+      expect(spy.called).toBe(false);
     });
   });
 });

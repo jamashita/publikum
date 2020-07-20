@@ -1,3 +1,4 @@
+import { Consumer } from '@jamashita/publikum-type';
 import { Alive } from './Alive';
 import { Dead } from './Dead';
 import { Schrodinger } from './Schrodinger';
@@ -28,6 +29,20 @@ export class Contradiction<A, D extends Error> implements Schrodinger<A, D, 'Con
 
   public isContradiction(): this is Contradiction<A, D> {
     return true;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public ifAlive(_consumer: Consumer<A>): void {
+    // NOOP
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public ifDead(_consumer: Consumer<D>): void {
+    // NOOP
+  }
+
+  public ifContradiction(consumer: Consumer<unknown>): void {
+    consumer(this.cause);
   }
 
   public getCause(): unknown {

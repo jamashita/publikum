@@ -1,3 +1,4 @@
+import { Consumer } from '@jamashita/publikum-type';
 import { SuperpositionError } from '../Error/SuperpositionError';
 import { Alive } from './Alive';
 import { Contradiction } from './Contradiction';
@@ -31,5 +32,20 @@ export class Still<A, D extends Error> implements Schrodinger<A, D, 'Still'> {
 
   public isContradiction(): this is Contradiction<A, D> {
     return false;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public ifAlive(_consumer: Consumer<A>): void {
+    // NOOP
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public ifDead(_consumer: Consumer<D>): void {
+    // NOOP
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public ifContradiction(_consumer: Consumer<unknown>): void {
+    // NOOP
   }
 }

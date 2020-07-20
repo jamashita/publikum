@@ -1,3 +1,4 @@
+import { Consumer } from '@jamashita/publikum-type';
 import { Detoxicated } from '../Interface/Detoxicated';
 import { Contradiction } from './Contradiction';
 import { Dead } from './Dead';
@@ -29,5 +30,19 @@ export class Alive<A, D extends Error> implements Schrodinger<A, D, 'Alive'> {
 
   public isContradiction(): this is Contradiction<A, D> {
     return false;
+  }
+
+  public ifAlive(consumer: Consumer<A>): void {
+    consumer(this.value);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public ifDead(_consumer: Consumer<D>): void {
+    // NOOP
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public ifContradiction(_consumer: Consumer<unknown>): void {
+    // NOOP
   }
 }
