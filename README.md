@@ -81,7 +81,6 @@ Subclass for `Unscharferelation`, it represents `None` case.
 Subclass for `Unscharferelation`, it represents `Some` case.
 
 #### Lost
-
 Status for representing `pending` for `Promise` .
 
 #### Superposition
@@ -101,7 +100,6 @@ Subclass for `Superposition`, it represents `Success` case.
 Subclass for `Superposition`, it represents `Failure` case.
  
 #### Contradiction
-
 Status for representing `pending` for `Promise` .
 
 ### Types
@@ -143,8 +141,8 @@ Class for string hashing.
 Class for random string, random number.
 
 ### TODO
-+ [ ] `sequence.set()`
-+ [ ] `sequence.remove()`
++ [x] `sequence.set()`
++ [x] `sequence.remove()`
 * [x] `Unschrferelation` error handling
 * [x] `Superposition` error handling
 
