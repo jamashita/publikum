@@ -18,10 +18,6 @@ export class Lost<P> implements Heisenberg<P, 'Lost'> {
     throw this.cause;
   }
 
-  public getCause(): unknown {
-    return this.cause;
-  }
-
   public isPresent(): this is Present<P> {
     return false;
   }
@@ -32,5 +28,9 @@ export class Lost<P> implements Heisenberg<P, 'Lost'> {
 
   public isLost(): this is Lost<P> {
     return true;
+  }
+
+  public getCause(): unknown {
+    return this.cause;
   }
 }

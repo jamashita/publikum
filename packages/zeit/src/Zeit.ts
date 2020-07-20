@@ -73,6 +73,21 @@ export class Zeit extends ValueObject<Zeit, 'Zeit'> {
     this.format = format;
   }
 
+  public equals(other: Zeit): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (this.format !== other.format) {
+      return false;
+    }
+
+    return this.zeit.isSame(other.zeit);
+  }
+
+  public serialize(): string {
+    return this.zeit.format(this.format);
+  }
+
   public get(): dayjs.Dayjs {
     return this.zeit;
   }
@@ -95,20 +110,5 @@ export class Zeit extends ValueObject<Zeit, 'Zeit'> {
 
   public future(value: number, unit: ZeitUnitType): Zeit {
     return Zeit.of(this.zeit.add(value, unit), this.format);
-  }
-
-  public equals(other: Zeit): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (this.format !== other.format) {
-      return false;
-    }
-
-    return this.zeit.isSame(other.zeit);
-  }
-
-  public serialize(): string {
-    return this.zeit.format(this.format);
   }
 }

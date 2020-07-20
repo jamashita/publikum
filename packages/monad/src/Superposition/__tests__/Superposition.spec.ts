@@ -1,6 +1,5 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { MockError } from '@jamashita/publikum-object';
+import sinon, { SinonSpy } from 'sinon';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { UnscharferelationError } from '../../Unscharferelation/Error/UnscharferelationError';

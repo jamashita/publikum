@@ -49,14 +49,6 @@ export class UnscharferelationInternal<P>
     func(this);
   }
 
-  private settled(): boolean {
-    if (this.heisenberg.isPresent() || this.heisenberg.isAbsent() || this.heisenberg.isLost()) {
-      return true;
-    }
-
-    return false;
-  }
-
   public accept(value: Matter<P>): void {
     if (this.settled()) {
       return;
@@ -196,20 +188,6 @@ export class UnscharferelationInternal<P>
     return this;
   }
 
-  private handle(mapping: MappingPlan<P>, recovery: RecoveryPlan<void>, destroy: DestroyPlan): unknown {
-    if (this.heisenberg.isPresent()) {
-      return mapping.onMap(this.heisenberg.get());
-    }
-    if (this.heisenberg.isAbsent()) {
-      return recovery.onRecover();
-    }
-    if (this.heisenberg.isLost()) {
-      return destroy.onDestroy(this.heisenberg.getCause());
-    }
-
-    return this.plans.add(CombinedPlan.of<Matter<P>, void>(mapping, recovery, destroy));
-  }
-
   public toSuperposition(): SuperpositionInternal<P, UnscharferelationError> {
     return SuperpositionInternal.of<P, UnscharferelationError>(
       (epoque: Epoque<Detoxicated<P>, UnscharferelationError>) => {
@@ -231,5 +209,27 @@ export class UnscharferelationInternal<P>
       },
       [UnscharferelationError]
     );
+  }
+
+  private settled(): boolean {
+    if (this.heisenberg.isPresent() || this.heisenberg.isAbsent() || this.heisenberg.isLost()) {
+      return true;
+    }
+
+    return false;
+  }
+
+  private handle(mapping: MappingPlan<P>, recovery: RecoveryPlan<void>, destroy: DestroyPlan): unknown {
+    if (this.heisenberg.isPresent()) {
+      return mapping.onMap(this.heisenberg.get());
+    }
+    if (this.heisenberg.isAbsent()) {
+      return recovery.onRecover();
+    }
+    if (this.heisenberg.isLost()) {
+      return destroy.onDestroy(this.heisenberg.getCause());
+    }
+
+    return this.plans.add(CombinedPlan.of<Matter<P>, void>(mapping, recovery, destroy));
   }
 }

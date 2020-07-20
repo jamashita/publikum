@@ -28,6 +28,16 @@ export class Cache implements ICache {
     this.setTimeout(identifier);
   }
 
+  public get<H>(identifier: symbol): H {
+    const instance: Ambiguous<unknown> = this.values.get(identifier);
+
+    if (Kind.isUndefined(instance)) {
+      throw new CacheError(`NO SUCH IDENTIFIER: ${identifier.toString()}`);
+    }
+
+    return instance as H;
+  }
+
   private setTimeout(identifier: symbol): void {
     if (this.lifetime === LIFETIME_MAX) {
       return;
@@ -49,15 +59,5 @@ export class Cache implements ICache {
     if (!Kind.isUndefined(timeout)) {
       clearTimeout(timeout);
     }
-  }
-
-  public get<H>(identifier: symbol): H {
-    const instance: Ambiguous<unknown> = this.values.get(identifier);
-
-    if (Kind.isUndefined(instance)) {
-      throw new CacheError(`NO SUCH IDENTIFIER: ${identifier.toString()}`);
-    }
-
-    return instance as H;
   }
 }

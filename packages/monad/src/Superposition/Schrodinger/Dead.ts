@@ -19,10 +19,6 @@ export class Dead<A, D extends Error> implements Schrodinger<A, D, 'Dead'> {
     throw this.error;
   }
 
-  public getError(): D {
-    return this.error;
-  }
-
   public isAlive(): this is Alive<A, D> {
     return false;
   }
@@ -33,5 +29,9 @@ export class Dead<A, D extends Error> implements Schrodinger<A, D, 'Dead'> {
 
   public isContradiction(): this is Contradiction<A, D> {
     return false;
+  }
+
+  public getError(): D {
+    return this.error;
   }
 }

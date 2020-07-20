@@ -18,10 +18,6 @@ export class Contradiction<A, D extends Error> implements Schrodinger<A, D, 'Con
     throw this.cause;
   }
 
-  public getCause(): unknown {
-    return this.cause;
-  }
-
   public isAlive(): this is Alive<A, D> {
     return false;
   }
@@ -32,5 +28,9 @@ export class Contradiction<A, D extends Error> implements Schrodinger<A, D, 'Con
 
   public isContradiction(): this is Contradiction<A, D> {
     return true;
+  }
+
+  public getCause(): unknown {
+    return this.cause;
   }
 }

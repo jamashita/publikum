@@ -46,14 +46,6 @@ export class SuperpositionInternal<A, D extends Error>
     func(this);
   }
 
-  private settled(): boolean {
-    if (this.schrodinger.isAlive() || this.schrodinger.isDead() || this.schrodinger.isContradiction()) {
-      return true;
-    }
-
-    return false;
-  }
-
   public accept(value: Detoxicated<A>): void {
     if (this.settled()) {
       return;
@@ -199,20 +191,6 @@ export class SuperpositionInternal<A, D extends Error>
     return this;
   }
 
-  private handle(mapping: MappingPlan<A>, recovery: RecoveryPlan<D>, destroy: DestroyPlan): unknown {
-    if (this.schrodinger.isAlive()) {
-      return mapping.onMap(this.schrodinger.get());
-    }
-    if (this.schrodinger.isDead()) {
-      return recovery.onRecover(this.schrodinger.getError());
-    }
-    if (this.schrodinger.isContradiction()) {
-      return destroy.onDestroy(this.schrodinger.getCause());
-    }
-
-    return this.plans.add(CombinedPlan.of<A, D>(mapping, recovery, destroy));
-  }
-
   public toUnscharferelation(): UnscharferelationInternal<A> {
     return UnscharferelationInternal.of<A>((epoque: Epoque<Matter<A>, void>) => {
       this.pass(
@@ -231,5 +209,27 @@ export class SuperpositionInternal<A, D extends Error>
         }
       );
     });
+  }
+
+  private settled(): boolean {
+    if (this.schrodinger.isAlive() || this.schrodinger.isDead() || this.schrodinger.isContradiction()) {
+      return true;
+    }
+
+    return false;
+  }
+
+  private handle(mapping: MappingPlan<A>, recovery: RecoveryPlan<D>, destroy: DestroyPlan): unknown {
+    if (this.schrodinger.isAlive()) {
+      return mapping.onMap(this.schrodinger.get());
+    }
+    if (this.schrodinger.isDead()) {
+      return recovery.onRecover(this.schrodinger.getError());
+    }
+    if (this.schrodinger.isContradiction()) {
+      return destroy.onDestroy(this.schrodinger.getCause());
+    }
+
+    return this.plans.add(CombinedPlan.of<A, D>(mapping, recovery, destroy));
   }
 }

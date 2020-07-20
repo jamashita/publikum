@@ -47,10 +47,6 @@ export class UUID extends ValueObject<UUID, 'UUID'> {
     this.id = id;
   }
 
-  public get(): string {
-    return this.id;
-  }
-
   public equals(other: UUID): boolean {
     if (this === other) {
       return true;
@@ -63,6 +59,10 @@ export class UUID extends ValueObject<UUID, 'UUID'> {
   }
 
   public serialize(): string {
+    return this.id;
+  }
+
+  public get(): string {
     return this.id;
   }
 }

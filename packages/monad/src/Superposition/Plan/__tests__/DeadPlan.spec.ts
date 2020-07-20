@@ -1,7 +1,6 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
+import sinon, { SinonSpy } from 'sinon';
 
 import { CombinedEpoque } from '../../../Epoque/CombinedEpoque';
 import { Epoque } from '../../../Epoque/Interface/Epoque';
