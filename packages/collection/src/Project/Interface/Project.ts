@@ -1,5 +1,4 @@
 import { Cloneable, Nominative } from '@jamashita/publikum-interface';
-import { BinaryPredicate } from '@jamashita/publikum-type';
 
 import { Collection } from '../../Interface/Collection';
 
@@ -12,10 +11,6 @@ export interface Project<K extends Nominative<K>, V extends Nominative<V>, N ext
   remove(key: K): Project<K, V, N>;
 
   has(key: K): boolean;
-
-  every(predicate: BinaryPredicate<K, V>): boolean;
-
-  some(predicate: BinaryPredicate<K, V>): boolean;
 
   toMap(): Map<K, V>;
 }

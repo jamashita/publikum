@@ -34,8 +34,4 @@ export class MockAProject<K extends Nominative<K>, V extends Nominative<V>> exte
   public duplicate(): MockAProject<K, V> {
     throw new UnimplementedError();
   }
-
-  public iterator(): Iterator<Pair<K, V>> {
-    throw new UnimplementedError();
-  }
 }

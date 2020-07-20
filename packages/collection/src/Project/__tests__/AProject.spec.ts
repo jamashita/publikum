@@ -1,11 +1,39 @@
-import sinon, { SinonSpy } from 'sinon';
-
 import { MockContent, MockNominative } from '@jamashita/publikum-object';
 import { BinaryPredicate, Peek } from '@jamashita/publikum-type';
+import sinon, { SinonSpy } from 'sinon';
 
 import { MockAProject } from '../Mock/MockAProject';
 
 describe('AProject', () => {
+  describe('iterator', () => {
+    it('normal case', () => {
+      const key1: MockNominative<string> = new MockNominative<string>('a');
+      const key2: MockNominative<string> = new MockNominative<string>('d');
+      const keys: Array<MockNominative<string>> = [key1, key2];
+      const value1: MockNominative<number> = new MockNominative<number>(1);
+      const value2: MockNominative<number> = new MockNominative<number>(2);
+      const values: Array<MockNominative<number>> = [value1, value2];
+
+      const nouns: MockAProject<MockNominative<string>, MockNominative<number>> = new MockAProject<
+        MockNominative<string>,
+        MockNominative<number>
+      >(
+        new Map<MockNominative<string>, MockNominative<number>>([
+          [key1, value1],
+          [key2, value2]
+        ])
+      );
+
+      let i: number = 0;
+
+      for (const noun of nouns) {
+        expect(noun.getKey()).toBe(keys[i]);
+        expect(noun.getValue()).toBe(values[i]);
+        i++;
+      }
+    });
+  });
+
   describe('get', () => {
     it('returns Present instance at the correct key', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
@@ -197,19 +225,11 @@ describe('AProject', () => {
         MockNominative<number>
       >(new Map<MockNominative<number>, MockNominative<number>>(elements));
 
-      const every1: boolean = nouns.every((key: MockNominative<number>) => {
-        if (key.get() % 3 === 0) {
-          return true;
-        }
-
-        return false;
+      const every1: boolean = nouns.every((_: MockNominative<number>, key: MockNominative<number>) => {
+        return key.get() % 3 === 0;
       });
-      const every2: boolean = nouns.every((_: MockNominative<number>, value: MockNominative<number>) => {
-        if (value.get() % 2 === 0) {
-          return true;
-        }
-
-        return false;
+      const every2: boolean = nouns.every((value: MockNominative<number>) => {
+        return value.get() % 2 === 0;
       });
 
       expect(every1).toBe(true);
@@ -295,14 +315,9 @@ describe('AProject', () => {
       );
 
       const predicate: BinaryPredicate<MockNominative<number>, MockNominative<number>> = (
-        _: MockNominative<number>,
         value: MockNominative<number>
       ) => {
-        if (value.get() % 2 === 0) {
-          return true;
-        }
-
-        return false;
+        return value.get() % 2 === 0;
       };
 
       const every1: boolean = nouns1.every(predicate);
@@ -341,14 +356,9 @@ describe('AProject', () => {
       >(new Map<MockNominative<number>, MockNominative<number>>(elements));
 
       const predicate: BinaryPredicate<MockNominative<number>, MockNominative<number>> = (
-        _: MockNominative<number>,
         value: MockNominative<number>
       ) => {
-        if (value.get() % 2 === 0) {
-          return true;
-        }
-
-        return false;
+        return value.get() % 2 === 0;
       };
 
       const some1: boolean = nouns.some(predicate);
@@ -426,14 +436,9 @@ describe('AProject', () => {
       );
 
       const predicate: BinaryPredicate<MockNominative<number>, MockNominative<number>> = (
-        _: MockNominative<number>,
         value: MockNominative<number>
       ) => {
-        if (value.get() % 2 === 1) {
-          return true;
-        }
-
-        return false;
+        return value.get() % 2 === 1;
       };
 
       const some1: boolean = nouns1.some(predicate);

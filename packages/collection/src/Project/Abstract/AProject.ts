@@ -17,6 +17,10 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
     this.elements = elements;
   }
 
+  public [Symbol.iterator](): Iterator<Pair<K, V>> {
+    return this.elements.values()[Symbol.iterator]();
+  }
+
   public abstract set(key: K, value: V): Project<K, V, N>;
 
   public abstract remove(key: K): Project<K, V, N>;
@@ -37,7 +41,7 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
     return this.elements.has(key.hashCode());
   }
 
-  // FIXME ORDER N
+  // FIXME O(n)
   public contains(value: V): boolean {
     for (const [, pair] of this.elements) {
       if (value.equals(pair.getValue())) {
@@ -60,10 +64,6 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
     return false;
   }
 
-  public iterator(): Iterator<Pair<K, V>> {
-    return this.elements.values()[Symbol.iterator]();
-  }
-
   public forEach(iteration: CancellableEnumerator<K, V>): void {
     let done: boolean = false;
     const cancel: Peek = () => {
@@ -79,9 +79,9 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
     }
   }
 
-  public every(predicate: BinaryPredicate<K, V>): boolean {
+  public every(predicate: BinaryPredicate<V, K>): boolean {
     for (const [, pair] of this.elements) {
-      if (!predicate(pair.getKey(), pair.getValue())) {
+      if (!predicate(pair.getValue(), pair.getKey())) {
         return false;
       }
     }
@@ -89,9 +89,9 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
     return true;
   }
 
-  public some(predicate: BinaryPredicate<K, V>): boolean {
+  public some(predicate: BinaryPredicate<V, K>): boolean {
     for (const [, pair] of this.elements) {
-      if (predicate(pair.getKey(), pair.getValue())) {
+      if (predicate(pair.getValue(), pair.getKey())) {
         return true;
       }
     }
@@ -107,7 +107,7 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
       return false;
     }
 
-    return this.every((key: K, value: V) => {
+    return this.every((value: V, key: K) => {
       const v: Nullable<V> = other.get(key);
 
       if (!Kind.isNull(v)) {
