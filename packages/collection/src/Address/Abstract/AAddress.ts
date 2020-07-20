@@ -1,5 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Nullable, Peek, Predicate } from '@jamashita/publikum-type';
+import { BinaryPredicate, Nullable, Peek, Predicate } from '@jamashita/publikum-type';
 
 import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
 import { Pair } from '../../Pair';
@@ -7,7 +7,7 @@ import { Quantity } from '../../Quantity';
 import { Address } from '../Interface/Address';
 
 export abstract class AAddress<E extends Nominative<E>, N extends string = string>
-  extends Quantity<Address<E, N>, void, E, N>
+  extends Quantity<AAddress<E, N>, void, E, N>
   implements Address<E, N> {
   public abstract readonly noun: N;
   protected readonly elements: Map<string, E>;
@@ -17,13 +17,28 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     this.elements = elements;
   }
 
+  public [Symbol.iterator](): Iterator<Pair<void, E>> {
+    const iterator: IterableIterator<E> = this.elements.values();
+    const iterable: Array<Pair<void, E>> = [];
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const res: IteratorResult<E> = iterator.next();
+
+      if (res.done === true) {
+        return iterable[Symbol.iterator]();
+      }
+
+      iterable.push(Pair.of(undefined, res.value));
+    }
+  }
+
   public abstract add(...elements: Array<E>): Address<E, N>;
 
   public abstract remove(element: E): Address<E, N>;
 
   public abstract duplicate(): Address<E, N>;
 
-  public get(key: void): Nullable<E>;
   public get(): Nullable<E> {
     return null;
   }
@@ -42,23 +57,6 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     }
 
     return false;
-  }
-
-  public iterator(): Iterator<Pair<void, E>> {
-    const iterator: IterableIterator<E> = this.elements.values();
-
-    const iterable: Array<Pair<void, E>> = [];
-
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const res: IteratorResult<E> = iterator.next();
-
-      if (res.done === true) {
-        return iterable[Symbol.iterator]();
-      }
-
-      iterable.push(Pair.of(undefined, res.value));
-    }
   }
 
   public forEach(iteration: CancellableEnumerator<void, E>): void {
@@ -86,7 +84,7 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     return null;
   }
 
-  public every(predicate: Predicate<E>): boolean {
+  public every(predicate: BinaryPredicate<E, void>): boolean {
     for (const [, element] of this.elements) {
       if (!predicate(element)) {
         return false;
@@ -96,7 +94,7 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     return true;
   }
 
-  public some(predicate: Predicate<E>): boolean {
+  public some(predicate: BinaryPredicate<E, void>): boolean {
     for (const [, element] of this.elements) {
       if (predicate(element)) {
         return true;

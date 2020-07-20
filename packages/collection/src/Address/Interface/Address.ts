@@ -13,9 +13,5 @@ export interface Address<E extends Nominative<E>, N extends string = string>
 
   find(predicate: Predicate<E>): Nullable<E>;
 
-  every(predicate: Predicate<E>): boolean;
-
-  some(predicate: Predicate<E>): boolean;
-
   toSet(): Set<E>;
 }

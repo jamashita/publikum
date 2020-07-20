@@ -15,11 +15,7 @@ describe('ImmutableAddress', () => {
 
     it('normal case', () => {
       const address1: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(
-        // prettier-ignore
-        new Set<MockNominative<number>>([
-          new MockNominative<number>(1),
-          new MockNominative<number>(3)
-        ])
+        new Set<MockNominative<number>>([new MockNominative<number>(1), new MockNominative<number>(3)])
       );
       const address2: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(
         new Set<MockNominative<number>>([
@@ -53,12 +49,7 @@ describe('ImmutableAddress', () => {
       const noun3: MockNominative<number> = new MockNominative<number>(3);
 
       const nouns1: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(
-        // prettier-ignore
-        new Set<MockNominative<number>>([
-          noun1,
-          noun2,
-          noun3
-        ])
+        new Set<MockNominative<number>>([noun1, noun2, noun3])
       );
       const nouns2: ImmutableAddress<MockNominative<number>> = ImmutableAddress.empty<MockNominative<number>>();
 
@@ -96,11 +87,7 @@ describe('ImmutableAddress', () => {
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
       const nouns1: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(
-        // prettier-ignore
-        new Set<MockNominative<number>>([
-          noun1,
-          noun2
-        ])
+        new Set<MockNominative<number>>([noun1, noun2])
       );
       const nouns2: ImmutableAddress<MockNominative<number>> = nouns1.add(noun1);
 
@@ -115,11 +102,7 @@ describe('ImmutableAddress', () => {
       const noun3: MockNominative<number> = new MockNominative<number>(1);
 
       const nouns1: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(
-        // prettier-ignore
-        new Set<MockNominative<number>>([
-          noun1,
-          noun2
-        ])
+        new Set<MockNominative<number>>([noun1, noun2])
       );
       const nouns2: ImmutableAddress<MockNominative<number>> = nouns1.add(noun3);
 
@@ -135,11 +118,7 @@ describe('ImmutableAddress', () => {
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
       const nouns1: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(
-        // prettier-ignore
-        new Set<MockNominative<number>>([
-          noun1,
-          noun2
-        ])
+        new Set<MockNominative<number>>([noun1, noun2])
       );
       const nouns2: ImmutableAddress<MockNominative<number>> = nouns1.remove(noun1);
 
@@ -161,11 +140,7 @@ describe('ImmutableAddress', () => {
       const noun3: MockNominative<number> = new MockNominative<number>(2);
 
       const nouns1: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(
-        // prettier-ignore
-        new Set<MockNominative<number>>([
-          noun1,
-          noun2
-        ])
+        new Set<MockNominative<number>>([noun1, noun2])
       );
       const nouns2: ImmutableAddress<MockNominative<number>> = nouns1.remove(noun3);
 
@@ -180,11 +155,7 @@ describe('ImmutableAddress', () => {
       const noun3: MockNominative<number> = new MockNominative<number>(3);
 
       const nouns1: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(
-        // prettier-ignore
-        new Set<MockNominative<number>>([
-          noun1,
-          noun2
-        ])
+        new Set<MockNominative<number>>([noun1, noun2])
       );
       const nouns2: ImmutableAddress<MockNominative<number>> = nouns1.remove(noun3);
 
@@ -211,11 +182,7 @@ describe('ImmutableAddress', () => {
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
       const nouns1: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(
-        // prettier-ignore
-        new Set<MockNominative<number>>([
-          noun1,
-          noun2
-        ])
+        new Set<MockNominative<number>>([noun1, noun2])
       );
       const nouns2: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(
         new Set<MockNominative<number>>([])
@@ -234,13 +201,7 @@ describe('ImmutableAddress', () => {
       const noun4: MockNominative<number> = new MockNominative<number>(4);
 
       const nouns1: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(
-        // prettier-ignore
-        new Set<MockNominative<number>>([
-          noun1,
-          noun2,
-          noun3,
-          noun4
-        ])
+        new Set<MockNominative<number>>([noun1, noun2, noun3, noun4])
       );
       const nouns2: ImmutableAddress<MockNominative<number>> = nouns1.duplicate();
 
@@ -255,12 +216,7 @@ describe('ImmutableAddress', () => {
       const noun4: MockNominative<number> = new MockNominative<number>(4);
 
       const nouns1: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(
-        // prettier-ignore
-        new Set<MockNominative<number>>([
-          noun1,
-          noun2,
-          noun3
-        ])
+        new Set<MockNominative<number>>([noun1, noun2, noun3])
       );
       const nouns2: ImmutableAddress<MockNominative<number>> = nouns1.duplicate();
       const nouns3: ImmutableAddress<MockNominative<number>> = nouns2.add(noun4);
