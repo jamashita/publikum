@@ -4,14 +4,7 @@ describe('Digest', () => {
   describe('generate', () => {
     it('generated hashes are usually different', async () => {
       const password: string = 'The quick brown fox jumps over the lazy dog';
-      // prettier-ignore
-      const [
-        hash1,
-        hash2
-      ]: [
-        string,
-        string
-      ] = await Promise.all([
+      const [hash1, hash2]: [string, string] = await Promise.all([
         Digest.generate(password),
         Digest.generate(password)
       ]);
@@ -26,14 +19,7 @@ describe('Digest', () => {
       const hash1: string = await Digest.generate(password);
       const hash2: string = await Digest.generate(password);
 
-      // prettier-ignore
-      const [
-        compared1,
-        compared2
-      ]: [
-        boolean,
-        boolean
-      ] = await Promise.all([
+      const [compared1, compared2]: [boolean, boolean] = await Promise.all([
         Digest.compare(password, hash1),
         Digest.compare(password, hash2)
       ]);

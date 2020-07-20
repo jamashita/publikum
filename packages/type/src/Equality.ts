@@ -64,12 +64,8 @@ export class Equality {
   private static sameObject(obj1: PlainObject, obj2: PlainObject): boolean {
     const keys1: Array<string> = Object.keys(obj1);
     const keys2: Array<string> = Object.keys(obj2);
-    // prettier-ignore
-    const {
-      length
-    } = keys1;
 
-    if (length !== keys2.length) {
+    if (keys1.length !== keys2.length) {
       return false;
     }
 

@@ -58,11 +58,7 @@ describe('ASequence', () => {
       const noun3: MockNominative<number> = new MockNominative<number>(3);
       const noun4: MockNominative<number> = new MockNominative<number>(2);
 
-      // prettier-ignore
-      const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([
-        noun1,
-        noun2
-      ]);
+      const nouns: MockASequence<MockNominative<number>> = new MockASequence<MockNominative<number>>([noun1, noun2]);
 
       expect(nouns.contains(noun1)).toBe(true);
       expect(nouns.contains(noun2)).toBe(true);

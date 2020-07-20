@@ -35,11 +35,7 @@ describe('JSONA', () => {
                 abbrev: 'ISO 8879:1986',
                 glossDef: {
                   para: 'A meta-markup language, used to create markup languages such as DocBook.',
-                  // prettier-ignore
-                  glossSeeAlso: [
-                    'GML',
-                    'XML'
-                  ]
+                  glossSeeAlso: ['GML', 'XML']
                 },
                 glossSee: 'markup'
               }
