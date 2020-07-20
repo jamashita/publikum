@@ -1,5 +1,5 @@
 import { Equalable, Noun, Serializable } from '@jamashita/publikum-interface';
-import { Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
 
 import { Pair } from '../Pair';
 import { CancellableEnumerator } from './CancellableEnumerator';
@@ -18,4 +18,8 @@ export interface Collection<T extends Collection<T, K, V, N>, K, V, N extends st
   isEmpty(): boolean;
 
   forEach(iteration: CancellableEnumerator<K, V>): void;
+
+  every(predicate: BinaryPredicate<V, K>): boolean;
+
+  some(predicate: BinaryPredicate<V, K>): boolean;
 }

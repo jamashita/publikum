@@ -1,5 +1,5 @@
 import { Cloneable, Nominative } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Enumerator, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
+import { Enumerator, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
 
 import { Collection } from '../../Interface/Collection';
 
@@ -18,10 +18,6 @@ export interface Sequence<E extends Nominative<E>, N extends string = string>
   find(predicate: Predicate<E>): Nullable<E>;
 
   filter(iterator: Enumerator<number, E>): Sequence<E, N>;
-
-  every(predicate: BinaryPredicate<E, number>): boolean;
-
-  some(predicate: BinaryPredicate<E, number>): boolean;
 
   toArray(): Array<E>;
 }

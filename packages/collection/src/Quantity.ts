@@ -1,5 +1,5 @@
 import { Objet } from '@jamashita/publikum-object';
-import { Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
 
 import { CancellableEnumerator } from './Interface/CancellableEnumerator';
 import { Collection } from './Interface/Collection';
@@ -22,4 +22,8 @@ export abstract class Quantity<T extends Quantity<T, K, V, N>, K, V, N extends s
   public abstract isEmpty(): boolean;
 
   public abstract forEach(iteration: CancellableEnumerator<K, V>): void;
+
+  public abstract every(predicate: BinaryPredicate<V, K>): boolean;
+
+  public abstract some(predicate: BinaryPredicate<V, K>): boolean;
 }
