@@ -27,11 +27,9 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
   }
 
   public [Symbol.iterator](): Iterator<Pair<number, E>> {
-    return this.elements
-      .map<Pair<number, E>>((e: E, index: number) => {
-        return Pair.of(index, e);
-      })
-      [Symbol.iterator]();
+    return this.elements.map<Pair<number, E>>((e: E, index: number) => {
+      return Pair.of(index, e);
+    })[Symbol.iterator]();
   }
 
   public abstract add(...elements: Array<E>): Sequence<E, N>;

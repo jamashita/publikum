@@ -17,8 +17,7 @@
   "scripts": {
     "build": "lerna run --parallel build",
     "clean": "lerna run --parallel clean",
-    "format": "prettier --write 'packages/**/src/**/*.{ts,tsx}'",
-    "lint": "eslint --fix 'packages/**/src/**/*.{ts,tsx}'",
+    "format": "eslint --fix 'packages/**/src/**/*.{ts,tsx}'",
     "preregister": "yarn build",
     "register": "lerna publish",
     "reset": "lerna clean",
