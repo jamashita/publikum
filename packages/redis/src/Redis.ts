@@ -47,7 +47,6 @@ export class Redis implements IRedis {
   }
 
   public async delete(...keys: Array<string>): Promise<boolean> {
-    // prettier-ignore
     try {
       const result: number = await this.client.del(...keys);
 
@@ -67,7 +66,6 @@ export class Redis implements IRedis {
   }
 
   public async exists(...keys: Array<string>): Promise<boolean> {
-    // prettier-ignore
     try {
       const result: number = await this.client.exists(...keys);
 
@@ -87,7 +85,6 @@ export class Redis implements IRedis {
   }
 
   public async expires(key: string, seconds: number): Promise<boolean> {
-    // prettier-ignore
     try {
       const result: 0 | 1 = await this.client.expire(key, seconds);
 
@@ -107,7 +104,6 @@ export class Redis implements IRedis {
   }
 
   public async subscribe(...channels: Array<string>): Promise<number> {
-    // prettier-ignore
     try {
       const result: number = await this.client.subscribe(...channels);
 
@@ -123,11 +119,8 @@ export class Redis implements IRedis {
   }
 
   public async unsubscribe(...channels: Array<string>): Promise<number> {
-    // prettier-ignore
     try {
-      const result: number = await this.client.unsubscribe(...channels);
-
-      return result;
+      return await this.client.unsubscribe(...channels);
     }
     catch (err) {
       if (err instanceof Error) {
@@ -139,11 +132,8 @@ export class Redis implements IRedis {
   }
 
   public async publish(channel: string, message: string): Promise<number> {
-    // prettier-ignore
     try {
-      const result: number = await this.client.publish(channel, message);
-
-      return result;
+      return await this.client.publish(channel, message);
     }
     catch (err) {
       if (err instanceof Error) {
@@ -155,7 +145,6 @@ export class Redis implements IRedis {
   }
 
   public on(callback: (channel: string, message: string) => void): void {
-    // prettier-ignore
     try {
       this.client.on('message', callback);
     }

@@ -11,11 +11,8 @@ export class RedisList implements IRedisList {
   }
 
   public async push(key: string, value: string): Promise<number> {
-    // prettier-ignore
     try {
-      const result: number = await this.client.rpush(key, value);
-
-      return result;
+      return await this.client.rpush(key, value);
     }
     catch (err) {
       if (err instanceof Error) {
@@ -27,11 +24,8 @@ export class RedisList implements IRedisList {
   }
 
   public async pop(key: string): Promise<string> {
-    // prettier-ignore
     try {
-      const result: string = await this.client.rpop(key);
-
-      return result;
+      return await this.client.rpop(key);
     }
     catch (err) {
       if (err instanceof Error) {
@@ -43,11 +37,8 @@ export class RedisList implements IRedisList {
   }
 
   public async shift(key: string): Promise<string> {
-    // prettier-ignore
     try {
-      const result: string = await this.client.lpop(key);
-
-      return result;
+      return await this.client.lpop(key);
     }
     catch (err) {
       if (err instanceof Error) {
@@ -59,11 +50,8 @@ export class RedisList implements IRedisList {
   }
 
   public async length(key: string): Promise<number> {
-    // prettier-ignore
     try {
-      const result: number = await this.client.llen(key);
-
-      return result;
+      return await this.client.llen(key);
     }
     catch (err) {
       if (err instanceof Error) {
@@ -75,11 +63,8 @@ export class RedisList implements IRedisList {
   }
 
   public async remove(key: string, value: string): Promise<number> {
-    // prettier-ignore
     try {
-      const result: number = await this.client.lrem(key, 0, value);
-
-      return result;
+      return await this.client.lrem(key, 0, value);
     }
     catch (err) {
       if (err instanceof Error) {
@@ -94,11 +79,8 @@ export class RedisList implements IRedisList {
     const start: number = offset;
     const stop: number = offset + limit;
 
-    // prettier-ignore
     try {
-      const result: Array<string> = await this.client.lrange(key, start, stop);
-
-      return result;
+      return await this.client.lrange(key, start, stop);
     }
     catch (err) {
       if (err instanceof Error) {
@@ -110,11 +92,8 @@ export class RedisList implements IRedisList {
   }
 
   public async dump(key: string): Promise<Array<string>> {
-    // prettier-ignore
     try {
-      const result: Array<string> = await this.client.lrange(key, 0, -1);
-
-      return result;
+      return await this.client.lrange(key, 0, -1);
     }
     catch (err) {
       if (err instanceof Error) {

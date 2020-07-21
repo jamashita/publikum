@@ -1,6 +1,5 @@
-import IORedis from 'ioredis';
-
 import { Nullable } from '@jamashita/publikum-type';
+import IORedis from 'ioredis';
 
 import { RedisError } from './Error/RedisError';
 import { IRedisHash } from './Interface/IRedisHash';
@@ -13,7 +12,6 @@ export class RedisHash implements IRedisHash {
   }
 
   public async set(key: string, field: string, value: string): Promise<boolean> {
-    // prettier-ignore
     try {
       const result: 0 | 1 = await this.client.hset(key, field, value);
 
@@ -29,7 +27,6 @@ export class RedisHash implements IRedisHash {
   }
 
   public async get(key: string, field: string): Promise<Nullable<string>> {
-    // prettier-ignore
     try {
       return await this.client.hget(key, field);
     }
@@ -39,7 +36,6 @@ export class RedisHash implements IRedisHash {
   }
 
   public async delete(key: string, field: string): Promise<number> {
-    // prettier-ignore
     try {
       return await this.client.hdel(key, field);
     }
@@ -49,7 +45,6 @@ export class RedisHash implements IRedisHash {
   }
 
   public async length(key: string): Promise<number> {
-    // prettier-ignore
     try {
       return await this.client.hlen(key);
     }
@@ -59,7 +54,6 @@ export class RedisHash implements IRedisHash {
   }
 
   public async has(key: string, field: string): Promise<boolean> {
-    // prettier-ignore
     try {
       const result: 0 | 1 = await this.client.hexists(key, field);
 

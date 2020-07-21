@@ -33,7 +33,6 @@ export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPl
   }
 
   public onRecover(reject: D): unknown {
-    // prettier-ignore
     try {
       const mapped: ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B> = this.mapper(reject);
 

@@ -6,7 +6,6 @@ import { IAJAX } from './Interface/IAJAX';
 
 export class AJAX implements IAJAX {
   public async get<T>(url: string): Promise<AJAXResponse<T>> {
-    // prettier-ignore
     const {
       status,
       data
@@ -24,7 +23,6 @@ export class AJAX implements IAJAX {
   }
 
   public async post<T>(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>> {
-    // prettier-ignore
     const {
       status,
       data
@@ -42,7 +40,6 @@ export class AJAX implements IAJAX {
   }
 
   public async put<T>(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>> {
-    // prettier-ignore
     const {
       status,
       data
@@ -60,7 +57,6 @@ export class AJAX implements IAJAX {
   }
 
   public async delete<T>(url: string): Promise<AJAXResponse<T>> {
-    // prettier-ignore
     const {
       status,
       data

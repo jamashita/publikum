@@ -1,6 +1,5 @@
-import IORedis from 'ioredis';
-
 import { Nullable } from '@jamashita/publikum-type';
+import IORedis from 'ioredis';
 
 import { RedisError } from './Error/RedisError';
 import { IRedisString } from './Interface/IRedisString';
@@ -13,7 +12,6 @@ export class RedisString implements IRedisString {
   }
 
   public async set(key: string, value: string): Promise<boolean> {
-    // prettier-ignore
     try {
       const result: Nullable<'OK'> = await this.client.set(key, value);
 
@@ -29,7 +27,6 @@ export class RedisString implements IRedisString {
   }
 
   public async get(key: string): Promise<Nullable<string>> {
-    // prettier-ignore
     try {
       return await this.client.get(key);
     }

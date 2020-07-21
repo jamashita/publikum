@@ -36,7 +36,6 @@ export class AlivePlan<A, B, E extends Error> implements MappingPlan<A, 'AlivePl
   }
 
   public onMap(resolve: Detoxicated<A>): unknown {
-    // prettier-ignore
     try {
       const mapped: ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B> = this.mapper(resolve);
 

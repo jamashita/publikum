@@ -70,7 +70,6 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
     ...errors: Array<DeadConstructor<D>>
   ): Superposition<A, D> {
     return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
-      // prettier-ignore
       try {
         const value: PromiseLike<Detoxicated<A>> | Detoxicated<A> = supplier();
 

@@ -36,7 +36,6 @@ export class PresentPlan<P, Q> implements MappingPlan<P, 'PresentPlan'> {
   }
 
   public onMap(resolve: Matter<P>): unknown {
-    // prettier-ignore
     try {
       const mapped: IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>> = this.mapper(
         resolve

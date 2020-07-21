@@ -1,7 +1,6 @@
-import got, { RequestError as ReqError, Response } from 'got';
-
 import { JSONA } from '@jamashita/publikum-json';
 import { ObjectLiteral } from '@jamashita/publikum-type';
+import got, { RequestError as ReqError, Response } from 'got';
 
 import { RequestError } from './Error/RequestError';
 import { IRequest } from './Interface/IRequest';
@@ -9,7 +8,6 @@ import { RequestResponse } from './RequestResponse';
 
 export class Request implements IRequest {
   public async get<T extends ObjectLiteral>(url: string): Promise<RequestResponse<T>> {
-    // prettier-ignore
     try {
       const {
         statusCode,
@@ -32,7 +30,6 @@ export class Request implements IRequest {
   }
 
   public async post<T extends ObjectLiteral>(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>> {
-    // prettier-ignore
     try {
       const {
         statusCode,
@@ -57,7 +54,6 @@ export class Request implements IRequest {
   }
 
   public async put<T extends ObjectLiteral>(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>> {
-    // prettier-ignore
     try {
       const {
         statusCode,
@@ -82,7 +78,6 @@ export class Request implements IRequest {
   }
 
   public async delete<T extends ObjectLiteral>(url: string): Promise<RequestResponse<T>> {
-    // prettier-ignore
     try {
       const {
         statusCode,

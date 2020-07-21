@@ -1,6 +1,5 @@
-import IORedis from 'ioredis';
-
 import { Nullable } from '@jamashita/publikum-type';
+import IORedis from 'ioredis';
 
 import { RedisError } from './Error/RedisError';
 import { IRedisSet } from './Interface/IRedisSet';
@@ -13,7 +12,6 @@ export class RedisSet implements IRedisSet {
   }
 
   public async add(key: string, ...values: Array<string>): Promise<number> {
-    // prettier-ignore
     try {
       return await this.client.sadd(key, ...values);
     }
@@ -23,7 +21,6 @@ export class RedisSet implements IRedisSet {
   }
 
   public async remove(key: string, ...values: Array<string>): Promise<number> {
-    // prettier-ignore
     try {
       return await this.client.srem(key, ...values);
     }
@@ -33,7 +30,6 @@ export class RedisSet implements IRedisSet {
   }
 
   public async has(key: string, value: string): Promise<boolean> {
-    // prettier-ignore
     try {
       const result: 0 | 1 = await this.client.sismember(key, value);
 
@@ -49,7 +45,6 @@ export class RedisSet implements IRedisSet {
   }
 
   public async length(key: string): Promise<number> {
-    // prettier-ignore
     try {
       return await this.client.scard(key);
     }
@@ -59,7 +54,6 @@ export class RedisSet implements IRedisSet {
   }
 
   public async dump(key: string): Promise<Array<string>> {
-    // prettier-ignore
     try {
       return await this.client.smembers(key);
     }
@@ -69,7 +63,6 @@ export class RedisSet implements IRedisSet {
   }
 
   public async random(key: string): Promise<Nullable<string>> {
-    // prettier-ignore
     try {
       return await this.client.srandmember(key);
     }
@@ -79,7 +72,6 @@ export class RedisSet implements IRedisSet {
   }
 
   public async pop(key: string): Promise<Nullable<string>> {
-    // prettier-ignore
     try {
       return await this.client.spop(key);
     }

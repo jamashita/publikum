@@ -1,6 +1,5 @@
-import mysql from 'mysql';
-
 import { Inconnu, Kind, Nullable, ObjectLiteral, Reject, Resolve } from '@jamashita/publikum-type';
+import mysql from 'mysql';
 
 import { Connection } from './Connection';
 import { MySQLError } from './Error/MySQLError';
@@ -34,34 +33,9 @@ export class MySQL implements IMySQL {
     this.pool = pool;
   }
 
-  private getConnection(): Promise<Connection> {
-    return new Promise<Connection>((resolve: Resolve<Connection>, reject: Reject) => {
-      this.pool.getConnection((err1: mysql.MysqlError, connection: mysql.PoolConnection) => {
-        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
-        if (err1) {
-          reject(new MySQLError('MySQL.getConnection()', err1));
-
-          return;
-        }
-
-        connection.beginTransaction((err2: mysql.MysqlError) => {
-          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
-          if (err2) {
-            reject(new MySQLError('MySQL.getConnection()', err2));
-
-            return;
-          }
-
-          resolve(new Connection(connection));
-        });
-      });
-    });
-  }
-
   public async transact<R>(transaction: ITransaction<R>): Promise<R> {
     const connection: Connection = await this.getConnection();
 
-    // prettier-ignore
     try {
       const ret: R = await transaction.with(connection);
 
@@ -88,6 +62,30 @@ export class MySQL implements IMySQL {
         }
 
         resolve(result);
+      });
+    });
+  }
+
+  private getConnection(): Promise<Connection> {
+    return new Promise<Connection>((resolve: Resolve<Connection>, reject: Reject) => {
+      this.pool.getConnection((err1: mysql.MysqlError, connection: mysql.PoolConnection) => {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
+        if (err1) {
+          reject(new MySQLError('MySQL.getConnection()', err1));
+
+          return;
+        }
+
+        connection.beginTransaction((err2: mysql.MysqlError) => {
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unnecessary-condition
+          if (err2) {
+            reject(new MySQLError('MySQL.getConnection()', err2));
+
+            return;
+          }
+
+          resolve(new Connection(connection));
+        });
       });
     });
   }
