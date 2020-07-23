@@ -34,7 +34,7 @@
   "dependencies": {
     "@jamashita/publikum-error": "^2.5.0",
     "@jamashita/publikum-object": "^2.5.0",
-    "dayjs": "1.8.29"
+    "dayjs": "1.8.30"
   },
   "devDependencies": {
     "@types/node": "14.0.24",

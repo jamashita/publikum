@@ -32,7 +32,7 @@
     "axios": "0.19.2",
     "bcrypt": "5.0.0",
     "chance": "1.1.6",
-    "dayjs": "1.8.29",
+    "dayjs": "1.8.30",
     "got": "11.5.1",
     "ioredis": "4.17.3",
     "make-error-cause": "2.3.0",
