@@ -1,7 +1,7 @@
 import { MockError } from '@jamashita/publikum-object';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
-import { isSuperposition } from '../Interface/ISuperposition';
+import { containsError, isSuperposition } from '../Interface/ISuperposition';
 import { Superposition } from '../Superposition';
 import { SuperpositionInternal } from '../SuperpositionInternal';
 
@@ -202,6 +202,32 @@ describe('ISuperposition', () => {
       ).toBe(true);
       expect(isSuperposition<number, MockError>(superposition1)).toBe(true);
       expect(isSuperposition<number, MockError>(superposition2)).toBe(true);
+    });
+  });
+
+  describe('containsError', () => {
+    it('returns true if the very class is included', () => {
+      const error: MockError = new MockError();
+
+      expect(
+        containsError<Error>(error, [TypeError, SyntaxError, MockError])
+      ).toBe(true);
+    });
+
+    it('returns false if the class is not included', () => {
+      const error: MockError = new MockError();
+
+      expect(
+        containsError<Error>(error, [TypeError, SyntaxError])
+      ).toBe(false);
+    });
+
+    it('returns true if super class of the class is included', () => {
+      const error: MockError = new MockError();
+
+      expect(
+        containsError<Error>(error, [TypeError, SyntaxError, Error])
+      ).toBe(true);
     });
   });
 });

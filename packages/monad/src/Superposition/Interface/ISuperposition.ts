@@ -71,3 +71,9 @@ export const isSuperposition = <A, D extends Error>(value: unknown): value is IS
 
   return true;
 };
+
+export const containsError = <E extends Error>(err: unknown, errors: Array<DeadConstructor<E>>): err is E => {
+  return errors.some((error: DeadConstructor<E>) => {
+    return Kind.isClass(err, error);
+  });
+};
