@@ -2,10 +2,9 @@ import { Kind, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { RecoveryPlan } from '../../Plan/Interface/RecoveryPlan';
-import { DeadErrorDetective } from '../DeadErrorDetective';
 import { DeadConstructor } from '../Interface/DeadConstructor';
 import { Detoxicated } from '../Interface/Detoxicated';
-import { isSuperposition, ISuperposition } from '../Interface/ISuperposition';
+import { containsError, isSuperposition, ISuperposition } from '../Interface/ISuperposition';
 
 export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPlan<D, 'DeadPlan'> {
   public readonly noun: 'DeadPlan' = 'DeadPlan';
@@ -54,7 +53,7 @@ export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPl
             return this.epoque.accept(v);
           },
           (e: E) => {
-            if (DeadErrorDetective.contains<E>(e, this.errors)) {
+            if (containsError<E>(e, this.errors)) {
               return this.epoque.decline(e);
             }
 
@@ -66,7 +65,7 @@ export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPl
       return this.epoque.accept(mapped);
     }
     catch (err) {
-      if (DeadErrorDetective.contains<E>(err, this.errors)) {
+      if (containsError<E>(err, this.errors)) {
         return this.epoque.decline(err);
       }
 
