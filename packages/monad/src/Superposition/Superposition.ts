@@ -3,11 +3,10 @@ import { Consumer, Kind, Nullable, Peek, Predicate, Supplier, UnaryFunction } fr
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { Matter } from '../Unscharferelation/Interface/Matter';
 import { Unscharferelation } from '../Unscharferelation/Unscharferelation';
-import { DeadErrorDetective } from './DeadErrorDetective';
 import { SuperpositionError } from './Error/SuperpositionError';
 import { DeadConstructor } from './Interface/DeadConstructor';
 import { Detoxicated } from './Interface/Detoxicated';
-import { ISuperposition } from './Interface/ISuperposition';
+import { containsError, ISuperposition } from './Interface/ISuperposition';
 import { Dead } from './Schrodinger/Dead';
 import { Schrodinger } from './Schrodinger/Schrodinger';
 import { SuperpositionInternal } from './SuperpositionInternal';
@@ -79,7 +78,7 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
               return epoque.accept(v);
             },
             (err: D) => {
-              if (DeadErrorDetective.contains<D>(err, errors)) {
+              if (containsError<D>(err, errors)) {
                 return epoque.decline(err);
               }
 
@@ -91,7 +90,7 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
         return epoque.accept(value);
       }
       catch (err) {
-        if (DeadErrorDetective.contains<D>(err, errors)) {
+        if (containsError<D>(err, errors)) {
           return epoque.decline(err);
         }
 
@@ -131,7 +130,7 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
             return epoque.throw(new SuperpositionError('NOT REJECTED'));
           },
           (e: unknown) => {
-            if (DeadErrorDetective.contains<D>(e, errors)) {
+            if (containsError<D>(e, errors)) {
               return epoque.decline(e);
             }
 
@@ -139,7 +138,7 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
           }
         );
       }
-      if (DeadErrorDetective.contains<D>(error, errors)) {
+      if (containsError<D>(error, errors)) {
         return epoque.decline(error);
       }
 
