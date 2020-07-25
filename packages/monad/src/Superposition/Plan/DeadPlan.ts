@@ -2,11 +2,10 @@ import { Kind, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { RecoveryPlan } from '../../Plan/Interface/RecoveryPlan';
-import { BeSuperposition } from '../BeSuperposition';
 import { DeadErrorDetective } from '../DeadErrorDetective';
 import { DeadConstructor } from '../Interface/DeadConstructor';
 import { Detoxicated } from '../Interface/Detoxicated';
-import { ISuperposition } from '../Interface/ISuperposition';
+import { isSuperposition, ISuperposition } from '../Interface/ISuperposition';
 
 export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPlan<D, 'DeadPlan'> {
   public readonly noun: 'DeadPlan' = 'DeadPlan';
@@ -36,7 +35,7 @@ export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPl
     try {
       const mapped: ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B> = this.mapper(reject);
 
-      if (BeSuperposition.is<B, E>(mapped)) {
+      if (isSuperposition<B, E>(mapped)) {
         return mapped.pass(
           (v: Detoxicated<B>) => {
             return this.epoque.accept(v);
