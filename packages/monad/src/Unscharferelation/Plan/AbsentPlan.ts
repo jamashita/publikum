@@ -2,8 +2,7 @@ import { Kind, Supplier, Suspicious } from '@jamashita/publikum-type';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { RecoveryPlan } from '../../Plan/Interface/RecoveryPlan';
-import { BeUnscharferelation } from '../BeUnscharferelation';
-import { IUnscharferelation } from '../Interface/IUnscharferelation';
+import { isUnscharferelation, IUnscharferelation } from '../Interface/IUnscharferelation';
 import { Matter } from '../Interface/Matter';
 
 export class AbsentPlan<Q> implements RecoveryPlan<void, 'AbsentPlan'> {
@@ -30,7 +29,7 @@ export class AbsentPlan<Q> implements RecoveryPlan<void, 'AbsentPlan'> {
     try {
       const mapped: IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>> = this.mapper();
 
-      if (BeUnscharferelation.is(mapped)) {
+      if (isUnscharferelation<Q>(mapped)) {
         return mapped.pass(
           (v: Matter<Q>) => {
             return this.epoque.accept(v);

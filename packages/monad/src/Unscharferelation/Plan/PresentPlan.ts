@@ -2,8 +2,7 @@ import { Kind, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
 import { MappingPlan } from '../../Plan/Interface/MappingPlan';
-import { BeUnscharferelation } from '../BeUnscharferelation';
-import { IUnscharferelation } from '../Interface/IUnscharferelation';
+import { isUnscharferelation, IUnscharferelation } from '../Interface/IUnscharferelation';
 import { Matter } from '../Interface/Matter';
 
 export class PresentPlan<P, Q> implements MappingPlan<P, 'PresentPlan'> {
@@ -41,7 +40,7 @@ export class PresentPlan<P, Q> implements MappingPlan<P, 'PresentPlan'> {
         resolve
       );
 
-      if (BeUnscharferelation.is(mapped)) {
+      if (isUnscharferelation<Q>(mapped)) {
         return mapped.pass(
           (v: Matter<Q>) => {
             return this.epoque.accept(v);
