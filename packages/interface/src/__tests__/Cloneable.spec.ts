@@ -1,8 +1,10 @@
 import { Cloneable, isCloneable } from '../Cloneable';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface MockCloneable extends Cloneable<MockCloneable> {
-  // NOOP
+class MockCloneable implements Cloneable<MockCloneable> {
+  public duplicate(): MockCloneable {
+    return new MockCloneable();
+  }
 }
 
 describe('Cloneable', () => {
@@ -28,6 +30,7 @@ describe('Cloneable', () => {
           }
         })
       ).toBe(true);
+      expect(isCloneable<MockCloneable>(new MockCloneable())).toBe(true);
     });
   });
 });
