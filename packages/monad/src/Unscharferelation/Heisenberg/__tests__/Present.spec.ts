@@ -1,5 +1,21 @@
+import { Equalable } from '@jamashita/publikum-interface';
+import { Absent, Heisenberg, Lost } from '@jamashita/publikum-monad';
+import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { Present } from '../Present';
+import { Uncertain } from '../Uncertain';
+
+class TestEqualable implements Equalable<TestEqualable> {
+  private readonly eq: boolean;
+
+  public constructor(eq: boolean) {
+    this.eq = eq;
+  }
+
+  public equals(other: TestEqualable): boolean {
+    return this.eq === other.eq;
+  }
+}
 
 describe('Present', () => {
   describe('get', () => {
@@ -128,6 +144,36 @@ describe('Present', () => {
       });
 
       expect(spy.called).toBe(false);
+    });
+  });
+
+  describe('equals', () => {
+    it('returns true if same value Present given', () => {
+      const present1: Present<number> = Present.of<number>(2);
+      const present2: Present<number> = Present.of<number>(3);
+      const absent: Absent<number> = Absent.of<number>();
+      const lost: Lost<number> = Lost.of<number>(new MockError());
+      const uncertain: Uncertain<number> = Uncertain.of<number>();
+
+      const heisenberg: Heisenberg<number> = Present.of<number>(2);
+
+      expect(heisenberg.equals(heisenberg)).toBe(true);
+      expect(heisenberg.equals(present1)).toBe(true);
+      expect(heisenberg.equals(present2)).toBe(false);
+      expect(heisenberg.equals(absent)).toBe(false);
+      expect(heisenberg.equals(lost)).toBe(false);
+      expect(heisenberg.equals(uncertain)).toBe(false);
+    });
+
+    it('returns true if same equalable instance Present given', () => {
+      const present1: Present<TestEqualable> = Present.of<TestEqualable>(new TestEqualable(true));
+      const present2: Present<TestEqualable> = Present.of<TestEqualable>(new TestEqualable(false));
+
+      const heisenberg: Heisenberg<TestEqualable> = Present.of<TestEqualable>(new TestEqualable(true));
+
+      expect(heisenberg.equals(heisenberg)).toBe(true);
+      expect(heisenberg.equals(present1)).toBe(true);
+      expect(heisenberg.equals(present2)).toBe(false);
     });
   });
 });

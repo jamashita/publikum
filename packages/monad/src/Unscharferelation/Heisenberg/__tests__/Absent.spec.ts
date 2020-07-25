@@ -1,6 +1,9 @@
+import { Heisenberg, Lost, Present } from '@jamashita/publikum-monad';
+import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { UnscharferelationError } from '../../Error/UnscharferelationError';
 import { Absent } from '../Absent';
+import { Uncertain } from '../Uncertain';
 
 describe('Absent', () => {
   describe('get', () => {
@@ -85,6 +88,23 @@ describe('Absent', () => {
       });
 
       expect(spy.called).toBe(false);
+    });
+  });
+
+  describe('equals', () => {
+    it('returns true if Absent given', () => {
+      const present: Present<number> = Present.of<number>(2);
+      const absent: Absent<number> = Absent.of<number>();
+      const lost: Lost<number> = Lost.of<number>(new MockError());
+      const uncertain: Uncertain<number> = Uncertain.of<number>();
+
+      const heisenberg: Heisenberg<number> = Absent.of<number>();
+
+      expect(heisenberg.equals(heisenberg)).toBe(true);
+      expect(heisenberg.equals(present)).toBe(false);
+      expect(heisenberg.equals(absent)).toBe(true);
+      expect(heisenberg.equals(lost)).toBe(false);
+      expect(heisenberg.equals(uncertain)).toBe(false);
     });
   });
 });
