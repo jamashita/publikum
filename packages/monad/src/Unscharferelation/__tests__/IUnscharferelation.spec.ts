@@ -1,10 +1,10 @@
 import { Epoque } from '../../Epoque/Interface/Epoque';
-import { BeUnscharferelation } from '../BeUnscharferelation';
+import { isUnscharferelation } from '../Interface/IUnscharferelation';
 import { Unscharferelation } from '../Unscharferelation';
 import { UnscharferelationInternal } from '../UnscharferelationInternal';
 
-describe('BeUnscharferelation', () => {
-  describe('is', () => {
+describe('IUnscharferelation', () => {
+  describe('isUnscharferelation', () => {
     it('normal case', () => {
       const unscharferelation1: Unscharferelation<number> = Unscharferelation.present<number>(4);
       const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -13,28 +13,28 @@ describe('BeUnscharferelation', () => {
         }
       );
 
-      expect(BeUnscharferelation.is<number>(null)).toBe(false);
-      expect(BeUnscharferelation.is<number>(undefined)).toBe(false);
-      expect(BeUnscharferelation.is<number>('')).toBe(false);
-      expect(BeUnscharferelation.is<number>('123')).toBe(false);
-      expect(BeUnscharferelation.is<number>('abcd')).toBe(false);
-      expect(BeUnscharferelation.is<number>(123)).toBe(false);
-      expect(BeUnscharferelation.is<number>(0)).toBe(false);
-      expect(BeUnscharferelation.is<number>(false)).toBe(false);
-      expect(BeUnscharferelation.is<number>(true)).toBe(false);
-      expect(BeUnscharferelation.is<number>(Symbol())).toBe(false);
-      expect(BeUnscharferelation.is<number>(20n)).toBe(false);
-      expect(BeUnscharferelation.is<number>({})).toBe(false);
-      expect(BeUnscharferelation.is<number>([])).toBe(false);
+      expect(isUnscharferelation<number>(null)).toBe(false);
+      expect(isUnscharferelation<number>(undefined)).toBe(false);
+      expect(isUnscharferelation<number>('')).toBe(false);
+      expect(isUnscharferelation<number>('123')).toBe(false);
+      expect(isUnscharferelation<number>('abcd')).toBe(false);
+      expect(isUnscharferelation<number>(123)).toBe(false);
+      expect(isUnscharferelation<number>(0)).toBe(false);
+      expect(isUnscharferelation<number>(false)).toBe(false);
+      expect(isUnscharferelation<number>(true)).toBe(false);
+      expect(isUnscharferelation<number>(Symbol())).toBe(false);
+      expect(isUnscharferelation<number>(20n)).toBe(false);
+      expect(isUnscharferelation<number>({})).toBe(false);
+      expect(isUnscharferelation<number>([])).toBe(false);
       expect(
-        BeUnscharferelation.is<number>({
+        isUnscharferelation<number>({
           get() {
             // NOOP
           }
         })
       ).toBe(false);
       expect(
-        BeUnscharferelation.is<number>({
+        isUnscharferelation<number>({
           get() {
             // NOOP
           },
@@ -44,7 +44,7 @@ describe('BeUnscharferelation', () => {
         })
       ).toBe(false);
       expect(
-        BeUnscharferelation.is<number>({
+        isUnscharferelation<number>({
           get() {
             // NOOP
           },
@@ -57,7 +57,7 @@ describe('BeUnscharferelation', () => {
         })
       ).toBe(false);
       expect(
-        BeUnscharferelation.is<number>({
+        isUnscharferelation<number>({
           get() {
             // NOOP
           },
@@ -73,7 +73,7 @@ describe('BeUnscharferelation', () => {
         })
       ).toBe(false);
       expect(
-        BeUnscharferelation.is<number>({
+        isUnscharferelation<number>({
           get() {
             // NOOP
           },
@@ -92,7 +92,7 @@ describe('BeUnscharferelation', () => {
         })
       ).toBe(false);
       expect(
-        BeUnscharferelation.is<number>({
+        isUnscharferelation<number>({
           get() {
             // NOOP
           },
@@ -114,7 +114,7 @@ describe('BeUnscharferelation', () => {
         })
       ).toBe(false);
       expect(
-        BeUnscharferelation.is<number>({
+        isUnscharferelation<number>({
           get() {
             // NOOP
           },
@@ -139,7 +139,7 @@ describe('BeUnscharferelation', () => {
         })
       ).toBe(false);
       expect(
-        BeUnscharferelation.is<number>({
+        isUnscharferelation<number>({
           get() {
             // NOOP
           },
@@ -164,7 +164,7 @@ describe('BeUnscharferelation', () => {
         })
       ).toBe(false);
       expect(
-        BeUnscharferelation.is<number>({
+        isUnscharferelation<number>({
           get() {
             // NOOP
           },
@@ -194,8 +194,8 @@ describe('BeUnscharferelation', () => {
           }
         })
       ).toBe(true);
-      expect(BeUnscharferelation.is<number>(unscharferelation1)).toBe(true);
-      expect(BeUnscharferelation.is<number>(unscharferelation2)).toBe(true);
+      expect(isUnscharferelation<number>(unscharferelation1)).toBe(true);
+      expect(isUnscharferelation<number>(unscharferelation2)).toBe(true);
     });
   });
 });
