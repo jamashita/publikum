@@ -46,4 +46,12 @@ export class Absent<P> implements Heisenberg<P, 'Absent'> {
   public ifLost(_consumer: Consumer<unknown>): void {
     // NOOP
   }
+
+  public equals(other: Heisenberg<P>): boolean {
+    if (this === other) {
+      return true;
+    }
+
+    return other.isAbsent();
+  }
 }

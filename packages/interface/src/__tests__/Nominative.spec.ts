@@ -21,26 +21,26 @@ class MockNominative implements Nominative<MockNominative> {
 describe('Nominative', () => {
   describe('isNominative', () => {
     it('normal case', () => {
-      expect(isNominative<MockNominative>(null)).toBe(false);
-      expect(isNominative<MockNominative>(undefined)).toBe(false);
-      expect(isNominative<MockNominative>('')).toBe(false);
-      expect(isNominative<MockNominative>('123')).toBe(false);
-      expect(isNominative<MockNominative>('abcd')).toBe(false);
-      expect(isNominative<MockNominative>(123)).toBe(false);
-      expect(isNominative<MockNominative>(0)).toBe(false);
-      expect(isNominative<MockNominative>(false)).toBe(false);
-      expect(isNominative<MockNominative>(true)).toBe(false);
-      expect(isNominative<MockNominative>(Symbol())).toBe(false);
-      expect(isNominative<MockNominative>(20n)).toBe(false);
-      expect(isNominative<MockNominative>({})).toBe(false);
-      expect(isNominative<MockNominative>([])).toBe(false);
+      expect(isNominative(null)).toBe(false);
+      expect(isNominative(undefined)).toBe(false);
+      expect(isNominative('')).toBe(false);
+      expect(isNominative('123')).toBe(false);
+      expect(isNominative('abcd')).toBe(false);
+      expect(isNominative(123)).toBe(false);
+      expect(isNominative(0)).toBe(false);
+      expect(isNominative(false)).toBe(false);
+      expect(isNominative(true)).toBe(false);
+      expect(isNominative(Symbol())).toBe(false);
+      expect(isNominative(20n)).toBe(false);
+      expect(isNominative({})).toBe(false);
+      expect(isNominative([])).toBe(false);
       expect(
-        isNominative<MockNominative>({
+        isNominative({
           noun: 'que'
         })
       ).toBe(false);
       expect(
-        isNominative<MockNominative>({
+        isNominative({
           noun: 'que',
           equals() {
             // NOOP
@@ -48,7 +48,7 @@ describe('Nominative', () => {
         })
       ).toBe(false);
       expect(
-        isNominative<MockNominative>({
+        isNominative({
           noun: 'que',
           equals() {
             // NOOP
@@ -59,7 +59,7 @@ describe('Nominative', () => {
         })
       ).toBe(false);
       expect(
-        isNominative<MockNominative>({
+        isNominative({
           noun: 'que',
           equals() {
             // NOOP
@@ -72,7 +72,7 @@ describe('Nominative', () => {
           }
         })
       ).toBe(true);
-      expect(isNominative<MockNominative>(new MockNominative())).toBe(true);
+      expect(isNominative(new MockNominative())).toBe(true);
     });
   });
 });

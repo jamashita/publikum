@@ -48,4 +48,12 @@ export class Uncertain<P> implements Heisenberg<P, 'Uncertain'> {
   public ifLost(_consumer: Consumer<unknown>): void {
     // NOOP
   }
+
+  public equals(other: Heisenberg<P>): boolean {
+    if (this === other) {
+      return true;
+    }
+
+    return false;
+  }
 }

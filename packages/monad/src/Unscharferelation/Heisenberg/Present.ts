@@ -1,3 +1,4 @@
+import { isEqualable } from '@jamashita/publikum-interface';
 import { Consumer } from '@jamashita/publikum-type';
 import { Matter } from '../Interface/Matter';
 import { Absent } from './Absent';
@@ -44,5 +45,24 @@ export class Present<P> implements Heisenberg<P, 'Present'> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public ifLost(_consumer: Consumer<unknown>): void {
     // NOOP
+  }
+
+  public equals(other: Heisenberg<P>): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!other.isPresent()) {
+      return false;
+    }
+    if (this.value === other.value) {
+      return true;
+    }
+    if (isEqualable<Matter<P>>(this.value)) {
+      if (other instanceof Present) {
+        return this.value.equals(other.value);
+      }
+    }
+
+    return false;
   }
 }

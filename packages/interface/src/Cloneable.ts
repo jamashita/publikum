@@ -4,7 +4,12 @@ export interface Cloneable<T extends Cloneable<T>> {
   duplicate(): T;
 }
 
-export const isCloneable = <T extends Cloneable<T>>(n: unknown): n is Cloneable<T> => {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AnonymousCloneable extends Cloneable<AnonymousCloneable> {
+  // NOOP
+}
+
+export const isCloneable = <T extends Cloneable<T> = AnonymousCloneable>(n: unknown): n is Cloneable<T> => {
   if (!Kind.isObject<Cloneable<T>>(n)) {
     return false;
   }

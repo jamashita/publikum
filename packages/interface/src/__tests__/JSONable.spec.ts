@@ -11,27 +11,27 @@ class MockJSONable implements JSONable {
 describe('JSONable', () => {
   describe('isJSONable', () => {
     it('normal case', () => {
-      expect(isJSONable<ObjectLiteral>(null)).toBe(false);
-      expect(isJSONable<ObjectLiteral>(undefined)).toBe(false);
-      expect(isJSONable<ObjectLiteral>('')).toBe(false);
-      expect(isJSONable<ObjectLiteral>('123')).toBe(false);
-      expect(isJSONable<ObjectLiteral>('abcd')).toBe(false);
-      expect(isJSONable<ObjectLiteral>(123)).toBe(false);
-      expect(isJSONable<ObjectLiteral>(0)).toBe(false);
-      expect(isJSONable<ObjectLiteral>(false)).toBe(false);
-      expect(isJSONable<ObjectLiteral>(true)).toBe(false);
-      expect(isJSONable<ObjectLiteral>(Symbol())).toBe(false);
-      expect(isJSONable<ObjectLiteral>(20n)).toBe(false);
-      expect(isJSONable<ObjectLiteral>({})).toBe(false);
-      expect(isJSONable<ObjectLiteral>([])).toBe(false);
+      expect(isJSONable(null)).toBe(false);
+      expect(isJSONable(undefined)).toBe(false);
+      expect(isJSONable('')).toBe(false);
+      expect(isJSONable('123')).toBe(false);
+      expect(isJSONable('abcd')).toBe(false);
+      expect(isJSONable(123)).toBe(false);
+      expect(isJSONable(0)).toBe(false);
+      expect(isJSONable(false)).toBe(false);
+      expect(isJSONable(true)).toBe(false);
+      expect(isJSONable(Symbol())).toBe(false);
+      expect(isJSONable(20n)).toBe(false);
+      expect(isJSONable({})).toBe(false);
+      expect(isJSONable([])).toBe(false);
       expect(
-        isJSONable<ObjectLiteral>({
+        isJSONable({
           toJSON() {
             // NOOP
           }
         })
       ).toBe(true);
-      expect(isJSONable<ObjectLiteral>(new MockJSONable())).toBe(true);
+      expect(isJSONable(new MockJSONable())).toBe(true);
     });
   });
 });

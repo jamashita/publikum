@@ -10,27 +10,27 @@ class MockEqualable implements Equalable<MockEqualable> {
 describe('Equalable', () => {
   describe('isEqualable', () => {
     it('normal case', () => {
-      expect(isEqualable<MockEqualable>(null)).toBe(false);
-      expect(isEqualable<MockEqualable>(undefined)).toBe(false);
-      expect(isEqualable<MockEqualable>('')).toBe(false);
-      expect(isEqualable<MockEqualable>('123')).toBe(false);
-      expect(isEqualable<MockEqualable>('abcd')).toBe(false);
-      expect(isEqualable<MockEqualable>(123)).toBe(false);
-      expect(isEqualable<MockEqualable>(0)).toBe(false);
-      expect(isEqualable<MockEqualable>(false)).toBe(false);
-      expect(isEqualable<MockEqualable>(true)).toBe(false);
-      expect(isEqualable<MockEqualable>(Symbol())).toBe(false);
-      expect(isEqualable<MockEqualable>(20n)).toBe(false);
-      expect(isEqualable<MockEqualable>({})).toBe(false);
-      expect(isEqualable<MockEqualable>([])).toBe(false);
+      expect(isEqualable(null)).toBe(false);
+      expect(isEqualable(undefined)).toBe(false);
+      expect(isEqualable('')).toBe(false);
+      expect(isEqualable('123')).toBe(false);
+      expect(isEqualable('abcd')).toBe(false);
+      expect(isEqualable(123)).toBe(false);
+      expect(isEqualable(0)).toBe(false);
+      expect(isEqualable(false)).toBe(false);
+      expect(isEqualable(true)).toBe(false);
+      expect(isEqualable(Symbol())).toBe(false);
+      expect(isEqualable(20n)).toBe(false);
+      expect(isEqualable({})).toBe(false);
+      expect(isEqualable([])).toBe(false);
       expect(
-        isEqualable<MockEqualable>({
+        isEqualable({
           equals() {
             // NOOP
           }
         })
       ).toBe(true);
-      expect(isEqualable<MockEqualable>(new MockEqualable())).toBe(true);
+      expect(isEqualable(new MockEqualable())).toBe(true);
     });
   });
 });

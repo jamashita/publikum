@@ -45,6 +45,14 @@ export class Lost<P> implements Heisenberg<P, 'Lost'> {
     consumer(this.cause);
   }
 
+  public equals(other: Heisenberg<P>): boolean {
+    if (this === other) {
+      return true;
+    }
+
+    return other.isLost();
+  }
+
   public getCause(): unknown {
     return this.cause;
   }

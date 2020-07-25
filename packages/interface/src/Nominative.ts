@@ -10,7 +10,12 @@ export interface Nominative<T extends Nominative<T>, N extends string = string>
   hashCode(): string;
 }
 
-export const isNominative = <T extends Nominative<T>, N extends string = string>(n: unknown): n is Nominative<T, N> => {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AnonymousNominative extends Nominative<AnonymousNominative> {
+  // NOOP
+}
+
+export const isNominative = <T extends Nominative<T> = AnonymousNominative, N extends string = string>(n: unknown): n is Nominative<T, N> => {
   if (!Kind.isObject<Nominative<T, N>>(n)) {
     return false;
   }

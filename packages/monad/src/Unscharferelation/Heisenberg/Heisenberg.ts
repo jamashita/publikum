@@ -1,4 +1,4 @@
-import { Noun } from '@jamashita/publikum-interface';
+import { Equalable, Noun } from '@jamashita/publikum-interface';
 import { Consumer } from '@jamashita/publikum-type';
 
 import { Matter } from '../Interface/Matter';
@@ -8,7 +8,7 @@ import { Present } from './Present';
 
 type HeisenbergType = 'Present' | 'Absent' | 'Uncertain' | 'Lost';
 
-export interface Heisenberg<P, N extends HeisenbergType = HeisenbergType> extends Noun<N> {
+export interface Heisenberg<P, N extends HeisenbergType = HeisenbergType> extends Noun<N>, Equalable<Heisenberg<P>> {
   readonly noun: N;
 
   get(): Matter<P>;
