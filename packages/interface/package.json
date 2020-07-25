@@ -35,7 +35,7 @@
     "@jamashita/publikum-type": "^2.5.0"
   },
   "devDependencies": {
-    "@types/node": "14.0.24",
+    "@types/node": "14.0.26",
     "typescript": "3.9.7"
   },
   "engines": {

@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@types/mysql": "2.15.15",
-    "@types/node": "14.0.24",
+    "@types/node": "14.0.26",
     "typescript": "3.9.7"
   },
   "engines": {
