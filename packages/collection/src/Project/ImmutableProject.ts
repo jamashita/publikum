@@ -1,19 +1,15 @@
-import { Nominative, NonNominative } from '@jamashita/publikum-interface';
+import { AnonymousNominative, Nominative } from '@jamashita/publikum-interface';
 
 import { Pair } from '../Pair';
 import { AProject } from './Abstract/AProject';
 
-export class ImmutableProject<K extends Nominative<K>, V extends Nominative<V>> extends AProject<
-  K,
+export class ImmutableProject<K extends Nominative<K>, V extends Nominative<V>> extends AProject<K,
   V,
-  'ImmutableProject'
-> {
+  'ImmutableProject'> {
   public readonly noun: 'ImmutableProject' = 'ImmutableProject';
 
-  private static readonly EMPTY: ImmutableProject<NonNominative, NonNominative> = new ImmutableProject<
-    NonNominative,
-    NonNominative
-  >(new Map<string, Pair<NonNominative, NonNominative>>());
+  private static readonly EMPTY: ImmutableProject<AnonymousNominative, AnonymousNominative> = new ImmutableProject<AnonymousNominative,
+    AnonymousNominative>(new Map<string, Pair<AnonymousNominative, AnonymousNominative>>());
 
   public static of<K extends Nominative<K>, V extends Nominative<V>>(elements: Map<K, V>): ImmutableProject<K, V> {
     if (elements.size === 0) {

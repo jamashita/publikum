@@ -1,12 +1,12 @@
-import { Nominative, NonNominative } from '@jamashita/publikum-interface';
+import { AnonymousNominative, Nominative } from '@jamashita/publikum-interface';
 
 import { AAddress } from './Abstract/AAddress';
 
 export class ImmutableAddress<E extends Nominative<E>> extends AAddress<E, 'ImmutableAddress'> {
   public readonly noun: 'ImmutableAddress' = 'ImmutableAddress';
 
-  private static readonly EMPTY: ImmutableAddress<NonNominative> = new ImmutableAddress(
-    new Map<string, NonNominative>()
+  private static readonly EMPTY: ImmutableAddress<AnonymousNominative> = new ImmutableAddress(
+    new Map<string, AnonymousNominative>()
   );
 
   public static of<E extends Nominative<E>>(elements: Set<E>): ImmutableAddress<E> {

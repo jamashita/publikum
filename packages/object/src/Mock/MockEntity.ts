@@ -1,21 +1,21 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
-import { NonNominative } from '@jamashita/publikum-interface';
+import { AnonymousNominative } from '@jamashita/publikum-interface';
 import { ObjectLiteral } from '@jamashita/publikum-type';
 
 import { Entity } from '../Entity';
 
-export class MockEntity extends Entity<NonNominative, MockEntity> {
+export class MockEntity extends Entity<AnonymousNominative, MockEntity> {
   public readonly noun: 'MockEntity' = 'MockEntity';
-  private readonly id: NonNominative;
+  private readonly id: AnonymousNominative;
   public other: ObjectLiteral;
 
-  public constructor(id: NonNominative, other: ObjectLiteral) {
+  public constructor(id: AnonymousNominative, other: ObjectLiteral) {
     super();
     this.id = id;
     this.other = other;
   }
 
-  public getIdentifier(): NonNominative {
+  public getIdentifier(): AnonymousNominative {
     return this.id;
   }
 

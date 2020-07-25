@@ -1,4 +1,4 @@
-import { Nominative, NonNominative } from '@jamashita/publikum-interface';
+import { AnonymousNominative, Nominative } from '@jamashita/publikum-interface';
 import { Enumerator, Mapper } from '@jamashita/publikum-type';
 
 import { ASequence } from './Abstract/ASequence';
@@ -6,7 +6,7 @@ import { ASequence } from './Abstract/ASequence';
 export class ImmutableSequence<E extends Nominative<E>> extends ASequence<E, 'ImmutableSequence'> {
   public readonly noun: 'ImmutableSequence' = 'ImmutableSequence';
 
-  private static readonly EMPTY: ImmutableSequence<NonNominative> = new ImmutableSequence<NonNominative>([]);
+  private static readonly EMPTY: ImmutableSequence<AnonymousNominative> = new ImmutableSequence<AnonymousNominative>([]);
 
   public static of<E extends Nominative<E>>(elements: Array<E>): ImmutableSequence<E> {
     if (elements.length === 0) {
