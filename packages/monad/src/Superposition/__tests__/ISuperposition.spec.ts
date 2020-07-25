@@ -1,11 +1,11 @@
 import { MockError } from '@jamashita/publikum-object';
 
 import { Epoque } from '../../Epoque/Interface/Epoque';
-import { BeSuperposition } from '../BeSuperposition';
+import { isSuperposition } from '../Interface/ISuperposition';
 import { Superposition } from '../Superposition';
 import { SuperpositionInternal } from '../SuperpositionInternal';
 
-describe('BeSuperposition', () => {
+describe('ISuperposition', () => {
   describe('is', () => {
     it('normal case', () => {
       const superposition1: Superposition<number, MockError> = Superposition.alive<number, MockError>(4);
@@ -16,30 +16,28 @@ describe('BeSuperposition', () => {
         [MockError]
       );
 
-      expect(BeSuperposition.is<number, MockError>(superposition1)).toBe(true);
-      expect(BeSuperposition.is<number, MockError>(superposition2)).toBe(true);
-      expect(BeSuperposition.is<number, MockError>(null)).toBe(false);
-      expect(BeSuperposition.is<number, MockError>(undefined)).toBe(false);
-      expect(BeSuperposition.is<number, MockError>('')).toBe(false);
-      expect(BeSuperposition.is<number, MockError>('123')).toBe(false);
-      expect(BeSuperposition.is<number, MockError>('abcd')).toBe(false);
-      expect(BeSuperposition.is<number, MockError>(123)).toBe(false);
-      expect(BeSuperposition.is<number, MockError>(0)).toBe(false);
-      expect(BeSuperposition.is<number, MockError>(false)).toBe(false);
-      expect(BeSuperposition.is<number, MockError>(true)).toBe(false);
-      expect(BeSuperposition.is<number, MockError>(Symbol())).toBe(false);
-      expect(BeSuperposition.is<number, MockError>(20n)).toBe(false);
-      expect(BeSuperposition.is<number, MockError>({})).toBe(false);
-      expect(BeSuperposition.is<number, MockError>([])).toBe(false);
+      expect(isSuperposition<number, MockError>(null)).toBe(false);
+      expect(isSuperposition<number, MockError>(undefined)).toBe(false);
+      expect(isSuperposition<number, MockError>('')).toBe(false);
+      expect(isSuperposition<number, MockError>('123')).toBe(false);
+      expect(isSuperposition<number, MockError>('abcd')).toBe(false);
+      expect(isSuperposition<number, MockError>(123)).toBe(false);
+      expect(isSuperposition<number, MockError>(0)).toBe(false);
+      expect(isSuperposition<number, MockError>(false)).toBe(false);
+      expect(isSuperposition<number, MockError>(true)).toBe(false);
+      expect(isSuperposition<number, MockError>(Symbol())).toBe(false);
+      expect(isSuperposition<number, MockError>(20n)).toBe(false);
+      expect(isSuperposition<number, MockError>({})).toBe(false);
+      expect(isSuperposition<number, MockError>([])).toBe(false);
       expect(
-        BeSuperposition.is<number, MockError>({
+        isSuperposition<number, MockError>({
           get() {
             // NOOP
           }
         })
       ).toBe(false);
       expect(
-        BeSuperposition.is<number, MockError>({
+        isSuperposition<number, MockError>({
           get() {
             // NOOP
           },
@@ -49,7 +47,7 @@ describe('BeSuperposition', () => {
         })
       ).toBe(false);
       expect(
-        BeSuperposition.is<number, MockError>({
+        isSuperposition<number, MockError>({
           get() {
             // NOOP
           },
@@ -62,7 +60,7 @@ describe('BeSuperposition', () => {
         })
       ).toBe(false);
       expect(
-        BeSuperposition.is<number, MockError>({
+        isSuperposition<number, MockError>({
           get() {
             // NOOP
           },
@@ -78,7 +76,7 @@ describe('BeSuperposition', () => {
         })
       ).toBe(false);
       expect(
-        BeSuperposition.is<number, MockError>({
+        isSuperposition<number, MockError>({
           get() {
             // NOOP
           },
@@ -97,7 +95,7 @@ describe('BeSuperposition', () => {
         })
       ).toBe(false);
       expect(
-        BeSuperposition.is<number, MockError>({
+        isSuperposition<number, MockError>({
           get() {
             // NOOP
           },
@@ -119,7 +117,7 @@ describe('BeSuperposition', () => {
         })
       ).toBe(false);
       expect(
-        BeSuperposition.is<number, MockError>({
+        isSuperposition<number, MockError>({
           get() {
             // NOOP
           },
@@ -144,7 +142,7 @@ describe('BeSuperposition', () => {
         })
       ).toBe(false);
       expect(
-        BeSuperposition.is<number, MockError>({
+        isSuperposition<number, MockError>({
           get() {
             // NOOP
           },
@@ -172,7 +170,7 @@ describe('BeSuperposition', () => {
         })
       ).toBe(false);
       expect(
-        BeSuperposition.is<number, MockError>({
+        isSuperposition<number, MockError>({
           get() {
             // NOOP
           },
@@ -202,6 +200,8 @@ describe('BeSuperposition', () => {
           }
         })
       ).toBe(true);
+      expect(isSuperposition<number, MockError>(superposition1)).toBe(true);
+      expect(isSuperposition<number, MockError>(superposition2)).toBe(true);
     });
   });
 });

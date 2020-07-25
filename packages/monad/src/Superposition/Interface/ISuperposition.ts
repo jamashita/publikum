@@ -1,5 +1,5 @@
 import { Noun } from '@jamashita/publikum-interface';
-import { Consumer, Peek, Predicate, UnaryFunction } from '@jamashita/publikum-type';
+import { Consumer, Kind, Peek, Predicate, UnaryFunction } from '@jamashita/publikum-type';
 
 import { IUnscharferelation } from '../../Unscharferelation/Interface/IUnscharferelation';
 import { SuperpositionError } from '../Error/SuperpositionError';
@@ -36,3 +36,38 @@ export interface ISuperposition<A, D extends Error, N extends string = string> e
 
   toUnscharferelation(): IUnscharferelation<A>;
 }
+
+export const isSuperposition = <A, D extends Error>(value: unknown): value is ISuperposition<A, D> => {
+  if (!Kind.isObject<ISuperposition<A, D>>(value)) {
+    return false;
+  }
+  if (typeof value.get !== 'function') {
+    return false;
+  }
+  if (typeof value.terminate !== 'function') {
+    return false;
+  }
+  if (typeof value.filter !== 'function') {
+    return false;
+  }
+  if (typeof value.map !== 'function') {
+    return false;
+  }
+  if (typeof value.recover !== 'function') {
+    return false;
+  }
+  if (typeof value.transform !== 'function') {
+    return false;
+  }
+  if (typeof value.pass !== 'function') {
+    return false;
+  }
+  if (typeof value.peek !== 'function') {
+    return false;
+  }
+  if (typeof value.toUnscharferelation !== 'function') {
+    return false;
+  }
+
+  return true;
+};
