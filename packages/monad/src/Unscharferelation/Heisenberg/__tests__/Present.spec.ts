@@ -1,7 +1,9 @@
 import { Equalable } from '@jamashita/publikum-interface';
-import { Absent, Heisenberg, Lost } from '@jamashita/publikum-monad';
 import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
+import { Absent } from '../Absent';
+import { Heisenberg } from '../Heisenberg';
+import { Lost } from '../Lost';
 import { Present } from '../Present';
 import { Uncertain } from '../Uncertain';
 
