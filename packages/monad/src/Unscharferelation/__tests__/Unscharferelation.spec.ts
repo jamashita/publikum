@@ -8,6 +8,7 @@ import { Absent } from '../Heisenberg/Absent';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
 import { Lost } from '../Heisenberg/Lost';
 import { Present } from '../Heisenberg/Present';
+import { Uncertain } from '../Heisenberg/Uncertain';
 import { Matter } from '../Interface/Matter';
 import { MockUnscharferelation } from '../Mock/MockUnscharferelation';
 import { Unscharferelation } from '../Unscharferelation';
@@ -387,6 +388,62 @@ describe('Unscharferelation', () => {
 
     it('async: Lost case', async () => {
       expect(await Unscharferelation.maybe(Promise.reject(new MockError())).terminate()).toBeInstanceOf(Lost);
+    });
+  });
+
+  describe('ofHeisenberg', () => {
+    it('present case', async () => {
+      const value: number = 2;
+      const present: Present<number> = Present.of<number>(value);
+
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(present);
+
+      const heisenberg: Heisenberg<number> = await unscharferelation.terminate();
+
+      expect(heisenberg).not.toBe(present);
+      expect(heisenberg.isPresent()).toBe(true);
+      expect(heisenberg.get()).toBe(value);
+    });
+
+    it('absent case', async () => {
+      const absent: Absent<number> = Absent.of<number>();
+
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(absent);
+
+      const heisenberg: Heisenberg<number> = await unscharferelation.terminate();
+
+      expect(heisenberg.isAbsent()).toBe(true);
+    });
+
+    it('lost case', async () => {
+      const lost: Lost<number> = Lost.of<number>(null);
+
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(lost);
+
+      const heisenberg: Heisenberg<number> = await unscharferelation.terminate();
+
+      expect(heisenberg).not.toBe(lost);
+      expect(heisenberg.isLost()).toBe(true);
+      if (heisenberg.isLost()) {
+        expect(heisenberg.getCause()).toBe(null);
+      }
+      //
+      else {
+        fail();
+      }
+    });
+
+    it('uncertain case', async () => {
+      const uncertain: Uncertain<number> = Uncertain.of<number>();
+
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(uncertain);
+
+      const heisenberg: Heisenberg<number> = await unscharferelation.terminate();
+
+      expect(heisenberg).not.toBe(uncertain);
+      expect(() => {
+        heisenberg.get();
+      }).toThrow(UnscharferelationError);
     });
   });
 

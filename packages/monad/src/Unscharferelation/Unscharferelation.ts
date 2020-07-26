@@ -85,6 +85,22 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
     });
   }
 
+  public static ofHeisenberg<P>(heisenberg: Heisenberg<P>): Unscharferelation<P> {
+    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
+      if (heisenberg.isPresent()) {
+        return epoque.accept(heisenberg.get());
+      }
+      if (heisenberg.isAbsent()) {
+        return epoque.decline();
+      }
+      if (heisenberg.isLost()) {
+        return epoque.throw(heisenberg.getCause());
+      }
+
+      return epoque.throw(new UnscharferelationError('UNEXPECTED UNSCHARFERELATION STATE'));
+    });
+  }
+
   public static present<P>(value: PromiseLike<Matter<P>> | Matter<P>): Unscharferelation<P> {
     return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
       if (Kind.isPromiseLike(value)) {
