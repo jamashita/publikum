@@ -562,7 +562,6 @@ describe('Superposition', () => {
       if (schrodinger.isContradiction()) {
         expect(schrodinger.getCause()).toBe(null);
       }
-      //
       else {
         fail();
       }

@@ -427,7 +427,6 @@ describe('Unscharferelation', () => {
       if (heisenberg.isLost()) {
         expect(heisenberg.getCause()).toBe(null);
       }
-      //
       else {
         fail();
       }
