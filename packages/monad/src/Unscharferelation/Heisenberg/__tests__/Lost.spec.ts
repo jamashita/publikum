@@ -111,7 +111,7 @@ describe('Lost', () => {
   });
 
   describe('equals', () => {
-    it('returns true if Lost given even if the value is different', () => {
+    it('returns true if Lost given even if the cause is different', () => {
       const present: Present<number> = Present.of<number>(2);
       const absent: Absent<number> = Absent.of<number>();
       const lost: Lost<number> = Lost.of<number>(new MockError());

@@ -45,6 +45,14 @@ export class Contradiction<A, D extends Error> implements Schrodinger<A, D, 'Con
     consumer(this.cause);
   }
 
+  public equals(other: Schrodinger<A, D>): boolean {
+    if (this === other) {
+      return true;
+    }
+
+    return other.isContradiction();
+  }
+
   public getCause(): unknown {
     return this.cause;
   }

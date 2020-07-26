@@ -2,6 +2,10 @@ import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 
 import { SuperpositionError } from '../../Error/SuperpositionError';
+import { Alive } from '../Alive';
+import { Contradiction } from '../Contradiction';
+import { Dead } from '../Dead';
+import { Schrodinger } from '../Schrodinger';
 import { Still } from '../Still';
 
 describe('Still', () => {
@@ -78,6 +82,23 @@ describe('Still', () => {
       });
 
       expect(spy.called).toBe(false);
+    });
+  });
+
+  describe('equals', () => {
+    it('returns true if Still given', () => {
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(2);
+      const dead: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
+      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(null);
+      const still: Still<number, MockError> = Still.of<number, MockError>();
+
+      const schrodinger: Schrodinger<number, MockError> = Still.of<number, MockError>();
+
+      expect(schrodinger.equals(schrodinger)).toBe(true);
+      expect(schrodinger.equals(alive)).toBe(false);
+      expect(schrodinger.equals(dead)).toBe(false);
+      expect(schrodinger.equals(contradiction)).toBe(false);
+      expect(schrodinger.equals(still)).toBe(true);
     });
   });
 });

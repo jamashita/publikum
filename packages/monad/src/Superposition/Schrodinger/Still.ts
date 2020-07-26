@@ -48,4 +48,12 @@ export class Still<A, D extends Error> implements Schrodinger<A, D, 'Still'> {
   public ifContradiction(_consumer: Consumer<unknown>): void {
     // NOOP
   }
+
+  public equals(other: Schrodinger<A, D>): boolean {
+    if (this === other) {
+      return true;
+    }
+
+    return false;
+  }
 }

@@ -95,7 +95,7 @@ describe('Uncertain', () => {
   });
 
   describe('equals', () => {
-    it('returns false even if Uncertain given, only returns true the instance equals', () => {
+    it('returns true if Uncertain given', () => {
       const present: Present<number> = Present.of<number>(2);
       const absent: Absent<number> = Absent.of<number>();
       const lost: Lost<number> = Lost.of<number>(new MockError());

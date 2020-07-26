@@ -1,7 +1,24 @@
+import { Equalable } from '@jamashita/publikum-interface';
 import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 
 import { Alive } from '../Alive';
+import { Contradiction } from '../Contradiction';
+import { Dead } from '../Dead';
+import { Schrodinger } from '../Schrodinger';
+import { Still } from '../Still';
+
+class TestEqualable implements Equalable<TestEqualable> {
+  private readonly eq: boolean;
+
+  public constructor(eq: boolean) {
+    this.eq = eq;
+  }
+
+  public equals(other: TestEqualable): boolean {
+    return this.eq === other.eq;
+  }
+}
 
 describe('Alive', () => {
   describe('get', () => {
@@ -93,6 +110,36 @@ describe('Alive', () => {
       });
 
       expect(spy.called).toBe(false);
+    });
+  });
+
+  describe('equals', () => {
+    it('returns true if the same value Alive given', () => {
+      const alive1: Alive<number, MockError> = Alive.of<number, MockError>(2);
+      const alive2: Alive<number, MockError> = Alive.of<number, MockError>(3);
+      const dead: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
+      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(null);
+      const still: Still<number, MockError> = Still.of<number, MockError>();
+
+      const schrodinger: Schrodinger<number, MockError> = Alive.of<number, MockError>(2);
+
+      expect(schrodinger.equals(schrodinger)).toBe(true);
+      expect(schrodinger.equals(alive1)).toBe(true);
+      expect(schrodinger.equals(alive2)).toBe(false);
+      expect(schrodinger.equals(dead)).toBe(false);
+      expect(schrodinger.equals(contradiction)).toBe(false);
+      expect(schrodinger.equals(still)).toBe(false);
+    });
+
+    it('returns true if the same Equalable instance Alive given', () => {
+      const alive1: Alive<TestEqualable, MockError> = Alive.of<TestEqualable, MockError>(new TestEqualable(true));
+      const alive2: Alive<TestEqualable, MockError> = Alive.of<TestEqualable, MockError>(new TestEqualable(false));
+
+      const schrodinger: Schrodinger<TestEqualable, MockError> = Alive.of<TestEqualable, MockError>(new TestEqualable(true));
+
+      expect(schrodinger.equals(schrodinger)).toBe(true);
+      expect(schrodinger.equals(alive1)).toBe(true);
+      expect(schrodinger.equals(alive2)).toBe(false);
     });
   });
 });

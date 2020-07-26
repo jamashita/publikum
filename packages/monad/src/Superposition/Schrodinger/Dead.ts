@@ -46,6 +46,20 @@ export class Dead<A, D extends Error> implements Schrodinger<A, D, 'Dead'> {
     // NOOP
   }
 
+  public equals(other: Schrodinger<A, D>): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!other.isDead()) {
+      return false;
+    }
+    if (this.error.name === other.error.name) {
+      return true;
+    }
+
+    return false;
+  }
+
   public getError(): D {
     return this.error;
   }

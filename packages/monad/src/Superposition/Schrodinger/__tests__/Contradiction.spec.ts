@@ -1,7 +1,11 @@
 import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 
+import { Alive } from '../Alive';
 import { Contradiction } from '../Contradiction';
+import { Dead } from '../Dead';
+import { Schrodinger } from '../Schrodinger';
+import { Still } from '../Still';
 
 describe('Contradiction', () => {
   describe('get', () => {
@@ -105,6 +109,23 @@ describe('Contradiction', () => {
       });
 
       expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('equals', () => {
+    it('returns true if Contradiction given even if the cause is different', () => {
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(2);
+      const dead: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
+      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(null);
+      const still: Still<number, MockError> = Still.of<number, MockError>();
+
+      const schrodinger: Schrodinger<number, MockError> = Contradiction.of<number, MockError>(undefined);
+
+      expect(schrodinger.equals(schrodinger)).toBe(true);
+      expect(schrodinger.equals(alive)).toBe(false);
+      expect(schrodinger.equals(dead)).toBe(false);
+      expect(schrodinger.equals(contradiction)).toBe(true);
+      expect(schrodinger.equals(still)).toBe(false);
     });
   });
 });

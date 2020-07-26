@@ -1,3 +1,4 @@
+import { isEqualable } from '@jamashita/publikum-interface';
 import { Consumer } from '@jamashita/publikum-type';
 import { Detoxicated } from '../Interface/Detoxicated';
 import { Contradiction } from './Contradiction';
@@ -44,5 +45,24 @@ export class Alive<A, D extends Error> implements Schrodinger<A, D, 'Alive'> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public ifContradiction(_consumer: Consumer<unknown>): void {
     // NOOP
+  }
+
+  public equals(other: Schrodinger<A, D>): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!other.isAlive()) {
+      return false;
+    }
+    if (this.value === other.value) {
+      return true;
+    }
+    if (isEqualable(this.value)) {
+      if (isEqualable(other.value)) {
+        return this.value.equals(other.value);
+      }
+    }
+
+    return false;
   }
 }

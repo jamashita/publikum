@@ -1,7 +1,11 @@
 import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 
+import { Alive } from '../Alive';
+import { Contradiction } from '../Contradiction';
 import { Dead } from '../Dead';
+import { Schrodinger } from '../Schrodinger';
+import { Still } from '../Still';
 
 describe('Dead', () => {
   describe('get', () => {
@@ -99,6 +103,38 @@ describe('Dead', () => {
       });
 
       expect(spy.called).toBe(false);
+    });
+  });
+
+  describe('equals', () => {
+    it('returns true if Dead given even if the save error given', () => {
+      const error: MockError = new MockError();
+
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(2);
+      const dead1: Dead<number, MockError> = Dead.of<number, MockError>(error);
+      const dead2: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
+      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(null);
+      const still: Still<number, MockError> = Still.of<number, MockError>();
+
+      const schrodinger: Schrodinger<number, MockError> = Dead.of<number, MockError>(new MockError());
+
+      expect(schrodinger.equals(schrodinger)).toBe(true);
+      expect(schrodinger.equals(alive)).toBe(false);
+      expect(schrodinger.equals(dead1)).toBe(true);
+      expect(schrodinger.equals(dead2)).toBe(true);
+      expect(schrodinger.equals(contradiction)).toBe(false);
+      expect(schrodinger.equals(still)).toBe(false);
+    });
+
+    it('returns false if the different error given', () => {
+      const dead1: Dead<number, Error> = Dead.of<number, Error>(new SyntaxError());
+      const dead2: Dead<number, Error> = Dead.of<number, Error>(new MockError());
+
+      const schrodinger: Schrodinger<number, Error> = Dead.of<number, Error>(new MockError());
+
+      expect(schrodinger.equals(schrodinger)).toBe(true);
+      expect(schrodinger.equals(dead1)).toBe(false);
+      expect(schrodinger.equals(dead2)).toBe(true);
     });
   });
 });

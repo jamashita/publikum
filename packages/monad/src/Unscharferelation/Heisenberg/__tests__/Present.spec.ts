@@ -167,7 +167,7 @@ describe('Present', () => {
       expect(heisenberg.equals(uncertain)).toBe(false);
     });
 
-    it('returns true if same equalable instance Present given', () => {
+    it('returns true if same Equalable instance Present given', () => {
       const present1: Present<TestEqualable> = Present.of<TestEqualable>(new TestEqualable(true));
       const present2: Present<TestEqualable> = Present.of<TestEqualable>(new TestEqualable(false));
 

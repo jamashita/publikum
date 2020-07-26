@@ -58,10 +58,8 @@ export class Present<P> implements Heisenberg<P, 'Present'> {
       return true;
     }
     if (isEqualable(this.value)) {
-      if (other instanceof Present) {
-        if (isEqualable(other.value)) {
-          return this.value.equals(other.value);
-        }
+      if (isEqualable(other.value)) {
+        return this.value.equals(other.value);
       }
     }
 
