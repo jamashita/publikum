@@ -99,6 +99,22 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
     }, ...errors);
   }
 
+  public static ofSchrodinger<A, D extends Error>(schrodinger: Schrodinger<A, D>, ...errors: Array<DeadConstructor<D>>): Superposition<A, D> {
+    return Superposition.of<A, D>((epoque: Epoque<Detoxicated<A>, D>) => {
+      if (schrodinger.isAlive()) {
+        return epoque.accept(schrodinger.get());
+      }
+      if (schrodinger.isDead()) {
+        return epoque.decline(schrodinger.getError());
+      }
+      if (schrodinger.isContradiction()) {
+        return epoque.throw(schrodinger.getCause());
+      }
+
+      return epoque.throw(new SuperpositionError('UNEXPECTED SCHRODINGER STATE'));
+    }, ...errors);
+  }
+
   public static alive<A, D extends Error>(
     value: PromiseLike<Detoxicated<A>> | Detoxicated<A>,
     ...errors: Array<DeadConstructor<D>>

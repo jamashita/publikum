@@ -6,7 +6,11 @@ import { UnscharferelationError } from '../../Unscharferelation/Error/Unscharfer
 import { Heisenberg } from '../../Unscharferelation/Heisenberg/Heisenberg';
 import { SuperpositionError } from '../Error/SuperpositionError';
 import { MockSuperposition } from '../Mock/MockSuperposition';
+import { Alive } from '../Schrodinger/Alive';
+import { Contradiction } from '../Schrodinger/Contradiction';
+import { Dead } from '../Schrodinger/Dead';
 import { Schrodinger } from '../Schrodinger/Schrodinger';
+import { Still } from '../Schrodinger/Still';
 import { Superposition } from '../Superposition';
 
 describe('Superposition', () => {
@@ -514,6 +518,67 @@ describe('Superposition', () => {
       expect(() => {
         schrodinger.get();
       }).toThrow(error);
+    });
+  });
+
+  describe('ofSchrodinger', () => {
+    it('alive case', async () => {
+      const value: number = 2;
+      const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
+
+      const superposition: Superposition<number, MockError> = Superposition.ofSchrodinger(alive, MockError);
+
+      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
+
+      expect(schrodinger).not.toBe(alive);
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(value);
+    });
+
+    it('dead case', async () => {
+      const error: MockError = new MockError();
+      const dead: Dead<number, MockError> = Dead.of<number, MockError>(error);
+
+      const superposition: Superposition<number, MockError> = Superposition.ofSchrodinger(dead, MockError);
+
+      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
+
+      expect(schrodinger).not.toBe(dead);
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(error);
+    });
+
+    it('contradiction case', async () => {
+      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(null);
+
+      const superposition: Superposition<number, MockError> = Superposition.ofSchrodinger(contradiction, MockError);
+
+      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
+
+      expect(schrodinger).not.toBe(contradiction);
+      expect(schrodinger.isContradiction()).toBe(true);
+      if (schrodinger.isContradiction()) {
+        expect(schrodinger.getCause()).toBe(null);
+      }
+      //
+      else {
+        fail();
+      }
+    });
+
+    it('still case', async () => {
+      const still: Still<number, MockError> = Still.of<number, MockError>();
+
+      const superposition: Superposition<number, MockError> = Superposition.ofSchrodinger(still, MockError);
+
+      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
+
+      expect(schrodinger).not.toBe(still);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(SuperpositionError);
     });
   });
 
