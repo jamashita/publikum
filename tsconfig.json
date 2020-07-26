@@ -107,8 +107,7 @@
     "packages/**/src/**/*"
   ],
   "exclude": [
-    "cjs",
-    "esm",
+    "dist",
     "node_modules"
   ],
   "compileOnSave": false

@@ -1,7 +1,4 @@
 **/node_modules/*
-**/cjs/*
-**/esm/*
 **/coverage/*
-logs/*
-!logs/.gitkeep
+**/dist/*
 *.log
