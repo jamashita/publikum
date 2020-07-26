@@ -145,6 +145,7 @@ Class for random string, random number.
 + [x] `sequence.remove()`
 * [x] `Unschrferelation` error handling
 * [x] `Superposition` error handling
+* [ ] `indexDB` repository implementation
 
 ## License
 
