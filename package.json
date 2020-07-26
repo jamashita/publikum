@@ -54,7 +54,7 @@
     "concurrently": "5.2.0",
     "eslint": "7.5.0",
     "eslint-plugin-import": "2.22.0",
-    "eslint-plugin-jest": "23.18.0",
+    "eslint-plugin-jest": "23.18.2",
     "husky": "4.2.5",
     "jest": "26.1.0",
     "lerna": "3.22.1",
