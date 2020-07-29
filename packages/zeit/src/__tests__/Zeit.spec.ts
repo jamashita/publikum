@@ -107,8 +107,7 @@ describe('Zeit', () => {
     it('returns dayjs result itself', () => {
       expect(Zeit.ofString('2000-01-01', 'YYYY-MM-DD').isValid()).toBe(true);
       expect(Zeit.ofString('2000-01-01 01:02:03', 'YYYY-MM-DD HH:mm:ss').isValid()).toBe(true);
-      expect(Zeit.of(dayjs('2000-YY-03'), 'YYYY-MM-DD HH:mm:ss').isValid()).toBe(false);
-      expect(Zeit.of(dayjs('2000-YY-01 YY:02:03'), 'YYYY-MM-DD').isValid()).toBe(false);
+      expect(Zeit.of(dayjs('2000-YY-01 YY:02:03', 'YYYY-MM-DD', true), 'YYYY-MM-DD').isValid()).toBe(false);
     });
   });
 
