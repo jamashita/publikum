@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-uuid",
-  "version": "2.6.1",
+  "version": "2.6.2",
   "private": false,
   "repository": {
     "type": "git",
@@ -32,8 +32,8 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^2.6.1",
-    "@jamashita/publikum-object": "^2.6.1",
+    "@jamashita/publikum-error": "^2.6.2",
+    "@jamashita/publikum-object": "^2.6.2",
     "chance": "1.1.6"
   },
   "devDependencies": {
