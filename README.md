@@ -146,6 +146,7 @@ Class for random string, random number.
 * [x] `Unschrferelation` error handling
 * [x] `Superposition` error handling
 * [ ] `indexDB` repository implementation
+* [ ] accepts Error constructors in Superposition Epoque
 
 ## License
 

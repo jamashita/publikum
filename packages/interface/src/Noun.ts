@@ -8,7 +8,7 @@ export const isNoun = (n: unknown): n is Noun => {
   if (!Kind.isObject<Noun>(n)) {
     return false;
   }
-  if (typeof n.noun !== 'string') {
+  if (!Kind.isString(n.noun)) {
     return false;
   }
 

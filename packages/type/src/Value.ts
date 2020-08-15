@@ -3,6 +3,8 @@ export type Nullable<T> = T | null;
 export type Ambiguous<T> = T | undefined;
 export type Omittable<T> = T | void;
 export type Suspicious<T> = T | null | undefined;
+export type Eliminate<T, U extends T> = Exclude<T, U>;
+export type Retain<T, U extends T> = Extract<T, U>;
 export type Constructor = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   new(...args: Array<any>): any;
