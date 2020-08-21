@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-mysql",
-  "version": "2.6.2",
+  "version": "2.6.3",
   "private": false,
   "repository": {
     "type": "git",
@@ -32,9 +32,9 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^2.6.2",
-    "@jamashita/publikum-interface": "^2.6.2",
-    "@jamashita/publikum-type": "^2.6.2",
+    "@jamashita/publikum-error": "^2.6.3",
+    "@jamashita/publikum-interface": "^2.6.3",
+    "@jamashita/publikum-type": "^2.6.3",
     "mysql": "2.18.1"
   },
   "devDependencies": {
