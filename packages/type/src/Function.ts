@@ -1,5 +1,4 @@
 type Any = unknown | void;
-type Reveal<T> = T extends PromiseLike<infer R> ? R : T;
 export type UnaryFunction<I, O> = (arg: I) => O;
 export type BinaryFunction<I1, I2, O> = (arg1: I1, arg2: I2) => O;
 export type Predicate<T> = (arg: T) => boolean;
@@ -12,5 +11,5 @@ export type Peek = () => Any;
 export type AsyncPeek = () => Promise<Any>;
 export type Enumerator<K, V> = (value: V, key: K) => void;
 export type Mapper<I, O> = (value: I, index: number) => O;
-export type Resolve<T> = (arg: Reveal<T>) => Any;
+export type Resolve<T> = (arg: T | PromiseLike<T>) => Any;
 export type Reject<E = unknown> = (arg: E) => Any;
