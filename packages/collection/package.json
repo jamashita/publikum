@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-collection",
-  "version": "2.6.3",
+  "version": "2.6.4",
   "private": false,
   "repository": {
     "type": "git",
@@ -32,9 +32,9 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-interface": "^2.6.3",
-    "@jamashita/publikum-object": "^2.6.3",
-    "@jamashita/publikum-type": "^2.6.3"
+    "@jamashita/publikum-interface": "^2.6.4",
+    "@jamashita/publikum-object": "^2.6.4",
+    "@jamashita/publikum-type": "^2.6.4"
   },
   "devDependencies": {
     "@types/node": "14.6.2",
