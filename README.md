@@ -141,11 +141,8 @@ Class for string hashing.
 Class for random string, random number.
 
 ### TODO
-+ [x] `sequence.set()`
-+ [x] `sequence.remove()`
-* [x] `Unschrferelation` error handling
-* [x] `Superposition` error handling
 * [ ] `indexDB` repository implementation
+* [ ] `File` implementation
 * [ ] accepts Error constructors in Superposition Epoque
 
 ## License
