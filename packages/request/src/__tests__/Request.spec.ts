@@ -1,5 +1,4 @@
 import nock, { Scope } from 'nock';
-
 import { RequestError } from '../Error/RequestError';
 import { Request } from '../Request';
 import { RequestResponse } from '../RequestResponse';

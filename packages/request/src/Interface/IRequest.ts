@@ -1,5 +1,4 @@
 import { ObjectLiteral } from '@jamashita/publikum-type';
-
 import { RequestResponse } from '../RequestResponse';
 
 export interface IRequest {

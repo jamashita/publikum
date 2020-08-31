@@ -1,5 +1,4 @@
 import { Ambiguous, Kind } from '@jamashita/publikum-type';
-
 import { CacheError } from './Error/CacheError';
 import { ICache } from './Interface/ICache';
 

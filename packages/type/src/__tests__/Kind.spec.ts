@@ -1,5 +1,4 @@
 import { MockError } from '@jamashita/publikum-object';
-
 import { Kind } from '../Kind';
 
 describe('Kind', () => {

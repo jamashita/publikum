@@ -1,7 +1,5 @@
-import IORedis from 'ioredis';
-
 import { BinaryFunction } from '@jamashita/publikum-type';
-
+import IORedis from 'ioredis';
 import { IRedisHash } from './IRedisHash';
 import { IRedisList } from './IRedisList';
 import { IRedisSet } from './IRedisSet';

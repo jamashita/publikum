@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import sinon, { SinonFakeTimers } from 'sinon';
-
 import { ZeitError } from '../Error/ZeitError';
 import { Zeit } from '../Zeit';
 

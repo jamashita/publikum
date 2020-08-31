@@ -1,7 +1,6 @@
 import { ObjectLiteral } from '@jamashita/publikum-type';
 import { isJSONable, JSONable } from '../JSONable';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class MockJSONable implements JSONable {
   public toJSON(): ObjectLiteral {
     return {};

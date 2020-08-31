@@ -1,5 +1,4 @@
 import { ObjectLiteral } from '@jamashita/publikum-type';
-
 import { AJAXResponse } from '../AJAXResponse';
 
 export interface IAJAX {

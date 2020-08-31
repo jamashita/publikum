@@ -1,5 +1,4 @@
 import { Kind, Primitive } from '@jamashita/publikum-type';
-
 import { ValueObject } from '../ValueObject';
 
 export class MockNominative<T extends Primitive> extends ValueObject<MockNominative<T>, 'MockNominative'> {
@@ -9,10 +8,6 @@ export class MockNominative<T extends Primitive> extends ValueObject<MockNominat
   public constructor(value: T) {
     super();
     this.value = value;
-  }
-
-  public get(): T {
-    return this.value;
   }
 
   public equals(other: MockNominative<T>): boolean {
@@ -35,5 +30,9 @@ export class MockNominative<T extends Primitive> extends ValueObject<MockNominat
     }
 
     return this.value.toString();
+  }
+
+  public get(): T {
+    return this.value;
   }
 }

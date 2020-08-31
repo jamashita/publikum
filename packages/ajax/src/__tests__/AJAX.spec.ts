@@ -1,5 +1,4 @@
 import sinon, { SinonFakeServer } from 'sinon';
-
 import { AJAX } from '../AJAX';
 import { AJAXResponse } from '../AJAXResponse';
 

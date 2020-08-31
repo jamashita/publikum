@@ -1,6 +1,5 @@
 import { Inconnu, Kind, Nullable, ObjectLiteral, Reject, Resolve } from '@jamashita/publikum-type';
 import mysql from 'mysql';
-
 import { Connection } from './Connection';
 import { MySQLError } from './Error/MySQLError';
 import { IMySQL } from './Interface/IMySQL';

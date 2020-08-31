@@ -5,7 +5,7 @@ import { IRedisHash } from '../Interface/IRedisHash';
 
 export class MockRedisHash implements IRedisHash {
   public set(): Promise<boolean> {
-    return Promise.reject<boolean>(new UnimplementedError());
+    throw new UnimplementedError();
   }
 
   public get(): Promise<Nullable<string>> {

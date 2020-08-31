@@ -1,6 +1,5 @@
 import { ValueObject } from '@jamashita/publikum-object';
 import Chance from 'chance';
-
 import { UUIDError } from './Error/UUIDError';
 
 const chance: Chance.Chance = new Chance();

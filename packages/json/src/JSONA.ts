@@ -1,5 +1,4 @@
 import { ObjectLiteral, Reject, Resolve } from '@jamashita/publikum-type';
-
 import { JSONAError } from './Error/JSONAError';
 
 export class JSONA {

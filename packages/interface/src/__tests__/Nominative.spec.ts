@@ -1,6 +1,5 @@
 import { isNominative, Nominative } from '../Nominative';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class MockNominative implements Nominative<MockNominative> {
   public readonly noun: string = 'momo';
 

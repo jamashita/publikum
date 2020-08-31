@@ -1,7 +1,5 @@
-import mysql from 'mysql';
-
 import { Kind, Nullable, ObjectLiteral, Reject, Resolve } from '@jamashita/publikum-type';
-
+import mysql from 'mysql';
 import { MySQLError } from './Error/MySQLError';
 import { IConnection } from './Interface/IConnection';
 

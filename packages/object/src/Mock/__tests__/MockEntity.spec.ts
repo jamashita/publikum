@@ -1,5 +1,4 @@
 import { MockNominative } from '@jamashita/publikum-object';
-
 import { MockEntity } from '../MockEntity';
 import { MockValueObject } from '../MockValueObject';
 

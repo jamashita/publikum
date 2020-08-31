@@ -1,7 +1,5 @@
-import IORedis from 'ioredis';
-
 import { UnimplementedError } from '@jamashita/publikum-error';
-
+import IORedis from 'ioredis';
 import { IRedis } from '../Interface/IRedis';
 import { IRedisHash } from '../Interface/IRedisHash';
 import { IRedisList } from '../Interface/IRedisList';
@@ -12,14 +10,12 @@ import { MockRedisList } from './MockRedisList';
 import { MockRedisSet } from './MockRedisSet';
 import { MockRedisString } from './MockRedisString';
 
-type MockRedisSetting = Partial<
-  Readonly<{
-    hash: IRedisHash;
-    set: IRedisSet;
-    list: IRedisList;
-    string: IRedisString;
-  }>
->;
+type MockRedisSetting = Partial<Readonly<{
+  hash: IRedisHash;
+  set: IRedisSet;
+  list: IRedisList;
+  string: IRedisString;
+}>>;
 
 export class MockRedis implements IRedis {
   private readonly client: IORedis.Redis;
@@ -62,27 +58,27 @@ export class MockRedis implements IRedis {
   }
 
   public delete(): Promise<boolean> {
-    return Promise.reject<boolean>(new UnimplementedError());
+    throw new UnimplementedError();
   }
 
   public exists(): Promise<boolean> {
-    return Promise.reject<boolean>(new UnimplementedError());
+    throw new UnimplementedError();
   }
 
   public expires(): Promise<boolean> {
-    return Promise.reject<boolean>(new UnimplementedError());
+    throw new UnimplementedError();
   }
 
   public subscribe(): Promise<number> {
-    return Promise.reject<number>(new UnimplementedError());
+    throw new UnimplementedError();
   }
 
   public unsubscribe(): Promise<number> {
-    return Promise.reject<number>(new UnimplementedError());
+    throw new UnimplementedError();
   }
 
   public publish(): Promise<number> {
-    return Promise.reject<number>(new UnimplementedError());
+    throw new UnimplementedError();
   }
 
   public on(): void {

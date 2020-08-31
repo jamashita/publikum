@@ -1,5 +1,4 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
-
 import { ValueObject } from '../ValueObject';
 
 export class MockValueObject extends ValueObject<MockValueObject, 'MockValueObject'> {
@@ -11,15 +10,15 @@ export class MockValueObject extends ValueObject<MockValueObject, 'MockValueObje
     this.value = value;
   }
 
-  public get(): unknown {
-    return this.value;
-  }
-
   public equals(): boolean {
     throw new UnimplementedError();
   }
 
   public serialize(): string {
     throw new UnimplementedError();
+  }
+
+  public get(): unknown {
+    return this.value;
   }
 }

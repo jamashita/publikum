@@ -1,5 +1,4 @@
 import { Resolve } from '@jamashita/publikum-type';
-
 import { Cache } from '../Cache';
 import { CacheError } from '../Error/CacheError';
 

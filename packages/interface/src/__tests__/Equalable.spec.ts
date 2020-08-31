@@ -1,6 +1,5 @@
 import { Equalable, isEqualable } from '../Equalable';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class MockEqualable implements Equalable<MockEqualable> {
   public equals(other: MockEqualable): boolean {
     return this === other;

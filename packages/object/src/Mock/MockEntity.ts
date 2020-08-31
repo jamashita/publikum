@@ -1,7 +1,6 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
 import { AnonymousNominative } from '@jamashita/publikum-interface';
 import { ObjectLiteral } from '@jamashita/publikum-type';
-
 import { Entity } from '../Entity';
 
 export class MockEntity extends Entity<AnonymousNominative, MockEntity> {

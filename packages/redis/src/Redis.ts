@@ -1,5 +1,4 @@
 import IORedis from 'ioredis';
-
 import { RedisError } from './Error/RedisError';
 import { IRedis } from './Interface/IRedis';
 import { RedisHash } from './RedisHash';

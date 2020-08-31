@@ -1,6 +1,5 @@
-import hash from 'object-hash';
-
 import { Nominative } from '@jamashita/publikum-interface';
+import hash from 'object-hash';
 
 export abstract class Objet<T extends Objet<T, N>, N extends string = string> implements Nominative<T, N> {
   public abstract readonly noun: N;

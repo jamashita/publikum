@@ -1,5 +1,4 @@
 import { Kind } from '@jamashita/publikum-type';
-
 import { Objet } from './Objet';
 
 export abstract class ValueObject<T extends ValueObject<T, N>, N extends string = string> extends Objet<T, N> {
