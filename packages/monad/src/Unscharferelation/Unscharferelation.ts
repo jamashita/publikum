@@ -19,9 +19,7 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
       return Unscharferelation.present<Array<P>>([]);
     }
 
-    const promises: Array<PromiseLike<Heisenberg<P>>> = Array.from<Unscharferelation<P>>(unscharferelations).map<
-      PromiseLike<Heisenberg<P>>
-    >((u: Unscharferelation<P>) => {
+    const promises: Array<PromiseLike<Heisenberg<P>>> = Array.from<Unscharferelation<P>>(unscharferelations).map<PromiseLike<Heisenberg<P>>>((u: Unscharferelation<P>) => {
       return u.terminate();
     });
 

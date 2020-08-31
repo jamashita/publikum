@@ -672,10 +672,8 @@ describe('Unscharferelation', () => {
         }
       );
 
-      const schrodinger: Schrodinger<
-        number,
-        UnscharferelationError
-      > = await unscharferelation.toSuperposition().terminate();
+      const schrodinger: Schrodinger<number,
+        UnscharferelationError> = await unscharferelation.toSuperposition().terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(value);
@@ -690,10 +688,8 @@ describe('Unscharferelation', () => {
         }
       );
 
-      const schrodinger: Schrodinger<
-        MockError,
-        UnscharferelationError
-      > = await unscharferelation.toSuperposition().terminate();
+      const schrodinger: Schrodinger<MockError,
+        UnscharferelationError> = await unscharferelation.toSuperposition().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -708,10 +704,8 @@ describe('Unscharferelation', () => {
         }
       );
 
-      const schrodinger: Schrodinger<
-        number,
-        UnscharferelationError
-      > = await unscharferelation.toSuperposition().terminate();
+      const schrodinger: Schrodinger<number,
+        UnscharferelationError> = await unscharferelation.toSuperposition().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -728,10 +722,8 @@ describe('Unscharferelation', () => {
         }
       );
 
-      const schrodinger: Schrodinger<
-        number,
-        UnscharferelationError
-      > = await unscharferelation.toSuperposition().terminate();
+      const schrodinger: Schrodinger<number,
+        UnscharferelationError> = await unscharferelation.toSuperposition().terminate();
 
       expect(schrodinger.isContradiction()).toBe(true);
       expect(() => {

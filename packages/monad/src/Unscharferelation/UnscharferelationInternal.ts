@@ -130,10 +130,8 @@ export class UnscharferelationInternal<P>
   }
 
   public map<Q = P>(
-    mapper: UnaryFunction<
-      Matter<P>,
-      UnscharferelationInternal<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>
-    >
+    mapper: UnaryFunction<Matter<P>,
+      UnscharferelationInternal<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>
   ): UnscharferelationInternal<Q> {
     return UnscharferelationInternal.of<Q>((epoque: Epoque<Matter<Q>, void>) => {
       return this.handle(

@@ -44,23 +44,19 @@ describe('SuperpositionInternal', () => {
         [MockError]
       );
 
-      await superposition
-        .map<number>((v: number) => {
-          spy1();
-          expect(v).toBe(value);
+      await superposition.map<number>((v: number) => {
+        spy1();
+        expect(v).toBe(value);
 
-          return v + 4;
-        })
-        .terminate();
+        return v + 4;
+      }).terminate();
 
-      await superposition
-        .map<number>((v: number) => {
-          spy2();
-          expect(v).toBe(value);
+      await superposition.map<number>((v: number) => {
+        spy2();
+        expect(v).toBe(value);
 
-          return v + 3;
-        })
-        .terminate();
+        return v + 3;
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -103,21 +99,17 @@ describe('SuperpositionInternal', () => {
         [MockError]
       );
 
-      await superposition
-        .recover<number, MockError>(() => {
-          spy1();
+      await superposition.recover<number, MockError>(() => {
+        spy1();
 
-          return 4;
-        })
-        .terminate();
+        return 4;
+      }).terminate();
 
-      await superposition
-        .recover<number, MockError>(() => {
-          spy2();
+      await superposition.recover<number, MockError>(() => {
+        spy2();
 
-          return 3;
-        })
-        .terminate();
+        return 3;
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -162,37 +154,29 @@ describe('SuperpositionInternal', () => {
         [MockError]
       );
 
-      await superposition
-        .map<number, MockError>(() => {
-          spy1();
+      await superposition.map<number, MockError>(() => {
+        spy1();
 
-          return 4;
-        })
-        .terminate();
+        return 4;
+      }).terminate();
 
-      await superposition
-        .recover<number, MockError>(() => {
-          spy2();
+      await superposition.recover<number, MockError>(() => {
+        spy2();
 
-          return 3;
-        })
-        .terminate();
+        return 3;
+      }).terminate();
 
-      await superposition
-        .map<number, MockError>(() => {
-          spy3();
+      await superposition.map<number, MockError>(() => {
+        spy3();
 
-          return 2;
-        })
-        .terminate();
+        return 2;
+      }).terminate();
 
-      await superposition
-        .recover<number, MockError>(() => {
-          spy4();
+      await superposition.recover<number, MockError>(() => {
+        spy4();
 
-          return 1;
-        })
-        .terminate();
+        return 1;
+      }).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(false);
@@ -395,26 +379,22 @@ describe('SuperpositionInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await superposition
-        .map<number>((v: number) => {
-          spy1();
-          expect(v).toBe(value);
+      await superposition.map<number>((v: number) => {
+        spy1();
+        expect(v).toBe(value);
 
-          return v + 1;
-        }, MockError)
-        .map<number, MockError>((v: number) => {
-          spy2();
-          expect(v).toBe(value + 1);
+        return v + 1;
+      }, MockError).map<number, MockError>((v: number) => {
+        spy2();
+        expect(v).toBe(value + 1);
 
-          return v + 1;
-        }, MockError)
-        .map<number, MockError>((v: number) => {
-          spy3();
-          expect(v).toBe(value + 2);
+        return v + 1;
+      }, MockError).map<number, MockError>((v: number) => {
+        spy3();
+        expect(v).toBe(value + 2);
 
-          return v + 1;
-        }, MockError)
-        .terminate();
+        return v + 1;
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -435,26 +415,22 @@ describe('SuperpositionInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await superposition
-        .map<number>((v: number) => {
-          spy1();
-          expect(v).toBe(value);
+      await superposition.map<number>((v: number) => {
+        spy1();
+        expect(v).toBe(value);
 
-          return Promise.resolve<number>(v + 1);
-        }, MockError)
-        .map<number, MockError>((v: number) => {
-          spy2();
-          expect(v).toBe(value + 1);
+        return Promise.resolve<number>(v + 1);
+      }, MockError).map<number, MockError>((v: number) => {
+        spy2();
+        expect(v).toBe(value + 1);
 
-          return Promise.resolve<number>(v + 2);
-        }, MockError)
-        .map<number, MockError>((v: number) => {
-          spy3();
-          expect(v).toBe(value + 2);
+        return Promise.resolve<number>(v + 2);
+      }, MockError).map<number, MockError>((v: number) => {
+        spy3();
+        expect(v).toBe(value + 2);
 
-          return Promise.resolve<number>(v + 1);
-        }, MockError)
-        .terminate();
+        return Promise.resolve<number>(v + 1);
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -489,25 +465,21 @@ describe('SuperpositionInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await superposition1
-        .map<number>((v: number) => {
-          spy1();
-          expect(v).toBe(value1);
+      await superposition1.map<number>((v: number) => {
+        spy1();
+        expect(v).toBe(value1);
 
-          return superposition2;
-        }, MockError)
-        .map<number, MockError>(() => {
-          spy2();
+        return superposition2;
+      }, MockError).map<number, MockError>(() => {
+        spy2();
 
-          return superposition3;
-        }, MockError)
-        .map<number, MockError>((v: number) => {
-          spy3();
-          expect(v).toBe(value3);
+        return superposition3;
+      }, MockError).map<number, MockError>((v: number) => {
+        spy3();
+        expect(v).toBe(value3);
 
-          return superposition3;
-        }, MockError)
-        .terminate();
+        return superposition3;
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -529,24 +501,20 @@ describe('SuperpositionInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await superposition
-        .map<number>((v: number) => {
-          spy1();
-          expect(v).toBe(value);
+      await superposition.map<number>((v: number) => {
+        spy1();
+        expect(v).toBe(value);
 
-          throw error;
-        }, MockError)
-        .map<number, MockError>(() => {
-          spy2();
+        throw error;
+      }, MockError).map<number, MockError>(() => {
+        spy2();
 
-          throw error;
-        }, MockError)
-        .map<number, MockError>(() => {
-          spy3();
+        throw error;
+      }, MockError).map<number, MockError>(() => {
+        spy3();
 
-          throw error;
-        }, MockError)
-        .terminate();
+        throw error;
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -568,24 +536,20 @@ describe('SuperpositionInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await superposition
-        .map<number>((v: number) => {
-          spy1();
-          expect(v).toBe(value);
+      await superposition.map<number>((v: number) => {
+        spy1();
+        expect(v).toBe(value);
 
-          return Promise.reject<number>(error);
-        }, MockError)
-        .map<number, MockError>(() => {
-          spy2();
+        return Promise.reject<number>(error);
+      }, MockError).map<number, MockError>(() => {
+        spy2();
 
-          return Promise.reject<number>(error);
-        }, MockError)
-        .map<number, MockError>(() => {
-          spy3();
+        return Promise.reject<number>(error);
+      }, MockError).map<number, MockError>(() => {
+        spy3();
 
-          return Promise.reject<number>(error);
-        }, MockError)
-        .terminate();
+        return Promise.reject<number>(error);
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -619,24 +583,20 @@ describe('SuperpositionInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await superposition1
-        .map<number>((v: number) => {
-          spy1();
-          expect(v).toBe(value);
+      await superposition1.map<number>((v: number) => {
+        spy1();
+        expect(v).toBe(value);
 
-          return superposition2;
-        }, MockError)
-        .map<number, MockError>(() => {
-          spy2();
+        return superposition2;
+      }, MockError).map<number, MockError>(() => {
+        spy2();
 
-          return superposition3;
-        }, MockError)
-        .map<number, MockError>(() => {
-          spy3();
+        return superposition3;
+      }, MockError).map<number, MockError>(() => {
+        spy3();
 
-          return superposition3;
-        }, MockError)
-        .terminate();
+        return superposition3;
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -659,29 +619,24 @@ describe('SuperpositionInternal', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      await superposition
-        .map<number>((v: number) => {
-          spy1();
-          expect(v).toBe(value);
+      await superposition.map<number>((v: number) => {
+        spy1();
+        expect(v).toBe(value);
 
-          throw error;
-        })
-        .map<number, MockError>(() => {
-          spy2();
+        throw error;
+      }).map<number, MockError>(() => {
+        spy2();
 
-          throw error;
-        })
-        .map<number, MockError>(() => {
-          spy3();
+        throw error;
+      }).map<number, MockError>(() => {
+        spy3();
 
-          throw error;
-        })
-        .recover<number, MockError>(() => {
-          spy4();
+        throw error;
+      }).recover<number, MockError>(() => {
+        spy4();
 
-          throw error;
-        })
-        .terminate();
+        throw error;
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -705,29 +660,24 @@ describe('SuperpositionInternal', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      await superposition
-        .map<number>((v: number) => {
-          spy1();
-          expect(v).toBe(value);
+      await superposition.map<number>((v: number) => {
+        spy1();
+        expect(v).toBe(value);
 
-          return Promise.reject<number>(error);
-        })
-        .map<number, MockError>(() => {
-          spy2();
+        return Promise.reject<number>(error);
+      }).map<number, MockError>(() => {
+        spy2();
 
-          return Promise.reject<number>(error);
-        })
-        .map<number, MockError>(() => {
-          spy3();
+        return Promise.reject<number>(error);
+      }).map<number, MockError>(() => {
+        spy3();
 
-          return Promise.reject<number>(error);
-        })
-        .recover<number, MockError>(() => {
-          spy4();
+        return Promise.reject<number>(error);
+      }).recover<number, MockError>(() => {
+        spy4();
 
-          return Promise.reject<number>(error);
-        })
-        .terminate();
+        return Promise.reject<number>(error);
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -771,29 +721,24 @@ describe('SuperpositionInternal', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      await superposition1
-        .map<number>((v: number) => {
-          spy1();
-          expect(v).toBe(value);
+      await superposition1.map<number>((v: number) => {
+        spy1();
+        expect(v).toBe(value);
 
-          return superposition2;
-        }, MockError)
-        .map<number, MockError>(() => {
-          spy2();
+        return superposition2;
+      }, MockError).map<number, MockError>(() => {
+        spy2();
 
-          return superposition3;
-        }, MockError)
-        .map<number, MockError>(() => {
-          spy3();
+        return superposition3;
+      }, MockError).map<number, MockError>(() => {
+        spy3();
 
-          return superposition4;
-        }, MockError)
-        .recover<number, MockError>(() => {
-          spy4();
+        return superposition4;
+      }, MockError).recover<number, MockError>(() => {
+        spy4();
 
-          return superposition4;
-        }, MockError)
-        .terminate();
+        return superposition4;
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -822,26 +767,22 @@ describe('SuperpositionInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await superposition1
-        .map<number, MockError>((v: number) => {
-          spy1();
-          expect(v).toBe(value1);
+      await superposition1.map<number, MockError>((v: number) => {
+        spy1();
+        expect(v).toBe(value1);
 
-          return superposition2;
-        }, MockError)
-        .map<number, MockError>((v: number) => {
-          spy2();
-          expect(v).toBe(value2);
+        return superposition2;
+      }, MockError).map<number, MockError>((v: number) => {
+        spy2();
+        expect(v).toBe(value2);
 
-          return superposition2;
-        }, MockError)
-        .map<number, MockError>((v: number) => {
-          spy3();
-          expect(v).toBe(value2);
+        return superposition2;
+      }, MockError).map<number, MockError>((v: number) => {
+        spy3();
+        expect(v).toBe(value2);
 
-          return superposition2;
-        }, MockError)
-        .terminate();
+        return superposition2;
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -869,24 +810,20 @@ describe('SuperpositionInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await superposition1
-        .map<number, MockError>((v: number) => {
-          spy1();
-          expect(v).toBe(value1);
+      await superposition1.map<number, MockError>((v: number) => {
+        spy1();
+        expect(v).toBe(value1);
 
-          return superposition2;
-        }, MockError)
-        .recover<number, MockError>(() => {
-          spy2();
+        return superposition2;
+      }, MockError).recover<number, MockError>(() => {
+        spy2();
 
-          return superposition2;
-        }, MockError)
-        .recover<number, MockError>(() => {
-          spy3();
+        return superposition2;
+      }, MockError).recover<number, MockError>(() => {
+        spy3();
 
-          return superposition2;
-        }, MockError)
-        .terminate();
+        return superposition2;
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -914,25 +851,21 @@ describe('SuperpositionInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await superposition1
-        .map<number, MockError>((v: number) => {
-          spy1();
-          expect(v).toBe(value1);
+      await superposition1.map<number, MockError>((v: number) => {
+        spy1();
+        expect(v).toBe(value1);
 
-          return superposition2;
-        }, MockError)
-        .recover<number, MockError>(() => {
-          spy2();
+        return superposition2;
+      }, MockError).recover<number, MockError>(() => {
+        spy2();
 
-          return superposition2;
-        }, MockError)
-        .map<number, MockError>((v: number) => {
-          spy3();
-          expect(v).toBe(value1);
+        return superposition2;
+      }, MockError).map<number, MockError>((v: number) => {
+        spy3();
+        expect(v).toBe(value1);
 
-          return superposition2;
-        }, MockError)
-        .terminate();
+        return superposition2;
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -956,25 +889,21 @@ describe('SuperpositionInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await superposition
-        .map<number, MockError>((v: number) => {
-          spy1();
+      await superposition.map<number, MockError>((v: number) => {
+        spy1();
 
-          return v + 1;
-        }, MockError)
-        .recover<number, MockError>((err: MockError) => {
-          spy2();
-          expect(err).toBe(error);
+        return v + 1;
+      }, MockError).recover<number, MockError>((err: MockError) => {
+        spy2();
+        expect(err).toBe(error);
 
-          return value + 13;
-        }, MockError)
-        .map<number, MockError>((v: number) => {
-          spy3();
-          expect(v).toBe(value + 13);
+        return value + 13;
+      }, MockError).map<number, MockError>((v: number) => {
+        spy3();
+        expect(v).toBe(value + 13);
 
-          return value + 130;
-        }, MockError)
-        .terminate();
+        return value + 130;
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -996,25 +925,21 @@ describe('SuperpositionInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await superposition
-        .map<number, MockError>((v: number) => {
-          spy1();
+      await superposition.map<number, MockError>((v: number) => {
+        spy1();
 
-          return Promise.resolve<number>(v + 1);
-        }, MockError)
-        .recover<number, MockError>((err: MockError) => {
-          spy2();
-          expect(err).toBe(error);
+        return Promise.resolve<number>(v + 1);
+      }, MockError).recover<number, MockError>((err: MockError) => {
+        spy2();
+        expect(err).toBe(error);
 
-          return Promise.resolve<number>(value + 13);
-        }, MockError)
-        .map<number, MockError>((v: number) => {
-          spy3();
-          expect(v).toBe(v + 13);
+        return Promise.resolve<number>(value + 13);
+      }, MockError).map<number, MockError>((v: number) => {
+        spy3();
+        expect(v).toBe(v + 13);
 
-          return Promise.resolve<number>(v + 130);
-        }, MockError)
-        .terminate();
+        return Promise.resolve<number>(v + 130);
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -1049,25 +974,21 @@ describe('SuperpositionInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await superposition1
-        .map<number, MockError>(() => {
-          spy1();
+      await superposition1.map<number, MockError>(() => {
+        spy1();
 
-          return superposition2;
-        }, MockError)
-        .recover<number, MockError>((err: MockError) => {
-          spy2();
-          expect(err).toBe(error);
+        return superposition2;
+      }, MockError).recover<number, MockError>((err: MockError) => {
+        spy2();
+        expect(err).toBe(error);
 
-          return superposition3;
-        }, MockError)
-        .map<number, MockError>((v: number) => {
-          spy3();
-          expect(v).toBe(value2);
+        return superposition3;
+      }, MockError).map<number, MockError>((v: number) => {
+        spy3();
+        expect(v).toBe(value2);
 
-          return superposition3;
-        }, MockError)
-        .terminate();
+        return superposition3;
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -1090,26 +1011,22 @@ describe('SuperpositionInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await superposition
-        .recover<number, MockError>((err: MockError) => {
-          spy1();
-          expect(err).toBe(error1);
+      await superposition.recover<number, MockError>((err: MockError) => {
+        spy1();
+        expect(err).toBe(error1);
 
-          throw error2;
-        }, MockError)
-        .recover<number, MockError>((err: MockError) => {
-          spy2();
-          expect(err).toBe(error2);
+        throw error2;
+      }, MockError).recover<number, MockError>((err: MockError) => {
+        spy2();
+        expect(err).toBe(error2);
 
-          return value + 13;
-        }, MockError)
-        .map<number, MockError>((v: number) => {
-          spy3();
-          expect(v).toBe(value + 13);
+        return value + 13;
+      }, MockError).map<number, MockError>((v: number) => {
+        spy3();
+        expect(v).toBe(value + 13);
 
-          return value + 130;
-        }, MockError)
-        .terminate();
+        return value + 130;
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -1132,26 +1049,22 @@ describe('SuperpositionInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await superposition
-        .recover<number, MockError>((err: MockError) => {
-          spy1();
-          expect(err).toBe(error1);
+      await superposition.recover<number, MockError>((err: MockError) => {
+        spy1();
+        expect(err).toBe(error1);
 
-          return Promise.reject<number>(error2);
-        }, MockError)
-        .recover<number, MockError>((err: MockError) => {
-          spy2();
-          expect(err).toBe(error2);
+        return Promise.reject<number>(error2);
+      }, MockError).recover<number, MockError>((err: MockError) => {
+        spy2();
+        expect(err).toBe(error2);
 
-          return value + 13;
-        }, MockError)
-        .map<number, MockError>((v: number) => {
-          spy3();
-          expect(v).toBe(value + 13);
+        return value + 13;
+      }, MockError).map<number, MockError>((v: number) => {
+        spy3();
+        expect(v).toBe(value + 13);
 
-          return value + 130;
-        }, MockError)
-        .terminate();
+        return value + 130;
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -1186,26 +1099,22 @@ describe('SuperpositionInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await superposition1
-        .map<number, MockError>((v: number) => {
-          spy1();
-          expect(v).toBe(value);
+      await superposition1.map<number, MockError>((v: number) => {
+        spy1();
+        expect(v).toBe(value);
 
-          return superposition2;
-        }, MockError)
-        .recover<number, MockError>((err: MockError) => {
-          spy2();
-          expect(err).toBe(error1);
+        return superposition2;
+      }, MockError).recover<number, MockError>((err: MockError) => {
+        spy2();
+        expect(err).toBe(error1);
 
-          return superposition3;
-        }, MockError)
-        .map<number, MockError>((v: number) => {
-          spy3();
-          expect(v).toBe(v + 13);
+        return superposition3;
+      }, MockError).map<number, MockError>((v: number) => {
+        spy3();
+        expect(v).toBe(v + 13);
 
-          return superposition3;
-        }, MockError)
-        .terminate();
+        return superposition3;
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -1228,29 +1137,24 @@ describe('SuperpositionInternal', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      await superposition
-        .map<number, MockError>((v: number) => {
-          spy1();
-          expect(v).toBe(value);
+      await superposition.map<number, MockError>((v: number) => {
+        spy1();
+        expect(v).toBe(value);
 
-          throw error;
-        })
-        .recover<number, MockError>(() => {
-          spy2();
+        throw error;
+      }).recover<number, MockError>(() => {
+        spy2();
 
-          return value + 13;
-        }, MockError)
-        .map<number, MockError>(() => {
-          spy3();
+        return value + 13;
+      }, MockError).map<number, MockError>(() => {
+        spy3();
 
-          return value + 130;
-        }, MockError)
-        .recover<number, MockError>(() => {
-          spy4();
+        return value + 130;
+      }, MockError).recover<number, MockError>(() => {
+        spy4();
 
-          return value + 13;
-        }, MockError)
-        .terminate();
+        return value + 13;
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -1274,29 +1178,24 @@ describe('SuperpositionInternal', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      await superposition
-        .map<number, MockError>((v: number) => {
-          spy1();
-          expect(v).toBe(value);
+      await superposition.map<number, MockError>((v: number) => {
+        spy1();
+        expect(v).toBe(value);
 
-          return Promise.reject<number>(error);
-        })
-        .recover<number, MockError>(() => {
-          spy2();
+        return Promise.reject<number>(error);
+      }).recover<number, MockError>(() => {
+        spy2();
 
-          return Promise.reject<number>(error);
-        }, MockError)
-        .map<number, MockError>(() => {
-          spy3();
+        return Promise.reject<number>(error);
+      }, MockError).map<number, MockError>(() => {
+        spy3();
 
-          return Promise.reject<number>(error);
-        }, MockError)
-        .recover<number, MockError>(() => {
-          spy4();
+        return Promise.reject<number>(error);
+      }, MockError).recover<number, MockError>(() => {
+        spy4();
 
-          return Promise.reject<number>(error);
-        }, MockError)
-        .terminate();
+        return Promise.reject<number>(error);
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -1340,24 +1239,20 @@ describe('SuperpositionInternal', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      await superposition1
-        .map<number, MockError>((v: number) => {
-          spy1();
-          expect(v).toBe(value);
+      await superposition1.map<number, MockError>((v: number) => {
+        spy1();
+        expect(v).toBe(value);
 
-          return superposition2;
-        }, MockError)
-        .recover<number, MockError>(() => {
-          spy2();
+        return superposition2;
+      }, MockError).recover<number, MockError>(() => {
+        spy2();
 
-          return superposition3;
-        }, MockError)
-        .map<number, MockError>(() => {
-          spy3();
+        return superposition3;
+      }, MockError).map<number, MockError>(() => {
+        spy3();
 
-          return superposition4;
-        }, MockError)
-        .terminate();
+        return superposition4;
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -1386,26 +1281,22 @@ describe('SuperpositionInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await superposition1
-        .map<number, MockError>((v: number) => {
-          spy1();
-          expect(v).toBe(value1);
+      await superposition1.map<number, MockError>((v: number) => {
+        spy1();
+        expect(v).toBe(value1);
 
-          return superposition2;
-        }, MockError)
-        .map<number>((v: number) => {
-          spy2();
-          expect(v).toBe(value2);
+        return superposition2;
+      }, MockError).map<number>((v: number) => {
+        spy2();
+        expect(v).toBe(value2);
 
-          return superposition2;
-        }, MockError)
-        .map<number, MockError>((v: number) => {
-          spy3();
-          expect(v).toBe(value2);
+        return superposition2;
+      }, MockError).map<number, MockError>((v: number) => {
+        spy3();
+        expect(v).toBe(value2);
 
-          return superposition2;
-        }, MockError)
-        .terminate();
+        return superposition2;
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -1433,26 +1324,22 @@ describe('SuperpositionInternal', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      await superposition1
-        .map<number, MockError>((v: number) => {
-          spy1();
-          expect(v).toBe(value);
+      await superposition1.map<number, MockError>((v: number) => {
+        spy1();
+        expect(v).toBe(value);
 
-          return superposition2;
-        }, MockError)
-        .recover<number, MockError>((err: MockError) => {
-          spy2();
-          expect(err).toBe(error);
+        return superposition2;
+      }, MockError).recover<number, MockError>((err: MockError) => {
+        spy2();
+        expect(err).toBe(error);
 
-          return superposition2;
-        }, MockError)
-        .recover<number, MockError>((err: MockError) => {
-          spy3();
-          expect(err).toBe(error);
+        return superposition2;
+      }, MockError).recover<number, MockError>((err: MockError) => {
+        spy3();
+        expect(err).toBe(error);
 
-          return superposition2;
-        }, MockError)
-        .terminate();
+        return superposition2;
+      }, MockError).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -1478,36 +1365,33 @@ describe('SuperpositionInternal', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      await superposition
-        .transform<number, MockError>(
-          (v: number) => {
-            spy1();
-            expect(v).toBe(value1);
+      await superposition.transform<number, MockError>(
+        (v: number) => {
+          spy1();
+          expect(v).toBe(value1);
 
-            return value2;
-          },
-          () => {
-            spy2();
+          return value2;
+        },
+        () => {
+          spy2();
 
-            return value3;
-          },
-          MockError
-        )
-        .transform<number, MockError>(
-          (v: number) => {
-            spy3();
-            expect(v).toBe(value2);
+          return value3;
+        },
+        MockError
+      ).transform<number, MockError>(
+        (v: number) => {
+          spy3();
+          expect(v).toBe(value2);
 
-            return value2;
-          },
-          () => {
-            spy4();
+          return value2;
+        },
+        () => {
+          spy4();
 
-            return value3;
-          },
-          MockError
-        )
-        .terminate();
+          return value3;
+        },
+        MockError
+      ).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -1532,36 +1416,33 @@ describe('SuperpositionInternal', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      await superposition
-        .transform<number, MockError>(
-          (v: number) => {
-            spy1();
-            expect(v).toBe(value1);
+      await superposition.transform<number, MockError>(
+        (v: number) => {
+          spy1();
+          expect(v).toBe(value1);
 
-            return Promise.resolve<number>(value2);
-          },
-          () => {
-            spy2();
+          return Promise.resolve<number>(value2);
+        },
+        () => {
+          spy2();
 
-            return Promise.resolve<number>(value3);
-          },
-          MockError
-        )
-        .transform<number, MockError>(
-          (v: number) => {
-            spy3();
-            expect(v).toBe(value2);
+          return Promise.resolve<number>(value3);
+        },
+        MockError
+      ).transform<number, MockError>(
+        (v: number) => {
+          spy3();
+          expect(v).toBe(value2);
 
-            return Promise.resolve<number>(value2);
-          },
-          () => {
-            spy4();
+          return Promise.resolve<number>(value2);
+        },
+        () => {
+          spy4();
 
-            return Promise.resolve<number>(value3);
-          },
-          MockError
-        )
-        .terminate();
+          return Promise.resolve<number>(value3);
+        },
+        MockError
+      ).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -1598,36 +1479,33 @@ describe('SuperpositionInternal', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      await superposition1
-        .transform<number, MockError>(
-          (v: number) => {
-            spy1();
-            expect(v).toBe(value1);
+      await superposition1.transform<number, MockError>(
+        (v: number) => {
+          spy1();
+          expect(v).toBe(value1);
 
-            return superposition2;
-          },
-          () => {
-            spy2();
+          return superposition2;
+        },
+        () => {
+          spy2();
 
-            return superposition3;
-          },
-          MockError
-        )
-        .transform<number, MockError>(
-          (v: number) => {
-            spy3();
-            expect(v).toBe(value2);
+          return superposition3;
+        },
+        MockError
+      ).transform<number, MockError>(
+        (v: number) => {
+          spy3();
+          expect(v).toBe(value2);
 
-            return superposition2;
-          },
-          () => {
-            spy4();
+          return superposition2;
+        },
+        () => {
+          spy4();
 
-            return superposition3;
-          },
-          MockError
-        )
-        .terminate();
+          return superposition3;
+        },
+        MockError
+      ).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -1652,34 +1530,31 @@ describe('SuperpositionInternal', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      await superposition
-        .transform<number, MockError>(
-          () => {
-            spy1();
+      await superposition.transform<number, MockError>(
+        () => {
+          spy1();
 
-            throw error2;
-          },
-          (err: MockError) => {
-            spy2();
-            expect(err).toBe(error1);
+          throw error2;
+        },
+        (err: MockError) => {
+          spy2();
+          expect(err).toBe(error1);
 
-            throw error3;
-          }
-        )
-        .transform<number, MockError>(
-          () => {
-            spy3();
+          throw error3;
+        }
+      ).transform<number, MockError>(
+        () => {
+          spy3();
 
-            throw error2;
-          },
-          (err: MockError) => {
-            spy4();
-            expect(err).toBe(error1);
+          throw error2;
+        },
+        (err: MockError) => {
+          spy4();
+          expect(err).toBe(error1);
 
-            throw error3;
-          }
-        )
-        .terminate();
+          throw error3;
+        }
+      ).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -1704,36 +1579,33 @@ describe('SuperpositionInternal', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      await superposition
-        .transform<number, MockError>(
-          () => {
-            spy1();
+      await superposition.transform<number, MockError>(
+        () => {
+          spy1();
 
-            return Promise.reject<number>(error2);
-          },
-          (err: MockError) => {
-            spy2();
-            expect(err).toBe(error1);
+          return Promise.reject<number>(error2);
+        },
+        (err: MockError) => {
+          spy2();
+          expect(err).toBe(error1);
 
-            return Promise.reject<number>(error3);
-          },
-          MockError
-        )
-        .transform<number, MockError>(
-          () => {
-            spy3();
+          return Promise.reject<number>(error3);
+        },
+        MockError
+      ).transform<number, MockError>(
+        () => {
+          spy3();
 
-            return Promise.reject<number>(error2);
-          },
-          (err: MockError) => {
-            spy4();
-            expect(err).toBe(error1);
+          return Promise.reject<number>(error2);
+        },
+        (err: MockError) => {
+          spy4();
+          expect(err).toBe(error1);
 
-            return Promise.reject<number>(error3);
-          },
-          MockError
-        )
-        .terminate();
+          return Promise.reject<number>(error3);
+        },
+        MockError
+      ).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -1770,36 +1642,33 @@ describe('SuperpositionInternal', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      await superposition1
-        .transform<number, MockError>(
-          () => {
-            spy1();
+      await superposition1.transform<number, MockError>(
+        () => {
+          spy1();
 
-            return superposition2;
-          },
-          (err: MockError) => {
-            spy2();
-            expect(err).toBe(error1);
+          return superposition2;
+        },
+        (err: MockError) => {
+          spy2();
+          expect(err).toBe(error1);
 
-            return superposition3;
-          },
-          MockError
-        )
-        .transform<number, MockError>(
-          () => {
-            spy3();
+          return superposition3;
+        },
+        MockError
+      ).transform<number, MockError>(
+        () => {
+          spy3();
 
-            return superposition2;
-          },
-          (err: MockError) => {
-            spy4();
-            expect(err).toBe(error1);
+          return superposition2;
+        },
+        (err: MockError) => {
+          spy4();
+          expect(err).toBe(error1);
 
-            return superposition3;
-          },
-          MockError
-        )
-        .terminate();
+          return superposition3;
+        },
+        MockError
+      ).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -1831,50 +1700,46 @@ describe('SuperpositionInternal', () => {
       const spy5: SinonSpy = sinon.spy();
       const spy6: SinonSpy = sinon.spy();
 
-      await superposition1
-        .transform<number, MockError>(
-          (v: number) => {
-            spy1();
-            expect(v).toBe(value1);
+      await superposition1.transform<number, MockError>(
+        (v: number) => {
+          spy1();
+          expect(v).toBe(value1);
 
-            return superposition2;
-          },
-          () => {
-            spy2();
+          return superposition2;
+        },
+        () => {
+          spy2();
 
-            return superposition2;
-          },
-          MockError
-        )
-        .transform<number, MockError>(
-          (v: number) => {
-            spy3();
-            expect(v).toBe(value2);
+          return superposition2;
+        },
+        MockError
+      ).transform<number, MockError>(
+        (v: number) => {
+          spy3();
+          expect(v).toBe(value2);
 
-            return superposition2;
-          },
-          () => {
-            spy4();
+          return superposition2;
+        },
+        () => {
+          spy4();
 
-            return superposition2;
-          },
-          MockError
-        )
-        .transform<number, MockError>(
-          (v: number) => {
-            spy5();
-            expect(v).toBe(value2);
+          return superposition2;
+        },
+        MockError
+      ).transform<number, MockError>(
+        (v: number) => {
+          spy5();
+          expect(v).toBe(value2);
 
-            return superposition2;
-          },
-          () => {
-            spy6();
+          return superposition2;
+        },
+        () => {
+          spy6();
 
-            return superposition2;
-          },
-          MockError
-        )
-        .terminate();
+          return superposition2;
+        },
+        MockError
+      ).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -1908,50 +1773,46 @@ describe('SuperpositionInternal', () => {
       const spy5: SinonSpy = sinon.spy();
       const spy6: SinonSpy = sinon.spy();
 
-      await superposition1
-        .transform<number, MockError>(
-          () => {
-            spy1();
+      await superposition1.transform<number, MockError>(
+        () => {
+          spy1();
 
-            return superposition2;
-          },
-          (err: MockError) => {
-            spy2();
-            expect(err).toBe(error1);
+          return superposition2;
+        },
+        (err: MockError) => {
+          spy2();
+          expect(err).toBe(error1);
 
-            return superposition2;
-          },
-          MockError
-        )
-        .transform<number, MockError>(
-          () => {
-            spy3();
+          return superposition2;
+        },
+        MockError
+      ).transform<number, MockError>(
+        () => {
+          spy3();
 
-            return superposition2;
-          },
-          (err: MockError) => {
-            spy4();
-            expect(err).toBe(error2);
+          return superposition2;
+        },
+        (err: MockError) => {
+          spy4();
+          expect(err).toBe(error2);
 
-            return superposition2;
-          },
-          MockError
-        )
-        .transform<number, MockError>(
-          () => {
-            spy5();
+          return superposition2;
+        },
+        MockError
+      ).transform<number, MockError>(
+        () => {
+          spy5();
 
-            return superposition2;
-          },
-          (err: MockError) => {
-            spy6();
-            expect(err).toBe(error2);
+          return superposition2;
+        },
+        (err: MockError) => {
+          spy6();
+          expect(err).toBe(error2);
 
-            return superposition2;
-          },
-          MockError
-        )
-        .terminate();
+          return superposition2;
+        },
+        MockError
+      ).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -1985,47 +1846,43 @@ describe('SuperpositionInternal', () => {
       const spy5: SinonSpy = sinon.spy();
       const spy6: SinonSpy = sinon.spy();
 
-      await superposition1
-        .transform<number>(
-          () => {
-            spy1();
+      await superposition1.transform<number>(
+        () => {
+          spy1();
 
-            return superposition2;
-          },
-          () => {
-            spy2();
+          return superposition2;
+        },
+        () => {
+          spy2();
 
-            return superposition2;
-          },
-          MockError
-        )
-        .transform<number>(
-          () => {
-            spy3();
+          return superposition2;
+        },
+        MockError
+      ).transform<number>(
+        () => {
+          spy3();
 
-            return superposition2;
-          },
-          () => {
-            spy4();
+          return superposition2;
+        },
+        () => {
+          spy4();
 
-            return superposition2;
-          },
-          MockError
-        )
-        .transform<number>(
-          () => {
-            spy5();
+          return superposition2;
+        },
+        MockError
+      ).transform<number>(
+        () => {
+          spy5();
 
-            return superposition2;
-          },
-          () => {
-            spy6();
+          return superposition2;
+        },
+        () => {
+          spy6();
 
-            return superposition2;
-          },
-          MockError
-        )
-        .terminate();
+          return superposition2;
+        },
+        MockError
+      ).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(false);

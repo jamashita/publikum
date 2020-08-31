@@ -7,27 +7,21 @@ import { Matter } from '../Interface/Matter';
 
 export class PresentPlan<P, Q> implements MappingPlan<P, 'PresentPlan'> {
   public readonly noun: 'PresentPlan' = 'PresentPlan';
-  private readonly mapper: UnaryFunction<
-    Matter<P>,
-    IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>
-  >;
+  private readonly mapper: UnaryFunction<Matter<P>,
+    IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>;
   private readonly epoque: Epoque<Matter<Q>, void>;
 
   public static of<P, Q>(
-    mapper: UnaryFunction<
-      Matter<P>,
-      IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>
-    >,
+    mapper: UnaryFunction<Matter<P>,
+      IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>,
     epoque: Epoque<Matter<Q>, void>
   ): PresentPlan<P, Q> {
     return new PresentPlan<P, Q>(mapper, epoque);
   }
 
   protected constructor(
-    mapper: UnaryFunction<
-      Matter<P>,
-      IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>
-    >,
+    mapper: UnaryFunction<Matter<P>,
+      IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>,
     epoque: Epoque<Matter<Q>, void>
   ) {
     this.mapper = mapper;

@@ -23,9 +23,7 @@ export class Superposition<A, D extends Error> implements ISuperposition<A, D, '
       return Superposition.alive<Array<A>, D>([]);
     }
 
-    const promises: Array<PromiseLike<Schrodinger<A, D>>> = Array.from<Superposition<A, D>>(superpositions).map<
-      PromiseLike<Schrodinger<A, D>>
-    >((s: Superposition<A, D>) => {
+    const promises: Array<PromiseLike<Schrodinger<A, D>>> = Array.from<Superposition<A, D>>(superpositions).map<PromiseLike<Schrodinger<A, D>>>((s: Superposition<A, D>) => {
       return s.terminate();
     });
 

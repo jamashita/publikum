@@ -8,10 +8,8 @@ import { containsError, isSuperposition, ISuperposition } from '../Interface/ISu
 
 export class AlivePlan<A, B, E extends Error> implements MappingPlan<A, 'AlivePlan'> {
   public readonly noun: 'AlivePlan' = 'AlivePlan';
-  private readonly mapper: UnaryFunction<
-    Detoxicated<A>,
-    ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>
-  >;
+  private readonly mapper: UnaryFunction<Detoxicated<A>,
+    ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>;
   private readonly epoque: Epoque<Detoxicated<B>, E>;
   private readonly errors: Array<DeadConstructor<E>>;
 
