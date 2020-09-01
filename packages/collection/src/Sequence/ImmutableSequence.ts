@@ -43,7 +43,7 @@ export class ImmutableSequence<E extends Nominative<E>> extends ASequence<E, 'Im
     return ImmutableSequence.of<E>(elements);
   }
 
-  public add(...elements: Array<E>): ImmutableSequence<E> {
+  public add(...elements: ReadonlyArray<E>): ImmutableSequence<E> {
     if (elements.length === 0) {
       return this;
     }

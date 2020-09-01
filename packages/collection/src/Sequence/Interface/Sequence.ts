@@ -6,7 +6,7 @@ export interface Sequence<E extends Nominative<E>, N extends string = string>
   extends Collection<Sequence<E, N>, number, E, N>,
     Cloneable<Sequence<E, N>>,
     Nominative<Sequence<E, N>, N> {
-  add(...elements: Array<E>): Sequence<E, N>;
+  add(...elements: ReadonlyArray<E>): Sequence<E, N>;
 
   set(index: number, element: E): Sequence<E>;
 

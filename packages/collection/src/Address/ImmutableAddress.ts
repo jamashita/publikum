@@ -34,7 +34,7 @@ export class ImmutableAddress<E extends Nominative<E>> extends AAddress<E, 'Immu
     super(elements);
   }
 
-  public add(...elements: Array<E>): ImmutableAddress<E> {
+  public add(...elements: ReadonlyArray<E>): ImmutableAddress<E> {
     if (elements.length === 0) {
       return this;
     }

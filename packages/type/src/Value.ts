@@ -7,7 +7,7 @@ export type Eliminate<T, U extends T> = Exclude<T, U>;
 export type Retain<T, U extends T> = Extract<T, U>;
 export type Constructor = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  new(...args: Array<any>): any;
+  new(...args: ReadonlyArray<any>): any;
 };
 export type Freeze<T extends object> = {
   readonly [P in keyof T]: T[P] extends object ? Freeze<T[P]> : T[P];

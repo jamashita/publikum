@@ -16,15 +16,15 @@ export interface IRedis {
 
   getString(): IRedisString;
 
-  delete(...keys: Array<string>): Promise<boolean>;
+  delete(...keys: ReadonlyArray<string>): Promise<boolean>;
 
-  exists(...keys: Array<string>): Promise<boolean>;
+  exists(...keys: ReadonlyArray<string>): Promise<boolean>;
 
   expires(key: string, seconds: number): Promise<boolean>;
 
-  subscribe(...channels: Array<string>): Promise<number>;
+  subscribe(...channels: ReadonlyArray<string>): Promise<number>;
 
-  unsubscribe(...channels: Array<string>): Promise<number>;
+  unsubscribe(...channels: ReadonlyArray<string>): Promise<number>;
 
   publish(channel: string, message: string): Promise<number>;
 

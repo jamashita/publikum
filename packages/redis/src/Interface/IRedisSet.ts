@@ -1,9 +1,9 @@
 import { Nullable } from '@jamashita/publikum-type';
 
 export interface IRedisSet {
-  add(key: string, ...values: Array<string>): Promise<number>;
+  add(key: string, ...values: ReadonlyArray<string>): Promise<number>;
 
-  remove(key: string, ...values: Array<string>): Promise<number>;
+  remove(key: string, ...values: ReadonlyArray<string>): Promise<number>;
 
   has(key: string, value: string): Promise<boolean>;
 

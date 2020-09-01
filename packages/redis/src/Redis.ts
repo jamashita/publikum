@@ -45,7 +45,7 @@ export class Redis implements IRedis {
     return this.string;
   }
 
-  public async delete(...keys: Array<string>): Promise<boolean> {
+  public async delete(...keys: ReadonlyArray<string>): Promise<boolean> {
     try {
       const result: number = await this.client.del(...keys);
 
@@ -64,7 +64,7 @@ export class Redis implements IRedis {
     }
   }
 
-  public async exists(...keys: Array<string>): Promise<boolean> {
+  public async exists(...keys: ReadonlyArray<string>): Promise<boolean> {
     try {
       const result: number = await this.client.exists(...keys);
 
@@ -102,7 +102,7 @@ export class Redis implements IRedis {
     }
   }
 
-  public async subscribe(...channels: Array<string>): Promise<number> {
+  public async subscribe(...channels: ReadonlyArray<string>): Promise<number> {
     try {
       const result: number = await this.client.subscribe(...channels);
 
@@ -117,7 +117,7 @@ export class Redis implements IRedis {
     }
   }
 
-  public async unsubscribe(...channels: Array<string>): Promise<number> {
+  public async unsubscribe(...channels: ReadonlyArray<string>): Promise<number> {
     try {
       return await this.client.unsubscribe(...channels);
     }

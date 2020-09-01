@@ -32,7 +32,7 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
     })[Symbol.iterator]();
   }
 
-  public abstract add(...elements: Array<E>): Sequence<E, N>;
+  public abstract add(...elements: ReadonlyArray<E>): Sequence<E, N>;
 
   public abstract set(index: number, element: E): Sequence<E>;
 
@@ -143,10 +143,8 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
   }
 
   public serialize(): string {
-    return this.elements
-      .map<string>((element: E) => {
-        return element.toString();
-      })
-      .join(', ');
+    return this.elements.map<string>((element: E) => {
+      return element.toString();
+    }).join(', ');
   }
 }

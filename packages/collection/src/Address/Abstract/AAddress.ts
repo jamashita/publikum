@@ -32,7 +32,7 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     }
   }
 
-  public abstract add(...elements: Array<E>): Address<E, N>;
+  public abstract add(...elements: ReadonlyArray<E>): Address<E, N>;
 
   public abstract remove(element: E): Address<E, N>;
 

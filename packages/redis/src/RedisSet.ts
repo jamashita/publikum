@@ -10,7 +10,7 @@ export class RedisSet implements IRedisSet {
     this.client = client;
   }
 
-  public async add(key: string, ...values: Array<string>): Promise<number> {
+  public async add(key: string, ...values: ReadonlyArray<string>): Promise<number> {
     try {
       return await this.client.sadd(key, ...values);
     }
@@ -23,7 +23,7 @@ export class RedisSet implements IRedisSet {
     }
   }
 
-  public async remove(key: string, ...values: Array<string>): Promise<number> {
+  public async remove(key: string, ...values: ReadonlyArray<string>): Promise<number> {
     try {
       return await this.client.srem(key, ...values);
     }
