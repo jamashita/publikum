@@ -8,8 +8,8 @@ export class Contradiction<A, D extends Error> extends ValueObject<Contradiction
   public readonly noun: 'Contradiction' = 'Contradiction';
   private readonly cause: unknown;
 
-  public static of<A, D extends Error>(cause: unknown): Contradiction<A, D> {
-    return new Contradiction<A, D>(cause);
+  public static of<AT, DT extends Error>(cause: unknown): Contradiction<AT, DT> {
+    return new Contradiction<AT, DT>(cause);
   }
 
   protected constructor(cause: unknown) {

@@ -10,8 +10,8 @@ export class Still<A, D extends Error> extends ValueObject<Still<A, D>, 'Still'>
   public readonly noun: 'Still' = 'Still';
   private static readonly INSTANCE: Still<unknown, Error> = new Still<unknown, Error>();
 
-  public static of<A, D extends Error>(): Still<A, D> {
-    return (Still.INSTANCE as unknown) as Still<A, D>;
+  public static of<AT, DT extends Error>(): Still<AT, DT> {
+    return (Still.INSTANCE as unknown) as Still<AT, DT>;
   }
 
   protected constructor() {

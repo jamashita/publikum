@@ -8,8 +8,8 @@ export class Dead<A, D extends Error> extends ValueObject<Dead<A, D>, 'Dead'> im
   public readonly noun: 'Dead' = 'Dead';
   private readonly error: D;
 
-  public static of<A, D extends Error>(error: D): Dead<A, D> {
-    return new Dead<A, D>(error);
+  public static of<AT, DT extends Error>(error: DT): Dead<AT, DT> {
+    return new Dead<AT, DT>(error);
   }
 
   protected constructor(error: D) {

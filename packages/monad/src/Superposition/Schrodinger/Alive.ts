@@ -10,8 +10,8 @@ export class Alive<A, D extends Error> extends ValueObject<Alive<A, D>, 'Alive'>
   public readonly noun: 'Alive' = 'Alive';
   private readonly value: Detoxicated<A>;
 
-  public static of<A, D extends Error>(value: Detoxicated<A>): Alive<A, D> {
-    return new Alive<A, D>(value);
+  public static of<AT, DT extends Error>(value: Detoxicated<AT>): Alive<AT, DT> {
+    return new Alive<AT, DT>(value);
   }
 
   protected constructor(value: Detoxicated<A>) {
