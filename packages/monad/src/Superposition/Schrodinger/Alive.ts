@@ -1,11 +1,12 @@
 import { isEqualable } from '@jamashita/publikum-interface';
-import { Consumer } from '@jamashita/publikum-type';
+import { ValueObject } from '@jamashita/publikum-object';
+import { Consumer, Kind } from '@jamashita/publikum-type';
 import { Detoxicated } from '../Interface/Detoxicated';
 import { Contradiction } from './Contradiction';
 import { Dead } from './Dead';
 import { Schrodinger } from './Schrodinger';
 
-export class Alive<A, D extends Error> implements Schrodinger<A, D, 'Alive'> {
+export class Alive<A, D extends Error> extends ValueObject<Alive<A, D>, 'Alive'> implements Schrodinger<A, D, 'Alive'> {
   public readonly noun: 'Alive' = 'Alive';
   private readonly value: Detoxicated<A>;
 
@@ -14,7 +15,12 @@ export class Alive<A, D extends Error> implements Schrodinger<A, D, 'Alive'> {
   }
 
   protected constructor(value: Detoxicated<A>) {
+    super();
     this.value = value;
+  }
+
+  public serialize(): string {
+    return `Alive: ${Kind.notate(this.value)}`;
   }
 
   public get(): Detoxicated<A> {

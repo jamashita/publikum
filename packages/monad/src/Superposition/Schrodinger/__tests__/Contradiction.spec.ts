@@ -1,6 +1,5 @@
 import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
-
 import { Alive } from '../Alive';
 import { Contradiction } from '../Contradiction';
 import { Dead } from '../Dead';
@@ -126,6 +125,12 @@ describe('Contradiction', () => {
       expect(schrodinger.equals(dead)).toBe(false);
       expect(schrodinger.equals(contradiction)).toBe(true);
       expect(schrodinger.equals(still)).toBe(false);
+    });
+  });
+
+  describe('toString', () => {
+    it('returns Contradiction and its retaining cause', () => {
+      expect(Contradiction.of<number, MockError>(null).toString()).toBe('Contradiction: null');
     });
   });
 });

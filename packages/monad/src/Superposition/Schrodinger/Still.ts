@@ -1,3 +1,4 @@
+import { ValueObject } from '@jamashita/publikum-object';
 import { Consumer } from '@jamashita/publikum-type';
 import { SuperpositionError } from '../Error/SuperpositionError';
 import { Alive } from './Alive';
@@ -5,9 +6,8 @@ import { Contradiction } from './Contradiction';
 import { Dead } from './Dead';
 import { Schrodinger } from './Schrodinger';
 
-export class Still<A, D extends Error> implements Schrodinger<A, D, 'Still'> {
+export class Still<A, D extends Error> extends ValueObject<Still<A, D>, 'Still'> implements Schrodinger<A, D, 'Still'> {
   public readonly noun: 'Still' = 'Still';
-
   private static readonly INSTANCE: Still<unknown, Error> = new Still<unknown, Error>();
 
   public static of<A, D extends Error>(): Still<A, D> {
@@ -15,7 +15,11 @@ export class Still<A, D extends Error> implements Schrodinger<A, D, 'Still'> {
   }
 
   protected constructor() {
-    // NOOP
+    super();
+  }
+
+  public serialize(): string {
+    return 'Still';
   }
 
   public get(): never {

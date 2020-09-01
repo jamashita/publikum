@@ -1,7 +1,6 @@
 import { Equalable } from '@jamashita/publikum-interface';
 import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
-
 import { Alive } from '../Alive';
 import { Contradiction } from '../Contradiction';
 import { Dead } from '../Dead';
@@ -140,6 +139,12 @@ describe('Alive', () => {
       expect(schrodinger.equals(schrodinger)).toBe(true);
       expect(schrodinger.equals(alive1)).toBe(true);
       expect(schrodinger.equals(alive2)).toBe(false);
+    });
+  });
+
+  describe('toString', () => {
+    it('returns Alive and its retaining value', () => {
+      expect(Alive.of<boolean, MockError>(true).toString()).toBe('Alive: true');
     });
   });
 });

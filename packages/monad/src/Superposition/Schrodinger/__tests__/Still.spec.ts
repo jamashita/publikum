@@ -1,6 +1,5 @@
 import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
-
 import { SuperpositionError } from '../../Error/SuperpositionError';
 import { Alive } from '../Alive';
 import { Contradiction } from '../Contradiction';
@@ -99,6 +98,12 @@ describe('Still', () => {
       expect(schrodinger.equals(dead)).toBe(false);
       expect(schrodinger.equals(contradiction)).toBe(false);
       expect(schrodinger.equals(still)).toBe(true);
+    });
+  });
+
+  describe('toString', () => {
+    it('returns Still', () => {
+      expect(Still.of<number, MockError>().toString()).toBe('Still');
     });
   });
 });

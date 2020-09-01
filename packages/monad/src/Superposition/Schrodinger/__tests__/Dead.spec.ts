@@ -1,6 +1,5 @@
 import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
-
 import { Alive } from '../Alive';
 import { Contradiction } from '../Contradiction';
 import { Dead } from '../Dead';
@@ -135,6 +134,12 @@ describe('Dead', () => {
       expect(schrodinger.equals(schrodinger)).toBe(true);
       expect(schrodinger.equals(dead1)).toBe(false);
       expect(schrodinger.equals(dead2)).toBe(true);
+    });
+  });
+
+  describe('toString', () => {
+    it('returns Dead and its retaining error', () => {
+      expect(Dead.of<number, Error>(new MockError()).toString()).toBe('Dead: MockError: failed');
     });
   });
 });

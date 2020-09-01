@@ -1,6 +1,5 @@
-import { Equalable, Noun } from '@jamashita/publikum-interface';
+import { Equalable, Nominative } from '@jamashita/publikum-interface';
 import { Consumer } from '@jamashita/publikum-type';
-
 import { Detoxicated } from '../Interface/Detoxicated';
 import { Alive } from './Alive';
 import { Contradiction } from './Contradiction';
@@ -8,9 +7,7 @@ import { Dead } from './Dead';
 
 type SchrodingerType = 'Alive' | 'Dead' | 'Still' | 'Contradiction';
 
-export interface Schrodinger<A, D extends Error, N extends SchrodingerType = SchrodingerType> extends Noun<N>, Equalable<Schrodinger<A, D>> {
-  readonly noun: N;
-
+export interface Schrodinger<A, D extends Error, N extends SchrodingerType = SchrodingerType> extends Nominative<Schrodinger<A, D, N>>, Equalable<Schrodinger<A, D, N>> {
   get(): Detoxicated<A>;
 
   isAlive(): this is Alive<A, D>;

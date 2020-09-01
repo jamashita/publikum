@@ -1,9 +1,10 @@
-import { Consumer } from '@jamashita/publikum-type';
+import { ValueObject } from '@jamashita/publikum-object';
+import { Consumer, Kind } from '@jamashita/publikum-type';
 import { Alive } from './Alive';
 import { Contradiction } from './Contradiction';
 import { Schrodinger } from './Schrodinger';
 
-export class Dead<A, D extends Error> implements Schrodinger<A, D, 'Dead'> {
+export class Dead<A, D extends Error> extends ValueObject<Dead<A, D>, 'Dead'> implements Schrodinger<A, D, 'Dead'> {
   public readonly noun: 'Dead' = 'Dead';
   private readonly error: D;
 
@@ -12,7 +13,12 @@ export class Dead<A, D extends Error> implements Schrodinger<A, D, 'Dead'> {
   }
 
   protected constructor(error: D) {
+    super();
     this.error = error;
+  }
+
+  public serialize(): string {
+    return `Dead: ${Kind.notate(this.error)}`;
   }
 
   public get(): never {
