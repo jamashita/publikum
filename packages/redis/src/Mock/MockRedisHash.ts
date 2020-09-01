@@ -1,6 +1,5 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
 import { Nullable } from '@jamashita/publikum-type';
-
 import { IRedisHash } from '../Interface/IRedisHash';
 
 export class MockRedisHash implements IRedisHash {

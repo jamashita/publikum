@@ -1,6 +1,5 @@
 import { Cloneable, Nominative } from '@jamashita/publikum-interface';
 import { Enumerator, Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
-
 import { Collection } from '../../Interface/Collection';
 
 export interface Sequence<E extends Nominative<E>, N extends string = string>

@@ -1,6 +1,5 @@
 import { Objet } from '@jamashita/publikum-object';
 import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
-
 import { CancellableEnumerator } from './Interface/CancellableEnumerator';
 import { Collection } from './Interface/Collection';
 import { Pair } from './Pair';

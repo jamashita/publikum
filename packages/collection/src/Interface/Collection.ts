@@ -1,6 +1,5 @@
 import { Equalable, Noun, Serializable } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
-
 import { Pair } from '../Pair';
 import { CancellableEnumerator } from './CancellableEnumerator';
 

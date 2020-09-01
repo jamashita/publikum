@@ -1,6 +1,5 @@
 import { MockNominative } from '@jamashita/publikum-object';
 import { Nullable } from '@jamashita/publikum-type';
-
 import { ImmutableSequence } from '../ImmutableSequence';
 
 describe('ImmutableSequence', () => {

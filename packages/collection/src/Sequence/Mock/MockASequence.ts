@@ -1,6 +1,5 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
 import { Nominative } from '@jamashita/publikum-interface';
-
 import { ASequence } from '../Abstract/ASequence';
 
 // TODO RENAME TO MockSequence

@@ -1,5 +1,4 @@
 import { MockNominative } from '@jamashita/publikum-object';
-
 import { ImmutableAddress } from '../ImmutableAddress';
 
 describe('ImmutableAddress', () => {

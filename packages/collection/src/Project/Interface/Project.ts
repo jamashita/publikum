@@ -1,5 +1,4 @@
 import { Cloneable, Nominative } from '@jamashita/publikum-interface';
-
 import { Collection } from '../../Interface/Collection';
 
 export interface Project<K extends Nominative<K>, V extends Nominative<V>, N extends string = string>

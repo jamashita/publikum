@@ -1,7 +1,6 @@
 import { MockContent, MockNominative } from '@jamashita/publikum-object';
 import { Nullable, Peek } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
-
 import { MockASequence } from '../Mock/MockASequence';
 
 describe('ASequence', () => {
