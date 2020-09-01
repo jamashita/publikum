@@ -10,8 +10,8 @@ export class Uncertain<P> extends ValueObject<Uncertain<P>, 'Uncertain'> impleme
   public readonly noun: 'Uncertain' = 'Uncertain';
   private static readonly INSTANCE: Uncertain<unknown> = new Uncertain<unknown>();
 
-  public static of<P>(): Uncertain<P> {
-    return (Uncertain.INSTANCE as unknown) as Uncertain<P>;
+  public static of<PT>(): Uncertain<PT> {
+    return (Uncertain.INSTANCE as unknown) as Uncertain<PT>;
   }
 
   private constructor() {

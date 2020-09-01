@@ -8,8 +8,8 @@ export class Lost<P> extends ValueObject<Lost<P>, 'Lost'> implements Heisenberg<
   public readonly noun: 'Lost' = 'Lost';
   private readonly cause: unknown;
 
-  public static of<P>(cause: unknown): Lost<P> {
-    return new Lost<P>(cause);
+  public static of<PT>(cause: unknown): Lost<PT> {
+    return new Lost<PT>(cause);
   }
 
   private constructor(cause: unknown) {

@@ -9,11 +9,11 @@ export class AbsentPlan<Q> implements RecoveryPlan<void, 'AbsentPlan'> {
   private readonly mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>;
   private readonly epoque: Epoque<Matter<Q>>;
 
-  public static of<Q>(
-    mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>,
-    epoque: Epoque<Matter<Q>>
-  ): AbsentPlan<Q> {
-    return new AbsentPlan<Q>(mapper, epoque);
+  public static of<QT>(
+    mapper: Supplier<IUnscharferelation<QT> | PromiseLike<Suspicious<Matter<QT>>> | Suspicious<Matter<QT>>>,
+    epoque: Epoque<Matter<QT>>
+  ): AbsentPlan<QT> {
+    return new AbsentPlan<QT>(mapper, epoque);
   }
 
   protected constructor(
@@ -62,7 +62,7 @@ export class AbsentPlan<Q> implements RecoveryPlan<void, 'AbsentPlan'> {
 
       return this.epoque.accept(mapped);
     }
-    catch (err) {
+    catch (err: unknown) {
       return this.epoque.throw(err);
     }
   }

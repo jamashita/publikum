@@ -9,8 +9,8 @@ export class Absent<P> extends ValueObject<Absent<P>, 'Absent'> implements Heise
   public readonly noun: 'Absent' = 'Absent';
   private static readonly INSTANCE: Absent<unknown> = new Absent<unknown>();
 
-  public static of<P>(): Absent<P> {
-    return (Absent.INSTANCE as unknown) as Absent<P>;
+  public static of<PT>(): Absent<PT> {
+    return (Absent.INSTANCE as unknown) as Absent<PT>;
   }
 
   private constructor() {

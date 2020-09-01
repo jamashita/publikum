@@ -1557,6 +1557,7 @@ describe('UnscharferelationInternal', () => {
     });
   });
 
+  // eslint-disable-next-file jest/no-commented-out-tests
   // describe('toSuperposition', () => {
   //   it('present: will transform to alive', async () => {
   //     const value: number = -201;

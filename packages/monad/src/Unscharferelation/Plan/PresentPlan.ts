@@ -10,12 +10,12 @@ export class PresentPlan<P, Q> implements MappingPlan<P, 'PresentPlan'> {
     IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>;
   private readonly epoque: Epoque<Matter<Q>>;
 
-  public static of<P, Q>(
-    mapper: UnaryFunction<Matter<P>,
-      IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>,
-    epoque: Epoque<Matter<Q>>
-  ): PresentPlan<P, Q> {
-    return new PresentPlan<P, Q>(mapper, epoque);
+  public static of<PT, QT>(
+    mapper: UnaryFunction<Matter<PT>,
+      IUnscharferelation<QT> | PromiseLike<Suspicious<Matter<QT>>> | Suspicious<Matter<QT>>>,
+    epoque: Epoque<Matter<QT>>
+  ): PresentPlan<PT, QT> {
+    return new PresentPlan<PT, QT>(mapper, epoque);
   }
 
   protected constructor(
@@ -67,7 +67,7 @@ export class PresentPlan<P, Q> implements MappingPlan<P, 'PresentPlan'> {
 
       return this.epoque.accept(mapped);
     }
-    catch (err) {
+    catch (err: unknown) {
       return this.epoque.throw(err);
     }
   }

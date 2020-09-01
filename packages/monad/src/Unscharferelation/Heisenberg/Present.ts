@@ -10,8 +10,8 @@ export class Present<P> extends ValueObject<Present<P>, 'Present'> implements He
   public readonly noun: 'Present' = 'Present';
   private readonly value: Matter<P>;
 
-  public static of<P>(value: Matter<P>): Present<P> {
-    return new Present<P>(value);
+  public static of<PT>(value: Matter<PT>): Present<PT> {
+    return new Present<PT>(value);
   }
 
   private constructor(value: Matter<P>) {

@@ -37,8 +37,8 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
   private heisenberg: Heisenberg<P>;
   private readonly plans: Set<Plan<P, void>>;
 
-  public static of<P>(func: UnaryFunction<Epoque<Matter<P>>, unknown>): UnscharferelationInternal<P> {
-    return new UnscharferelationInternal<P>(func);
+  public static of<PT>(func: UnaryFunction<Epoque<Matter<PT>>, unknown>): UnscharferelationInternal<PT> {
+    return new UnscharferelationInternal<PT>(func);
   }
 
   protected constructor(func: UnaryFunction<Epoque<Matter<P>>, unknown>) {
