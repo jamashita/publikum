@@ -1,4 +1,4 @@
-import { Epoque } from '../../Epoque/Interface/Epoque';
+import { Epoque } from '../Epoque/Interface/Epoque';
 import { isUnscharferelation } from '../Interface/IUnscharferelation';
 import { Unscharferelation } from '../Unscharferelation';
 import { UnscharferelationInternal } from '../UnscharferelationInternal';
@@ -8,7 +8,7 @@ describe('IUnscharferelation', () => {
     it('normal case', () => {
       const unscharferelation1: Unscharferelation<number> = Unscharferelation.present<number>(4);
       const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
-        (epoque: Epoque<number, void>) => {
+        (epoque: Epoque<number>) => {
           epoque.decline();
         }
       );

@@ -1,8 +1,6 @@
+import { ValueObject } from '@jamashita/publikum-object';
 import { Consumer, Kind, Peek, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
-
-import { Epoque } from '../Epoque/Interface/Epoque';
-import { Detoxicated } from '../Superposition/Interface/Detoxicated';
-import { Superposition } from '../Superposition/Superposition';
+import { Epoque } from './Epoque/Interface/Epoque';
 import { UnscharferelationError } from './Error/UnscharferelationError';
 import { Heisenberg } from './Heisenberg/Heisenberg';
 import { IUnscharferelation } from './Interface/IUnscharferelation';
@@ -10,7 +8,7 @@ import { Matter } from './Interface/Matter';
 import { Nihil } from './Interface/Nihil';
 import { UnscharferelationInternal } from './UnscharferelationInternal';
 
-export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferelation'> {
+export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Unscharferelation'> implements IUnscharferelation<P, 'Unscharferelation'> {
   public readonly noun: 'Unscharferelation' = 'Unscharferelation';
   private readonly internal: IUnscharferelation<P>;
 
@@ -23,7 +21,7 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
       return u.terminate();
     });
 
-    return Unscharferelation.of<Array<P>>((epoque: Epoque<Array<P>, void>) => {
+    return Unscharferelation.of<Array<P>>((epoque: Epoque<Array<P>>) => {
       return Promise.all<Heisenberg<P>>(promises).then<unknown, unknown>(
         (heisenbergs: Array<Heisenberg<P>>) => {
           const hs: Array<P> = [];
@@ -59,7 +57,7 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
   }
 
   public static maybe<P>(value: PromiseLike<Suspicious<Matter<P>>> | Suspicious<Matter<P>>): Unscharferelation<P> {
-    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
+    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>>) => {
       if (Kind.isPromiseLike(value)) {
         return value.then<unknown, unknown>(
           (v: Suspicious<Matter<P>>) => {
@@ -84,7 +82,7 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
   }
 
   public static ofHeisenberg<P>(heisenberg: Heisenberg<P>): Unscharferelation<P> {
-    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
+    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>>) => {
       if (heisenberg.isPresent()) {
         return epoque.accept(heisenberg.get());
       }
@@ -100,7 +98,7 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
   }
 
   public static present<P>(value: PromiseLike<Matter<P>> | Matter<P>): Unscharferelation<P> {
-    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
+    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>>) => {
       if (Kind.isPromiseLike(value)) {
         return value.then<unknown, unknown>(
           (v: Matter<P>) => {
@@ -117,7 +115,7 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
   }
 
   public static absent<P>(value: PromiseLike<Nihil> | Nihil): Unscharferelation<P> {
-    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>, void>) => {
+    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>>) => {
       if (Kind.isPromiseLike(value)) {
         return value.then<unknown, unknown>(
           () => {
@@ -133,7 +131,7 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
     });
   }
 
-  public static of<P>(func: UnaryFunction<Epoque<Matter<P>, void>, unknown>): Unscharferelation<P> {
+  public static of<P>(func: UnaryFunction<Epoque<Matter<P>>, unknown>): Unscharferelation<P> {
     return Unscharferelation.ofUnscharferelation<P>(UnscharferelationInternal.of<P>(func));
   }
 
@@ -142,7 +140,22 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
   }
 
   protected constructor(internal: IUnscharferelation<P>) {
+    super();
     this.internal = internal;
+  }
+
+  // TODO UNDONE
+  public equals(other: Unscharferelation<P>): boolean {
+    if (this === other) {
+      return true;
+    }
+
+    return false;
+  }
+
+  // TODO TEST UNDONE
+  public serialize(): string {
+    return this.internal.toString();
   }
 
   public get(): Promise<Matter<P>> {
@@ -191,23 +204,24 @@ export class Unscharferelation<P> implements IUnscharferelation<P, 'Unscharferel
     return this;
   }
 
-  public toSuperposition(): Superposition<P, UnscharferelationError> {
-    return Superposition.of<P, UnscharferelationError>((epoque: Epoque<Detoxicated<P>, UnscharferelationError>) => {
-      this.pass(
-        (value: Matter<P>) => {
-          if (value instanceof Error) {
-            return epoque.decline(new UnscharferelationError('ABSENT'));
-          }
-
-          return epoque.accept((value as unknown) as Detoxicated<P>);
-        },
-        () => {
-          return epoque.decline(new UnscharferelationError('ABSENT'));
-        },
-        (e: unknown) => {
-          return epoque.throw(e);
-        }
-      );
-    }, UnscharferelationError);
-  }
+  // TODO
+  // public toSuperposition(): Superposition<P, UnscharferelationError> {
+  //   return Superposition.of<P, UnscharferelationError>((epoque: Epoque<Detoxicated<P>, UnscharferelationError>) => {
+  //     this.pass(
+  //       (value: Matter<P>) => {
+  //         if (value instanceof Error) {
+  //           return epoque.decline(new UnscharferelationError('ABSENT'));
+  //         }
+  //
+  //         return epoque.accept((value as unknown) as Detoxicated<P>);
+  //       },
+  //       () => {
+  //         return epoque.decline(new UnscharferelationError('ABSENT'));
+  //       },
+  //       (e: unknown) => {
+  //         return epoque.throw(e);
+  //       }
+  //     );
+  //   }, UnscharferelationError);
+  // }
 }

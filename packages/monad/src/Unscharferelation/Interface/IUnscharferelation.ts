@@ -1,12 +1,9 @@
-import { Noun } from '@jamashita/publikum-interface';
+import { Nominative } from '@jamashita/publikum-interface';
 import { Consumer, Kind, Peek, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
-
-import { ISuperposition } from '../../Superposition/Interface/ISuperposition';
-import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
 import { Matter } from './Matter';
 
-export interface IUnscharferelation<P, N extends string = string> extends Noun<N> {
+export interface IUnscharferelation<P, N extends string = string> extends Nominative<IUnscharferelation<P, N>, N> {
   get(): Promise<Matter<P>>;
 
   terminate(): Promise<Heisenberg<P>>;
@@ -27,7 +24,7 @@ export interface IUnscharferelation<P, N extends string = string> extends Noun<N
 
   peek(peek: Peek): IUnscharferelation<P>;
 
-  toSuperposition(): ISuperposition<P, UnscharferelationError>;
+  // toSuperposition(): ISuperposition<P, UnscharferelationError>;
 }
 
 export const isUnscharferelation = <P>(value: unknown): value is IUnscharferelation<P> => {
@@ -58,9 +55,9 @@ export const isUnscharferelation = <P>(value: unknown): value is IUnscharferelat
   if (typeof value.peek !== 'function') {
     return false;
   }
-  if (typeof value.toSuperposition !== 'function') {
-    return false;
-  }
+  // if (typeof value.toSuperposition !== 'function') {
+  //   return false;
+  // }
 
   return true;
 };
