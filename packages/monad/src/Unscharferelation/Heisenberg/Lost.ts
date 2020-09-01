@@ -1,9 +1,10 @@
-import { Consumer } from '@jamashita/publikum-type';
+import { ValueObject } from '@jamashita/publikum-object';
+import { Consumer, Kind } from '@jamashita/publikum-type';
 import { Absent } from './Absent';
 import { Heisenberg } from './Heisenberg';
 import { Present } from './Present';
 
-export class Lost<P> implements Heisenberg<P, 'Lost'> {
+export class Lost<P> extends ValueObject<Lost<P>, 'Lost'> implements Heisenberg<P, 'Lost'> {
   public readonly noun: 'Lost' = 'Lost';
   private readonly cause: unknown;
 
@@ -12,7 +13,12 @@ export class Lost<P> implements Heisenberg<P, 'Lost'> {
   }
 
   private constructor(cause: unknown) {
+    super();
     this.cause = cause;
+  }
+
+  public serialize(): string {
+    return `Lost: ${Kind.notate(this.cause)}`;
   }
 
   public get(): never {

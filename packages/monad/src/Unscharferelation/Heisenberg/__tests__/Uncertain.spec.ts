@@ -111,4 +111,9 @@ describe('Uncertain', () => {
     });
   });
 
+  describe('toString', () => {
+    it('returns Uncertain', () => {
+      expect(Uncertain.of<number>().toString()).toBe('Uncertain');
+    });
+  });
 });

@@ -178,4 +178,10 @@ describe('Present', () => {
       expect(heisenberg.equals(present2)).toBe(false);
     });
   });
+
+  describe('toString', () => {
+    it('returns Present and its retaining value', () => {
+      expect(Present.of<boolean>(true).toString()).toBe('Present: true');
+    });
+  });
 });

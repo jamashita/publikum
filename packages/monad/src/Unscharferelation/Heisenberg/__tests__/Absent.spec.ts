@@ -109,4 +109,10 @@ describe('Absent', () => {
       expect(heisenberg.equals(uncertain)).toBe(false);
     });
   });
+
+  describe('toString', () => {
+    it('returns Absent', () => {
+      expect(Absent.of<number>().toString()).toBe('Absent');
+    });
+  });
 });

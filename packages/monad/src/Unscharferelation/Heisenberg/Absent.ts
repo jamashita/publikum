@@ -1,12 +1,12 @@
+import { ValueObject } from '@jamashita/publikum-object';
 import { Consumer } from '@jamashita/publikum-type';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Heisenberg } from './Heisenberg';
 import { Lost } from './Lost';
 import { Present } from './Present';
 
-export class Absent<P> implements Heisenberg<P, 'Absent'> {
+export class Absent<P> extends ValueObject<Absent<P>, 'Absent'> implements Heisenberg<P, 'Absent'> {
   public readonly noun: 'Absent' = 'Absent';
-
   private static readonly INSTANCE: Absent<unknown> = new Absent<unknown>();
 
   public static of<P>(): Absent<P> {
@@ -14,7 +14,11 @@ export class Absent<P> implements Heisenberg<P, 'Absent'> {
   }
 
   private constructor() {
-    // NOOP
+    super();
+  }
+
+  public serialize(): string {
+    return 'Absent';
   }
 
   public get(): never {

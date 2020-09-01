@@ -1,11 +1,12 @@
 import { isEqualable } from '@jamashita/publikum-interface';
-import { Consumer } from '@jamashita/publikum-type';
+import { ValueObject } from '@jamashita/publikum-object';
+import { Consumer, Kind } from '@jamashita/publikum-type';
 import { Matter } from '../Interface/Matter';
 import { Absent } from './Absent';
 import { Heisenberg } from './Heisenberg';
 import { Lost } from './Lost';
 
-export class Present<P> implements Heisenberg<P, 'Present'> {
+export class Present<P> extends ValueObject<Present<P>, 'Present'> implements Heisenberg<P, 'Present'> {
   public readonly noun: 'Present' = 'Present';
   private readonly value: Matter<P>;
 
@@ -14,7 +15,12 @@ export class Present<P> implements Heisenberg<P, 'Present'> {
   }
 
   private constructor(value: Matter<P>) {
+    super();
     this.value = value;
+  }
+
+  public serialize(): string {
+    return `Present: ${Kind.notate(this.value)}`;
   }
 
   public get(): Matter<P> {

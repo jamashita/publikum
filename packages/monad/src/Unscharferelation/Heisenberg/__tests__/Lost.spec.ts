@@ -2,7 +2,6 @@ import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { Absent } from '../Absent';
 import { Heisenberg } from '../Heisenberg';
-
 import { Lost } from '../Lost';
 import { Present } from '../Present';
 import { Uncertain } from '../Uncertain';
@@ -124,6 +123,12 @@ describe('Lost', () => {
       expect(heisenberg.equals(absent)).toBe(false);
       expect(heisenberg.equals(lost)).toBe(true);
       expect(heisenberg.equals(uncertain)).toBe(false);
+    });
+  });
+
+  describe('toString', () => {
+    it('returns Lost and its retaining cause', () => {
+      expect(Lost.of<number>(null).toString()).toBe('Lost: null');
     });
   });
 });
