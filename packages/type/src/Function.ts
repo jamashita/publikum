@@ -5,6 +5,7 @@ export type Predicate<T> = (arg: T) => boolean;
 export type BinaryPredicate<T1, T2> = (arg1: T1, args2: T2) => boolean;
 export type Consumer<T> = (arg: T) => unknown | void;
 export type AsyncConsumer<T> = (arg: T) => Promise<Any>;
+export type BinaryConsumer<T1, T2> = (arg1: T1, args2: T2) => unknown | void;
 export type Supplier<T> = () => T;
 export type AsyncSupplier<T> = () => Promise<T>;
 export type Peek = () => Any;
