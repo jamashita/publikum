@@ -10,7 +10,7 @@ describe('CombinedEpoque', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const epoque: CombinedEpoque<number, number> = CombinedEpoque.of<number, number>(
+      const epoque: CombinedEpoque<number> = CombinedEpoque.of<number>(
         (v: number) => {
           spy1();
           expect(v).toBe(value);
@@ -33,26 +33,23 @@ describe('CombinedEpoque', () => {
 
   describe('decline', () => {
     it('normal case', () => {
-      const value: number = -35;
-
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const epoque: CombinedEpoque<number, number> = CombinedEpoque.of<number, number>(
+      const epoque: CombinedEpoque<number> = CombinedEpoque.of<number>(
         () => {
           spy1();
         },
-        (v: number) => {
+        () => {
           spy2();
-          expect(v).toBe(value);
         },
         () => {
           spy3();
         }
       );
 
-      epoque.decline(value);
+      epoque.decline();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -68,7 +65,7 @@ describe('CombinedEpoque', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const epoque: CombinedEpoque<number, number> = CombinedEpoque.of<number, number>(
+      const epoque: CombinedEpoque<number> = CombinedEpoque.of<number>(
         () => {
           spy1();
         },

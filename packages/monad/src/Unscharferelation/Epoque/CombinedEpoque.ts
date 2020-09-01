@@ -1,22 +1,21 @@
-import { Consumer } from '@jamashita/publikum-type';
-
+import { Consumer, Peek } from '@jamashita/publikum-type';
 import { Epoque } from './Interface/Epoque';
 
-export class CombinedEpoque<A, D> implements Epoque<A, D, 'CombinedEpoque'> {
+export class CombinedEpoque<A> implements Epoque<A, 'CombinedEpoque'> {
   public readonly noun: 'CombinedEpoque' = 'CombinedEpoque';
   private readonly accepted: Consumer<A>;
-  private readonly declined: Consumer<D>;
+  private readonly declined: Peek;
   private readonly thrown: Consumer<unknown>;
 
-  public static of<A, D>(
+  public static of<A>(
     accepted: Consumer<A>,
-    declined: Consumer<D>,
+    declined: Peek,
     thrown: Consumer<unknown>
-  ): CombinedEpoque<A, D> {
-    return new CombinedEpoque<A, D>(accepted, declined, thrown);
+  ): CombinedEpoque<A> {
+    return new CombinedEpoque<A>(accepted, declined, thrown);
   }
 
-  protected constructor(accepted: Consumer<A>, declined: Consumer<D>, thrown: Consumer<unknown>) {
+  protected constructor(accepted: Consumer<A>, declined: Peek, thrown: Consumer<unknown>) {
     this.accepted = accepted;
     this.declined = declined;
     this.thrown = thrown;
@@ -26,11 +25,11 @@ export class CombinedEpoque<A, D> implements Epoque<A, D, 'CombinedEpoque'> {
     return this.accepted(value);
   }
 
-  public decline(value: D): unknown | void {
-    return this.declined(value);
+  public decline(): unknown | void {
+    return this.declined();
   }
 
-  public throw(cause: D): unknown | void {
+  public throw(cause: unknown): unknown | void {
     return this.thrown(cause);
   }
 }
