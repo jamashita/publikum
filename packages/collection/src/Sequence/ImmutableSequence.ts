@@ -1,6 +1,5 @@
 import { AnonymousNominative, Nominative } from '@jamashita/publikum-interface';
 import { Enumerator, Mapper } from '@jamashita/publikum-type';
-
 import { ASequence } from './Abstract/ASequence';
 
 export class ImmutableSequence<E extends Nominative<E>> extends ASequence<E, 'ImmutableSequence'> {
@@ -8,16 +7,16 @@ export class ImmutableSequence<E extends Nominative<E>> extends ASequence<E, 'Im
 
   private static readonly EMPTY: ImmutableSequence<AnonymousNominative> = new ImmutableSequence<AnonymousNominative>([]);
 
-  public static of<E extends Nominative<E>>(elements: Array<E>): ImmutableSequence<E> {
+  public static of<ET extends Nominative<ET>>(elements: Array<ET>): ImmutableSequence<ET> {
     if (elements.length === 0) {
-      return ImmutableSequence.empty<E>();
+      return ImmutableSequence.empty<ET>();
     }
 
-    return new ImmutableSequence<E>([...elements]);
+    return new ImmutableSequence<ET>([...elements]);
   }
 
-  public static empty<E extends Nominative<E>>(): ImmutableSequence<E> {
-    return ImmutableSequence.EMPTY as ImmutableSequence<E>;
+  public static empty<ET extends Nominative<ET>>(): ImmutableSequence<ET> {
+    return ImmutableSequence.EMPTY as ImmutableSequence<ET>;
   }
 
   protected constructor(elements: Array<E>) {

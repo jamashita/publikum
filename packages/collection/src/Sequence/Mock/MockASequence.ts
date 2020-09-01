@@ -3,6 +3,7 @@ import { Nominative } from '@jamashita/publikum-interface';
 
 import { ASequence } from '../Abstract/ASequence';
 
+// TODO RENAME TO MockSequence
 export class MockASequence<E extends Nominative<E>> extends ASequence<E, 'MockASequence'> {
   public readonly noun: 'MockASequence' = 'MockASequence';
 

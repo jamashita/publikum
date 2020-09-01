@@ -1,5 +1,4 @@
 import { AnonymousNominative, Nominative } from '@jamashita/publikum-interface';
-
 import { AAddress } from './Abstract/AAddress';
 
 export class ImmutableAddress<E extends Nominative<E>> extends AAddress<E, 'ImmutableAddress'> {
@@ -9,26 +8,26 @@ export class ImmutableAddress<E extends Nominative<E>> extends AAddress<E, 'Immu
     new Map<string, AnonymousNominative>()
   );
 
-  public static of<E extends Nominative<E>>(elements: Set<E>): ImmutableAddress<E> {
+  public static of<ET extends Nominative<ET>>(elements: Set<ET>): ImmutableAddress<ET> {
     if (elements.size === 0) {
-      return ImmutableAddress.empty<E>();
+      return ImmutableAddress.empty<ET>();
     }
 
-    const map: Map<string, E> = new Map<string, E>();
+    const map: Map<string, ET> = new Map<string, ET>();
 
-    elements.forEach((e: E) => {
+    elements.forEach((e: ET) => {
       map.set(e.hashCode(), e);
     });
 
-    return ImmutableAddress.ofMap<E>(map);
+    return ImmutableAddress.ofMap<ET>(map);
   }
 
-  private static ofMap<E extends Nominative<E>>(elements: Map<string, E>): ImmutableAddress<E> {
-    return new ImmutableAddress<E>(elements);
+  private static ofMap<ET extends Nominative<ET>>(elements: Map<string, ET>): ImmutableAddress<ET> {
+    return new ImmutableAddress<ET>(elements);
   }
 
-  public static empty<E extends Nominative<E>>(): ImmutableAddress<E> {
-    return ImmutableAddress.EMPTY as ImmutableAddress<E>;
+  public static empty<ET extends Nominative<ET>>(): ImmutableAddress<ET> {
+    return ImmutableAddress.EMPTY as ImmutableAddress<ET>;
   }
 
   protected constructor(elements: Map<string, E>) {

@@ -1,5 +1,4 @@
 import { AnonymousNominative, Nominative } from '@jamashita/publikum-interface';
-
 import { Pair } from '../Pair';
 import { AProject } from './Abstract/AProject';
 
@@ -11,32 +10,32 @@ export class ImmutableProject<K extends Nominative<K>, V extends Nominative<V>> 
   private static readonly EMPTY: ImmutableProject<AnonymousNominative, AnonymousNominative> = new ImmutableProject<AnonymousNominative,
     AnonymousNominative>(new Map<string, Pair<AnonymousNominative, AnonymousNominative>>());
 
-  public static of<K extends Nominative<K>, V extends Nominative<V>>(elements: Map<K, V>): ImmutableProject<K, V> {
+  public static of<KT extends Nominative<KT>, VT extends Nominative<VT>>(elements: Map<KT, VT>): ImmutableProject<KT, VT> {
     if (elements.size === 0) {
-      return ImmutableProject.empty<K, V>();
+      return ImmutableProject.empty<KT, VT>();
     }
 
-    const map: Map<string, Pair<K, V>> = new Map<string, Pair<K, V>>();
+    const map: Map<string, Pair<KT, VT>> = new Map<string, Pair<KT, VT>>();
 
-    elements.forEach((v: V, k: K) => {
+    elements.forEach((v: VT, k: KT) => {
       map.set(k.hashCode(), Pair.of(k, v));
     });
 
-    return ImmutableProject.ofMap<K, V>(map);
+    return ImmutableProject.ofMap<KT, VT>(map);
   }
 
-  private static ofMap<K extends Nominative<K>, V extends Nominative<V>>(
-    elements: Map<string, Pair<K, V>>
-  ): ImmutableProject<K, V> {
+  private static ofMap<KT extends Nominative<KT>, VT extends Nominative<VT>>(
+    elements: Map<string, Pair<KT, VT>>
+  ): ImmutableProject<KT, VT> {
     if (elements.size === 0) {
-      return ImmutableProject.empty<K, V>();
+      return ImmutableProject.empty<KT, VT>();
     }
 
-    return new ImmutableProject<K, V>(elements);
+    return new ImmutableProject<KT, VT>(elements);
   }
 
-  public static empty<K extends Nominative<K>, V extends Nominative<V>>(): ImmutableProject<K, V> {
-    return ImmutableProject.EMPTY as ImmutableProject<K, V>;
+  public static empty<KT extends Nominative<KT>, VT extends Nominative<VT>>(): ImmutableProject<KT, VT> {
+    return ImmutableProject.EMPTY as ImmutableProject<KT, VT>;
   }
 
   protected constructor(elements: Map<string, Pair<K, V>>) {

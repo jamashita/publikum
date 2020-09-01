@@ -5,8 +5,8 @@ export class Pair<K, V> implements Noun<'Pair'> {
   private readonly key: K;
   private readonly value: V;
 
-  public static of<K, V>(key: K, value: V): Pair<K, V> {
-    return new Pair<K, V>(key, value);
+  public static of<KT, VT>(key: KT, value: VT): Pair<KT, VT> {
+    return new Pair<KT, VT>(key, value);
   }
 
   protected constructor(key: K, value: V) {
