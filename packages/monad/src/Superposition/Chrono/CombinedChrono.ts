@@ -1,6 +1,5 @@
 import { BinaryConsumer } from '@jamashita/publikum-type';
 import { DeadConstructor } from '../Interface/DeadConstructor';
-
 import { Chrono } from './Interface/Chrono';
 
 export class CombinedChrono<A, D> implements Chrono<A, D, 'CombinedChrono'> {
@@ -9,12 +8,12 @@ export class CombinedChrono<A, D> implements Chrono<A, D, 'CombinedChrono'> {
   private readonly declined: BinaryConsumer<D, ReadonlyArray<DeadConstructor<Error>>>;
   private readonly thrown: BinaryConsumer<unknown, ReadonlyArray<DeadConstructor<Error>>>;
 
-  public static of<A, D>(
-    accepted: BinaryConsumer<A, ReadonlyArray<DeadConstructor<Error>>>,
-    declined: BinaryConsumer<D, ReadonlyArray<DeadConstructor<Error>>>,
+  public static of<AT, DT>(
+    accepted: BinaryConsumer<AT, ReadonlyArray<DeadConstructor<Error>>>,
+    declined: BinaryConsumer<DT, ReadonlyArray<DeadConstructor<Error>>>,
     thrown: BinaryConsumer<unknown, ReadonlyArray<DeadConstructor<Error>>>
-  ): CombinedChrono<A, D> {
-    return new CombinedChrono<A, D>(accepted, declined, thrown);
+  ): CombinedChrono<AT, DT> {
+    return new CombinedChrono<AT, DT>(accepted, declined, thrown);
   }
 
   protected constructor(

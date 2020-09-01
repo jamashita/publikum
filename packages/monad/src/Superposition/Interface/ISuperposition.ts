@@ -45,7 +45,6 @@ export const isSuperposition = <A, D extends Error>(value: unknown): value is IS
   if (typeof value.get !== 'function') {
     return false;
   }
-  // TODO TESTS
   if (typeof value.getErrors !== 'function') {
     return false;
   }
@@ -79,6 +78,6 @@ export const isSuperposition = <A, D extends Error>(value: unknown): value is IS
 
 export const containsError = <E extends Error>(err: unknown, errors: Array<DeadConstructor<E>>): err is E => {
   return errors.some((error: DeadConstructor<E>) => {
-    return Kind.isClass(err, error);
+    return Kind.isClass<DeadConstructor<E>>(err, error);
   });
 };

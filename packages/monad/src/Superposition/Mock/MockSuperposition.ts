@@ -2,6 +2,7 @@ import { UnimplementedError } from '@jamashita/publikum-error';
 import { ValueObject } from '@jamashita/publikum-object';
 import { IUnscharferelation } from '../../Unscharferelation/Interface/IUnscharferelation';
 import { SuperpositionError } from '../Error/SuperpositionError';
+import { DeadConstructor } from '../Interface/DeadConstructor';
 import { Detoxicated } from '../Interface/Detoxicated';
 import { ISuperposition } from '../Interface/ISuperposition';
 import { Schrodinger } from '../Schrodinger/Schrodinger';
@@ -18,6 +19,10 @@ export class MockSuperposition<A, D extends Error> extends ValueObject<MockSuper
   }
 
   public get(): Promise<Detoxicated<A>> {
+    throw new UnimplementedError();
+  }
+
+  public getErrors(): Array<DeadConstructor<D>> {
     throw new UnimplementedError();
   }
 

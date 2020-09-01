@@ -1,6 +1,5 @@
 import { MockError } from '@jamashita/publikum-object';
-
-import { Epoque } from '../../Epoque/Interface/Epoque';
+import { Chrono } from '../Chrono/Interface/Chrono';
 import { containsError, isSuperposition } from '../Interface/ISuperposition';
 import { Superposition } from '../Superposition';
 import { SuperpositionInternal } from '../SuperpositionInternal';
@@ -10,8 +9,8 @@ describe('ISuperposition', () => {
     it('normal case', () => {
       const superposition1: Superposition<number, MockError> = Superposition.alive<number, MockError>(4);
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
-        (epoque: Epoque<number, MockError>) => {
-          epoque.decline(new MockError());
+        (chrono: Chrono<number, MockError>) => {
+          chrono.decline(new MockError());
         },
         [MockError]
       );
@@ -41,6 +40,19 @@ describe('ISuperposition', () => {
           get() {
             // NOOP
           },
+          getError() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        isSuperposition<number, MockError>({
+          get() {
+            // NOOP
+          },
+          getError() {
+            // NOOP
+          },
           terminate() {
             // NOOP
           }
@@ -49,6 +61,9 @@ describe('ISuperposition', () => {
       expect(
         isSuperposition<number, MockError>({
           get() {
+            // NOOP
+          },
+          getError() {
             // NOOP
           },
           terminate() {
@@ -62,6 +77,9 @@ describe('ISuperposition', () => {
       expect(
         isSuperposition<number, MockError>({
           get() {
+            // NOOP
+          },
+          getError() {
             // NOOP
           },
           terminate() {
@@ -78,6 +96,9 @@ describe('ISuperposition', () => {
       expect(
         isSuperposition<number, MockError>({
           get() {
+            // NOOP
+          },
+          getError() {
             // NOOP
           },
           terminate() {
@@ -97,6 +118,9 @@ describe('ISuperposition', () => {
       expect(
         isSuperposition<number, MockError>({
           get() {
+            // NOOP
+          },
+          getError() {
             // NOOP
           },
           terminate() {
@@ -119,6 +143,9 @@ describe('ISuperposition', () => {
       expect(
         isSuperposition<number, MockError>({
           get() {
+            // NOOP
+          },
+          getError() {
             // NOOP
           },
           terminate() {
@@ -144,6 +171,9 @@ describe('ISuperposition', () => {
       expect(
         isSuperposition<number, MockError>({
           get() {
+            // NOOP
+          },
+          getError() {
             // NOOP
           },
           terminate() {
@@ -172,6 +202,9 @@ describe('ISuperposition', () => {
       expect(
         isSuperposition<number, MockError>({
           get() {
+            // NOOP
+          },
+          getError() {
             // NOOP
           },
           terminate() {
