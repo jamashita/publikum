@@ -7,12 +7,12 @@ export class CombinedEpoque<A> implements Epoque<A, 'CombinedEpoque'> {
   private readonly declined: Consumer<void>;
   private readonly thrown: Consumer<unknown>;
 
-  public static of<A>(
-    accepted: Consumer<A>,
+  public static of<AT>(
+    accepted: Consumer<AT>,
     declined: Consumer<void>,
     thrown: Consumer<unknown>
-  ): CombinedEpoque<A> {
-    return new CombinedEpoque<A>(accepted, declined, thrown);
+  ): CombinedEpoque<AT> {
+    return new CombinedEpoque<AT>(accepted, declined, thrown);
   }
 
   protected constructor(accepted: Consumer<A>, declined: Consumer<void>, thrown: Consumer<unknown>) {

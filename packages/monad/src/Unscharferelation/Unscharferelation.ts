@@ -12,23 +12,23 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
   public readonly noun: 'Unscharferelation' = 'Unscharferelation';
   private readonly internal: IUnscharferelation<P>;
 
-  public static all<P>(unscharferelations: ArrayLike<Unscharferelation<P>>): Unscharferelation<Array<P>> {
+  public static all<PT>(unscharferelations: ArrayLike<Unscharferelation<PT>>): Unscharferelation<Array<PT>> {
     if (unscharferelations.length === 0) {
-      return Unscharferelation.present<Array<P>>([]);
+      return Unscharferelation.present<Array<PT>>([]);
     }
 
-    const promises: Array<PromiseLike<Heisenberg<P>>> = Array.from<Unscharferelation<P>>(unscharferelations).map<PromiseLike<Heisenberg<P>>>((u: Unscharferelation<P>) => {
+    const promises: Array<PromiseLike<Heisenberg<PT>>> = Array.from<Unscharferelation<PT>>(unscharferelations).map<PromiseLike<Heisenberg<PT>>>((u: Unscharferelation<PT>) => {
       return u.terminate();
     });
 
-    return Unscharferelation.of<Array<P>>((epoque: Epoque<Array<P>>) => {
-      return Promise.all<Heisenberg<P>>(promises).then<unknown, unknown>(
-        (heisenbergs: Array<Heisenberg<P>>) => {
-          const hs: Array<P> = [];
+    return Unscharferelation.of<Array<PT>>((epoque: Epoque<Array<PT>>) => {
+      return Promise.all<Heisenberg<PT>>(promises).then<unknown, unknown>(
+        (heisenbergs: Array<Heisenberg<PT>>) => {
+          const hs: Array<PT> = [];
           let absent: boolean = false;
 
           for (let i: number = 0; i < heisenbergs.length; i++) {
-            const heisenberg: Heisenberg<P> = heisenbergs[i];
+            const heisenberg: Heisenberg<PT> = heisenbergs[i];
 
             if (heisenberg.isLost()) {
               return epoque.throw(new UnscharferelationError('REJECTED'));
@@ -56,11 +56,11 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
     });
   }
 
-  public static maybe<P>(value: PromiseLike<Suspicious<Matter<P>>> | Suspicious<Matter<P>>): Unscharferelation<P> {
-    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>>) => {
+  public static maybe<PT>(value: PromiseLike<Suspicious<Matter<PT>>> | Suspicious<Matter<PT>>): Unscharferelation<PT> {
+    return Unscharferelation.of<PT>((epoque: Epoque<Matter<PT>>) => {
       if (Kind.isPromiseLike(value)) {
         return value.then<unknown, unknown>(
-          (v: Suspicious<Matter<P>>) => {
+          (v: Suspicious<Matter<PT>>) => {
             if (Kind.isUndefined(v) || Kind.isNull(v)) {
               return epoque.decline();
             }
@@ -81,8 +81,8 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
     });
   }
 
-  public static ofHeisenberg<P>(heisenberg: Heisenberg<P>): Unscharferelation<P> {
-    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>>) => {
+  public static ofHeisenberg<PT>(heisenberg: Heisenberg<PT>): Unscharferelation<PT> {
+    return Unscharferelation.of<PT>((epoque: Epoque<Matter<PT>>) => {
       if (heisenberg.isPresent()) {
         return epoque.accept(heisenberg.get());
       }
@@ -97,11 +97,11 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
     });
   }
 
-  public static present<P>(value: PromiseLike<Matter<P>> | Matter<P>): Unscharferelation<P> {
-    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>>) => {
+  public static present<PT>(value: PromiseLike<Matter<PT>> | Matter<PT>): Unscharferelation<PT> {
+    return Unscharferelation.of<PT>((epoque: Epoque<Matter<PT>>) => {
       if (Kind.isPromiseLike(value)) {
         return value.then<unknown, unknown>(
-          (v: Matter<P>) => {
+          (v: Matter<PT>) => {
             return epoque.accept(v);
           },
           (e: unknown) => {
@@ -114,8 +114,8 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
     });
   }
 
-  public static absent<P>(value: PromiseLike<Nihil> | Nihil): Unscharferelation<P> {
-    return Unscharferelation.of<P>((epoque: Epoque<Matter<P>>) => {
+  public static absent<PT>(value: PromiseLike<Nihil> | Nihil): Unscharferelation<PT> {
+    return Unscharferelation.of<PT>((epoque: Epoque<Matter<PT>>) => {
       if (Kind.isPromiseLike(value)) {
         return value.then<unknown, unknown>(
           () => {
@@ -131,13 +131,15 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
     });
   }
 
-  public static of<P>(func: UnaryFunction<Epoque<Matter<P>>, unknown>): Unscharferelation<P> {
-    return Unscharferelation.ofUnscharferelation<P>(UnscharferelationInternal.of<P>(func));
+  public static of<PT>(func: UnaryFunction<Epoque<Matter<PT>>, unknown>): Unscharferelation<PT> {
+    return Unscharferelation.ofUnscharferelation<PT>(UnscharferelationInternal.of<PT>(func));
   }
 
-  public static ofUnscharferelation<P>(unscharferelation: IUnscharferelation<P>): Unscharferelation<P> {
-    return new Unscharferelation<P>(unscharferelation);
+  public static ofUnscharferelation<PT>(unscharferelation: IUnscharferelation<PT>): Unscharferelation<PT> {
+    return new Unscharferelation<PT>(unscharferelation);
   }
+
+  // TODO ofHeisenberg
 
   protected constructor(internal: IUnscharferelation<P>) {
     super();
