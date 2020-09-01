@@ -1,25 +1,24 @@
 import { Kind, Supplier, Suspicious } from '@jamashita/publikum-type';
-
-import { Epoque } from '../../Epoque/Interface/Epoque';
 import { RecoveryPlan } from '../../Plan/Interface/RecoveryPlan';
+import { Epoque } from '../Epoque/Interface/Epoque';
 import { isUnscharferelation, IUnscharferelation } from '../Interface/IUnscharferelation';
 import { Matter } from '../Interface/Matter';
 
 export class AbsentPlan<Q> implements RecoveryPlan<void, 'AbsentPlan'> {
   public readonly noun: 'AbsentPlan' = 'AbsentPlan';
   private readonly mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>;
-  private readonly epoque: Epoque<Matter<Q>, void>;
+  private readonly epoque: Epoque<Matter<Q>>;
 
   public static of<Q>(
     mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>,
-    epoque: Epoque<Matter<Q>, void>
+    epoque: Epoque<Matter<Q>>
   ): AbsentPlan<Q> {
     return new AbsentPlan<Q>(mapper, epoque);
   }
 
   protected constructor(
     mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>,
-    epoque: Epoque<Matter<Q>, void>
+    epoque: Epoque<Matter<Q>>
   ) {
     this.mapper = mapper;
     this.epoque = epoque;

@@ -1,9 +1,8 @@
 import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
-
-import { CombinedEpoque } from '../../../Epoque/CombinedEpoque';
-import { Epoque } from '../../../Epoque/Interface/Epoque';
+import { CombinedEpoque } from '../../Epoque/CombinedEpoque';
+import { Epoque } from '../../Epoque/Interface/Epoque';
 import { Matter } from '../../Interface/Matter';
 import { Unscharferelation } from '../../Unscharferelation';
 import { PresentPlan } from '../PresentPlan';
@@ -25,7 +24,7 @@ describe('PresentPlan', () => {
 
           return n - 6;
         },
-        CombinedEpoque.of<number, void>(
+        CombinedEpoque.of<number>(
           (n: number) => {
             spy2();
             expect(n).toBe(value - 6);
@@ -63,7 +62,7 @@ describe('PresentPlan', () => {
 
             return Promise.resolve<number>(n - 6);
           },
-          CombinedEpoque.of<number, void>(
+          CombinedEpoque.of<number>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 6);
@@ -106,11 +105,11 @@ describe('PresentPlan', () => {
             spy1();
             expect(n).toBe(value);
 
-            return Unscharferelation.of<number>((epoque: Epoque<Matter<number>, void>) => {
+            return Unscharferelation.of<number>((epoque: Epoque<Matter<number>>) => {
               return epoque.accept(value - 6);
             });
           },
-          CombinedEpoque.of<number, void>(
+          CombinedEpoque.of<number>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 6);
@@ -154,7 +153,7 @@ describe('PresentPlan', () => {
 
           return null;
         },
-        CombinedEpoque.of<number, void>(
+        CombinedEpoque.of<number>(
           () => {
             spy2();
           },
@@ -191,7 +190,7 @@ describe('PresentPlan', () => {
 
             return undefined;
           },
-          CombinedEpoque.of<number, void>(
+          CombinedEpoque.of<number>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 6);
@@ -236,7 +235,7 @@ describe('PresentPlan', () => {
 
             return Promise.resolve<null>(null);
           },
-          CombinedEpoque.of<number, void>(
+          CombinedEpoque.of<number>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 6);
@@ -281,7 +280,7 @@ describe('PresentPlan', () => {
 
             return Promise.resolve<undefined>(undefined);
           },
-          CombinedEpoque.of<number, void>(
+          CombinedEpoque.of<number>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 6);
@@ -324,11 +323,11 @@ describe('PresentPlan', () => {
             spy1();
             expect(n).toBe(value);
 
-            return Unscharferelation.of<number>((epoque: Epoque<Matter<number>, void>) => {
+            return Unscharferelation.of<number>((epoque: Epoque<Matter<number>>) => {
               return epoque.decline();
             });
           },
-          CombinedEpoque.of<number, void>(
+          CombinedEpoque.of<number>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 6);
@@ -373,7 +372,7 @@ describe('PresentPlan', () => {
 
           throw error;
         },
-        CombinedEpoque.of<number, void>(
+        CombinedEpoque.of<number>(
           () => {
             spy2();
           },
@@ -412,7 +411,7 @@ describe('PresentPlan', () => {
 
             return Promise.reject<number>(error);
           },
-          CombinedEpoque.of<number, void>(
+          CombinedEpoque.of<number>(
             () => {
               spy2();
 
@@ -456,11 +455,11 @@ describe('PresentPlan', () => {
             spy1();
             expect(n).toBe(value);
 
-            return Unscharferelation.of<number>((epoque: Epoque<Matter<number>, void>) => {
+            return Unscharferelation.of<number>((epoque: Epoque<Matter<number>>) => {
               return epoque.throw(error);
             });
           },
-          CombinedEpoque.of<number, void>(
+          CombinedEpoque.of<number>(
             () => {
               spy2();
 

@@ -1,9 +1,8 @@
 import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
-
-import { CombinedEpoque } from '../../../Epoque/CombinedEpoque';
-import { Epoque } from '../../../Epoque/Interface/Epoque';
+import { CombinedEpoque } from '../../Epoque/CombinedEpoque';
+import { Epoque } from '../../Epoque/Interface/Epoque';
 import { Matter } from '../../Interface/Matter';
 import { Unscharferelation } from '../../Unscharferelation';
 import { AbsentPlan } from '../AbsentPlan';
@@ -24,7 +23,7 @@ describe('AbsentPlan', () => {
 
           return value - 6;
         },
-        CombinedEpoque.of<number, void>(
+        CombinedEpoque.of<number>(
           (n: number) => {
             spy2();
             expect(n).toBe(value - 6);
@@ -61,7 +60,7 @@ describe('AbsentPlan', () => {
 
             return Promise.resolve<number>(value - 6);
           },
-          CombinedEpoque.of<number, void>(
+          CombinedEpoque.of<number>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 6);
@@ -103,11 +102,11 @@ describe('AbsentPlan', () => {
           () => {
             spy1();
 
-            return Unscharferelation.of<number>((epoque: Epoque<Matter<number>, void>) => {
+            return Unscharferelation.of<number>((epoque: Epoque<Matter<number>>) => {
               return epoque.accept(value - 6);
             });
           },
-          CombinedEpoque.of<number, void>(
+          CombinedEpoque.of<number>(
             (n: number) => {
               spy2();
               expect(n).toBe(value - 6);
@@ -149,7 +148,7 @@ describe('AbsentPlan', () => {
 
             return null;
           },
-          CombinedEpoque.of<number, void>(
+          CombinedEpoque.of<number>(
             () => {
               spy2();
 
@@ -190,7 +189,7 @@ describe('AbsentPlan', () => {
 
             return null;
           },
-          CombinedEpoque.of<number, void>(
+          CombinedEpoque.of<number>(
             () => {
               spy2();
 
@@ -231,7 +230,7 @@ describe('AbsentPlan', () => {
 
             return Promise.resolve<null>(null);
           },
-          CombinedEpoque.of<number, void>(
+          CombinedEpoque.of<number>(
             () => {
               spy2();
 
@@ -272,7 +271,7 @@ describe('AbsentPlan', () => {
 
             return Promise.resolve<undefined>(undefined);
           },
-          CombinedEpoque.of<number, void>(
+          CombinedEpoque.of<number>(
             () => {
               spy2();
 
@@ -311,11 +310,11 @@ describe('AbsentPlan', () => {
           () => {
             spy1();
 
-            return Unscharferelation.of<number>((epoque: Epoque<Matter<number>, void>) => {
+            return Unscharferelation.of<number>((epoque: Epoque<Matter<number>>) => {
               return epoque.decline();
             });
           },
-          CombinedEpoque.of<number, void>(
+          CombinedEpoque.of<number>(
             () => {
               spy2();
 
@@ -357,7 +356,7 @@ describe('AbsentPlan', () => {
 
           throw error;
         },
-        CombinedEpoque.of<number, void>(
+        CombinedEpoque.of<number>(
           () => {
             spy2();
           },
@@ -394,7 +393,7 @@ describe('AbsentPlan', () => {
 
             return Promise.reject<number>(error);
           },
-          CombinedEpoque.of<number, void>(
+          CombinedEpoque.of<number>(
             () => {
               spy2();
 
@@ -436,11 +435,11 @@ describe('AbsentPlan', () => {
           () => {
             spy1();
 
-            return Unscharferelation.of<number>((epoque: Epoque<Matter<number>, void>) => {
+            return Unscharferelation.of<number>((epoque: Epoque<Matter<number>>) => {
               return epoque.throw(error);
             });
           },
-          CombinedEpoque.of<number, void>(
+          CombinedEpoque.of<number>(
             () => {
               spy2();
 

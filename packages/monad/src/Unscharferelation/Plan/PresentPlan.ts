@@ -1,7 +1,6 @@
 import { Kind, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
-
-import { Epoque } from '../../Epoque/Interface/Epoque';
 import { MappingPlan } from '../../Plan/Interface/MappingPlan';
+import { Epoque } from '../Epoque/Interface/Epoque';
 import { isUnscharferelation, IUnscharferelation } from '../Interface/IUnscharferelation';
 import { Matter } from '../Interface/Matter';
 
@@ -9,12 +8,12 @@ export class PresentPlan<P, Q> implements MappingPlan<P, 'PresentPlan'> {
   public readonly noun: 'PresentPlan' = 'PresentPlan';
   private readonly mapper: UnaryFunction<Matter<P>,
     IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>;
-  private readonly epoque: Epoque<Matter<Q>, void>;
+  private readonly epoque: Epoque<Matter<Q>>;
 
   public static of<P, Q>(
     mapper: UnaryFunction<Matter<P>,
       IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>,
-    epoque: Epoque<Matter<Q>, void>
+    epoque: Epoque<Matter<Q>>
   ): PresentPlan<P, Q> {
     return new PresentPlan<P, Q>(mapper, epoque);
   }
@@ -22,7 +21,7 @@ export class PresentPlan<P, Q> implements MappingPlan<P, 'PresentPlan'> {
   protected constructor(
     mapper: UnaryFunction<Matter<P>,
       IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>,
-    epoque: Epoque<Matter<Q>, void>
+    epoque: Epoque<Matter<Q>>
   ) {
     this.mapper = mapper;
     this.epoque = epoque;
