@@ -43,7 +43,7 @@ export class MySQL implements IMySQL {
 
       return ret;
     }
-    catch (err) {
+    catch (err: unknown) {
       await connection.rollback();
       connection.release();
 

@@ -14,8 +14,12 @@ export class RedisSet implements IRedisSet {
     try {
       return await this.client.sadd(key, ...values);
     }
-    catch (err) {
-      throw new RedisError('FAIL ON SADD', err);
+    catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new RedisError('FAIL ON SADD', err);
+      }
+
+      throw err;
     }
   }
 
@@ -23,8 +27,12 @@ export class RedisSet implements IRedisSet {
     try {
       return await this.client.srem(key, ...values);
     }
-    catch (err) {
-      throw new RedisError('FAIL ON SREM', err);
+    catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new RedisError('FAIL ON SREM', err);
+      }
+
+      throw err;
     }
   }
 
@@ -38,8 +46,12 @@ export class RedisSet implements IRedisSet {
 
       return true;
     }
-    catch (err) {
-      throw new RedisError('FAIL ON SISMEMBER', err);
+    catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new RedisError('FAIL ON SISMEMBER', err);
+      }
+
+      throw err;
     }
   }
 
@@ -47,8 +59,12 @@ export class RedisSet implements IRedisSet {
     try {
       return await this.client.scard(key);
     }
-    catch (err) {
-      throw new RedisError('FAIL ON SCARD', err);
+    catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new RedisError('FAIL ON SCARD', err);
+      }
+
+      throw err;
     }
   }
 
@@ -56,8 +72,12 @@ export class RedisSet implements IRedisSet {
     try {
       return await this.client.smembers(key);
     }
-    catch (err) {
-      throw new RedisError('FAIL ON SMEMBERS', err);
+    catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new RedisError('FAIL ON SMEMBERS', err);
+      }
+
+      throw err;
     }
   }
 
@@ -65,8 +85,12 @@ export class RedisSet implements IRedisSet {
     try {
       return await this.client.srandmember(key);
     }
-    catch (err) {
-      throw new RedisError('FAIL ON SRANDMEMBER', err);
+    catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new RedisError('FAIL ON SRANDMEMBER', err);
+      }
+
+      throw err;
     }
   }
 
@@ -74,8 +98,12 @@ export class RedisSet implements IRedisSet {
     try {
       return await this.client.spop(key);
     }
-    catch (err) {
-      throw new RedisError('FAIL ON SPOP', err);
+    catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new RedisError('FAIL ON SPOP', err);
+      }
+
+      throw err;
     }
   }
 }

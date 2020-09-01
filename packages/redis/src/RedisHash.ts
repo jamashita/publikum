@@ -20,8 +20,12 @@ export class RedisHash implements IRedisHash {
 
       return true;
     }
-    catch (err) {
-      throw new RedisError('FAIL ON HSET', err);
+    catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new RedisError('FAIL ON HSET', err);
+      }
+
+      throw err;
     }
   }
 
@@ -29,8 +33,12 @@ export class RedisHash implements IRedisHash {
     try {
       return await this.client.hget(key, field);
     }
-    catch (err) {
-      throw new RedisError('FAIL ON HGET', err);
+    catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new RedisError('FAIL ON HGET', err);
+      }
+
+      throw err;
     }
   }
 
@@ -38,8 +46,12 @@ export class RedisHash implements IRedisHash {
     try {
       return await this.client.hdel(key, field);
     }
-    catch (err) {
-      throw new RedisError('FAIL ON HDEL', err);
+    catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new RedisError('FAIL ON HDEL', err);
+      }
+
+      throw err;
     }
   }
 
@@ -47,8 +59,12 @@ export class RedisHash implements IRedisHash {
     try {
       return await this.client.hlen(key);
     }
-    catch (err) {
-      throw new RedisError('FAIL ON HLEN', err);
+    catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new RedisError('FAIL ON HLEN', err);
+      }
+
+      throw err;
     }
   }
 
@@ -62,8 +78,12 @@ export class RedisHash implements IRedisHash {
 
       return true;
     }
-    catch (err) {
-      throw new RedisError('FAIL ON HEXISTS', err);
+    catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new RedisError('FAIL ON HEXISTS', err);
+      }
+
+      throw err;
     }
   }
 }

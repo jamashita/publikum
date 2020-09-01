@@ -19,7 +19,7 @@ export class Request<T extends ResponseType = 'json'> implements IRequest<T> {
       // eslint-disable-next-line @typescript-eslint/return-await
       return this.forgeResponse(res);
     }
-    catch (err) {
+    catch (err: unknown) {
       if (err instanceof ReqError) {
         throw new RequestError(err.message, err);
       }
@@ -37,7 +37,7 @@ export class Request<T extends ResponseType = 'json'> implements IRequest<T> {
       // eslint-disable-next-line @typescript-eslint/return-await
       return this.forgeResponse(res);
     }
-    catch (err) {
+    catch (err: unknown) {
       if (err instanceof ReqError) {
         throw new RequestError(err.message, err);
       }
@@ -55,7 +55,7 @@ export class Request<T extends ResponseType = 'json'> implements IRequest<T> {
       // eslint-disable-next-line @typescript-eslint/return-await
       return this.forgeResponse(res);
     }
-    catch (err) {
+    catch (err: unknown) {
       if (err instanceof ReqError) {
         throw new RequestError(err.message, err);
       }
@@ -71,7 +71,7 @@ export class Request<T extends ResponseType = 'json'> implements IRequest<T> {
       // eslint-disable-next-line @typescript-eslint/return-await
       return this.forgeResponse(res);
     }
-    catch (err) {
+    catch (err: unknown) {
       if (err instanceof ReqError) {
         throw new RequestError(err.message, err);
       }

@@ -8,8 +8,14 @@ export class JSONA {
         try {
           resolve(JSON.parse(text));
         }
-        catch (err) {
-          reject(new JSONAError(err));
+        catch (err: unknown) {
+          if (err instanceof Error) {
+            reject(new JSONAError(err));
+
+            return;
+          }
+
+          reject(err);
         }
       });
     });
@@ -21,8 +27,14 @@ export class JSONA {
         try {
           resolve(JSON.stringify(value));
         }
-        catch (err) {
-          reject(new JSONAError(err));
+        catch (err: unknown) {
+          if (err instanceof Error) {
+            reject(new JSONAError(err));
+
+            return;
+          }
+
+          reject(err);
         }
       });
     });

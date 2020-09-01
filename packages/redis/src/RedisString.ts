@@ -20,8 +20,12 @@ export class RedisString implements IRedisString {
 
       return false;
     }
-    catch (err) {
-      throw new RedisError('FAIL ON SET', err);
+    catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new RedisError('FAIL ON SET', err);
+      }
+
+      throw err;
     }
   }
 
@@ -29,8 +33,12 @@ export class RedisString implements IRedisString {
     try {
       return await this.client.get(key);
     }
-    catch (err) {
-      throw new RedisError('FAIL ON GET', err);
+    catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new RedisError('FAIL ON GET', err);
+      }
+
+      throw err;
     }
   }
 }
