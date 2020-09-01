@@ -206,7 +206,7 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
 
   // TODO
   // public toSuperposition(): Superposition<P, UnscharferelationError> {
-  //   return Superposition.of<P, UnscharferelationError>((epoque: Epoque<Detoxicated<P>, UnscharferelationError>) => {
+  //   return Superposition.of<P, UnscharferelationError>((epoque: Chrono<Detoxicated<P>, UnscharferelationError>) => {
   //     this.pass(
   //       (value: Matter<P>) => {
   //         if (value instanceof Error) {

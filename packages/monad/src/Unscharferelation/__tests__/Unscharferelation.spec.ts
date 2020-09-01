@@ -665,7 +665,7 @@ describe('Unscharferelation', () => {
   //     const value: number = -201;
   //
   //     const unscharferelation: Unscharferelation<number> = Unscharferelation.of<number>(
-  //       (epoque: Epoque<number>) => {
+  //       (epoque: Chrono<number>) => {
   //         epoque.accept(value);
   //       }
   //     );
@@ -681,7 +681,7 @@ describe('Unscharferelation', () => {
   //     const value: MockError = new MockError();
   //
   //     const unscharferelation: Unscharferelation<MockError> = Unscharferelation.of<MockError>(
-  //       (epoque: Epoque<MockError>) => {
+  //       (epoque: Chrono<MockError>) => {
   //         epoque.accept(value);
   //       }
   //     );
@@ -697,7 +697,7 @@ describe('Unscharferelation', () => {
   //
   //   it('absent: will transform to dead', async () => {
   //     const unscharferelation: Unscharferelation<number> = Unscharferelation.of<number>(
-  //       (epoque: Epoque<number>) => {
+  //       (epoque: Chrono<number>) => {
   //         epoque.decline();
   //       }
   //     );
@@ -715,7 +715,7 @@ describe('Unscharferelation', () => {
   //     const error: MockError = new MockError();
   //
   //     const unscharferelation: Unscharferelation<number> = Unscharferelation.of<number>(
-  //       (epoque: Epoque<number>) => {
+  //       (epoque: Chrono<number>) => {
   //         epoque.throw(error);
   //       }
   //     );

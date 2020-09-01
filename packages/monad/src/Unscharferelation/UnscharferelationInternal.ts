@@ -25,11 +25,11 @@ import { Uncertain } from './Heisenberg/Uncertain';
 import { IUnscharferelation } from './Interface/IUnscharferelation';
 import { Matter } from './Interface/Matter';
 import { AbsentPlan } from './Plan/AbsentPlan';
-import { DestroyPassPlan } from './Plan/DestroyPassPlan';
-import { MappingPassPlan } from './Plan/MappingPassPlan';
-import { MappingPeekPlan } from './Plan/MappingPeekPlan';
+import { DestroyEpoquePlan } from './Plan/DestroyEpoquePlan';
+import { MappingEpoquePlan } from './Plan/MappingEpoquePlan';
+import { PassThroughEpoquePlan } from './Plan/PassThroughEpoquePlan';
 import { PresentPlan } from './Plan/PresentPlan';
-import { RecoveryPeekPlan } from './Plan/RecoveryPeekPlan';
+import { RecoveryEpoquePlan } from './Plan/RecoveryEpoquePlan';
 
 export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationInternal<P>, 'UnscharferelationInternal'>
   implements IUnscharferelation<P, 'UnscharferelationInternal'>, Epoque<Matter<P>> {
@@ -149,8 +149,8 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
     return UnscharferelationInternal.of<Q>((epoque: Epoque<Matter<Q>>) => {
       return this.handle(
         PresentPlan.of<P, Q>(mapper, epoque),
-        RecoveryPeekPlan.of(epoque),
-        DestroyPassPlan.of(epoque)
+        RecoveryEpoquePlan.of(epoque),
+        DestroyEpoquePlan.of(epoque)
       );
     });
   }
@@ -160,9 +160,9 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
   ): UnscharferelationInternal<P | Q> {
     return UnscharferelationInternal.of<P | Q>((epoque: Epoque<Matter<P | Q>>) => {
       return this.handle(
-        MappingPassPlan.of<Matter<P>>(epoque),
+        MappingEpoquePlan.of<Matter<P>>(epoque),
         AbsentPlan.of<Q>(mapper, epoque),
-        DestroyPassPlan.of(epoque)
+        DestroyEpoquePlan.of(epoque)
       );
     });
   }
@@ -174,7 +174,7 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
 
     const epoque: Epoque<Matter<P>> = CombinedEpoque.of<Matter<P>>(consumer, peek, peek);
 
-    this.handle(MappingPassPlan.of<Matter<P>>(epoque), RecoveryPeekPlan.of(epoque), DestroyPassPlan.of(epoque));
+    this.handle(MappingEpoquePlan.of<Matter<P>>(epoque), RecoveryEpoquePlan.of(epoque), DestroyEpoquePlan.of(epoque));
 
     return this;
   }
@@ -186,7 +186,7 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
   ): UnscharferelationInternal<P> {
     const epoque: Epoque<Matter<P>> = CombinedEpoque.of<Matter<P>>(accepted, declined, thrown);
 
-    this.handle(MappingPassPlan.of<Matter<P>>(epoque), RecoveryPeekPlan.of(epoque), DestroyPassPlan.of(epoque));
+    this.handle(MappingEpoquePlan.of<Matter<P>>(epoque), RecoveryEpoquePlan.of(epoque), DestroyEpoquePlan.of(epoque));
 
     return this;
   }
@@ -194,7 +194,7 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
   public peek(peek: Peek): UnscharferelationInternal<P> {
     const epoque: Epoque<void> = CombinedEpoque.of<void>(peek, peek, peek);
 
-    this.handle(MappingPeekPlan.of(epoque), RecoveryPeekPlan.of(epoque), DestroyPassPlan.of(epoque));
+    this.handle(PassThroughEpoquePlan.of(epoque), RecoveryEpoquePlan.of(epoque), DestroyEpoquePlan.of(epoque));
 
     return this;
   }
@@ -202,7 +202,7 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
   // TODO NOT EPOQUE
   // public toSuperposition(): SuperpositionInternal<P, UnscharferelationError> {
   //   return SuperpositionInternal.of<P, UnscharferelationError>(
-  //     (epoque: Epoque<Detoxicated<P>, UnscharferelationError>) => {
+  //     (epoque: Chrono<Detoxicated<P>, UnscharferelationError>) => {
   //       this.pass(
   //         (value: Matter<P>) => {
   //           if (value instanceof Error) {

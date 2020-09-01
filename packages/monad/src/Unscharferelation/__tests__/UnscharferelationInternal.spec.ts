@@ -1562,7 +1562,7 @@ describe('UnscharferelationInternal', () => {
   //     const value: number = -201;
   //
   //     const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
-  //       (epoque: Epoque<number>) => {
+  //       (epoque: Chrono<number>) => {
   //         epoque.accept(value);
   //       }
   //     );
@@ -1578,7 +1578,7 @@ describe('UnscharferelationInternal', () => {
   //     const value: MockError = new MockError();
   //
   //     const unscharferelation: UnscharferelationInternal<MockError> = UnscharferelationInternal.of<MockError>(
-  //       (epoque: Epoque<MockError>) => {
+  //       (epoque: Chrono<MockError>) => {
   //         epoque.accept(value);
   //       }
   //     );
@@ -1594,7 +1594,7 @@ describe('UnscharferelationInternal', () => {
   //
   //   it('absent: will transform to dead', async () => {
   //     const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
-  //       (epoque: Epoque<number>) => {
+  //       (epoque: Chrono<number>) => {
   //         epoque.decline();
   //       }
   //     );
@@ -1612,7 +1612,7 @@ describe('UnscharferelationInternal', () => {
   //     const error: MockError = new MockError();
   //
   //     const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
-  //       (epoque: Epoque<number>) => {
+  //       (epoque: Chrono<number>) => {
   //         epoque.throw(error);
   //       }
   //     );
