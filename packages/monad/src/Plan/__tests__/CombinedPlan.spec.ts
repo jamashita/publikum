@@ -1,5 +1,4 @@
 import sinon, { SinonSpy } from 'sinon';
-
 import { CombinedPlan } from '../CombinedPlan';
 import { DestroyPlan } from '../Interface/DestroyPlan';
 import { MappingPlan } from '../Interface/MappingPlan';
