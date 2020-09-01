@@ -1,24 +1,23 @@
 import { JSONA } from '@jamashita/publikum-json';
 import { ObjectLiteral } from '@jamashita/publikum-type';
 import got, { RequestError as ReqError, Response } from 'got';
-
 import { RequestError } from './Error/RequestError';
 import { IRequest } from './Interface/IRequest';
-import { RequestResponse } from './RequestResponse';
+import { RequestResponse, ResponseType } from './RequestResponse';
 
-export class Request implements IRequest {
-  public async get<T extends ObjectLiteral>(url: string): Promise<RequestResponse<T>> {
+export class Request<T extends ResponseType = 'json'> implements IRequest<T> {
+  private readonly responseType: T;
+
+  public constructor(responseType: T) {
+    this.responseType = responseType;
+  }
+
+  public async get(url: string): Promise<RequestResponse<T>> {
     try {
-      const {
-        statusCode,
-        body
-      }: Response<string> = await got.get(url);
-      const json: T = await JSONA.parse<T>(body);
+      const res: Response<string> = await got.get(url);
 
-      return {
-        status: statusCode,
-        body: json
-      };
+      // eslint-disable-next-line @typescript-eslint/return-await
+      return this.forgeResponse(res);
     }
     catch (err) {
       if (err instanceof ReqError) {
@@ -29,20 +28,14 @@ export class Request implements IRequest {
     }
   }
 
-  public async post<T extends ObjectLiteral>(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>> {
+  public async post(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>> {
     try {
-      const {
-        statusCode,
-        body
-      }: Response<string> = await got.post(url, {
+      const res: Response<string> = await got.post(url, {
         json: payload
       });
-      const json: T = await JSONA.parse<T>(body);
 
-      return {
-        status: statusCode,
-        body: json
-      };
+      // eslint-disable-next-line @typescript-eslint/return-await
+      return this.forgeResponse(res);
     }
     catch (err) {
       if (err instanceof ReqError) {
@@ -53,20 +46,14 @@ export class Request implements IRequest {
     }
   }
 
-  public async put<T extends ObjectLiteral>(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>> {
+  public async put(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>> {
     try {
-      const {
-        statusCode,
-        body
-      }: Response<string> = await got.put(url, {
+      const res: Response<string> = await got.put(url, {
         json: payload
       });
-      const json: T = await JSONA.parse<T>(body);
 
-      return {
-        status: statusCode,
-        body: json
-      };
+      // eslint-disable-next-line @typescript-eslint/return-await
+      return this.forgeResponse(res);
     }
     catch (err) {
       if (err instanceof ReqError) {
@@ -77,18 +64,12 @@ export class Request implements IRequest {
     }
   }
 
-  public async delete<T extends ObjectLiteral>(url: string): Promise<RequestResponse<T>> {
+  public async delete(url: string): Promise<RequestResponse<T>> {
     try {
-      const {
-        statusCode,
-        body
-      }: Response<string> = await got.delete(url);
-      const json: T = await JSONA.parse<T>(body);
+      const res: Response<string> = await got.delete(url);
 
-      return {
-        status: statusCode,
-        body: json
-      };
+      // eslint-disable-next-line @typescript-eslint/return-await
+      return this.forgeResponse(res);
     }
     catch (err) {
       if (err instanceof ReqError) {
@@ -96,6 +77,40 @@ export class Request implements IRequest {
       }
 
       throw err;
+    }
+  }
+
+  private async forgeResponse(res: Response<string>): Promise<RequestResponse<T>> {
+    const {
+      statusCode: status,
+      body,
+      rawBody
+    } = res;
+
+    switch (this.responseType) {
+      case 'byte': {
+        return {
+          status,
+          body: rawBody
+        } as RequestResponse<T>;
+      }
+      case 'json': {
+        const json: ObjectLiteral = await JSONA.parse<ObjectLiteral>(body);
+
+        return {
+          status,
+          body: json
+        } as RequestResponse<T>;
+      }
+      case 'raw': {
+        return {
+          status,
+          body
+        } as RequestResponse<T>;
+      }
+      default: {
+        throw new RequestError(`UNEXPECTED RESPONSE TYPE: GIVEN ${this.responseType}`);
+      }
     }
   }
 }

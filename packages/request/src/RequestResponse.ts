@@ -1,4 +1,14 @@
-export type RequestResponse<T> = Readonly<{
+import { ObjectLiteral } from '@jamashita/publikum-type';
+
+export type ResponseKV = Readonly<{
+  json: ObjectLiteral;
+  byte: Buffer;
+  raw: string;
+}>;
+
+export type ResponseType = keyof ResponseKV;
+
+export type RequestResponse<T extends ResponseType> = Readonly<{
   status: number;
-  body: T;
+  body: ResponseKV[T];
 }>;
