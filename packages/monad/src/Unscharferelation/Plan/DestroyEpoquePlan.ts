@@ -1,12 +1,12 @@
 import { DestroyPlan } from '../../Plan/Interface/DestroyPlan';
 import { ThrowEpoque } from '../Epoque/Interface/ThrowEpoque';
 
-export class DestroyPassPlan implements DestroyPlan<'DestroyPassPlan'> {
-  public readonly noun: 'DestroyPassPlan' = 'DestroyPassPlan';
+export class DestroyEpoquePlan implements DestroyPlan<'DestroyEpoquePlan'> {
+  public readonly noun: 'DestroyEpoquePlan' = 'DestroyEpoquePlan';
   private readonly epoque: ThrowEpoque;
 
-  public static of(epoque: ThrowEpoque): DestroyPassPlan {
-    return new DestroyPassPlan(epoque);
+  public static of(epoque: ThrowEpoque): DestroyEpoquePlan {
+    return new DestroyEpoquePlan(epoque);
   }
 
   protected constructor(epoque: ThrowEpoque) {

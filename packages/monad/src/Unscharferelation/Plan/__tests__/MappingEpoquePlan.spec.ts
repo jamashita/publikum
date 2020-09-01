@@ -1,18 +1,21 @@
 import sinon, { SinonSpy } from 'sinon';
 import { CombinedEpoque } from '../../Epoque/CombinedEpoque';
 import { AcceptEpoque } from '../../Epoque/Interface/AcceptEpoque';
-import { MappingPeekPlan } from '../MappingPeekPlan';
+import { MappingEpoquePlan } from '../MappingEpoquePlan';
 
-describe('MappingPeekPlan', () => {
+describe('MappingEpoquePlan', () => {
   describe('onMap', () => {
     it('sync', () => {
+      const value: number = 10;
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const epoque: AcceptEpoque<void> = CombinedEpoque.of<void>(
-        () => {
+      const epoque: AcceptEpoque<number> = CombinedEpoque.of<number>(
+        (v: number) => {
           spy1();
+          expect(v).toBe(value);
         },
         () => {
           spy2();
@@ -21,9 +24,9 @@ describe('MappingPeekPlan', () => {
           spy3();
         }
       );
-      const plan: MappingPeekPlan = MappingPeekPlan.of(epoque);
+      const plan: MappingEpoquePlan<number> = MappingEpoquePlan.of<number>(epoque);
 
-      plan.onMap();
+      plan.onMap(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -31,14 +34,17 @@ describe('MappingPeekPlan', () => {
     });
 
     it('async', () => {
+      const value: number = 10;
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const epoque: AcceptEpoque<void> = CombinedEpoque.of<void>(
+      const epoque: AcceptEpoque<number> = CombinedEpoque.of<number>(
         // eslint-disable-next-line @typescript-eslint/require-await
-        async () => {
+        async (v: number) => {
           spy1();
+          expect(v).toBe(value);
         },
         // eslint-disable-next-line @typescript-eslint/require-await
         async () => {
@@ -49,9 +55,9 @@ describe('MappingPeekPlan', () => {
           spy3();
         }
       );
-      const plan: MappingPeekPlan = MappingPeekPlan.of(epoque);
+      const plan: MappingEpoquePlan<number> = MappingEpoquePlan.of<number>(epoque);
 
-      plan.onMap();
+      plan.onMap(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);

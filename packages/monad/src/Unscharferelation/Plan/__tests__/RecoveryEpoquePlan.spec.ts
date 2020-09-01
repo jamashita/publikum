@@ -1,21 +1,18 @@
 import sinon, { SinonSpy } from 'sinon';
 import { CombinedEpoque } from '../../Epoque/CombinedEpoque';
-import { AcceptEpoque } from '../../Epoque/Interface/AcceptEpoque';
-import { MappingPassPlan } from '../MappingPassPlan';
+import { DeclineEpoque } from '../../Epoque/Interface/DeclineEpoque';
+import { RecoveryEpoquePlan } from '../RecoveryEpoquePlan';
 
-describe('MappingPassPlan', () => {
-  describe('onMap', () => {
+describe('RecoveryEpoquePlan', () => {
+  describe('onRecover', () => {
     it('sync', () => {
-      const value: number = 10;
-
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const epoque: AcceptEpoque<number> = CombinedEpoque.of<number>(
-        (v: number) => {
+      const epoque: DeclineEpoque = CombinedEpoque.of<unknown>(
+        () => {
           spy1();
-          expect(v).toBe(value);
         },
         () => {
           spy2();
@@ -24,27 +21,24 @@ describe('MappingPassPlan', () => {
           spy3();
         }
       );
-      const plan: MappingPassPlan<number> = MappingPassPlan.of<number>(epoque);
+      const plan: RecoveryEpoquePlan = RecoveryEpoquePlan.of(epoque);
 
-      plan.onMap(value);
+      plan.onRecover();
 
-      expect(spy1.called).toBe(true);
-      expect(spy2.called).toBe(false);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(false);
     });
 
     it('async', () => {
-      const value: number = 10;
-
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const epoque: AcceptEpoque<number> = CombinedEpoque.of<number>(
+      const epoque: DeclineEpoque = CombinedEpoque.of<unknown>(
         // eslint-disable-next-line @typescript-eslint/require-await
-        async (v: number) => {
+        async () => {
           spy1();
-          expect(v).toBe(value);
         },
         // eslint-disable-next-line @typescript-eslint/require-await
         async () => {
@@ -55,12 +49,12 @@ describe('MappingPassPlan', () => {
           spy3();
         }
       );
-      const plan: MappingPassPlan<number> = MappingPassPlan.of<number>(epoque);
+      const plan: RecoveryEpoquePlan = RecoveryEpoquePlan.of(epoque);
 
-      plan.onMap(value);
+      plan.onRecover();
 
-      expect(spy1.called).toBe(true);
-      expect(spy2.called).toBe(false);
+      expect(spy1.called).toBe(false);
+      expect(spy2.called).toBe(true);
       expect(spy3.called).toBe(false);
     });
   });

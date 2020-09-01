@@ -1,12 +1,12 @@
 import { RecoveryPlan } from '../../Plan/Interface/RecoveryPlan';
 import { DeclineEpoque } from '../Epoque/Interface/DeclineEpoque';
 
-export class RecoveryPeekPlan implements RecoveryPlan<void, 'RecoveryPeekPlan'> {
-  public readonly noun: 'RecoveryPeekPlan' = 'RecoveryPeekPlan';
+export class RecoveryEpoquePlan implements RecoveryPlan<void, 'RecoveryEpoquePlan'> {
+  public readonly noun: 'RecoveryEpoquePlan' = 'RecoveryEpoquePlan';
   private readonly epoque: DeclineEpoque;
 
-  public static of(epoque: DeclineEpoque): RecoveryPeekPlan {
-    return new RecoveryPeekPlan(epoque);
+  public static of(epoque: DeclineEpoque): RecoveryEpoquePlan {
+    return new RecoveryEpoquePlan(epoque);
   }
 
   protected constructor(epoque: DeclineEpoque) {
