@@ -5,8 +5,8 @@ export class MappingPassPlan<M> implements MappingPlan<M, 'MappingPassPlan'> {
   public readonly noun: 'MappingPassPlan' = 'MappingPassPlan';
   private readonly epoque: AcceptEpoque<M>;
 
-  public static of<R>(epoque: AcceptEpoque<R>): MappingPassPlan<R> {
-    return new MappingPassPlan<R>(epoque);
+  public static of<M>(epoque: AcceptEpoque<M>): MappingPassPlan<M> {
+    return new MappingPassPlan<M>(epoque);
   }
 
   protected constructor(epoque: AcceptEpoque<M>) {
