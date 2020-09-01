@@ -1,6 +1,4 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
-import { Consumer, Peek, Predicate, UnaryFunction } from '@jamashita/publikum-type';
-
 import { IUnscharferelation } from '../../Unscharferelation/Interface/IUnscharferelation';
 import { SuperpositionError } from '../Error/SuperpositionError';
 import { Detoxicated } from '../Interface/Detoxicated';
@@ -10,6 +8,14 @@ import { Schrodinger } from '../Schrodinger/Schrodinger';
 export class MockSuperposition<A, D extends Error> implements ISuperposition<A, D, 'MockSuperposition'> {
   public readonly noun: 'MockSuperposition' = 'MockSuperposition';
 
+  public equals(): boolean {
+    throw new UnimplementedError();
+  }
+
+  public hashCode(): string {
+    throw new UnimplementedError();
+  }
+
   public get(): Promise<Detoxicated<A>> {
     throw new UnimplementedError();
   }
@@ -18,44 +24,31 @@ export class MockSuperposition<A, D extends Error> implements ISuperposition<A, 
     throw new UnimplementedError();
   }
 
-  public filter(predicate: Predicate<A>): ISuperposition<A, D | SuperpositionError>;
   public filter(): ISuperposition<A, D | SuperpositionError> {
     throw new UnimplementedError();
   }
 
-  public map<B = A, E extends Error = D>(
-    mapper: UnaryFunction<Detoxicated<A>, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>
-  ): MockSuperposition<B, D | E>;
-  public map<B = A, E extends Error = D>(): MockSuperposition<B, D | E> {
+  public map<B = A, E extends Error = D>(): ISuperposition<B, D | E> {
     throw new UnimplementedError();
   }
 
-  public recover<B = A, E extends Error = D>(
-    mapper: UnaryFunction<D, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>
-  ): MockSuperposition<A | B, E>;
-  public recover<B = A, E extends Error = D>(): MockSuperposition<A | B, E> {
+  public pass(): ISuperposition<A, D> {
     throw new UnimplementedError();
   }
 
-  public transform<B = A, E extends Error = D>(
-    alive: UnaryFunction<Detoxicated<A>, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
-    dead: UnaryFunction<D, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>
-  ): MockSuperposition<B, E>;
-  public transform<B = A, E extends Error = D>(): MockSuperposition<B, E> {
+  public peek(): ISuperposition<A, D> {
     throw new UnimplementedError();
   }
 
-  public pass(
-    accepted: Consumer<Detoxicated<A>>,
-    declined: Consumer<D>,
-    thrown: Consumer<unknown>
-  ): MockSuperposition<A, D>;
-  public pass(): MockSuperposition<A, D> {
+  public recover<B = A, E extends Error = D>(): ISuperposition<A | B, E> {
     throw new UnimplementedError();
   }
 
-  public peek(peek: Peek): MockSuperposition<A, D>;
-  public peek(): MockSuperposition<A, D> {
+  public serialize(): string {
+    throw new UnimplementedError();
+  }
+
+  public transform<B = A, E extends Error = D>(): ISuperposition<B, E> {
     throw new UnimplementedError();
   }
 
