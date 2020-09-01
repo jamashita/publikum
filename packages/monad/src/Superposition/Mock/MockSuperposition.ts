@@ -1,18 +1,19 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
+import { ValueObject } from '@jamashita/publikum-object';
 import { IUnscharferelation } from '../../Unscharferelation/Interface/IUnscharferelation';
 import { SuperpositionError } from '../Error/SuperpositionError';
 import { Detoxicated } from '../Interface/Detoxicated';
 import { ISuperposition } from '../Interface/ISuperposition';
 import { Schrodinger } from '../Schrodinger/Schrodinger';
 
-export class MockSuperposition<A, D extends Error> implements ISuperposition<A, D, 'MockSuperposition'> {
+export class MockSuperposition<A, D extends Error> extends ValueObject<MockSuperposition<A, D>, 'MockSuperposition'> implements ISuperposition<A, D, 'MockSuperposition'> {
   public readonly noun: 'MockSuperposition' = 'MockSuperposition';
 
   public equals(): boolean {
     throw new UnimplementedError();
   }
 
-  public hashCode(): string {
+  public serialize(): string {
     throw new UnimplementedError();
   }
 
@@ -41,10 +42,6 @@ export class MockSuperposition<A, D extends Error> implements ISuperposition<A, 
   }
 
   public recover<B = A, E extends Error = D>(): ISuperposition<A | B, E> {
-    throw new UnimplementedError();
-  }
-
-  public serialize(): string {
     throw new UnimplementedError();
   }
 

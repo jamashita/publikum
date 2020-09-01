@@ -224,11 +224,7 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
   // }
 
   private settled(): boolean {
-    if (this.heisenberg.isPresent() || this.heisenberg.isAbsent() || this.heisenberg.isLost()) {
-      return true;
-    }
-
-    return false;
+    return this.heisenberg.isPresent() || this.heisenberg.isAbsent() || this.heisenberg.isLost();
   }
 
   private handle(mapping: MappingPlan<P>, recovery: RecoveryPlan<void>, destroy: DestroyPlan): unknown {
