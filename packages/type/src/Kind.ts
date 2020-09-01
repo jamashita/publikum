@@ -181,6 +181,15 @@ export class Kind {
     return instance instanceof klazz;
   }
 
+  public static notate(n: unknown): string {
+    if (Kind.isObject(n)) {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
+      return n.toString();
+    }
+
+    return String(n);
+  }
+
   private constructor() {
     // NOOP
   }
