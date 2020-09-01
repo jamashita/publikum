@@ -2,7 +2,7 @@ import { Reference } from './Reference';
 import { Constructor, PlainObject, PlainObjectItem, Primitive, Vague } from './Value';
 
 const NUMBER_REGEX: RegExp = /^[+-]?[0-9]+\.?[0-9]*$/su;
-const LITERAL_TOSTRING: string = '[object Object]';
+const LITERAL_TO_STRING: string = '[object Object]';
 
 export class Kind {
   public static isUndefined(value: unknown): value is undefined {
@@ -141,7 +141,7 @@ export class Kind {
     if (!Kind.isObject(value)) {
       return false;
     }
-    if (Object.prototype.toString.call(value) !== LITERAL_TOSTRING) {
+    if (Object.prototype.toString.call(value) !== LITERAL_TO_STRING) {
       return false;
     }
     if (Reference.isCircular(value)) {
