@@ -9,14 +9,12 @@ import {
   Peek,
   Predicate
 } from '@jamashita/publikum-type';
-
 import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Sequence } from '../Interface/Sequence';
 
-export abstract class ASequence<E extends Nominative<E>, N extends string = string>
-  extends Quantity<ASequence<E, N>, number, E, N>
+export abstract class ASequence<E extends Nominative<E>, N extends string = string> extends Quantity<ASequence<E, N>, number, E, N>
   implements Sequence<E, N> {
   public abstract readonly noun: N;
   protected readonly elements: Array<E>;

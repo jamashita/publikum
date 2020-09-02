@@ -1,4 +1,3 @@
-import { Kind } from './Kind';
 import { Inconnu } from './Value';
 
 export class Reference {
@@ -7,7 +6,7 @@ export class Reference {
   }
 
   private static isSerializable(value: unknown, visitStack: WeakSet<object>): boolean {
-    if (!Kind.isObject<Inconnu>(value)) {
+    if (!Reference.isObject(value)) {
       return true;
     }
     if (visitStack.has(value)) {
@@ -19,6 +18,17 @@ export class Reference {
     return !Object.keys(value).some((key: string) => {
       return !Reference.isSerializable(value[key], visitStack);
     });
+  }
+
+  private static isObject(value: unknown): value is Inconnu {
+    if (typeof value !== 'object') {
+      return false;
+    }
+    if (value === null) {
+      return false;
+    }
+
+    return true;
   }
 
   private constructor() {

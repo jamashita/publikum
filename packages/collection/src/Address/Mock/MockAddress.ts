@@ -2,9 +2,8 @@ import { UnimplementedError } from '@jamashita/publikum-error';
 import { Nominative } from '@jamashita/publikum-interface';
 import { AAddress } from '../Abstract/AAddress';
 
-// TODO RENAME TO MockAddress
-export class MockAAddress<E extends Nominative<E>> extends AAddress<E, 'MockAAddress'> {
-  public readonly noun: 'MockAAddress' = 'MockAAddress';
+export class MockAddress<E extends Nominative<E>> extends AAddress<E, 'MockAddress'> {
+  public readonly noun: 'MockAddress' = 'MockAddress';
 
   private static constructMap<ET extends Nominative<ET>>(elements: Set<ET>): Map<string, ET> {
     const map: Map<string, ET> = new Map<string, ET>();
@@ -17,18 +16,18 @@ export class MockAAddress<E extends Nominative<E>> extends AAddress<E, 'MockAAdd
   }
 
   public constructor(elements: Set<E>) {
-    super(MockAAddress.constructMap<E>(elements));
+    super(MockAddress.constructMap<E>(elements));
   }
 
-  public add(): MockAAddress<E> {
+  public add(): MockAddress<E> {
     throw new UnimplementedError();
   }
 
-  public remove(): MockAAddress<E> {
+  public remove(): MockAddress<E> {
     throw new UnimplementedError();
   }
 
-  public duplicate(): MockAAddress<E> {
+  public duplicate(): MockAddress<E> {
     throw new UnimplementedError();
   }
 }

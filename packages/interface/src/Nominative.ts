@@ -19,7 +19,7 @@ export const isNominative = <T extends Nominative<T> = AnonymousNominative, N ex
   if (!Kind.isObject<Nominative<T, N>>(n)) {
     return false;
   }
-  if (typeof n.hashCode !== 'function') {
+  if (!Kind.isFunction(n.hashCode)) {
     return false;
   }
   if (!isEqualable<T>(n)) {

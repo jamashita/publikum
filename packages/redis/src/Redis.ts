@@ -104,9 +104,7 @@ export class Redis implements IRedis {
 
   public async subscribe(...channels: ReadonlyArray<string>): Promise<number> {
     try {
-      const result: number = await this.client.subscribe(...channels);
-
-      return result;
+      return await this.client.subscribe(...channels);
     }
     catch (err: unknown) {
       if (err instanceof Error) {

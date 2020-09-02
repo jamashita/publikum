@@ -19,7 +19,7 @@ export class MySQL implements IMySQL {
           return query;
         }
 
-        return query.replace(/:(?<placeholder>\w+)/gu, (_: string, key: string) => {
+        return query.replace(/:(\w+)/gu, (_: string, key: string) => {
           if (key in value) {
             return connection.escape(value[key]);
           }

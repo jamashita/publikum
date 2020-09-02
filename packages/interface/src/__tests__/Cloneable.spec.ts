@@ -9,6 +9,7 @@ class MockCloneable implements Cloneable<MockCloneable> {
 describe('Cloneable', () => {
   describe('isCloneable', () => {
     it('normal case', () => {
+      expect.assertions(15);
       expect(isCloneable(null)).toBe(false);
       expect(isCloneable(undefined)).toBe(false);
       expect(isCloneable('')).toBe(false);

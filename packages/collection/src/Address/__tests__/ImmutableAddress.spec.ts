@@ -4,6 +4,7 @@ import { ImmutableAddress } from '../ImmutableAddress';
 describe('ImmutableAddress', () => {
   describe('of', () => {
     it('when the arguments specified with 0 length set, returns ImmutableAddress.empty()', () => {
+      expect.assertions(2);
       const address: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(
         new Set<MockNominative<number>>()
       );
@@ -13,6 +14,7 @@ describe('ImmutableAddress', () => {
     });
 
     it('normal case', () => {
+      expect.assertions(2);
       const address1: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(
         new Set<MockNominative<number>>([new MockNominative<number>(1), new MockNominative<number>(3)])
       );
@@ -31,18 +33,21 @@ describe('ImmutableAddress', () => {
 
   describe('empty', () => {
     it('always empty, the size is 0', () => {
+      expect.assertions(1);
       const address: ImmutableAddress<MockNominative<number>> = ImmutableAddress.empty<MockNominative<number>>();
 
       expect(address.isEmpty()).toBe(true);
     });
 
     it('returns singleton empty Address', () => {
+      expect.assertions(1);
       expect(ImmutableAddress.empty<MockNominative<number>>()).toBe(ImmutableAddress.empty<MockNominative<number>>());
     });
   });
 
   describe('add', () => {
     it('returns itself when arguments are empty', () => {
+      expect.assertions(2);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -57,6 +62,7 @@ describe('ImmutableAddress', () => {
     });
 
     it('can extend immutably', () => {
+      expect.assertions(9);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -82,6 +88,7 @@ describe('ImmutableAddress', () => {
     });
 
     it('does nothing when the arguments are already contained', () => {
+      expect.assertions(3);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
@@ -96,6 +103,7 @@ describe('ImmutableAddress', () => {
     });
 
     it('does nothing when the same value other object are already contained', () => {
+      expect.assertions(3);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(1);
@@ -113,6 +121,7 @@ describe('ImmutableAddress', () => {
 
   describe('remove', () => {
     it('normal case', () => {
+      expect.assertions(2);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
@@ -126,6 +135,7 @@ describe('ImmutableAddress', () => {
     });
 
     it('does nothing because the address is already nothing', () => {
+      expect.assertions(1);
       const noun: MockNominative<number> = new MockNominative<number>(1);
 
       const nouns: ImmutableAddress<MockNominative<number>> = ImmutableAddress.empty<MockNominative<number>>();
@@ -134,6 +144,7 @@ describe('ImmutableAddress', () => {
     });
 
     it('returns the value even if the other', () => {
+      expect.assertions(3);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(2);
@@ -149,6 +160,7 @@ describe('ImmutableAddress', () => {
     });
 
     it('does not contains the value, returns itself', () => {
+      expect.assertions(3);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -164,6 +176,7 @@ describe('ImmutableAddress', () => {
     });
 
     it('returns ImmutableAddress.empty() when the size will be 0', () => {
+      expect.assertions(1);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
 
       const nouns1: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(
@@ -177,6 +190,7 @@ describe('ImmutableAddress', () => {
 
   describe('isEmpty', () => {
     it('returns true if the elements are 0', () => {
+      expect.assertions(2);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
@@ -194,6 +208,7 @@ describe('ImmutableAddress', () => {
 
   describe('duplicate', () => {
     it('normal case', () => {
+      expect.assertions(2);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -209,6 +224,7 @@ describe('ImmutableAddress', () => {
     });
 
     it('does not affect original one', () => {
+      expect.assertions(4);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -227,6 +243,7 @@ describe('ImmutableAddress', () => {
     });
 
     it('returns ImmutableAddress.empty() when there are no items', () => {
+      expect.assertions(1);
       const nouns: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(new Set());
 
       expect(nouns.duplicate()).toBe(nouns);

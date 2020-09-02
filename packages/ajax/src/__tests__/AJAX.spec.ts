@@ -24,6 +24,7 @@ const INTERNAL_SERVER_ERROR: number = 500;
 describe('AJAX', () => {
   describe('get', () => {
     it('responds CONTINUE', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -40,11 +41,12 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.get<Res>(url);
 
       expect(r.status).toBe(CONTINUE);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
 
     it('responds OK', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -61,11 +63,12 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.get<Res>(url);
 
       expect(r.status).toBe(OK);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
 
-    it('responds MULTIPLE_CHOISE', async () => {
+    it('responds MULTIPLE_CHOICE', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -82,11 +85,12 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.get<Res>(url);
 
       expect(r.status).toBe(MULTIPLE_CHOICE);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
 
     it('responds BAD_REQUEST', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -103,11 +107,12 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.get<Res>(url);
 
       expect(r.status).toBe(BAD_REQUEST);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -124,13 +129,14 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.get<Res>(url);
 
       expect(r.status).toBe(INTERNAL_SERVER_ERROR);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
   });
 
   describe('post', () => {
     it('responds CONTINUE', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -147,11 +153,12 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.post<Res>(url);
 
       expect(r.status).toBe(CONTINUE);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
 
     it('responds OK', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -168,11 +175,12 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.post<Res>(url);
 
       expect(r.status).toBe(OK);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
 
-    it('responds MULTIPLE_CHOISE', async () => {
+    it('responds MULTIPLE_CHOICE', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -189,11 +197,12 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.post<Res>(url);
 
       expect(r.status).toBe(MULTIPLE_CHOICE);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
 
     it('responds BAD_REQUEST', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -210,11 +219,12 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.post<Res>(url);
 
       expect(r.status).toBe(BAD_REQUEST);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -231,13 +241,14 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.post<Res>(url);
 
       expect(r.status).toBe(INTERNAL_SERVER_ERROR);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
   });
 
   describe('put', () => {
     it('responds CONTINUE', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -254,11 +265,12 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.put<Res>(url);
 
       expect(r.status).toBe(CONTINUE);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
 
     it('responds OK', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -275,11 +287,12 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.put<Res>(url);
 
       expect(r.status).toBe(OK);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
 
-    it('responds MULTIPLE_CHOISE', async () => {
+    it('responds MULTIPLE_CHOICE', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -296,11 +309,12 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.put<Res>(url);
 
       expect(r.status).toBe(MULTIPLE_CHOICE);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
 
     it('responds BAD_REQUEST', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -317,11 +331,12 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.put<Res>(url);
 
       expect(r.status).toBe(BAD_REQUEST);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -338,13 +353,14 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.put<Res>(url);
 
       expect(r.status).toBe(INTERNAL_SERVER_ERROR);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
   });
 
   describe('delete', () => {
     it('responds CONTINUE', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -361,11 +377,12 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.delete<Res>(url);
 
       expect(r.status).toBe(CONTINUE);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
 
     it('responds OK', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -382,11 +399,12 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.delete<Res>(url);
 
       expect(r.status).toBe(OK);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
 
-    it('responds MULTIPLE_CHOISE', async () => {
+    it('responds MULTIPLE_CHOICE', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -403,11 +421,12 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.delete<Res>(url);
 
       expect(r.status).toBe(MULTIPLE_CHOICE);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
 
     it('responds BAD_REQUEST', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -424,11 +443,12 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.delete<Res>(url);
 
       expect(r.status).toBe(BAD_REQUEST);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
+      expect.assertions(2);
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -445,7 +465,7 @@ describe('AJAX', () => {
       const r: AJAXResponse<Res> = await ajax.delete<Res>(url);
 
       expect(r.status).toBe(INTERNAL_SERVER_ERROR);
-      expect(r.body).toEqual(res);
+      expect(r.body).toStrictEqual(res);
       server.restore();
     });
   });

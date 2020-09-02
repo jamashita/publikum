@@ -20,6 +20,7 @@ class MockNominative implements Nominative<MockNominative> {
 describe('Nominative', () => {
   describe('isNominative', () => {
     it('normal case', () => {
+      expect.assertions(18);
       expect(isNominative(null)).toBe(false);
       expect(isNominative(undefined)).toBe(false);
       expect(isNominative('')).toBe(false);

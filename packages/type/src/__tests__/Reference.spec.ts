@@ -4,6 +4,7 @@ import { PlainObject, PlainObjectItem } from '../Value';
 describe('Reference', () => {
   describe('isCircular', () => {
     it('return false when given objects do not have recusive reference', () => {
+      expect.assertions(18);
       expect(Reference.isCircular({})).toBe(false);
       expect(
         Reference.isCircular({
@@ -89,7 +90,8 @@ describe('Reference', () => {
       expect(Reference.isCircular([undefined, [undefined]])).toBe(false);
     });
 
-    it('recursive detectiion pattern', () => {
+    it('recursive detection pattern', () => {
+      expect.assertions(6);
       const obj1: PlainObject = {
         a: 'noi'
       };

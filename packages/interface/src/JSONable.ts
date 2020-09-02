@@ -8,7 +8,7 @@ export const isJSONable = <O extends ObjectLiteral = ObjectLiteral>(n: unknown):
   if (!Kind.isObject<JSONable<O>>(n)) {
     return false;
   }
-  if (typeof n.toJSON !== 'function') {
+  if (!Kind.isFunction(n.toJSON)) {
     return false;
   }
 

@@ -3,9 +3,8 @@ import { Nominative } from '@jamashita/publikum-interface';
 import { Pair } from '../../Pair';
 import { AProject } from '../Abstract/AProject';
 
-// TODO RENAME TO MockProject
-export class MockAProject<K extends Nominative<K>, V extends Nominative<V>> extends AProject<K, V, 'MockAProject'> {
-  public readonly noun: 'MockAProject' = 'MockAProject';
+export class MockProject<K extends Nominative<K>, V extends Nominative<V>> extends AProject<K, V, 'MockProject'> {
+  public readonly noun: 'MockProject' = 'MockProject';
 
   private static constructMap<KT extends Nominative<KT>, VT extends Nominative<VT>>(
     elements: Map<KT, VT>
@@ -20,18 +19,18 @@ export class MockAProject<K extends Nominative<K>, V extends Nominative<V>> exte
   }
 
   public constructor(elements: Map<K, V>) {
-    super(MockAProject.constructMap<K, V>(elements));
+    super(MockProject.constructMap<K, V>(elements));
   }
 
-  public set(): MockAProject<K, V> {
+  public set(): MockProject<K, V> {
     throw new UnimplementedError();
   }
 
-  public remove(): MockAProject<K, V> {
+  public remove(): MockProject<K, V> {
     throw new UnimplementedError();
   }
 
-  public duplicate(): MockAProject<K, V> {
+  public duplicate(): MockProject<K, V> {
     throw new UnimplementedError();
   }
 }

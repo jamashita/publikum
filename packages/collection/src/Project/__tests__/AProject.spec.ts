@@ -1,11 +1,12 @@
 import { MockContent, MockNominative } from '@jamashita/publikum-object';
 import { BinaryPredicate, Peek } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
-import { MockAProject } from '../Mock/MockAProject';
+import { MockProject } from '../Mock/MockProject';
 
 describe('AProject', () => {
   describe('iterator', () => {
     it('normal case', () => {
+      expect.assertions(4);
       const key1: MockNominative<string> = new MockNominative<string>('a');
       const key2: MockNominative<string> = new MockNominative<string>('d');
       const keys: Array<MockNominative<string>> = [key1, key2];
@@ -13,7 +14,7 @@ describe('AProject', () => {
       const value2: MockNominative<number> = new MockNominative<number>(2);
       const values: Array<MockNominative<number>> = [value1, value2];
 
-      const nouns: MockAProject<MockNominative<string>, MockNominative<number>> = new MockAProject<MockNominative<string>,
+      const nouns: MockProject<MockNominative<string>, MockNominative<number>> = new MockProject<MockNominative<string>,
         MockNominative<number>>(
         new Map<MockNominative<string>, MockNominative<number>>([
           [key1, value1],
@@ -33,21 +34,22 @@ describe('AProject', () => {
 
   describe('get', () => {
     it('returns Present instance at the correct key', () => {
+      expect.assertions(7);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(1);
 
-      const nouns1: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns1: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(new Map<MockNominative<number>, MockNominative<number>>());
-      const nouns2: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns2: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([[noun1, noun2]])
       );
 
-      expect(nouns1.size()).toEqual(0);
+      expect(nouns1.size()).toStrictEqual(0);
       expect(nouns1.get(noun1)).toBeNull();
       expect(nouns1.get(noun2)).toBeNull();
-      expect(nouns2.size()).toEqual(1);
+      expect(nouns2.size()).toStrictEqual(1);
       expect(nouns2.get(noun1)).toBe(noun2);
       expect(nouns2.get(noun2)).toBeNull();
       expect(nouns2.get(noun3)).toBe(noun2);
@@ -56,11 +58,12 @@ describe('AProject', () => {
 
   describe('has', () => {
     it('returns true when the key exists', () => {
+      expect.assertions(3);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(1);
 
-      const nouns: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([[noun1, noun2]])
       );
@@ -73,11 +76,12 @@ describe('AProject', () => {
 
   describe('contains', () => {
     it('returns true when the value exists', () => {
+      expect.assertions(3);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(2);
 
-      const nouns: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([[noun1, noun2]])
       );
@@ -90,12 +94,13 @@ describe('AProject', () => {
 
   describe('isEmpty', () => {
     it('returns true when the value exists', () => {
+      expect.assertions(2);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
-      const nouns1: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns1: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(new Map<MockNominative<number>, MockNominative<number>>());
-      const nouns2: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns2: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([[noun1, noun2]])
       );
@@ -107,6 +112,7 @@ describe('AProject', () => {
 
   describe('forEach', () => {
     it('returns true when the value exists', () => {
+      expect.assertions(4);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(2);
@@ -116,7 +122,7 @@ describe('AProject', () => {
         [noun3, noun4]
       ];
 
-      const nouns: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(new Map<MockNominative<number>, MockNominative<number>>(elements));
 
       expect(nouns.size()).toBe(elements.length);
@@ -130,12 +136,13 @@ describe('AProject', () => {
     });
 
     it('can cancel iteration', () => {
+      expect.assertions(5);
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
       const spy5: SinonSpy = sinon.spy();
-      const peeks: MockAProject<MockNominative<number>, MockContent<Peek>> = new MockAProject<MockNominative<number>,
+      const peeks: MockProject<MockNominative<number>, MockContent<Peek>> = new MockProject<MockNominative<number>,
         MockContent<Peek>>(
         new Map<MockNominative<number>, MockContent<Peek>>([
           [
@@ -189,6 +196,7 @@ describe('AProject', () => {
 
   describe('every', () => {
     it('normal case', () => {
+      expect.assertions(2);
       const noun1: MockNominative<number> = new MockNominative<number>(3);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(6);
@@ -201,7 +209,7 @@ describe('AProject', () => {
         [noun5, noun6]
       ];
 
-      const nouns: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(new Map<MockNominative<number>, MockNominative<number>>(elements));
 
       const every1: boolean = nouns.every((_: MockNominative<number>, key: MockNominative<number>) => {
@@ -216,6 +224,7 @@ describe('AProject', () => {
     });
 
     it('if one of them are not satisfied, returns false', () => {
+      expect.assertions(6);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -226,7 +235,7 @@ describe('AProject', () => {
       const noun9: MockNominative<number> = new MockNominative<number>(8);
       const noun0: MockNominative<number> = new MockNominative<number>(3);
 
-      const nouns1: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns1: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun6],
@@ -235,7 +244,7 @@ describe('AProject', () => {
           [noun4, noun9]
         ])
       );
-      const nouns2: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns2: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun7],
@@ -244,7 +253,7 @@ describe('AProject', () => {
           [noun4, noun9]
         ])
       );
-      const nouns3: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns3: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun7],
@@ -253,7 +262,7 @@ describe('AProject', () => {
           [noun4, noun9]
         ])
       );
-      const nouns4: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns4: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun7],
@@ -262,7 +271,7 @@ describe('AProject', () => {
           [noun4, noun6]
         ])
       );
-      const nouns5: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns5: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun6],
@@ -271,7 +280,7 @@ describe('AProject', () => {
           [noun4, noun9]
         ])
       );
-      const nouns6: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns6: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun6],
@@ -305,6 +314,7 @@ describe('AProject', () => {
 
   describe('some', () => {
     it('normal case', () => {
+      expect.assertions(2);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(2);
@@ -317,7 +327,7 @@ describe('AProject', () => {
         [noun5, noun6]
       ];
 
-      const nouns: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(new Map<MockNominative<number>, MockNominative<number>>(elements));
 
       const predicate: BinaryPredicate<MockNominative<number>, MockNominative<number>> = (
@@ -334,6 +344,7 @@ describe('AProject', () => {
     });
 
     it('if none of them are not satisfied, returns false', () => {
+      expect.assertions(5);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -344,7 +355,7 @@ describe('AProject', () => {
       const noun9: MockNominative<number> = new MockNominative<number>(8);
       const noun0: MockNominative<number> = new MockNominative<number>(10);
 
-      const nouns1: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns1: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun6],
@@ -353,7 +364,7 @@ describe('AProject', () => {
           [noun4, noun9]
         ])
       );
-      const nouns2: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns2: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun7],
@@ -362,7 +373,7 @@ describe('AProject', () => {
           [noun4, noun9]
         ])
       );
-      const nouns3: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns3: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun7],
@@ -371,7 +382,7 @@ describe('AProject', () => {
           [noun4, noun9]
         ])
       );
-      const nouns4: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns4: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun7],
@@ -380,7 +391,7 @@ describe('AProject', () => {
           [noun4, noun6]
         ])
       );
-      const nouns5: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns5: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun7],
@@ -412,16 +423,17 @@ describe('AProject', () => {
 
   describe('equals', () => {
     it('returns false if the length is different', () => {
+      expect.assertions(2);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
       const noun4: MockNominative<number> = new MockNominative<number>(4);
 
-      const nouns1: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns1: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([[noun1, noun2]])
       );
-      const nouns2: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns2: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun2],
@@ -434,19 +446,20 @@ describe('AProject', () => {
     });
 
     it('returns false if the values are different', () => {
+      expect.assertions(2);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
       const noun4: MockNominative<number> = new MockNominative<number>(4);
 
-      const nouns1: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns1: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun2],
           [noun3, noun3]
         ])
       );
-      const nouns2: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns2: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun2],
@@ -459,19 +472,20 @@ describe('AProject', () => {
     });
 
     it('returns true even if the sequence is different', () => {
+      expect.assertions(2);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
       const noun4: MockNominative<number> = new MockNominative<number>(4);
 
-      const nouns1: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns1: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun3, noun4],
           [noun1, noun2]
         ])
       );
-      const nouns2: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns2: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun2],
@@ -484,19 +498,20 @@ describe('AProject', () => {
     });
 
     it('returns true if the length is the same and the sequence is the same', () => {
+      expect.assertions(2);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
       const noun4: MockNominative<number> = new MockNominative<number>(4);
 
-      const nouns1: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns1: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun2],
           [noun3, noun4]
         ])
       );
-      const nouns2: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns2: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun2],
@@ -511,12 +526,13 @@ describe('AProject', () => {
 
   describe('toString', () => {
     it('normal case', () => {
+      expect.assertions(1);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
       const noun4: MockNominative<number> = new MockNominative<number>(4);
 
-      const nouns: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
           [noun1, noun2],
@@ -530,6 +546,7 @@ describe('AProject', () => {
 
   describe('toMap', () => {
     it('normal case', () => {
+      expect.assertions(4);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -539,7 +556,7 @@ describe('AProject', () => {
         [noun3, noun4]
       ];
 
-      const nouns: MockAProject<MockNominative<number>, MockNominative<number>> = new MockAProject<MockNominative<number>,
+      const nouns: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>,
         MockNominative<number>>(new Map<MockNominative<number>, MockNominative<number>>(elements));
       const map: Map<MockNominative<number>, MockNominative<number>> = nouns.toMap();
 

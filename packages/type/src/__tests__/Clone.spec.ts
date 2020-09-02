@@ -5,68 +5,69 @@ import { PlainObject, PlainObjectItem } from '../Value';
 describe('Clone', () => {
   describe('copy', () => {
     it('true pattern', () => {
-      expect(Clone.copy({})).toEqual({});
+      expect.assertions(18);
+      expect(Clone.copy({})).toStrictEqual({});
       expect(
         Clone.copy({
           a: null
         })
-      ).toEqual({
+      ).toStrictEqual({
         a: null
       });
       expect(
         Clone.copy({
           a: undefined
         })
-      ).toEqual({
+      ).toStrictEqual({
         a: undefined
       });
       expect(
         Clone.copy({
           a: true
         })
-      ).toEqual({
+      ).toStrictEqual({
         a: true
       });
       expect(
         Clone.copy({
           a: false
         })
-      ).toEqual({
+      ).toStrictEqual({
         a: false
       });
       expect(
         Clone.copy({
           a: 'picture in picture'
         })
-      ).toEqual({
+      ).toStrictEqual({
         a: 'picture in picture'
       });
       expect(
         Clone.copy({
           a: 0.001
         })
-      ).toEqual({
+      ).toStrictEqual({
         a: 0.001
       });
       expect(
         Clone.copy({
           a: -0.001
         })
-      ).toEqual({
+      ).toStrictEqual({
         a: -0.001
       });
       expect(
         Clone.copy({
           a: Infinity
         })
-      ).toEqual({
+      ).toStrictEqual({
         a: Infinity
       });
       expect(
         Clone.copy({
           a: NaN
         })
-      ).toEqual({
+      ).toStrictEqual({
         a: NaN
       });
 
@@ -76,21 +77,21 @@ describe('Clone', () => {
         Clone.copy({
           a: sym
         })
-      ).toEqual({
+      ).toStrictEqual({
         a: sym
       });
       expect(
         Clone.copy({
           a: 46n
         })
-      ).toEqual({
+      ).toStrictEqual({
         a: 46n
       });
       expect(
         Clone.copy({
           a: {}
         })
-      ).toEqual({
+      ).toStrictEqual({
         a: {}
       });
       expect(
@@ -102,7 +103,7 @@ describe('Clone', () => {
             }
           }
         })
-      ).toEqual({
+      ).toStrictEqual({
         a: {
           b: {
             c: undefined,
@@ -114,21 +115,22 @@ describe('Clone', () => {
         Clone.copy({
           a: []
         })
-      ).toEqual({
+      ).toStrictEqual({
         a: []
       });
       expect(
         Clone.copy({
           a: [undefined, [undefined]]
         })
-      ).toEqual({
+      ).toStrictEqual({
         a: [undefined, [undefined]]
       });
-      expect(Clone.copy([])).toEqual([]);
-      expect(Clone.copy([undefined, [undefined]])).toEqual([undefined, [undefined]]);
+      expect(Clone.copy([])).toStrictEqual([]);
+      expect(Clone.copy([undefined, [undefined]])).toStrictEqual([undefined, [undefined]]);
     });
 
     it('recursive detectiion pattern', () => {
+      expect.assertions(6);
       const obj1: PlainObject = {
         a: 'noi'
       };

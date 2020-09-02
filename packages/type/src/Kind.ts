@@ -50,11 +50,11 @@ export class Kind {
     return false;
   }
 
-  public static isInteger(value: unknown): value is number {
+  public static isInteger(value: unknown): boolean {
     return Number.isInteger(value);
   }
 
-  public static isNaN(value: unknown): value is number {
+  public static isNaN(value: unknown): boolean {
     if (Kind.isNumber(value)) {
       // eslint-disable-next-line no-self-compare
       if (value !== value) {
@@ -108,6 +108,14 @@ export class Kind {
     }
   }
 
+  public static isFunction(value: unknown): value is Function {
+    if (typeof value === 'function') {
+      return true;
+    }
+
+    return false;
+  }
+
   public static isObject<T extends object = object>(value: unknown): value is Vague<T> {
     if (typeof value !== 'object') {
       return false;
@@ -126,7 +134,7 @@ export class Kind {
     if (!Kind.isObject<PromiseLike<unknown>>(value)) {
       return false;
     }
-    if (typeof value.then === 'function') {
+    if (Kind.isFunction(value.then)) {
       return true;
     }
 

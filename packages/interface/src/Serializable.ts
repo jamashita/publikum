@@ -10,7 +10,7 @@ export const isSerializable = (n: unknown): n is Serializable => {
   if (!Kind.isObject<Serializable>(n)) {
     return false;
   }
-  if (typeof n.serialize !== 'function') {
+  if (!Kind.isFunction(n.serialize)) {
     return false;
   }
 

@@ -13,7 +13,7 @@ export const isCloneable = <T extends Cloneable<T> = AnonymousCloneable>(n: unkn
   if (!Kind.isObject<Cloneable<T>>(n)) {
     return false;
   }
-  if (typeof n.duplicate !== 'function') {
+  if (!Kind.isFunction(n.duplicate)) {
     return false;
   }
 
