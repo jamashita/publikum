@@ -371,6 +371,11 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
+"@jamashita/kafer@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@jamashita/kafer/-/kafer-0.1.0.tgz#946895e0138635da241fe6954712ee13ceffe007"
+  integrity sha512-A50iZoDWMPnuOhqyRm3jZa3J4rpGi6kl1LrujgtZ/r+Dp+7GfHsdY2W+jG3V4mEWDVNXNokiY1N7WVNWg++KDw==
+
 "@jest/console@^26.3.0":
   version "26.3.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-26.3.0.tgz#ed04063efb280c88ba87388b6f16427c0a85c856"

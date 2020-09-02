@@ -39,6 +39,7 @@
     "object-hash": "2.0.3"
   },
   "devDependencies": {
+    "@jamashita/kafer": "0.1.0",
     "@types/bcrypt": "3.0.0",
     "@types/chance": "1.1.0",
     "@types/ioredis": "4.17.3",
