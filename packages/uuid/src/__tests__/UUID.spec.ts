@@ -42,7 +42,7 @@ describe('UUID', () => {
       for (let i: number = 0; i < 100; i++) {
         const v4: UUID = UUID.v4();
 
-        expect(v4.get().length).toBe(UUID.size());
+        expect(v4.get()).toHaveLength(UUID.size());
       }
     });
   });
@@ -52,7 +52,7 @@ describe('UUID', () => {
       for (let i: number = 0; i < 100; i++) {
         const v5: UUID = UUID.v5();
 
-        expect(v5.get().length).toBe(UUID.size());
+        expect(v5.get()).toHaveLength(UUID.size());
       }
     });
   });

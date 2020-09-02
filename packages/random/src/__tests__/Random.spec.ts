@@ -6,7 +6,7 @@ describe('Random', () => {
       const length: number = 10;
 
       for (let i: number = 0; i < 10000; i++) {
-        expect(Random.string(length).length).toBe(length);
+        expect(Random.string(length)).toHaveLength(length);
       }
     });
   });

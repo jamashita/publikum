@@ -1,5 +1,5 @@
-import { MockError } from '@jamashita/publikum-object';
 import { randomBytes } from 'crypto';
+import { MockError } from '@jamashita/publikum-object';
 import { Kind } from '../Kind';
 import { Inconnu } from '../Value';
 
