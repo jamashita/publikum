@@ -1,35 +1,36 @@
+import { Matter } from '@jamashita/publikum-monad';
 import { Consumer } from '@jamashita/publikum-type';
 import { Epoque } from './Interface/Epoque';
 
-export class CombinedEpoque<A> implements Epoque<A, 'CombinedEpoque'> {
+export class CombinedEpoque<A> implements Epoque<Matter<A>, 'CombinedEpoque'> {
   public readonly noun: 'CombinedEpoque' = 'CombinedEpoque';
-  private readonly accepted: Consumer<A>;
-  private readonly declined: Consumer<void>;
-  private readonly thrown: Consumer<unknown>;
+  private readonly map: Consumer<Matter<A>>;
+  private readonly recover: Consumer<void>;
+  private readonly destroy: Consumer<unknown>;
 
   public static of<AT>(
-    accepted: Consumer<AT>,
-    declined: Consumer<void>,
-    thrown: Consumer<unknown>
+    map: Consumer<Matter<AT>>,
+    recover: Consumer<void>,
+    destroy: Consumer<unknown>
   ): CombinedEpoque<AT> {
-    return new CombinedEpoque<AT>(accepted, declined, thrown);
+    return new CombinedEpoque<AT>(map, recover, destroy);
   }
 
-  protected constructor(accepted: Consumer<A>, declined: Consumer<void>, thrown: Consumer<unknown>) {
-    this.accepted = accepted;
-    this.declined = declined;
-    this.thrown = thrown;
+  protected constructor(map: Consumer<Matter<A>>, recover: Consumer<void>, destroy: Consumer<unknown>) {
+    this.map = map;
+    this.recover = recover;
+    this.destroy = destroy;
   }
 
-  public accept(value: A): unknown | void {
-    return this.accepted(value);
+  public accept(value: Matter<A>): unknown | void {
+    return this.map(value);
   }
 
   public decline(): unknown | void {
-    return this.declined();
+    return this.recover();
   }
 
   public throw(cause: unknown): unknown | void {
-    return this.thrown(cause);
+    return this.destroy(cause);
   }
 }

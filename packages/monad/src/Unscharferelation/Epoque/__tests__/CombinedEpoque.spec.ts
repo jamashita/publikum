@@ -4,6 +4,7 @@ import { CombinedEpoque } from '../CombinedEpoque';
 describe('CombinedEpoque', () => {
   describe('accept', () => {
     it('normal case', () => {
+      expect.assertions(4);
       const value: number = -35;
 
       const spy1: SinonSpy = sinon.spy();
@@ -33,6 +34,7 @@ describe('CombinedEpoque', () => {
 
   describe('decline', () => {
     it('normal case', () => {
+      expect.assertions(3);
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
@@ -59,6 +61,7 @@ describe('CombinedEpoque', () => {
 
   describe('throw', () => {
     it('normal case', () => {
+      expect.assertions(4);
       const value: number = -35;
 
       const spy1: SinonSpy = sinon.spy();
