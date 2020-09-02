@@ -45,11 +45,11 @@ describe('AProject', () => {
       );
 
       expect(nouns1.size()).toEqual(0);
-      expect(nouns1.get(noun1)).toBe(null);
-      expect(nouns1.get(noun2)).toBe(null);
+      expect(nouns1.get(noun1)).toBeNull();
+      expect(nouns1.get(noun2)).toBeNull();
       expect(nouns2.size()).toEqual(1);
       expect(nouns2.get(noun1)).toBe(noun2);
-      expect(nouns2.get(noun2)).toBe(null);
+      expect(nouns2.get(noun2)).toBeNull();
       expect(nouns2.get(noun3)).toBe(noun2);
     });
   });

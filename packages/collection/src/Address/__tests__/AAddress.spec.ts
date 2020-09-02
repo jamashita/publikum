@@ -31,9 +31,9 @@ describe('AAddress', () => {
       const nouns2: MockAAddress<MockNominative<number>> = new MockAAddress<MockNominative<number>>(new Set([noun1]));
 
       expect(nouns1.size()).toBe(0);
-      expect(nouns2.get()).toBe(null);
+      expect(nouns2.get()).toBeNull();
       expect(nouns2.size()).toBe(1);
-      expect(nouns2.get()).toBe(null);
+      expect(nouns2.get()).toBeNull();
     });
   });
 
@@ -160,7 +160,7 @@ describe('AAddress', () => {
       expect(found1).toBe(noun1);
       expect(found2).toBe(noun2);
       expect(found3).toBe(noun2);
-      expect(found4).toBe(null);
+      expect(found4).toBeNull();
     });
   });
 

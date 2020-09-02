@@ -45,8 +45,8 @@ describe('ASequence', () => {
       ]);
 
       expect(nouns.size()).toBe(3);
-      expect(nouns.get(-1)).toBe(null);
-      expect(nouns.get(3)).toBe(null);
+      expect(nouns.get(-1)).toBeNull();
+      expect(nouns.get(3)).toBeNull();
     });
   });
 
@@ -163,7 +163,7 @@ describe('ASequence', () => {
       expect(found1).toBe(noun1);
       expect(found2).toBe(noun2);
       expect(found3).toBe(noun2);
-      expect(found4).toBe(null);
+      expect(found4).toBeNull();
     });
   });
 
