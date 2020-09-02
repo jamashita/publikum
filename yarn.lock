@@ -377,10 +377,10 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
-"@jamashita/eslint-config@1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@jamashita/eslint-config/-/eslint-config-1.0.6.tgz#71a66daa0a0a8c61f9dcea5c9770f8fc92372a1e"
-  integrity sha512-y0Ox0GXbHGENudHDU7sXxZpgwKZ+7Dy4Qni2dj7qapIEKKBpMAShFkNc1g7ScZ/xSTPSHQF/NQFzgNuct+nESg==
+"@jamashita/eslint-config@1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@jamashita/eslint-config/-/eslint-config-1.0.7.tgz#abe1226f805bc3d8b0be160fe13a4aa175f6c9a4"
+  integrity sha512-nOZwYGBnwl4JdC/F5iBGKQJ5AZlL+DG/C7GifhrwI8FgQ12RafRPuU6tY+A2NrqW5nErdcuHZcxZ82CSF6ENGg==
 
 "@jest/console@^26.3.0":
   version "26.3.0"

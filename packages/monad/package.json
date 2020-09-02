@@ -37,7 +37,9 @@
     "@jamashita/publikum-object": "^2.6.4",
     "@jamashita/publikum-type": "^2.6.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "sinon": "9.0.3"
+  },
   "engines": {
     "node": ">= 14.5.0",
     "npm": "npm is not supported"

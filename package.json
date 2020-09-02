@@ -39,7 +39,7 @@
     "object-hash": "2.0.3"
   },
   "devDependencies": {
-    "@jamashita/eslint-config": "1.0.6",
+    "@jamashita/eslint-config": "1.0.7",
     "@types/bcrypt": "3.0.0",
     "@types/chance": "1.1.0",
     "@types/ioredis": "4.17.3",
