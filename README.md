@@ -144,6 +144,7 @@ Class for random string, random number.
 * [ ] `indexDB` repository implementation
 * [ ] `File` implementation
 * [ ] accepts Error constructors in Superposition Epoque
+* [ ] implementing cancelable iterator class.
 
 ## License
 
