@@ -9,7 +9,7 @@ import { UnscharferelationInternal } from '../UnscharferelationInternal';
 describe('UnscharferelationInternal', () => {
   describe('accept', () => {
     it('if done once, do nothing', async () => {
-      expect.assertions(2);
+      expect.assertions(4);
       const value: number = -35;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -32,7 +32,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('call multiple maps', async () => {
-      expect.assertions(2);
+      expect.assertions(4);
       const value: number = -1.3;
 
       const spy1: SinonSpy = sinon.spy();
@@ -337,7 +337,7 @@ describe('UnscharferelationInternal', () => {
 
   describe('map', () => {
     it('sync case', async () => {
-      expect.assertions(3);
+      expect.assertions(6);
       const value: number = -201;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -373,7 +373,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('async case', async () => {
-      expect.assertions(3);
+      expect.assertions(6);
       const value: number = -201;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -409,7 +409,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('present Unscharferelation case', async () => {
-      expect.assertions(3);
+      expect.assertions(6);
       const value1: number = -201;
       const value2: number = -20100;
       const value3: number = -20100;
@@ -456,7 +456,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('sync case: returns null', async () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const value: number = -201;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -490,7 +490,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('async case: returns Promise null', async () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const value: number = -201;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -524,7 +524,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('absent Unscharferelation case', async () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const value: number = -201;
 
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -568,7 +568,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('sync case: throw error', async () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const value: number = -201;
       const error: MockError = new MockError();
 
@@ -609,7 +609,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('async case: returns Promise reject', async () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const value: number = -201;
       const error: MockError = new MockError();
 
@@ -650,7 +650,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('lost Unscharferelation case', async () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const value: number = -201;
       const error1: MockError = new MockError();
       const error2: MockError = new MockError();
@@ -708,7 +708,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('already accepted Unscharferelation case', async () => {
-      expect.assertions(3);
+      expect.assertions(6);
       const value1: number = -201;
       const value2: number = -220;
 
@@ -750,7 +750,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('already declined Unscharferelation case', async () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const value: number = -201;
 
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -789,7 +789,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('already thrown Unscharferelation case', async () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const value: number = -201;
       const error: MockError = new MockError();
 
@@ -831,7 +831,7 @@ describe('UnscharferelationInternal', () => {
 
   describe('recover', () => {
     it('sync case', async () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const value: number = -201;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -865,7 +865,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('async case', async () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const value: number = -201;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -899,7 +899,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('present Unscharferelation case', async () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const value1: number = -20100;
       const value2: number = -2010;
 
@@ -944,7 +944,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('sync case: returns null', async () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const value: number = -201;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -978,7 +978,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('async case: returns accepted null', async () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const value: number = -201;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -1012,7 +1012,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('absent Unscharferelation case', async () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const value: number = -201;
 
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -1044,9 +1044,8 @@ describe('UnscharferelationInternal', () => {
         spy2();
 
         return unscharferelation3;
-      }).map<number>((v: number) => {
+      }).map<number>(() => {
         spy3();
-        expect(v).toBe(value + 23);
 
         return unscharferelation3;
       }).terminate();
@@ -1057,7 +1056,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('sync case: throw error', async () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const value: number = -201;
       const error: MockError = new MockError();
 
@@ -1098,7 +1097,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('async case: returns Promise reject', async () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const value: number = -201;
       const error: MockError = new MockError();
 
@@ -1139,7 +1138,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('lost Unscharferelation case', async () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const value: number = -201;
       const error1: MockError = new MockError();
       const error2: MockError = new MockError();
@@ -1197,7 +1196,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('already accepted Unscharferelation case', async () => {
-      expect.assertions(3);
+      expect.assertions(6);
       const value1: number = -201;
       const value2: number = -201;
 
@@ -1239,7 +1238,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('already delined Unscharferelation case', async () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const value: number = -201;
 
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -1278,7 +1277,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('already thrown Unscharferelation case', async () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const value: number = -201;
       const error: MockError = new MockError();
 
@@ -1320,7 +1319,7 @@ describe('UnscharferelationInternal', () => {
 
   describe('ifPresent', () => {
     it('sync case: if present, the callback will be invoked', async () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const value: number = -201;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -1344,7 +1343,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('async case: if present, the callback will be invoked', async () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const value: number = -201;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -1460,7 +1459,7 @@ describe('UnscharferelationInternal', () => {
 
   describe('pass', () => {
     it('accpet case', () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const value: number = -201;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -1521,7 +1520,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('throw case', () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const error: MockError = new MockError();
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(

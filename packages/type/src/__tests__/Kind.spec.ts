@@ -16,7 +16,7 @@ const random = (length: number): string => {
 describe('Kind', () => {
   describe('isUndefined', () => {
     it('returns true only the value is undefined', () => {
-      expect.assertions(14);
+      expect.assertions(13);
       expect(Kind.isUndefined(null)).toBe(false);
       expect(Kind.isUndefined(undefined)).toBe(true);
       expect(Kind.isUndefined('')).toBe(false);
@@ -35,7 +35,7 @@ describe('Kind', () => {
 
   describe('isNull', () => {
     it('returns true only the value is null', () => {
-      expect.assertions(14);
+      expect.assertions(13);
       expect(Kind.isNull(null)).toBe(true);
       expect(Kind.isNull(undefined)).toBe(false);
       expect(Kind.isNull('')).toBe(false);
@@ -54,7 +54,7 @@ describe('Kind', () => {
 
   describe('isString', () => {
     it('even if numerical strings given, return true', () => {
-      expect.assertions(14);
+      expect.assertions(13);
       expect(Kind.isString(null)).toBe(false);
       expect(Kind.isString(undefined)).toBe(false);
       expect(Kind.isString('')).toBe(true);
@@ -535,7 +535,7 @@ describe('Kind', () => {
     });
 
     it('returns itself when it has toString()', () => {
-      expect.assertions(1);
+      expect.assertions(100);
       for (let i: number = 0; i < 100; i++) {
         const str: string = random(40);
 
