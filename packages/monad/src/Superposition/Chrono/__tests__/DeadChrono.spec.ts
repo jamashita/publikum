@@ -1,45 +1,46 @@
 import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
-import { Chrono } from '../../Chrono/Interface/Chrono';
-import { PassThroughChrono } from '../../Chrono/PassThroughChrono';
 import { Superposition } from '../../Superposition';
-import { AliveChrono } from '../AliveChrono';
+import { DeadChrono } from '../DeadChrono';
+import { Chrono } from '../Interface/Chrono';
+import { PassThroughChrono } from '../PassThroughChrono';
 
-describe('AliveChrono', () => {
-  describe('accept', () => {
+describe('DeadChrono', () => {
+  describe('decline', () => {
     it('a given', () => {
       expect.assertions(4);
       const value: number = 101;
+      const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
-        (n: number) => {
+      const chrono: DeadChrono<number, MockError, MockError> = DeadChrono.of<number, MockError, MockError>(
+        (e: MockError) => {
           spy1();
-          expect(n).toBe(value);
+          expect(e).toBe(error);
 
-          return n - 1;
+          return value;
         },
         PassThroughChrono.of<number, MockError>(
           (n: number) => {
             spy2();
-            expect(n).toBe(value - 1);
+            expect(n).toBe(value);
           },
           () => {
             spy3();
           },
           () => {
             spy4();
-          }
-        ),
-        []
+          },
+          MockError
+        )
       );
 
-      chrono.accept(value);
+      chrono.decline(error);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -50,6 +51,7 @@ describe('AliveChrono', () => {
     it('promise<A> given', async () => {
       expect.assertions(4);
       const value: number = 101;
+      const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -57,17 +59,17 @@ describe('AliveChrono', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
-          (n: number) => {
+        const chrono: DeadChrono<number, MockError, MockError> = DeadChrono.of<number, MockError, MockError>(
+          (e: MockError) => {
             spy1();
-            expect(n).toBe(value);
+            expect(e).toBe(error);
 
-            return Promise.resolve<number>(n - 2);
+            return Promise.resolve<number>(value);
           },
           PassThroughChrono.of<number, MockError>(
             (n: number) => {
               spy2();
-              expect(n).toBe(value - 2);
+              expect(n).toBe(value);
 
               resolve();
             },
@@ -80,12 +82,12 @@ describe('AliveChrono', () => {
               spy4();
 
               resolve();
-            }
-          ),
-          []
+            },
+            MockError
+          )
         );
 
-        chrono.accept(value);
+        chrono.decline(error);
       });
 
       expect(spy1.called).toBe(true);
@@ -97,6 +99,7 @@ describe('AliveChrono', () => {
     it('alive Superposition<A, D> given', async () => {
       expect.assertions(4);
       const value: number = 101;
+      const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -104,17 +107,17 @@ describe('AliveChrono', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
-          (n: number) => {
+        const chrono: DeadChrono<number, MockError, MockError> = DeadChrono.of<number, MockError, MockError>(
+          (e: MockError) => {
             spy1();
-            expect(n).toBe(value);
+            expect(e).toBe(error);
 
-            return Superposition.alive<number, MockError>(n - 3);
+            return Superposition.alive<number, MockError>(value);
           },
           PassThroughChrono.of<number, MockError>(
             (n: number) => {
               spy2();
-              expect(n).toBe(value - 3);
+              expect(n).toBe(value);
 
               resolve();
             },
@@ -127,12 +130,12 @@ describe('AliveChrono', () => {
               spy4();
 
               resolve();
-            }
-          ),
-          []
+            },
+            MockError
+          )
         );
 
-        chrono.accept(value);
+        chrono.decline(error);
       });
 
       expect(spy1.called).toBe(true);
@@ -143,7 +146,6 @@ describe('AliveChrono', () => {
 
     it('d thrown', () => {
       expect.assertions(4);
-      const value: number = 101;
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -151,10 +153,10 @@ describe('AliveChrono', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
-        (n: number) => {
+      const chrono: DeadChrono<number, MockError, MockError> = DeadChrono.of<number, MockError, MockError>(
+        (e: MockError) => {
           spy1();
-          expect(n).toBe(value);
+          expect(e).toBe(error);
 
           throw error;
         },
@@ -168,12 +170,12 @@ describe('AliveChrono', () => {
           },
           () => {
             spy4();
-          }
-        ),
-        [MockError]
+          },
+          MockError
+        )
       );
 
-      chrono.accept(value);
+      chrono.decline(error);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -183,7 +185,6 @@ describe('AliveChrono', () => {
 
     it('promise<A> rejected', async () => {
       expect.assertions(4);
-      const value: number = 101;
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -192,10 +193,10 @@ describe('AliveChrono', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
-          (n: number) => {
+        const chrono: DeadChrono<number, MockError, MockError> = DeadChrono.of<number, MockError, MockError>(
+          (e: MockError) => {
             spy1();
-            expect(n).toBe(value);
+            expect(e).toBe(error);
 
             return Promise.reject<number>(error);
           },
@@ -215,12 +216,12 @@ describe('AliveChrono', () => {
               spy4();
 
               resolve();
-            }
-          ),
-          [MockError]
+            },
+            MockError
+          )
         );
 
-        chrono.accept(value);
+        chrono.decline(error);
       });
 
       expect(spy1.called).toBe(true);
@@ -231,7 +232,6 @@ describe('AliveChrono', () => {
 
     it('dead Superposition<A, D> given', async () => {
       expect.assertions(4);
-      const value: number = 101;
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -240,10 +240,10 @@ describe('AliveChrono', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
-          (n: number) => {
+        const chrono: DeadChrono<number, MockError, MockError> = DeadChrono.of<number, MockError, MockError>(
+          (e: MockError) => {
             spy1();
-            expect(n).toBe(value);
+            expect(e).toBe(error);
 
             return Superposition.dead<number, MockError>(error, MockError);
           },
@@ -263,12 +263,12 @@ describe('AliveChrono', () => {
               spy4();
 
               resolve();
-            }
-          ),
-          [MockError]
+            },
+            MockError
+          )
         );
 
-        chrono.accept(value);
+        chrono.decline(error);
       });
 
       expect(spy1.called).toBe(true);
@@ -279,7 +279,6 @@ describe('AliveChrono', () => {
 
     it('error thrown', () => {
       expect.assertions(4);
-      const value: number = 101;
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -287,10 +286,10 @@ describe('AliveChrono', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
-        (n: number) => {
+      const chrono: DeadChrono<number, MockError, MockError> = DeadChrono.of<number, MockError, MockError>(
+        (e: MockError) => {
           spy1();
-          expect(n).toBe(value);
+          expect(e).toBe(error);
 
           throw error;
         },
@@ -298,18 +297,17 @@ describe('AliveChrono', () => {
           () => {
             spy2();
           },
-          () => {
+          (e: MockError) => {
             spy3();
-          },
-          (e: unknown) => {
-            spy4();
             expect(e).toBe(error);
+          },
+          () => {
+            spy4();
           }
-        ),
-        []
+        )
       );
 
-      chrono.accept(value);
+      chrono.decline(error);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -319,7 +317,6 @@ describe('AliveChrono', () => {
 
     it('promise rejected given', async () => {
       expect.assertions(4);
-      const value: number = 101;
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -328,10 +325,10 @@ describe('AliveChrono', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
-          (n: number) => {
+        const chrono: DeadChrono<number, MockError, MockError> = DeadChrono.of<number, MockError, MockError>(
+          (e: MockError) => {
             spy1();
-            expect(n).toBe(value);
+            expect(e).toBe(error);
 
             return Promise.reject<number>(error);
           },
@@ -341,22 +338,21 @@ describe('AliveChrono', () => {
 
               resolve();
             },
-            () => {
+            (e: MockError) => {
               spy3();
-
-              resolve();
-            },
-            (e: unknown) => {
-              spy4();
               expect(e).toBe(error);
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
-          ),
-          []
+          )
         );
 
-        chrono.accept(value);
+        chrono.decline(error);
       });
 
       expect(spy1.called).toBe(true);
@@ -367,7 +363,6 @@ describe('AliveChrono', () => {
 
     it('contradiction Superposition given', async () => {
       expect.assertions(4);
-      const value: number = 101;
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -376,10 +371,10 @@ describe('AliveChrono', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
-          (n: number) => {
+        const chrono: DeadChrono<number, MockError, MockError> = DeadChrono.of<number, MockError, MockError>(
+          (e: MockError) => {
             spy1();
-            expect(n).toBe(value);
+            expect(e).toBe(error);
 
             return Superposition.of<number, MockError>((c: Chrono<number, MockError>) => {
               return c.throw(error);
@@ -391,22 +386,21 @@ describe('AliveChrono', () => {
 
               resolve();
             },
-            () => {
+            (e: MockError) => {
               spy3();
-
-              resolve();
-            },
-            (e: unknown) => {
-              spy4();
               expect(e).toBe(error);
 
               resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
             }
-          ),
-          []
+          )
         );
 
-        chrono.accept(value);
+        chrono.decline(error);
       });
 
       expect(spy1.called).toBe(true);

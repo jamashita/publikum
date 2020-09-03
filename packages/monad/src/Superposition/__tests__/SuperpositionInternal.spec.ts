@@ -16,7 +16,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<void, MockError> = SuperpositionInternal.of<void, MockError>(
         (chrono: Chrono<void, MockError>) => {
           chrono.accept();
-        }
+        },
+        [MockError]
       );
 
       const schrodinger1: Schrodinger<void, MockError> = await superposition.terminate();
@@ -40,7 +41,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
 
       await superposition.map<number>((v: number) => {
@@ -71,7 +73,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error);
-        }
+        },
+        [MockError]
       );
 
       const schrodinger1: Schrodinger<number, MockError> = await superposition.terminate();
@@ -95,7 +98,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error);
-        }
+        },
+        [MockError]
       );
 
       await superposition.recover<number, MockError>(() => {
@@ -124,7 +128,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.throw(error);
-        }
+        },
+        [MockError]
       );
 
       const schrodinger1: Schrodinger<number, MockError> = await superposition.terminate();
@@ -150,7 +155,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.throw(error);
-        }
+        },
+        [MockError]
       );
 
       await superposition.map<number, MockError>(() => {
@@ -193,17 +199,20 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error);
-        }
+        },
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.throw(error);
-        }
+        },
+        [MockError]
       );
 
       await expect(superposition1.get()).resolves.toStrictEqual(value);
@@ -221,17 +230,20 @@ describe('SuperpositionInternal', () => {
       const alive: Schrodinger<number, MockError> = await SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       ).terminate();
       const dead: Schrodinger<number, MockError> = await SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error);
-        }
+        },
+        [MockError]
       ).terminate();
       const contradiction: Schrodinger<number, MockError> = await SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.throw(error);
-        }
+        },
+        [MockError]
       ).terminate();
 
       expect(alive.isAlive()).toBe(true);
@@ -255,7 +267,8 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError | SuperpositionError> = superposition1.filter(
         () => {
@@ -276,7 +289,8 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError | SuperpositionError> = superposition1.filter(
         () => {
@@ -299,7 +313,8 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError | SuperpositionError> = superposition1.filter(
         () => {
@@ -332,7 +347,8 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.throw(error);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError | SuperpositionError> = superposition1.filter(
         () => {
@@ -367,7 +383,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -403,7 +420,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -441,17 +459,20 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value1);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value2);
-        }
+        },
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value3);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -487,7 +508,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -522,7 +544,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -557,17 +580,20 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error);
-        }
+        },
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -602,7 +628,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -643,7 +670,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -686,22 +714,26 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.throw(error1);
-        }
+        },
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.throw(error2);
-        }
+        },
+        [MockError]
       );
       const superposition4: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.throw(error3);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -742,12 +774,14 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value1);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value2);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -784,12 +818,14 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value1);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -824,12 +860,14 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value1);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.throw(error);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -867,7 +905,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -903,7 +942,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -940,17 +980,20 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value1);
-        }
+        },
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value2);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -987,7 +1030,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error1);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1025,7 +1069,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error1);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1063,17 +1108,20 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error1);
-        }
+        },
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error2);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1110,7 +1158,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1151,7 +1200,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1194,22 +1244,26 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.throw(error1);
-        }
+        },
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.throw(error2);
-        }
+        },
+        [MockError]
       );
       const superposition4: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.throw(error3);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1246,12 +1300,14 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value1);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value1);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1288,12 +1344,14 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1333,7 +1391,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value1);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1384,7 +1443,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value1);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1435,17 +1495,20 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value1);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value2);
-        }
+        },
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value3);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1496,7 +1559,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error1);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1545,7 +1609,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error1);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1596,17 +1661,20 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error1);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error2);
-        }
+        },
+        [MockError]
       );
       const superposition3: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error3);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1656,12 +1724,14 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value1);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value2);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1728,12 +1798,14 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error1);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error2);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1800,12 +1872,14 @@ describe('SuperpositionInternal', () => {
       const superposition1: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.throw(error1);
-        }
+        },
+        [MockError]
       );
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.throw(error2);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1870,7 +1944,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1902,7 +1977,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1934,7 +2010,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.throw(error);
-        }
+        },
+        [MockError]
       );
 
       const spy1: SinonSpy = sinon.spy();
@@ -1968,7 +2045,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
 
       const spy: SinonSpy = sinon.spy();
@@ -1987,7 +2065,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error);
-        }
+        },
+        [MockError]
       );
 
       const spy: SinonSpy = sinon.spy();
@@ -2006,7 +2085,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.throw(error);
-        }
+        },
+        [MockError]
       );
 
       const spy: SinonSpy = sinon.spy();
@@ -2027,7 +2107,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
 
       const heisenberg: Heisenberg<number> = await superposition.toUnscharferelation().terminate();
@@ -2043,7 +2124,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<undefined, MockError> = SuperpositionInternal.of<undefined, MockError>(
         (chrono: Chrono<undefined, MockError>) => {
           chrono.accept(value);
-        }
+        },
+        [MockError]
       );
 
       const heisenberg: Heisenberg<undefined> = await superposition.toUnscharferelation().terminate();
@@ -2061,7 +2143,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(error);
-        }
+        },
+        [MockError]
       );
 
       const heisenberg: Heisenberg<number> = await superposition.toUnscharferelation().terminate();
@@ -2079,7 +2162,8 @@ describe('SuperpositionInternal', () => {
       const superposition: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.throw(error);
-        }
+        },
+        [MockError]
       );
 
       const heisenberg: Heisenberg<number> = await superposition.toUnscharferelation().terminate();

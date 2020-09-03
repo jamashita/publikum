@@ -1,36 +1,36 @@
 import { Kind, UnaryFunction } from '@jamashita/publikum-type';
-import { AcceptChrono } from '../Chrono/Interface/AcceptChrono';
-import { Chrono } from '../Chrono/Interface/Chrono';
 import { DeadConstructor } from '../Interface/DeadConstructor';
 import { Detoxicated } from '../Interface/Detoxicated';
 import { containsError, isSuperposition, ISuperposition } from '../Interface/ISuperposition';
+import { Chrono } from './Interface/Chrono';
+import { DeclineChrono } from './Interface/DeclineChrono';
 
-export class AliveChrono<A, B, E extends Error> implements AcceptChrono<A, E, 'AliveChrono'> {
-  public readonly noun: 'AliveChrono' = 'AliveChrono';
-  private readonly mapper: UnaryFunction<Detoxicated<A>, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>;
+export class DeadChrono<B, D extends Error, E extends Error> implements DeclineChrono<D, E, 'DeadChrono'> {
+  public readonly noun: 'DeadChrono' = 'DeadChrono';
+  private readonly mapper: UnaryFunction<D, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>;
   private readonly chrono: Chrono<B, E>;
 
-  public static of<AT, BT, ET extends Error>(
-    mapper: UnaryFunction<Detoxicated<AT>, ISuperposition<BT, ET> | PromiseLike<Detoxicated<BT>> | Detoxicated<BT>>,
+  public static of<BT, DT extends Error, ET extends Error>(
+    mapper: UnaryFunction<DT, ISuperposition<BT, ET> | PromiseLike<Detoxicated<BT>> | Detoxicated<BT>>,
     chrono: Chrono<BT, ET>
-  ): AliveChrono<AT, BT, ET> {
-    return new AliveChrono<AT, BT, ET>(mapper, chrono);
+  ): DeadChrono<BT, DT, ET> {
+    return new DeadChrono<BT, DT, ET>(mapper, chrono);
   }
 
   protected constructor(
-    mapper: UnaryFunction<Detoxicated<A>, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
+    mapper: UnaryFunction<D, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
     chrono: Chrono<B, E>
   ) {
     this.mapper = mapper;
     this.chrono = chrono;
   }
 
-  public accept(value: Detoxicated<A>): unknown {
+  public decline(value: D): unknown {
     try {
       const mapped: ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B> = this.mapper(value);
 
       if (isSuperposition<B, E>(mapped)) {
-        this.chrono.catch([...this.chrono.getErrors(), ...mapped.getErrors()]);
+        this.chrono.catch([...mapped.getErrors()]);
 
         return mapped.pass(
           (v: Detoxicated<B>) => {

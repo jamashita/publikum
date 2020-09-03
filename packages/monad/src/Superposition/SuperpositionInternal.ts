@@ -3,7 +3,9 @@ import { Consumer, Kind, Peek, Predicate, Reject, Resolve, UnaryFunction } from 
 import { Epoque } from '../Unscharferelation/Epoque/Interface/Epoque';
 import { Matter } from '../Unscharferelation/Interface/Matter';
 import { UnscharferelationInternal } from '../Unscharferelation/UnscharferelationInternal';
+import { AliveChrono } from './Chrono/AliveChrono';
 import { CombinedChrono } from './Chrono/CombinedChrono';
+import { DeadChrono } from './Chrono/DeadChrono';
 import { AcceptChrono } from './Chrono/Interface/AcceptChrono';
 import { Chrono } from './Chrono/Interface/Chrono';
 import { DeclineChrono } from './Chrono/Interface/DeclineChrono';
@@ -13,8 +15,6 @@ import { SuperpositionError } from './Error/SuperpositionError';
 import { DeadConstructor } from './Interface/DeadConstructor';
 import { Detoxicated } from './Interface/Detoxicated';
 import { ISuperposition } from './Interface/ISuperposition';
-import { AliveChrono } from './Plan/AliveChrono';
-import { DeadChrono } from './Plan/DeadChrono';
 import { Alive } from './Schrodinger/Alive';
 import { Contradiction } from './Schrodinger/Contradiction';
 import { Dead } from './Schrodinger/Dead';

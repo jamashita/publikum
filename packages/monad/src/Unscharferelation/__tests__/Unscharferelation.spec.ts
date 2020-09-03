@@ -24,7 +24,7 @@ describe('Unscharferelation', () => {
     });
 
     it('sync: all are Present', async () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.present<number>(0),
         Unscharferelation.present<number>(1),
@@ -173,7 +173,7 @@ describe('Unscharferelation', () => {
     });
 
     it('async: all are Alive', async () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.present<number>(Promise.resolve<number>(0)),
         Unscharferelation.present<number>(Promise.resolve<number>(1)),
