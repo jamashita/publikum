@@ -112,7 +112,7 @@ describe('AProject', () => {
 
   describe('forEach', () => {
     it('returns true when the value exists', () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(2);
@@ -546,7 +546,7 @@ describe('AProject', () => {
 
   describe('toMap', () => {
     it('normal case', () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);

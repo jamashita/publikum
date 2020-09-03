@@ -10,21 +10,25 @@ describe('UnscharferelationInternal', () => {
   describe('accept', () => {
     it('if done once, do nothing', async () => {
       expect.assertions(2);
-      const unscharferelation: UnscharferelationInternal<void> = UnscharferelationInternal.of<void>(
-        (epoque: Epoque<void>) => {
-          epoque.accept();
+      const value: number = -35;
+
+      const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.accept(value);
         }
       );
 
-      const heisenberg1: Heisenberg<void> = await unscharferelation.terminate();
+      const heisenberg1: Heisenberg<number> = await unscharferelation.terminate();
 
       expect(heisenberg1.isPresent()).toBe(true);
+      expect(heisenberg1.get()).toBe(value);
 
       unscharferelation.decline();
 
-      const heisenberg2: Heisenberg<void> = await unscharferelation.terminate();
+      const heisenberg2: Heisenberg<number> = await unscharferelation.terminate();
 
       expect(heisenberg2.isPresent()).toBe(true);
+      expect(heisenberg2.get()).toBe(value);
     });
 
     it('call multiple maps', async () => {
