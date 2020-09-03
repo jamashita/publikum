@@ -69,7 +69,7 @@ describe('Alive', () => {
 
   describe('ifAlive', () => {
     it('will be invoked', () => {
-      expect.assertions(1);
+      expect.assertions(2);
       const value: number = 1;
 
       const spy: SinonSpy = sinon.spy();
@@ -94,6 +94,7 @@ describe('Alive', () => {
 
       const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
 
+      // @ts-expect-error
       alive.ifDead(() => {
         spy();
       });
@@ -111,6 +112,7 @@ describe('Alive', () => {
 
       const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
 
+      // @ts-expect-error
       alive.ifContradiction(() => {
         spy();
       });

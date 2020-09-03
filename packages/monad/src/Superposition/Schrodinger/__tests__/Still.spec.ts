@@ -53,6 +53,7 @@ describe('Still', () => {
 
       const still: Still<number, MockError> = Still.of<number, MockError>();
 
+      // @ts-expect-error
       still.ifAlive(() => {
         spy();
       });
@@ -68,6 +69,7 @@ describe('Still', () => {
 
       const still: Still<number, MockError> = Still.of<number, MockError>();
 
+      // @ts-expect-error
       still.ifDead(() => {
         spy();
       });
@@ -83,6 +85,7 @@ describe('Still', () => {
 
       const still: Still<number, MockError> = Still.of<number, MockError>();
 
+      // @ts-expect-error
       still.ifContradiction(() => {
         spy();
       });

@@ -76,6 +76,7 @@ describe('Contradiction', () => {
 
       const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(value);
 
+      // @ts-expect-error
       contradiction.ifAlive(() => {
         spy();
       });
@@ -93,6 +94,7 @@ describe('Contradiction', () => {
 
       const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(value);
 
+      // @ts-expect-error
       contradiction.ifDead(() => {
         spy();
       });
@@ -103,7 +105,7 @@ describe('Contradiction', () => {
 
   describe('ifContradiction', () => {
     it('will be invoked', () => {
-      expect.assertions(1);
+      expect.assertions(2);
       const value: number = 1;
 
       const spy: SinonSpy = sinon.spy();

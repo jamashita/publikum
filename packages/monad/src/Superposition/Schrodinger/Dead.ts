@@ -38,8 +38,7 @@ export class Dead<A, D extends Error> extends ValueObject<Dead<A, D>, 'Dead'> im
     return false;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifAlive(_consumer: Consumer<A>): void {
+  public ifAlive(): void {
     // NOOP
   }
 
@@ -47,8 +46,7 @@ export class Dead<A, D extends Error> extends ValueObject<Dead<A, D>, 'Dead'> im
     consumer(this.error);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifContradiction(_consumer: Consumer<unknown>): void {
+  public ifContradiction(): void {
     // NOOP
   }
 

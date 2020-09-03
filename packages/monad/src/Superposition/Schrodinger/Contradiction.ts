@@ -37,13 +37,11 @@ export class Contradiction<A, D extends Error> extends ValueObject<Contradiction
     return true;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifAlive(_consumer: Consumer<A>): void {
+  public ifAlive(): void {
     // NOOP
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifDead(_consumer: Consumer<D>): void {
+  public ifDead(): void {
     // NOOP
   }
 
