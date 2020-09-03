@@ -1,5 +1,7 @@
 import { Nominative } from '@jamashita/publikum-interface';
 import { Consumer, Kind, Peek, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import { ISuperposition } from '../../Superposition/Interface/ISuperposition';
+import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
 import { Matter } from './Matter';
 
@@ -18,46 +20,46 @@ export interface IUnscharferelation<P, N extends string = string> extends Nomina
     mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>
   ): IUnscharferelation<P | Q>;
 
-  ifPresent(consumer: Consumer<P>): this;
+  ifPresent(consumer: Consumer<Matter<P>>): this;
 
-  pass(accepted: Consumer<Matter<P>>, declined: Consumer<void>, thrown: Consumer<unknown>): IUnscharferelation<P>;
+  pass(accepted: Consumer<Matter<P>>, declined: Consumer<void>, thrown: Consumer<unknown>): this;
 
-  peek(peek: Peek): IUnscharferelation<P>;
+  peek(peek: Peek): this;
 
-  // toSuperposition(): ISuperposition<P, UnscharferelationError>;
+  toSuperposition(): ISuperposition<P, UnscharferelationError>;
 }
 
 export const isUnscharferelation = <P>(value: unknown): value is IUnscharferelation<P> => {
   if (!Kind.isObject<IUnscharferelation<P>>(value)) {
     return false;
   }
-  if (typeof value.get !== 'function') {
+  if (!Kind.isFunction(value.get)) {
     return false;
   }
-  if (typeof value.terminate !== 'function') {
+  if (!Kind.isFunction(value.terminate)) {
     return false;
   }
-  if (typeof value.filter !== 'function') {
+  if (!Kind.isFunction(value.filter)) {
     return false;
   }
-  if (typeof value.map !== 'function') {
+  if (!Kind.isFunction(value.map)) {
     return false;
   }
-  if (typeof value.recover !== 'function') {
+  if (!Kind.isFunction(value.recover)) {
     return false;
   }
-  if (typeof value.ifPresent !== 'function') {
+  if (!Kind.isFunction(value.ifPresent)) {
     return false;
   }
-  if (typeof value.pass !== 'function') {
+  if (!Kind.isFunction(value.pass)) {
     return false;
   }
-  if (typeof value.peek !== 'function') {
+  if (!Kind.isFunction(value.peek)) {
     return false;
   }
-  // if (typeof value.toSuperposition !== 'function') {
-  //   return false;
-  // }
+  if (!Kind.isFunction(value.toSuperposition)) {
+    return false;
+  }
 
   return true;
 };

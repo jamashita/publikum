@@ -1,40 +1,53 @@
-import { BinaryConsumer } from '@jamashita/publikum-type';
+import { Detoxicated } from '@jamashita/publikum-monad';
 import { DeadConstructor } from '../Interface/DeadConstructor';
+import { AcceptChrono } from './Interface/AcceptChrono';
 import { Chrono } from './Interface/Chrono';
+import { DeclineChrono } from './Interface/DeclineChrono';
+import { ThrowChrono } from './Interface/ThrowChrono';
 
-export class CombinedChrono<A, D> implements Chrono<A, D, 'CombinedChrono'> {
+export class CombinedChrono<A, D extends Error> implements Chrono<A, D, D, 'CombinedChrono'> {
   public readonly noun: 'CombinedChrono' = 'CombinedChrono';
-  private readonly accepted: BinaryConsumer<A, ReadonlyArray<DeadConstructor<Error>>>;
-  private readonly declined: BinaryConsumer<D, ReadonlyArray<DeadConstructor<Error>>>;
-  private readonly thrown: BinaryConsumer<unknown, ReadonlyArray<DeadConstructor<Error>>>;
+  private readonly map: AcceptChrono<A, D>;
+  private readonly recover: DeclineChrono<D, D>;
+  private readonly destroy: ThrowChrono<D>;
+  private readonly errors: Set<DeadConstructor<D>>;
 
-  public static of<AT, DT>(
-    accepted: BinaryConsumer<AT, ReadonlyArray<DeadConstructor<Error>>>,
-    declined: BinaryConsumer<DT, ReadonlyArray<DeadConstructor<Error>>>,
-    thrown: BinaryConsumer<unknown, ReadonlyArray<DeadConstructor<Error>>>
-  ): CombinedChrono<AT, DT> {
-    return new CombinedChrono<AT, DT>(accepted, declined, thrown);
+  public static of<AT, DT extends Error>(map: AcceptChrono<AT, DT>, recover: DeclineChrono<DT, DT>, destroy: ThrowChrono<DT>, ...errors: ReadonlyArray<DeadConstructor<DT>>): CombinedChrono<AT, DT> {
+    return new CombinedChrono<AT, DT>(map, recover, destroy, errors);
   }
 
-  protected constructor(
-    accepted: BinaryConsumer<A, ReadonlyArray<DeadConstructor<Error>>>,
-    declined: BinaryConsumer<D, ReadonlyArray<DeadConstructor<Error>>>,
-    thrown: BinaryConsumer<unknown, ReadonlyArray<DeadConstructor<Error>>>
-  ) {
-    this.accepted = accepted;
-    this.declined = declined;
-    this.thrown = thrown;
+  protected constructor(map: AcceptChrono<A, D>, recover: DeclineChrono<D>, destroy: ThrowChrono<D>, errors: ReadonlyArray<DeadConstructor<D>>) {
+    this.map = map;
+    this.recover = recover;
+    this.destroy = destroy;
+    this.errors = new Set<DeadConstructor<D>>(errors);
   }
 
-  public accept<E extends Error>(value: A, ...errors: ReadonlyArray<DeadConstructor<E>>): unknown {
-    return this.accepted(value, errors);
+  public accept(value: Detoxicated<A>): unknown {
+    this.map.catch([...this.errors]);
+
+    return this.map.accept(value);
   }
 
-  public decline<E extends Error>(value: D, ...errors: ReadonlyArray<DeadConstructor<E>>): unknown {
-    return this.declined(value, errors);
+  public decline(value: D): unknown {
+    this.recover.catch([...this.errors]);
+
+    return this.recover.decline(value);
   }
 
-  public throw<E extends Error>(cause: unknown, ...errors: ReadonlyArray<DeadConstructor<E>>): unknown {
-    return this.thrown(cause, errors);
+  public throw(cause: unknown): unknown {
+    this.destroy.catch([...this.errors]);
+
+    return this.destroy.throw(cause);
+  }
+
+  public catch(errors: ReadonlyArray<DeadConstructor<D>>): void {
+    errors.forEach((error: DeadConstructor<D>) => {
+      this.errors.add(error);
+    });
+  }
+
+  public getErrors(): Set<DeadConstructor<D>> {
+    return new Set<DeadConstructor<D>>(this.errors);
   }
 }

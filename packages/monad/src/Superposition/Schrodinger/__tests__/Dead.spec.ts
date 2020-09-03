@@ -9,6 +9,7 @@ import { Still } from '../Still';
 describe('Dead', () => {
   describe('get', () => {
     it('throws the inside error', () => {
+      expect.assertions(1);
       const dead: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
 
       expect(() => {
@@ -19,6 +20,7 @@ describe('Dead', () => {
 
   describe('getError', () => {
     it('normal case', () => {
+      expect.assertions(1);
       const error: MockError = new MockError();
       const dead: Dead<number, MockError> = Dead.of<number, MockError>(error);
 
@@ -28,6 +30,7 @@ describe('Dead', () => {
 
   describe('isAlive', () => {
     it('always returns false', () => {
+      expect.assertions(2);
       const dead1: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
       const dead2: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
 
@@ -38,6 +41,7 @@ describe('Dead', () => {
 
   describe('isDead', () => {
     it('always returns true', () => {
+      expect.assertions(2);
       const dead1: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
       const dead2: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
 
@@ -48,6 +52,7 @@ describe('Dead', () => {
 
   describe('isContradiction', () => {
     it('always returns false', () => {
+      expect.assertions(2);
       const dead1: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
       const dead2: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
 
@@ -58,6 +63,7 @@ describe('Dead', () => {
 
   describe('ifAlive', () => {
     it('will not be invoked', () => {
+      expect.assertions(1);
       const error: MockError = new MockError();
 
       const spy: SinonSpy = sinon.spy();
@@ -74,6 +80,7 @@ describe('Dead', () => {
 
   describe('ifDead', () => {
     it('will be invoked', () => {
+      expect.assertions(1);
       const error: MockError = new MockError();
 
       const spy: SinonSpy = sinon.spy();
@@ -91,6 +98,7 @@ describe('Dead', () => {
 
   describe('ifContradiction', () => {
     it('will not be invoked', () => {
+      expect.assertions(1);
       const error: MockError = new MockError();
 
       const spy: SinonSpy = sinon.spy();
@@ -107,6 +115,7 @@ describe('Dead', () => {
 
   describe('equals', () => {
     it('returns true if Dead given even if the save error given', () => {
+      expect.assertions(6);
       const error: MockError = new MockError();
 
       const alive: Alive<number, MockError> = Alive.of<number, MockError>(2);
@@ -126,6 +135,7 @@ describe('Dead', () => {
     });
 
     it('returns false if the different error given', () => {
+      expect.assertions(3);
       const dead1: Dead<number, Error> = Dead.of<number, Error>(new SyntaxError());
       const dead2: Dead<number, Error> = Dead.of<number, Error>(new MockError());
 
@@ -139,6 +149,7 @@ describe('Dead', () => {
 
   describe('toString', () => {
     it('returns Dead and its retaining error', () => {
+      expect.assertions(1);
       expect(Dead.of<number, Error>(new MockError()).toString()).toBe('Dead: MockError: failed');
     });
   });

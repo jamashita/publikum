@@ -1,6 +1,6 @@
-import { Noun } from '@jamashita/publikum-interface';
-import { DeadConstructor } from '../../Interface/DeadConstructor';
+import { Detoxicated } from '../../Interface/Detoxicated';
+import { CatchChrono } from './CatchChrono';
 
-export interface AcceptChrono<A, N extends string = string> extends Noun<N> {
-  accept<E extends Error>(value: A, ...errors: ReadonlyArray<DeadConstructor<E>>): unknown | void;
+export interface AcceptChrono<A, E extends Error, N extends string = string> extends CatchChrono<E, N> {
+  accept(value: Detoxicated<A>): unknown | void;
 }

@@ -1,35 +1,33 @@
 import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
-
-import { CombinedEpoque } from '../../../Epoque/CombinedEpoque';
-import { Epoque } from '../../../Epoque/Interface/Epoque';
-import { Detoxicated } from '../../Interface/Detoxicated';
+import { Chrono } from '../../Chrono/Interface/Chrono';
+import { PassThroughChrono } from '../../Chrono/PassThroughChrono';
 import { Superposition } from '../../Superposition';
-import { DeadPlan } from '../DeadPlan';
+import { AliveChrono } from '../AliveChrono';
 
-describe('DeadPlan', () => {
-  describe('onRecover', () => {
-    it('A given', () => {
+describe('AliveChrono', () => {
+  describe('accept', () => {
+    it('a given', () => {
+      expect.assertions(4);
       const value: number = 101;
-      const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const plan: DeadPlan<number, MockError, MockError> = DeadPlan.of<number, MockError, MockError>(
-        (e: MockError) => {
+      const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
+        (n: number) => {
           spy1();
-          expect(e).toBe(error);
+          expect(n).toBe(value);
 
-          return value;
+          return n - 1;
         },
-        CombinedEpoque.of<number, MockError>(
+        PassThroughChrono.of<number, MockError>(
           (n: number) => {
             spy2();
-            expect(n).toBe(value);
+            expect(n).toBe(value - 1);
           },
           () => {
             spy3();
@@ -38,10 +36,10 @@ describe('DeadPlan', () => {
             spy4();
           }
         ),
-        [MockError]
+        []
       );
 
-      plan.onRecover(error);
+      chrono.accept(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -49,9 +47,9 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Promise<A> given', async () => {
+    it('promise<A> given', async () => {
+      expect.assertions(4);
       const value: number = 101;
-      const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -59,17 +57,17 @@ describe('DeadPlan', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const plan: DeadPlan<number, MockError, MockError> = DeadPlan.of<number, MockError, MockError>(
-          (e: MockError) => {
+        const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
+          (n: number) => {
             spy1();
-            expect(e).toBe(error);
+            expect(n).toBe(value);
 
-            return Promise.resolve<number>(value);
+            return Promise.resolve<number>(n - 2);
           },
-          CombinedEpoque.of<number, MockError>(
+          PassThroughChrono.of<number, MockError>(
             (n: number) => {
               spy2();
-              expect(n).toBe(value);
+              expect(n).toBe(value - 2);
 
               resolve();
             },
@@ -84,10 +82,10 @@ describe('DeadPlan', () => {
               resolve();
             }
           ),
-          [MockError]
+          []
         );
 
-        plan.onRecover(error);
+        chrono.accept(value);
       });
 
       expect(spy1.called).toBe(true);
@@ -96,9 +94,9 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Alive Superposition<A, D> given', async () => {
+    it('alive Superposition<A, D> given', async () => {
+      expect.assertions(4);
       const value: number = 101;
-      const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -106,17 +104,17 @@ describe('DeadPlan', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const plan: DeadPlan<number, MockError, MockError> = DeadPlan.of<number, MockError, MockError>(
-          (e: MockError) => {
+        const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
+          (n: number) => {
             spy1();
-            expect(e).toBe(error);
+            expect(n).toBe(value);
 
-            return Superposition.alive<number, MockError>(value);
+            return Superposition.alive<number, MockError>(n - 3);
           },
-          CombinedEpoque.of<number, MockError>(
+          PassThroughChrono.of<number, MockError>(
             (n: number) => {
               spy2();
-              expect(n).toBe(value);
+              expect(n).toBe(value - 3);
 
               resolve();
             },
@@ -131,10 +129,10 @@ describe('DeadPlan', () => {
               resolve();
             }
           ),
-          [MockError]
+          []
         );
 
-        plan.onRecover(error);
+        chrono.accept(value);
       });
 
       expect(spy1.called).toBe(true);
@@ -143,7 +141,9 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('D thrown', () => {
+    it('d thrown', () => {
+      expect.assertions(4);
+      const value: number = 101;
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -151,14 +151,14 @@ describe('DeadPlan', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const plan: DeadPlan<number, MockError, MockError> = DeadPlan.of<number, MockError, MockError>(
-        (e: MockError) => {
+      const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
+        (n: number) => {
           spy1();
-          expect(e).toBe(error);
+          expect(n).toBe(value);
 
           throw error;
         },
-        CombinedEpoque.of<number, MockError>(
+        PassThroughChrono.of<number, MockError>(
           () => {
             spy2();
           },
@@ -173,7 +173,7 @@ describe('DeadPlan', () => {
         [MockError]
       );
 
-      plan.onRecover(error);
+      chrono.accept(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -181,7 +181,9 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Promise<A> rejected', async () => {
+    it('promise<A> rejected', async () => {
+      expect.assertions(4);
+      const value: number = 101;
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -190,14 +192,14 @@ describe('DeadPlan', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const plan: DeadPlan<number, MockError, MockError> = DeadPlan.of<number, MockError, MockError>(
-          (e: MockError) => {
+        const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
+          (n: number) => {
             spy1();
-            expect(e).toBe(error);
+            expect(n).toBe(value);
 
             return Promise.reject<number>(error);
           },
-          CombinedEpoque.of<number, MockError>(
+          PassThroughChrono.of<number, MockError>(
             () => {
               spy2();
 
@@ -218,7 +220,7 @@ describe('DeadPlan', () => {
           [MockError]
         );
 
-        plan.onRecover(error);
+        chrono.accept(value);
       });
 
       expect(spy1.called).toBe(true);
@@ -227,7 +229,9 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Dead Superposition<A, D> given', async () => {
+    it('dead Superposition<A, D> given', async () => {
+      expect.assertions(4);
+      const value: number = 101;
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -236,14 +240,14 @@ describe('DeadPlan', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const plan: DeadPlan<number, MockError, MockError> = DeadPlan.of<number, MockError, MockError>(
-          (e: MockError) => {
+        const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
+          (n: number) => {
             spy1();
-            expect(e).toBe(error);
+            expect(n).toBe(value);
 
             return Superposition.dead<number, MockError>(error, MockError);
           },
-          CombinedEpoque.of<number, MockError>(
+          PassThroughChrono.of<number, MockError>(
             () => {
               spy2();
 
@@ -264,7 +268,7 @@ describe('DeadPlan', () => {
           [MockError]
         );
 
-        plan.onRecover(error);
+        chrono.accept(value);
       });
 
       expect(spy1.called).toBe(true);
@@ -274,6 +278,8 @@ describe('DeadPlan', () => {
     });
 
     it('error thrown', () => {
+      expect.assertions(4);
+      const value: number = 101;
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -281,29 +287,29 @@ describe('DeadPlan', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const plan: DeadPlan<number, MockError, MockError> = DeadPlan.of<number, MockError, MockError>(
-        (e: MockError) => {
+      const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
+        (n: number) => {
           spy1();
-          expect(e).toBe(error);
+          expect(n).toBe(value);
 
           throw error;
         },
-        CombinedEpoque.of<number, MockError>(
+        PassThroughChrono.of<number, MockError>(
           () => {
             spy2();
           },
-          (e: MockError) => {
-            spy3();
-            expect(e).toBe(error);
-          },
           () => {
+            spy3();
+          },
+          (e: unknown) => {
             spy4();
+            expect(e).toBe(error);
           }
         ),
         []
       );
 
-      plan.onRecover(error);
+      chrono.accept(value);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -311,7 +317,9 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('Promise rejected given', async () => {
+    it('promise rejected given', async () => {
+      expect.assertions(4);
+      const value: number = 101;
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -320,27 +328,27 @@ describe('DeadPlan', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const plan: DeadPlan<number, MockError, MockError> = DeadPlan.of<number, MockError, MockError>(
-          (e: MockError) => {
+        const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
+          (n: number) => {
             spy1();
-            expect(e).toBe(error);
+            expect(n).toBe(value);
 
             return Promise.reject<number>(error);
           },
-          CombinedEpoque.of<number, MockError>(
+          PassThroughChrono.of<number, MockError>(
             () => {
               spy2();
 
               resolve();
             },
-            (e: MockError) => {
+            () => {
               spy3();
-              expect(e).toBe(error);
 
               resolve();
             },
-            () => {
+            (e: unknown) => {
               spy4();
+              expect(e).toBe(error);
 
               resolve();
             }
@@ -348,7 +356,7 @@ describe('DeadPlan', () => {
           []
         );
 
-        plan.onRecover(error);
+        chrono.accept(value);
       });
 
       expect(spy1.called).toBe(true);
@@ -357,7 +365,9 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('Contradiction Superposition given', async () => {
+    it('contradiction Superposition given', async () => {
+      expect.assertions(4);
+      const value: number = 101;
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -366,29 +376,29 @@ describe('DeadPlan', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const plan: DeadPlan<number, MockError, MockError> = DeadPlan.of<number, MockError, MockError>(
-          (e: MockError) => {
+        const chrono: AliveChrono<number, number, MockError> = AliveChrono.of<number, number, MockError>(
+          (n: number) => {
             spy1();
-            expect(e).toBe(error);
+            expect(n).toBe(value);
 
-            return Superposition.of<number, MockError>((epoque: Epoque<Detoxicated<number>, MockError>) => {
-              return epoque.throw(error);
+            return Superposition.of<number, MockError>((c: Chrono<number, MockError>) => {
+              return c.throw(error);
             });
           },
-          CombinedEpoque.of<number, MockError>(
+          PassThroughChrono.of<number, MockError>(
             () => {
               spy2();
 
               resolve();
             },
-            (e: MockError) => {
+            () => {
               spy3();
-              expect(e).toBe(error);
 
               resolve();
             },
-            () => {
+            (e: unknown) => {
               spy4();
+              expect(e).toBe(error);
 
               resolve();
             }
@@ -396,7 +406,7 @@ describe('DeadPlan', () => {
           []
         );
 
-        plan.onRecover(error);
+        chrono.accept(value);
       });
 
       expect(spy1.called).toBe(true);

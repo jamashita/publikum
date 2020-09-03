@@ -1,6 +1,5 @@
-import { Noun } from '@jamashita/publikum-interface';
-import { DeadConstructor } from '../../Interface/DeadConstructor';
+import { CatchChrono } from './CatchChrono';
 
-export interface DeclineChrono<D, N extends string = string> extends Noun<N> {
-  decline<E extends Error>(value: D, ...errors: ReadonlyArray<DeadConstructor<E>>): unknown | void;
+export interface DeclineChrono<D extends Error, E extends Error = D, N extends string = string> extends CatchChrono<E, N> {
+  decline(value: D): unknown | void;
 }

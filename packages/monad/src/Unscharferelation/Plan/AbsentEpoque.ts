@@ -1,30 +1,30 @@
 import { Kind, Supplier, Suspicious } from '@jamashita/publikum-type';
-import { RecoveryPlan } from '../../Plan/Interface/RecoveryPlan';
+import { DeclineEpoque } from '../Epoque/Interface/DeclineEpoque';
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { isUnscharferelation, IUnscharferelation } from '../Interface/IUnscharferelation';
 import { Matter } from '../Interface/Matter';
 
-export class AbsentPlan<Q> implements RecoveryPlan<void, 'AbsentPlan'> {
-  public readonly noun: 'AbsentPlan' = 'AbsentPlan';
+export class AbsentEpoque<Q> implements DeclineEpoque<'AbsentEpoque'> {
+  public readonly noun: 'AbsentEpoque' = 'AbsentEpoque';
   private readonly mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>;
-  private readonly epoque: Epoque<Matter<Q>>;
+  private readonly epoque: Epoque<Q>;
 
   public static of<QT>(
     mapper: Supplier<IUnscharferelation<QT> | PromiseLike<Suspicious<Matter<QT>>> | Suspicious<Matter<QT>>>,
-    epoque: Epoque<Matter<QT>>
-  ): AbsentPlan<QT> {
-    return new AbsentPlan<QT>(mapper, epoque);
+    epoque: Epoque<QT>
+  ): AbsentEpoque<QT> {
+    return new AbsentEpoque<QT>(mapper, epoque);
   }
 
   protected constructor(
     mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>,
-    epoque: Epoque<Matter<Q>>
+    epoque: Epoque<Q>
   ) {
     this.mapper = mapper;
     this.epoque = epoque;
   }
 
-  public onRecover(): unknown {
+  public decline(): unknown {
     try {
       const mapped: IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>> = this.mapper();
 

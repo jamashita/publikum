@@ -142,9 +142,10 @@ Class for random string, random number.
 
 ### TODO
 * [ ] `indexDB` repository implementation
-* [ ] `File` implementation
-* [ ] accepts Error constructors in Superposition Epoque
+* [ ] `file` implementation
+* [x] accepts Error constructors in Superposition Epoque
 * [ ] implementing cancelable iterator class.
+* [ ] mutable collections
 
 ## License
 

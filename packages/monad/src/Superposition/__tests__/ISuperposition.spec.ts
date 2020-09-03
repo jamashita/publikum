@@ -1,5 +1,6 @@
 import { MockError } from '@jamashita/publikum-object';
 import { Chrono } from '../Chrono/Interface/Chrono';
+import { DeadConstructor } from '../Interface/DeadConstructor';
 import { containsError, isSuperposition } from '../Interface/ISuperposition';
 import { Superposition } from '../Superposition';
 import { SuperpositionInternal } from '../SuperpositionInternal';
@@ -7,12 +8,12 @@ import { SuperpositionInternal } from '../SuperpositionInternal';
 describe('ISuperposition', () => {
   describe('is', () => {
     it('normal case', () => {
+      expect.assertions(25);
       const superposition1: Superposition<number, MockError> = Superposition.alive<number, MockError>(4);
       const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
         (chrono: Chrono<number, MockError>) => {
           chrono.decline(new MockError());
-        },
-        [MockError]
+        }
       );
 
       expect(isSuperposition<number, MockError>(null)).toBe(false);
@@ -240,27 +241,24 @@ describe('ISuperposition', () => {
 
   describe('containsError', () => {
     it('returns true if the very class is included', () => {
+      expect.assertions(1);
       const error: MockError = new MockError();
 
-      expect(
-        containsError<Error>(error, [TypeError, SyntaxError, MockError])
-      ).toBe(true);
+      expect(containsError<Error>(error, new Set<DeadConstructor>([TypeError, SyntaxError, MockError]))).toBe(true);
     });
 
     it('returns false if the class is not included', () => {
+      expect.assertions(1);
       const error: MockError = new MockError();
 
-      expect(
-        containsError<Error>(error, [TypeError, SyntaxError])
-      ).toBe(false);
+      expect(containsError<Error>(error, new Set<DeadConstructor>([TypeError, SyntaxError]))).toBe(false);
     });
 
     it('returns true if super class of the class is included', () => {
+      expect.assertions(1);
       const error: MockError = new MockError();
 
-      expect(
-        containsError<Error>(error, [TypeError, SyntaxError, Error])
-      ).toBe(true);
+      expect(containsError<Error>(error, new Set<DeadConstructor>([TypeError, SyntaxError, Error]))).toBe(true);
     });
   });
 });

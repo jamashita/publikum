@@ -22,6 +22,7 @@ class TestEqualable implements Equalable<TestEqualable> {
 describe('Present', () => {
   describe('get', () => {
     it('the value is got by get method', () => {
+      expect.assertions(7);
       const present1: Present<number> = Present.of<number>(1);
       const present2: Present<number> = Present.of<number>(0);
       const present3: Present<number> = Present.of<number>(-1);
@@ -42,6 +43,7 @@ describe('Present', () => {
 
   describe('isPresent', () => {
     it('returns true', () => {
+      expect.assertions(7);
       const present1: Present<number> = Present.of<number>(1);
       const present2: Present<number> = Present.of<number>(0);
       const present3: Present<number> = Present.of<number>(-1);
@@ -62,6 +64,7 @@ describe('Present', () => {
 
   describe('isAbsent', () => {
     it('returns false', () => {
+      expect.assertions(7);
       const present1: Present<number> = Present.of<number>(1);
       const present2: Present<number> = Present.of<number>(0);
       const present3: Present<number> = Present.of<number>(-1);
@@ -82,6 +85,7 @@ describe('Present', () => {
 
   describe('isLost', () => {
     it('returns false', () => {
+      expect.assertions(7);
       const present1: Present<number> = Present.of<number>(1);
       const present2: Present<number> = Present.of<number>(0);
       const present3: Present<number> = Present.of<number>(-1);
@@ -102,6 +106,7 @@ describe('Present', () => {
 
   describe('ifPresent', () => {
     it('will be invoked', () => {
+      expect.assertions(1);
       const value: number = 1;
 
       const spy: SinonSpy = sinon.spy();
@@ -119,6 +124,7 @@ describe('Present', () => {
 
   describe('ifAbsent', () => {
     it('will not be invoked', () => {
+      expect.assertions(1);
       const value: number = 1;
 
       const spy: SinonSpy = sinon.spy();
@@ -135,6 +141,7 @@ describe('Present', () => {
 
   describe('ifLost', () => {
     it('will not be invoked', () => {
+      expect.assertions(1);
       const value: number = 1;
 
       const spy: SinonSpy = sinon.spy();
@@ -151,6 +158,7 @@ describe('Present', () => {
 
   describe('equals', () => {
     it('returns true if same value Present given', () => {
+      expect.assertions(6);
       const present1: Present<number> = Present.of<number>(2);
       const present2: Present<number> = Present.of<number>(3);
       const absent: Absent<number> = Absent.of<number>();
@@ -168,6 +176,7 @@ describe('Present', () => {
     });
 
     it('returns true if same Equalable instance Present given', () => {
+      expect.assertions(3);
       const present1: Present<TestEqualable> = Present.of<TestEqualable>(new TestEqualable(true));
       const present2: Present<TestEqualable> = Present.of<TestEqualable>(new TestEqualable(false));
 
@@ -181,6 +190,7 @@ describe('Present', () => {
 
   describe('toString', () => {
     it('returns Present and its retaining value', () => {
+      expect.assertions(1);
       expect(Present.of<boolean>(true).toString()).toBe('Present: true');
     });
   });

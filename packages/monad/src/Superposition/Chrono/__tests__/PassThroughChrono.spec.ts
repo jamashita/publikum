@@ -1,9 +1,8 @@
 import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
-import { CombinedChrono } from '../CombinedChrono';
 import { PassThroughChrono } from '../PassThroughChrono';
 
-describe('CombinedChrono', () => {
+describe('PassThroughChrono', () => {
   describe('accept', () => {
     it('normal case', () => {
       expect.assertions(4);
@@ -13,7 +12,7 @@ describe('CombinedChrono', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const pass: PassThroughChrono<number, MockError> = PassThroughChrono.of<number, MockError>(
+      const chrono: PassThroughChrono<number, MockError> = PassThroughChrono.of<number, MockError>(
         (v: number) => {
           spy1();
           expect(v).toBe(value);
@@ -25,7 +24,6 @@ describe('CombinedChrono', () => {
           spy3();
         }
       );
-      const chrono: CombinedChrono<number, MockError> = CombinedChrono.of<number, MockError>(pass, pass, pass);
 
       chrono.accept(value);
 
@@ -44,7 +42,7 @@ describe('CombinedChrono', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const pass: PassThroughChrono<number, MockError> = PassThroughChrono.of<number, MockError>(
+      const chrono: PassThroughChrono<number, MockError> = PassThroughChrono.of<number, MockError>(
         () => {
           spy1();
         },
@@ -56,7 +54,6 @@ describe('CombinedChrono', () => {
           spy3();
         }
       );
-      const chrono: CombinedChrono<number, MockError> = CombinedChrono.of<number, MockError>(pass, pass, pass);
 
       chrono.decline(value);
 
@@ -75,7 +72,7 @@ describe('CombinedChrono', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const pass: PassThroughChrono<number, MockError> = PassThroughChrono.of<number, MockError>(
+      const chrono: PassThroughChrono<number, MockError> = PassThroughChrono.of<number, MockError>(
         () => {
           spy1();
         },
@@ -87,7 +84,6 @@ describe('CombinedChrono', () => {
           expect(v).toBe(value);
         }
       );
-      const chrono: CombinedChrono<number, MockError> = CombinedChrono.of<number, MockError>(pass, pass, pass);
 
       chrono.throw(value);
 

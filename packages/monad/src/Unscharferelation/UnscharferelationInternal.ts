@@ -9,13 +9,15 @@ import {
   Suspicious,
   UnaryFunction
 } from '@jamashita/publikum-type';
-import { CombinedPlan } from '../Plan/CombinedPlan';
-import { DestroyPlan } from '../Plan/Interface/DestroyPlan';
-import { MappingPlan } from '../Plan/Interface/MappingPlan';
-import { Plan } from '../Plan/Interface/Plan';
-import { RecoveryPlan } from '../Plan/Interface/RecoveryPlan';
+import { Chrono } from '../Superposition/Chrono/Interface/Chrono';
+import { Detoxicated } from '../Superposition/Interface/Detoxicated';
+import { SuperpositionInternal } from '../Superposition/SuperpositionInternal';
 import { CombinedEpoque } from './Epoque/CombinedEpoque';
+import { AcceptEpoque } from './Epoque/Interface/AcceptEpoque';
+import { DeclineEpoque } from './Epoque/Interface/DeclineEpoque';
 import { Epoque } from './Epoque/Interface/Epoque';
+import { ThrowEpoque } from './Epoque/Interface/ThrowEpoque';
+import { PassThroughEpoque } from './Epoque/PassThroughEpoque';
 import { UnscharferelationError } from './Error/UnscharferelationError';
 import { Absent } from './Heisenberg/Absent';
 import { Heisenberg } from './Heisenberg/Heisenberg';
@@ -24,27 +26,23 @@ import { Present } from './Heisenberg/Present';
 import { Uncertain } from './Heisenberg/Uncertain';
 import { IUnscharferelation } from './Interface/IUnscharferelation';
 import { Matter } from './Interface/Matter';
-import { AbsentPlan } from './Plan/AbsentPlan';
-import { DestroyEpoquePlan } from './Plan/DestroyEpoquePlan';
-import { MappingEpoquePlan } from './Plan/MappingEpoquePlan';
-import { PassThroughEpoquePlan } from './Plan/PassThroughEpoquePlan';
-import { PresentPlan } from './Plan/PresentPlan';
-import { RecoveryEpoquePlan } from './Plan/RecoveryEpoquePlan';
+import { AbsentEpoque } from './Plan/AbsentEpoque';
+import { PresentEpoque } from './Plan/PresentEpoque';
 
 export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationInternal<P>, 'UnscharferelationInternal'>
-  implements IUnscharferelation<P, 'UnscharferelationInternal'>, Epoque<Matter<P>> {
+  implements IUnscharferelation<P, 'UnscharferelationInternal'>, Epoque<P> {
   public readonly noun: 'UnscharferelationInternal' = 'UnscharferelationInternal';
   private heisenberg: Heisenberg<P>;
-  private readonly plans: Set<Plan<P, void>>;
+  private readonly epoques: Set<Epoque<P>>;
 
-  public static of<PT>(func: UnaryFunction<Epoque<Matter<PT>>, unknown>): UnscharferelationInternal<PT> {
+  public static of<PT>(func: UnaryFunction<Epoque<PT>, unknown>): UnscharferelationInternal<PT> {
     return new UnscharferelationInternal<PT>(func);
   }
 
-  protected constructor(func: UnaryFunction<Epoque<Matter<P>>, unknown>) {
+  protected constructor(func: UnaryFunction<Epoque<P>, unknown>) {
     super();
     this.heisenberg = Uncertain.of<P>();
-    this.plans = new Set<CombinedPlan<P, void>>();
+    this.epoques = new Set<Epoque<P>>();
     func(this);
   }
 
@@ -69,8 +67,8 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
 
     this.heisenberg = Present.of<P>(value);
 
-    this.plans.forEach((plan: MappingPlan<P>) => {
-      return plan.onMap(value);
+    this.epoques.forEach((epoque: AcceptEpoque<P>) => {
+      return epoque.accept(value);
     });
   }
 
@@ -81,8 +79,8 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
 
     this.heisenberg = Absent.of<P>();
 
-    this.plans.forEach((plan: RecoveryPlan<void>) => {
-      return plan.onRecover();
+    this.epoques.forEach((epoque: DeclineEpoque) => {
+      return epoque.decline();
     });
   }
 
@@ -93,8 +91,8 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
 
     this.heisenberg = Lost.of<P>(cause);
 
-    this.plans.forEach((plan: DestroyPlan) => {
-      return plan.onDestroy(cause);
+    this.epoques.forEach((epoque: ThrowEpoque) => {
+      return epoque.throw(cause);
     });
   }
 
@@ -123,7 +121,7 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
   }
 
   public filter(predicate: Predicate<P>): UnscharferelationInternal<P> {
-    return UnscharferelationInternal.of<P>((epoque: Epoque<Matter<P>>) => {
+    return UnscharferelationInternal.of<P>((epoque: Epoque<P>) => {
       this.pass(
         (value: Matter<P>) => {
           if (predicate(value)) {
@@ -146,35 +144,24 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
     mapper: UnaryFunction<Matter<P>,
       UnscharferelationInternal<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>
   ): UnscharferelationInternal<Q> {
-    return UnscharferelationInternal.of<Q>((epoque: Epoque<Matter<Q>>) => {
-      return this.handle(
-        PresentPlan.of<P, Q>(mapper, epoque),
-        RecoveryEpoquePlan.of(epoque),
-        DestroyEpoquePlan.of(epoque)
-      );
+    return UnscharferelationInternal.of<Q>((epoque: Epoque<Q>) => {
+      return this.handle(PresentEpoque.of<P, Q>(mapper, epoque), epoque, epoque);
     });
   }
 
   public recover<Q = P>(
     mapper: Supplier<UnscharferelationInternal<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>
   ): UnscharferelationInternal<P | Q> {
-    return UnscharferelationInternal.of<P | Q>((epoque: Epoque<Matter<P | Q>>) => {
-      return this.handle(
-        MappingEpoquePlan.of<Matter<P>>(epoque),
-        AbsentPlan.of<Q>(mapper, epoque),
-        DestroyEpoquePlan.of(epoque)
-      );
+    return UnscharferelationInternal.of<P | Q>((epoque: Epoque<P | Q>) => {
+      return this.handle(epoque, AbsentEpoque.of<Q>(mapper, epoque), epoque);
     });
   }
 
-  public ifPresent(consumer: Consumer<P>): this {
-    const peek: Peek = () => {
-      // NOOP
-    };
+  public ifPresent(consumer: Consumer<Matter<P>>): this {
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const epoque: Epoque<P> = PassThroughEpoque.of<P>(consumer, this.spoil, this.spoil);
 
-    const epoque: Epoque<Matter<P>> = CombinedEpoque.of<Matter<P>>(consumer, peek, peek);
-
-    this.handle(MappingEpoquePlan.of<Matter<P>>(epoque), RecoveryEpoquePlan.of(epoque), DestroyEpoquePlan.of(epoque));
+    this.handle(epoque, epoque, epoque);
 
     return this;
   }
@@ -183,61 +170,61 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
     accepted: Consumer<Matter<P>>,
     declined: Consumer<void>,
     thrown: Consumer<unknown>
-  ): UnscharferelationInternal<P> {
-    const epoque: Epoque<Matter<P>> = CombinedEpoque.of<Matter<P>>(accepted, declined, thrown);
+  ): this {
+    const epoque: Epoque<P> = PassThroughEpoque.of<P>(accepted, declined, thrown);
 
-    this.handle(MappingEpoquePlan.of<Matter<P>>(epoque), RecoveryEpoquePlan.of(epoque), DestroyEpoquePlan.of(epoque));
-
-    return this;
-  }
-
-  public peek(peek: Peek): UnscharferelationInternal<P> {
-    const epoque: Epoque<void> = CombinedEpoque.of<void>(peek, peek, peek);
-
-    this.handle(PassThroughEpoquePlan.of(epoque), RecoveryEpoquePlan.of(epoque), DestroyEpoquePlan.of(epoque));
+    this.handle(epoque, epoque, epoque);
 
     return this;
   }
 
-  // TODO NOT EPOQUE
-  // public toSuperposition(): SuperpositionInternal<P, UnscharferelationError> {
-  //   return SuperpositionInternal.of<P, UnscharferelationError>(
-  //     (epoque: Chrono<Detoxicated<P>, UnscharferelationError>) => {
-  //       this.pass(
-  //         (value: Matter<P>) => {
-  //           if (value instanceof Error) {
-  //             return epoque.decline(new UnscharferelationError('ABSENT'));
-  //           }
-  //
-  //           return epoque.accept((value as unknown) as Detoxicated<P>);
-  //         },
-  //         () => {
-  //           return epoque.decline(new UnscharferelationError('ABSENT'));
-  //         },
-  //         (e: unknown) => {
-  //           return epoque.throw(e);
-  //         }
-  //       );
-  //     },
-  //     [UnscharferelationError]
-  //   );
-  // }
+  public peek(peek: Peek): this {
+    const epoque: Epoque<P> = PassThroughEpoque.of<P>(peek, peek, peek);
+
+    this.handle(epoque, epoque, epoque);
+
+    return this;
+  }
+
+  public toSuperposition(): SuperpositionInternal<P, UnscharferelationError> {
+    return SuperpositionInternal.of<P, UnscharferelationError>((chrono: Chrono<P, UnscharferelationError>) => {
+      this.pass(
+        (value: Matter<P>) => {
+          if (value instanceof Error) {
+            return chrono.decline(new UnscharferelationError('ABSENT'));
+          }
+
+          return chrono.accept((value as unknown) as Detoxicated<P>);
+        },
+        () => {
+          return chrono.decline(new UnscharferelationError('ABSENT'));
+        },
+        (e: unknown) => {
+          return chrono.throw(e);
+        }
+      );
+    }, [UnscharferelationError]);
+  }
 
   private settled(): boolean {
     return this.heisenberg.isPresent() || this.heisenberg.isAbsent() || this.heisenberg.isLost();
   }
 
-  private handle(mapping: MappingPlan<P>, recovery: RecoveryPlan<void>, destroy: DestroyPlan): unknown {
+  private handle(map: AcceptEpoque<P>, recover: DeclineEpoque, destroy: ThrowEpoque): unknown {
     if (this.heisenberg.isPresent()) {
-      return mapping.onMap(this.heisenberg.get());
+      return map.accept(this.heisenberg.get());
     }
     if (this.heisenberg.isAbsent()) {
-      return recovery.onRecover();
+      return recover.decline();
     }
     if (this.heisenberg.isLost()) {
-      return destroy.onDestroy(this.heisenberg.getCause());
+      return destroy.throw(this.heisenberg.getCause());
     }
 
-    return this.plans.add(CombinedPlan.of<Matter<P>, void>(mapping, recovery, destroy));
+    return this.epoques.add(CombinedEpoque.of<P>(map, recover, destroy));
+  }
+
+  private spoil(): void {
+    // NOOP
   }
 }

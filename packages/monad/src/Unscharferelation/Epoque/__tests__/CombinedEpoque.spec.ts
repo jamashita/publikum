@@ -1,5 +1,6 @@
 import sinon, { SinonSpy } from 'sinon';
 import { CombinedEpoque } from '../CombinedEpoque';
+import { PassThroughEpoque } from '../PassThroughEpoque';
 
 describe('CombinedEpoque', () => {
   describe('accept', () => {
@@ -11,7 +12,7 @@ describe('CombinedEpoque', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const epoque: CombinedEpoque<number> = CombinedEpoque.of<number>(
+      const pass: PassThroughEpoque<number> = PassThroughEpoque.of<number>(
         (v: number) => {
           spy1();
           expect(v).toBe(value);
@@ -23,6 +24,7 @@ describe('CombinedEpoque', () => {
           spy3();
         }
       );
+      const epoque: CombinedEpoque<number> = CombinedEpoque.of<number>(pass, pass, pass);
 
       epoque.accept(value);
 
@@ -39,7 +41,7 @@ describe('CombinedEpoque', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const epoque: CombinedEpoque<number> = CombinedEpoque.of<number>(
+      const pass: PassThroughEpoque<number> = PassThroughEpoque.of<number>(
         () => {
           spy1();
         },
@@ -50,6 +52,7 @@ describe('CombinedEpoque', () => {
           spy3();
         }
       );
+      const epoque: CombinedEpoque<number> = CombinedEpoque.of<number>(pass, pass, pass);
 
       epoque.decline();
 
@@ -68,7 +71,7 @@ describe('CombinedEpoque', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const epoque: CombinedEpoque<number> = CombinedEpoque.of<number>(
+      const pass: PassThroughEpoque<number> = PassThroughEpoque.of<number>(
         () => {
           spy1();
         },
@@ -80,6 +83,7 @@ describe('CombinedEpoque', () => {
           expect(v).toBe(value);
         }
       );
+      const epoque: CombinedEpoque<number> = CombinedEpoque.of<number>(pass, pass, pass);
 
       epoque.throw(value);
 

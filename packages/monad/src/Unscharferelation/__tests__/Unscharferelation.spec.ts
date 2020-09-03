@@ -1,5 +1,6 @@
 import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
+import { Schrodinger } from '../../Superposition/Schrodinger/Schrodinger';
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Absent } from '../Heisenberg/Absent';
@@ -7,22 +8,23 @@ import { Heisenberg } from '../Heisenberg/Heisenberg';
 import { Lost } from '../Heisenberg/Lost';
 import { Present } from '../Heisenberg/Present';
 import { Uncertain } from '../Heisenberg/Uncertain';
-import { Matter } from '../Interface/Matter';
 import { MockUnscharferelation } from '../Mock/MockUnscharferelation';
 import { Unscharferelation } from '../Unscharferelation';
 
 describe('Unscharferelation', () => {
   describe('all', () => {
     it('no unschrferelation', async () => {
+      expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [];
 
       const heisenberg: Heisenberg<Array<number>> = await Unscharferelation.all<number>(unscharferelations).terminate();
 
       expect(heisenberg.isPresent()).toBe(true);
-      expect(heisenberg.get().length).toBe(unscharferelations.length);
+      expect(heisenberg.get()).toHaveLength(unscharferelations.length);
     });
 
     it('sync: all are Present', async () => {
+      expect.assertions(4);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.present<number>(0),
         Unscharferelation.present<number>(1),
@@ -35,7 +37,7 @@ describe('Unscharferelation', () => {
 
       const array: Array<number> = heisenberg.get();
 
-      expect(array.length).toBe(unscharferelations.length);
+      expect(array).toHaveLength(unscharferelations.length);
       for (let i: number = 0; i < array.length; i++) {
         // eslint-disable-next-line no-await-in-loop
         const h: Heisenberg<number> = await unscharferelations[i].terminate();
@@ -45,6 +47,7 @@ describe('Unscharferelation', () => {
     });
 
     it('sync: contains Absent on first position', async () => {
+      expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.absent<number>(),
         Unscharferelation.present<number>(1),
@@ -62,6 +65,7 @@ describe('Unscharferelation', () => {
     });
 
     it('sync: contains Absent on second position', async () => {
+      expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.present<number>(1),
         Unscharferelation.absent<number>(),
@@ -79,6 +83,7 @@ describe('Unscharferelation', () => {
     });
 
     it('sync: contains Absent on last position', async () => {
+      expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.present<number>(0),
         Unscharferelation.present<number>(1),
@@ -96,6 +101,7 @@ describe('Unscharferelation', () => {
     });
 
     it('sync: contains more than 1 Absent, but the last one', async () => {
+      expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.absent<number>(),
         Unscharferelation.absent<number>(),
@@ -113,6 +119,7 @@ describe('Unscharferelation', () => {
     });
 
     it('sync: contains more than 1 Absent, but the second one', async () => {
+      expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.absent<number>(),
         Unscharferelation.present<number>(1),
@@ -130,6 +137,7 @@ describe('Unscharferelation', () => {
     });
 
     it('sync: contains more than 1 Absent, but the first one', async () => {
+      expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.present<number>(0),
         Unscharferelation.absent<number>(),
@@ -147,6 +155,7 @@ describe('Unscharferelation', () => {
     });
 
     it('sync: contains more than 1 Absent, all', async () => {
+      expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.absent<number>(),
         Unscharferelation.absent<number>(),
@@ -164,6 +173,7 @@ describe('Unscharferelation', () => {
     });
 
     it('async: all are Alive', async () => {
+      expect.assertions(4);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.present<number>(Promise.resolve<number>(0)),
         Unscharferelation.present<number>(Promise.resolve<number>(1)),
@@ -176,7 +186,7 @@ describe('Unscharferelation', () => {
 
       const array: Array<number> = heisenberg.get();
 
-      expect(array.length).toBe(unscharferelations.length);
+      expect(array).toHaveLength(unscharferelations.length);
       for (let i: number = 0; i < array.length; i++) {
         // eslint-disable-next-line no-await-in-loop
         const h: Heisenberg<number> = await unscharferelations[i].terminate();
@@ -186,6 +196,7 @@ describe('Unscharferelation', () => {
     });
 
     it('async: contains Absent on first position', async () => {
+      expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
         Unscharferelation.present<number>(Promise.resolve<number>(1)),
@@ -203,6 +214,7 @@ describe('Unscharferelation', () => {
     });
 
     it('async: contains Absent on second position', async () => {
+      expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.present<number>(Promise.resolve<number>(0)),
         Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
@@ -220,6 +232,7 @@ describe('Unscharferelation', () => {
     });
 
     it('async: contains Absent on last position', async () => {
+      expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.present<number>(Promise.resolve<number>(0)),
         Unscharferelation.present<number>(Promise.resolve<number>(1)),
@@ -237,6 +250,7 @@ describe('Unscharferelation', () => {
     });
 
     it('async: contains more than 1 Absent, but the last one', async () => {
+      expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
         Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
@@ -254,6 +268,7 @@ describe('Unscharferelation', () => {
     });
 
     it('async: contains more than 1 Absent, but the second one', async () => {
+      expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
         Unscharferelation.present<number>(Promise.resolve<number>(1)),
@@ -271,6 +286,7 @@ describe('Unscharferelation', () => {
     });
 
     it('async: contains more than 1 Absent, but the first one', async () => {
+      expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.present<number>(Promise.resolve<number>(0)),
         Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
@@ -288,6 +304,7 @@ describe('Unscharferelation', () => {
     });
 
     it('async: contains more than 1 Absent, all', async () => {
+      expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
         Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
@@ -305,8 +322,9 @@ describe('Unscharferelation', () => {
     });
 
     it('includes at least one Lost, will return Lost, Lost comes faster than Absent', async () => {
+      expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [
-        Unscharferelation.of<number>((epoque: Epoque<Matter<number>>) => {
+        Unscharferelation.of<number>((epoque: Epoque<number>) => {
           epoque.throw(null);
         }),
         Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
@@ -324,9 +342,10 @@ describe('Unscharferelation', () => {
     });
 
     it('includes at least one Lost, will return Lost, Lost comes later than Absent', async () => {
+      expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
-        Unscharferelation.of<number>((epoque: Epoque<Matter<number>>) => {
+        Unscharferelation.of<number>((epoque: Epoque<number>) => {
           epoque.throw(null);
         }),
         Unscharferelation.present<number>(Promise.resolve<number>(2))
@@ -345,6 +364,7 @@ describe('Unscharferelation', () => {
 
   describe('maybe', () => {
     it('sync: Present case', async () => {
+      expect.assertions(12);
       expect(await Unscharferelation.maybe(1).terminate()).toBeInstanceOf(Present);
       expect(await Unscharferelation.maybe(0).terminate()).toBeInstanceOf(Present);
       expect(await Unscharferelation.maybe('a').terminate()).toBeInstanceOf(Present);
@@ -360,11 +380,13 @@ describe('Unscharferelation', () => {
     });
 
     it('sync: Absent case', async () => {
+      expect.assertions(2);
       expect(await Unscharferelation.maybe(null).terminate()).toBeInstanceOf(Absent);
       expect(await Unscharferelation.maybe(undefined).terminate()).toBeInstanceOf(Absent);
     });
 
     it('async: Present case', async () => {
+      expect.assertions(12);
       expect(await Unscharferelation.maybe(Promise.resolve(1)).terminate()).toBeInstanceOf(Present);
       expect(await Unscharferelation.maybe(Promise.resolve(0)).terminate()).toBeInstanceOf(Present);
       expect(await Unscharferelation.maybe(Promise.resolve('a')).terminate()).toBeInstanceOf(Present);
@@ -380,17 +402,20 @@ describe('Unscharferelation', () => {
     });
 
     it('async: Absent case', async () => {
+      expect.assertions(2);
       expect(await Unscharferelation.maybe(Promise.resolve(null)).terminate()).toBeInstanceOf(Absent);
       expect(await Unscharferelation.maybe(Promise.resolve(undefined)).terminate()).toBeInstanceOf(Absent);
     });
 
     it('async: Lost case', async () => {
+      expect.assertions(1);
       expect(await Unscharferelation.maybe(Promise.reject(new MockError())).terminate()).toBeInstanceOf(Lost);
     });
   });
 
   describe('ofHeisenberg', () => {
     it('present case', async () => {
+      expect.assertions(3);
       const value: number = 2;
       const present: Present<number> = Present.of<number>(value);
 
@@ -404,6 +429,7 @@ describe('Unscharferelation', () => {
     });
 
     it('absent case', async () => {
+      expect.assertions(1);
       const absent: Absent<number> = Absent.of<number>();
 
       const unscharferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(absent);
@@ -414,6 +440,7 @@ describe('Unscharferelation', () => {
     });
 
     it('lost case', async () => {
+      expect.assertions(3);
       const lost: Lost<number> = Lost.of<number>(null);
 
       const unscharferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(lost);
@@ -423,14 +450,12 @@ describe('Unscharferelation', () => {
       expect(heisenberg).not.toBe(lost);
       expect(heisenberg.isLost()).toBe(true);
       if (heisenberg.isLost()) {
-        expect(heisenberg.getCause()).toBe(null);
-      }
-      else {
-        fail();
+        expect(heisenberg.getCause()).toBeNull();
       }
     });
 
     it('uncertain case', async () => {
+      expect.assertions(2);
       const uncertain: Uncertain<number> = Uncertain.of<number>();
 
       const unscharferelation: Unscharferelation<number> = Unscharferelation.ofHeisenberg<number>(uncertain);
@@ -446,6 +471,7 @@ describe('Unscharferelation', () => {
 
   describe('present', () => {
     it('sync', async () => {
+      expect.assertions(2);
       const value: number = -8;
 
       const present: Unscharferelation<number> = Unscharferelation.present<number>(value);
@@ -456,6 +482,7 @@ describe('Unscharferelation', () => {
     });
 
     it('async', async () => {
+      expect.assertions(2);
       const value: number = -8;
 
       const present: Unscharferelation<number> = Unscharferelation.present<number>(Promise.resolve<number>(value));
@@ -466,6 +493,7 @@ describe('Unscharferelation', () => {
     });
 
     it('promise is rejected', async () => {
+      expect.assertions(2);
       const error: MockError = new MockError();
 
       const present: Unscharferelation<number> = Unscharferelation.present<number>(Promise.reject<number>(error));
@@ -480,6 +508,7 @@ describe('Unscharferelation', () => {
 
   describe('absent', () => {
     it('sync', async () => {
+      expect.assertions(2);
       const absent: Unscharferelation<number> = Unscharferelation.absent<number>();
       const heisenberg: Heisenberg<number> = await absent.terminate();
 
@@ -490,6 +519,7 @@ describe('Unscharferelation', () => {
     });
 
     it('async', async () => {
+      expect.assertions(2);
       const absent: Unscharferelation<number> = Unscharferelation.absent<number>(Promise.resolve<null>(null));
       const heisenberg: Heisenberg<number> = await absent.terminate();
 
@@ -500,6 +530,7 @@ describe('Unscharferelation', () => {
     });
 
     it('promise is rejected', async () => {
+      expect.assertions(2);
       const error: MockError = new MockError();
 
       const absent: Unscharferelation<number> = Unscharferelation.absent<number>(Promise.reject<null>(error));
@@ -514,6 +545,7 @@ describe('Unscharferelation', () => {
 
   describe('get', () => {
     it('delegate inner Unscharferelation', async () => {
+      expect.assertions(1);
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
 
       const spy: SinonSpy = sinon.spy();
@@ -530,6 +562,7 @@ describe('Unscharferelation', () => {
 
   describe('terminate', () => {
     it('delegate inner Unscharferelation', async () => {
+      expect.assertions(1);
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
 
       const spy: SinonSpy = sinon.spy();
@@ -546,6 +579,7 @@ describe('Unscharferelation', () => {
 
   describe('filter', () => {
     it('delegate inner Unscharferelation', () => {
+      expect.assertions(1);
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
 
       const spy: SinonSpy = sinon.spy();
@@ -564,6 +598,7 @@ describe('Unscharferelation', () => {
 
   describe('map', () => {
     it('delegate inner Unscharferelation', () => {
+      expect.assertions(1);
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
 
       const spy: SinonSpy = sinon.spy();
@@ -582,6 +617,7 @@ describe('Unscharferelation', () => {
 
   describe('recover', () => {
     it('delegate inner Unscharferelation', () => {
+      expect.assertions(1);
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
 
       const spy: SinonSpy = sinon.spy();
@@ -600,6 +636,7 @@ describe('Unscharferelation', () => {
 
   describe('ifPresent', () => {
     it('delegate inner Unscharferelation', () => {
+      expect.assertions(1);
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
 
       const spy: SinonSpy = sinon.spy();
@@ -618,6 +655,7 @@ describe('Unscharferelation', () => {
 
   describe('pass', () => {
     it('delegate inner Unscharferelation', () => {
+      expect.assertions(1);
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
 
       const spy: SinonSpy = sinon.spy();
@@ -644,6 +682,7 @@ describe('Unscharferelation', () => {
 
   describe('peek', () => {
     it('delegate inner Unscharferelation', () => {
+      expect.assertions(1);
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
 
       const spy: SinonSpy = sinon.spy();
@@ -660,74 +699,73 @@ describe('Unscharferelation', () => {
     });
   });
 
-  // eslint-disable-next-file jest/no-commented-out-tests
-  // describe('toSuperposition', () => {
-  //   it('present: will transform to alive', async () => {
-  //     const value: number = -201;
-  //
-  //     const unscharferelation: Unscharferelation<number> = Unscharferelation.of<number>(
-  //       (epoque: Chrono<number>) => {
-  //         epoque.accept(value);
-  //       }
-  //     );
-  //
-  //     const schrodinger: Schrodinger<number,
-  //       UnscharferelationError> = await unscharferelation.toSuperposition().terminate();
-  //
-  //     expect(schrodinger.isAlive()).toBe(true);
-  //     expect(schrodinger.get()).toBe(value);
-  //   });
-  //
-  //   it('present: if the value is Error, will transform to dead', async () => {
-  //     const value: MockError = new MockError();
-  //
-  //     const unscharferelation: Unscharferelation<MockError> = Unscharferelation.of<MockError>(
-  //       (epoque: Chrono<MockError>) => {
-  //         epoque.accept(value);
-  //       }
-  //     );
-  //
-  //     const schrodinger: Schrodinger<MockError,
-  //       UnscharferelationError> = await unscharferelation.toSuperposition().terminate();
-  //
-  //     expect(schrodinger.isDead()).toBe(true);
-  //     expect(() => {
-  //       schrodinger.get();
-  //     }).toThrow(UnscharferelationError);
-  //   });
-  //
-  //   it('absent: will transform to dead', async () => {
-  //     const unscharferelation: Unscharferelation<number> = Unscharferelation.of<number>(
-  //       (epoque: Chrono<number>) => {
-  //         epoque.decline();
-  //       }
-  //     );
-  //
-  //     const schrodinger: Schrodinger<number,
-  //       UnscharferelationError> = await unscharferelation.toSuperposition().terminate();
-  //
-  //     expect(schrodinger.isDead()).toBe(true);
-  //     expect(() => {
-  //       schrodinger.get();
-  //     }).toThrow(UnscharferelationError);
-  //   });
-  //
-  //   it('lost: will transform to contradiction', async () => {
-  //     const error: MockError = new MockError();
-  //
-  //     const unscharferelation: Unscharferelation<number> = Unscharferelation.of<number>(
-  //       (epoque: Chrono<number>) => {
-  //         epoque.throw(error);
-  //       }
-  //     );
-  //
-  //     const schrodinger: Schrodinger<number,
-  //       UnscharferelationError> = await unscharferelation.toSuperposition().terminate();
-  //
-  //     expect(schrodinger.isContradiction()).toBe(true);
-  //     expect(() => {
-  //       schrodinger.get();
-  //     }).toThrow(error);
-  //   });
-  // });
+  describe.skip('toSuperposition', () => {
+    it('present: will transform to alive', async () => {
+      expect.assertions(2);
+      const value: number = -201;
+
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.accept(value);
+        }
+      );
+
+      const schrodinger: Schrodinger<number, UnscharferelationError> = await unscharferelation.toSuperposition().terminate();
+
+      expect(schrodinger.isAlive()).toBe(true);
+      expect(schrodinger.get()).toBe(value);
+    });
+
+    it('present: if the value is Error, will transform to dead', async () => {
+      expect.assertions(2);
+      const value: MockError = new MockError();
+
+      const unscharferelation: Unscharferelation<MockError> = Unscharferelation.of<MockError>(
+        (epoque: Epoque<MockError>) => {
+          epoque.accept(value);
+        }
+      );
+
+      const schrodinger: Schrodinger<MockError, UnscharferelationError> = await unscharferelation.toSuperposition().terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(UnscharferelationError);
+    });
+
+    it('absent: will transform to dead', async () => {
+      expect.assertions(2);
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.decline();
+        }
+      );
+
+      const schrodinger: Schrodinger<number, UnscharferelationError> = await unscharferelation.toSuperposition().terminate();
+
+      expect(schrodinger.isDead()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(UnscharferelationError);
+    });
+
+    it('lost: will transform to contradiction', async () => {
+      expect.assertions(2);
+      const error: MockError = new MockError();
+
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.throw(error);
+        }
+      );
+
+      const schrodinger: Schrodinger<number, UnscharferelationError> = await unscharferelation.toSuperposition().terminate();
+
+      expect(schrodinger.isContradiction()).toBe(true);
+      expect(() => {
+        schrodinger.get();
+      }).toThrow(error);
+    });
+  });
 });

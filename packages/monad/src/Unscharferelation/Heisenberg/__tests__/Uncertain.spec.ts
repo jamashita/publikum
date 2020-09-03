@@ -10,6 +10,7 @@ import { Uncertain } from '../Uncertain';
 describe('Uncertain', () => {
   describe('get', () => {
     it('throws UnscharferelationError', () => {
+      expect.assertions(2);
       const uncertain1: Uncertain<void> = Uncertain.of<void>();
       const uncertain2: Uncertain<number> = Uncertain.of<number>();
 
@@ -24,6 +25,7 @@ describe('Uncertain', () => {
 
   describe('isPresent', () => {
     it('returns false', () => {
+      expect.assertions(2);
       const uncertain1: Uncertain<void> = Uncertain.of<void>();
       const uncertain2: Uncertain<number> = Uncertain.of<number>();
 
@@ -34,6 +36,7 @@ describe('Uncertain', () => {
 
   describe('isAbsent', () => {
     it('returns false', () => {
+      expect.assertions(2);
       const uncertain1: Uncertain<void> = Uncertain.of<void>();
       const uncertain2: Uncertain<number> = Uncertain.of<number>();
 
@@ -44,6 +47,7 @@ describe('Uncertain', () => {
 
   describe('isLost', () => {
     it('returns false', () => {
+      expect.assertions(2);
       const uncertain1: Uncertain<void> = Uncertain.of<void>();
       const uncertain2: Uncertain<number> = Uncertain.of<number>();
 
@@ -54,6 +58,7 @@ describe('Uncertain', () => {
 
   describe('ifPresent', () => {
     it('will not be invoked', () => {
+      expect.assertions(1);
       const spy: SinonSpy = sinon.spy();
 
       const uncertain: Uncertain<number> = Uncertain.of<number>();
@@ -68,6 +73,7 @@ describe('Uncertain', () => {
 
   describe('ifAbsent', () => {
     it('will not be invoked', () => {
+      expect.assertions(1);
       const spy: SinonSpy = sinon.spy();
 
       const uncertain: Uncertain<number> = Uncertain.of<number>();
@@ -82,6 +88,7 @@ describe('Uncertain', () => {
 
   describe('ifLost', () => {
     it('will not be invoked', () => {
+      expect.assertions(1);
       const spy: SinonSpy = sinon.spy();
 
       const uncertain: Uncertain<number> = Uncertain.of<number>();
@@ -96,6 +103,7 @@ describe('Uncertain', () => {
 
   describe('equals', () => {
     it('returns true if Uncertain given', () => {
+      expect.assertions(5);
       const present: Present<number> = Present.of<number>(2);
       const absent: Absent<number> = Absent.of<number>();
       const lost: Lost<number> = Lost.of<number>(new MockError());
@@ -113,6 +121,7 @@ describe('Uncertain', () => {
 
   describe('toString', () => {
     it('returns Uncertain', () => {
+      expect.assertions(1);
       expect(Uncertain.of<number>().toString()).toBe('Uncertain');
     });
   });

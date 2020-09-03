@@ -10,6 +10,10 @@ import { Schrodinger } from '../Schrodinger/Schrodinger';
 export class MockSuperposition<A, D extends Error> extends ValueObject<MockSuperposition<A, D>, 'MockSuperposition'> implements ISuperposition<A, D, 'MockSuperposition'> {
   public readonly noun: 'MockSuperposition' = 'MockSuperposition';
 
+  public constructor() {
+    super();
+  }
+
   public equals(): boolean {
     throw new UnimplementedError();
   }
@@ -22,7 +26,7 @@ export class MockSuperposition<A, D extends Error> extends ValueObject<MockSuper
     throw new UnimplementedError();
   }
 
-  public getErrors(): Array<DeadConstructor<D>> {
+  public getErrors(): Set<DeadConstructor<D>> {
     throw new UnimplementedError();
   }
 
@@ -38,11 +42,11 @@ export class MockSuperposition<A, D extends Error> extends ValueObject<MockSuper
     throw new UnimplementedError();
   }
 
-  public pass(): ISuperposition<A, D> {
+  public pass(): this {
     throw new UnimplementedError();
   }
 
-  public peek(): ISuperposition<A, D> {
+  public peek(): this {
     throw new UnimplementedError();
   }
 

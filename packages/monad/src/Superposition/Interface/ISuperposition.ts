@@ -9,7 +9,7 @@ import { Detoxicated } from './Detoxicated';
 export interface ISuperposition<A, D extends Error, N extends string = string> extends Nominative<ISuperposition<A, D, N>, N> {
   get(): Promise<Detoxicated<A>>;
 
-  getErrors(): Array<DeadConstructor<D>>;
+  getErrors(): Set<DeadConstructor<D>>;
 
   terminate(): Promise<Schrodinger<A, D>>;
 
@@ -31,9 +31,9 @@ export interface ISuperposition<A, D extends Error, N extends string = string> e
     ...errors: ReadonlyArray<DeadConstructor<E>>
   ): ISuperposition<B, E>;
 
-  pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): ISuperposition<A, D>;
+  pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): this;
 
-  peek(peek: Peek): ISuperposition<A, D>;
+  peek(peek: Peek): this;
 
   toUnscharferelation(): IUnscharferelation<A>;
 }
@@ -42,42 +42,42 @@ export const isSuperposition = <A, D extends Error>(value: unknown): value is IS
   if (!Kind.isObject<ISuperposition<A, D>>(value)) {
     return false;
   }
-  if (typeof value.get !== 'function') {
+  if (!Kind.isFunction(value.get)) {
     return false;
   }
-  if (typeof value.getErrors !== 'function') {
+  if (!Kind.isFunction(value.getErrors)) {
     return false;
   }
-  if (typeof value.terminate !== 'function') {
+  if (!Kind.isFunction(value.terminate)) {
     return false;
   }
-  if (typeof value.filter !== 'function') {
+  if (!Kind.isFunction(value.filter)) {
     return false;
   }
-  if (typeof value.map !== 'function') {
+  if (!Kind.isFunction(value.map)) {
     return false;
   }
-  if (typeof value.recover !== 'function') {
+  if (!Kind.isFunction(value.recover)) {
     return false;
   }
-  if (typeof value.transform !== 'function') {
+  if (!Kind.isFunction(value.transform)) {
     return false;
   }
-  if (typeof value.pass !== 'function') {
+  if (!Kind.isFunction(value.pass)) {
     return false;
   }
-  if (typeof value.peek !== 'function') {
+  if (!Kind.isFunction(value.peek)) {
     return false;
   }
-  if (typeof value.toUnscharferelation !== 'function') {
+  if (!Kind.isFunction(value.toUnscharferelation)) {
     return false;
   }
 
   return true;
 };
 
-export const containsError = <E extends Error>(err: unknown, errors: Array<DeadConstructor<E>>): err is E => {
-  return errors.some((error: DeadConstructor<E>) => {
+export const containsError = <E extends Error>(err: unknown, errors: Set<DeadConstructor<E>>): err is E => {
+  return [...errors].some((error: DeadConstructor<E>) => {
     return Kind.isClass<DeadConstructor<E>>(err, error);
   });
 };

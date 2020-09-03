@@ -21,15 +21,15 @@ export class MockUnscharferelation<P> extends ValueObject<MockUnscharferelation<
     throw new UnimplementedError();
   }
 
-  public filter(): MockUnscharferelation<P> {
+  public filter(): IUnscharferelation<P> {
     throw new UnimplementedError();
   }
 
-  public map<Q = P>(): MockUnscharferelation<Q> {
+  public map<Q = P>(): IUnscharferelation<Q> {
     throw new UnimplementedError();
   }
 
-  public recover<Q = P>(): MockUnscharferelation<P | Q> {
+  public recover<Q = P>(): IUnscharferelation<P | Q> {
     throw new UnimplementedError();
   }
 
@@ -37,11 +37,11 @@ export class MockUnscharferelation<P> extends ValueObject<MockUnscharferelation<
     throw new UnimplementedError();
   }
 
-  public pass(): MockUnscharferelation<P> {
+  public pass(): this {
     throw new UnimplementedError();
   }
 
-  public peek(): MockUnscharferelation<P> {
+  public peek(): this {
     throw new UnimplementedError();
   }
 
