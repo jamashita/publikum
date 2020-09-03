@@ -58,7 +58,7 @@
     "husky": "4.2.5",
     "jest": "26.4.2",
     "lerna": "3.22.1",
-    "lint-staged": "10.2.13",
+    "lint-staged": "10.3.0",
     "nock": "13.0.4",
     "npm-check-updates": "8.0.5",
     "rimraf": "3.0.2",
