@@ -1,9 +1,9 @@
 import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
-import { Epoque } from '../../Epoque/Interface/Epoque';
-import { PassThroughEpoque } from '../../Epoque/PassThroughEpoque';
 import { Unscharferelation } from '../../Unscharferelation';
+import { Epoque } from '../Interface/Epoque';
+import { PassThroughEpoque } from '../PassThroughEpoque';
 import { PresentEpoque } from '../PresentEpoque';
 
 describe('PresentEpoque', () => {

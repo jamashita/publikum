@@ -12,12 +12,14 @@ import {
 import { Chrono } from '../Superposition/Chrono/Interface/Chrono';
 import { Detoxicated } from '../Superposition/Interface/Detoxicated';
 import { SuperpositionInternal } from '../Superposition/SuperpositionInternal';
+import { AbsentEpoque } from './Epoque/AbsentEpoque';
 import { CombinedEpoque } from './Epoque/CombinedEpoque';
 import { AcceptEpoque } from './Epoque/Interface/AcceptEpoque';
 import { DeclineEpoque } from './Epoque/Interface/DeclineEpoque';
 import { Epoque } from './Epoque/Interface/Epoque';
 import { ThrowEpoque } from './Epoque/Interface/ThrowEpoque';
 import { PassThroughEpoque } from './Epoque/PassThroughEpoque';
+import { PresentEpoque } from './Epoque/PresentEpoque';
 import { UnscharferelationError } from './Error/UnscharferelationError';
 import { Absent } from './Heisenberg/Absent';
 import { Heisenberg } from './Heisenberg/Heisenberg';
@@ -26,8 +28,6 @@ import { Present } from './Heisenberg/Present';
 import { Uncertain } from './Heisenberg/Uncertain';
 import { IUnscharferelation } from './Interface/IUnscharferelation';
 import { Matter } from './Interface/Matter';
-import { AbsentEpoque } from './Plan/AbsentEpoque';
-import { PresentEpoque } from './Plan/PresentEpoque';
 
 export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationInternal<P>, 'UnscharferelationInternal'>
   implements IUnscharferelation<P, 'UnscharferelationInternal'>, Epoque<P> {

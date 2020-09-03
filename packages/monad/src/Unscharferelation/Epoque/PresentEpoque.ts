@@ -1,32 +1,35 @@
-import { Kind, Supplier, Suspicious } from '@jamashita/publikum-type';
-import { DeclineEpoque } from '../Epoque/Interface/DeclineEpoque';
-import { Epoque } from '../Epoque/Interface/Epoque';
+import { Kind, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 import { isUnscharferelation, IUnscharferelation } from '../Interface/IUnscharferelation';
 import { Matter } from '../Interface/Matter';
+import { AcceptEpoque } from './Interface/AcceptEpoque';
+import { Epoque } from './Interface/Epoque';
 
-export class AbsentEpoque<Q> implements DeclineEpoque<'AbsentEpoque'> {
-  public readonly noun: 'AbsentEpoque' = 'AbsentEpoque';
-  private readonly mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>;
+export class PresentEpoque<P, Q> implements AcceptEpoque<P, 'PresentEpoque'> {
+  public readonly noun: 'PresentEpoque' = 'PresentEpoque';
+  private readonly mapper: UnaryFunction<Matter<P>,
+    IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>;
   private readonly epoque: Epoque<Q>;
 
-  public static of<QT>(
-    mapper: Supplier<IUnscharferelation<QT> | PromiseLike<Suspicious<Matter<QT>>> | Suspicious<Matter<QT>>>,
+  public static of<PT, QT>(
+    mapper: UnaryFunction<Matter<PT>,
+      IUnscharferelation<QT> | PromiseLike<Suspicious<Matter<QT>>> | Suspicious<Matter<QT>>>,
     epoque: Epoque<QT>
-  ): AbsentEpoque<QT> {
-    return new AbsentEpoque<QT>(mapper, epoque);
+  ): PresentEpoque<PT, QT> {
+    return new PresentEpoque<PT, QT>(mapper, epoque);
   }
 
   protected constructor(
-    mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>,
+    mapper: UnaryFunction<Matter<P>,
+      IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>,
     epoque: Epoque<Q>
   ) {
     this.mapper = mapper;
     this.epoque = epoque;
   }
 
-  public decline(): unknown {
+  public accept(value: Matter<P>): unknown {
     try {
-      const mapped: IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>> = this.mapper();
+      const mapped: IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>> = this.mapper(value);
 
       if (isUnscharferelation<Q>(mapped)) {
         return mapped.pass(
