@@ -1,5 +1,4 @@
 import { ValueObject } from '@jamashita/publikum-object';
-import { Consumer } from '@jamashita/publikum-type';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Absent } from './Absent';
 import { Heisenberg } from './Heisenberg';
@@ -38,18 +37,15 @@ export class Uncertain<P> extends ValueObject<Uncertain<P>, 'Uncertain'> impleme
     return false;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifPresent(_consumer: Consumer<P>): void {
+  public ifPresent(): void {
     // NOOP
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifAbsent(_consumer: Consumer<void>): void {
+  public ifAbsent(): void {
     // NOOP
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifLost(_consumer: Consumer<unknown>): void {
+  public ifLost(): void {
     // NOOP
   }
 

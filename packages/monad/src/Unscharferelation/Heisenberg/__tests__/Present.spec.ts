@@ -106,7 +106,7 @@ describe('Present', () => {
 
   describe('ifPresent', () => {
     it('will be invoked', () => {
-      expect.assertions(1);
+      expect.assertions(2);
       const value: number = 1;
 
       const spy: SinonSpy = sinon.spy();
@@ -131,6 +131,7 @@ describe('Present', () => {
 
       const present: Present<number> = Present.of<number>(value);
 
+      // @ts-expect-error
       present.ifAbsent(() => {
         spy();
       });
@@ -148,6 +149,7 @@ describe('Present', () => {
 
       const present: Present<number> = Present.of<number>(value);
 
+      // @ts-expect-error
       present.ifLost(() => {
         spy();
       });

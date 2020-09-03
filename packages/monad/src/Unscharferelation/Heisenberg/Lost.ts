@@ -37,13 +37,11 @@ export class Lost<P> extends ValueObject<Lost<P>, 'Lost'> implements Heisenberg<
     return true;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifPresent(_consumer: Consumer<P>): void {
+  public ifPresent(): void {
     // NOOP
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifAbsent(_consumer: Consumer<void>): void {
+  public ifAbsent(): void {
     // NOOP
   }
 

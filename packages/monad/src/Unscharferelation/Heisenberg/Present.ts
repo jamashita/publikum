@@ -43,13 +43,11 @@ export class Present<P> extends ValueObject<Present<P>, 'Present'> implements He
     consumer(this.value);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifAbsent(_consumer: Consumer<void>): void {
+  public ifAbsent(): void {
     // NOOP
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifLost(_consumer: Consumer<unknown>): void {
+  public ifLost(): void {
     // NOOP
   }
 

@@ -37,8 +37,7 @@ export class Absent<P> extends ValueObject<Absent<P>, 'Absent'> implements Heise
     return false;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifPresent(_consumer: Consumer<P>): void {
+  public ifPresent(): void {
     // NOOP
   }
 
@@ -46,8 +45,7 @@ export class Absent<P> extends ValueObject<Absent<P>, 'Absent'> implements Heise
     consumer();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public ifLost(_consumer: Consumer<unknown>): void {
+  public ifLost(): void {
     // NOOP
   }
 

@@ -63,6 +63,7 @@ describe('Uncertain', () => {
 
       const uncertain: Uncertain<number> = Uncertain.of<number>();
 
+      // @ts-expect-error
       uncertain.ifPresent(() => {
         spy();
       });
@@ -78,6 +79,7 @@ describe('Uncertain', () => {
 
       const uncertain: Uncertain<number> = Uncertain.of<number>();
 
+      // @ts-expect-error
       uncertain.ifAbsent(() => {
         spy();
       });
@@ -93,6 +95,7 @@ describe('Uncertain', () => {
 
       const uncertain: Uncertain<number> = Uncertain.of<number>();
 
+      // @ts-expect-error
       uncertain.ifLost(() => {
         spy();
       });

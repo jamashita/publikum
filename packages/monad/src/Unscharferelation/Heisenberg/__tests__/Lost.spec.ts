@@ -75,6 +75,7 @@ describe('Lost', () => {
 
       const lost: Lost<number> = Lost.of<number>(error);
 
+      // @ts-expect-error
       lost.ifPresent(() => {
         spy();
       });
@@ -92,6 +93,7 @@ describe('Lost', () => {
 
       const lost: Lost<number> = Lost.of<number>(error);
 
+      // @ts-expect-error
       lost.ifAbsent(() => {
         spy();
       });
