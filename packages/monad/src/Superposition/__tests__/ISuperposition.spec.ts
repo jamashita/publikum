@@ -5,7 +5,7 @@ import { containsError, isSuperposition } from '../Interface/ISuperposition';
 import { Superposition } from '../Superposition';
 import { SuperpositionInternal } from '../SuperpositionInternal';
 
-describe.skip('ISuperposition', () => {
+describe('ISuperposition', () => {
   describe('is', () => {
     it('normal case', () => {
       expect.assertions(25);
@@ -42,7 +42,7 @@ describe.skip('ISuperposition', () => {
           get() {
             // NOOP
           },
-          getError() {
+          getErrors() {
             // NOOP
           }
         })
@@ -52,7 +52,7 @@ describe.skip('ISuperposition', () => {
           get() {
             // NOOP
           },
-          getError() {
+          getErrors() {
             // NOOP
           },
           terminate() {
@@ -65,7 +65,7 @@ describe.skip('ISuperposition', () => {
           get() {
             // NOOP
           },
-          getError() {
+          getErrors() {
             // NOOP
           },
           terminate() {
@@ -81,7 +81,7 @@ describe.skip('ISuperposition', () => {
           get() {
             // NOOP
           },
-          getError() {
+          getErrors() {
             // NOOP
           },
           terminate() {
@@ -100,7 +100,7 @@ describe.skip('ISuperposition', () => {
           get() {
             // NOOP
           },
-          getError() {
+          getErrors() {
             // NOOP
           },
           terminate() {
@@ -122,7 +122,7 @@ describe.skip('ISuperposition', () => {
           get() {
             // NOOP
           },
-          getError() {
+          getErrors() {
             // NOOP
           },
           terminate() {
@@ -147,7 +147,7 @@ describe.skip('ISuperposition', () => {
           get() {
             // NOOP
           },
-          getError() {
+          getErrors() {
             // NOOP
           },
           terminate() {
@@ -175,7 +175,7 @@ describe.skip('ISuperposition', () => {
           get() {
             // NOOP
           },
-          getError() {
+          getErrors() {
             // NOOP
           },
           terminate() {
@@ -206,7 +206,7 @@ describe.skip('ISuperposition', () => {
           get() {
             // NOOP
           },
-          getError() {
+          getErrors() {
             // NOOP
           },
           terminate() {
