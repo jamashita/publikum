@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-zeit",
-  "version": "2.6.4",
+  "version": "2.7.0",
   "private": false,
   "repository": {
     "type": "git",
@@ -32,8 +32,8 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^2.6.4",
-    "@jamashita/publikum-object": "^2.6.4",
+    "@jamashita/publikum-error": "^2.7.0",
+    "@jamashita/publikum-object": "^2.7.0",
     "dayjs": "1.8.35"
   },
   "devDependencies": {
