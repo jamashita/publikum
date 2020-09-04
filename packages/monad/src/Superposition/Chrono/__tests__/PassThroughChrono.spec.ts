@@ -1,5 +1,6 @@
 import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
+import { DeadConstructor } from '../../Interface/DeadConstructor';
 import { PassThroughChrono } from '../PassThroughChrono';
 
 describe('PassThroughChrono', () => {
@@ -22,7 +23,8 @@ describe('PassThroughChrono', () => {
         },
         () => {
           spy3();
-        }
+        },
+        new Set<DeadConstructor<MockError>>()
       );
 
       chrono.accept(value);
@@ -52,7 +54,8 @@ describe('PassThroughChrono', () => {
         },
         () => {
           spy3();
-        }
+        },
+        new Set<DeadConstructor<MockError>>()
       );
 
       chrono.decline(value);
@@ -82,7 +85,8 @@ describe('PassThroughChrono', () => {
         (v: unknown) => {
           spy3();
           expect(v).toBe(value);
-        }
+        },
+        new Set<DeadConstructor<MockError>>()
       );
 
       chrono.throw(value);
