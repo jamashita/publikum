@@ -1,9 +1,9 @@
 import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { PassThroughPlan } from '../../../Plan/PassThroughPlan';
-import { CombinedPlan } from '../CombinedPlan';
+import { CombinedChronoPlan } from '../CombinedChronoPlan';
 
-describe('CombinedPlan', () => {
+describe('CombinedChronoPlan', () => {
   describe('onMap', () => {
     it('normal case', () => {
       expect.assertions(4);
@@ -25,7 +25,7 @@ describe('CombinedPlan', () => {
           spy3();
         }
       );
-      const plan: CombinedPlan<number, MockError> = CombinedPlan.of<number, MockError>(pass, pass, pass);
+      const plan: CombinedChronoPlan<number, MockError> = CombinedChronoPlan.of<number, MockError>(pass, pass, pass);
 
       plan.onMap(value);
 
@@ -56,7 +56,7 @@ describe('CombinedPlan', () => {
           spy3();
         }
       );
-      const plan: CombinedPlan<number, MockError> = CombinedPlan.of<number, MockError>(pass, pass, pass);
+      const plan: CombinedChronoPlan<number, MockError> = CombinedChronoPlan.of<number, MockError>(pass, pass, pass);
 
       plan.onRecover(value);
 
@@ -87,7 +87,7 @@ describe('CombinedPlan', () => {
           expect(v).toBe(value);
         }
       );
-      const plan: CombinedPlan<number, MockError> = CombinedPlan.of<number, MockError>(pass, pass, pass);
+      const plan: CombinedChronoPlan<number, MockError> = CombinedChronoPlan.of<number, MockError>(pass, pass, pass);
 
       plan.onDestroy(value);
 

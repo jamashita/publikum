@@ -4,14 +4,14 @@ import { MapPlan } from '../../Plan/Interface/MapPlan';
 import { Plan } from '../../Plan/Interface/Plan';
 import { RecoveryPlan } from '../../Plan/Interface/RecoveryPlan';
 
-export class CombinedPlan<A, D extends Error> implements Plan<Detoxicated<A>, D, 'CombinedPlan'> {
-  public readonly noun: 'CombinedPlan' = 'CombinedPlan';
+export class CombinedChronoPlan<A, D extends Error> implements Plan<Detoxicated<A>, D, 'CombinedChronoPlan'> {
+  public readonly noun: 'CombinedChronoPlan' = 'CombinedChronoPlan';
   private readonly map: MapPlan<Detoxicated<A>>;
   private readonly recover: RecoveryPlan<D>;
   private readonly destroy: DestroyPlan;
 
-  public static of<AT, DT extends Error>(map: MapPlan<Detoxicated<AT>>, recover: RecoveryPlan<DT>, destroy: DestroyPlan): CombinedPlan<AT, DT> {
-    return new CombinedPlan<AT, DT>(map, recover, destroy);
+  public static of<AT, DT extends Error>(map: MapPlan<Detoxicated<AT>>, recover: RecoveryPlan<DT>, destroy: DestroyPlan): CombinedChronoPlan<AT, DT> {
+    return new CombinedChronoPlan<AT, DT>(map, recover, destroy);
   }
 
   protected constructor(map: MapPlan<Detoxicated<A>>, recover: RecoveryPlan<D>, destroy: DestroyPlan) {

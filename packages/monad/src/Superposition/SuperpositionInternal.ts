@@ -14,7 +14,7 @@ import { DeadConstructor } from './Interface/DeadConstructor';
 import { Detoxicated } from './Interface/Detoxicated';
 import { ISuperposition } from './Interface/ISuperposition';
 import { AlivePlan } from './Plan/AlivePlan';
-import { CombinedPlan } from './Plan/CombinedPlan';
+import { CombinedChronoPlan } from './Plan/CombinedChronoPlan';
 import { DeadPlan } from './Plan/DeadPlan';
 import { DestroyChronoPlan } from './Plan/DestroyChronoPlan';
 import { MapChronoPlan } from './Plan/MapChronoPlan';
@@ -239,6 +239,6 @@ export class SuperpositionInternal<A, D extends Error> extends ValueObject<Super
       return destroy.onDestroy(this.schrodinger.getCause());
     }
 
-    return this.plans.add(CombinedPlan.of<A, D>(map, recover, destroy));
+    return this.plans.add(CombinedChronoPlan.of<A, D>(map, recover, destroy));
   }
 }
