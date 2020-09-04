@@ -27,7 +27,7 @@ describe('CombinedChrono', () => {
         },
         new Set<DeadConstructor<MockError>>()
       );
-      const chrono: CombinedChrono<number, MockError> = CombinedChrono.of<number, MockError>(pass, pass, pass);
+      const chrono: CombinedChrono<number, MockError> = CombinedChrono.of<number, MockError>(pass, pass, pass, new Set<DeadConstructor<MockError>>([MockError]));
 
       chrono.accept(value);
 
@@ -59,7 +59,7 @@ describe('CombinedChrono', () => {
         },
         new Set<DeadConstructor<MockError>>()
       );
-      const chrono: CombinedChrono<number, MockError> = CombinedChrono.of<number, MockError>(pass, pass, pass);
+      const chrono: CombinedChrono<number, MockError> = CombinedChrono.of<number, MockError>(pass, pass, pass, new Set<DeadConstructor<MockError>>([MockError]));
 
       chrono.decline(value);
 
@@ -91,7 +91,7 @@ describe('CombinedChrono', () => {
         },
         new Set<DeadConstructor<MockError>>()
       );
-      const chrono: CombinedChrono<number, MockError> = CombinedChrono.of<number, MockError>(pass, pass, pass);
+      const chrono: CombinedChrono<number, MockError> = CombinedChrono.of<number, MockError>(pass, pass, pass, new Set<DeadConstructor<MockError>>([MockError]));
 
       chrono.throw(value);
 
