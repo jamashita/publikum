@@ -11,7 +11,7 @@ import { Schrodinger } from '../Schrodinger/Schrodinger';
 import { Still } from '../Schrodinger/Still';
 import { Superposition } from '../Superposition';
 
-describe('Superposition', () => {
+describe.skip('Superposition', () => {
   describe('all', () => {
     it('no superpositions', async () => {
       expect.assertions(2);

@@ -24,7 +24,7 @@ describe('ASequence', () => {
 
   describe('get', () => {
     it('returns its value at the correct index', () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const nounArray: Array<MockNominative<number>> = [
         new MockNominative<number>(1),
         new MockNominative<number>(2),
@@ -86,7 +86,7 @@ describe('ASequence', () => {
 
   describe('forEach', () => {
     it('normal case', () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const nouns: MockSequence<MockNominative<number>> = new MockSequence<MockNominative<number>>([
         new MockNominative<number>(1),
         new MockNominative<number>(2),
@@ -177,7 +177,7 @@ describe('ASequence', () => {
 
   describe('every', () => {
     it('normal case', () => {
-      expect.assertions(4);
+      expect.assertions(1);
       const nouns: MockSequence<MockNominative<number>> = new MockSequence<MockNominative<number>>([
         new MockNominative<number>(2),
         new MockNominative<number>(4),
@@ -402,7 +402,7 @@ describe('ASequence', () => {
 
   describe('toArray', () => {
     it('normal case', () => {
-      expect.assertions(3);
+      expect.assertions(4);
       const nounArray: Array<MockNominative<number>> = [
         new MockNominative<number>(1),
         new MockNominative<number>(2),
@@ -418,7 +418,7 @@ describe('ASequence', () => {
     });
 
     it('does not return the array itself', () => {
-      expect.assertions(3);
+      expect.assertions(1);
       const nounArray: Array<MockNominative<number>> = [
         new MockNominative<number>(1),
         new MockNominative<number>(2),

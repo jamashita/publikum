@@ -54,7 +54,7 @@ describe('ImmutableProject', () => {
 
   describe('set', () => {
     it('can extend immutably', () => {
-      expect.assertions(9);
+      expect.assertions(10);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);

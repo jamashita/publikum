@@ -9,7 +9,7 @@ import { PresentEpoque } from '../PresentEpoque';
 describe('PresentEpoque', () => {
   describe('accept', () => {
     it('p given', () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -47,7 +47,7 @@ describe('PresentEpoque', () => {
     });
 
     it('promise<P> given', async () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -93,7 +93,7 @@ describe('PresentEpoque', () => {
     });
 
     it('present Unscharferelation given', async () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -141,7 +141,7 @@ describe('PresentEpoque', () => {
     });
 
     it('null given', () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -178,7 +178,7 @@ describe('PresentEpoque', () => {
     });
 
     it('undefined given', async () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -195,9 +195,8 @@ describe('PresentEpoque', () => {
             return undefined;
           },
           PassThroughEpoque.of<number>(
-            (n: number) => {
+            () => {
               spy2();
-              expect(n).toBe(value - 6);
 
               resolve();
             },
@@ -224,7 +223,7 @@ describe('PresentEpoque', () => {
     });
 
     it('promise<null> given', async () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -241,9 +240,8 @@ describe('PresentEpoque', () => {
             return Promise.resolve<null>(null);
           },
           PassThroughEpoque.of<number>(
-            (n: number) => {
+            () => {
               spy2();
-              expect(n).toBe(value - 6);
 
               resolve();
             },
@@ -280,16 +278,14 @@ describe('PresentEpoque', () => {
 
       await new Promise<void>((resolve: Resolve<void>) => {
         const epoque: PresentEpoque<number, number> = PresentEpoque.of<number, number>(
-          (n: number) => {
+          () => {
             spy1();
-            expect(n).toBe(value);
 
             return Promise.resolve<undefined>(undefined);
           },
           PassThroughEpoque.of<number>(
-            (n: number) => {
+            () => {
               spy2();
-              expect(n).toBe(value - 6);
 
               resolve();
             },
@@ -316,7 +312,7 @@ describe('PresentEpoque', () => {
     });
 
     it('absent Unscharferelation given', async () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -335,9 +331,8 @@ describe('PresentEpoque', () => {
             });
           },
           PassThroughEpoque.of<number>(
-            (n: number) => {
+            () => {
               spy2();
-              expect(n).toBe(value - 6);
 
               resolve();
             },
@@ -364,7 +359,7 @@ describe('PresentEpoque', () => {
     });
 
     it('error thrown', () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 10;
       const error: MockError = new MockError();
 
@@ -403,7 +398,7 @@ describe('PresentEpoque', () => {
     });
 
     it('promise rejected given', async () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 10;
       const error: MockError = new MockError();
 
@@ -450,7 +445,7 @@ describe('PresentEpoque', () => {
     });
 
     it('lost Unscharferelation given', async () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 10;
       const error: MockError = new MockError();
 

@@ -9,7 +9,7 @@ import { PassThroughEpoque } from '../PassThroughEpoque';
 describe('AbsentEpoque', () => {
   describe('decline', () => {
     it('p given', () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -46,7 +46,7 @@ describe('AbsentEpoque', () => {
     });
 
     it('promise<P> given', async () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -91,7 +91,7 @@ describe('AbsentEpoque', () => {
     });
 
     it('present Unscharferelation given', async () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -350,7 +350,7 @@ describe('AbsentEpoque', () => {
     });
 
     it('error thrown', () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -387,7 +387,7 @@ describe('AbsentEpoque', () => {
     });
 
     it('promise rejected given', async () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -432,7 +432,7 @@ describe('AbsentEpoque', () => {
     });
 
     it('lost Unscharferelation given', async () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();

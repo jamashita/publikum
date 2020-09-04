@@ -56,7 +56,7 @@ describe('ImmutableSequence', () => {
     });
 
     it('can extend immutably', () => {
-      expect.assertions(22);
+      expect.assertions(23);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -98,7 +98,7 @@ describe('ImmutableSequence', () => {
     });
 
     it('apply spread syntax', () => {
-      expect.assertions(14);
+      expect.assertions(15);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);

@@ -6,7 +6,7 @@ import { MockAddress } from '../Mock/MockAddress';
 describe('AAddress', () => {
   describe('iterator', () => {
     it('normal case', () => {
-      expect.assertions(1);
+      expect.assertions(2);
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const values: Array<MockNominative<number>> = [noun1, noun2];

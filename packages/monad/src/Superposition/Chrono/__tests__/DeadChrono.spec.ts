@@ -9,7 +9,7 @@ import { PassThroughChrono } from '../PassThroughChrono';
 describe('DeadChrono', () => {
   describe('decline', () => {
     it('a given', () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 101;
       const error: MockError = new MockError();
 
@@ -49,7 +49,7 @@ describe('DeadChrono', () => {
     });
 
     it('promise<A> given', async () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 101;
       const error: MockError = new MockError();
 
@@ -97,7 +97,7 @@ describe('DeadChrono', () => {
     });
 
     it('alive Superposition<A, D> given', async () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 101;
       const error: MockError = new MockError();
 
@@ -145,7 +145,7 @@ describe('DeadChrono', () => {
     });
 
     it('d thrown', () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -184,7 +184,7 @@ describe('DeadChrono', () => {
     });
 
     it('promise<A> rejected', async () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -231,7 +231,7 @@ describe('DeadChrono', () => {
     });
 
     it('dead Superposition<A, D> given', async () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -278,7 +278,7 @@ describe('DeadChrono', () => {
     });
 
     it('error thrown', () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -297,9 +297,8 @@ describe('DeadChrono', () => {
           () => {
             spy2();
           },
-          (e: MockError) => {
+          () => {
             spy3();
-            expect(e).toBe(error);
           },
           () => {
             spy4();
@@ -316,7 +315,7 @@ describe('DeadChrono', () => {
     });
 
     it('promise rejected given', async () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -338,9 +337,8 @@ describe('DeadChrono', () => {
 
               resolve();
             },
-            (e: MockError) => {
+            () => {
               spy3();
-              expect(e).toBe(error);
 
               resolve();
             },
@@ -362,7 +360,7 @@ describe('DeadChrono', () => {
     });
 
     it('contradiction Superposition given', async () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const error: MockError = new MockError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -386,9 +384,8 @@ describe('DeadChrono', () => {
 
               resolve();
             },
-            (e: MockError) => {
+            () => {
               spy3();
-              expect(e).toBe(error);
 
               resolve();
             },

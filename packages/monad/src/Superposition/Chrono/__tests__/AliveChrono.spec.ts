@@ -9,7 +9,7 @@ import { PassThroughChrono } from '../PassThroughChrono';
 describe('AliveChrono', () => {
   describe('accept', () => {
     it('a given', () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 101;
 
       const spy1: SinonSpy = sinon.spy();
@@ -47,7 +47,7 @@ describe('AliveChrono', () => {
     });
 
     it('promise<A> given', async () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 101;
 
       const spy1: SinonSpy = sinon.spy();
@@ -93,7 +93,7 @@ describe('AliveChrono', () => {
     });
 
     it('alive Superposition<A, D> given', async () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 101;
 
       const spy1: SinonSpy = sinon.spy();
@@ -139,7 +139,7 @@ describe('AliveChrono', () => {
     });
 
     it('d thrown', () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 101;
       const error: MockError = new MockError();
 
@@ -179,7 +179,7 @@ describe('AliveChrono', () => {
     });
 
     it('promise<A> rejected', async () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 101;
       const error: MockError = new MockError();
 
@@ -227,7 +227,7 @@ describe('AliveChrono', () => {
     });
 
     it('dead Superposition<A, D> given', async () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 101;
       const error: MockError = new MockError();
 
@@ -275,7 +275,7 @@ describe('AliveChrono', () => {
     });
 
     it('error thrown', () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 101;
       const error: MockError = new MockError();
 
@@ -314,7 +314,7 @@ describe('AliveChrono', () => {
     });
 
     it('promise rejected given', async () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 101;
       const error: MockError = new MockError();
 
@@ -361,7 +361,7 @@ describe('AliveChrono', () => {
     });
 
     it('contradiction Superposition given', async () => {
-      expect.assertions(4);
+      expect.assertions(6);
       const value: number = 101;
       const error: MockError = new MockError();
 

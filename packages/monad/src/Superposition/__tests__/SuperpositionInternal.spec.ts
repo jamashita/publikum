@@ -7,7 +7,7 @@ import { SuperpositionError } from '../Error/SuperpositionError';
 import { Schrodinger } from '../Schrodinger/Schrodinger';
 import { SuperpositionInternal } from '../SuperpositionInternal';
 
-describe('SuperpositionInternal', () => {
+describe.skip('SuperpositionInternal', () => {
   describe('accept', () => {
     it('if done once, do nothing', async () => {
       expect.assertions(2);
