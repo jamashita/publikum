@@ -5,9 +5,9 @@ import { Chrono } from '../../Chrono/Interface/Chrono';
 import { MockChrono } from '../../Chrono/Mock/MockChrono';
 import { DeadConstructor } from '../../Interface/DeadConstructor';
 import { Superposition } from '../../Superposition';
-import { AliveChronoPlan } from '../AliveChronoPlan';
+import { AlivePlan } from '../AlivePlan';
 
-describe('AliveChronoPlan', () => {
+describe('AlivePlan', () => {
   describe('onMap', () => {
     it('a given', () => {
       expect.assertions(6);
@@ -18,7 +18,7 @@ describe('AliveChronoPlan', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const plan: AliveChronoPlan<number, number, MockError> = AliveChronoPlan.of<number, number, MockError>(
+      const plan: AlivePlan<number, number, MockError> = AlivePlan.of<number, number, MockError>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -58,7 +58,7 @@ describe('AliveChronoPlan', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const plan: AliveChronoPlan<number, number, MockError> = AliveChronoPlan.of<number, number, MockError>(
+        const plan: AlivePlan<number, number, MockError> = AlivePlan.of<number, number, MockError>(
           (n: number) => {
             spy1();
             expect(n).toBe(value);
@@ -105,7 +105,7 @@ describe('AliveChronoPlan', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const plan: AliveChronoPlan<number, number, MockError> = AliveChronoPlan.of<number, number, MockError>(
+        const plan: AlivePlan<number, number, MockError> = AlivePlan.of<number, number, MockError>(
           (n: number) => {
             spy1();
             expect(n).toBe(value);
@@ -152,7 +152,7 @@ describe('AliveChronoPlan', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const plan: AliveChronoPlan<number, number, MockError> = AliveChronoPlan.of<number, number, MockError>(
+      const plan: AlivePlan<number, number, MockError> = AlivePlan.of<number, number, MockError>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -193,7 +193,7 @@ describe('AliveChronoPlan', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const plan: AliveChronoPlan<number, number, MockError> = AliveChronoPlan.of<number, number, MockError>(
+        const plan: AlivePlan<number, number, MockError> = AlivePlan.of<number, number, MockError>(
           (n: number) => {
             spy1();
             expect(n).toBe(value);
@@ -241,7 +241,7 @@ describe('AliveChronoPlan', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const plan: AliveChronoPlan<number, number, MockError> = AliveChronoPlan.of<number, number, MockError>(
+        const plan: AlivePlan<number, number, MockError> = AlivePlan.of<number, number, MockError>(
           (n: number) => {
             spy1();
             expect(n).toBe(value);
@@ -288,7 +288,7 @@ describe('AliveChronoPlan', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const plan: AliveChronoPlan<number, number, MockError> = AliveChronoPlan.of<number, number, MockError>(
+      const plan: AlivePlan<number, number, MockError> = AlivePlan.of<number, number, MockError>(
         (n: number) => {
           spy1();
           expect(n).toBe(value);
@@ -329,7 +329,7 @@ describe('AliveChronoPlan', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const plan: AliveChronoPlan<number, number, MockError> = AliveChronoPlan.of<number, number, MockError>(
+        const plan: AlivePlan<number, number, MockError> = AlivePlan.of<number, number, MockError>(
           (n: number) => {
             spy1();
             expect(n).toBe(value);
@@ -377,7 +377,7 @@ describe('AliveChronoPlan', () => {
       const spy4: SinonSpy = sinon.spy();
 
       await new Promise<void>((resolve: Resolve<void>) => {
-        const plan: AliveChronoPlan<number, number, MockError> = AliveChronoPlan.of<number, number, MockError>(
+        const plan: AlivePlan<number, number, MockError> = AlivePlan.of<number, number, MockError>(
           (n: number) => {
             spy1();
             expect(n).toBe(value);

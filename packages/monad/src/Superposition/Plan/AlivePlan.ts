@@ -4,16 +4,16 @@ import { Chrono } from '../Chrono/Interface/Chrono';
 import { Detoxicated } from '../Interface/Detoxicated';
 import { containsError, isSuperposition, ISuperposition } from '../Interface/ISuperposition';
 
-export class AliveChronoPlan<A, B, E extends Error> implements MapPlan<Detoxicated<A>, 'AliveChronoPlan'> {
-  public readonly noun: 'AliveChronoPlan' = 'AliveChronoPlan';
+export class AlivePlan<A, B, E extends Error> implements MapPlan<Detoxicated<A>, 'AlivePlan'> {
+  public readonly noun: 'AlivePlan' = 'AlivePlan';
   private readonly mapper: UnaryFunction<Detoxicated<A>, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>;
   private readonly chrono: Chrono<B, E>;
 
   public static of<AT, BT, ET extends Error>(
     mapper: UnaryFunction<Detoxicated<AT>, ISuperposition<BT, ET> | PromiseLike<Detoxicated<BT>> | Detoxicated<BT>>,
     chrono: Chrono<BT, ET>
-  ): AliveChronoPlan<AT, BT, ET> {
-    return new AliveChronoPlan<AT, BT, ET>(mapper, chrono);
+  ): AlivePlan<AT, BT, ET> {
+    return new AlivePlan<AT, BT, ET>(mapper, chrono);
   }
 
   protected constructor(

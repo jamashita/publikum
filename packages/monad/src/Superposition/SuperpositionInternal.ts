@@ -13,7 +13,7 @@ import { SuperpositionError } from './Error/SuperpositionError';
 import { DeadConstructor } from './Interface/DeadConstructor';
 import { Detoxicated } from './Interface/Detoxicated';
 import { ISuperposition } from './Interface/ISuperposition';
-import { AliveChronoPlan } from './Plan/AliveChronoPlan';
+import { AlivePlan } from './Plan/AlivePlan';
 import { CombinedPlan } from './Plan/CombinedPlan';
 import { DeadChronoPlan } from './Plan/DeadChronoPlan';
 import { DestroyChronoPlan } from './Plan/DestroyChronoPlan';
@@ -112,7 +112,7 @@ export class SuperpositionInternal<A, D extends Error> extends ValueObject<Super
   ): SuperpositionInternal<B, D | E> {
     return SuperpositionInternal.of<B, D | E>((chrono: Chrono<B, D | E>) => {
       return this.handle(
-        AliveChronoPlan.of<A, B, D | E>(mapper, chrono),
+        AlivePlan.of<A, B, D | E>(mapper, chrono),
         RecoveryChronoPlan.of<B, D | E>(chrono),
         DestroyChronoPlan.of<B, D | E>(chrono)
       );
@@ -139,7 +139,7 @@ export class SuperpositionInternal<A, D extends Error> extends ValueObject<Super
   ): SuperpositionInternal<B, E> {
     return SuperpositionInternal.of<B, E>((chrono: Chrono<B, E>) => {
       this.handle(
-        AliveChronoPlan.of<A, B, E>(alive, chrono),
+        AlivePlan.of<A, B, E>(alive, chrono),
         DeadChronoPlan.of<B, D, E>(dead, chrono),
         DestroyChronoPlan.of<A | B, E>(chrono)
       );
