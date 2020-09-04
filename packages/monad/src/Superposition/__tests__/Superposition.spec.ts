@@ -1,6 +1,7 @@
-import { Heisenberg, UnscharferelationError } from '@jamashita/publikum-monad';
 import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
+import { UnscharferelationError } from '../../Unscharferelation/Error/UnscharferelationError';
+import { Heisenberg } from '../../Unscharferelation/Heisenberg/Heisenberg';
 import { Chrono } from '../Chrono/Interface/Chrono';
 import { SuperpositionError } from '../Error/SuperpositionError';
 import { MockSuperposition } from '../Mock/MockSuperposition';
