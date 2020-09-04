@@ -10,15 +10,15 @@ export class PassThroughChrono<A, D extends Error> implements Chrono<A, D, D, 'P
   private readonly destroy: Consumer<unknown>;
   private readonly errors: Set<DeadConstructor<D>>;
 
-  public static of<AT, DT extends Error>(map: Consumer<Detoxicated<AT>>, recover: Consumer<DT>, destroy: Consumer<unknown>, ...errors: ReadonlyArray<DeadConstructor<DT>>): PassThroughChrono<AT, DT> {
+  public static of<AT, DT extends Error>(map: Consumer<Detoxicated<AT>>, recover: Consumer<DT>, destroy: Consumer<unknown>, errors: Set<DeadConstructor<DT>>): PassThroughChrono<AT, DT> {
     return new PassThroughChrono<AT, DT>(map, recover, destroy, errors);
   }
 
-  protected constructor(map: Consumer<Detoxicated<A>>, recover: Consumer<D>, destroy: Consumer<unknown>, errors: ReadonlyArray<DeadConstructor<D>>) {
+  protected constructor(map: Consumer<Detoxicated<A>>, recover: Consumer<D>, destroy: Consumer<unknown>, errors: Set<DeadConstructor<D>>) {
     this.map = map;
     this.recover = recover;
     this.destroy = destroy;
-    this.errors = new Set<DeadConstructor<D>>(errors);
+    this.errors = errors;
   }
 
   public accept(value: Detoxicated<A>): unknown {

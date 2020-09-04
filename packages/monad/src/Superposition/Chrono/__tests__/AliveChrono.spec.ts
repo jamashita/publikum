@@ -1,6 +1,7 @@
 import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
+import { DeadConstructor } from '../../Interface/DeadConstructor';
 import { Superposition } from '../../Superposition';
 import { AliveChrono } from '../AliveChrono';
 import { Chrono } from '../Interface/Chrono';
@@ -34,7 +35,8 @@ describe('AliveChrono', () => {
           },
           () => {
             spy4();
-          }
+          },
+          new Set<DeadConstructor<MockError>>()
         )
       );
 
@@ -79,7 +81,8 @@ describe('AliveChrono', () => {
               spy4();
 
               resolve();
-            }
+            },
+            new Set<DeadConstructor<MockError>>()
           )
         );
 
@@ -125,7 +128,8 @@ describe('AliveChrono', () => {
               spy4();
 
               resolve();
-            }
+            },
+            new Set<DeadConstructor<MockError>>()
           )
         );
 
@@ -166,7 +170,7 @@ describe('AliveChrono', () => {
           () => {
             spy4();
           },
-          MockError
+          new Set<DeadConstructor<MockError>>([MockError])
         )
       );
 
@@ -213,7 +217,7 @@ describe('AliveChrono', () => {
 
               resolve();
             },
-            MockError
+            new Set<DeadConstructor<MockError>>([MockError])
           )
         );
 
@@ -261,7 +265,7 @@ describe('AliveChrono', () => {
 
               resolve();
             },
-            MockError
+            new Set<DeadConstructor<MockError>>([MockError])
           )
         );
 
@@ -301,7 +305,8 @@ describe('AliveChrono', () => {
           (e: unknown) => {
             spy4();
             expect(e).toBe(error);
-          }
+          },
+          new Set<DeadConstructor<MockError>>()
         )
       );
 
@@ -347,7 +352,8 @@ describe('AliveChrono', () => {
               expect(e).toBe(error);
 
               resolve();
-            }
+            },
+            new Set<DeadConstructor<MockError>>()
           )
         );
 
@@ -396,7 +402,8 @@ describe('AliveChrono', () => {
               expect(e).toBe(error);
 
               resolve();
-            }
+            },
+            new Set<DeadConstructor<MockError>>()
           )
         );
 

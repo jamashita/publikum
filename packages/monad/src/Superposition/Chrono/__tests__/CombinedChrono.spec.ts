@@ -1,5 +1,6 @@
 import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
+import { DeadConstructor } from '../../Interface/DeadConstructor';
 import { CombinedChrono } from '../CombinedChrono';
 import { PassThroughChrono } from '../PassThroughChrono';
 
@@ -23,7 +24,8 @@ describe('CombinedChrono', () => {
         },
         () => {
           spy3();
-        }
+        },
+        new Set<DeadConstructor<MockError>>()
       );
       const chrono: CombinedChrono<number, MockError> = CombinedChrono.of<number, MockError>(pass, pass, pass);
 
@@ -54,7 +56,8 @@ describe('CombinedChrono', () => {
         },
         () => {
           spy3();
-        }
+        },
+        new Set<DeadConstructor<MockError>>()
       );
       const chrono: CombinedChrono<number, MockError> = CombinedChrono.of<number, MockError>(pass, pass, pass);
 
@@ -85,7 +88,8 @@ describe('CombinedChrono', () => {
         (v: unknown) => {
           spy3();
           expect(v).toBe(value);
-        }
+        },
+        new Set<DeadConstructor<MockError>>()
       );
       const chrono: CombinedChrono<number, MockError> = CombinedChrono.of<number, MockError>(pass, pass, pass);
 

@@ -12,15 +12,15 @@ export class CombinedChrono<A, D extends Error> implements Chrono<A, D, D, 'Comb
   private readonly destroy: ThrowChrono<D>;
   private readonly errors: Set<DeadConstructor<D>>;
 
-  public static of<AT, DT extends Error>(map: AcceptChrono<AT, DT>, recover: DeclineChrono<DT, DT>, destroy: ThrowChrono<DT>, ...errors: ReadonlyArray<DeadConstructor<DT>>): CombinedChrono<AT, DT> {
+  public static of<AT, DT extends Error>(map: AcceptChrono<AT, DT>, recover: DeclineChrono<DT, DT>, destroy: ThrowChrono<DT>, errors: Set<DeadConstructor<DT>>): CombinedChrono<AT, DT> {
     return new CombinedChrono<AT, DT>(map, recover, destroy, errors);
   }
 
-  protected constructor(map: AcceptChrono<A, D>, recover: DeclineChrono<D>, destroy: ThrowChrono<D>, errors: ReadonlyArray<DeadConstructor<D>>) {
+  protected constructor(map: AcceptChrono<A, D>, recover: DeclineChrono<D>, destroy: ThrowChrono<D>, errors: Set<DeadConstructor<D>>) {
     this.map = map;
     this.recover = recover;
     this.destroy = destroy;
-    this.errors = new Set<DeadConstructor<D>>(errors);
+    this.errors = errors;
   }
 
   public accept(value: Detoxicated<A>): unknown {

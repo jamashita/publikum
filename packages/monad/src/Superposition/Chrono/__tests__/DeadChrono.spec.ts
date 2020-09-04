@@ -1,6 +1,7 @@
 import { MockError } from '@jamashita/publikum-object';
 import { Resolve } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
+import { DeadConstructor } from '../../Interface/DeadConstructor';
 import { Superposition } from '../../Superposition';
 import { DeadChrono } from '../DeadChrono';
 import { Chrono } from '../Interface/Chrono';
@@ -36,7 +37,7 @@ describe('DeadChrono', () => {
           () => {
             spy4();
           },
-          MockError
+          new Set<DeadConstructor<MockError>>([MockError])
         )
       );
 
@@ -83,7 +84,7 @@ describe('DeadChrono', () => {
 
               resolve();
             },
-            MockError
+            new Set<DeadConstructor<MockError>>([MockError])
           )
         );
 
@@ -131,7 +132,7 @@ describe('DeadChrono', () => {
 
               resolve();
             },
-            MockError
+            new Set<DeadConstructor<MockError>>([MockError])
           )
         );
 
@@ -171,7 +172,7 @@ describe('DeadChrono', () => {
           () => {
             spy4();
           },
-          MockError
+          new Set<DeadConstructor<MockError>>([MockError])
         )
       );
 
@@ -217,7 +218,7 @@ describe('DeadChrono', () => {
 
               resolve();
             },
-            MockError
+            new Set<DeadConstructor<MockError>>([MockError])
           )
         );
 
@@ -264,7 +265,7 @@ describe('DeadChrono', () => {
 
               resolve();
             },
-            MockError
+            new Set<DeadConstructor<MockError>>([MockError])
           )
         );
 
@@ -302,7 +303,8 @@ describe('DeadChrono', () => {
           },
           () => {
             spy4();
-          }
+          },
+          new Set<DeadConstructor<MockError>>()
         )
       );
 
@@ -346,7 +348,8 @@ describe('DeadChrono', () => {
               spy4();
 
               resolve();
-            }
+            },
+            new Set<DeadConstructor<MockError>>()
           )
         );
 
@@ -393,7 +396,8 @@ describe('DeadChrono', () => {
               spy4();
 
               resolve();
-            }
+            },
+            new Set<DeadConstructor<MockError>>()
           )
         );
 
