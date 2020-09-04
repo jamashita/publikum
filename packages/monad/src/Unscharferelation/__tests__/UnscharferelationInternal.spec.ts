@@ -38,7 +38,7 @@ describe('UnscharferelationInternal', () => {
     });
   });
 
-  describe('serialize', () => {
+  describe('toString', () => {
     it('returns its retaining Heisenberg string', () => {
       expect.assertions(3);
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(

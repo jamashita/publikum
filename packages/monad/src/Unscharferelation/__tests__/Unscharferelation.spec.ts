@@ -543,6 +543,62 @@ describe('Unscharferelation', () => {
     });
   });
 
+  describe('equals', () => {
+    it('returns true if their retaining Heisenbergs are the same', () => {
+      expect.assertions(4);
+      const unscharferelation1: Unscharferelation<number> = Unscharferelation.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.accept(-1);
+        }
+      );
+      const unscharferelation2: Unscharferelation<number> = Unscharferelation.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.accept(-1);
+        }
+      );
+      const unscharferelation3: Unscharferelation<number> = Unscharferelation.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.accept(0);
+        }
+      );
+      const unscharferelation4: Unscharferelation<number> = Unscharferelation.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.decline();
+        }
+      );
+
+      expect(unscharferelation1.equals(unscharferelation1)).toBe(true);
+      expect(unscharferelation1.equals(unscharferelation2)).toBe(true);
+      expect(unscharferelation1.equals(unscharferelation3)).toBe(false);
+      expect(unscharferelation1.equals(unscharferelation4)).toBe(false);
+    });
+  });
+
+  describe('toString', () => {
+    it('returns its retaining Heisenberg string', () => {
+      expect.assertions(3);
+      const unscharferelation1: Unscharferelation<number> = Unscharferelation.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.accept(-1);
+        }
+      );
+      const unscharferelation2: Unscharferelation<number> = Unscharferelation.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.decline();
+        }
+      );
+      const unscharferelation3: Unscharferelation<number> = Unscharferelation.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.throw(null);
+        }
+      );
+
+      expect(unscharferelation1.toString()).toBe('Present: -1');
+      expect(unscharferelation2.toString()).toBe('Absent');
+      expect(unscharferelation3.toString()).toBe('Lost: null');
+    });
+  });
+
   describe('get', () => {
     it('delegate inner Unscharferelation', async () => {
       expect.assertions(1);
@@ -699,7 +755,7 @@ describe('Unscharferelation', () => {
     });
   });
 
-  describe.skip('toSuperposition', () => {
+  describe('toSuperposition', () => {
     it('present: will transform to alive', async () => {
       expect.assertions(2);
       const value: number = -201;

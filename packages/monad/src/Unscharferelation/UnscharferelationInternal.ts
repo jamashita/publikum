@@ -50,7 +50,6 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
     func(this);
   }
 
-  // TODO UNDONE
   public equals(other: UnscharferelationInternal<P>): boolean {
     if (this === other) {
       return true;
@@ -59,7 +58,6 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
     return this.heisenberg.equals(other.heisenberg);
   }
 
-  // TODO TEST UNDONE
   public serialize(): string {
     return this.heisenberg.toString();
   }

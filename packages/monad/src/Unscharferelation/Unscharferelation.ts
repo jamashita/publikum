@@ -147,16 +147,14 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
     this.internal = internal;
   }
 
-  // TODO UNDONE
   public equals(other: Unscharferelation<P>): boolean {
     if (this === other) {
       return true;
     }
 
-    return false;
+    return this.internal.equals(other.internal);
   }
 
-  // TODO TEST UNDONE
   public serialize(): string {
     return this.internal.toString();
   }
