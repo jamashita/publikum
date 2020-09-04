@@ -19,5 +19,5 @@ export type Inconnu = Record<string, unknown>;
 export type PlainObject = {
   [key: string]: PlainObjectItem;
 };
-export type ObjectLiteral = PlainObject | Array<PlainObjectItem>;
+export type ObjectLiteral = PlainObject | ReadonlyArray<PlainObjectItem>;
 export type PlainObjectItem = Primitive | ObjectLiteral;
