@@ -173,15 +173,11 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
     return Unscharferelation.ofUnscharferelation<P>(this.internal.filter(predicate));
   }
 
-  public map<Q = P>(
-    mapper: UnaryFunction<Matter<P>, Unscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>
-  ): Unscharferelation<Q> {
+  public map<Q = P>(mapper: UnaryFunction<Matter<P>, Unscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>): Unscharferelation<Q> {
     return Unscharferelation.ofUnscharferelation<Q>(this.internal.map<Q>(mapper));
   }
 
-  public recover<Q = P>(
-    mapper: Supplier<Unscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>
-  ): Unscharferelation<P | Q> {
+  public recover<Q = P>(mapper: Supplier<Unscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>): Unscharferelation<P | Q> {
     return Unscharferelation.ofUnscharferelation<P | Q>(this.internal.recover<Q>(mapper));
   }
 
@@ -191,11 +187,7 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
     return this;
   }
 
-  public pass(
-    accepted: Consumer<Matter<P>>,
-    declined: Consumer<void>,
-    thrown: Consumer<unknown>
-  ): this {
+  public pass(accepted: Consumer<Matter<P>>, declined: Consumer<void>, thrown: Consumer<unknown>): this {
     this.internal.pass(accepted, declined, thrown);
 
     return this;

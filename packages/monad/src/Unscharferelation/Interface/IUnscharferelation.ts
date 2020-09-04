@@ -12,13 +12,9 @@ export interface IUnscharferelation<P, N extends string = string> extends Nomina
 
   filter(predicate: Predicate<P>): IUnscharferelation<P>;
 
-  map<Q = P>(
-    mapper: UnaryFunction<Matter<P>, IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>
-  ): IUnscharferelation<Q>;
+  map<Q = P>(mapper: UnaryFunction<Matter<P>, IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>): IUnscharferelation<Q>;
 
-  recover<Q = P>(
-    mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>
-  ): IUnscharferelation<P | Q>;
+  recover<Q = P>(mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>): IUnscharferelation<P | Q>;
 
   ifPresent(consumer: Consumer<Matter<P>>): this;
 

@@ -1,20 +1,24 @@
 import { ValueObject } from '@jamashita/publikum-object';
 import { Consumer, Kind, Peek, Predicate, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
+import { DestroyPlan } from '../Plan/Interface/DestroyPlan';
+import { MapPlan } from '../Plan/Interface/MapPlan';
+import { Plan } from '../Plan/Interface/Plan';
+import { RecoveryPlan } from '../Plan/Interface/RecoveryPlan';
+import { PassThroughPlan } from '../Plan/PassThroughPlan';
 import { Epoque } from '../Unscharferelation/Epoque/Interface/Epoque';
 import { Matter } from '../Unscharferelation/Interface/Matter';
 import { UnscharferelationInternal } from '../Unscharferelation/UnscharferelationInternal';
-import { AliveChrono } from './Chrono/AliveChrono';
-import { CombinedChrono } from './Chrono/CombinedChrono';
-import { DeadChrono } from './Chrono/DeadChrono';
-import { AcceptChrono } from './Chrono/Interface/AcceptChrono';
 import { Chrono } from './Chrono/Interface/Chrono';
-import { DeclineChrono } from './Chrono/Interface/DeclineChrono';
-import { ThrowChrono } from './Chrono/Interface/ThrowChrono';
-import { PassThroughChrono } from './Chrono/PassThroughChrono';
 import { SuperpositionError } from './Error/SuperpositionError';
 import { DeadConstructor } from './Interface/DeadConstructor';
 import { Detoxicated } from './Interface/Detoxicated';
 import { ISuperposition } from './Interface/ISuperposition';
+import { AliveChronoPlan } from './Plan/AliveChronoPlan';
+import { CombinedPlan } from './Plan/CombinedPlan';
+import { DeadChronoPlan } from './Plan/DeadChronoPlan';
+import { DestroyChronoPlan } from './Plan/DestroyChronoPlan';
+import { MapChronoPlan } from './Plan/MapChronoPlan';
+import { RecoveryChronoPlan } from './Plan/RecoveryChronoPlan';
 import { Alive } from './Schrodinger/Alive';
 import { Contradiction } from './Schrodinger/Contradiction';
 import { Dead } from './Schrodinger/Dead';
@@ -25,7 +29,7 @@ export class SuperpositionInternal<A, D extends Error> extends ValueObject<Super
   implements ISuperposition<A, D, 'SuperpositionInternal'>, Chrono<A, D> {
   public readonly noun: 'SuperpositionInternal' = 'SuperpositionInternal';
   private schrodinger: Schrodinger<A, D>;
-  private readonly chronos: Set<Chrono<A, D>>;
+  private readonly plans: Set<Chrono<A, D>>;
   private readonly errors: Set<DeadConstructor<D>>;
 
   public static of<AT, DT extends Error>(func: UnaryFunction<Chrono<AT, DT>, unknown>, errors: ReadonlyArray<DeadConstructor<DT>>): SuperpositionInternal<AT, DT> {
@@ -35,7 +39,7 @@ export class SuperpositionInternal<A, D extends Error> extends ValueObject<Super
   protected constructor(func: UnaryFunction<Chrono<A, D>, unknown>, errors: ReadonlyArray<DeadConstructor<D>>) {
     super();
     this.schrodinger = Still.of<A, D>();
-    this.chronos = new Set<CombinedChrono<A, D>>();
+    this.plans = new Set<Plan<A, D>>();
     this.errors = new Set<DeadConstructor<D>>(errors);
     func(this);
   }
@@ -54,42 +58,6 @@ export class SuperpositionInternal<A, D extends Error> extends ValueObject<Super
     return this.schrodinger.toString();
   }
 
-  public accept(value: Detoxicated<A>): void {
-    if (this.settled()) {
-      return;
-    }
-
-    this.schrodinger = Alive.of<A, D>(value);
-
-    this.chronos.forEach((chrono: AcceptChrono<A, D>) => {
-      return chrono.accept(value);
-    });
-  }
-
-  public decline(error: D): void {
-    if (this.settled()) {
-      return;
-    }
-
-    this.schrodinger = Dead.of<A, D>(error);
-
-    this.chronos.forEach((chrono: DeclineChrono<D, D>) => {
-      return chrono.decline(error);
-    });
-  }
-
-  public throw(cause: unknown): void {
-    if (this.settled()) {
-      return;
-    }
-
-    this.schrodinger = Contradiction.of<A, D>(cause);
-
-    this.chronos.forEach((chrono: ThrowChrono<D>) => {
-      return chrono.throw(cause);
-    });
-  }
-
   public get(): Promise<Detoxicated<A>> {
     return new Promise<Detoxicated<A>>((resolve: Resolve<Detoxicated<A>>, reject: Reject<D | unknown>) => {
       this.pass(
@@ -103,12 +71,6 @@ export class SuperpositionInternal<A, D extends Error> extends ValueObject<Super
           reject(e);
         }
       );
-    });
-  }
-
-  public catch(errors: ReadonlyArray<DeadConstructor<D>>): void {
-    errors.forEach((error: DeadConstructor<D>) => {
-      this.errors.add(error);
     });
   }
 
@@ -151,7 +113,11 @@ export class SuperpositionInternal<A, D extends Error> extends ValueObject<Super
     ...errors: ReadonlyArray<DeadConstructor<E>>
   ): SuperpositionInternal<B, D | E> {
     return SuperpositionInternal.of<B, D | E>((chrono: Chrono<B, D | E>) => {
-      return this.handle(AliveChrono.of<A, B, D | E>(mapper, chrono), chrono, chrono);
+      return this.handle(
+        AliveChronoPlan.of<A, B, D | E>(mapper, chrono),
+        RecoveryChronoPlan.of<B, D | E>(chrono),
+        DestroyChronoPlan.of<B, D | E>(chrono)
+      );
     }, [...this.errors, ...errors]);
   }
 
@@ -160,7 +126,11 @@ export class SuperpositionInternal<A, D extends Error> extends ValueObject<Super
     ...errors: ReadonlyArray<DeadConstructor<E>>
   ): SuperpositionInternal<A | B, E> {
     return SuperpositionInternal.of<A | B, E>((chrono: Chrono<A | B, E>) => {
-      return this.handle(chrono, DeadChrono.of<B, D, E>(mapper, chrono), chrono);
+      return this.handle(
+        MapChronoPlan.of<A | B, E>(chrono),
+        DeadChronoPlan.of<B, D, E>(mapper, chrono),
+        DestroyChronoPlan.of<A | B, E>(chrono)
+      );
     }, errors);
   }
 
@@ -171,29 +141,25 @@ export class SuperpositionInternal<A, D extends Error> extends ValueObject<Super
   ): SuperpositionInternal<B, E> {
     return SuperpositionInternal.of<B, E>((chrono: Chrono<B, E>) => {
       this.handle(
-        AliveChrono.of<A, B, E>(alive, chrono),
-        DeadChrono.of<B, D, E>(dead, chrono),
-        chrono
+        AliveChronoPlan.of<A, B, E>(alive, chrono),
+        DeadChronoPlan.of<B, D, E>(dead, chrono),
+        DestroyChronoPlan.of<A | B, E>(chrono)
       );
     }, errors);
   }
 
-  public pass(
-    accepted: Consumer<Detoxicated<A>>,
-    declined: Consumer<D>,
-    thrown: Consumer<unknown>
-  ): this {
-    const chrono: Chrono<A, D> = PassThroughChrono.of<A, D>(accepted, declined, thrown);
+  public pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): this {
+    const plan: Plan<Detoxicated<A>, D> = PassThroughPlan.of<Detoxicated<A>, D>(accepted, declined, thrown);
 
-    this.handle(chrono, chrono, chrono);
+    this.handle(plan, plan, plan);
 
     return this;
   }
 
   public peek(peek: Peek): this {
-    const chrono: Chrono<A, D> = PassThroughChrono.of<A, D>(peek, peek, peek);
+    const plan: Plan<Detoxicated<A>, D> = PassThroughPlan.of<Detoxicated<A>, D>(peek, peek, peek);
 
-    this.handle(chrono, chrono, chrono);
+    this.handle(plan, plan, plan);
 
     return this;
   }
@@ -218,21 +184,63 @@ export class SuperpositionInternal<A, D extends Error> extends ValueObject<Super
     });
   }
 
+  public accept(value: Detoxicated<A>): void {
+    if (this.settled()) {
+      return;
+    }
+
+    this.schrodinger = Alive.of<A, D>(value);
+
+    this.plans.forEach((plan: MapPlan<Detoxicated<A>>) => {
+      return plan.onMap(value);
+    });
+  }
+
+  public decline(error: D): void {
+    if (this.settled()) {
+      return;
+    }
+
+    this.schrodinger = Dead.of<A, D>(error);
+
+    this.plans.forEach((plan: RecoveryPlan<D>) => {
+      return plan.onRecover(error);
+    });
+  }
+
+  public throw(cause: unknown): void {
+    if (this.settled()) {
+      return;
+    }
+
+    this.schrodinger = Contradiction.of<A, D>(cause);
+
+    this.plans.forEach((plan: DestroyPlan) => {
+      return plan.onDestroy(cause);
+    });
+  }
+
+  public catch(errors: ReadonlyArray<DeadConstructor<D>>): void {
+    errors.forEach((error: DeadConstructor<D>) => {
+      this.errors.add(error);
+    });
+  }
+
   private settled(): boolean {
     return this.schrodinger.isAlive() || this.schrodinger.isDead() || this.schrodinger.isContradiction();
   }
 
-  private handle(map: AcceptChrono<A, D>, recover: DeclineChrono<D, D>, destroy: ThrowChrono<D>): unknown {
+  private handle(map: MapPlan<Detoxicated<A>>, recover: RecoveryPlan<D>, destroy: DestroyPlan): unknown {
     if (this.schrodinger.isAlive()) {
-      return map.accept(this.schrodinger.get());
+      return map.onMap(this.schrodinger.get());
     }
     if (this.schrodinger.isDead()) {
-      return recover.decline(this.schrodinger.getError());
+      return recover.onRecover(this.schrodinger.getError());
     }
     if (this.schrodinger.isContradiction()) {
-      return destroy.throw(this.schrodinger.getCause());
+      return destroy.onDestroy(this.schrodinger.getCause());
     }
 
-    return this.chronos.add(CombinedChrono.of<A, D>(map, recover, destroy));
+    return this.plans.add(CombinedPlan.of<A, D>(map, recover, destroy));
   }
 }
