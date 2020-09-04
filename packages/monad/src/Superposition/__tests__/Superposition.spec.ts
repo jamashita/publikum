@@ -1,6 +1,6 @@
 import { Heisenberg, UnscharferelationError } from '@jamashita/publikum-monad';
 import { MockError } from '@jamashita/publikum-object';
-import sinon, { SinonSpy } from 'sinon';
+import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { Chrono } from '../Chrono/Interface/Chrono';
 import { SuperpositionError } from '../Error/SuperpositionError';
 import { MockSuperposition } from '../Mock/MockSuperposition';
@@ -11,7 +11,77 @@ import { Schrodinger } from '../Schrodinger/Schrodinger';
 import { Still } from '../Schrodinger/Still';
 import { Superposition } from '../Superposition';
 
-describe.skip('Superposition', () => {
+describe('Superposition', () => {
+  describe('equals', () => {
+    it('returns true if their retaining Schrodingers are the same', () => {
+      expect.assertions(5);
+      const superposition1: Superposition<number, MockError> = Superposition.of<number, MockError>(
+        (chrono: Chrono<number, MockError>) => {
+          chrono.accept(-1);
+        },
+        MockError
+      );
+      const superposition2: Superposition<number, MockError> = Superposition.of<number, MockError>(
+        (chrono: Chrono<number, MockError>) => {
+          chrono.accept(-1);
+        },
+        MockError
+      );
+      const superposition3: Superposition<number, MockError> = Superposition.of<number, MockError>(
+        (chrono: Chrono<number, MockError>) => {
+          chrono.accept(0);
+        },
+        MockError
+      );
+      const superposition4: Superposition<number, MockError> = Superposition.of<number, MockError>(
+        (chrono: Chrono<number, MockError>) => {
+          chrono.decline(new MockError());
+        },
+        MockError
+      );
+      const superposition5: Superposition<number, MockError> = Superposition.of<number, MockError>(
+        (chrono: Chrono<number, MockError>) => {
+          chrono.throw(null);
+        },
+        MockError
+      );
+
+      expect(superposition1.equals(superposition1)).toBe(true);
+      expect(superposition1.equals(superposition2)).toBe(true);
+      expect(superposition1.equals(superposition3)).toBe(false);
+      expect(superposition1.equals(superposition4)).toBe(false);
+      expect(superposition1.equals(superposition5)).toBe(false);
+    });
+  });
+
+  describe('toString', () => {
+    it('returns its retaining Schrodinger string', () => {
+      expect.assertions(3);
+      const superposition1: Superposition<number, MockError> = Superposition.of<number, MockError>(
+        (chrono: Chrono<number, MockError>) => {
+          chrono.accept(-1);
+        },
+        MockError
+      );
+      const superposition2: Superposition<number, MockError> = Superposition.of<number, MockError>(
+        (chrono: Chrono<number, MockError>) => {
+          chrono.decline(new MockError());
+        },
+        MockError
+      );
+      const superposition3: Superposition<number, MockError> = Superposition.of<number, MockError>(
+        (chrono: Chrono<number, MockError>) => {
+          chrono.throw(null);
+        },
+        MockError
+      );
+
+      expect(superposition1.toString()).toBe('Alive: -1');
+      expect(superposition2.toString()).toBe('Dead: MockError: failed');
+      expect(superposition3.toString()).toBe('Contradiction: null');
+    });
+  });
+
   describe('all', () => {
     it('no superpositions', async () => {
       expect.assertions(2);
@@ -793,12 +863,15 @@ describe.skip('Superposition', () => {
 
   describe('map', () => {
     it('delegate inner Superposition', () => {
-      expect.assertions(1);
+      expect.assertions(2);
       const mock: MockSuperposition<number, MockError> = new MockSuperposition<number, MockError>();
 
       const spy: SinonSpy = sinon.spy();
+      const stub: SinonStub = sinon.stub();
 
       mock.map = spy;
+      mock.getErrors = stub;
+      stub.returns([]);
 
       const superposition: Superposition<number, MockError> = Superposition.ofSuperposition<number, MockError>(mock);
 
@@ -807,6 +880,7 @@ describe.skip('Superposition', () => {
       });
 
       expect(spy.called).toBe(true);
+      expect(stub.called).toBe(true);
     });
   });
 
@@ -899,7 +973,7 @@ describe.skip('Superposition', () => {
     });
   });
 
-  describe.skip('toUnscharferelation', () => {
+  describe('toUnscharferelation', () => {
     it('alive: will transform to present', async () => {
       expect.assertions(2);
       const value: number = 2;

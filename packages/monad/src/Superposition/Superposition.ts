@@ -178,16 +178,14 @@ export class Superposition<A, D extends Error> extends ValueObject<Superposition
     this.internal = internal;
   }
 
-  // TODO UNDONE
   public equals(other: Superposition<A, D>): boolean {
     if (this === other) {
       return true;
     }
 
-    return false;
+    return this.internal.equals(other.internal);
   }
 
-  // TODO TESTS UNDONE
   public serialize(): string {
     return this.internal.toString();
   }

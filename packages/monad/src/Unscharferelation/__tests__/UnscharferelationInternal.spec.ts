@@ -9,7 +9,7 @@ import { UnscharferelationInternal } from '../UnscharferelationInternal';
 describe('UnscharferelationInternal', () => {
   describe('equals', () => {
     it('returns true if their retaining Heisenbergs are the same', () => {
-      expect.assertions(4);
+      expect.assertions(5);
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number>) => {
           epoque.accept(-1);
@@ -30,11 +30,17 @@ describe('UnscharferelationInternal', () => {
           epoque.decline();
         }
       );
+      const unscharferelation5: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.throw(null);
+        }
+      );
 
       expect(unscharferelation1.equals(unscharferelation1)).toBe(true);
       expect(unscharferelation1.equals(unscharferelation2)).toBe(true);
       expect(unscharferelation1.equals(unscharferelation3)).toBe(false);
       expect(unscharferelation1.equals(unscharferelation4)).toBe(false);
+      expect(unscharferelation1.equals(unscharferelation5)).toBe(false);
     });
   });
 

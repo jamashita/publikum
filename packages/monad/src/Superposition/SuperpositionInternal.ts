@@ -44,16 +44,14 @@ export class SuperpositionInternal<A, D extends Error> extends ValueObject<Super
     func(this);
   }
 
-  // TODO UNDONE
   public equals(other: SuperpositionInternal<A, D>): boolean {
     if (this === other) {
       return true;
     }
 
-    return false;
+    return this.schrodinger.equals(other.schrodinger);
   }
 
-  // TODO TEST UNDONE
   public serialize(): string {
     return this.schrodinger.toString();
   }
