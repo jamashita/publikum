@@ -466,17 +466,17 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value);
 
         return v + 1;
-      }, MockError).map<number, MockError>((v: number) => {
+      }).map<number, MockError>((v: number) => {
         spy2();
         expect(v).toBe(value + 1);
 
         return v + 1;
-      }, MockError).map<number, MockError>((v: number) => {
+      }).map<number, MockError>((v: number) => {
         spy3();
         expect(v).toBe(value + 2);
 
         return v + 1;
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -503,17 +503,17 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value);
 
         return Promise.resolve<number>(v + 1);
-      }, MockError).map<number, MockError>((v: number) => {
+      }).map<number, MockError>((v: number) => {
         spy2();
         expect(v).toBe(value + 1);
 
         return Promise.resolve<number>(v + 2);
-      }, MockError).map<number, MockError>((v: number) => {
+      }).map<number, MockError>((v: number) => {
         spy3();
         expect(v).toBe(value + 2);
 
         return Promise.resolve<number>(v + 1);
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -554,16 +554,16 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value1);
 
         return superposition2;
-      }, MockError).map<number, MockError>(() => {
+      }).map<number, MockError>(() => {
         spy2();
 
         return superposition3;
-      }, MockError).map<number, MockError>((v: number) => {
+      }).map<number, MockError>((v: number) => {
         spy3();
         expect(v).toBe(value3);
 
         return superposition3;
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -591,15 +591,15 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value);
 
         throw error;
-      }, MockError).map<number, MockError>(() => {
+      }).map<number, MockError>(() => {
         spy2();
 
         throw error;
-      }, MockError).map<number, MockError>(() => {
+      }).map<number, MockError>(() => {
         spy3();
 
         throw error;
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -627,15 +627,15 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value);
 
         return Promise.reject<number>(error);
-      }, MockError).map<number, MockError>(() => {
+      }).map<number, MockError>(() => {
         spy2();
 
         return Promise.reject<number>(error);
-      }, MockError).map<number, MockError>(() => {
+      }).map<number, MockError>(() => {
         spy3();
 
         return Promise.reject<number>(error);
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -675,15 +675,15 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value);
 
         return superposition2;
-      }, MockError).map<number, MockError>(() => {
+      }).map<number, MockError>(() => {
         spy2();
 
         return superposition3;
-      }, MockError).map<number, MockError>(() => {
+      }).map<number, MockError>(() => {
         spy3();
 
         return superposition3;
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -816,11 +816,11 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value);
 
         return superposition2;
-      }, MockError).map<number, MockError>(() => {
+      }).map<number, MockError>(() => {
         spy2();
 
         return superposition3;
-      }, MockError).map<number, MockError>(() => {
+      }).map<number, MockError>(() => {
         spy3();
 
         return superposition4;
@@ -828,7 +828,7 @@ describe('SuperpositionInternal', () => {
         spy4();
 
         return superposition4;
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -863,17 +863,17 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value1);
 
         return superposition2;
-      }, MockError).map<number, MockError>((v: number) => {
+      }).map<number, MockError>((v: number) => {
         spy2();
         expect(v).toBe(value2);
 
         return superposition2;
-      }, MockError).map<number, MockError>((v: number) => {
+      }).map<number, MockError>((v: number) => {
         spy3();
         expect(v).toBe(value2);
 
         return superposition2;
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -907,15 +907,15 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value1);
 
         return superposition2;
-      }, MockError).recover<number, MockError>(() => {
+      }).recover<number, MockError>(() => {
         spy2();
 
         return superposition2;
-      }, MockError).recover<number, MockError>(() => {
+      }).recover<number, MockError>(() => {
         spy3();
 
         return superposition2;
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -949,7 +949,7 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value1);
 
         return superposition2;
-      }, MockError).recover<number, MockError>(() => {
+      }).recover<number, MockError>(() => {
         spy2();
 
         return superposition2;
@@ -958,7 +958,7 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value1);
 
         return superposition2;
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -997,7 +997,7 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value + 13);
 
         return value + 130;
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -1024,7 +1024,7 @@ describe('SuperpositionInternal', () => {
         spy1();
 
         return Promise.resolve<number>(v + 1);
-      }, MockError).recover<number, MockError>((err: MockError) => {
+      }).recover<number, MockError>((err: MockError) => {
         spy2();
         expect(err).toBe(error);
 
@@ -1034,7 +1034,7 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(v + 13);
 
         return Promise.resolve<number>(v + 130);
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -1074,7 +1074,7 @@ describe('SuperpositionInternal', () => {
         spy1();
 
         return superposition2;
-      }, MockError).recover<number, MockError>((err: MockError) => {
+      }).recover<number, MockError>((err: MockError) => {
         spy2();
         expect(err).toBe(error);
 
@@ -1084,7 +1084,7 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value2);
 
         return superposition3;
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(false);
       expect(spy2.called).toBe(true);
@@ -1123,7 +1123,7 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value + 13);
 
         return value + 130;
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -1162,7 +1162,7 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value + 13);
 
         return value + 130;
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -1203,7 +1203,7 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value);
 
         return superposition2;
-      }, MockError).recover<number, MockError>((err: MockError) => {
+      }).recover<number, MockError>((err: MockError) => {
         spy2();
         expect(err).toBe(error1);
 
@@ -1213,7 +1213,7 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(v + 13);
 
         return superposition3;
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -1250,7 +1250,7 @@ describe('SuperpositionInternal', () => {
         spy3();
 
         return value + 130;
-      }, MockError).recover<number, MockError>(() => {
+      }).recover<number, MockError>(() => {
         spy4();
 
         return value + 13;
@@ -1346,7 +1346,7 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value);
 
         return superposition2;
-      }, MockError).recover<number, MockError>(() => {
+      }).recover<number, MockError>(() => {
         spy2();
 
         return superposition3;
@@ -1354,7 +1354,7 @@ describe('SuperpositionInternal', () => {
         spy3();
 
         return superposition4;
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -1389,17 +1389,17 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value1);
 
         return superposition2;
-      }, MockError).map<number>((v: number) => {
+      }).map<number>((v: number) => {
         spy2();
         expect(v).toBe(value2);
 
         return superposition2;
-      }, MockError).map<number, MockError>((v: number) => {
+      }).map<number, MockError>((v: number) => {
         spy3();
         expect(v).toBe(value2);
 
         return superposition2;
-      }, MockError).terminate();
+      }).terminate();
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -1433,7 +1433,7 @@ describe('SuperpositionInternal', () => {
         expect(v).toBe(value);
 
         return superposition2;
-      }, MockError).recover<number, MockError>((err: MockError) => {
+      }).recover<number, MockError>((err: MockError) => {
         spy2();
         expect(err).toBe(error);
 
