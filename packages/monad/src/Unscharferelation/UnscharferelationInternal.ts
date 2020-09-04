@@ -27,7 +27,7 @@ import { Uncertain } from './Heisenberg/Uncertain';
 import { IUnscharferelation } from './Interface/IUnscharferelation';
 import { Matter } from './Interface/Matter';
 import { AbsentPlan } from './Plan/AbsentPlan';
-import { CombinedPlan } from './Plan/CombinedPlan';
+import { CombinedEpoquePlan } from './Plan/CombinedEpoquePlan';
 import { DestroyEpoquePlan } from './Plan/DestroyEpoquePlan';
 import { MapEpoquePlan } from './Plan/MapEpoquePlan';
 import { PresentPlan } from './Plan/PresentPlan';
@@ -222,7 +222,7 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
       return destroy.onDestroy(this.heisenberg.getCause());
     }
 
-    return this.plans.add(CombinedPlan.of<P>(map, recover, destroy));
+    return this.plans.add(CombinedEpoquePlan.of<P>(map, recover, destroy));
   }
 
   private spoil(): void {

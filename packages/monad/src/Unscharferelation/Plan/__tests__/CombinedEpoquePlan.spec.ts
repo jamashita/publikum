@@ -1,8 +1,8 @@
 import sinon, { SinonSpy } from 'sinon';
 import { PassThroughPlan } from '../../../Plan/PassThroughPlan';
-import { CombinedPlan } from '../CombinedPlan';
+import { CombinedEpoquePlan } from '../CombinedEpoquePlan';
 
-describe('CombinedPlan', () => {
+describe('CombinedEpoquePlan', () => {
   describe('onMap', () => {
     it('normal case', () => {
       expect.assertions(4);
@@ -24,7 +24,7 @@ describe('CombinedPlan', () => {
           spy3();
         }
       );
-      const plan: CombinedPlan<number> = CombinedPlan.of<number>(pass, pass, pass);
+      const plan: CombinedEpoquePlan<number> = CombinedEpoquePlan.of<number>(pass, pass, pass);
 
       plan.onMap(value);
 
@@ -52,7 +52,7 @@ describe('CombinedPlan', () => {
           spy3();
         }
       );
-      const plan: CombinedPlan<number> = CombinedPlan.of<number>(pass, pass, pass);
+      const plan: CombinedEpoquePlan<number> = CombinedEpoquePlan.of<number>(pass, pass, pass);
 
       plan.onRecover();
 
@@ -83,7 +83,7 @@ describe('CombinedPlan', () => {
           expect(v).toBe(value);
         }
       );
-      const plan: CombinedPlan<number> = CombinedPlan.of<number>(pass, pass, pass);
+      const plan: CombinedEpoquePlan<number> = CombinedEpoquePlan.of<number>(pass, pass, pass);
 
       plan.onDestroy(value);
 
