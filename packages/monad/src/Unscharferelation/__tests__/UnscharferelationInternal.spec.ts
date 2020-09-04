@@ -7,6 +7,62 @@ import { Heisenberg } from '../Heisenberg/Heisenberg';
 import { UnscharferelationInternal } from '../UnscharferelationInternal';
 
 describe('UnscharferelationInternal', () => {
+  describe('equals', () => {
+    it('returns true if their retaining Heisenbergs are the same', () => {
+      expect.assertions(4);
+      const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.accept(-1);
+        }
+      );
+      const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.accept(-1);
+        }
+      );
+      const unscharferelation3: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.accept(0);
+        }
+      );
+      const unscharferelation4: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.decline();
+        }
+      );
+
+      expect(unscharferelation1.equals(unscharferelation1)).toBe(true);
+      expect(unscharferelation1.equals(unscharferelation2)).toBe(true);
+      expect(unscharferelation1.equals(unscharferelation3)).toBe(false);
+      expect(unscharferelation1.equals(unscharferelation4)).toBe(false);
+    });
+  });
+
+  describe('serialize', () => {
+    it('returns its retaining Heisenberg string', () => {
+      expect.assertions(3);
+      const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.accept(-1);
+        }
+      );
+      const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.decline();
+        }
+      );
+      const unscharferelation3: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.throw(null);
+        }
+      );
+
+      expect(unscharferelation1.toString()).toBe('Present: -1');
+      expect(unscharferelation2.toString()).toBe('Absent');
+      expect(unscharferelation3.toString()).toBe('Lost: null');
+    });
+  });
+
   describe('accept', () => {
     it('if done once, do nothing', async () => {
       expect.assertions(4);
@@ -1609,7 +1665,7 @@ describe('UnscharferelationInternal', () => {
     });
   });
 
-  describe.skip('toSuperposition', () => {
+  describe('toSuperposition', () => {
     it('present: will transform to alive', async () => {
       expect.assertions(2);
       const value: number = -201;

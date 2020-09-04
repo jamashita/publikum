@@ -56,7 +56,7 @@ export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationI
       return true;
     }
 
-    return false;
+    return this.heisenberg.equals(other.heisenberg);
   }
 
   // TODO TEST UNDONE
