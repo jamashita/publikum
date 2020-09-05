@@ -8,3 +8,5 @@ packages/**/src/**/__tests__/
 .lintstagedrc
 jest.config.cjs
 lerna.json
+
+.tsbuildinfo
