@@ -146,6 +146,7 @@ Class for random string, random number.
 * [x] accepts Error constructors in Superposition Epoque
 * [ ] implementing cancelable iterator class.
 * [ ] mutable collections
+* [ ] `map()` for collections
 
 ## License
 
