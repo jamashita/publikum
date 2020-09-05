@@ -147,6 +147,9 @@ Class for random string, random number.
 * [ ] implementing cancelable iterator class.
 * [ ] mutable collections
 * [ ] `map()` for collections
+* [ ] utility class for Promise collection manipulation
+    * [ ] `any<T>(arr: Array<Promise<T>>): Promise<Array<T>>;`
+    * [ ] `sequence<T>(arr: Array<Promise<T>>): Promise<Array<T>>;`
 
 ## License
 
