@@ -1,6 +1,6 @@
-import { Detoxicated } from '@jamashita/publikum-monad';
 import { MapPlan } from '../../Plan/Interface/MapPlan';
 import { Chrono } from '../Chrono/Interface/Chrono';
+import { Detoxicated } from '../Interface/Detoxicated';
 
 export class MapChronoPlan<A, D extends Error> implements MapPlan<Detoxicated<A>, 'MapChronoPlan'> {
   public readonly noun: 'MapChronoPlan' = 'MapChronoPlan';

@@ -1,6 +1,6 @@
-import { Matter } from '@jamashita/publikum-monad';
 import { MapPlan } from '../../Plan/Interface/MapPlan';
 import { Epoque } from '../Epoque/Interface/Epoque';
+import { Matter } from '../Interface/Matter';
 
 export class MapEpoquePlan<P> implements MapPlan<Matter<P>, 'MapEpoquePlan'> {
   public readonly noun: 'MapEpoquePlan' = 'MapEpoquePlan';

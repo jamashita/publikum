@@ -103,7 +103,7 @@
     /* Disallow inconsistently-cased references to the same file. */
   },
   "include": [
-    "packages/**/src/**/*.ts"
+    "packages/**/src"
   ],
   "exclude": [
     "dist",

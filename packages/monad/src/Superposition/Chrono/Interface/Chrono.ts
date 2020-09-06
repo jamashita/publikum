@@ -1,6 +1,6 @@
 import { Noun } from '@jamashita/publikum-interface';
-import { Detoxicated } from '@jamashita/publikum-monad';
 import { DeadConstructor } from '../../Interface/DeadConstructor';
+import { Detoxicated } from '../../Interface/Detoxicated';
 
 export interface Chrono<M, R extends Error, N extends string = string> extends Noun<N> {
   accept(value: Detoxicated<M>): unknown;

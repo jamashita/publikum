@@ -37,6 +37,7 @@
     "@jamashita/publikum-type": "^2.7.1"
   },
   "devDependencies": {
+    "@jamashita/publikum-error": "2.7.1",
     "sinon": "9.0.3"
   },
   "engines": {

@@ -1,5 +1,5 @@
 import { Noun } from '@jamashita/publikum-interface';
-import { Matter } from '@jamashita/publikum-monad';
+import { Matter } from '../../Interface/Matter';
 
 export interface Epoque<M, N extends string = string> extends Noun<N> {
   accept(value: Matter<M>): unknown;

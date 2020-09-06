@@ -1,8 +1,8 @@
-import { Detoxicated } from '@jamashita/publikum-monad';
 import { DestroyPlan } from '../../Plan/Interface/DestroyPlan';
 import { MapPlan } from '../../Plan/Interface/MapPlan';
 import { Plan } from '../../Plan/Interface/Plan';
 import { RecoveryPlan } from '../../Plan/Interface/RecoveryPlan';
+import { Detoxicated } from '../Interface/Detoxicated';
 
 export class CombinedChronoPlan<A, D extends Error> implements Plan<Detoxicated<A>, D, 'CombinedChronoPlan'> {
   public readonly noun: 'CombinedChronoPlan' = 'CombinedChronoPlan';

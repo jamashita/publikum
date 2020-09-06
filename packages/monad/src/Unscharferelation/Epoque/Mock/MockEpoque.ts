@@ -1,5 +1,5 @@
-import { Matter } from '@jamashita/publikum-monad';
 import { Consumer } from '@jamashita/publikum-type';
+import { Matter } from '../../Interface/Matter';
 import { Epoque } from '../Interface/Epoque';
 
 export class MockEpoque<M> implements Epoque<M, 'MockEpoque'> {
