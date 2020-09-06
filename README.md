@@ -149,6 +149,7 @@ Class for random string, random number.
 * [ ] utility class for Promise collection manipulation
     * [ ] `any<T>(arr: Array<Promise<T>>): Promise<Array<T>>;`
     * [ ] `sequence<T>(arr: Array<Promise<T>>): Promise<Array<T>>;`
+* [x] `AJAX.head()`
 * [x] `Request.head()`
 
 ## License
