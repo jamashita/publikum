@@ -1,21 +1,25 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
-import { AJAXResponse } from '../AJAXResponse';
+import { AJAXResponse, AJAXResponseType } from '../AJAXResponse';
 import { IAJAX } from '../Interface/IAJAX';
 
-export class MockAJAX implements IAJAX {
-  public get<T>(): Promise<AJAXResponse<T>> {
+export class MockAJAX<T extends AJAXResponseType> implements IAJAX<T> {
+  public get(): Promise<AJAXResponse<T>> {
     throw new UnimplementedError();
   }
 
-  public post<T>(): Promise<AJAXResponse<T>> {
+  public post(): Promise<AJAXResponse<T>> {
     throw new UnimplementedError();
   }
 
-  public put<T>(): Promise<AJAXResponse<T>> {
+  public put(): Promise<AJAXResponse<T>> {
     throw new UnimplementedError();
   }
 
-  public delete<T>(): Promise<AJAXResponse<T>> {
+  public delete(): Promise<AJAXResponse<T>> {
+    throw new UnimplementedError();
+  }
+
+  public head(): Promise<AJAXResponse<T>> {
     throw new UnimplementedError();
   }
 }

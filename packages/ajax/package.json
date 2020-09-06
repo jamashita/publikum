@@ -33,11 +33,11 @@
   },
   "dependencies": {
     "@jamashita/publikum-error": "^2.7.1",
+    "@jamashita/publikum-json": "2.7.1",
     "@jamashita/publikum-type": "^2.7.1",
     "axios": "0.20.0"
   },
   "devDependencies": {
-    "nock": "13.0.4",
     "sinon": "9.0.3"
   },
   "engines": {

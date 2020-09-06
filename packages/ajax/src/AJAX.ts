@@ -1,19 +1,29 @@
-import { ObjectLiteral } from '@jamashita/publikum-type';
-import axios, { AxiosResponse } from 'axios';
-import { AJAXResponse } from './AJAXResponse';
+import { JSONA } from '@jamashita/publikum-json';
+import { Kind, ObjectLiteral, Omittable } from '@jamashita/publikum-type';
+import Axios, { AxiosInstance, AxiosResponse } from 'axios';
+import { AJAXBodyKV, AJAXResponse, AJAXResponseType } from './AJAXResponse';
 import { IAJAX } from './Interface/IAJAX';
 
-export class AJAX implements IAJAX {
-  public async get<T>(url: string): Promise<AJAXResponse<T>> {
-    const {
-      status,
-      data
-    }: AxiosResponse<T> = await axios.get<T>(url, {
-      responseType: 'json',
-      validateStatus: () => {
+export class AJAX<T extends AJAXResponseType> implements IAJAX<T> {
+  private readonly axios: AxiosInstance;
+
+  public constructor(type: T) {
+    this.axios = Axios.create({
+      responseType: type,
+      transformResponse(data: unknown): unknown {
+        return data;
+      },
+      validateStatus(): boolean {
         return true;
       }
     });
+  }
+
+  public async get(url: string): Promise<AJAXResponse<T>> {
+    const {
+      status,
+      data
+    }: AxiosResponse<AJAXBodyKV[T]> = await this.axios.get<AJAXBodyKV[T]>(url);
 
     return {
       status,
@@ -21,16 +31,12 @@ export class AJAX implements IAJAX {
     };
   }
 
-  public async post<T>(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>> {
+  public async post(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>> {
+    const p: Omittable<string> = await this.stringify(payload);
     const {
       status,
       data
-    }: AxiosResponse<T> = await axios.post<T>(url, payload, {
-      responseType: 'json',
-      validateStatus: () => {
-        return true;
-      }
-    });
+    }: AxiosResponse<AJAXBodyKV[T]> = await this.axios.post<AJAXBodyKV[T]>(url, p);
 
     return {
       status,
@@ -38,16 +44,12 @@ export class AJAX implements IAJAX {
     };
   }
 
-  public async put<T>(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>> {
+  public async put(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>> {
+    const p: Omittable<string> = await this.stringify(payload);
     const {
       status,
       data
-    }: AxiosResponse<T> = await axios.put<T>(url, payload, {
-      responseType: 'json',
-      validateStatus: () => {
-        return true;
-      }
-    });
+    }: AxiosResponse<AJAXBodyKV[T]> = await this.axios.put<AJAXBodyKV[T]>(url, p);
 
     return {
       status,
@@ -55,20 +57,35 @@ export class AJAX implements IAJAX {
     };
   }
 
-  public async delete<T>(url: string): Promise<AJAXResponse<T>> {
+  public async delete(url: string): Promise<AJAXResponse<T>> {
     const {
       status,
       data
-    }: AxiosResponse<T> = await axios.delete<T>(url, {
-      responseType: 'json',
-      validateStatus: () => {
-        return true;
-      }
-    });
+    }: AxiosResponse<AJAXBodyKV[T]> = await this.axios.delete<AJAXBodyKV[T]>(url);
 
     return {
       status,
       body: data
     };
+  }
+
+  public async head(url: string): Promise<AJAXResponse<T>> {
+    const {
+      status,
+      data
+    }: AxiosResponse<AJAXBodyKV[T]> = await this.axios.delete<AJAXBodyKV[T]>(url);
+
+    return {
+      status,
+      body: data
+    };
+  }
+
+  private stringify(payload?: ObjectLiteral): Promise<string | void> {
+    if (Kind.isUndefined(payload)) {
+      return Promise.resolve();
+    }
+
+    return JSONA.stringify(payload);
   }
 }

@@ -1,12 +1,14 @@
 import { ObjectLiteral } from '@jamashita/publikum-type';
-import { AJAXResponse } from '../AJAXResponse';
+import { AJAXResponse, AJAXResponseType } from '../AJAXResponse';
 
-export interface IAJAX {
-  get<T>(url: string): Promise<AJAXResponse<T>>;
+export interface IAJAX<T extends AJAXResponseType> {
+  get(url: string): Promise<AJAXResponse<T>>;
 
-  post<T>(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>>;
+  post(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>>;
 
-  put<T>(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>>;
+  put(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>>;
 
-  delete<T>(url: string): Promise<AJAXResponse<T>>;
+  delete(url: string): Promise<AJAXResponse<T>>;
+
+  head(url: string): Promise<AJAXResponse<T>>;
 }
