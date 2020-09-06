@@ -142,7 +142,6 @@ Class for random string, random number.
 
 ### TODO
 * [ ] `indexDB` repository implementation
-* [ ] `file` implementation
 * [x] accepts Error constructors in Superposition Epoque
 * [ ] implementing cancelable iterator class.
 * [ ] mutable collections
@@ -150,7 +149,7 @@ Class for random string, random number.
 * [ ] utility class for Promise collection manipulation
     * [ ] `any<T>(arr: Array<Promise<T>>): Promise<Array<T>>;`
     * [ ] `sequence<T>(arr: Array<Promise<T>>): Promise<Array<T>>;`
-* [ ] `Request.head()`
+* [x] `Request.head()`
 
 
 ## License

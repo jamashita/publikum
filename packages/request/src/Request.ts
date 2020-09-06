@@ -1,41 +1,23 @@
-import { JSONA } from '@jamashita/publikum-json';
 import { ObjectLiteral } from '@jamashita/publikum-type';
 import got, { RequestError as ReqError, Response } from 'got';
 import { RequestError } from './Error/RequestError';
 import { IRequest } from './Interface/IRequest';
-import { RequestResponse, ResponseType } from './RequestResponse';
+import { RequestResponse } from './RequestResponse';
 
-export class Request<T extends ResponseType = 'json'> implements IRequest<T> {
-  private readonly responseType: T;
-
-  public constructor(responseType: T) {
-    this.responseType = responseType;
-  }
-
-  public async get(url: string): Promise<RequestResponse<T>> {
+export class Request implements IRequest {
+  public async get(url: string): Promise<RequestResponse> {
     try {
-      const res: Response<string> = await got.get(url);
-
-      // eslint-disable-next-line @typescript-eslint/return-await
-      return this.forgeResponse(res);
-    }
-    catch (err: unknown) {
-      if (err instanceof ReqError) {
-        throw new RequestError(err.message, err);
-      }
-
-      throw err;
-    }
-  }
-
-  public async post(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>> {
-    try {
-      const res: Response<string> = await got.post(url, {
-        json: payload
+      const {
+        statusCode,
+        rawBody
+      }: Response = await got.get(url, {
+        responseType: 'buffer'
       });
 
-      // eslint-disable-next-line @typescript-eslint/return-await
-      return this.forgeResponse(res);
+      return {
+        status: statusCode,
+        body: rawBody
+      };
     }
     catch (err: unknown) {
       if (err instanceof ReqError) {
@@ -46,14 +28,20 @@ export class Request<T extends ResponseType = 'json'> implements IRequest<T> {
     }
   }
 
-  public async put(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>> {
+  public async post(url: string, payload?: ObjectLiteral): Promise<RequestResponse> {
     try {
-      const res: Response<string> = await got.put(url, {
-        json: payload
+      const {
+        statusCode,
+        rawBody
+      }: Response = await got.post(url, {
+        json: payload,
+        responseType: 'buffer'
       });
 
-      // eslint-disable-next-line @typescript-eslint/return-await
-      return this.forgeResponse(res);
+      return {
+        status: statusCode,
+        body: rawBody
+      };
     }
     catch (err: unknown) {
       if (err instanceof ReqError) {
@@ -64,12 +52,20 @@ export class Request<T extends ResponseType = 'json'> implements IRequest<T> {
     }
   }
 
-  public async delete(url: string): Promise<RequestResponse<T>> {
+  public async put(url: string, payload?: ObjectLiteral): Promise<RequestResponse> {
     try {
-      const res: Response<string> = await got.delete(url);
+      const {
+        statusCode,
+        rawBody
+      }: Response = await got.put(url, {
+        json: payload,
+        responseType: 'buffer'
+      });
 
-      // eslint-disable-next-line @typescript-eslint/return-await
-      return this.forgeResponse(res);
+      return {
+        status: statusCode,
+        body: rawBody
+      };
     }
     catch (err: unknown) {
       if (err instanceof ReqError) {
@@ -80,37 +76,48 @@ export class Request<T extends ResponseType = 'json'> implements IRequest<T> {
     }
   }
 
-  private async forgeResponse(res: Response<string>): Promise<RequestResponse<T>> {
-    const {
-      statusCode: status,
-      body,
-      rawBody
-    } = res;
+  public async delete(url: string): Promise<RequestResponse> {
+    try {
+      const {
+        statusCode,
+        rawBody
+      }: Response = await got.delete(url, {
+        responseType: 'buffer'
+      });
 
-    switch (this.responseType) {
-      case 'byte': {
-        return {
-          status,
-          body: rawBody
-        } as RequestResponse<T>;
+      return {
+        status: statusCode,
+        body: rawBody
+      };
+    }
+    catch (err: unknown) {
+      if (err instanceof ReqError) {
+        throw new RequestError(err.message, err);
       }
-      case 'json': {
-        const json: ObjectLiteral = await JSONA.parse<ObjectLiteral>(body);
 
-        return {
-          status,
-          body: json
-        } as RequestResponse<T>;
+      throw err;
+    }
+  }
+
+  public async head(url: string): Promise<RequestResponse<null>> {
+    try {
+      const {
+        statusCode
+      }: Response<string> = await got.head(url, {
+        allowGetBody: true
+      });
+
+      return {
+        status: statusCode,
+        body: null
+      };
+    }
+    catch (err: unknown) {
+      if (err instanceof ReqError) {
+        throw new RequestError(err.message, err);
       }
-      case 'raw': {
-        return {
-          status,
-          body
-        } as RequestResponse<T>;
-      }
-      default: {
-        throw new RequestError(`UNEXPECTED RESPONSE TYPE: GIVEN ${this.responseType}`);
-      }
+
+      throw err;
     }
   }
 }

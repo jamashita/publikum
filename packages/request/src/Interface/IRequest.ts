@@ -1,12 +1,14 @@
 import { ObjectLiteral } from '@jamashita/publikum-type';
-import { RequestResponse, ResponseType } from '../RequestResponse';
+import { RequestResponse } from '../RequestResponse';
 
-export interface IRequest<T extends ResponseType> {
-  get(url: string): Promise<RequestResponse<T>>;
+export interface IRequest {
+  get(url: string): Promise<RequestResponse>;
 
-  post(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>>;
+  post(url: string, payload?: ObjectLiteral): Promise<RequestResponse>;
 
-  put(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>>;
+  put(url: string, payload?: ObjectLiteral): Promise<RequestResponse>;
 
-  delete(url: string): Promise<RequestResponse<T>>;
+  delete(url: string): Promise<RequestResponse>;
+
+  head(url: string): Promise<RequestResponse<null>>;
 }
