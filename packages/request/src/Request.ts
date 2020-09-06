@@ -1,22 +1,28 @@
 import { ObjectLiteral } from '@jamashita/publikum-type';
-import got, { RequestError as ReqError, Response } from 'got';
+import got, { Got, RequestError as ReqError, Response } from 'got';
 import { RequestError } from './Error/RequestError';
 import { IRequest } from './Interface/IRequest';
-import { RequestResponse } from './RequestResponse';
+import { RequestBodyKV, RequestResponse, RequestResponseType } from './RequestResponse';
 
-export class Request implements IRequest {
-  public async get(url: string): Promise<RequestResponse> {
+export class Request<T extends RequestResponseType> implements IRequest<T> {
+  private readonly got: Got;
+
+  public constructor(type: T) {
+    this.got = got.extend({
+      responseType: type
+    });
+  }
+
+  public async get(url: string): Promise<RequestResponse<T>> {
     try {
       const {
         statusCode,
-        rawBody
-      }: Response = await got.get(url, {
-        responseType: 'buffer'
-      });
+        body
+      }: Response<RequestBodyKV[T]> = await this.got.get<RequestBodyKV[T]>(url);
 
       return {
         status: statusCode,
-        body: rawBody
+        body
       };
     }
     catch (err: unknown) {
@@ -28,19 +34,18 @@ export class Request implements IRequest {
     }
   }
 
-  public async post(url: string, payload?: ObjectLiteral): Promise<RequestResponse> {
+  public async post(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>> {
     try {
       const {
         statusCode,
-        rawBody
-      }: Response = await got.post(url, {
-        json: payload,
-        responseType: 'buffer'
+        body
+      }: Response<RequestBodyKV[T]> = await this.got.post<RequestBodyKV[T]>(url, {
+        json: payload
       });
 
       return {
         status: statusCode,
-        body: rawBody
+        body
       };
     }
     catch (err: unknown) {
@@ -52,19 +57,18 @@ export class Request implements IRequest {
     }
   }
 
-  public async put(url: string, payload?: ObjectLiteral): Promise<RequestResponse> {
+  public async put(url: string, payload?: ObjectLiteral): Promise<RequestResponse<T>> {
     try {
       const {
         statusCode,
-        rawBody
-      }: Response = await got.put(url, {
-        json: payload,
-        responseType: 'buffer'
+        body
+      }: Response<RequestBodyKV[T]> = await this.got.put<RequestBodyKV[T]>(url, {
+        json: payload
       });
 
       return {
         status: statusCode,
-        body: rawBody
+        body
       };
     }
     catch (err: unknown) {
@@ -76,18 +80,16 @@ export class Request implements IRequest {
     }
   }
 
-  public async delete(url: string): Promise<RequestResponse> {
+  public async delete(url: string): Promise<RequestResponse<T>> {
     try {
       const {
         statusCode,
-        rawBody
-      }: Response = await got.delete(url, {
-        responseType: 'buffer'
-      });
+        body
+      }: Response<RequestBodyKV[T]> = await this.got.delete<RequestBodyKV[T]>(url);
 
       return {
         status: statusCode,
-        body: rawBody
+        body
       };
     }
     catch (err: unknown) {
@@ -99,17 +101,16 @@ export class Request implements IRequest {
     }
   }
 
-  public async head(url: string): Promise<RequestResponse<null>> {
+  public async head(url: string): Promise<RequestResponse<T>> {
     try {
       const {
-        statusCode
-      }: Response<string> = await got.head(url, {
-        allowGetBody: true
-      });
+        statusCode,
+        body
+      }: Response<RequestBodyKV[T]> = await this.got.head<RequestBodyKV[T]>(url);
 
       return {
         status: statusCode,
-        body: null
+        body
       };
     }
     catch (err: unknown) {

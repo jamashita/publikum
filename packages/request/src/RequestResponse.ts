@@ -1,4 +1,14 @@
-export type RequestResponse<T = Buffer> = Readonly<{
+import { ObjectLiteral } from '@jamashita/publikum-type';
+
+export type RequestBodyKV = Readonly<{
+  buffer: Buffer;
+  json: ObjectLiteral;
+  text: string;
+}>;
+
+export type RequestResponseType = keyof RequestBodyKV;
+
+export type RequestResponse<T extends RequestResponseType> = Readonly<{
   status: number;
-  body: T;
+  body: RequestBodyKV[T];
 }>;

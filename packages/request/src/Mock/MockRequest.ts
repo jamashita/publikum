@@ -1,25 +1,25 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
 import { IRequest } from '../Interface/IRequest';
-import { RequestResponse } from '../RequestResponse';
+import { RequestResponse, RequestResponseType } from '../RequestResponse';
 
-export class MockRequest implements IRequest {
-  public get(): Promise<RequestResponse> {
+export class MockRequest<T extends RequestResponseType> implements IRequest<T> {
+  public get(): Promise<RequestResponse<T>> {
     throw new UnimplementedError();
   }
 
-  public post(): Promise<RequestResponse> {
+  public post(): Promise<RequestResponse<T>> {
     throw new UnimplementedError();
   }
 
-  public put(): Promise<RequestResponse> {
+  public put(): Promise<RequestResponse<T>> {
     throw new UnimplementedError();
   }
 
-  public delete(): Promise<RequestResponse> {
+  public delete(): Promise<RequestResponse<T>> {
     throw new UnimplementedError();
   }
 
-  public head(): Promise<RequestResponse<null>> {
+  public head(): Promise<RequestResponse<T>> {
     throw new UnimplementedError();
   }
 }
