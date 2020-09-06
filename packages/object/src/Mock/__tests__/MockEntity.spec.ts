@@ -1,5 +1,5 @@
-import { MockNominative } from '@jamashita/publikum-object';
 import { MockEntity } from '../MockEntity';
+import { MockNominative } from '../MockNominative';
 import { MockValueObject } from '../MockValueObject';
 
 describe('MockEntity', () => {
