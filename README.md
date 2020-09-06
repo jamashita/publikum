@@ -151,7 +151,6 @@ Class for random string, random number.
     * [ ] `sequence<T>(arr: Array<Promise<T>>): Promise<Array<T>>;`
 * [x] `Request.head()`
 
-
 ## License
 
 [MIT](LICENSE)

@@ -33,7 +33,6 @@
   },
   "dependencies": {
     "@jamashita/publikum-error": "^2.7.1",
-    "@jamashita/publikum-json": "^2.7.1",
     "@jamashita/publikum-type": "^2.7.1",
     "got": "11.6.0"
   },
