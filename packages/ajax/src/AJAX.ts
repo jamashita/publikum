@@ -73,7 +73,7 @@ export class AJAX<T extends AJAXResponseType> implements IAJAX<T> {
     const {
       status,
       data
-    }: AxiosResponse<AJAXBodyKV[T]> = await this.axios.delete<AJAXBodyKV[T]>(url);
+    }: AxiosResponse<AJAXBodyKV[T]> = await this.axios.head<AJAXBodyKV[T]>(url);
 
     return {
       status,
