@@ -11,7 +11,6 @@ const strRes: string = JSON.stringify({
 const blobRes: Blob = new Blob([res], {
   type: 'text/plain'
 });
-
 const bufferRes: ArrayBuffer = new ArrayBuffer(1);
 const url: string = '/morceau/de/poitrine';
 const CONTINUE: number = 100;
@@ -437,7 +436,7 @@ describe('AJAX', () => {
 
       const ajax: AJAX<'json'> = new AJAX<'json'>('json');
 
-      const r: AJAXResponse<'text'> = await ajax.put(url);
+      const r: AJAXResponse<'json'> = await ajax.put(url);
 
       expect(r.status).toBe(OK);
       expect(r.body).toStrictEqual(JSON.parse(strRes));
