@@ -1,4 +1,4 @@
-import { MockError } from '@jamashita/publikum-object';
+import { MockRuntimeError } from '@jamashita/publikum-error';
 import sinon, { SinonSpy } from 'sinon';
 import { Alive } from '../Alive';
 import { Contradiction } from '../Contradiction';
@@ -10,10 +10,10 @@ describe('Contradiction', () => {
   describe('get', () => {
     it('throws given error', () => {
       expect.assertions(2);
-      const error1: MockError = new MockError();
-      const error2: MockError = new MockError();
-      const contradiction1: Contradiction<number, MockError> = Contradiction.of<number, MockError>(error1);
-      const contradiction2: Contradiction<number, MockError> = Contradiction.of<number, MockError>(error2);
+      const error1: MockRuntimeError = new MockRuntimeError();
+      const error2: MockRuntimeError = new MockRuntimeError();
+      const contradiction1: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(error1);
+      const contradiction2: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(error2);
 
       expect(() => {
         contradiction1.get();
@@ -27,10 +27,10 @@ describe('Contradiction', () => {
   describe('getCause', () => {
     it('returns given error', () => {
       expect.assertions(2);
-      const error1: MockError = new MockError();
-      const error2: MockError = new MockError();
-      const contradiction1: Contradiction<number, MockError> = Contradiction.of<number, MockError>(error1);
-      const contradiction2: Contradiction<number, MockError> = Contradiction.of<number, MockError>(error2);
+      const error1: MockRuntimeError = new MockRuntimeError();
+      const error2: MockRuntimeError = new MockRuntimeError();
+      const contradiction1: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(error1);
+      const contradiction2: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(error2);
 
       expect(contradiction1.getCause()).toBe(error1);
       expect(contradiction2.getCause()).toBe(error2);
@@ -40,8 +40,8 @@ describe('Contradiction', () => {
   describe('isAlive', () => {
     it('always returns false', () => {
       expect.assertions(1);
-      const error: MockError = new MockError();
-      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(error);
+      const error: MockRuntimeError = new MockRuntimeError();
+      const contradiction: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(error);
 
       expect(contradiction.isAlive()).toBe(false);
     });
@@ -50,8 +50,8 @@ describe('Contradiction', () => {
   describe('isDead', () => {
     it('always returns false', () => {
       expect.assertions(1);
-      const error: MockError = new MockError();
-      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(error);
+      const error: MockRuntimeError = new MockRuntimeError();
+      const contradiction: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(error);
 
       expect(contradiction.isDead()).toBe(false);
     });
@@ -60,8 +60,8 @@ describe('Contradiction', () => {
   describe('isContradiction', () => {
     it('always returns true', () => {
       expect.assertions(1);
-      const error: MockError = new MockError();
-      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(error);
+      const error: MockRuntimeError = new MockRuntimeError();
+      const contradiction: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(error);
 
       expect(contradiction.isContradiction()).toBe(true);
     });
@@ -74,7 +74,7 @@ describe('Contradiction', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(value);
+      const contradiction: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(value);
 
       // @ts-expect-error
       contradiction.ifAlive(() => {
@@ -92,7 +92,7 @@ describe('Contradiction', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(value);
+      const contradiction: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(value);
 
       // @ts-expect-error
       contradiction.ifDead(() => {
@@ -110,7 +110,7 @@ describe('Contradiction', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(value);
+      const contradiction: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(value);
 
       contradiction.ifContradiction((v: unknown) => {
         spy();
@@ -124,12 +124,12 @@ describe('Contradiction', () => {
   describe('equals', () => {
     it('returns true if Contradiction given even if the cause is different', () => {
       expect.assertions(5);
-      const alive: Alive<number, MockError> = Alive.of<number, MockError>(2);
-      const dead: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
-      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(null);
-      const still: Still<number, MockError> = Still.of<number, MockError>();
+      const alive: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(2);
+      const dead: Dead<number, MockRuntimeError> = Dead.of<number, MockRuntimeError>(new MockRuntimeError());
+      const contradiction: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(null);
+      const still: Still<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
 
-      const schrodinger: Schrodinger<number, MockError> = Contradiction.of<number, MockError>(undefined);
+      const schrodinger: Schrodinger<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(undefined);
 
       expect(schrodinger.equals(schrodinger)).toBe(true);
       expect(schrodinger.equals(alive)).toBe(false);
@@ -142,7 +142,7 @@ describe('Contradiction', () => {
   describe('toString', () => {
     it('returns Contradiction and its retaining cause', () => {
       expect.assertions(1);
-      expect(Contradiction.of<number, MockError>(null).toString()).toBe('Contradiction: null');
+      expect(Contradiction.of<number, MockRuntimeError>(null).toString()).toBe('Contradiction: null');
     });
   });
 });

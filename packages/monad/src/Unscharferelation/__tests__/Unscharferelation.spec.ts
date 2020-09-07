@@ -1,4 +1,4 @@
-import { MockError } from '@jamashita/publikum-object';
+import { MockRuntimeError } from '@jamashita/publikum-error';
 import sinon, { SinonSpy } from 'sinon';
 import { Schrodinger } from '../../Superposition/Schrodinger/Schrodinger';
 import { Epoque } from '../Epoque/Interface/Epoque';
@@ -409,7 +409,7 @@ describe('Unscharferelation', () => {
 
     it('async: Lost case', async () => {
       expect.assertions(1);
-      expect(await Unscharferelation.maybe(Promise.reject(new MockError())).terminate()).toBeInstanceOf(Lost);
+      expect(await Unscharferelation.maybe(Promise.reject(new MockRuntimeError())).terminate()).toBeInstanceOf(Lost);
     });
   });
 
@@ -494,7 +494,7 @@ describe('Unscharferelation', () => {
 
     it('promise is rejected', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
       const present: Unscharferelation<number> = Unscharferelation.present<number>(Promise.reject<number>(error));
       const heisenberg: Heisenberg<number> = await present.terminate();
@@ -531,7 +531,7 @@ describe('Unscharferelation', () => {
 
     it('promise is rejected', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
       const absent: Unscharferelation<number> = Unscharferelation.absent<number>(Promise.reject<null>(error));
       const heisenberg: Heisenberg<number> = await absent.terminate();
@@ -774,15 +774,15 @@ describe('Unscharferelation', () => {
 
     it('present: if the value is Error, will transform to dead', async () => {
       expect.assertions(2);
-      const value: MockError = new MockError();
+      const value: MockRuntimeError = new MockRuntimeError();
 
-      const unscharferelation: Unscharferelation<MockError> = Unscharferelation.of<MockError>(
-        (epoque: Epoque<MockError>) => {
+      const unscharferelation: Unscharferelation<MockRuntimeError> = Unscharferelation.of<MockRuntimeError>(
+        (epoque: Epoque<MockRuntimeError>) => {
           epoque.accept(value);
         }
       );
 
-      const schrodinger: Schrodinger<MockError, UnscharferelationError> = await unscharferelation.toSuperposition().terminate();
+      const schrodinger: Schrodinger<MockRuntimeError, UnscharferelationError> = await unscharferelation.toSuperposition().terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -808,7 +808,7 @@ describe('Unscharferelation', () => {
 
     it('lost: will transform to contradiction', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
       const unscharferelation: Unscharferelation<number> = Unscharferelation.of<number>(
         (epoque: Epoque<number>) => {

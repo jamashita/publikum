@@ -1,5 +1,5 @@
+import { MockRuntimeError } from '@jamashita/publikum-error';
 import { Equalable } from '@jamashita/publikum-interface';
-import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { Absent } from '../Absent';
 import { Heisenberg } from '../Heisenberg';
@@ -164,7 +164,7 @@ describe('Present', () => {
       const present1: Present<number> = Present.of<number>(2);
       const present2: Present<number> = Present.of<number>(3);
       const absent: Absent<number> = Absent.of<number>();
-      const lost: Lost<number> = Lost.of<number>(new MockError());
+      const lost: Lost<number> = Lost.of<number>(new MockRuntimeError());
       const uncertain: Uncertain<number> = Uncertain.of<number>();
 
       const heisenberg: Heisenberg<number> = Present.of<number>(2);

@@ -1,6 +1,6 @@
-import { MockValueObject } from '../MockValueObject';
+import { MockValueObject } from '../Mock/MockValueObject';
 
-describe('MockValueObject', () => {
+describe('ValueObject', () => {
   describe('hashCode', () => {
     it('normal case', () => {
       expect.assertions(1);

@@ -1,4 +1,4 @@
-import { MockError } from '@jamashita/publikum-object';
+import { MockRuntimeError } from '@jamashita/publikum-error';
 import sinon, { SinonSpy } from 'sinon';
 import { MockChrono } from '../../Chrono/Mock/MockChrono';
 import { DeadConstructor } from '../../Interface/DeadConstructor';
@@ -14,7 +14,7 @@ describe('DestroyChronoPlan', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const chrono: MockChrono<number, MockError> = new MockChrono<number, MockError>(
+      const chrono: MockChrono<number, MockRuntimeError> = new MockChrono<number, MockRuntimeError>(
         () => {
           spy1();
         },
@@ -25,9 +25,9 @@ describe('DestroyChronoPlan', () => {
           spy3();
           expect(v).toBe(value);
         },
-        new Set<DeadConstructor<MockError>>()
+        new Set<DeadConstructor<MockRuntimeError>>()
       );
-      const plan: DestroyChronoPlan<number, MockError> = DestroyChronoPlan.of<number, MockError>(chrono);
+      const plan: DestroyChronoPlan<number, MockRuntimeError> = DestroyChronoPlan.of<number, MockRuntimeError>(chrono);
 
       plan.onDestroy(value);
 

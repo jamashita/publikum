@@ -1,8 +1,8 @@
-import { MockEntity } from '../MockEntity';
-import { MockNominative } from '../MockNominative';
-import { MockValueObject } from '../MockValueObject';
+import { MockEntity } from '../Mock/MockEntity';
+import { MockNominative } from '../Mock/MockNominative';
+import { MockValueObject } from '../Mock/MockValueObject';
 
-describe('MockEntity', () => {
+describe('Entity', () => {
   describe('equals', () => {
     it('returns true when the ids equal', () => {
       expect.assertions(3);

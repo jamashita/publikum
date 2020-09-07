@@ -1,4 +1,4 @@
-import { MockError } from '@jamashita/publikum-object';
+import { MockRuntimeError } from '@jamashita/publikum-error';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { UnscharferelationError } from '../../Unscharferelation/Error/UnscharferelationError';
 import { Heisenberg } from '../../Unscharferelation/Heisenberg/Heisenberg';
@@ -16,35 +16,35 @@ describe('Superposition', () => {
   describe('equals', () => {
     it('returns true if their retaining Schrodingers are the same', () => {
       expect.assertions(5);
-      const superposition1: Superposition<number, MockError> = Superposition.of<number, MockError>(
-        (chrono: Chrono<number, MockError>) => {
+      const superposition1: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
           chrono.accept(-1);
         },
-        MockError
+        MockRuntimeError
       );
-      const superposition2: Superposition<number, MockError> = Superposition.of<number, MockError>(
-        (chrono: Chrono<number, MockError>) => {
+      const superposition2: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
           chrono.accept(-1);
         },
-        MockError
+        MockRuntimeError
       );
-      const superposition3: Superposition<number, MockError> = Superposition.of<number, MockError>(
-        (chrono: Chrono<number, MockError>) => {
+      const superposition3: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
           chrono.accept(0);
         },
-        MockError
+        MockRuntimeError
       );
-      const superposition4: Superposition<number, MockError> = Superposition.of<number, MockError>(
-        (chrono: Chrono<number, MockError>) => {
-          chrono.decline(new MockError());
+      const superposition4: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
+          chrono.decline(new MockRuntimeError());
         },
-        MockError
+        MockRuntimeError
       );
-      const superposition5: Superposition<number, MockError> = Superposition.of<number, MockError>(
-        (chrono: Chrono<number, MockError>) => {
+      const superposition5: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
           chrono.throw(null);
         },
-        MockError
+        MockRuntimeError
       );
 
       expect(superposition1.equals(superposition1)).toBe(true);
@@ -58,27 +58,27 @@ describe('Superposition', () => {
   describe('toString', () => {
     it('returns its retaining Schrodinger string', () => {
       expect.assertions(3);
-      const superposition1: Superposition<number, MockError> = Superposition.of<number, MockError>(
-        (chrono: Chrono<number, MockError>) => {
+      const superposition1: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
           chrono.accept(-1);
         },
-        MockError
+        MockRuntimeError
       );
-      const superposition2: Superposition<number, MockError> = Superposition.of<number, MockError>(
-        (chrono: Chrono<number, MockError>) => {
-          chrono.decline(new MockError());
+      const superposition2: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
+          chrono.decline(new MockRuntimeError());
         },
-        MockError
+        MockRuntimeError
       );
-      const superposition3: Superposition<number, MockError> = Superposition.of<number, MockError>(
-        (chrono: Chrono<number, MockError>) => {
+      const superposition3: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
           chrono.throw(null);
         },
-        MockError
+        MockRuntimeError
       );
 
       expect(superposition1.toString()).toBe('Alive: -1');
-      expect(superposition2.toString()).toBe('Dead: MockError: failed');
+      expect(superposition2.toString()).toBe('Dead: MockRuntimeError: failed');
       expect(superposition3.toString()).toBe('Contradiction: null');
     });
   });
@@ -86,11 +86,11 @@ describe('Superposition', () => {
   describe('all', () => {
     it('no superpositions', async () => {
       expect.assertions(2);
-      const superpositions: Array<Superposition<number, MockError>> = [];
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [];
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await Superposition.all<number, MockError>(
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       ).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
@@ -99,15 +99,15 @@ describe('Superposition', () => {
 
     it('sync: all are Alive', async () => {
       expect.assertions(5);
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.alive<number, MockError>(0, MockError),
-        Superposition.alive<number, MockError>(1, MockError),
-        Superposition.alive<number, MockError>(2, MockError)
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.alive<number, MockRuntimeError>(0, MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(1, MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(2, MockRuntimeError)
       ];
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await Superposition.all<number, MockError>(
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       ).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
@@ -117,7 +117,7 @@ describe('Superposition', () => {
       expect(array).toHaveLength(superpositions.length);
       for (let i: number = 0; i < array.length; i++) {
         // eslint-disable-next-line no-await-in-loop
-        const s: Schrodinger<number, MockError> = await superpositions[i].terminate();
+        const s: Schrodinger<number, MockRuntimeError> = await superpositions[i].terminate();
 
         expect(array[i]).toBe(s.get());
       }
@@ -125,19 +125,19 @@ describe('Superposition', () => {
 
     it('sync: contains Dead on first position', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.dead<number, MockError>(error, MockError),
-        Superposition.alive<number, MockError>(1, MockError),
-        Superposition.alive<number, MockError>(2, MockError)
+      const error: MockRuntimeError = new MockRuntimeError();
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.dead<number, MockRuntimeError>(error, MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(1, MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(2, MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -147,19 +147,19 @@ describe('Superposition', () => {
 
     it('sync: contains Dead on second position', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.alive<number, MockError>(0, MockError),
-        Superposition.dead<number, MockError>(error, MockError),
-        Superposition.alive<number, MockError>(2, MockError)
+      const error: MockRuntimeError = new MockRuntimeError();
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.alive<number, MockRuntimeError>(0, MockRuntimeError),
+        Superposition.dead<number, MockRuntimeError>(error, MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(2, MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -169,19 +169,19 @@ describe('Superposition', () => {
 
     it('sync: contains Dead on last position', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.alive<number, MockError>(0, MockError),
-        Superposition.alive<number, MockError>(1, MockError),
-        Superposition.dead<number, MockError>(error, MockError)
+      const error: MockRuntimeError = new MockRuntimeError();
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.alive<number, MockRuntimeError>(0, MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(1, MockRuntimeError),
+        Superposition.dead<number, MockRuntimeError>(error, MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -191,20 +191,20 @@ describe('Superposition', () => {
 
     it('sync: contains more than 1 Dead, but the last one', async () => {
       expect.assertions(2);
-      const error1: MockError = new MockError();
-      const error2: MockError = new MockError();
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.dead<number, MockError>(error1, MockError),
-        Superposition.dead<number, MockError>(error2, MockError),
-        Superposition.alive<number, MockError>(2, MockError)
+      const error1: MockRuntimeError = new MockRuntimeError();
+      const error2: MockRuntimeError = new MockRuntimeError();
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.dead<number, MockRuntimeError>(error1, MockRuntimeError),
+        Superposition.dead<number, MockRuntimeError>(error2, MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(2, MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -214,20 +214,20 @@ describe('Superposition', () => {
 
     it('sync: contains more than 1 Dead, but the second one', async () => {
       expect.assertions(2);
-      const error1: MockError = new MockError();
-      const error2: MockError = new MockError();
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.dead<number, MockError>(error1, MockError),
-        Superposition.alive<number, MockError>(1, MockError),
-        Superposition.dead<number, MockError>(error2, MockError)
+      const error1: MockRuntimeError = new MockRuntimeError();
+      const error2: MockRuntimeError = new MockRuntimeError();
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.dead<number, MockRuntimeError>(error1, MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(1, MockRuntimeError),
+        Superposition.dead<number, MockRuntimeError>(error2, MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -237,20 +237,20 @@ describe('Superposition', () => {
 
     it('sync: contains more than 1 Dead, but the first one', async () => {
       expect.assertions(2);
-      const error1: MockError = new MockError();
-      const error2: MockError = new MockError();
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.alive<number, MockError>(0, MockError),
-        Superposition.dead<number, MockError>(error1, MockError),
-        Superposition.dead<number, MockError>(error2, MockError)
+      const error1: MockRuntimeError = new MockRuntimeError();
+      const error2: MockRuntimeError = new MockRuntimeError();
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.alive<number, MockRuntimeError>(0, MockRuntimeError),
+        Superposition.dead<number, MockRuntimeError>(error1, MockRuntimeError),
+        Superposition.dead<number, MockRuntimeError>(error2, MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -260,21 +260,21 @@ describe('Superposition', () => {
 
     it('sync: contains more than 1 Dead, all', async () => {
       expect.assertions(2);
-      const error1: MockError = new MockError();
-      const error2: MockError = new MockError();
-      const error3: MockError = new MockError();
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.dead<number, MockError>(error1, MockError),
-        Superposition.dead<number, MockError>(error2, MockError),
-        Superposition.dead<number, MockError>(error3, MockError)
+      const error1: MockRuntimeError = new MockRuntimeError();
+      const error2: MockRuntimeError = new MockRuntimeError();
+      const error3: MockRuntimeError = new MockRuntimeError();
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.dead<number, MockRuntimeError>(error1, MockRuntimeError),
+        Superposition.dead<number, MockRuntimeError>(error2, MockRuntimeError),
+        Superposition.dead<number, MockRuntimeError>(error3, MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -284,15 +284,15 @@ describe('Superposition', () => {
 
     it('async: all are Alive', async () => {
       expect.assertions(5);
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.alive<number, MockError>(Promise.resolve<number>(0), MockError),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(1), MockError),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(2), MockError)
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(0), MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(1), MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(2), MockRuntimeError)
       ];
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await Superposition.all<number, MockError>(
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       ).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
@@ -302,7 +302,7 @@ describe('Superposition', () => {
       expect(array).toHaveLength(superpositions.length);
       for (let i: number = 0; i < array.length; i++) {
         // eslint-disable-next-line no-await-in-loop
-        const s: Schrodinger<number, MockError> = await superpositions[i].terminate();
+        const s: Schrodinger<number, MockRuntimeError> = await superpositions[i].terminate();
 
         expect(array[i]).toBe(s.get());
       }
@@ -310,19 +310,19 @@ describe('Superposition', () => {
 
     it('async: contains Dead on first position', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.dead<number, MockError>(Promise.reject<number>(error), MockError),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(1), MockError),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(2), MockError)
+      const error: MockRuntimeError = new MockRuntimeError();
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error), MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(1), MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(2), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -332,19 +332,19 @@ describe('Superposition', () => {
 
     it('async: contains Dead on second position', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.alive<number, MockError>(Promise.resolve<number>(0), MockError),
-        Superposition.dead<number, MockError>(Promise.reject<number>(error), MockError),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(2), MockError)
+      const error: MockRuntimeError = new MockRuntimeError();
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(0), MockRuntimeError),
+        Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error), MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(2), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -354,19 +354,19 @@ describe('Superposition', () => {
 
     it('async: contains Dead on last position', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.alive<number, MockError>(Promise.resolve<number>(0), MockError),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(1), MockError),
-        Superposition.dead<number, MockError>(Promise.reject<number>(error), MockError)
+      const error: MockRuntimeError = new MockRuntimeError();
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(0), MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(1), MockRuntimeError),
+        Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -376,20 +376,20 @@ describe('Superposition', () => {
 
     it('async: contains more than 1 Dead, but the last one', async () => {
       expect.assertions(2);
-      const error1: MockError = new MockError();
-      const error2: MockError = new MockError();
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.dead<number, MockError>(Promise.reject<number>(error1), MockError),
-        Superposition.dead<number, MockError>(Promise.reject<number>(error2), MockError),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(2), MockError)
+      const error1: MockRuntimeError = new MockRuntimeError();
+      const error2: MockRuntimeError = new MockRuntimeError();
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error1), MockRuntimeError),
+        Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error2), MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(2), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -399,20 +399,20 @@ describe('Superposition', () => {
 
     it('async: contains more than 1 Dead, but the second one', async () => {
       expect.assertions(2);
-      const error1: MockError = new MockError();
-      const error2: MockError = new MockError();
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.dead<number, MockError>(Promise.reject<number>(error1), MockError),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(1), MockError),
-        Superposition.dead<number, MockError>(Promise.reject<number>(error2), MockError)
+      const error1: MockRuntimeError = new MockRuntimeError();
+      const error2: MockRuntimeError = new MockRuntimeError();
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error1), MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(1), MockRuntimeError),
+        Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error2), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -422,20 +422,20 @@ describe('Superposition', () => {
 
     it('async: contains more than 1 Dead, but the first one', async () => {
       expect.assertions(2);
-      const error1: MockError = new MockError();
-      const error2: MockError = new MockError();
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.alive<number, MockError>(Promise.resolve<number>(0), MockError),
-        Superposition.dead<number, MockError>(Promise.reject<number>(error1), MockError),
-        Superposition.dead<number, MockError>(Promise.reject<number>(error2), MockError)
+      const error1: MockRuntimeError = new MockRuntimeError();
+      const error2: MockRuntimeError = new MockRuntimeError();
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(0), MockRuntimeError),
+        Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error1), MockRuntimeError),
+        Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error2), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -445,22 +445,22 @@ describe('Superposition', () => {
 
     it('async: contains more than 1 Dead, all', async () => {
       expect.assertions(2);
-      const error1: MockError = new MockError();
-      const error2: MockError = new MockError();
-      const error3: MockError = new MockError();
+      const error1: MockRuntimeError = new MockRuntimeError();
+      const error2: MockRuntimeError = new MockRuntimeError();
+      const error3: MockRuntimeError = new MockRuntimeError();
 
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.dead<number, MockError>(Promise.reject<number>(error1), MockError),
-        Superposition.dead<number, MockError>(Promise.reject<number>(error2), MockError),
-        Superposition.dead<number, MockError>(Promise.reject<number>(error3), MockError)
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error1), MockRuntimeError),
+        Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error2), MockRuntimeError),
+        Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error3), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -470,23 +470,23 @@ describe('Superposition', () => {
 
     it('includes at least one Contradiction, will return Contradiction, Contradiction comes faster than Dead', async () => {
       expect.assertions(2);
-      const error1: MockError = new MockError();
-      const error2: MockError = new MockError();
+      const error1: MockRuntimeError = new MockRuntimeError();
+      const error2: MockRuntimeError = new MockRuntimeError();
 
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.of<number, MockError>((chrono: Chrono<number, MockError>) => {
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.of<number, MockRuntimeError>((chrono: Chrono<number, MockRuntimeError>) => {
           chrono.throw(error1);
-        }, MockError),
-        Superposition.dead<number, MockError>(Promise.reject<number>(error2), MockError),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(2), MockError)
+        }, MockRuntimeError),
+        Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error2), MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(2), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isContradiction()).toBe(true);
       expect(() => {
@@ -496,23 +496,23 @@ describe('Superposition', () => {
 
     it('includes at least one Contradiction, will return Contradiction, Contradiction comes later than Dead', async () => {
       expect.assertions(2);
-      const error1: MockError = new MockError();
-      const error2: MockError = new MockError();
+      const error1: MockRuntimeError = new MockRuntimeError();
+      const error2: MockRuntimeError = new MockRuntimeError();
 
-      const superpositions: Array<Superposition<number, MockError>> = [
-        Superposition.dead<number, MockError>(Promise.reject<number>(error1), MockError),
-        Superposition.of<number, MockError>((chrono: Chrono<number, MockError>) => {
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [
+        Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error1), MockRuntimeError),
+        Superposition.of<number, MockRuntimeError>((chrono: Chrono<number, MockRuntimeError>) => {
           chrono.throw(error2);
-        }, MockError),
-        Superposition.alive<number, MockError>(Promise.resolve<number>(2), MockError)
+        }, MockRuntimeError),
+        Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(2), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockError> = Superposition.all<number, MockError>(
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
         superpositions,
-        MockError
+        MockRuntimeError
       );
 
-      const schrodinger: Schrodinger<Array<number>, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isContradiction()).toBe(true);
       expect(() => {
@@ -526,11 +526,11 @@ describe('Superposition', () => {
       expect.assertions(2);
       const value: number = 2;
 
-      const superposition: Superposition<number, MockError> = Superposition.playground<number, MockError>(() => {
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.playground<number, MockRuntimeError>(() => {
         return value;
-      }, MockError);
+      }, MockRuntimeError);
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(value);
@@ -538,13 +538,13 @@ describe('Superposition', () => {
 
     it('sync: Dead case', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
-      const superposition: Superposition<number, MockError> = Superposition.playground<number, MockError>(() => {
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.playground<number, MockRuntimeError>(() => {
         throw error;
-      }, MockError);
+      }, MockRuntimeError);
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -554,13 +554,13 @@ describe('Superposition', () => {
 
     it('sync: Contradiction case', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
-      const superposition: Superposition<number, MockError> = Superposition.playground<number, MockError>(() => {
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.playground<number, MockRuntimeError>(() => {
         throw error;
       });
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isContradiction()).toBe(true);
       expect(() => {
@@ -572,11 +572,11 @@ describe('Superposition', () => {
       expect.assertions(2);
       const value: number = 2;
 
-      const superposition: Superposition<number, MockError> = Superposition.playground<number, MockError>(() => {
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.playground<number, MockRuntimeError>(() => {
         return Promise.resolve<number>(value);
-      }, MockError);
+      }, MockRuntimeError);
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(value);
@@ -584,13 +584,13 @@ describe('Superposition', () => {
 
     it('async: Dead case', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
-      const superposition: Superposition<number, MockError> = Superposition.playground<number, MockError>(() => {
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.playground<number, MockRuntimeError>(() => {
         return Promise.reject<number>(error);
-      }, MockError);
+      }, MockRuntimeError);
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -600,13 +600,13 @@ describe('Superposition', () => {
 
     it('async: Contradiction case', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
-      const superposition: Superposition<number, MockError> = Superposition.playground<number, MockError>(() => {
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.playground<number, MockRuntimeError>(() => {
         return Promise.reject<number>(error);
       });
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger.isContradiction()).toBe(true);
       expect(() => {
@@ -619,11 +619,11 @@ describe('Superposition', () => {
     it('alive case', async () => {
       expect.assertions(3);
       const value: number = 2;
-      const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
+      const alive: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(value);
 
-      const superposition: Superposition<number, MockError> = Superposition.ofSchrodinger(alive, MockError);
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.ofSchrodinger(alive, MockRuntimeError);
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger).not.toBe(alive);
       expect(schrodinger.isAlive()).toBe(true);
@@ -632,12 +632,12 @@ describe('Superposition', () => {
 
     it('dead case', async () => {
       expect.assertions(3);
-      const error: MockError = new MockError();
-      const dead: Dead<number, MockError> = Dead.of<number, MockError>(error);
+      const error: MockRuntimeError = new MockRuntimeError();
+      const dead: Dead<number, MockRuntimeError> = Dead.of<number, MockRuntimeError>(error);
 
-      const superposition: Superposition<number, MockError> = Superposition.ofSchrodinger(dead, MockError);
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.ofSchrodinger(dead, MockRuntimeError);
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger).not.toBe(dead);
       expect(schrodinger.isDead()).toBe(true);
@@ -648,11 +648,11 @@ describe('Superposition', () => {
 
     it('contradiction case', async () => {
       expect.assertions(3);
-      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(null);
+      const contradiction: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(null);
 
-      const superposition: Superposition<number, MockError> = Superposition.ofSchrodinger(contradiction, MockError);
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.ofSchrodinger(contradiction, MockRuntimeError);
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger).not.toBe(contradiction);
       expect(schrodinger.isContradiction()).toBe(true);
@@ -663,11 +663,11 @@ describe('Superposition', () => {
 
     it('still case', async () => {
       expect.assertions(2);
-      const still: Still<number, MockError> = Still.of<number, MockError>();
+      const still: Still<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
 
-      const superposition: Superposition<number, MockError> = Superposition.ofSchrodinger(still, MockError);
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.ofSchrodinger(still, MockRuntimeError);
 
-      const schrodinger: Schrodinger<number, MockError> = await superposition.terminate();
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger).not.toBe(still);
       expect(() => {
@@ -681,8 +681,8 @@ describe('Superposition', () => {
       expect.assertions(2);
       const value: number = -6;
 
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(value, MockError);
-      const schrodinger: Schrodinger<number, MockError> = await alive.terminate();
+      const alive: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(value, MockRuntimeError);
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await alive.terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(value);
@@ -692,11 +692,11 @@ describe('Superposition', () => {
       expect.assertions(2);
       const value: number = -6;
 
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(
+      const alive: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(
         Promise.resolve<number>(value),
-        MockError
+        MockRuntimeError
       );
-      const schrodinger: Schrodinger<number, MockError> = await alive.terminate();
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await alive.terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toBe(value);
@@ -704,12 +704,12 @@ describe('Superposition', () => {
 
     it('promise is rejected: no error constructors', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(
+      const alive: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(
         Promise.reject<number>(error)
       );
-      const schrodinger: Schrodinger<number, MockError> = await alive.terminate();
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await alive.terminate();
 
       expect(schrodinger.isContradiction()).toBe(true);
       expect(() => {
@@ -719,13 +719,13 @@ describe('Superposition', () => {
 
     it('promise is rejected: error constructor', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
-      const alive: Superposition<number, MockError> = Superposition.alive<number, MockError>(
+      const alive: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(
         Promise.reject<number>(error),
-        MockError
+        MockRuntimeError
       );
-      const schrodinger: Schrodinger<number, MockError> = await alive.terminate();
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await alive.terminate();
 
       expect(schrodinger.isContradiction()).toBe(true);
       expect(() => {
@@ -737,10 +737,10 @@ describe('Superposition', () => {
   describe('dead', () => {
     it('sync', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error, MockError);
-      const schrodinger: Schrodinger<number, MockError> = await dead.terminate();
+      const dead: Superposition<number, MockRuntimeError> = Superposition.dead<number, MockRuntimeError>(error, MockRuntimeError);
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await dead.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -750,13 +750,13 @@ describe('Superposition', () => {
 
     it('async', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(
+      const dead: Superposition<number, MockRuntimeError> = Superposition.dead<number, MockRuntimeError>(
         Promise.reject<number>(error),
-        MockError
+        MockRuntimeError
       );
-      const schrodinger: Schrodinger<number, MockError> = await dead.terminate();
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await dead.terminate();
 
       expect(schrodinger.isDead()).toBe(true);
       expect(() => {
@@ -766,12 +766,12 @@ describe('Superposition', () => {
 
     it('promise is rejected: no error constructors', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(
+      const dead: Superposition<number, MockRuntimeError> = Superposition.dead<number, MockRuntimeError>(
         Promise.reject<number>(error)
       );
-      const schrodinger: Schrodinger<number, MockError> = await dead.terminate();
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await dead.terminate();
 
       expect(schrodinger.isContradiction()).toBe(true);
       expect(() => {
@@ -783,11 +783,11 @@ describe('Superposition', () => {
       expect.assertions(2);
       const value: number = -6;
 
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(
+      const dead: Superposition<number, MockRuntimeError> = Superposition.dead<number, MockRuntimeError>(
         Promise.resolve<number>(value),
-        MockError
+        MockRuntimeError
       );
-      const schrodinger: Schrodinger<number, MockError> = await dead.terminate();
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await dead.terminate();
 
       expect(schrodinger.isContradiction()).toBe(true);
       expect(() => {
@@ -797,10 +797,10 @@ describe('Superposition', () => {
 
     it('unexpected error given', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
-      const dead: Superposition<number, MockError> = Superposition.dead<number, MockError>(error);
-      const schrodinger: Schrodinger<number, MockError> = await dead.terminate();
+      const dead: Superposition<number, MockRuntimeError> = Superposition.dead<number, MockRuntimeError>(error);
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await dead.terminate();
 
       expect(schrodinger.isContradiction()).toBe(true);
       expect(() => {
@@ -812,13 +812,13 @@ describe('Superposition', () => {
   describe('get', () => {
     it('delegate inner Superposition', async () => {
       expect.assertions(1);
-      const mock: MockSuperposition<number, MockError> = new MockSuperposition<number, MockError>();
+      const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
 
       const spy: SinonSpy = sinon.spy();
 
       mock.get = spy;
 
-      const superposition: Superposition<number, MockError> = Superposition.ofSuperposition<number, MockError>(mock);
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.ofSuperposition<number, MockRuntimeError>(mock);
 
       await superposition.get();
 
@@ -829,13 +829,13 @@ describe('Superposition', () => {
   describe('terminate', () => {
     it('delegate inner Superposition', async () => {
       expect.assertions(1);
-      const mock: MockSuperposition<number, MockError> = new MockSuperposition<number, MockError>();
+      const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
 
       const spy: SinonSpy = sinon.spy();
 
       mock.terminate = spy;
 
-      const superposition: Superposition<number, MockError> = Superposition.ofSuperposition<number, MockError>(mock);
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.ofSuperposition<number, MockRuntimeError>(mock);
 
       await superposition.terminate();
 
@@ -846,13 +846,13 @@ describe('Superposition', () => {
   describe('filter', () => {
     it('delegate inner Superposition', () => {
       expect.assertions(1);
-      const mock: MockSuperposition<number, MockError> = new MockSuperposition<number, MockError>();
+      const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
 
       const spy: SinonSpy = sinon.spy();
 
       mock.filter = spy;
 
-      const superposition: Superposition<number, MockError> = Superposition.ofSuperposition<number, MockError>(mock);
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.ofSuperposition<number, MockRuntimeError>(mock);
 
       superposition.filter(() => {
         return true;
@@ -865,7 +865,7 @@ describe('Superposition', () => {
   describe('map', () => {
     it('delegate inner Superposition', () => {
       expect.assertions(2);
-      const mock: MockSuperposition<number, MockError> = new MockSuperposition<number, MockError>();
+      const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
 
       const spy: SinonSpy = sinon.spy();
       const stub: SinonStub = sinon.stub();
@@ -874,9 +874,9 @@ describe('Superposition', () => {
       mock.getErrors = stub;
       stub.returns([]);
 
-      const superposition: Superposition<number, MockError> = Superposition.ofSuperposition<number, MockError>(mock);
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.ofSuperposition<number, MockRuntimeError>(mock);
 
-      superposition.map<number, MockError>((v: number) => {
+      superposition.map<number, MockRuntimeError>((v: number) => {
         return v + 2;
       });
 
@@ -888,15 +888,15 @@ describe('Superposition', () => {
   describe('recover', () => {
     it('delegate inner Superposition', () => {
       expect.assertions(1);
-      const mock: MockSuperposition<number, MockError> = new MockSuperposition<number, MockError>();
+      const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
 
       const spy: SinonSpy = sinon.spy();
 
       mock.recover = spy;
 
-      const superposition: Superposition<number, MockError> = Superposition.ofSuperposition<number, MockError>(mock);
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.ofSuperposition<number, MockRuntimeError>(mock);
 
-      superposition.recover<number, MockError>(() => {
+      superposition.recover<number, MockRuntimeError>(() => {
         return 2;
       });
 
@@ -907,15 +907,15 @@ describe('Superposition', () => {
   describe('transform', () => {
     it('delegate inner Superposition', () => {
       expect.assertions(1);
-      const mock: MockSuperposition<number, MockError> = new MockSuperposition<number, MockError>();
+      const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
 
       const spy: SinonSpy = sinon.spy();
 
       mock.transform = spy;
 
-      const superposition: Superposition<number, MockError> = Superposition.ofSuperposition<number, MockError>(mock);
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.ofSuperposition<number, MockRuntimeError>(mock);
 
-      superposition.transform<number, MockError>(
+      superposition.transform<number, MockRuntimeError>(
         () => {
           return 2;
         },
@@ -931,13 +931,13 @@ describe('Superposition', () => {
   describe('pass', () => {
     it('delegate inner Superposition', () => {
       expect.assertions(1);
-      const mock: MockSuperposition<number, MockError> = new MockSuperposition<number, MockError>();
+      const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
 
       const spy: SinonSpy = sinon.spy();
 
       mock.pass = spy;
 
-      const superposition: Superposition<number, MockError> = Superposition.ofSuperposition<number, MockError>(mock);
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.ofSuperposition<number, MockRuntimeError>(mock);
 
       superposition.pass(
         () => {
@@ -958,13 +958,13 @@ describe('Superposition', () => {
   describe('peek', () => {
     it('delegate inner Superposition', () => {
       expect.assertions(1);
-      const mock: MockSuperposition<number, MockError> = new MockSuperposition<number, MockError>();
+      const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
 
       const spy: SinonSpy = sinon.spy();
 
       mock.peek = spy;
 
-      const superposition: Superposition<number, MockError> = Superposition.ofSuperposition<number, MockError>(mock);
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.ofSuperposition<number, MockRuntimeError>(mock);
 
       superposition.peek(() => {
         // NOOP
@@ -979,11 +979,11 @@ describe('Superposition', () => {
       expect.assertions(2);
       const value: number = 2;
 
-      const superposition: Superposition<number, MockError> = Superposition.of<number, MockError>(
-        (chrono: Chrono<number, MockError>) => {
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
           chrono.accept(value);
         },
-        MockError
+        MockRuntimeError
       );
 
       const heisenberg: Heisenberg<number> = await superposition.toUnscharferelation().terminate();
@@ -996,11 +996,11 @@ describe('Superposition', () => {
       expect.assertions(2);
       const value: undefined = undefined;
 
-      const superposition: Superposition<undefined, MockError> = Superposition.of<undefined, MockError>(
-        (chrono: Chrono<undefined, MockError>) => {
+      const superposition: Superposition<undefined, MockRuntimeError> = Superposition.of<undefined, MockRuntimeError>(
+        (chrono: Chrono<undefined, MockRuntimeError>) => {
           chrono.accept(value);
         },
-        MockError
+        MockRuntimeError
       );
 
       const heisenberg: Heisenberg<undefined> = await superposition.toUnscharferelation().terminate();
@@ -1013,13 +1013,13 @@ describe('Superposition', () => {
 
     it('dead: will transform to absent', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
-      const superposition: Superposition<number, MockError> = Superposition.of<number, MockError>(
-        (chrono: Chrono<number, MockError>) => {
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
           chrono.decline(error);
         },
-        MockError
+        MockRuntimeError
       );
 
       const heisenberg: Heisenberg<number> = await superposition.toUnscharferelation().terminate();
@@ -1032,13 +1032,13 @@ describe('Superposition', () => {
 
     it('contradiction: will transform to lost', async () => {
       expect.assertions(2);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
-      const superposition: Superposition<number, MockError> = Superposition.of<number, MockError>(
-        (chrono: Chrono<number, MockError>) => {
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
           chrono.throw(error);
         },
-        MockError
+        MockRuntimeError
       );
 
       const heisenberg: Heisenberg<number> = await superposition.toUnscharferelation().terminate();
