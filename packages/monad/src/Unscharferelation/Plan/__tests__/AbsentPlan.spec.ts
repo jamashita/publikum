@@ -1,4 +1,4 @@
-import { MockError } from '@jamashita/publikum-object';
+import { MockRuntimeError } from '@jamashita/publikum-error';
 import { Resolve } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
 import { Epoque } from '../../Epoque/Interface/Epoque';
@@ -351,7 +351,7 @@ describe('AbsentPlan', () => {
 
     it('error thrown', () => {
       expect.assertions(5);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -388,7 +388,7 @@ describe('AbsentPlan', () => {
 
     it('promise rejected given', async () => {
       expect.assertions(5);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
@@ -433,7 +433,7 @@ describe('AbsentPlan', () => {
 
     it('lost Unscharferelation given', async () => {
       expect.assertions(5);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();

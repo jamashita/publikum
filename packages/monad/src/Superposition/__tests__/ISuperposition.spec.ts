@@ -1,4 +1,4 @@
-import { MockError } from '@jamashita/publikum-object';
+import { MockRuntimeError } from '@jamashita/publikum-error';
 import { Chrono } from '../Chrono/Interface/Chrono';
 import { DeadConstructor } from '../Interface/DeadConstructor';
 import { containsError, isSuperposition } from '../Interface/ISuperposition';
@@ -9,36 +9,36 @@ describe('ISuperposition', () => {
   describe('is', () => {
     it('normal case', () => {
       expect.assertions(25);
-      const superposition1: Superposition<number, MockError> = Superposition.alive<number, MockError>(4);
-      const superposition2: SuperpositionInternal<number, MockError> = SuperpositionInternal.of<number, MockError>(
-        (chrono: Chrono<number, MockError>) => {
-          chrono.decline(new MockError());
+      const superposition1: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(4);
+      const superposition2: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
+          chrono.decline(new MockRuntimeError());
         },
         []
       );
 
-      expect(isSuperposition<number, MockError>(null)).toBe(false);
-      expect(isSuperposition<number, MockError>(undefined)).toBe(false);
-      expect(isSuperposition<number, MockError>('')).toBe(false);
-      expect(isSuperposition<number, MockError>('123')).toBe(false);
-      expect(isSuperposition<number, MockError>('abcd')).toBe(false);
-      expect(isSuperposition<number, MockError>(123)).toBe(false);
-      expect(isSuperposition<number, MockError>(0)).toBe(false);
-      expect(isSuperposition<number, MockError>(false)).toBe(false);
-      expect(isSuperposition<number, MockError>(true)).toBe(false);
-      expect(isSuperposition<number, MockError>(Symbol())).toBe(false);
-      expect(isSuperposition<number, MockError>(20n)).toBe(false);
-      expect(isSuperposition<number, MockError>({})).toBe(false);
-      expect(isSuperposition<number, MockError>([])).toBe(false);
+      expect(isSuperposition<number, MockRuntimeError>(null)).toBe(false);
+      expect(isSuperposition<number, MockRuntimeError>(undefined)).toBe(false);
+      expect(isSuperposition<number, MockRuntimeError>('')).toBe(false);
+      expect(isSuperposition<number, MockRuntimeError>('123')).toBe(false);
+      expect(isSuperposition<number, MockRuntimeError>('abcd')).toBe(false);
+      expect(isSuperposition<number, MockRuntimeError>(123)).toBe(false);
+      expect(isSuperposition<number, MockRuntimeError>(0)).toBe(false);
+      expect(isSuperposition<number, MockRuntimeError>(false)).toBe(false);
+      expect(isSuperposition<number, MockRuntimeError>(true)).toBe(false);
+      expect(isSuperposition<number, MockRuntimeError>(Symbol())).toBe(false);
+      expect(isSuperposition<number, MockRuntimeError>(20n)).toBe(false);
+      expect(isSuperposition<number, MockRuntimeError>({})).toBe(false);
+      expect(isSuperposition<number, MockRuntimeError>([])).toBe(false);
       expect(
-        isSuperposition<number, MockError>({
+        isSuperposition<number, MockRuntimeError>({
           get() {
             // NOOP
           }
         })
       ).toBe(false);
       expect(
-        isSuperposition<number, MockError>({
+        isSuperposition<number, MockRuntimeError>({
           get() {
             // NOOP
           },
@@ -48,7 +48,7 @@ describe('ISuperposition', () => {
         })
       ).toBe(false);
       expect(
-        isSuperposition<number, MockError>({
+        isSuperposition<number, MockRuntimeError>({
           get() {
             // NOOP
           },
@@ -61,7 +61,7 @@ describe('ISuperposition', () => {
         })
       ).toBe(false);
       expect(
-        isSuperposition<number, MockError>({
+        isSuperposition<number, MockRuntimeError>({
           get() {
             // NOOP
           },
@@ -77,7 +77,7 @@ describe('ISuperposition', () => {
         })
       ).toBe(false);
       expect(
-        isSuperposition<number, MockError>({
+        isSuperposition<number, MockRuntimeError>({
           get() {
             // NOOP
           },
@@ -96,7 +96,7 @@ describe('ISuperposition', () => {
         })
       ).toBe(false);
       expect(
-        isSuperposition<number, MockError>({
+        isSuperposition<number, MockRuntimeError>({
           get() {
             // NOOP
           },
@@ -118,7 +118,7 @@ describe('ISuperposition', () => {
         })
       ).toBe(false);
       expect(
-        isSuperposition<number, MockError>({
+        isSuperposition<number, MockRuntimeError>({
           get() {
             // NOOP
           },
@@ -143,7 +143,7 @@ describe('ISuperposition', () => {
         })
       ).toBe(false);
       expect(
-        isSuperposition<number, MockError>({
+        isSuperposition<number, MockRuntimeError>({
           get() {
             // NOOP
           },
@@ -171,7 +171,7 @@ describe('ISuperposition', () => {
         })
       ).toBe(false);
       expect(
-        isSuperposition<number, MockError>({
+        isSuperposition<number, MockRuntimeError>({
           get() {
             // NOOP
           },
@@ -202,7 +202,7 @@ describe('ISuperposition', () => {
         })
       ).toBe(false);
       expect(
-        isSuperposition<number, MockError>({
+        isSuperposition<number, MockRuntimeError>({
           get() {
             // NOOP
           },
@@ -235,29 +235,29 @@ describe('ISuperposition', () => {
           }
         })
       ).toBe(true);
-      expect(isSuperposition<number, MockError>(superposition1)).toBe(true);
-      expect(isSuperposition<number, MockError>(superposition2)).toBe(true);
+      expect(isSuperposition<number, MockRuntimeError>(superposition1)).toBe(true);
+      expect(isSuperposition<number, MockRuntimeError>(superposition2)).toBe(true);
     });
   });
 
   describe('containsError', () => {
     it('returns true if the very class is included', () => {
       expect.assertions(1);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
-      expect(containsError<Error>(error, new Set<DeadConstructor>([TypeError, SyntaxError, MockError]))).toBe(true);
+      expect(containsError<Error>(error, new Set<DeadConstructor>([TypeError, SyntaxError, MockRuntimeError]))).toBe(true);
     });
 
     it('returns false if the class is not included', () => {
       expect.assertions(1);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
       expect(containsError<Error>(error, new Set<DeadConstructor>([TypeError, SyntaxError]))).toBe(false);
     });
 
     it('returns true if super class of the class is included', () => {
       expect.assertions(1);
-      const error: MockError = new MockError();
+      const error: MockRuntimeError = new MockRuntimeError();
 
       expect(containsError<Error>(error, new Set<DeadConstructor>([TypeError, SyntaxError, Error]))).toBe(true);
     });

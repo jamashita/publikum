@@ -1,4 +1,4 @@
-import { MockError } from '@jamashita/publikum-object';
+import { MockRuntimeError } from '@jamashita/publikum-error';
 import sinon, { SinonSpy } from 'sinon';
 import { MockChrono } from '../../Chrono/Mock/MockChrono';
 import { DeadConstructor } from '../../Interface/DeadConstructor';
@@ -8,26 +8,26 @@ describe('RecoveryChronoPlan', () => {
   describe('onRecover', () => {
     it('normal case', () => {
       expect.assertions(4);
-      const value: MockError = new MockError();
+      const value: MockRuntimeError = new MockRuntimeError();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const chrono: MockChrono<number, MockError> = new MockChrono<number, MockError>(
+      const chrono: MockChrono<number, MockRuntimeError> = new MockChrono<number, MockRuntimeError>(
         () => {
           spy1();
         },
-        (v: MockError) => {
+        (v: MockRuntimeError) => {
           spy2();
           expect(v).toBe(value);
         },
         () => {
           spy3();
         },
-        new Set<DeadConstructor<MockError>>()
+        new Set<DeadConstructor<MockRuntimeError>>()
       );
-      const plan: RecoveryChronoPlan<number, MockError> = RecoveryChronoPlan.of<number, MockError>(chrono);
+      const plan: RecoveryChronoPlan<number, MockRuntimeError> = RecoveryChronoPlan.of<number, MockRuntimeError>(chrono);
 
       plan.onRecover(value);
 

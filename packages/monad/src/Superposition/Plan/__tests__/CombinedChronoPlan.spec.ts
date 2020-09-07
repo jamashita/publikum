@@ -1,4 +1,4 @@
-import { MockError } from '@jamashita/publikum-object';
+import { MockRuntimeError } from '@jamashita/publikum-error';
 import sinon, { SinonSpy } from 'sinon';
 import { PassThroughPlan } from '../../../Plan/PassThroughPlan';
 import { CombinedChronoPlan } from '../CombinedChronoPlan';
@@ -13,7 +13,7 @@ describe('CombinedChronoPlan', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const pass: PassThroughPlan<number, MockError> = PassThroughPlan.of<number, MockError>(
+      const pass: PassThroughPlan<number, MockRuntimeError> = PassThroughPlan.of<number, MockRuntimeError>(
         (v: number) => {
           spy1();
           expect(v).toBe(value);
@@ -25,7 +25,7 @@ describe('CombinedChronoPlan', () => {
           spy3();
         }
       );
-      const plan: CombinedChronoPlan<number, MockError> = CombinedChronoPlan.of<number, MockError>(pass, pass, pass);
+      const plan: CombinedChronoPlan<number, MockRuntimeError> = CombinedChronoPlan.of<number, MockRuntimeError>(pass, pass, pass);
 
       plan.onMap(value);
 
@@ -38,17 +38,17 @@ describe('CombinedChronoPlan', () => {
   describe('onRecover', () => {
     it('normal case', () => {
       expect.assertions(4);
-      const value: MockError = new MockError();
+      const value: MockRuntimeError = new MockRuntimeError();
 
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const pass: PassThroughPlan<number, MockError> = PassThroughPlan.of<number, MockError>(
+      const pass: PassThroughPlan<number, MockRuntimeError> = PassThroughPlan.of<number, MockRuntimeError>(
         () => {
           spy1();
         },
-        (v: MockError) => {
+        (v: MockRuntimeError) => {
           spy2();
           expect(v).toBe(value);
         },
@@ -56,7 +56,7 @@ describe('CombinedChronoPlan', () => {
           spy3();
         }
       );
-      const plan: CombinedChronoPlan<number, MockError> = CombinedChronoPlan.of<number, MockError>(pass, pass, pass);
+      const plan: CombinedChronoPlan<number, MockRuntimeError> = CombinedChronoPlan.of<number, MockRuntimeError>(pass, pass, pass);
 
       plan.onRecover(value);
 
@@ -75,7 +75,7 @@ describe('CombinedChronoPlan', () => {
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
 
-      const pass: PassThroughPlan<number, MockError> = PassThroughPlan.of<number, MockError>(
+      const pass: PassThroughPlan<number, MockRuntimeError> = PassThroughPlan.of<number, MockRuntimeError>(
         () => {
           spy1();
         },
@@ -87,7 +87,7 @@ describe('CombinedChronoPlan', () => {
           expect(v).toBe(value);
         }
       );
-      const plan: CombinedChronoPlan<number, MockError> = CombinedChronoPlan.of<number, MockError>(pass, pass, pass);
+      const plan: CombinedChronoPlan<number, MockRuntimeError> = CombinedChronoPlan.of<number, MockRuntimeError>(pass, pass, pass);
 
       plan.onDestroy(value);
 

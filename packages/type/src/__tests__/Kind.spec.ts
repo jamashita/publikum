@@ -1,4 +1,4 @@
-import { MockError } from '@jamashita/publikum-object';
+import { MockRuntimeError } from '@jamashita/publikum-error';
 import { randomBytes } from 'crypto';
 import { Kind } from '../Kind';
 import { Inconnu } from '../Value';
@@ -467,8 +467,8 @@ describe('Kind', () => {
       expect(Kind.isClass({}, Object)).toBe(true);
       expect(Kind.isClass([], Array)).toBe(true);
       expect(Kind.isClass(new Error(), Error)).toBe(true);
-      expect(Kind.isClass(new MockError(), Error)).toBe(true);
-      expect(Kind.isClass(new MockError(), MockError)).toBe(true);
+      expect(Kind.isClass(new MockRuntimeError(), Error)).toBe(true);
+      expect(Kind.isClass(new MockRuntimeError(), MockRuntimeError)).toBe(true);
     });
   });
 

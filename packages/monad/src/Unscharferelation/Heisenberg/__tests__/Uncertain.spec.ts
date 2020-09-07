@@ -1,4 +1,4 @@
-import { MockError } from '@jamashita/publikum-object';
+import { MockRuntimeError } from '@jamashita/publikum-error';
 import sinon, { SinonSpy } from 'sinon';
 import { UnscharferelationError } from '../../Error/UnscharferelationError';
 import { Absent } from '../Absent';
@@ -109,7 +109,7 @@ describe('Uncertain', () => {
       expect.assertions(5);
       const present: Present<number> = Present.of<number>(2);
       const absent: Absent<number> = Absent.of<number>();
-      const lost: Lost<number> = Lost.of<number>(new MockError());
+      const lost: Lost<number> = Lost.of<number>(new MockRuntimeError());
       const uncertain: Uncertain<number> = Uncertain.of<number>();
 
       const heisenberg: Heisenberg<number> = Uncertain.of<number>();

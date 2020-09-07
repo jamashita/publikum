@@ -1,5 +1,5 @@
+import { MockRuntimeError } from '@jamashita/publikum-error';
 import { Equalable } from '@jamashita/publikum-interface';
-import { MockError } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { Alive } from '../Alive';
 import { Contradiction } from '../Contradiction';
@@ -24,7 +24,7 @@ describe('Alive', () => {
     it('returns the inside value', () => {
       expect.assertions(1);
       const value: string = 'the lazy fox';
-      const alive: Alive<string, MockError> = Alive.of<string, MockError>(value);
+      const alive: Alive<string, MockRuntimeError> = Alive.of<string, MockRuntimeError>(value);
 
       expect(alive.get()).toBe(value);
     });
@@ -35,8 +35,8 @@ describe('Alive', () => {
       expect.assertions(4);
       const value1: number = 1;
       const value2: string = 'aiutare';
-      const alive1: Alive<number, MockError> = Alive.of<number, MockError>(value1);
-      const alive2: Alive<string, MockError> = Alive.of<string, MockError>(value2);
+      const alive1: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(value1);
+      const alive2: Alive<string, MockRuntimeError> = Alive.of<string, MockRuntimeError>(value2);
 
       expect(alive1.isAlive()).toBe(true);
       expect(alive1.get()).toBe(value1);
@@ -48,8 +48,8 @@ describe('Alive', () => {
   describe('isDead', () => {
     it('always returns false', () => {
       expect.assertions(2);
-      const alive1: Alive<number, MockError> = Alive.of<number, MockError>(1);
-      const alive2: Alive<string, MockError> = Alive.of<string, MockError>('aiutare');
+      const alive1: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(1);
+      const alive2: Alive<string, MockRuntimeError> = Alive.of<string, MockRuntimeError>('aiutare');
 
       expect(alive1.isDead()).toBe(false);
       expect(alive2.isDead()).toBe(false);
@@ -59,8 +59,8 @@ describe('Alive', () => {
   describe('isContradiction', () => {
     it('always returns false', () => {
       expect.assertions(2);
-      const alive1: Alive<number, MockError> = Alive.of<number, MockError>(1);
-      const alive2: Alive<string, MockError> = Alive.of<string, MockError>('aiutare');
+      const alive1: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(1);
+      const alive2: Alive<string, MockRuntimeError> = Alive.of<string, MockRuntimeError>('aiutare');
 
       expect(alive1.isContradiction()).toBe(false);
       expect(alive2.isContradiction()).toBe(false);
@@ -74,7 +74,7 @@ describe('Alive', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
+      const alive: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(value);
 
       alive.ifAlive((v: number) => {
         spy();
@@ -92,7 +92,7 @@ describe('Alive', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
+      const alive: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(value);
 
       // @ts-expect-error
       alive.ifDead(() => {
@@ -110,7 +110,7 @@ describe('Alive', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const alive: Alive<number, MockError> = Alive.of<number, MockError>(value);
+      const alive: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(value);
 
       // @ts-expect-error
       alive.ifContradiction(() => {
@@ -124,13 +124,13 @@ describe('Alive', () => {
   describe('equals', () => {
     it('returns true if the same value Alive given', () => {
       expect.assertions(6);
-      const alive1: Alive<number, MockError> = Alive.of<number, MockError>(2);
-      const alive2: Alive<number, MockError> = Alive.of<number, MockError>(3);
-      const dead: Dead<number, MockError> = Dead.of<number, MockError>(new MockError());
-      const contradiction: Contradiction<number, MockError> = Contradiction.of<number, MockError>(null);
-      const still: Still<number, MockError> = Still.of<number, MockError>();
+      const alive1: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(2);
+      const alive2: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(3);
+      const dead: Dead<number, MockRuntimeError> = Dead.of<number, MockRuntimeError>(new MockRuntimeError());
+      const contradiction: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(null);
+      const still: Still<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
 
-      const schrodinger: Schrodinger<number, MockError> = Alive.of<number, MockError>(2);
+      const schrodinger: Schrodinger<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(2);
 
       expect(schrodinger.equals(schrodinger)).toBe(true);
       expect(schrodinger.equals(alive1)).toBe(true);
@@ -142,10 +142,10 @@ describe('Alive', () => {
 
     it('returns true if the same Equalable instance Alive given', () => {
       expect.assertions(3);
-      const alive1: Alive<TestEqualable, MockError> = Alive.of<TestEqualable, MockError>(new TestEqualable(true));
-      const alive2: Alive<TestEqualable, MockError> = Alive.of<TestEqualable, MockError>(new TestEqualable(false));
+      const alive1: Alive<TestEqualable, MockRuntimeError> = Alive.of<TestEqualable, MockRuntimeError>(new TestEqualable(true));
+      const alive2: Alive<TestEqualable, MockRuntimeError> = Alive.of<TestEqualable, MockRuntimeError>(new TestEqualable(false));
 
-      const schrodinger: Schrodinger<TestEqualable, MockError> = Alive.of<TestEqualable, MockError>(new TestEqualable(true));
+      const schrodinger: Schrodinger<TestEqualable, MockRuntimeError> = Alive.of<TestEqualable, MockRuntimeError>(new TestEqualable(true));
 
       expect(schrodinger.equals(schrodinger)).toBe(true);
       expect(schrodinger.equals(alive1)).toBe(true);
@@ -156,7 +156,7 @@ describe('Alive', () => {
   describe('toString', () => {
     it('returns Alive and its retaining value', () => {
       expect.assertions(1);
-      expect(Alive.of<boolean, MockError>(true).toString()).toBe('Alive: true');
+      expect(Alive.of<boolean, MockRuntimeError>(true).toString()).toBe('Alive: true');
     });
   });
 });
