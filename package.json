@@ -15,7 +15,7 @@
   },
   "scripts": {
     "build": "lerna run --parallel build",
-    "clean": "lerna run --parallel clean",
+    "clean": "rimraf coverage && lerna run --parallel clean",
     "format": "eslint --fix 'packages/*/src/**/*.{ts,tsx}'",
     "preregister": "yarn build",
     "register": "lerna publish",
