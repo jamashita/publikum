@@ -1,3 +1,4 @@
+export * from './Chrono/Interface/Chrono';
 export * from './Error/SuperpositionError';
 export * from './Interface';
 export * from './Mock/MockSuperposition';
