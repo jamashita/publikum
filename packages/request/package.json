@@ -34,7 +34,7 @@
   "dependencies": {
     "@jamashita/publikum-error": "^2.7.5",
     "@jamashita/publikum-type": "^2.7.5",
-    "got": "11.6.1"
+    "got": "11.6.2"
   },
   "devDependencies": {
     "nock": "13.0.4"
