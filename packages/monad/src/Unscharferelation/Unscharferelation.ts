@@ -20,7 +20,7 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
       return Unscharferelation.present<Array<PT>>([]);
     }
 
-    const promises: Array<PromiseLike<Heisenberg<PT>>> = Array.from<Unscharferelation<PT>>(unscharferelations).map<PromiseLike<Heisenberg<PT>>>((u: Unscharferelation<PT>) => {
+    const promises: Array<Promise<Heisenberg<PT>>> = Array.from<Unscharferelation<PT>>(unscharferelations).map<Promise<Heisenberg<PT>>>((u: Unscharferelation<PT>) => {
       return u.terminate();
     });
 
@@ -57,6 +57,18 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
         }
       );
     });
+  }
+
+  public static any<PT>(unscharferelations: ArrayLike<Unscharferelation<PT>>): Unscharferelation<Array<Heisenberg<PT>>> {
+    if (unscharferelations.length === 0) {
+      return Unscharferelation.present<Array<Heisenberg<PT>>>([]);
+    }
+
+    const promises: Array<Promise<Heisenberg<PT>>> = Array.from<Unscharferelation<PT>>(unscharferelations).map<Promise<Heisenberg<PT>>>((u: Unscharferelation<PT>) => {
+      return u.terminate();
+    });
+
+    return Unscharferelation.present<Array<Heisenberg<PT>>>(Promise.all<Heisenberg<PT>>(promises));
   }
 
   public static maybe<PT>(value: PromiseLike<Suspicious<Matter<PT>>> | Suspicious<Matter<PT>>): Unscharferelation<PT> {
