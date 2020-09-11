@@ -43,7 +43,7 @@ export class AlivePlan<A, B, E extends Error> implements MapPlan<Detoxicated<A>,
           }
         );
       }
-      if (Kind.isPromiseLike(mapped)) {
+      if (Kind.isPromiseLike<Detoxicated<B>>(mapped)) {
         return mapped.then<unknown, unknown>(
           (v: Detoxicated<B>) => {
             return this.chrono.accept(v);

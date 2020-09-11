@@ -43,7 +43,7 @@ export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPl
           }
         );
       }
-      if (Kind.isPromiseLike(mapped)) {
+      if (Kind.isPromiseLike<Detoxicated<B>>(mapped)) {
         return mapped.then<unknown, unknown>(
           (v: Detoxicated<B>) => {
             return this.chrono.accept(v);

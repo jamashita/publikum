@@ -41,7 +41,7 @@ export class AbsentPlan<P> implements RecoveryPlan<void, 'AbsentPlan'> {
           }
         );
       }
-      if (Kind.isPromiseLike(mapped)) {
+      if (Kind.isPromiseLike<Suspicious<Matter<P>>>(mapped)) {
         return mapped.then<unknown, unknown>(
           (v: Suspicious<Matter<P>>) => {
             if (Kind.isUndefined(v) || Kind.isNull(v)) {

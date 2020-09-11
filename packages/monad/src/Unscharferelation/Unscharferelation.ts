@@ -73,7 +73,7 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
 
   public static maybe<PT>(value: PromiseLike<Suspicious<Matter<PT>>> | Suspicious<Matter<PT>>): Unscharferelation<PT> {
     return Unscharferelation.of<PT>((epoque: Epoque<PT>) => {
-      if (Kind.isPromiseLike(value)) {
+      if (Kind.isPromiseLike<Suspicious<Matter<PT>>>(value)) {
         return value.then<unknown, unknown>(
           (v: Suspicious<Matter<PT>>) => {
             if (Kind.isUndefined(v) || Kind.isNull(v)) {
@@ -114,7 +114,7 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
 
   public static present<PT>(value: PromiseLike<Matter<PT>> | Matter<PT>): Unscharferelation<PT> {
     return Unscharferelation.of<PT>((epoque: Epoque<PT>) => {
-      if (Kind.isPromiseLike(value)) {
+      if (Kind.isPromiseLike<Matter<PT>>(value)) {
         return value.then<unknown, unknown>(
           (v: Matter<PT>) => {
             return epoque.accept(v);
@@ -131,7 +131,7 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
 
   public static absent<PT>(value: PromiseLike<Nihil> | Nihil): Unscharferelation<PT> {
     return Unscharferelation.of<PT>((epoque: Epoque<PT>) => {
-      if (Kind.isPromiseLike(value)) {
+      if (Kind.isPromiseLike<Nihil>(value)) {
         return value.then<unknown, unknown>(
           () => {
             return epoque.decline();

@@ -41,7 +41,7 @@ export class PresentPlan<P, Q> implements MapPlan<Matter<P>, 'PresentPlan'> {
           }
         );
       }
-      if (Kind.isPromiseLike(mapped)) {
+      if (Kind.isPromiseLike<Suspicious<Matter<Q>>>(mapped)) {
         return mapped.then<unknown, unknown>(
           (v: Suspicious<Matter<Q>>) => {
             if (Kind.isUndefined(v) || Kind.isNull(v)) {

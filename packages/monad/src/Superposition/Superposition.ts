@@ -88,7 +88,7 @@ export class Superposition<A, D extends Error> extends ValueObject<Superposition
       try {
         const value: PromiseLike<Detoxicated<AT>> | Detoxicated<AT> = supplier();
 
-        if (Kind.isPromiseLike(value)) {
+        if (Kind.isPromiseLike<Detoxicated<AT>>(value)) {
           return value.then<unknown, unknown>(
             (v: Detoxicated<AT>) => {
               return chrono.accept(v);
@@ -138,7 +138,7 @@ export class Superposition<A, D extends Error> extends ValueObject<Superposition
     ...errors: ReadonlyArray<DeadConstructor<DT>>
   ): Superposition<AT, DT> {
     return Superposition.of<AT, DT>((chrono: Chrono<AT, DT>) => {
-      if (Kind.isPromiseLike(value)) {
+      if (Kind.isPromiseLike<Detoxicated<AT>>(value)) {
         return value.then<unknown, unknown>(
           (v: Detoxicated<AT>) => {
             return chrono.accept(v);
@@ -158,7 +158,7 @@ export class Superposition<A, D extends Error> extends ValueObject<Superposition
     ...errors: ReadonlyArray<DeadConstructor<DT>>
   ): Superposition<AT, DT> {
     return Superposition.of<AT, DT>((chrono: Chrono<AT, DT>) => {
-      if (Kind.isPromiseLike(error)) {
+      if (Kind.isPromiseLike<Detoxicated<AT>>(error)) {
         return error.then<unknown, unknown>(
           () => {
             return chrono.throw(new SuperpositionError('NOT REJECTED'));
