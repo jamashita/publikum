@@ -193,6 +193,7 @@ describe('Kind', () => {
       expect(Kind.isNaN([])).toBe(false);
     });
   });
+
   describe('isBoolean', () => {
     it('returns true when true and false are given', () => {
       expect.assertions(15);
@@ -254,7 +255,7 @@ describe('Kind', () => {
 
   describe('isPrimitive', () => {
     it('returns true if the value is null, undefined, boolean, number, string', () => {
-      expect.assertions(19);
+      expect.assertions(20);
       expect(Kind.isPrimitive(null)).toBe(true);
       expect(Kind.isPrimitive(undefined)).toBe(true);
       expect(Kind.isPrimitive(false)).toBe(true);
@@ -274,12 +275,13 @@ describe('Kind', () => {
       expect(Kind.isPrimitive({})).toBe(false);
       expect(Kind.isPrimitive({ key: null })).toBe(false);
       expect(Kind.isPrimitive({ key: undefined })).toBe(false);
+      expect(Kind.isPrimitive(Object.create(null))).toBe(false);
     });
   });
 
   describe('isFunction', () => {
     it('returns true only if the function given', () => {
-      expect.assertions(16);
+      expect.assertions(17);
       expect(Kind.isFunction(null)).toBe(false);
       expect(Kind.isFunction(undefined)).toBe(false);
       expect(Kind.isFunction('')).toBe(false);
@@ -295,6 +297,7 @@ describe('Kind', () => {
       expect(Kind.isFunction(20n)).toBe(false);
       expect(Kind.isFunction({})).toBe(false);
       expect(Kind.isFunction([])).toBe(false);
+      expect(Kind.isFunction(Object.create(null))).toBe(false);
       expect(
         Kind.isFunction(() => {
           // NOOP
@@ -305,7 +308,7 @@ describe('Kind', () => {
 
   describe('isObject', () => {
     it('returns true only if the array given', () => {
-      expect.assertions(16);
+      expect.assertions(17);
       expect(Kind.isObject(null)).toBe(false);
       expect(Kind.isObject(undefined)).toBe(false);
       expect(Kind.isObject('')).toBe(false);
@@ -321,6 +324,7 @@ describe('Kind', () => {
       expect(Kind.isObject(20n)).toBe(false);
       expect(Kind.isObject({})).toBe(true);
       expect(Kind.isObject([])).toBe(true);
+      expect(Kind.isObject(Object.create(null))).toBe(true);
       expect(
         Kind.isObject(() => {
           // NOOP
@@ -331,7 +335,7 @@ describe('Kind', () => {
 
   describe('isPromiseLike', () => {
     it('returns true only if the array given', () => {
-      expect.assertions(27);
+      expect.assertions(28);
       expect(Kind.isPromiseLike(null)).toBe(false);
       expect(Kind.isPromiseLike(undefined)).toBe(false);
       expect(Kind.isPromiseLike('')).toBe(false);
@@ -347,6 +351,7 @@ describe('Kind', () => {
       expect(Kind.isPromiseLike(20n)).toBe(false);
       expect(Kind.isPromiseLike({})).toBe(false);
       expect(Kind.isPromiseLike([])).toBe(false);
+      expect(Kind.isPromiseLike(Object.create(null))).toBe(false);
       expect(
         Kind.isPromiseLike(() => {
           // NOOP
@@ -416,7 +421,7 @@ describe('Kind', () => {
 
   describe('isArray', () => {
     it('returns true only if the array given', () => {
-      expect.assertions(15);
+      expect.assertions(16);
       expect(Kind.isArray(null)).toBe(false);
       expect(Kind.isArray(undefined)).toBe(false);
       expect(Kind.isArray('')).toBe(false);
@@ -432,12 +437,13 @@ describe('Kind', () => {
       expect(Kind.isArray(20n)).toBe(false);
       expect(Kind.isArray({})).toBe(false);
       expect(Kind.isArray([])).toBe(true);
+      expect(Kind.isArray(Object.create(null))).toBe(false);
     });
   });
 
   describe('isPlainObject', () => {
     it('returns false if array given', () => {
-      expect.assertions(20);
+      expect.assertions(21);
       expect(Kind.isPlainObject(null)).toBe(false);
       expect(Kind.isPlainObject(undefined)).toBe(false);
       expect(Kind.isPlainObject('')).toBe(false);
@@ -458,14 +464,16 @@ describe('Kind', () => {
       expect(Kind.isPlainObject({ e: { e: new Error() } })).toBe(false);
       expect(Kind.isPlainObject({ s: 1 })).toBe(true);
       expect(Kind.isPlainObject({ s: { s: 1 } })).toBe(true);
+      expect(Kind.isPlainObject(Object.create(null))).toBe(true);
     });
   });
 
   describe('isClass', () => {
     it('returns false if array given', () => {
-      expect.assertions(5);
+      expect.assertions(6);
       expect(Kind.isClass({}, Object)).toBe(true);
       expect(Kind.isClass([], Array)).toBe(true);
+      expect(Kind.isClass(Object.create(null), Object)).toBe(false);
       expect(Kind.isClass(new Error(), Error)).toBe(true);
       expect(Kind.isClass(new MockRuntimeError(), Error)).toBe(true);
       expect(Kind.isClass(new MockRuntimeError(), MockRuntimeError)).toBe(true);
@@ -524,6 +532,19 @@ describe('Kind', () => {
     it('object literal', () => {
       expect.assertions(2);
       expect(Kind.notate({})).toBe('[object Object]');
+
+      const obj: Inconnu = {};
+
+      for (let i: number = 0; i < 100; i++) {
+        obj[random(40)] = random(40);
+      }
+
+      expect(Kind.notate(obj)).toBe('[object Object]');
+    });
+
+    it('object.create(null)', () => {
+      expect.assertions(2);
+      expect(Kind.notate(Object.create(null))).toBe('[object Object]');
 
       const obj: Inconnu = {};
 

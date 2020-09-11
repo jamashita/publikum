@@ -30,13 +30,14 @@ export class Kind {
   }
 
   public static isNumericalString(value: unknown): value is string {
-    if (Kind.isString(value)) {
-      if (value.endsWith('.')) {
-        return false;
-      }
-      if (NUMBER_REGEX.test(value)) {
-        return true;
-      }
+    if (!Kind.isString(value)) {
+      return false;
+    }
+    if (value.endsWith('.')) {
+      return false;
+    }
+    if (NUMBER_REGEX.test(value)) {
+      return true;
     }
 
     return false;
@@ -51,15 +52,23 @@ export class Kind {
   }
 
   public static isInteger(value: unknown): boolean {
-    return Number.isInteger(value);
+    if (!Kind.isNumber(value)) {
+      return false;
+    }
+    if (value % 1 === 0) {
+      return true;
+    }
+
+    return false;
   }
 
   public static isNaN(value: unknown): boolean {
-    if (Kind.isNumber(value)) {
-      // eslint-disable-next-line no-self-compare
-      if (value !== value) {
-        return true;
-      }
+    if (!Kind.isNumber(value)) {
+      return false;
+    }
+    // eslint-disable-next-line no-self-compare
+    if (value !== value) {
+      return true;
     }
 
     return false;
@@ -186,13 +195,20 @@ export class Kind {
   }
 
   public static isClass<T extends Constructor>(instance: unknown, klazz: T): instance is T {
-    return instance instanceof klazz;
+    if (instance instanceof klazz) {
+      return true;
+    }
+
+    return false;
   }
 
   public static notate(n: unknown): string {
-    if (Kind.isObject(n)) {
-      // eslint-disable-next-line @typescript-eslint/no-base-to-string
-      return n.toString();
+    if (Kind.isObject<Object>(n)) {
+      if (Kind.isFunction(n.toString)) {
+        return n.toString.apply(n) as string;
+      }
+
+      return Object.prototype.toString.call(n);
     }
 
     return String(n);
