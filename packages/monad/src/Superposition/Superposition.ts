@@ -65,21 +65,6 @@ export class Superposition<A, D extends Error> extends ValueObject<Superposition
     });
   }
 
-  public static any<AT, DT extends Error>(
-    superpositions: ArrayLike<Superposition<AT, DT>>,
-    ...errors: ReadonlyArray<DeadConstructor<DT>>
-  ): Superposition<Schrodinger<Array<AT>, DT>> {
-    if (superpositions.length === 0) {
-      return Superposition.alive<Schrodinger<Array<AT>, DT>>([], ...errors);
-    }
-
-    const promises: Array<Promise<Schrodinger<AT, DT>>> = Array.from<Superposition<AT, DT>>(superpositions).map<Promise<Schrodinger<AT, DT>>>((s: Superposition<AT, DT>) => {
-      return s.terminate();
-    });
-
-    return Superposition.alive<Array<Schrodinger<AT, DT>>>(Promise.all<Schrodinger<AT, DT>>(promises));
-  }
-
   public static playground<AT, DT extends Error>(
     supplier: Supplier<PromiseLike<Detoxicated<AT>> | Detoxicated<AT>>,
     ...errors: ReadonlyArray<DeadConstructor<DT>>

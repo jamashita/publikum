@@ -133,8 +133,14 @@ Class for random string, random number.
 * [ ] mutable collections
 * [ ] `map()` for collections
 * [ ] utility class for Promise collection manipulation
-    * [ ] `any<T>(arr: Array<Promise<T>>): Promise<Array<T>>;`
-    * [ ] `sequence<T>(arr: Array<Promise<T>>): Promise<Array<T>>;`
+    * Unscharfeleration
+        * [ ] `sequence<P>(arr: Array<Promise<P>>): Promise<Array<P>>;`
+        * [ ] `anyway<P>(arr: Array<Promise<P>>): Promise<Array<Heisenberg<P>>>;`
+            * ?
+    * Superposition
+        * [ ] `sequence<A, D>(arr: Array<Promise<A>>): Promise<Array<Schrodinger<A, D>>>;`
+        * [ ] `anyway<A, D>(arr: Array<Promise<A>>): Promise<Array<Schrodinger<A, D>>>;`
+            * ?
 * [x] `AJAX.head()`
 * [x] `Request.head()`
 
