@@ -16,8 +16,10 @@ export class Equality {
     if (Kind.isArray<PlainObjectItem>(n1) && Kind.isArray<PlainObjectItem>(n2)) {
       return Equality.sameArray(n1, n2);
     }
-    if (Kind.isPlainObject(n1) && Kind.isPlainObject(n2)) {
-      return Equality.sameObject(n1, n2);
+    if (!Kind.isArray<PlainObjectItem>(n1) && !Kind.isArray<PlainObjectItem>(n2)) {
+      if (Kind.isObject<PlainObject>(n1) && Kind.isObject<PlainObject>(n2)) {
+        return Equality.sameObject(n1, n2);
+      }
     }
 
     return false;

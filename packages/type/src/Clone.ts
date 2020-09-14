@@ -7,11 +7,11 @@ export class Clone {
   }
 
   private static copyInternal(obj: ObjectLiteral | PlainObjectItem): ObjectLiteral | PlainObjectItem {
-    if (Kind.isPlainObject(obj)) {
-      return Clone.copyObject(obj);
-    }
     if (Kind.isArray<PlainObjectItem>(obj)) {
       return Clone.copyArray(obj);
+    }
+    if (Kind.isObject<PlainObject>(obj)) {
+      return Clone.copyObject(obj);
     }
 
     return obj;
