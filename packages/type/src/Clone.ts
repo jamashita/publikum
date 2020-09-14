@@ -1,14 +1,8 @@
-import { RecursiveReferenceError } from './Error/RecursiveReferenceError';
 import { Kind } from './Kind';
-import { Reference } from './Reference';
 import { ObjectLiteral, PlainObject, PlainObjectItem } from './Value';
 
 export class Clone {
   public static copy<T extends ObjectLiteral>(obj: T): T {
-    if (Reference.isCircular(obj)) {
-      throw new RecursiveReferenceError('RECURSIVE REFERENCE DETECTED');
-    }
-
     return Clone.copyInternal(obj) as T;
   }
 

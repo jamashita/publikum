@@ -1,6 +1,4 @@
 import { Clone } from '../Clone';
-import { RecursiveReferenceError } from '../Error/RecursiveReferenceError';
-import { PlainObject, PlainObjectItem } from '../Value';
 
 describe('Clone', () => {
   describe('copy', () => {
@@ -127,50 +125,6 @@ describe('Clone', () => {
       });
       expect(Clone.copy([])).toStrictEqual([]);
       expect(Clone.copy([undefined, [undefined]])).toStrictEqual([undefined, [undefined]]);
-    });
-
-    it('recursive detectiion pattern', () => {
-      expect.assertions(6);
-      const obj1: PlainObject = {
-        a: 'noi'
-      };
-      const obj2: PlainObject = {
-        b: 'voi',
-        o: obj1
-      };
-
-      obj1.o = obj2;
-
-      const arr: Array<PlainObject> = [];
-      const obj: PlainObject = {
-        arr
-      };
-
-      arr.push(obj);
-
-      const arr1: Array<PlainObjectItem> = [];
-      const arr2: Array<PlainObjectItem> = [arr1];
-
-      arr1.push(arr2);
-
-      expect(() => {
-        Clone.copy(obj1);
-      }).toThrow(RecursiveReferenceError);
-      expect(() => {
-        Clone.copy(obj2);
-      }).toThrow(RecursiveReferenceError);
-      expect(() => {
-        Clone.copy(arr);
-      }).toThrow(RecursiveReferenceError);
-      expect(() => {
-        Clone.copy(obj);
-      }).toThrow(RecursiveReferenceError);
-      expect(() => {
-        Clone.copy(arr1);
-      }).toThrow(RecursiveReferenceError);
-      expect(() => {
-        Clone.copy(arr2);
-      }).toThrow(RecursiveReferenceError);
     });
   });
 });
