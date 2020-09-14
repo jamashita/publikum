@@ -1,4 +1,4 @@
-import { ValueObject } from '@jamashita/publikum-object';
+import { Objet } from '@jamashita/publikum-object';
 import { Consumer, Kind, Peek, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
 import { Chrono } from '../Superposition/Chrono/Interface/Chrono';
 import { Detoxicated } from '../Superposition/Interface/Detoxicated';
@@ -11,7 +11,7 @@ import { Matter } from './Interface/Matter';
 import { Nihil } from './Interface/Nihil';
 import { UnscharferelationInternal } from './UnscharferelationInternal';
 
-export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Unscharferelation'> implements IUnscharferelation<P, 'Unscharferelation'> {
+export class Unscharferelation<P> extends Objet<Unscharferelation<P>, 'Unscharferelation'> implements IUnscharferelation<P, 'Unscharferelation'> {
   public readonly noun: 'Unscharferelation' = 'Unscharferelation';
   private readonly internal: IUnscharferelation<P>;
 

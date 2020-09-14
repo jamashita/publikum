@@ -1,4 +1,4 @@
-import { ValueObject } from '@jamashita/publikum-object';
+import { Objet } from '@jamashita/publikum-object';
 import {
   Consumer,
   Peek,
@@ -33,7 +33,7 @@ import { MapEpoquePlan } from './Plan/MapEpoquePlan';
 import { PresentPlan } from './Plan/PresentPlan';
 import { RecoveryEpoquePlan } from './Plan/RecoveryEpoquePlan';
 
-export class UnscharferelationInternal<P> extends ValueObject<UnscharferelationInternal<P>, 'UnscharferelationInternal'>
+export class UnscharferelationInternal<P> extends Objet<UnscharferelationInternal<P>, 'UnscharferelationInternal'>
   implements IUnscharferelation<P, 'UnscharferelationInternal'>, Epoque<P, 'UnscharferelationInternal'> {
   public readonly noun: 'UnscharferelationInternal' = 'UnscharferelationInternal';
   private heisenberg: Heisenberg<P>;

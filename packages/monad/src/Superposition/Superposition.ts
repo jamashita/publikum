@@ -1,4 +1,4 @@
-import { ValueObject } from '@jamashita/publikum-object';
+import { Objet } from '@jamashita/publikum-object';
 import { Consumer, Kind, Nullable, Peek, Predicate, Supplier, UnaryFunction } from '@jamashita/publikum-type';
 import { Epoque } from '../Unscharferelation/Epoque/Interface/Epoque';
 import { Matter } from '../Unscharferelation/Interface/Matter';
@@ -12,7 +12,7 @@ import { Dead } from './Schrodinger/Dead';
 import { Schrodinger } from './Schrodinger/Schrodinger';
 import { SuperpositionInternal } from './SuperpositionInternal';
 
-export class Superposition<A, D extends Error> extends ValueObject<Superposition<A, D>, 'Superposition'> implements ISuperposition<A, D, 'Superposition'> {
+export class Superposition<A, D extends Error> extends Objet<Superposition<A, D>, 'Superposition'> implements ISuperposition<A, D, 'Superposition'> {
   public readonly noun: 'Superposition' = 'Superposition';
   private readonly internal: ISuperposition<A, D>;
 

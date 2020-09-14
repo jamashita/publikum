@@ -1,4 +1,4 @@
-import { ValueObject } from '@jamashita/publikum-object';
+import { Objet } from '@jamashita/publikum-object';
 import { Consumer, Kind, Peek, Predicate, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
 import { DestroyPlan } from '../Plan/Interface/DestroyPlan';
 import { MapPlan } from '../Plan/Interface/MapPlan';
@@ -25,7 +25,7 @@ import { Dead } from './Schrodinger/Dead';
 import { Schrodinger } from './Schrodinger/Schrodinger';
 import { Still } from './Schrodinger/Still';
 
-export class SuperpositionInternal<A, D extends Error> extends ValueObject<SuperpositionInternal<A, D>, 'SuperpositionInternal'>
+export class SuperpositionInternal<A, D extends Error> extends Objet<SuperpositionInternal<A, D>, 'SuperpositionInternal'>
   implements ISuperposition<A, D, 'SuperpositionInternal'>, Chrono<A, D> {
   public readonly noun: 'SuperpositionInternal' = 'SuperpositionInternal';
   private schrodinger: Schrodinger<A, D>;
