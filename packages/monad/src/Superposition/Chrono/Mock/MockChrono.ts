@@ -29,8 +29,8 @@ export class MockChrono<M, R extends Error> implements Chrono<M, R, 'MockChrono'
     return this.destroy(cause);
   }
 
-  public catch(errors: ReadonlyArray<DeadConstructor<R>>): void {
-    errors.forEach((error: DeadConstructor<R>) => {
+  public catch(errors: Iterable<DeadConstructor<R>>): void {
+    [...errors].forEach((error: DeadConstructor<R>) => {
       this.errors.add(error);
     });
   }

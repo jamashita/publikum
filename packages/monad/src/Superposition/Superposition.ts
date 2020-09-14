@@ -16,25 +16,25 @@ export class Superposition<A, D extends Error> extends ValueObject<Superposition
   public readonly noun: 'Superposition' = 'Superposition';
   private readonly internal: ISuperposition<A, D>;
 
-  public static all<AT, DT extends Error>(
-    superpositions: ArrayLike<Superposition<AT, DT>>,
-    ...errors: ReadonlyArray<DeadConstructor<DT>>
-  ): Superposition<Array<AT>, DT> {
+  public static all<AT, DT extends Error>(superpositions: ArrayLike<Superposition<AT, DT>>): Superposition<Array<AT>, DT> {
     if (superpositions.length === 0) {
-      return Superposition.alive<Array<AT>, DT>([], ...errors);
+      return Superposition.alive<Array<AT>, DT>([]);
     }
 
-    const promises: Array<Promise<Schrodinger<AT, DT>>> = Array.from<Superposition<AT, DT>>(superpositions).map<Promise<Schrodinger<AT, DT>>>((s: Superposition<AT, DT>) => {
+    const ss: Array<Superposition<AT, DT>> = Array.from<Superposition<AT, DT>>(superpositions);
+    const promises: Array<Promise<Schrodinger<AT, DT>>> = ss.map<Promise<Schrodinger<AT, DT>>>((s: Superposition<AT, DT>) => {
       return s.terminate();
     });
 
     return Superposition.of<Array<AT>, DT>((chrono: Chrono<Array<AT>, DT>) => {
+      ss.forEach((s: Superposition<AT, DT>) => {
+        chrono.catch(s.getErrors());
+      });
+
       return Promise.all<Schrodinger<AT, DT>>(promises).then<unknown, unknown>(
         (schrodingers: Array<Schrodinger<AT, DT>>) => {
-          const ss: Array<AT> = [];
+          const arr: Array<AT> = [];
           let dead: Nullable<Dead<AT, DT>> = null;
-
-          chrono.catch(errors);
 
           for (let i: number = 0; i < schrodingers.length; i++) {
             const schrodinger: Schrodinger<AT, DT> = schrodingers[i];
@@ -43,7 +43,7 @@ export class Superposition<A, D extends Error> extends ValueObject<Superposition
               return chrono.throw(schrodinger.getCause());
             }
             if (schrodinger.isAlive()) {
-              ss.push(schrodinger.get());
+              arr.push(schrodinger.get());
 
               continue;
             }
@@ -56,13 +56,21 @@ export class Superposition<A, D extends Error> extends ValueObject<Superposition
             return chrono.decline(dead.getError());
           }
 
-          return chrono.accept(ss);
+          return chrono.accept(arr);
         },
         (e: unknown) => {
           return chrono.throw(e);
         }
       );
     });
+  }
+
+  public static anyway<AT, DT extends Error>(superpositions: ArrayLike<Superposition<AT, DT>>): Promise<Array<Schrodinger<AT, DT>>> {
+    const promises: Array<Promise<Schrodinger<AT, DT>>> = Array.from<Superposition<AT, DT>>(superpositions).map<Promise<Schrodinger<AT, DT>>>((s: Superposition<AT, DT>) => {
+      return s.terminate();
+    });
+
+    return Promise.all<Schrodinger<AT, DT>>(promises);
   }
 
   public static playground<AT, DT extends Error>(

@@ -362,6 +362,92 @@ describe('Unscharferelation', () => {
     });
   });
 
+  describe('anyway', () => {
+    it('all Present', async () => {
+      expect.assertions(4);
+
+      const unscharferelation1: Unscharferelation<number> = Unscharferelation.present<number>(-1);
+      const unscharferelation2: Unscharferelation<number> = Unscharferelation.present<number>(0);
+      const unscharferelation3: Unscharferelation<number> = Unscharferelation.present<number>(1);
+      const unscharferelations: Array<Unscharferelation<number>> = [unscharferelation1, unscharferelation2, unscharferelation3];
+
+      const heisenbergs: Array<Heisenberg<number>> = await Unscharferelation.anyway<number>(unscharferelations);
+
+      expect(heisenbergs).toHaveLength(unscharferelations.length);
+      for (let i: number = 0; i < unscharferelations.length; i++) {
+        // eslint-disable-next-line no-await-in-loop
+        const heisenberg: Heisenberg<number> = await unscharferelations[i].terminate();
+
+        expect(heisenbergs[i].equals(heisenberg)).toBe(true);
+      }
+    });
+
+    it('all Absent', async () => {
+      expect.assertions(4);
+
+      const unscharferelation1: Unscharferelation<number> = Unscharferelation.absent<number>();
+      const unscharferelation2: Unscharferelation<number> = Unscharferelation.absent<number>();
+      const unscharferelation3: Unscharferelation<number> = Unscharferelation.absent<number>();
+      const unscharferelations: Array<Unscharferelation<number>> = [unscharferelation1, unscharferelation2, unscharferelation3];
+
+      const heisenbergs: Array<Heisenberg<number>> = await Unscharferelation.anyway<number>(unscharferelations);
+
+      expect(heisenbergs).toHaveLength(unscharferelations.length);
+      for (let i: number = 0; i < unscharferelations.length; i++) {
+        // eslint-disable-next-line no-await-in-loop
+        const heisenberg: Heisenberg<number> = await unscharferelations[i].terminate();
+
+        expect(heisenbergs[i].equals(heisenberg)).toBe(true);
+      }
+    });
+
+    it('all Lost', async () => {
+      expect.assertions(4);
+
+      const unscharferelation1: Unscharferelation<number> = Unscharferelation.of<number>((epoque: Epoque<number>) => {
+        epoque.throw(null);
+      });
+      const unscharferelation2: Unscharferelation<number> = Unscharferelation.of<number>((epoque: Epoque<number>) => {
+        epoque.throw(undefined);
+      });
+      const unscharferelation3: Unscharferelation<number> = Unscharferelation.of<number>((epoque: Epoque<number>) => {
+        epoque.throw(NaN);
+      });
+      const unscharferelations: Array<Unscharferelation<number>> = [unscharferelation1, unscharferelation2, unscharferelation3];
+
+      const heisenbergs: Array<Heisenberg<number>> = await Unscharferelation.anyway<number>(unscharferelations);
+
+      expect(heisenbergs).toHaveLength(unscharferelations.length);
+      for (let i: number = 0; i < unscharferelations.length; i++) {
+        // eslint-disable-next-line no-await-in-loop
+        const heisenberg: Heisenberg<number> = await unscharferelations[i].terminate();
+
+        expect(heisenbergs[i].equals(heisenberg)).toBe(true);
+      }
+    });
+
+    it('all in one', async () => {
+      expect.assertions(4);
+
+      const unscharferelation1: Unscharferelation<number> = Unscharferelation.of<number>((epoque: Epoque<number>) => {
+        epoque.throw(null);
+      });
+      const unscharferelation2: Unscharferelation<number> = Unscharferelation.absent<number>();
+      const unscharferelation3: Unscharferelation<number> = Unscharferelation.present<number>(1);
+      const unscharferelations: Array<Unscharferelation<number>> = [unscharferelation1, unscharferelation2, unscharferelation3];
+
+      const heisenbergs: Array<Heisenberg<number>> = await Unscharferelation.anyway<number>(unscharferelations);
+
+      expect(heisenbergs).toHaveLength(unscharferelations.length);
+      for (let i: number = 0; i < unscharferelations.length; i++) {
+        // eslint-disable-next-line no-await-in-loop
+        const heisenberg: Heisenberg<number> = await unscharferelations[i].terminate();
+
+        expect(heisenbergs[i].equals(heisenberg)).toBe(true);
+      }
+    });
+  });
+
   describe('maybe', () => {
     it('sync: Present case', async () => {
       expect.assertions(12);

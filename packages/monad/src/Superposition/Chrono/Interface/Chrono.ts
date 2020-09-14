@@ -11,5 +11,5 @@ export interface Chrono<M, R extends Error, N extends string = string> extends N
 
   getErrors(): Set<DeadConstructor<R>>;
 
-  catch(errors: ReadonlyArray<DeadConstructor<R>>): void;
+  catch(errors: Iterable<DeadConstructor<R>>): void;
 }

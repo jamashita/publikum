@@ -20,14 +20,15 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
       return Unscharferelation.present<Array<PT>>([]);
     }
 
-    const promises: Array<Promise<Heisenberg<PT>>> = Array.from<Unscharferelation<PT>>(unscharferelations).map<Promise<Heisenberg<PT>>>((u: Unscharferelation<PT>) => {
+    const us: Array<Unscharferelation<PT>> = Array.from<Unscharferelation<PT>>(unscharferelations);
+    const promises: Array<Promise<Heisenberg<PT>>> = us.map<Promise<Heisenberg<PT>>>((u: Unscharferelation<PT>) => {
       return u.terminate();
     });
 
     return Unscharferelation.of<Array<PT>>((epoque: Epoque<Array<PT>>) => {
       return Promise.all<Heisenberg<PT>>(promises).then<unknown, unknown>(
         (heisenbergs: Array<Heisenberg<PT>>) => {
-          const hs: Array<PT> = [];
+          const arr: Array<PT> = [];
           let absent: boolean = false;
 
           for (let i: number = 0; i < heisenbergs.length; i++) {
@@ -37,7 +38,7 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
               return epoque.throw(new UnscharferelationError('REJECTED'));
             }
             if (heisenberg.isPresent()) {
-              hs.push(heisenberg.get());
+              arr.push(heisenberg.get());
 
               continue;
             }
@@ -50,13 +51,21 @@ export class Unscharferelation<P> extends ValueObject<Unscharferelation<P>, 'Uns
             return epoque.decline();
           }
 
-          return epoque.accept(hs);
+          return epoque.accept(arr);
         },
         (e: unknown) => {
           return epoque.throw(e);
         }
       );
     });
+  }
+
+  public static anyway<PT>(unscharferelations: ArrayLike<Unscharferelation<PT>>): Promise<Array<Heisenberg<PT>>> {
+    const promises: Array<Promise<Heisenberg<PT>>> = Array.from<Unscharferelation<PT>>(unscharferelations).map<Promise<Heisenberg<PT>>>((u: Unscharferelation<PT>) => {
+      return u.terminate();
+    });
+
+    return Promise.all<Heisenberg<PT>>(promises);
   }
 
   public static maybe<PT>(value: PromiseLike<Suspicious<Matter<PT>>> | Suspicious<Matter<PT>>): Unscharferelation<PT> {

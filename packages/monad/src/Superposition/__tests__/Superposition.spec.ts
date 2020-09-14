@@ -88,10 +88,7 @@ describe('Superposition', () => {
       expect.assertions(2);
       const superpositions: Array<Superposition<number, MockRuntimeError>> = [];
 
-      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      ).terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await Superposition.all<number, MockRuntimeError>(superpositions).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
       expect(schrodinger.get()).toHaveLength(superpositions.length);
@@ -105,10 +102,7 @@ describe('Superposition', () => {
         Superposition.alive<number, MockRuntimeError>(2, MockRuntimeError)
       ];
 
-      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      ).terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await Superposition.all<number, MockRuntimeError>(superpositions).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
 
@@ -132,10 +126,7 @@ describe('Superposition', () => {
         Superposition.alive<number, MockRuntimeError>(2, MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      );
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(superpositions);
 
       const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
@@ -154,10 +145,7 @@ describe('Superposition', () => {
         Superposition.alive<number, MockRuntimeError>(2, MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      );
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(superpositions);
 
       const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
@@ -176,10 +164,7 @@ describe('Superposition', () => {
         Superposition.dead<number, MockRuntimeError>(error, MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      );
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(superpositions);
 
       const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
@@ -199,10 +184,7 @@ describe('Superposition', () => {
         Superposition.alive<number, MockRuntimeError>(2, MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      );
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(superpositions);
 
       const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
@@ -222,10 +204,7 @@ describe('Superposition', () => {
         Superposition.dead<number, MockRuntimeError>(error2, MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      );
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(superpositions);
 
       const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
@@ -245,10 +224,7 @@ describe('Superposition', () => {
         Superposition.dead<number, MockRuntimeError>(error2, MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      );
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(superpositions);
 
       const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
@@ -269,10 +245,7 @@ describe('Superposition', () => {
         Superposition.dead<number, MockRuntimeError>(error3, MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      );
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(superpositions);
 
       const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
@@ -290,10 +263,7 @@ describe('Superposition', () => {
         Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(2), MockRuntimeError)
       ];
 
-      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      ).terminate();
+      const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await Superposition.all<number, MockRuntimeError>(superpositions).terminate();
 
       expect(schrodinger.isAlive()).toBe(true);
 
@@ -317,10 +287,7 @@ describe('Superposition', () => {
         Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(2), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      );
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(superpositions);
 
       const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
@@ -339,10 +306,7 @@ describe('Superposition', () => {
         Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(2), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      );
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(superpositions);
 
       const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
@@ -361,10 +325,7 @@ describe('Superposition', () => {
         Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      );
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(superpositions);
 
       const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
@@ -384,10 +345,7 @@ describe('Superposition', () => {
         Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(2), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      );
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(superpositions);
 
       const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
@@ -407,10 +365,7 @@ describe('Superposition', () => {
         Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error2), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      );
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(superpositions);
 
       const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
@@ -430,10 +385,7 @@ describe('Superposition', () => {
         Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error2), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      );
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(superpositions);
 
       const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
@@ -455,10 +407,7 @@ describe('Superposition', () => {
         Superposition.dead<number, MockRuntimeError>(Promise.reject<number>(error3), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      );
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(superpositions);
 
       const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
@@ -481,10 +430,7 @@ describe('Superposition', () => {
         Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(2), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      );
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(superpositions);
 
       const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
@@ -507,10 +453,7 @@ describe('Superposition', () => {
         Superposition.alive<number, MockRuntimeError>(Promise.resolve<number>(2), MockRuntimeError)
       ];
 
-      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(
-        superpositions,
-        MockRuntimeError
-      );
+      const superposition: Superposition<Array<number>, MockRuntimeError> = Superposition.all<number, MockRuntimeError>(superpositions);
 
       const schrodinger: Schrodinger<Array<number>, MockRuntimeError> = await superposition.terminate();
 
@@ -518,6 +461,92 @@ describe('Superposition', () => {
       expect(() => {
         schrodinger.get();
       }).toThrow(error2);
+    });
+  });
+
+  describe('anyway', () => {
+    it('all Alive', async () => {
+      expect.assertions(4);
+
+      const superposition1: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(-1);
+      const superposition2: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(0);
+      const superposition3: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(1);
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [superposition1, superposition2, superposition3];
+
+      const schrodingers: Array<Schrodinger<number, MockRuntimeError>> = await Superposition.anyway<number, MockRuntimeError>(superpositions);
+
+      expect(schrodingers).toHaveLength(superpositions.length);
+      for (let i: number = 0; i < superpositions.length; i++) {
+        // eslint-disable-next-line no-await-in-loop
+        const schrodinger: Schrodinger<number, MockRuntimeError> = await superpositions[i].terminate();
+
+        expect(schrodingers[i].equals(schrodinger)).toBe(true);
+      }
+    });
+
+    it('all Dead', async () => {
+      expect.assertions(4);
+
+      const superposition1: Superposition<number, MockRuntimeError> = Superposition.dead<number, MockRuntimeError>(new MockRuntimeError());
+      const superposition2: Superposition<number, MockRuntimeError> = Superposition.dead<number, MockRuntimeError>(new MockRuntimeError());
+      const superposition3: Superposition<number, MockRuntimeError> = Superposition.dead<number, MockRuntimeError>(new MockRuntimeError());
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [superposition1, superposition2, superposition3];
+
+      const schrodingers: Array<Schrodinger<number, MockRuntimeError>> = await Superposition.anyway<number, MockRuntimeError>(superpositions);
+
+      expect(schrodingers).toHaveLength(superpositions.length);
+      for (let i: number = 0; i < superpositions.length; i++) {
+        // eslint-disable-next-line no-await-in-loop
+        const schrodinger: Schrodinger<number, MockRuntimeError> = await superpositions[i].terminate();
+
+        expect(schrodingers[i].equals(schrodinger)).toBe(true);
+      }
+    });
+
+    it('all Contradiction', async () => {
+      expect.assertions(4);
+
+      const superposition1: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>((chrono: Chrono<number, MockRuntimeError>) => {
+        chrono.throw(null);
+      });
+      const superposition2: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>((chrono: Chrono<number, MockRuntimeError>) => {
+        chrono.throw(undefined);
+      });
+      const superposition3: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>((chrono: Chrono<number, MockRuntimeError>) => {
+        chrono.throw(NaN);
+      });
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [superposition1, superposition2, superposition3];
+
+      const schrodingers: Array<Schrodinger<number, MockRuntimeError>> = await Superposition.anyway<number, MockRuntimeError>(superpositions);
+
+      expect(schrodingers).toHaveLength(superpositions.length);
+      for (let i: number = 0; i < superpositions.length; i++) {
+        // eslint-disable-next-line no-await-in-loop
+        const schrodinger: Schrodinger<number, MockRuntimeError> = await superpositions[i].terminate();
+
+        expect(schrodingers[i].equals(schrodinger)).toBe(true);
+      }
+    });
+
+    it('all in one', async () => {
+      expect.assertions(4);
+
+      const superposition1: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>((chrono: Chrono<number, MockRuntimeError>) => {
+        chrono.throw(null);
+      });
+      const superposition2: Superposition<number, MockRuntimeError> = Superposition.dead<number, MockRuntimeError>(new MockRuntimeError());
+      const superposition3: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(1);
+      const superpositions: Array<Superposition<number, MockRuntimeError>> = [superposition1, superposition2, superposition3];
+
+      const schrodingers: Array<Schrodinger<number, MockRuntimeError>> = await Superposition.anyway<number, MockRuntimeError>(superpositions);
+
+      expect(schrodingers).toHaveLength(superpositions.length);
+      for (let i: number = 0; i < superpositions.length; i++) {
+        // eslint-disable-next-line no-await-in-loop
+        const schrodinger: Schrodinger<number, MockRuntimeError> = await superpositions[i].terminate();
+
+        expect(schrodingers[i].equals(schrodinger)).toBe(true);
+      }
     });
   });
 

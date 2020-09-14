@@ -32,11 +32,11 @@ export class SuperpositionInternal<A, D extends Error> extends ValueObject<Super
   private readonly plans: Set<Plan<A, D>>;
   private readonly errors: Set<DeadConstructor<D>>;
 
-  public static of<AT, DT extends Error>(func: UnaryFunction<Chrono<AT, DT>, unknown>, errors: ReadonlyArray<DeadConstructor<DT>>): SuperpositionInternal<AT, DT> {
+  public static of<AT, DT extends Error>(func: UnaryFunction<Chrono<AT, DT>, unknown>, errors: Iterable<DeadConstructor<DT>>): SuperpositionInternal<AT, DT> {
     return new SuperpositionInternal<AT, DT>(func, errors);
   }
 
-  protected constructor(func: UnaryFunction<Chrono<A, D>, unknown>, errors: ReadonlyArray<DeadConstructor<D>>) {
+  protected constructor(func: UnaryFunction<Chrono<A, D>, unknown>, errors: Iterable<DeadConstructor<D>>) {
     super();
     this.schrodinger = Still.of<A, D>();
     this.plans = new Set<Plan<A, D>>();
@@ -218,8 +218,8 @@ export class SuperpositionInternal<A, D extends Error> extends ValueObject<Super
     });
   }
 
-  public catch(errors: ReadonlyArray<DeadConstructor<D>>): void {
-    errors.forEach((error: DeadConstructor<D>) => {
+  public catch(errors: Iterable<DeadConstructor<D>>): void {
+    [...errors].forEach((error: DeadConstructor<D>) => {
       this.errors.add(error);
     });
   }
