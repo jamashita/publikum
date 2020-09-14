@@ -1,11 +1,7 @@
-import {
-  Kind,
-  ObjectLiteral,
-  PlainObject,
-  PlainObjectItem,
-  RecursiveReferenceError,
-  Reference
-} from '@jamashita/publikum-type';
+import { RecursiveReferenceError } from './Error/RecursiveReferenceError';
+import { Kind } from './Kind';
+import { Reference } from './Reference';
+import { ObjectLiteral, PlainObject, PlainObjectItem } from './Value';
 
 export class Clone {
   public static copy<T extends ObjectLiteral>(obj: T): T {

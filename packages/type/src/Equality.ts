@@ -1,12 +1,7 @@
-import {
-  Kind,
-  ObjectLiteral,
-  PlainObject,
-  PlainObjectItem,
-  Primitive,
-  RecursiveReferenceError,
-  Reference
-} from '@jamashita/publikum-type';
+import { RecursiveReferenceError } from './Error/RecursiveReferenceError';
+import { Kind } from './Kind';
+import { Reference } from './Reference';
+import { ObjectLiteral, PlainObject, PlainObjectItem, Primitive } from './Value';
 
 export class Equality {
   public static same(n1: ObjectLiteral, n2: ObjectLiteral): boolean {

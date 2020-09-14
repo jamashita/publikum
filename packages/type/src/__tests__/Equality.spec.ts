@@ -1,5 +1,6 @@
-import { PlainObject, PlainObjectItem, RecursiveReferenceError } from '@jamashita/publikum-type';
 import { Equality } from '../Equality';
+import { RecursiveReferenceError } from '../Error/RecursiveReferenceError';
+import { PlainObject, PlainObjectItem } from '../Value';
 
 describe('Equality', () => {
   describe('same', () => {
