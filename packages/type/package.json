@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-type",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "private": false,
   "repository": {
     "type": "git",
@@ -31,7 +31,6 @@
     "update:install": "yarn install",
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
-  "dependencies": {},
   "engines": {
     "node": ">= 14.5.0",
     "npm": "npm is not supported"

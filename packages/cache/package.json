@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-cache",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "private": false,
   "repository": {
     "type": "git",
@@ -32,8 +32,8 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^2.9.0",
-    "@jamashita/publikum-type": "^2.9.0"
+    "@jamashita/publikum-error": "^2.10.0",
+    "@jamashita/publikum-type": "^2.10.0"
   },
   "engines": {
     "node": ">= 14.5.0",
