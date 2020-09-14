@@ -152,7 +152,7 @@ describe('Dead', () => {
   describe('toString', () => {
     it('returns Dead and its retaining error', () => {
       expect.assertions(1);
-      expect(Dead.of<number, Error>(new MockRuntimeError()).toString()).toBe('Dead: MockRuntimeError: failed');
+      expect(Dead.of<number, Error>(new MockRuntimeError()).toString()).toBe('Dead: MockRuntimeError { noun: \'MockRuntimeError\' }');
     });
   });
 });

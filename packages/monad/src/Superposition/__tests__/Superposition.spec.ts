@@ -78,7 +78,7 @@ describe('Superposition', () => {
       );
 
       expect(superposition1.toString()).toBe('Alive: -1');
-      expect(superposition2.toString()).toBe('Dead: MockRuntimeError: failed');
+      expect(superposition2.toString()).toBe('Dead: MockRuntimeError { noun: \'MockRuntimeError\' }');
       expect(superposition3.toString()).toBe('Contradiction: null');
     });
   });

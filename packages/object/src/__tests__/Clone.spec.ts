@@ -1,6 +1,5 @@
+import { PlainObject, PlainObjectItem, RecursiveReferenceError } from '@jamashita/publikum-type';
 import { Clone } from '../Clone';
-import { RecursiveReferenceError } from '../Error/RecursiveReferenceError';
-import { PlainObject, PlainObjectItem } from '../Value';
 
 describe('Clone', () => {
   describe('copy', () => {
