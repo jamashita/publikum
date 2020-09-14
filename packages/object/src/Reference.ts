@@ -1,4 +1,4 @@
-import { Inconnu } from './Value';
+import { Inconnu } from '@jamashita/publikum-type';
 
 export class Reference {
   public static isCircular(value: unknown): boolean {

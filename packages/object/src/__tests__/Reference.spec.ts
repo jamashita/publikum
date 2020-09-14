@@ -1,9 +1,9 @@
+import { PlainObject, PlainObjectItem } from '@jamashita/publikum-type';
 import { Reference } from '../Reference';
-import { PlainObject, PlainObjectItem } from '../Value';
 
 describe('Reference', () => {
   describe('isCircular', () => {
-    it('return false when given objects do not have recusive reference', () => {
+    it('return false when given objects do not have recursive reference', () => {
       expect.assertions(18);
       expect(Reference.isCircular({})).toBe(false);
       expect(
