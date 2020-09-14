@@ -31,9 +31,7 @@
     "update:install": "yarn install",
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
-  "dependencies": {
-    "@jamashita/publikum-error": "^2.9.0"
-  },
+  "dependencies": {},
   "engines": {
     "node": ">= 14.5.0",
     "npm": "npm is not supported"
