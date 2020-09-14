@@ -1,17 +1,8 @@
-import { RecursiveReferenceError } from './Error/RecursiveReferenceError';
 import { Kind } from './Kind';
-import { Reference } from './Reference';
 import { ObjectLiteral, PlainObject, PlainObjectItem, Primitive } from './Value';
 
 export class Equality {
   public static same(n1: ObjectLiteral, n2: ObjectLiteral): boolean {
-    if (Reference.isCircular(n1)) {
-      throw new RecursiveReferenceError('RECURSIVE REFERENCE DETECTED');
-    }
-    if (Reference.isCircular(n2)) {
-      throw new RecursiveReferenceError('RECURSIVE REFERENCE DETECTED');
-    }
-
     return Equality.sameInternal(n1, n2);
   }
 
