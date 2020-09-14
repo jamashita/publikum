@@ -135,12 +135,10 @@ Class for random string, random number.
 * [ ] utility class for Promise collection manipulation
     * Unscharfeleration
         * [ ] `sequence<P>(arr: Array<Promise<P>>): Promise<Array<P>>;`
-        * [ ] `anyway<P>(arr: Array<Promise<P>>): Promise<Array<Heisenberg<P>>>;`
-            * ?
+        * [x] `anyway<P>(arr: Array<Promise<P>>): Promise<Array<Heisenberg<P>>>;`
     * Superposition
         * [ ] `sequence<A, D>(arr: Array<Promise<A>>): Promise<Array<Schrodinger<A, D>>>;`
-        * [ ] `anyway<A, D>(arr: Array<Promise<A>>): Promise<Array<Schrodinger<A, D>>>;`
-            * ?
+        * [x] `anyway<A, D>(arr: Array<Promise<A>>): Promise<Array<Schrodinger<A, D>>>;`
 * [x] `AJAX.head()`
 * [x] `Request.head()`
 
