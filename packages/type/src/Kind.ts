@@ -1,8 +1,6 @@
-import { Reference } from './Reference';
-import { Constructor, PlainObject, PlainObjectItem, Primitive, Vague } from './Value';
+import { Constructor, Primitive, Vague } from './Value';
 
 const NUMBER_REGEX: RegExp = /^[+-]?[0-9]+\.?[0-9]*$/su;
-const LITERAL_TO_STRING: string = '[object Object]';
 
 export class Kind {
   public static isUndefined(value: unknown): value is undefined {
@@ -152,46 +150,6 @@ export class Kind {
 
   public static isArray<T = unknown>(value: unknown): value is Array<T> {
     return Array.isArray(value);
-  }
-
-  public static isPlainObject(value: unknown): value is PlainObject {
-    if (!Kind.isObject(value)) {
-      return false;
-    }
-    if (Object.prototype.toString.call(value) !== LITERAL_TO_STRING) {
-      return false;
-    }
-    if (Reference.isCircular(value)) {
-      return false;
-    }
-
-    return Kind.isPlainObjectInternal(value as PlainObject);
-  }
-
-  private static isPlainObjectItemInternal(value: PlainObjectItem): boolean {
-    if (Kind.isPrimitive(value)) {
-      return true;
-    }
-    if (Kind.isArray<PlainObjectItem>(value)) {
-      return Kind.isPlainObjectArrayInternal(value);
-    }
-    if (Kind.isPlainObject(value)) {
-      return Kind.isPlainObjectInternal(value);
-    }
-
-    return false;
-  }
-
-  private static isPlainObjectArrayInternal(value: Array<PlainObjectItem>): boolean {
-    return value.every((item: PlainObjectItem) => {
-      return Kind.isPlainObjectItemInternal(item);
-    });
-  }
-
-  private static isPlainObjectInternal(value: PlainObject): boolean {
-    return Object.keys(value).every((key: string) => {
-      return Kind.isPlainObjectItemInternal(value[key]);
-    });
   }
 
   public static isClass<T extends Constructor>(instance: unknown, klazz: T): instance is T {

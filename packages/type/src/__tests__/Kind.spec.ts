@@ -441,33 +441,6 @@ describe('Kind', () => {
     });
   });
 
-  describe('isPlainObject', () => {
-    it('returns false if array given', () => {
-      expect.assertions(21);
-      expect(Kind.isPlainObject(null)).toBe(false);
-      expect(Kind.isPlainObject(undefined)).toBe(false);
-      expect(Kind.isPlainObject('')).toBe(false);
-      expect(Kind.isPlainObject('123')).toBe(false);
-      expect(Kind.isPlainObject('abcd')).toBe(false);
-      expect(Kind.isPlainObject(123)).toBe(false);
-      expect(Kind.isPlainObject(0)).toBe(false);
-      expect(Kind.isPlainObject(-12)).toBe(false);
-      expect(Kind.isPlainObject(0.3)).toBe(false);
-      expect(Kind.isPlainObject(false)).toBe(false);
-      expect(Kind.isPlainObject(true)).toBe(false);
-      expect(Kind.isPlainObject(Symbol('p'))).toBe(false);
-      expect(Kind.isPlainObject(20n)).toBe(false);
-      expect(Kind.isPlainObject({})).toBe(true);
-      expect(Kind.isPlainObject([])).toBe(false);
-      expect(Kind.isPlainObject(new Error())).toBe(false);
-      expect(Kind.isPlainObject({ e: new Error() })).toBe(false);
-      expect(Kind.isPlainObject({ e: { e: new Error() } })).toBe(false);
-      expect(Kind.isPlainObject({ s: 1 })).toBe(true);
-      expect(Kind.isPlainObject({ s: { s: 1 } })).toBe(true);
-      expect(Kind.isPlainObject(Object.create(null))).toBe(true);
-    });
-  });
-
   describe('isClass', () => {
     it('returns false if array given', () => {
       expect.assertions(6);
