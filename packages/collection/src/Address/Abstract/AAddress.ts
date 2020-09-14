@@ -32,6 +32,7 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     }
   }
 
+  // TODO no rest parameters
   public abstract add(...elements: ReadonlyArray<E>): Address<E, N>;
 
   public abstract remove(element: E): Address<E, N>;
