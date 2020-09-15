@@ -1,6 +1,6 @@
-# `Publikum`
+# Publikum
 
-Publikum (prononciation /puːblikʊm/) is a TypeScript library for only me :))
+my resuable playground
 
 ## Classes
 
@@ -13,8 +13,11 @@ Redefinition class for `Object`. Abstract class for standing for `Nominative`.
 #### Entity
 Class for `Entity` for DDD. Concrete class for `Objet`.
 
-### ValueObject
+#### ValueObject
 Class for `Value object` for DDD. Concrete class for `Objet`
+
+#### Reference
+Check the object has circular reference.
 
 ### Collections
 Collection classes that are totally wrapping `Array, Map, Set...` in order to data immutability.
@@ -103,9 +106,6 @@ Function type definitions.
 #### Kind
 Type-determination class.
 
-#### Reference
-Check the object has circular reference.
-
 #### Value
 Value type definitions.
 
@@ -123,7 +123,7 @@ Class for Date and Time, using `dayjs`.
 #### Digest
 Class for string hashing.
 
-### Random
+#### Random
 Class for random string, random number.
 
 ### TODO
