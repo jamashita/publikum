@@ -1,6 +1,6 @@
 # Publikum
 
-my resuable playground
+my reusable playground
 
 ## Classes
 
