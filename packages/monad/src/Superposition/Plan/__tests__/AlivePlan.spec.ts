@@ -142,6 +142,53 @@ describe('AlivePlan', () => {
       expect(spy4.called).toBe(false);
     });
 
+    it('promise<alive Superposition<A, D>> given', async () => {
+      expect.assertions(6);
+      const value: number = 101;
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
+
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const plan: AlivePlan<number, number, MockRuntimeError> = AlivePlan.of<number, number, MockRuntimeError>(
+          (n: number) => {
+            spy1();
+            expect(n).toBe(value);
+
+            return Promise.resolve<Superposition<number, MockRuntimeError>>(Superposition.alive<number, MockRuntimeError>(n - 3));
+          },
+          new MockChrono<number, MockRuntimeError>(
+            (n: number) => {
+              spy2();
+              expect(n).toBe(value - 3);
+
+              resolve();
+            },
+            () => {
+              spy3();
+
+              resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
+            },
+            new Set<DeadConstructor<MockRuntimeError>>()
+          )
+        );
+
+        plan.onMap(value);
+      });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(false);
+    });
+
     it('d thrown', () => {
       expect.assertions(6);
       const value: number = 101;
@@ -247,6 +294,55 @@ describe('AlivePlan', () => {
             expect(n).toBe(value);
 
             return Superposition.dead<number, MockRuntimeError>(error, MockRuntimeError);
+          },
+          new MockChrono<number, MockRuntimeError>(
+            () => {
+              spy2();
+
+              resolve();
+            },
+            (e: MockRuntimeError) => {
+              spy3();
+              expect(e).toBe(error);
+
+              resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
+            },
+            new Set<DeadConstructor<MockRuntimeError>>([MockRuntimeError])
+          )
+        );
+
+        plan.onMap(value);
+      });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(true);
+      expect(spy4.called).toBe(false);
+    });
+
+    it('promise<dead Superposition<A, D>> given', async () => {
+      expect.assertions(6);
+      const value: number = 101;
+      const error: MockRuntimeError = new MockRuntimeError();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
+
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const plan: AlivePlan<number, number, MockRuntimeError> = AlivePlan.of<number, number, MockRuntimeError>(
+          (n: number) => {
+            spy1();
+            expect(n).toBe(value);
+
+
+            return Promise.resolve<Superposition<number, MockRuntimeError>>(Superposition.dead<number, MockRuntimeError>(error, MockRuntimeError));
           },
           new MockChrono<number, MockRuntimeError>(
             () => {
