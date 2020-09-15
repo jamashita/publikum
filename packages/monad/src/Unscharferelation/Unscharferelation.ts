@@ -1,5 +1,14 @@
 import { Objet } from '@jamashita/publikum-object';
-import { Consumer, Kind, Peek, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import {
+  Consumer,
+  Kind,
+  Peek,
+  Predicate,
+  Supplier,
+  Suspicious,
+  SyncAsync,
+  UnaryFunction
+} from '@jamashita/publikum-type';
 import { Chrono } from '../Superposition/Chrono/Interface/Chrono';
 import { Detoxicated } from '../Superposition/Interface/Detoxicated';
 import { Superposition } from '../Superposition/Superposition';
@@ -181,11 +190,11 @@ export class Unscharferelation<P> extends Objet<Unscharferelation<P>, 'Unscharfe
     return Unscharferelation.ofUnscharferelation<P>(this.internal.filter(predicate));
   }
 
-  public map<Q = P>(mapper: UnaryFunction<Matter<P>, Unscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>): Unscharferelation<Q> {
+  public map<Q = P>(mapper: UnaryFunction<Matter<P>, SyncAsync<Unscharferelation<Q> | Suspicious<Matter<Q>>>>): Unscharferelation<Q> {
     return Unscharferelation.ofUnscharferelation<Q>(this.internal.map<Q>(mapper));
   }
 
-  public recover<Q = P>(mapper: Supplier<Unscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>): Unscharferelation<P | Q> {
+  public recover<Q = P>(mapper: Supplier<SyncAsync<Unscharferelation<Q> | Suspicious<Matter<Q>>>>): Unscharferelation<P | Q> {
     return Unscharferelation.ofUnscharferelation<P | Q>(this.internal.recover<Q>(mapper));
   }
 

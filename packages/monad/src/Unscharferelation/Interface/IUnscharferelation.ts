@@ -1,5 +1,14 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Consumer, Kind, Peek, Predicate, Supplier, Suspicious, UnaryFunction } from '@jamashita/publikum-type';
+import {
+  Consumer,
+  Kind,
+  Peek,
+  Predicate,
+  Supplier,
+  Suspicious,
+  SyncAsync,
+  UnaryFunction
+} from '@jamashita/publikum-type';
 import { ISuperposition } from '../../Superposition/Interface/ISuperposition';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
@@ -12,9 +21,9 @@ export interface IUnscharferelation<P, N extends string = string> extends Nomina
 
   filter(predicate: Predicate<P>): IUnscharferelation<P>;
 
-  map<Q = P>(mapper: UnaryFunction<Matter<P>, IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>): IUnscharferelation<Q>;
+  map<Q = P>(mapper: UnaryFunction<Matter<P>, SyncAsync<IUnscharferelation<Q> | Suspicious<Matter<Q>>>>): IUnscharferelation<Q>;
 
-  recover<Q = P>(mapper: Supplier<IUnscharferelation<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>): IUnscharferelation<P | Q>;
+  recover<Q = P>(mapper: Supplier<SyncAsync<IUnscharferelation<Q> | Suspicious<Matter<Q>>>>): IUnscharferelation<P | Q>;
 
   ifPresent(consumer: Consumer<Matter<P>>): this;
 
