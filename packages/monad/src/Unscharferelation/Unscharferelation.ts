@@ -15,12 +15,13 @@ export class Unscharferelation<P> extends Objet<Unscharferelation<P>, 'Unscharfe
   public readonly noun: 'Unscharferelation' = 'Unscharferelation';
   private readonly internal: IUnscharferelation<P>;
 
-  public static all<PT>(unscharferelations: ArrayLike<Unscharferelation<PT>>): Unscharferelation<Array<PT>> {
-    if (unscharferelations.length === 0) {
+  public static all<PT>(unscharferelations: Iterable<Unscharferelation<PT>>): Unscharferelation<Array<PT>> {
+    const us: Array<Unscharferelation<PT>> = [...unscharferelations];
+
+    if (us.length === 0) {
       return Unscharferelation.present<Array<PT>>([]);
     }
 
-    const us: Array<Unscharferelation<PT>> = Array.from<Unscharferelation<PT>>(unscharferelations);
     const promises: Array<Promise<Heisenberg<PT>>> = us.map<Promise<Heisenberg<PT>>>((u: Unscharferelation<PT>) => {
       return u.terminate();
     });
@@ -60,8 +61,8 @@ export class Unscharferelation<P> extends Objet<Unscharferelation<P>, 'Unscharfe
     });
   }
 
-  public static anyway<PT>(unscharferelations: ArrayLike<Unscharferelation<PT>>): Promise<Array<Heisenberg<PT>>> {
-    const promises: Array<Promise<Heisenberg<PT>>> = Array.from<Unscharferelation<PT>>(unscharferelations).map<Promise<Heisenberg<PT>>>((u: Unscharferelation<PT>) => {
+  public static anyway<PT>(unscharferelations: Iterable<Unscharferelation<PT>>): Promise<Array<Heisenberg<PT>>> {
+    const promises: Array<Promise<Heisenberg<PT>>> = [...unscharferelations].map<Promise<Heisenberg<PT>>>((u: Unscharferelation<PT>) => {
       return u.terminate();
     });
 
