@@ -16,12 +16,13 @@ export class Superposition<A, D extends Error> extends Objet<Superposition<A, D>
   public readonly noun: 'Superposition' = 'Superposition';
   private readonly internal: ISuperposition<A, D>;
 
-  public static all<AT, DT extends Error>(superpositions: ArrayLike<Superposition<AT, DT>>): Superposition<Array<AT>, DT> {
-    if (superpositions.length === 0) {
+  public static all<AT, DT extends Error>(superpositions: Iterable<Superposition<AT, DT>>): Superposition<Array<AT>, DT> {
+    const ss: Array<Superposition<AT, DT>> = [...superpositions];
+
+    if (ss.length === 0) {
       return Superposition.alive<Array<AT>, DT>([]);
     }
 
-    const ss: Array<Superposition<AT, DT>> = Array.from<Superposition<AT, DT>>(superpositions);
     const promises: Array<Promise<Schrodinger<AT, DT>>> = ss.map<Promise<Schrodinger<AT, DT>>>((s: Superposition<AT, DT>) => {
       return s.terminate();
     });
@@ -65,8 +66,8 @@ export class Superposition<A, D extends Error> extends Objet<Superposition<A, D>
     });
   }
 
-  public static anyway<AT, DT extends Error>(superpositions: ArrayLike<Superposition<AT, DT>>): Promise<Array<Schrodinger<AT, DT>>> {
-    const promises: Array<Promise<Schrodinger<AT, DT>>> = Array.from<Superposition<AT, DT>>(superpositions).map<Promise<Schrodinger<AT, DT>>>((s: Superposition<AT, DT>) => {
+  public static anyway<AT, DT extends Error>(superpositions: Iterable<Superposition<AT, DT>>): Promise<Array<Schrodinger<AT, DT>>> {
+    const promises: Array<Promise<Schrodinger<AT, DT>>> = [...superpositions].map<Promise<Schrodinger<AT, DT>>>((s: Superposition<AT, DT>) => {
       return s.terminate();
     });
 
