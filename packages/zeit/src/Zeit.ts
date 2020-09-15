@@ -32,15 +32,17 @@ export class Zeit extends ValueObject<Zeit, 'Zeit'> {
     return Zeit.of(dayjs.utc(), format);
   }
 
-  public static max(zeiten: ArrayLike<Zeit>, format: string): Zeit {
-    if (zeiten.length === 0) {
+  public static max(zeiten: Iterable<Zeit>, format: string): Zeit {
+    const z: Array<Zeit> = [...zeiten];
+
+    if (z.length === 0) {
       throw new ZeitError('ZEITEN IS EMPTY');
     }
-    if (zeiten.length === 1) {
-      return zeiten[0];
+    if (z.length === 1) {
+      return z[0];
     }
 
-    const dates: Array<dayjs.Dayjs> = Array.from<Zeit>(zeiten).map<dayjs.Dayjs>((zeit: Zeit) => {
+    const dates: Array<dayjs.Dayjs> = z.map<dayjs.Dayjs>((zeit: Zeit) => {
       return zeit.get();
     });
 
@@ -49,15 +51,17 @@ export class Zeit extends ValueObject<Zeit, 'Zeit'> {
     return Zeit.of(max, format);
   }
 
-  public static min(zeiten: ArrayLike<Zeit>, format: string): Zeit {
-    if (zeiten.length === 0) {
+  public static min(zeiten: Iterable<Zeit>, format: string): Zeit {
+    const z: Array<Zeit> = [...zeiten];
+
+    if (z.length === 0) {
       throw new ZeitError('ZEITEN IS EMPTY');
     }
-    if (zeiten.length === 1) {
-      return zeiten[0];
+    if (z.length === 1) {
+      return z[0];
     }
 
-    const dates: Array<dayjs.Dayjs> = Array.from<Zeit>(zeiten).map<dayjs.Dayjs>((zeit: Zeit) => {
+    const dates: Array<dayjs.Dayjs> = z.map<dayjs.Dayjs>((zeit: Zeit) => {
       return zeit.get();
     });
 
