@@ -26,7 +26,7 @@
     "build": "yarn clean && concurrently \"npm:build:*\"",
     "build:cjs": "tsc -b tsconfig.cjs.json ../error/tsconfig.cjs.json ../object/tsconfig.cjs.json",
     "build:esm": "tsc -b tsconfig.esm.json ../error/tsconfig.esm.json ../object/tsconfig.esm.json",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist && rimraf coverage",
     "test": "jest test --detectOpenHandles --passWithNoTests",
     "update": "yarn update:upgrade && yarn update:install",
     "update:install": "yarn install",
