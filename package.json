@@ -3,7 +3,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:jamashita/publikum.git"
+    "url": "git@github.com:jamashita/publikum.git"
   },
   "license": "MIT",
   "author": "jamashita <jamashita@arachnid.xyz>",

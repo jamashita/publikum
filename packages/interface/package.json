@@ -4,7 +4,7 @@
   "private": false,
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:jamashita/publikum.git/packages/interface"
+    "url": "git@github.com:jamashita/publikum.git/packages/interface"
   },
   "license": "MIT",
   "author": "jamashita <jamashita@arachnid.xyz>",
