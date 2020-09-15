@@ -1,5 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Consumer, Kind, Peek, Predicate, UnaryFunction } from '@jamashita/publikum-type';
+import { Consumer, Kind, Peek, Predicate, SyncAsync, UnaryFunction } from '@jamashita/publikum-type';
 import { IUnscharferelation } from '../../Unscharferelation/Interface/IUnscharferelation';
 import { SuperpositionError } from '../Error/SuperpositionError';
 import { Schrodinger } from '../Schrodinger/Schrodinger';
@@ -16,18 +16,18 @@ export interface ISuperposition<A, D extends Error, N extends string = string> e
   filter(predicate: Predicate<A>): ISuperposition<A, D | SuperpositionError>;
 
   map<B = A, E extends Error = D>(
-    mapper: UnaryFunction<Detoxicated<A>, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
+    mapper: UnaryFunction<Detoxicated<A>, SyncAsync<ISuperposition<B, E> | Detoxicated<B>>>,
     ...errors: ReadonlyArray<DeadConstructor<E>>
   ): ISuperposition<B, D | E>;
 
   recover<B = A, E extends Error = D>(
-    mapper: UnaryFunction<D, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
+    mapper: UnaryFunction<D, SyncAsync<ISuperposition<B, E> | Detoxicated<B>>>,
     ...errors: ReadonlyArray<DeadConstructor<E>>
   ): ISuperposition<A | B, E>;
 
   transform<B = A, E extends Error = D>(
-    alive: UnaryFunction<Detoxicated<A>, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
-    dead: UnaryFunction<D, ISuperposition<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
+    alive: UnaryFunction<Detoxicated<A>, SyncAsync<ISuperposition<B, E> | Detoxicated<B>>>,
+    dead: UnaryFunction<D, SyncAsync<ISuperposition<B, E> | Detoxicated<B>>>,
     ...errors: ReadonlyArray<DeadConstructor<E>>
   ): ISuperposition<B, E>;
 
