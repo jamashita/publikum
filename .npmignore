@@ -1,12 +1,10 @@
+.github/
 .idea/
 packages/**/src/**/__tests__/
 .editorconfig
 .eslintignore
 .eslintrc
-.gitlab-ci.yml
 .huskyrc
 .lintstagedrc
 jest.config.cjs
 lerna.json
-
-.tsbuildinfo
