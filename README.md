@@ -1,6 +1,8 @@
 # Publikum
 
-my reusable playground
+my reusable playground :)
+
+![Validate Codes](https://github.com/jamashita/publikum/workflows/Validate%20Codes/badge.svg)
 
 ## Classes
 
