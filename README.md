@@ -1,6 +1,6 @@
-# `Publikum`
+# Publikum
 
-Publikum (prononciation /puːblikʊm/) is a TypeScript library for only me :))
+my resuable playground
 
 ## Classes
 
