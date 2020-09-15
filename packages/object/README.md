@@ -1,3 +1,3 @@
-# `Publikum/Object`
+# Publikum/Object
 
 Publikum (prononciation /puːblikʊm/) is a TypeScript library for me :))
