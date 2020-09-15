@@ -1,5 +1,5 @@
 import { Objet } from '@jamashita/publikum-object';
-import { Consumer, Kind, Peek, Predicate, Reject, Resolve, UnaryFunction } from '@jamashita/publikum-type';
+import { Consumer, Kind, Peek, Predicate, Reject, Resolve, SyncAsync, UnaryFunction } from '@jamashita/publikum-type';
 import { DestroyPlan } from '../Plan/Interface/DestroyPlan';
 import { MapPlan } from '../Plan/Interface/MapPlan';
 import { Plan } from '../Plan/Interface/Plan';
@@ -107,7 +107,7 @@ export class SuperpositionInternal<A, D extends Error> extends Objet<Superpositi
   }
 
   public map<B = A, E extends Error = D>(
-    mapper: UnaryFunction<Detoxicated<A>, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
+    mapper: UnaryFunction<Detoxicated<A>, SyncAsync<SuperpositionInternal<B, E> | Detoxicated<B>>>,
     ...errors: ReadonlyArray<DeadConstructor<E>>
   ): SuperpositionInternal<B, D | E> {
     return SuperpositionInternal.of<B, D | E>((chrono: Chrono<B, D | E>) => {
@@ -120,7 +120,7 @@ export class SuperpositionInternal<A, D extends Error> extends Objet<Superpositi
   }
 
   public recover<B = A, E extends Error = D>(
-    mapper: UnaryFunction<D, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
+    mapper: UnaryFunction<D, SyncAsync<SuperpositionInternal<B, E> | Detoxicated<B>>>,
     ...errors: ReadonlyArray<DeadConstructor<E>>
   ): SuperpositionInternal<A | B, E> {
     return SuperpositionInternal.of<A | B, E>((chrono: Chrono<A | B, E>) => {
@@ -133,8 +133,8 @@ export class SuperpositionInternal<A, D extends Error> extends Objet<Superpositi
   }
 
   public transform<B = A, E extends Error = D>(
-    alive: UnaryFunction<Detoxicated<A>, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
-    dead: UnaryFunction<D, SuperpositionInternal<B, E> | PromiseLike<Detoxicated<B>> | Detoxicated<B>>,
+    alive: UnaryFunction<Detoxicated<A>, SyncAsync<SuperpositionInternal<B, E> | Detoxicated<B>>>,
+    dead: UnaryFunction<D, SyncAsync<SuperpositionInternal<B, E> | Detoxicated<B>>>,
     ...errors: ReadonlyArray<DeadConstructor<E>>
   ): SuperpositionInternal<B, E> {
     return SuperpositionInternal.of<B, E>((chrono: Chrono<B, E>) => {

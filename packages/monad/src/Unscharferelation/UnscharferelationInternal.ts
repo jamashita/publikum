@@ -7,6 +7,7 @@ import {
   Resolve,
   Supplier,
   Suspicious,
+  SyncAsync,
   UnaryFunction
 } from '@jamashita/publikum-type';
 import { DestroyPlan } from '../Plan/Interface/DestroyPlan';
@@ -106,7 +107,7 @@ export class UnscharferelationInternal<P> extends Objet<UnscharferelationInterna
     });
   }
 
-  public map<Q = P>(mapper: UnaryFunction<Matter<P>, UnscharferelationInternal<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>): UnscharferelationInternal<Q> {
+  public map<Q = P>(mapper: UnaryFunction<Matter<P>, SyncAsync<UnscharferelationInternal<Q> | Suspicious<Matter<Q>>>>): UnscharferelationInternal<Q> {
     return UnscharferelationInternal.of<Q>((epoque: Epoque<Q>) => {
       return this.handle(
         PresentPlan.of<P, Q>(mapper, epoque),
@@ -116,7 +117,7 @@ export class UnscharferelationInternal<P> extends Objet<UnscharferelationInterna
     });
   }
 
-  public recover<Q = P>(mapper: Supplier<UnscharferelationInternal<Q> | PromiseLike<Suspicious<Matter<Q>>> | Suspicious<Matter<Q>>>): UnscharferelationInternal<P | Q> {
+  public recover<Q = P>(mapper: Supplier<SyncAsync<UnscharferelationInternal<Q> | Suspicious<Matter<Q>>>>): UnscharferelationInternal<P | Q> {
     return UnscharferelationInternal.of<P | Q>((epoque: Epoque<P | Q>) => {
       return this.handle(
         MapEpoquePlan.of<P | Q>(epoque),
