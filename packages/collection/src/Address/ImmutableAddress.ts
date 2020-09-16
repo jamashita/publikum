@@ -34,46 +34,35 @@ export class ImmutableAddress<E extends Nominative<E>> extends AAddress<E, 'Immu
     super(elements);
   }
 
-  public add(...elements: ReadonlyArray<E>): ImmutableAddress<E> {
-    if (elements.length === 0) {
+  public add(element: E): ImmutableAddress<E> {
+    if (this.contains(element)) {
       return this;
     }
 
-    let set: boolean = false;
     const map: Map<string, E> = new Map<string, E>(this.elements);
 
-    elements.forEach((element: E) => {
-      if (this.contains(element)) {
-        return;
-      }
+    map.set(element.hashCode(), element);
 
-      set = true;
-      map.set(element.hashCode(), element);
-    });
-
-    if (set) {
-      return ImmutableAddress.ofMap<E>(map);
-    }
-
-    return this;
+    return ImmutableAddress.ofMap<E>(map);
   }
 
   public remove(element: E): ImmutableAddress<E> {
     if (this.isEmpty()) {
       return this;
     }
+    if (!this.contains(element)) {
+      return this;
+    }
 
     const map: Map<string, E> = new Map<string, E>(this.elements);
 
-    if (map.delete(element.hashCode())) {
-      if (map.size === 0) {
-        return ImmutableAddress.empty<E>();
-      }
+    map.delete(element.hashCode());
 
-      return ImmutableAddress.ofMap<E>(map);
+    if (map.size === 0) {
+      return ImmutableAddress.empty<E>();
     }
 
-    return this;
+    return ImmutableAddress.ofMap<E>(map);
   }
 
   public isEmpty(): boolean {

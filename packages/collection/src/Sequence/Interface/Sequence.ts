@@ -3,10 +3,8 @@ import { Enumerator, Mapper, Nullable, Predicate } from '@jamashita/publikum-typ
 import { Collection } from '../../Interface/Collection';
 
 export interface Sequence<E extends Nominative<E>, N extends string = string>
-  extends Collection<Sequence<E, N>, number, E, N>,
-    Cloneable<Sequence<E, N>>,
-    Nominative<Sequence<E, N>, N> {
-  add(...elements: ReadonlyArray<E>): Sequence<E, N>;
+  extends Collection<Sequence<E, N>, number, E, N>, Cloneable<Sequence<E, N>>, Nominative<Sequence<E, N>, N> {
+  add(element: E): Sequence<E, N>;
 
   set(index: number, element: E): Sequence<E>;
 

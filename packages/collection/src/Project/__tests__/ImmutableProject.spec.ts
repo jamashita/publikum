@@ -5,6 +5,7 @@ describe('ImmutableProject', () => {
   describe('of', () => {
     it('when the arguments specified with 0 length set, returns ImmutableAddress.empty()', () => {
       expect.assertions(2);
+
       const project: ImmutableProject<MockNominative<number>, MockNominative<number>> = ImmutableProject.of<MockNominative<number>,
         MockNominative<number>>(new Map<MockNominative<number>, MockNominative<number>>());
 
@@ -14,6 +15,7 @@ describe('ImmutableProject', () => {
 
     it('normal case', () => {
       expect.assertions(2);
+
       const project1: ImmutableProject<MockNominative<number>, MockNominative<number>> = ImmutableProject.of<MockNominative<number>,
         MockNominative<number>>(
         new Map<MockNominative<number>, MockNominative<number>>([
@@ -38,6 +40,7 @@ describe('ImmutableProject', () => {
   describe('empty', () => {
     it('always empty, the size is 0', () => {
       expect.assertions(1);
+
       const project: ImmutableProject<MockNominative<number>, MockNominative<number>> = ImmutableProject.empty<MockNominative<number>,
         MockNominative<number>>();
 
@@ -46,6 +49,7 @@ describe('ImmutableProject', () => {
 
     it('returns singleton empty Address', () => {
       expect.assertions(1);
+
       expect(ImmutableProject.empty<MockNominative<number>, MockNominative<number>>()).toBe(
         ImmutableProject.empty<MockNominative<number>, MockNominative<number>>()
       );
@@ -55,6 +59,7 @@ describe('ImmutableProject', () => {
   describe('set', () => {
     it('can extend immutably', () => {
       expect.assertions(10);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -83,6 +88,7 @@ describe('ImmutableProject', () => {
 
     it('overwrites when the keys are already contained', () => {
       expect.assertions(4);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -103,6 +109,7 @@ describe('ImmutableProject', () => {
   describe('remove', () => {
     it('normal case', () => {
       expect.assertions(1);
+
       const noun: MockNominative<number> = new MockNominative<number>(1);
 
       const nouns1: ImmutableProject<MockNominative<number>, MockNominative<number>> = ImmutableProject.empty<MockNominative<number>,
@@ -113,6 +120,7 @@ describe('ImmutableProject', () => {
 
     it('does nothing because the key is already nothing', () => {
       expect.assertions(1);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -127,6 +135,7 @@ describe('ImmutableProject', () => {
 
     it('returns the value even if the other', () => {
       expect.assertions(3);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(1);
@@ -144,6 +153,7 @@ describe('ImmutableProject', () => {
 
     it('does not contains the value, returns itself', () => {
       expect.assertions(1);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -158,6 +168,7 @@ describe('ImmutableProject', () => {
 
     it('returns ImmutableProject.empty() when the size will be 0', () => {
       expect.assertions(1);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
@@ -173,6 +184,7 @@ describe('ImmutableProject', () => {
   describe('isEmpty', () => {
     it('returns true if the elements are 0', () => {
       expect.assertions(2);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
@@ -191,6 +203,7 @@ describe('ImmutableProject', () => {
   describe('duplicate', () => {
     it('normal case', () => {
       expect.assertions(2);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -211,6 +224,7 @@ describe('ImmutableProject', () => {
 
     it('does not affect original one', () => {
       expect.assertions(4);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -231,6 +245,7 @@ describe('ImmutableProject', () => {
 
     it('returns ImmutableProject.empty() when there are no items', () => {
       expect.assertions(1);
+
       const nouns1: ImmutableProject<MockNominative<number>, MockNominative<number>> = ImmutableProject.of<MockNominative<number>,
         MockNominative<number>>(new Map<MockNominative<number>, MockNominative<number>>([]));
 

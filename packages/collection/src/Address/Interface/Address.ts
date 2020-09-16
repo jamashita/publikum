@@ -6,7 +6,7 @@ export interface Address<E extends Nominative<E>, N extends string = string>
   extends Collection<Address<E, N>, void, E, N>,
     Cloneable<Address<E, N>>,
     Nominative<Address<E, N>, N> {
-  add(...elements: ReadonlyArray<E>): Address<E, N>;
+  add(element: E): Address<E, N>;
 
   remove(element: E): Address<E, N>;
 

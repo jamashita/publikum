@@ -7,6 +7,7 @@ describe('AAddress', () => {
   describe('iterator', () => {
     it('normal case', () => {
       expect.assertions(2);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const values: Array<MockNominative<number>> = [noun1, noun2];
@@ -27,6 +28,7 @@ describe('AAddress', () => {
   describe('get', () => {
     it('always returns Absent', () => {
       expect.assertions(4);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
 
       const nouns1: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(new Set());
@@ -42,6 +44,7 @@ describe('AAddress', () => {
   describe('contains', () => {
     it('returns true if the elements exists', () => {
       expect.assertions(4);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -61,6 +64,7 @@ describe('AAddress', () => {
   describe('isEmpty', () => {
     it('returns true if the elements are 0', () => {
       expect.assertions(2);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
@@ -77,6 +81,7 @@ describe('AAddress', () => {
   describe('forEach', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -95,6 +100,7 @@ describe('AAddress', () => {
 
     it('can cancel iteration', () => {
       expect.assertions(5);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
@@ -142,6 +148,7 @@ describe('AAddress', () => {
   describe('find', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -174,6 +181,7 @@ describe('AAddress', () => {
   describe('every', () => {
     it('normal case', () => {
       expect.assertions(1);
+
       const noun1: MockNominative<number> = new MockNominative<number>(2);
       const noun2: MockNominative<number> = new MockNominative<number>(4);
       const noun3: MockNominative<number> = new MockNominative<number>(6);
@@ -194,6 +202,7 @@ describe('AAddress', () => {
 
     it('if one of them are not satisfied, returns false', () => {
       expect.assertions(6);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(4);
       const noun3: MockNominative<number> = new MockNominative<number>(6);
@@ -242,6 +251,7 @@ describe('AAddress', () => {
   describe('some', () => {
     it('normal case', () => {
       expect.assertions(2);
+
       const noun1: MockNominative<number> = new MockNominative<number>(2);
       const noun2: MockNominative<number> = new MockNominative<number>(4);
       const noun3: MockNominative<number> = new MockNominative<number>(6);
@@ -264,6 +274,7 @@ describe('AAddress', () => {
 
     it('if none of them are not satisfied, returns false', () => {
       expect.assertions(5);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(4);
       const noun3: MockNominative<number> = new MockNominative<number>(6);
@@ -307,6 +318,7 @@ describe('AAddress', () => {
   describe('equals', () => {
     it('returns false if the length is different', () => {
       expect.assertions(2);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
@@ -321,6 +333,7 @@ describe('AAddress', () => {
 
     it('returns true even if the sequence is different', () => {
       expect.assertions(2);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
@@ -337,6 +350,7 @@ describe('AAddress', () => {
 
     it('returns true if the length is the same and the sequence is the same', () => {
       expect.assertions(2);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
@@ -355,6 +369,7 @@ describe('AAddress', () => {
   describe('toString', () => {
     it('normal case', () => {
       expect.assertions(1);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -370,6 +385,7 @@ describe('AAddress', () => {
   describe('toSet', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);

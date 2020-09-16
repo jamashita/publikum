@@ -30,8 +30,7 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
     })[Symbol.iterator]();
   }
 
-  // TODO NOT TO BE REST PARAMTERS
-  public abstract add(...elements: ReadonlyArray<E>): Sequence<E, N>;
+  public abstract add(element: E): Sequence<E, N>;
 
   public abstract set(index: number, element: E): Sequence<E>;
 
