@@ -5,8 +5,7 @@ import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Project } from '../Interface/Project';
 
-export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>, N extends string = string>
-  extends Quantity<AProject<K, V, N>, K, V, N>
+export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>, N extends string = string> extends Quantity<AProject<K, V, N>, K, V, N>
   implements Project<K, V, N> {
   public abstract readonly noun: N;
   protected readonly elements: Map<string, Pair<K, V>>;
