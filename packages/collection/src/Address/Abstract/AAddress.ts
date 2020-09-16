@@ -5,8 +5,7 @@ import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Address } from '../Interface/Address';
 
-export abstract class AAddress<E extends Nominative<E>, N extends string = string>
-  extends Quantity<AAddress<E, N>, void, E, N>
+export abstract class AAddress<E extends Nominative<E>, N extends string = string> extends Quantity<AAddress<E, N>, void, E, N>
   implements Address<E, N> {
   public abstract readonly noun: N;
   protected readonly elements: Map<string, E>;
@@ -32,8 +31,7 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     }
   }
 
-  // TODO no rest parameters
-  public abstract add(...elements: ReadonlyArray<E>): Address<E, N>;
+  public abstract add(element: E): Address<E, N>;
 
   public abstract remove(element: E): Address<E, N>;
 
