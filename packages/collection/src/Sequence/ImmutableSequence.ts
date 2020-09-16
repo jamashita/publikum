@@ -12,7 +12,7 @@ export class ImmutableSequence<E extends Nominative<E>> extends ASequence<E, 'Im
       return ImmutableSequence.empty<ET>();
     }
 
-    return new ImmutableSequence<ET>(elements);
+    return new ImmutableSequence<ET>([...elements]);
   }
 
   public static empty<ET extends Nominative<ET>>(): ImmutableSequence<ET> {
