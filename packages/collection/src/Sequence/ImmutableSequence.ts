@@ -12,7 +12,7 @@ export class ImmutableSequence<E extends Nominative<E>> extends ASequence<E, 'Im
       return ImmutableSequence.empty<ET>();
     }
 
-    return new ImmutableSequence<ET>([...elements]);
+    return new ImmutableSequence<ET>(elements);
   }
 
   public static empty<ET extends Nominative<ET>>(): ImmutableSequence<ET> {
@@ -43,12 +43,8 @@ export class ImmutableSequence<E extends Nominative<E>> extends ASequence<E, 'Im
     return ImmutableSequence.of<E>(elements);
   }
 
-  public add(...elements: ReadonlyArray<E>): ImmutableSequence<E> {
-    if (elements.length === 0) {
-      return this;
-    }
-
-    return ImmutableSequence.of<E>([...this.elements, ...elements]);
+  public add(element: E): ImmutableSequence<E> {
+    return ImmutableSequence.of<E>([...this.elements, element]);
   }
 
   public isEmpty(): boolean {

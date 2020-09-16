@@ -7,6 +7,7 @@ describe('ASequence', () => {
   describe('iterator', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const nouns: MockSequence<MockNominative<number>> = new MockSequence<MockNominative<number>>([
         new MockNominative<number>(1),
         new MockNominative<number>(2)
@@ -25,6 +26,7 @@ describe('ASequence', () => {
   describe('get', () => {
     it('returns its value at the correct index', () => {
       expect.assertions(4);
+
       const nounArray: Array<MockNominative<number>> = [
         new MockNominative<number>(1),
         new MockNominative<number>(2),
@@ -41,6 +43,7 @@ describe('ASequence', () => {
 
     it('returns null instance at out of index', () => {
       expect.assertions(3);
+
       const nouns: MockSequence<MockNominative<number>> = new MockSequence<MockNominative<number>>([
         new MockNominative<number>(1),
         new MockNominative<number>(2),
@@ -56,6 +59,7 @@ describe('ASequence', () => {
   describe('contains', () => {
     it('returns true if the element exists', () => {
       expect.assertions(4);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -73,6 +77,7 @@ describe('ASequence', () => {
   describe('isEmpty', () => {
     it('returns true if the elements are 0', () => {
       expect.assertions(2);
+
       const nouns1: MockSequence<MockNominative<number>> = new MockSequence<MockNominative<number>>([
         new MockNominative<number>(1),
         new MockNominative<number>(2)
@@ -87,6 +92,7 @@ describe('ASequence', () => {
   describe('forEach', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const nouns: MockSequence<MockNominative<number>> = new MockSequence<MockNominative<number>>([
         new MockNominative<number>(1),
         new MockNominative<number>(2),
@@ -101,6 +107,7 @@ describe('ASequence', () => {
 
     it('can cancel iteration', () => {
       expect.assertions(5);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
@@ -143,6 +150,7 @@ describe('ASequence', () => {
   describe('find', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -178,6 +186,7 @@ describe('ASequence', () => {
   describe('every', () => {
     it('normal case', () => {
       expect.assertions(1);
+
       const nouns: MockSequence<MockNominative<number>> = new MockSequence<MockNominative<number>>([
         new MockNominative<number>(2),
         new MockNominative<number>(4),
@@ -194,6 +203,7 @@ describe('ASequence', () => {
 
     it('if one of them are not satisfied, returns false', () => {
       expect.assertions(6);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(4);
       const noun3: MockNominative<number> = new MockNominative<number>(6);
@@ -268,6 +278,7 @@ describe('ASequence', () => {
   describe('some', () => {
     it('normal case', () => {
       expect.assertions(2);
+
       const nouns: MockSequence<MockNominative<number>> = new MockSequence<MockNominative<number>>([
         new MockNominative<number>(2),
         new MockNominative<number>(4),
@@ -288,6 +299,7 @@ describe('ASequence', () => {
 
     it('if none of them are not satisfied, returns false', () => {
       expect.assertions(5);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(4);
       const noun3: MockNominative<number> = new MockNominative<number>(6);
@@ -352,6 +364,7 @@ describe('ASequence', () => {
   describe('equals', () => {
     it('returns false if the length is different', () => {
       expect.assertions(2);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
@@ -364,6 +377,7 @@ describe('ASequence', () => {
 
     it('returns false if the sequence is different', () => {
       expect.assertions(2);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
@@ -376,6 +390,7 @@ describe('ASequence', () => {
 
     it('returns true if the length is the same and the sequence is the same', () => {
       expect.assertions(2);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
@@ -390,6 +405,7 @@ describe('ASequence', () => {
   describe('toString', () => {
     it('normal case', () => {
       expect.assertions(1);
+
       const nouns: MockSequence<MockNominative<number>> = new MockSequence<MockNominative<number>>([
         new MockNominative<number>(1),
         new MockNominative<number>(2),
@@ -403,6 +419,7 @@ describe('ASequence', () => {
   describe('toArray', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const nounArray: Array<MockNominative<number>> = [
         new MockNominative<number>(1),
         new MockNominative<number>(2),
@@ -419,6 +436,7 @@ describe('ASequence', () => {
 
     it('does not return the array itself', () => {
       expect.assertions(1);
+
       const nounArray: Array<MockNominative<number>> = [
         new MockNominative<number>(1),
         new MockNominative<number>(2),

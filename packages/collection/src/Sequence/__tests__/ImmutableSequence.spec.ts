@@ -6,6 +6,7 @@ describe('ImmutableSequence', () => {
   describe('of', () => {
     it('when the arguments specified with 0 length array, returns singleton', () => {
       expect.assertions(2);
+
       const sequence: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([]);
 
       expect(sequence.isEmpty()).toBe(true);
@@ -14,6 +15,7 @@ describe('ImmutableSequence', () => {
 
     it('normal case', () => {
       expect.assertions(2);
+
       const sequence1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
         new MockNominative<number>(1),
         new MockNominative<number>(3)
@@ -32,31 +34,21 @@ describe('ImmutableSequence', () => {
   describe('empty', () => {
     it('always empty, the length is 0', () => {
       expect.assertions(1);
+
       expect(ImmutableSequence.empty<MockNominative<number>>().isEmpty()).toBe(true);
     });
 
     it('returns singleton empty Sequence', () => {
       expect.assertions(1);
+
       expect(ImmutableSequence.empty<MockNominative<number>>()).toBe(ImmutableSequence.empty<MockNominative<string>>());
     });
   });
 
   describe('add', () => {
-    it('returns itself when arguments are empty', () => {
-      expect.assertions(2);
-      const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
-        new MockNominative<number>(1),
-        new MockNominative<number>(2),
-        new MockNominative<number>(3)
-      ]);
-      const nouns2: ImmutableSequence<MockNominative<number>> = ImmutableSequence.empty<MockNominative<number>>();
-
-      expect(nouns1.add()).toBe(nouns1);
-      expect(nouns2.add()).toBe(nouns2);
-    });
-
     it('can extend immutably', () => {
       expect.assertions(23);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -96,43 +88,12 @@ describe('ImmutableSequence', () => {
       expect(nouns4.get(1)).toBe(noun2);
       expect(nouns4.get(2)).toBe(noun3);
     });
-
-    it('apply spread syntax', () => {
-      expect.assertions(15);
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
-      const noun4: MockNominative<number> = new MockNominative<number>(4);
-
-      const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.empty<MockNominative<number>>();
-
-      expect(nouns1.size()).toBe(0);
-
-      const nouns2: ImmutableSequence<MockNominative<number>> = nouns1.add(noun1, noun2);
-
-      expect(nouns1).not.toBe(nouns2);
-      expect(nouns1.size()).toBe(0);
-      expect(nouns2.size()).toBe(2);
-      expect(nouns2.get(0)).toBe(noun1);
-      expect(nouns2.get(1)).toBe(noun2);
-
-      const nouns3: ImmutableSequence<MockNominative<number>> = nouns2.add(noun3, noun4);
-
-      expect(nouns1).not.toBe(nouns2);
-      expect(nouns2).not.toBe(nouns3);
-      expect(nouns1.size()).toBe(0);
-      expect(nouns2.size()).toBe(2);
-      expect(nouns3.size()).toBe(4);
-      expect(nouns3.get(0)).toBe(noun1);
-      expect(nouns3.get(1)).toBe(noun2);
-      expect(nouns3.get(2)).toBe(noun3);
-      expect(nouns3.get(3)).toBe(noun4);
-    });
   });
 
   describe('set', () => {
     it('set element into first position', () => {
       expect.assertions(6);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -156,6 +117,7 @@ describe('ImmutableSequence', () => {
 
     it('set element into middle position', () => {
       expect.assertions(6);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -179,6 +141,7 @@ describe('ImmutableSequence', () => {
 
     it('set element into last position', () => {
       expect.assertions(6);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -202,6 +165,7 @@ describe('ImmutableSequence', () => {
 
     it('returns itself when give index is greater than sequence length', () => {
       expect.assertions(1);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -222,6 +186,7 @@ describe('ImmutableSequence', () => {
   describe('remove', () => {
     it('delete first element', () => {
       expect.assertions(5);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -243,6 +208,7 @@ describe('ImmutableSequence', () => {
 
     it('delete middle element', () => {
       expect.assertions(5);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -264,6 +230,7 @@ describe('ImmutableSequence', () => {
 
     it('delete last element', () => {
       expect.assertions(5);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -285,6 +252,7 @@ describe('ImmutableSequence', () => {
 
     it('returns itself when give index is greater than sequence length', () => {
       expect.assertions(1);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -304,6 +272,7 @@ describe('ImmutableSequence', () => {
   describe('isEmpty', () => {
     it('returns true if the elements are 0', () => {
       expect.assertions(2);
+
       const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
         new MockNominative<number>(1),
         new MockNominative<number>(2)
@@ -318,6 +287,7 @@ describe('ImmutableSequence', () => {
   describe('map', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
         new MockNominative<number>(1),
         new MockNominative<number>(2),
@@ -349,6 +319,7 @@ describe('ImmutableSequence', () => {
 
     it('returns empty sequence when ImmutableSequence is empty', () => {
       expect.assertions(4);
+
       const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.empty<MockNominative<number>>();
       const nouns2: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([]);
 
@@ -369,6 +340,7 @@ describe('ImmutableSequence', () => {
   describe('filter', () => {
     it('normal case', () => {
       expect.assertions(6);
+
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
@@ -402,6 +374,7 @@ describe('ImmutableSequence', () => {
 
     it('returns empty sequence when screen returns nothing', () => {
       expect.assertions(2);
+
       const nouns: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
         new MockNominative<number>(1),
         new MockNominative<number>(2),
@@ -421,6 +394,7 @@ describe('ImmutableSequence', () => {
   describe('duplicate', () => {
     it('normal case', () => {
       expect.assertions(6);
+
       const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
         new MockNominative<number>(1),
         new MockNominative<number>(2),
@@ -438,6 +412,7 @@ describe('ImmutableSequence', () => {
 
     it('does not affect original one', () => {
       expect.assertions(4);
+
       const nouns1: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([
         new MockNominative<number>(1),
         new MockNominative<number>(2),
@@ -454,6 +429,7 @@ describe('ImmutableSequence', () => {
 
     it('returns ImmutableSequence.empty() when there are no items', () => {
       expect.assertions(1);
+
       const nouns: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>([]);
 
       expect(nouns.duplicate()).toBe(nouns);
