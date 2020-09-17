@@ -132,7 +132,7 @@ Class for random string, random number.
 * [ ] `indexDB` repository implementation
 * [x] accepts Error constructors in Superposition Epoque
 * [ ] implementing cancelable iterator class.
-* [ ] mutable collections
+* [x] mutable collections
 * [ ] `map()` for collections
 * [ ] utility class for Promise collection manipulation
     * Unscharfeleration
