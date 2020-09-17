@@ -244,21 +244,6 @@ describe('MutableSequence', () => {
     });
   });
 
-  describe('isEmpty', () => {
-    it('returns true if the elements are 0', () => {
-      expect.assertions(2);
-
-      const nouns1: MutableSequence<MockNominative<number>> = MutableSequence.of<MockNominative<number>>([
-        new MockNominative<number>(1),
-        new MockNominative<number>(2)
-      ]);
-      const nouns2: MutableSequence<MockNominative<number>> = MutableSequence.of<MockNominative<number>>([]);
-
-      expect(nouns1.isEmpty()).toBe(false);
-      expect(nouns2.isEmpty()).toBe(true);
-    });
-  });
-
   describe('map', () => {
     it('normal case', () => {
       expect.assertions(4);

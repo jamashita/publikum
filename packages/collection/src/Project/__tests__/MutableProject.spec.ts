@@ -152,25 +152,6 @@ describe('MutableProject', () => {
     });
   });
 
-  describe('isEmpty', () => {
-    it('returns true if the elements are 0', () => {
-      expect.assertions(2);
-
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-
-      const nouns1: MutableProject<MockNominative<number>, MockNominative<number>> = MutableProject.of<MockNominative<number>,
-        MockNominative<number>>(
-        new Map<MockNominative<number>, MockNominative<number>>([[noun1, noun2]])
-      );
-      const nouns2: MutableProject<MockNominative<number>, MockNominative<number>> = MutableProject.of<MockNominative<number>,
-        MockNominative<number>>(new Map<MockNominative<number>, MockNominative<number>>([]));
-
-      expect(nouns1.isEmpty()).toBe(false);
-      expect(nouns2.isEmpty()).toBe(true);
-    });
-  });
-
   describe('duplicate', () => {
     it('normal case', () => {
       expect.assertions(2);

@@ -41,14 +41,13 @@ export class MutableProject<K extends Nominative<K>, V extends Nominative<V>> ex
     if (this.isEmpty()) {
       return this;
     }
+    if (!this.has(key)) {
+      return this;
+    }
 
     this.elements.delete(key.hashCode());
 
     return this;
-  }
-
-  public isEmpty(): boolean {
-    return super.isEmpty();
   }
 
   public duplicate(): MutableProject<K, V> {
