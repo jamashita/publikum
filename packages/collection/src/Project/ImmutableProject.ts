@@ -8,7 +8,7 @@ export class ImmutableProject<K extends Nominative<K>, V extends Nominative<V>> 
   private static readonly EMPTY: ImmutableProject<AnonymousNominative, AnonymousNominative> = new ImmutableProject<AnonymousNominative,
     AnonymousNominative>(new Map<string, Pair<AnonymousNominative, AnonymousNominative>>());
 
-  public static of<KT extends Nominative<KT>, VT extends Nominative<VT>>(elements: Map<KT, VT>): ImmutableProject<KT, VT> {
+  public static of<KT extends Nominative<KT>, VT extends Nominative<VT>>(elements: ReadonlyMap<KT, VT>): ImmutableProject<KT, VT> {
     if (elements.size === 0) {
       return ImmutableProject.empty<KT, VT>();
     }

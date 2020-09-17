@@ -16,7 +16,7 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
   }
 
   public [Symbol.iterator](): Iterator<Pair<K, V>> {
-    return this.elements.values()[Symbol.iterator]();
+    return this.elements.values();
   }
 
   public abstract set(key: K, value: V): Project<K, V, N>;
@@ -136,5 +136,35 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
     });
 
     return properties.join(', ');
+  }
+
+  public keys(): Iterable<K> {
+    const iterator: IterableIterator<Pair<K, V>> = this.elements.values();
+    const iterable: Array<K> = [];
+
+    let res: IteratorResult<Pair<K, V>> = iterator.next();
+
+    while (res.done !== true) {
+      iterable.push(res.value.getKey());
+
+      res = iterator.next();
+    }
+
+    return iterable;
+  }
+
+  public values(): Iterable<V> {
+    const iterator: IterableIterator<Pair<K, V>> = this.elements.values();
+    const iterable: Array<V> = [];
+
+    let res: IteratorResult<Pair<K, V>> = iterator.next();
+
+    while (res.done !== true) {
+      iterable.push(res.value.getValue());
+
+      res = iterator.next();
+    }
+
+    return iterable;
   }
 }
