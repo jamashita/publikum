@@ -7,7 +7,7 @@ export class ImmutableSequence<E extends Nominative<E>> extends ASequence<E, 'Im
 
   private static readonly EMPTY: ImmutableSequence<AnonymousNominative> = new ImmutableSequence<AnonymousNominative>([]);
 
-  public static of<ET extends Nominative<ET>>(elements: Array<ET>): ImmutableSequence<ET> {
+  public static of<ET extends Nominative<ET>>(elements: ReadonlyArray<ET>): ImmutableSequence<ET> {
     if (elements.length === 0) {
       return ImmutableSequence.empty<ET>();
     }

@@ -400,4 +400,25 @@ describe('AAddress', () => {
       }
     });
   });
+
+  describe('values', () => {
+    it('normal case', () => {
+      expect.assertions(2);
+
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const values: Array<MockNominative<number>> = [noun1, noun2];
+
+      const nouns: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
+        new Set([noun1, noun2])
+      );
+
+      let i: number = 0;
+
+      for (const noun of nouns.values()) {
+        expect(noun.get()).toBe(values[i].get());
+        i++;
+      }
+    });
+  });
 });

@@ -5,7 +5,7 @@ import { AAddress } from '../Abstract/AAddress';
 export class MockAddress<E extends Nominative<E>> extends AAddress<E, 'MockAddress'> {
   public readonly noun: 'MockAddress' = 'MockAddress';
 
-  private static constructMap<ET extends Nominative<ET>>(elements: Set<ET>): Map<string, ET> {
+  private static constructMap<ET extends Nominative<ET>>(elements: ReadonlySet<ET>): Map<string, ET> {
     const map: Map<string, ET> = new Map<string, ET>();
 
     elements.forEach((e: ET) => {
@@ -15,7 +15,7 @@ export class MockAddress<E extends Nominative<E>> extends AAddress<E, 'MockAddre
     return map;
   }
 
-  public constructor(elements: Set<E>) {
+  public constructor(elements: ReadonlySet<E>) {
     super(MockAddress.constructMap<E>(elements));
   }
 

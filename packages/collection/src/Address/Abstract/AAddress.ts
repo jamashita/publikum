@@ -19,16 +19,15 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     const iterator: IterableIterator<E> = this.elements.values();
     const iterable: Array<Pair<void, E>> = [];
 
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const res: IteratorResult<E> = iterator.next();
+    let res: IteratorResult<E> = iterator.next();
 
-      if (res.done === true) {
-        return iterable[Symbol.iterator]();
-      }
-
+    while (res.done !== true) {
       iterable.push(Pair.of(undefined, res.value));
+
+      res = iterator.next();
     }
+
+    return iterable[Symbol.iterator]();
   }
 
   public abstract add(element: E): Address<E, N>;
@@ -127,5 +126,20 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     });
 
     return properties.join(', ');
+  }
+
+  public values(): Iterable<E> {
+    const iterator: IterableIterator<E> = this.elements.values();
+    const iterable: Array<E> = [];
+
+    let res: IteratorResult<E> = iterator.next();
+
+    while (res.done !== true) {
+      iterable.push(res.value);
+
+      res = iterator.next();
+    }
+
+    return iterable;
   }
 }

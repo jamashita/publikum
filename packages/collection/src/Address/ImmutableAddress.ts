@@ -8,7 +8,7 @@ export class ImmutableAddress<E extends Nominative<E>> extends AAddress<E, 'Immu
     new Map<string, AnonymousNominative>()
   );
 
-  public static of<ET extends Nominative<ET>>(elements: Set<ET>): ImmutableAddress<ET> {
+  public static of<ET extends Nominative<ET>>(elements: ReadonlySet<ET>): ImmutableAddress<ET> {
     if (elements.size === 0) {
       return ImmutableAddress.empty<ET>();
     }

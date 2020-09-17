@@ -587,4 +587,58 @@ describe('AProject', () => {
       });
     });
   });
+
+  describe('keys', () => {
+    it('normal case', () => {
+      expect.assertions(2);
+
+      const key1: MockNominative<string> = new MockNominative<string>('a');
+      const key2: MockNominative<string> = new MockNominative<string>('d');
+      const keys: Array<MockNominative<string>> = [key1, key2];
+      const value1: MockNominative<number> = new MockNominative<number>(1);
+      const value2: MockNominative<number> = new MockNominative<number>(2);
+
+      const nouns: MockProject<MockNominative<string>, MockNominative<number>> = new MockProject<MockNominative<string>,
+        MockNominative<number>>(
+        new Map<MockNominative<string>, MockNominative<number>>([
+          [key1, value1],
+          [key2, value2]
+        ])
+      );
+
+      let i: number = 0;
+
+      for (const noun of nouns.keys()) {
+        expect(noun).toBe(keys[i]);
+        i++;
+      }
+    });
+  });
+
+  describe('values', () => {
+    it('normal case', () => {
+      expect.assertions(2);
+
+      const key1: MockNominative<string> = new MockNominative<string>('a');
+      const key2: MockNominative<string> = new MockNominative<string>('d');
+      const value1: MockNominative<number> = new MockNominative<number>(1);
+      const value2: MockNominative<number> = new MockNominative<number>(2);
+      const values: Array<MockNominative<number>> = [value1, value2];
+
+      const nouns: MockProject<MockNominative<string>, MockNominative<number>> = new MockProject<MockNominative<string>,
+        MockNominative<number>>(
+        new Map<MockNominative<string>, MockNominative<number>>([
+          [key1, value1],
+          [key2, value2]
+        ])
+      );
+
+      let i: number = 0;
+
+      for (const noun of nouns.values()) {
+        expect(noun).toBe(values[i]);
+        i++;
+      }
+    });
+  });
 });

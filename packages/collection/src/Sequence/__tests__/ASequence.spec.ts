@@ -448,4 +448,23 @@ describe('ASequence', () => {
       expect(nouns.toArray()).not.toBe(nounArray);
     });
   });
+
+  describe('values', () => {
+    it('normal case', () => {
+      expect.assertions(2);
+
+      const nominatives: Array<MockNominative<number>> = [
+        new MockNominative<number>(1),
+        new MockNominative<number>(2)
+      ];
+      const nouns: MockSequence<MockNominative<number>> = new MockSequence<MockNominative<number>>(nominatives);
+
+      let i: number = 0;
+
+      for (const noun of nouns.values()) {
+        expect(noun).toBe(nominatives[i]);
+        i++;
+      }
+    });
+  });
 });
