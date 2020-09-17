@@ -1,6 +1,7 @@
-import { Noun } from '@jamashita/publikum-interface';
+import { Objet } from '@jamashita/publikum-object';
+import { Kind } from '@jamashita/publikum-type';
 
-export class Pair<K, V> implements Noun<'Pair'> {
+export class Pair<K, V> extends Objet<Pair<K, V>, 'Pair'> {
   public readonly noun: 'Pair' = 'Pair';
   private readonly key: K;
   private readonly value: V;
@@ -10,8 +11,21 @@ export class Pair<K, V> implements Noun<'Pair'> {
   }
 
   protected constructor(key: K, value: V) {
+    super();
     this.key = key;
     this.value = value;
+  }
+
+  public equals(other: Pair<K, V>): boolean {
+    if (this === other) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public serialize(): string {
+    return `{${Kind.notate(this.key)}: ${Kind.notate(this.value)}}`;
   }
 
   public getKey(): K {

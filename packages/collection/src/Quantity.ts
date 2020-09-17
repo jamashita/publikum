@@ -25,4 +25,6 @@ export abstract class Quantity<T extends Quantity<T, K, V, N>, K, V, N extends s
   public abstract every(predicate: BinaryPredicate<V, K>): boolean;
 
   public abstract some(predicate: BinaryPredicate<V, K>): boolean;
+
+  public abstract values(): Iterable<V>;
 }
