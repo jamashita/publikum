@@ -21,4 +21,6 @@ export interface Collection<T extends Collection<T, K, V, N>, K, V, N extends st
   every(predicate: BinaryPredicate<V, K>): boolean;
 
   some(predicate: BinaryPredicate<V, K>): boolean;
+
+  values(): Iterable<V>;
 }
