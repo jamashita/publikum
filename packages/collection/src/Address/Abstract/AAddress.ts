@@ -140,6 +140,6 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
       res = iterator.next();
     }
 
-    return iterable[Symbol.iterator]();
+    return iterable;
   }
 }
