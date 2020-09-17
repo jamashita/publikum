@@ -35,7 +35,7 @@
   "dependencies": {
     "@jamashita/publikum-error": "^2.11.0",
     "@jamashita/publikum-object": "^2.11.0",
-    "dayjs": "1.8.35"
+    "dayjs": "1.8.36"
   },
   "devDependencies": {
     "sinon": "9.0.3"
