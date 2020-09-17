@@ -145,4 +145,8 @@ export abstract class ASequence<E extends Nominative<E>, N extends string = stri
       return element.toString();
     }).join(', ');
   }
+
+  public values(): Iterable<E> {
+    return this.toArray();
+  }
 }
