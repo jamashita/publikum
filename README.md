@@ -2,7 +2,7 @@
 
 my reusable playground :)
 
-![Validate Codes](https://github.com/jamashita/publikum/workflows/Validate%20Codes/badge.svg)
+![CI](https://github.com/jamashita/publikum/workflows/CI/badge.svg)
 
 ## Classes
 

@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-ajax",
-  "version": "2.10.4",
+  "version": "2.11.0",
   "private": false,
   "repository": {
     "type": "git",
@@ -33,9 +33,9 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^2.10.4",
-    "@jamashita/publikum-json": "^2.10.4",
-    "@jamashita/publikum-type": "^2.10.4",
+    "@jamashita/publikum-error": "^2.11.0",
+    "@jamashita/publikum-json": "^2.11.0",
+    "@jamashita/publikum-type": "^2.11.0",
     "axios": "0.20.0"
   },
   "devDependencies": {
