@@ -17,7 +17,7 @@ import { Sequence } from '../Interface/Sequence';
 export abstract class ASequence<E extends Nominative<E>, N extends string = string> extends Quantity<ASequence<E, N>, number, E, N>
   implements Sequence<E, N> {
   public abstract readonly noun: N;
-  protected readonly elements: Array<E>;
+  protected elements: Array<E>;
 
   protected constructor(elements: Array<E>) {
     super();
