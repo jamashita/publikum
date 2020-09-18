@@ -39,13 +39,13 @@
     "object-hash": "2.0.3"
   },
   "devDependencies": {
-    "@jamashita/eslint-config": "1.1.4",
+    "@jamashita/eslint-config": "1.1.5",
     "@types/bcrypt": "3.0.0",
     "@types/chance": "1.1.0",
     "@types/ioredis": "4.17.4",
     "@types/jest": "26.0.14",
     "@types/mysql": "2.15.15",
-    "@types/node": "14.10.3",
+    "@types/node": "14.11.1",
     "@types/object-hash": "1.3.3",
     "@types/sinon": "9.0.5",
     "@typescript-eslint/eslint-plugin": "4.1.1",
