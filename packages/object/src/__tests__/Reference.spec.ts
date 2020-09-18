@@ -3,7 +3,7 @@ import { Reference } from '../Reference';
 
 describe('Reference', () => {
   describe('isCircular', () => {
-    it('return false when given objects do not have recursive reference', () => {
+    it('returns false when given objects do not have recursive reference', () => {
       expect.assertions(18);
       expect(Reference.isCircular({})).toBe(false);
       expect(

@@ -330,7 +330,7 @@ describe('SuperpositionInternal', () => {
   });
 
   describe('filter', () => {
-    it('alive: predicate returns true', async () => {
+    it('Alive: predicate returns true', async () => {
       expect.assertions(2);
       const value: number = -149;
 
@@ -352,7 +352,7 @@ describe('SuperpositionInternal', () => {
       expect(shcrodiner.get()).toBe(value);
     });
 
-    it('alive: predicate returns false', async () => {
+    it('Alive: predicate returns false', async () => {
       expect.assertions(2);
       const value: number = -149;
 
@@ -376,7 +376,7 @@ describe('SuperpositionInternal', () => {
       }).toThrow(SuperpositionError);
     });
 
-    it('dead: returns its copy inspite of the return value of filter', async () => {
+    it('Dead: returns its copy despite of the return value of filter', async () => {
       expect.assertions(4);
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -410,7 +410,7 @@ describe('SuperpositionInternal', () => {
       }).toThrow(error);
     });
 
-    it('contradiction: returns its copy', async () => {
+    it('Contradiction: returns its copy', async () => {
       expect.assertions(4);
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -520,7 +520,7 @@ describe('SuperpositionInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('sync alive Superposition case', async () => {
+    it('sync Alive Superposition case', async () => {
       expect.assertions(5);
       const value1: number = 2;
       const value2: number = 200;
@@ -570,7 +570,7 @@ describe('SuperpositionInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('async alive Superposition case', async () => {
+    it('async Alive Superposition case', async () => {
       expect.assertions(5);
       const value1: number = 2;
       const value2: number = 200;
@@ -692,7 +692,7 @@ describe('SuperpositionInternal', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('sync dead Superposition case', async () => {
+    it('sync Dead Superposition case', async () => {
       expect.assertions(4);
       const value: number = 2;
       const error: MockRuntimeError = new MockRuntimeError();
@@ -740,7 +740,7 @@ describe('SuperpositionInternal', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('async dead Superposition case', async () => {
+    it('async Dead Superposition case', async () => {
       expect.assertions(4);
       const value: number = 2;
       const error: MockRuntimeError = new MockRuntimeError();
@@ -872,7 +872,7 @@ describe('SuperpositionInternal', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('sync contradiction Superposition case', async () => {
+    it('sync Contradiction Superposition case', async () => {
       expect.assertions(5);
       const value: number = 2;
       const error1: MockRuntimeError = new MockRuntimeError();
@@ -934,7 +934,7 @@ describe('SuperpositionInternal', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('async contradiction Superposition case', async () => {
+    it('async Contradiction Superposition case', async () => {
       expect.assertions(5);
       const value: number = 2;
       const error1: MockRuntimeError = new MockRuntimeError();
@@ -1201,7 +1201,7 @@ describe('SuperpositionInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('sync alive Superposition case', async () => {
+    it('sync Alive Superposition case', async () => {
       expect.assertions(5);
       const value1: number = 2;
       const value2: number = 20;
@@ -1251,7 +1251,7 @@ describe('SuperpositionInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('async alive Superposition case', async () => {
+    it('async Alive Superposition case', async () => {
       expect.assertions(5);
       const value1: number = 2;
       const value2: number = 20;
@@ -1379,7 +1379,7 @@ describe('SuperpositionInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('sync dead Superposition case', async () => {
+    it('sync Dead Superposition case', async () => {
       expect.assertions(5);
       const value: number = 2;
       const error1: MockRuntimeError = new MockRuntimeError();
@@ -1430,7 +1430,7 @@ describe('SuperpositionInternal', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('async dead Superposition case', async () => {
+    it('async Dead Superposition case', async () => {
       expect.assertions(5);
       const value: number = 2;
       const error1: MockRuntimeError = new MockRuntimeError();
@@ -1565,7 +1565,7 @@ describe('SuperpositionInternal', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('sync contradiction Superposition case', async () => {
+    it('sync Contradiction Superposition case', async () => {
       expect.assertions(5);
       const value: number = 2;
       const error1: MockRuntimeError = new MockRuntimeError();
@@ -1623,7 +1623,7 @@ describe('SuperpositionInternal', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('async contradiction Superposition case', async () => {
+    it('async Contradiction Superposition case', async () => {
       expect.assertions(5);
       const value: number = 2;
       const error1: MockRuntimeError = new MockRuntimeError();
@@ -1681,7 +1681,7 @@ describe('SuperpositionInternal', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('already accepted superposition case', async () => {
+    it('already accepted Superposition case', async () => {
       expect.assertions(6);
       const value1: number = 2;
       const value2: number = 2;
@@ -1725,7 +1725,7 @@ describe('SuperpositionInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('already declined superposition case', async () => {
+    it('already declined Superposition case', async () => {
       expect.assertions(6);
       const value: number = 2;
       const error: MockRuntimeError = new MockRuntimeError();
@@ -1771,7 +1771,7 @@ describe('SuperpositionInternal', () => {
   });
 
   describe('transform', () => {
-    it('alive: sync case', async () => {
+    it('Alive: sync case', async () => {
       expect.assertions(6);
       const value1: number = 2;
       const value2: number = 20;
@@ -1823,7 +1823,7 @@ describe('SuperpositionInternal', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('alive: async case', async () => {
+    it('Alive: async case', async () => {
       expect.assertions(6);
       const value1: number = 2;
       const value2: number = 20;
@@ -1875,7 +1875,7 @@ describe('SuperpositionInternal', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('sync alive Superposition case', async () => {
+    it('sync Alive Superposition case', async () => {
       expect.assertions(6);
       const value1: number = 2;
       const value2: number = 20;
@@ -1939,7 +1939,7 @@ describe('SuperpositionInternal', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('async alive Superposition case', async () => {
+    it('async Alive Superposition case', async () => {
       expect.assertions(6);
       const value1: number = 2;
       const value2: number = 20;
@@ -2003,7 +2003,7 @@ describe('SuperpositionInternal', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('dead: sync case: throws error', async () => {
+    it('Dead: sync case: throws error', async () => {
       expect.assertions(5);
       const error1: MockRuntimeError = new MockRuntimeError();
       const error2: MockRuntimeError = new MockRuntimeError();
@@ -2105,7 +2105,7 @@ describe('SuperpositionInternal', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('sync dead Superposition case', async () => {
+    it('sync Dead Superposition case', async () => {
       expect.assertions(6);
       const error1: MockRuntimeError = new MockRuntimeError();
       const error2: MockRuntimeError = new MockRuntimeError();
@@ -2169,7 +2169,7 @@ describe('SuperpositionInternal', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('async dead Superposition case', async () => {
+    it('async Dead Superposition case', async () => {
       expect.assertions(6);
       const error1: MockRuntimeError = new MockRuntimeError();
       const error2: MockRuntimeError = new MockRuntimeError();
@@ -2233,7 +2233,7 @@ describe('SuperpositionInternal', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('already accepted superposition case', async () => {
+    it('already accepted Superposition case', async () => {
       expect.assertions(9);
       const value1: number = 2;
       const value2: number = 2;
@@ -2307,7 +2307,7 @@ describe('SuperpositionInternal', () => {
       expect(spy6.called).toBe(false);
     });
 
-    it('already declined superposition case', async () => {
+    it('already declined Superposition case', async () => {
       expect.assertions(9);
       const error1: MockRuntimeError = new MockRuntimeError();
       const error2: MockRuntimeError = new MockRuntimeError();
@@ -2381,7 +2381,7 @@ describe('SuperpositionInternal', () => {
       expect(spy6.called).toBe(true);
     });
 
-    it('already thrown superposition case', async () => {
+    it('already thrown Superposition case', async () => {
       expect.assertions(6);
       const error1: MockRuntimeError = new MockRuntimeError();
       const error2: MockRuntimeError = new MockRuntimeError();
@@ -2617,7 +2617,7 @@ describe('SuperpositionInternal', () => {
   });
 
   describe('toUnscharferelation', () => {
-    it('alive: will transform to present', async () => {
+    it('Alive: will transform to Present', async () => {
       expect.assertions(2);
       const value: number = 2;
 
@@ -2634,7 +2634,7 @@ describe('SuperpositionInternal', () => {
       expect(heisenberg.get()).toBe(value);
     });
 
-    it('alive: if the value is undefined, will transform to absent', async () => {
+    it('Alive: if the value is undefined, will transform to Absent', async () => {
       expect.assertions(2);
       const value: undefined = undefined;
 
@@ -2653,7 +2653,7 @@ describe('SuperpositionInternal', () => {
       }).toThrow(UnscharferelationError);
     });
 
-    it('dead: will transform to absent', async () => {
+    it('Dead: will transform to Absent', async () => {
       expect.assertions(2);
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -2672,7 +2672,7 @@ describe('SuperpositionInternal', () => {
       }).toThrow(UnscharferelationError);
     });
 
-    it('contradiction: will transform to lost', async () => {
+    it('Contradiction: will transform to Lost', async () => {
       expect.assertions(2);
       const error: MockRuntimeError = new MockRuntimeError();
 
