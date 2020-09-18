@@ -8,7 +8,7 @@ import { PresentPlan } from '../PresentPlan';
 
 describe('PresentPlan', () => {
   describe('onMap', () => {
-    it('p given', () => {
+    it('P given', () => {
       expect.assertions(6);
       const value: number = 10;
 
@@ -46,7 +46,7 @@ describe('PresentPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('promise<P> given', async () => {
+    it('Promise<P> given', async () => {
       expect.assertions(6);
       const value: number = 10;
 
@@ -92,7 +92,7 @@ describe('PresentPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('present Unscharferelation given', async () => {
+    it('Present Unscharferelation given', async () => {
       expect.assertions(6);
       const value: number = 10;
 
@@ -140,7 +140,7 @@ describe('PresentPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('promise<Present Unscharferelation> given', async () => {
+    it('Promise<Present Unscharferelation> given', async () => {
       expect.assertions(6);
       const value: number = 10;
 
@@ -270,7 +270,7 @@ describe('PresentPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('promise<null> given', async () => {
+    it('Promise<null> given', async () => {
       expect.assertions(5);
       const value: number = 10;
 
@@ -315,7 +315,7 @@ describe('PresentPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('promise<undefined> given', async () => {
+    it('Promise<undefined> given', async () => {
       expect.assertions(4);
       const value: number = 10;
 
@@ -359,7 +359,7 @@ describe('PresentPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('absent Unscharferelation given', async () => {
+    it('Absent Unscharferelation given', async () => {
       expect.assertions(5);
       const value: number = 10;
 
@@ -406,7 +406,7 @@ describe('PresentPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('promise<absent Unscharferelation> given', async () => {
+    it('Promise<Absent Unscharferelation> given', async () => {
       expect.assertions(5);
       const value: number = 10;
 
@@ -490,7 +490,7 @@ describe('PresentPlan', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('promise rejected given', async () => {
+    it('Promise rejected given', async () => {
       expect.assertions(6);
       const value: number = 10;
       const error: MockRuntimeError = new MockRuntimeError();
@@ -537,7 +537,7 @@ describe('PresentPlan', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('lost Unscharferelation given', async () => {
+    it('Lost Unscharferelation given', async () => {
       expect.assertions(6);
       const value: number = 10;
       const error: MockRuntimeError = new MockRuntimeError();

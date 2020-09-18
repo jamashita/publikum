@@ -9,7 +9,7 @@ import { DeadPlan } from '../DeadPlan';
 
 describe('DeadPlan', () => {
   describe('onRecover', () => {
-    it('a given', () => {
+    it('A given', () => {
       expect.assertions(6);
       const value: number = 101;
       const error: MockRuntimeError = new MockRuntimeError();
@@ -49,7 +49,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('promise<A> given', async () => {
+    it('Promise<A> given', async () => {
       expect.assertions(6);
       const value: number = 101;
       const error: MockRuntimeError = new MockRuntimeError();
@@ -97,7 +97,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('alive Superposition<A, D> given', async () => {
+    it('Alive Superposition<A, D> given', async () => {
       expect.assertions(6);
       const value: number = 101;
       const error: MockRuntimeError = new MockRuntimeError();
@@ -145,7 +145,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('promise<alive Superposition<A, D>> given', async () => {
+    it('Promise<Alive Superposition<A, D>> given', async () => {
       expect.assertions(6);
       const value: number = 101;
       const error: MockRuntimeError = new MockRuntimeError();
@@ -193,7 +193,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('d thrown', () => {
+    it('D thrown', () => {
       expect.assertions(6);
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -232,7 +232,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('promise<A> rejected', async () => {
+    it('Promise<A> rejected', async () => {
       expect.assertions(6);
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -279,7 +279,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('dead Superposition<A, D> given', async () => {
+    it('Dead Superposition<A, D> given', async () => {
       expect.assertions(6);
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -326,7 +326,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('promise<dead Superposition<A, D>> given', async () => {
+    it('Promise<Dead Superposition<A, D>> given', async () => {
       expect.assertions(6);
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -411,7 +411,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('promise rejected given', async () => {
+    it('Promise rejected given', async () => {
       expect.assertions(5);
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -457,7 +457,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('contradiction Superposition given', async () => {
+    it('Contradiction Superposition given', async () => {
       expect.assertions(5);
       const error: MockRuntimeError = new MockRuntimeError();
 

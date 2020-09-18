@@ -13,7 +13,7 @@ import { Unscharferelation } from '../Unscharferelation';
 
 describe('Unscharferelation', () => {
   describe('all', () => {
-    it('no unschrferelation', async () => {
+    it('no Unscharferelation', async () => {
       expect.assertions(2);
       const unscharferelations: Array<Unscharferelation<number>> = [];
 
@@ -500,7 +500,7 @@ describe('Unscharferelation', () => {
   });
 
   describe('ofHeisenberg', () => {
-    it('present case', async () => {
+    it('Present case', async () => {
       expect.assertions(3);
       const value: number = 2;
       const present: Present<number> = Present.of<number>(value);
@@ -514,7 +514,7 @@ describe('Unscharferelation', () => {
       expect(heisenberg.get()).toBe(value);
     });
 
-    it('absent case', async () => {
+    it('Absent case', async () => {
       expect.assertions(1);
       const absent: Absent<number> = Absent.of<number>();
 
@@ -525,7 +525,7 @@ describe('Unscharferelation', () => {
       expect(heisenberg.isAbsent()).toBe(true);
     });
 
-    it('lost case', async () => {
+    it('Lost case', async () => {
       expect.assertions(3);
       const lost: Lost<number> = Lost.of<number>(null);
 
@@ -540,7 +540,7 @@ describe('Unscharferelation', () => {
       }
     });
 
-    it('uncertain case', async () => {
+    it('Uncertain case', async () => {
       expect.assertions(2);
       const uncertain: Uncertain<number> = Uncertain.of<number>();
 
@@ -578,7 +578,7 @@ describe('Unscharferelation', () => {
       expect(heisenberg.get()).toBe(value);
     });
 
-    it('promise is rejected', async () => {
+    it('Promise is rejected', async () => {
       expect.assertions(2);
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -615,7 +615,7 @@ describe('Unscharferelation', () => {
       }).toThrow(UnscharferelationError);
     });
 
-    it('promise is rejected', async () => {
+    it('Promise is rejected', async () => {
       expect.assertions(2);
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -686,7 +686,7 @@ describe('Unscharferelation', () => {
   });
 
   describe('get', () => {
-    it('delegate inner Unscharferelation', async () => {
+    it('delegates inner Unscharferelation', async () => {
       expect.assertions(1);
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
 
@@ -703,7 +703,7 @@ describe('Unscharferelation', () => {
   });
 
   describe('terminate', () => {
-    it('delegate inner Unscharferelation', async () => {
+    it('delegates inner Unscharferelation', async () => {
       expect.assertions(1);
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
 
@@ -720,7 +720,7 @@ describe('Unscharferelation', () => {
   });
 
   describe('filter', () => {
-    it('delegate inner Unscharferelation', () => {
+    it('delegates inner Unscharferelation', () => {
       expect.assertions(1);
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
 
@@ -739,7 +739,7 @@ describe('Unscharferelation', () => {
   });
 
   describe('map', () => {
-    it('delegate inner Unscharferelation', () => {
+    it('delegates inner Unscharferelation', () => {
       expect.assertions(1);
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
 
@@ -758,7 +758,7 @@ describe('Unscharferelation', () => {
   });
 
   describe('recover', () => {
-    it('delegate inner Unscharferelation', () => {
+    it('delegates inner Unscharferelation', () => {
       expect.assertions(1);
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
 
@@ -777,7 +777,7 @@ describe('Unscharferelation', () => {
   });
 
   describe('ifPresent', () => {
-    it('delegate inner Unscharferelation', () => {
+    it('delegates inner Unscharferelation', () => {
       expect.assertions(1);
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
 
@@ -796,7 +796,7 @@ describe('Unscharferelation', () => {
   });
 
   describe('pass', () => {
-    it('delegate inner Unscharferelation', () => {
+    it('delegates inner Unscharferelation', () => {
       expect.assertions(1);
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
 
@@ -823,7 +823,7 @@ describe('Unscharferelation', () => {
   });
 
   describe('peek', () => {
-    it('delegate inner Unscharferelation', () => {
+    it('delegates inner Unscharferelation', () => {
       expect.assertions(1);
       const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
 
@@ -842,7 +842,7 @@ describe('Unscharferelation', () => {
   });
 
   describe('toSuperposition', () => {
-    it('present: will transform to alive', async () => {
+    it('Present: will transform to Alive', async () => {
       expect.assertions(2);
       const value: number = -201;
 
@@ -858,7 +858,7 @@ describe('Unscharferelation', () => {
       expect(schrodinger.get()).toBe(value);
     });
 
-    it('present: if the value is Error, will transform to dead', async () => {
+    it('Present: if the value is Error, will transform to Dead', async () => {
       expect.assertions(2);
       const value: MockRuntimeError = new MockRuntimeError();
 
@@ -876,7 +876,7 @@ describe('Unscharferelation', () => {
       }).toThrow(UnscharferelationError);
     });
 
-    it('absent: will transform to dead', async () => {
+    it('Absent: will transform to Dead', async () => {
       expect.assertions(2);
       const unscharferelation: Unscharferelation<number> = Unscharferelation.of<number>(
         (epoque: Epoque<number>) => {
@@ -892,7 +892,7 @@ describe('Unscharferelation', () => {
       }).toThrow(UnscharferelationError);
     });
 
-    it('lost: will transform to contradiction', async () => {
+    it('Lost: will transform to Contradiction', async () => {
       expect.assertions(2);
       const error: MockRuntimeError = new MockRuntimeError();
 

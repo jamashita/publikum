@@ -6,7 +6,7 @@ import { Superposition } from '../Superposition';
 import { SuperpositionInternal } from '../SuperpositionInternal';
 
 describe('ISuperposition', () => {
-  describe('is', () => {
+  describe('isSuperposition', () => {
     it('normal case', () => {
       expect.assertions(25);
       const superposition1: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(4);

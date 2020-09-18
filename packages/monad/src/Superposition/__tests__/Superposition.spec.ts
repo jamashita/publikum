@@ -84,7 +84,7 @@ describe('Superposition', () => {
   });
 
   describe('all', () => {
-    it('no superpositions', async () => {
+    it('no Superpositions', async () => {
       expect.assertions(2);
       const superpositions: Array<Superposition<number, MockRuntimeError>> = [];
 
@@ -645,7 +645,7 @@ describe('Superposition', () => {
   });
 
   describe('ofSchrodinger', () => {
-    it('alive case', async () => {
+    it('Alive case', async () => {
       expect.assertions(3);
       const value: number = 2;
       const alive: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(value);
@@ -659,7 +659,7 @@ describe('Superposition', () => {
       expect(schrodinger.get()).toBe(value);
     });
 
-    it('dead case', async () => {
+    it('Dead case', async () => {
       expect.assertions(3);
       const error: MockRuntimeError = new MockRuntimeError();
       const dead: Dead<number, MockRuntimeError> = Dead.of<number, MockRuntimeError>(error);
@@ -675,7 +675,7 @@ describe('Superposition', () => {
       }).toThrow(error);
     });
 
-    it('contradiction case', async () => {
+    it('Contradiction case', async () => {
       expect.assertions(3);
       const contradiction: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(null);
 
@@ -690,7 +690,7 @@ describe('Superposition', () => {
       }
     });
 
-    it('still case', async () => {
+    it('Still case', async () => {
       expect.assertions(2);
       const still: Still<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
 
@@ -731,7 +731,7 @@ describe('Superposition', () => {
       expect(schrodinger.get()).toBe(value);
     });
 
-    it('promise is rejected: no error constructors', async () => {
+    it('Promise is rejected: no error constructors', async () => {
       expect.assertions(2);
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -746,7 +746,7 @@ describe('Superposition', () => {
       }).toThrow(error);
     });
 
-    it('promise is rejected: error constructor', async () => {
+    it('Promise is rejected: error constructor', async () => {
       expect.assertions(2);
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -793,7 +793,7 @@ describe('Superposition', () => {
       }).toThrow(error);
     });
 
-    it('promise is rejected: no error constructors', async () => {
+    it('Promise is rejected: no error constructors', async () => {
       expect.assertions(2);
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -808,7 +808,7 @@ describe('Superposition', () => {
       }).toThrow(error);
     });
 
-    it('promise is resolved', async () => {
+    it('Promise is resolved', async () => {
       expect.assertions(2);
       const value: number = -6;
 
@@ -839,7 +839,7 @@ describe('Superposition', () => {
   });
 
   describe('get', () => {
-    it('delegate inner Superposition', async () => {
+    it('delegates inner Superposition', async () => {
       expect.assertions(1);
       const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
 
@@ -856,7 +856,7 @@ describe('Superposition', () => {
   });
 
   describe('terminate', () => {
-    it('delegate inner Superposition', async () => {
+    it('delegates inner Superposition', async () => {
       expect.assertions(1);
       const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
 
@@ -873,7 +873,7 @@ describe('Superposition', () => {
   });
 
   describe('filter', () => {
-    it('delegate inner Superposition', () => {
+    it('delegates inner Superposition', () => {
       expect.assertions(1);
       const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
 
@@ -892,7 +892,7 @@ describe('Superposition', () => {
   });
 
   describe('map', () => {
-    it('delegate inner Superposition', () => {
+    it('delegates inner Superposition', () => {
       expect.assertions(2);
       const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
 
@@ -915,7 +915,7 @@ describe('Superposition', () => {
   });
 
   describe('recover', () => {
-    it('delegate inner Superposition', () => {
+    it('delegates inner Superposition', () => {
       expect.assertions(1);
       const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
 
@@ -934,7 +934,7 @@ describe('Superposition', () => {
   });
 
   describe('transform', () => {
-    it('delegate inner Superposition', () => {
+    it('delegates inner Superposition', () => {
       expect.assertions(1);
       const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
 
@@ -958,7 +958,7 @@ describe('Superposition', () => {
   });
 
   describe('pass', () => {
-    it('delegate inner Superposition', () => {
+    it('delegates inner Superposition', () => {
       expect.assertions(1);
       const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
 
@@ -985,7 +985,7 @@ describe('Superposition', () => {
   });
 
   describe('peek', () => {
-    it('delegate inner Superposition', () => {
+    it('delegates inner Superposition', () => {
       expect.assertions(1);
       const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
 
@@ -1004,7 +1004,7 @@ describe('Superposition', () => {
   });
 
   describe('toUnscharferelation', () => {
-    it('alive: will transform to present', async () => {
+    it('Alive: will transform to Present', async () => {
       expect.assertions(2);
       const value: number = 2;
 
@@ -1021,7 +1021,7 @@ describe('Superposition', () => {
       expect(heisenberg.get()).toBe(value);
     });
 
-    it('alive: if the value is undefined, will transform to absent', async () => {
+    it('Alive: if the value is undefined, will transform to Absent', async () => {
       expect.assertions(2);
       const value: undefined = undefined;
 
@@ -1040,7 +1040,7 @@ describe('Superposition', () => {
       }).toThrow(UnscharferelationError);
     });
 
-    it('dead: will transform to absent', async () => {
+    it('Dead: will transform to Absent', async () => {
       expect.assertions(2);
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -1059,7 +1059,7 @@ describe('Superposition', () => {
       }).toThrow(UnscharferelationError);
     });
 
-    it('contradiction: will transform to lost', async () => {
+    it('Contradiction: will transform to Lost', async () => {
       expect.assertions(2);
       const error: MockRuntimeError = new MockRuntimeError();
 
