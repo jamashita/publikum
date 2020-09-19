@@ -85,5 +85,5 @@
     "npm": "npm is not supported"
   },
   "engineStrict": true,
-  "version": "2.11.2"
+  "version": "2.12.0"
 }
