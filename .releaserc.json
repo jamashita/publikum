@@ -1,5 +1,7 @@
 {
-  "branches": "release",
+  "branches": "main",
+  "repositoryUrl": "https://github.com/jamashita/publikum",
+  "debug": true,
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
@@ -9,21 +11,17 @@
         "changelogFile": "CHANGELOG.md"
       }
     ],
+    "@semantic-release/npm",
     "@semantic-release/github",
-    [
-      "@semantic-release/npm",
-      {
-        "npmPublish": true
-      }
-    ],
     [
       "@semantic-release/git",
       {
-        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
         "assets": [
           "package.json",
+          "yarn.lock",
           "CHANGELOG.md"
-        ]
+        ],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ]
   ]
