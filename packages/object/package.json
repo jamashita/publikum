@@ -4,7 +4,7 @@
   "private": false,
   "repository": {
     "type": "git",
-    "url": "git@github.com:jamashita/publikum.git/packages/object"
+    "url": "git@github.com:jamashita/publikum.git"
   },
   "license": "MIT",
   "author": "jamashita <jamashita@arachnid.xyz>",

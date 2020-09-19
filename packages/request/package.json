@@ -4,20 +4,18 @@
   "private": false,
   "repository": {
     "type": "git",
-    "url": "git@github.com:jamashita/publikum.git/packages/request"
+    "url": "git@github.com:jamashita/publikum.git"
   },
   "license": "MIT",
   "author": "jamashita <jamashita@arachnid.xyz>",
   "sideEffects": false,
   "exports": {
     ".": {
-      "require": "./dist/cjs/index.js",
-      "import": "./dist/esm/index.js"
+      "require": "./dist/cjs/index.js"
     }
   },
   "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/esm/index.d.ts",
+  "types": "./dist/cjs/index.d.ts",
   "files": [
     "dist",
     "src"
@@ -25,7 +23,6 @@
   "scripts": {
     "build": "yarn clean && concurrently \"npm:build:*\"",
     "build:cjs": "tsc -b tsconfig.cjs.json ../error/tsconfig.cjs.json ../type/tsconfig.cjs.json",
-    "build:esm": "tsc -b tsconfig.esm.json ../error/tsconfig.esm.json ../type/tsconfig.esm.json",
     "clean": "rimraf dist && rimraf coverage",
     "test": "jest test --detectOpenHandles --passWithNoTests",
     "update": "yarn update:upgrade && yarn update:install",
