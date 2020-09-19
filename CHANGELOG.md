@@ -1,3 +1,10 @@
+# [2.12.0](https://github.com/jamashita/publikum/compare/v2.11.2...v2.12.0) (2020-09-19)
+
+
+### Features
+
+* 🎸 remove unnecessary modile resolution export ([ea89500](https://github.com/jamashita/publikum/commit/ea89500cfcef3aa2f34eea7558a3f05901bdd55e))
+
 ## [2.11.2](https://github.com/jamashita/publikum/compare/v2.11.1...v2.11.2) (2020-09-19)
 
 
