@@ -19,15 +19,14 @@
     "commit": "git cz",
     "format": "eslint --fix 'packages/*/src/**/*.{ts,tsx}'",
     "preregister": "yarn build",
-    "register": "lerna publish",
+    "reference": "typedoc --includeVersion --exclude 'node_modules' --exclude '**/*.spec.ts' --stripInternal --out docs .",
     "release": "semantic-release",
     "reset": "lerna clean",
     "setup": "lerna bootstrap && lerna link",
     "test": "jest test --detectOpenHandles --passWithNoTests",
     "update": "yarn update:upgrade && yarn update:install",
     "update:install": "yarn install && yarn upgrade && lerna run --parallel update:install",
-    "update:upgrade": "ncu --upgrade --timeout 600000 && lerna run --parallel update:upgrade",
-    "versionup": "lerna version --conventional-commits --conventional-graduate"
+    "update:upgrade": "ncu --upgrade --timeout 600000 && lerna run --parallel update:upgrade"
   },
   "dependencies": {
     "axios": "0.20.0",
@@ -78,6 +77,7 @@
     "sinon": "9.0.3",
     "sort-package-json": "1.46.0",
     "ts-jest": "26.3.0",
+    "typedoc": "0.19.1",
     "typescript": "4.0.3"
   },
   "engines": {
