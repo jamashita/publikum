@@ -1,7 +1,7 @@
-import { Objet } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
-export class Pair<K, V> extends Objet<Pair<K, V>, 'Pair'> {
+export class Pair<K, V> extends ValueObject<Pair<K, V>, 'Pair'> {
   public readonly noun: 'Pair' = 'Pair';
   private readonly key: K;
   private readonly value: V;
