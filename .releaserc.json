@@ -1,7 +1,6 @@
 {
   "branches": "release",
   "repositoryUrl": "https://github.com/jamashita/publikum",
-  "debug": true,
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
