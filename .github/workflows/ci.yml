@@ -16,7 +16,7 @@ jobs:
       - name: 'Check out repository'
         uses: 'actions/checkout@v2'
         with:
-          ref: '${{github.head_ref}}'
+          fetch-depth: 0
       - name: 'Install dependencies'
         run: 'yarn install --frozen-lockfile'
       - name: 'Run validation'
