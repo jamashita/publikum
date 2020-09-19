@@ -19,5 +19,5 @@ jobs:
           fetch-depth: 0
       - name: 'Install dependencies'
         run: 'yarn install --frozen-lockfile'
-      - name: 'Run validation'
+      - name: 'Test'
         run: 'yarn test'
