@@ -10,6 +10,7 @@ describe('Lost', () => {
   describe('get', () => {
     it('throws given error', () => {
       expect.assertions(2);
+
       const error1: MockRuntimeError = new MockRuntimeError();
       const error2: MockRuntimeError = new MockRuntimeError();
       const lost1: Lost<void> = Lost.of<void>(error1);
@@ -27,6 +28,7 @@ describe('Lost', () => {
   describe('getCause', () => {
     it('returns given error', () => {
       expect.assertions(2);
+
       const error1: MockRuntimeError = new MockRuntimeError();
       const error2: MockRuntimeError = new MockRuntimeError();
       const lost1: Lost<void> = Lost.of<void>(error1);
@@ -40,6 +42,7 @@ describe('Lost', () => {
   describe('isPresent', () => {
     it('returns false', () => {
       expect.assertions(1);
+
       const error: MockRuntimeError = new MockRuntimeError();
       const lost: Lost<void> = Lost.of<void>(error);
 
@@ -49,6 +52,7 @@ describe('Lost', () => {
   describe('isAbsent', () => {
     it('returns false', () => {
       expect.assertions(1);
+
       const error: MockRuntimeError = new MockRuntimeError();
       const lost: Lost<void> = Lost.of<void>(error);
 
@@ -59,6 +63,7 @@ describe('Lost', () => {
   describe('isLost', () => {
     it('returns true', () => {
       expect.assertions(1);
+
       const error: MockRuntimeError = new MockRuntimeError();
       const lost: Lost<void> = Lost.of<void>(error);
 
@@ -69,6 +74,7 @@ describe('Lost', () => {
   describe('ifPresent', () => {
     it('will not be invoked', () => {
       expect.assertions(1);
+
       const error: MockRuntimeError = new MockRuntimeError();
 
       const spy: SinonSpy = sinon.spy();
@@ -87,6 +93,7 @@ describe('Lost', () => {
   describe('ifAbsent', () => {
     it('will not be invoked', () => {
       expect.assertions(1);
+
       const error: MockRuntimeError = new MockRuntimeError();
 
       const spy: SinonSpy = sinon.spy();
@@ -105,6 +112,7 @@ describe('Lost', () => {
   describe('ifLost', () => {
     it('will be invoked', () => {
       expect.assertions(1);
+
       const error: MockRuntimeError = new MockRuntimeError();
 
       const spy: SinonSpy = sinon.spy();
@@ -122,6 +130,7 @@ describe('Lost', () => {
   describe('equals', () => {
     it('returns true if Lost given even if the cause is different', () => {
       expect.assertions(5);
+
       const present: Present<number> = Present.of<number>(2);
       const absent: Absent<number> = Absent.of<number>();
       const lost: Lost<number> = Lost.of<number>(new MockRuntimeError());
@@ -140,6 +149,7 @@ describe('Lost', () => {
   describe('toString', () => {
     it('returns Lost and its retaining cause', () => {
       expect.assertions(1);
+
       expect(Lost.of<number>(null).toString()).toBe('Lost: null');
     });
   });

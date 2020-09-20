@@ -23,6 +23,7 @@ describe('AJAX', () => {
   describe('get', () => {
     it('responds CONTINUE', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -45,6 +46,7 @@ describe('AJAX', () => {
 
     it('text: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -67,6 +69,7 @@ describe('AJAX', () => {
 
     it('json: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -89,6 +92,7 @@ describe('AJAX', () => {
 
     it('blob: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -111,6 +115,7 @@ describe('AJAX', () => {
 
     it('arraybuffer: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -133,6 +138,7 @@ describe('AJAX', () => {
 
     it('responds MULTIPLE_CHOICE', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -155,6 +161,7 @@ describe('AJAX', () => {
 
     it('responds BAD_REQUEST', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -177,6 +184,7 @@ describe('AJAX', () => {
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -201,6 +209,7 @@ describe('AJAX', () => {
   describe('post', () => {
     it('responds CONTINUE', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -223,6 +232,7 @@ describe('AJAX', () => {
 
     it('text: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -245,6 +255,7 @@ describe('AJAX', () => {
 
     it('json: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -267,6 +278,7 @@ describe('AJAX', () => {
 
     it('blob: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -289,6 +301,7 @@ describe('AJAX', () => {
 
     it('arraybuffer: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -311,6 +324,7 @@ describe('AJAX', () => {
 
     it('responds MULTIPLE_CHOICE', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -333,6 +347,7 @@ describe('AJAX', () => {
 
     it('responds BAD_REQUEST', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -355,6 +370,7 @@ describe('AJAX', () => {
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -379,6 +395,7 @@ describe('AJAX', () => {
   describe('put', () => {
     it('responds CONTINUE', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -401,6 +418,7 @@ describe('AJAX', () => {
 
     it('responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -423,6 +441,7 @@ describe('AJAX', () => {
 
     it('json: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -445,6 +464,7 @@ describe('AJAX', () => {
 
     it('blob: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -467,6 +487,7 @@ describe('AJAX', () => {
 
     it('arraybuffer: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -489,6 +510,7 @@ describe('AJAX', () => {
 
     it('responds MULTIPLE_CHOICE', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -511,6 +533,7 @@ describe('AJAX', () => {
 
     it('responds BAD_REQUEST', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -533,6 +556,7 @@ describe('AJAX', () => {
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -557,6 +581,7 @@ describe('AJAX', () => {
   describe('delete', () => {
     it('responds CONTINUE', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -579,6 +604,7 @@ describe('AJAX', () => {
 
     it('text: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -601,6 +627,7 @@ describe('AJAX', () => {
 
     it('json: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -623,6 +650,7 @@ describe('AJAX', () => {
 
     it('blob: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -645,6 +673,7 @@ describe('AJAX', () => {
 
     it('arraybuffer: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -667,6 +696,7 @@ describe('AJAX', () => {
 
     it('responds MULTIPLE_CHOICE', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -689,6 +719,7 @@ describe('AJAX', () => {
 
     it('responds BAD_REQUEST', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -711,6 +742,7 @@ describe('AJAX', () => {
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -735,6 +767,7 @@ describe('AJAX', () => {
   describe('head', () => {
     it('responds CONTINUE', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -757,6 +790,7 @@ describe('AJAX', () => {
 
     it('text: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -779,6 +813,7 @@ describe('AJAX', () => {
 
     it('json: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -801,6 +836,7 @@ describe('AJAX', () => {
 
     it('blob: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -823,6 +859,7 @@ describe('AJAX', () => {
 
     it('arraybuffer: responds OK', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -845,6 +882,7 @@ describe('AJAX', () => {
 
     it('responds MULTIPLE_CHOICE', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -867,6 +905,7 @@ describe('AJAX', () => {
 
     it('responds BAD_REQUEST', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;
@@ -889,6 +928,7 @@ describe('AJAX', () => {
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
       expect.assertions(2);
+
       const server: SinonFakeServer = sinon.fakeServer.create();
 
       server.autoRespond = true;

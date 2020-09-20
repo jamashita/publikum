@@ -10,6 +10,7 @@ describe('AbsentPlan', () => {
   describe('onRecover', () => {
     it('P given', () => {
       expect.assertions(5);
+
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -47,6 +48,7 @@ describe('AbsentPlan', () => {
 
     it('Promise<P> given', async () => {
       expect.assertions(5);
+
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -92,6 +94,7 @@ describe('AbsentPlan', () => {
 
     it('Present Unscharferelation given', async () => {
       expect.assertions(5);
+
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -139,6 +142,7 @@ describe('AbsentPlan', () => {
 
     it('Promise<Present Unscharferelation> given', async () => {
       expect.assertions(5);
+
       const value: number = 10;
 
       const spy1: SinonSpy = sinon.spy();
@@ -186,6 +190,7 @@ describe('AbsentPlan', () => {
 
     it('null given', async () => {
       expect.assertions(4);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
@@ -228,6 +233,7 @@ describe('AbsentPlan', () => {
 
     it('undefined given', async () => {
       expect.assertions(4);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
@@ -270,6 +276,7 @@ describe('AbsentPlan', () => {
 
     it('Promise<null> given', async () => {
       expect.assertions(4);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
@@ -312,6 +319,7 @@ describe('AbsentPlan', () => {
 
     it('Promise<undefined> given', async () => {
       expect.assertions(4);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
@@ -354,6 +362,7 @@ describe('AbsentPlan', () => {
 
     it('Absent Unscharferelation given', async () => {
       expect.assertions(4);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
@@ -398,6 +407,7 @@ describe('AbsentPlan', () => {
 
     it('Promise<Absent Unscharferelation> given', async () => {
       expect.assertions(4);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
@@ -440,6 +450,7 @@ describe('AbsentPlan', () => {
 
     it('error thrown', () => {
       expect.assertions(5);
+
       const error: MockRuntimeError = new MockRuntimeError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -477,6 +488,7 @@ describe('AbsentPlan', () => {
 
     it('Promise rejected given', async () => {
       expect.assertions(5);
+
       const error: MockRuntimeError = new MockRuntimeError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -522,6 +534,7 @@ describe('AbsentPlan', () => {
 
     it('Lost Unscharferelation given', async () => {
       expect.assertions(5);
+
       const error: MockRuntimeError = new MockRuntimeError();
 
       const spy1: SinonSpy = sinon.spy();

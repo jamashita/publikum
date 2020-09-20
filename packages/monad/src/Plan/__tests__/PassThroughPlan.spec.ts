@@ -5,6 +5,7 @@ describe('PassThroughPlan', () => {
   describe('onMap', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const value: number = -35;
 
       const spy1: SinonSpy = sinon.spy();
@@ -35,6 +36,7 @@ describe('PassThroughPlan', () => {
   describe('onRecover', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const value: string = 'halt';
 
       const spy1: SinonSpy = sinon.spy();
@@ -65,6 +67,7 @@ describe('PassThroughPlan', () => {
   describe('onDestroy', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const value: number = -35;
 
       const spy1: SinonSpy = sinon.spy();

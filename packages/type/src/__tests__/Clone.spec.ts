@@ -4,6 +4,7 @@ describe('Clone', () => {
   describe('copy', () => {
     it('true pattern', () => {
       expect.assertions(18);
+
       expect(Clone.copy({})).toStrictEqual({});
       expect(
         Clone.copy({

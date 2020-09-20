@@ -9,6 +9,7 @@ describe('ISuperposition', () => {
   describe('isSuperposition', () => {
     it('normal case', () => {
       expect.assertions(25);
+
       const superposition1: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(4);
       const superposition2: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
         (chrono: Chrono<number, MockRuntimeError>) => {
@@ -243,6 +244,7 @@ describe('ISuperposition', () => {
   describe('containsError', () => {
     it('returns true if the very class is included', () => {
       expect.assertions(1);
+
       const error: MockRuntimeError = new MockRuntimeError();
 
       expect(containsError<Error>(error, new Set<DeadConstructor>([TypeError, SyntaxError, MockRuntimeError]))).toBe(true);
@@ -250,6 +252,7 @@ describe('ISuperposition', () => {
 
     it('returns false if the class is not included', () => {
       expect.assertions(1);
+
       const error: MockRuntimeError = new MockRuntimeError();
 
       expect(containsError<Error>(error, new Set<DeadConstructor>([TypeError, SyntaxError]))).toBe(false);
@@ -257,6 +260,7 @@ describe('ISuperposition', () => {
 
     it('returns true if super class of the class is included', () => {
       expect.assertions(1);
+
       const error: MockRuntimeError = new MockRuntimeError();
 
       expect(containsError<Error>(error, new Set<DeadConstructor>([TypeError, SyntaxError, Error]))).toBe(true);

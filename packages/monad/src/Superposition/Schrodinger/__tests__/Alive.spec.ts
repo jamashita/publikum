@@ -23,6 +23,7 @@ describe('Alive', () => {
   describe('get', () => {
     it('returns the inside value', () => {
       expect.assertions(1);
+
       const value: string = 'the lazy fox';
       const alive: Alive<string, MockRuntimeError> = Alive.of<string, MockRuntimeError>(value);
 
@@ -33,6 +34,7 @@ describe('Alive', () => {
   describe('isAlive', () => {
     it('always returns true', () => {
       expect.assertions(4);
+
       const value1: number = 1;
       const value2: string = 'aiutare';
       const alive1: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(value1);
@@ -48,6 +50,7 @@ describe('Alive', () => {
   describe('isDead', () => {
     it('always returns false', () => {
       expect.assertions(2);
+
       const alive1: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(1);
       const alive2: Alive<string, MockRuntimeError> = Alive.of<string, MockRuntimeError>('aiutare');
 
@@ -59,6 +62,7 @@ describe('Alive', () => {
   describe('isContradiction', () => {
     it('always returns false', () => {
       expect.assertions(2);
+
       const alive1: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(1);
       const alive2: Alive<string, MockRuntimeError> = Alive.of<string, MockRuntimeError>('aiutare');
 
@@ -70,6 +74,7 @@ describe('Alive', () => {
   describe('ifAlive', () => {
     it('will be invoked', () => {
       expect.assertions(2);
+
       const value: number = 1;
 
       const spy: SinonSpy = sinon.spy();
@@ -88,6 +93,7 @@ describe('Alive', () => {
   describe('ifDead', () => {
     it('will not be invoked', () => {
       expect.assertions(1);
+
       const value: number = 1;
 
       const spy: SinonSpy = sinon.spy();
@@ -106,6 +112,7 @@ describe('Alive', () => {
   describe('ifContradiction', () => {
     it('will not be invoked', () => {
       expect.assertions(1);
+
       const value: number = 1;
 
       const spy: SinonSpy = sinon.spy();
@@ -124,6 +131,7 @@ describe('Alive', () => {
   describe('equals', () => {
     it('returns true if the same value Alive given', () => {
       expect.assertions(6);
+
       const alive1: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(2);
       const alive2: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(3);
       const dead: Dead<number, MockRuntimeError> = Dead.of<number, MockRuntimeError>(new MockRuntimeError());
@@ -142,6 +150,7 @@ describe('Alive', () => {
 
     it('returns true if the same Equalable instance Alive given', () => {
       expect.assertions(3);
+
       const alive1: Alive<TestEqualable, MockRuntimeError> = Alive.of<TestEqualable, MockRuntimeError>(new TestEqualable(true));
       const alive2: Alive<TestEqualable, MockRuntimeError> = Alive.of<TestEqualable, MockRuntimeError>(new TestEqualable(false));
 
@@ -156,6 +165,7 @@ describe('Alive', () => {
   describe('toString', () => {
     it('returns Alive and its retaining value', () => {
       expect.assertions(1);
+
       expect(Alive.of<boolean, MockRuntimeError>(true).toString()).toBe('Alive: true');
     });
   });

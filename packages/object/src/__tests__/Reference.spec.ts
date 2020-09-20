@@ -5,6 +5,7 @@ describe('Reference', () => {
   describe('isCircular', () => {
     it('returns false when given objects do not have recursive reference', () => {
       expect.assertions(18);
+
       expect(Reference.isCircular({})).toBe(false);
       expect(
         Reference.isCircular({
@@ -92,6 +93,7 @@ describe('Reference', () => {
 
     it('recursive detection pattern', () => {
       expect.assertions(6);
+
       const obj1: PlainObject = {
         a: 'noi'
       };

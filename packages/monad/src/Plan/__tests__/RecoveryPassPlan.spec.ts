@@ -5,6 +5,7 @@ describe('RecoveryPassPlan', () => {
   describe('onRecover', () => {
     it('normal case', () => {
       expect.assertions(2);
+
       const value: number = -35;
 
       const spy: SinonSpy = sinon.spy();

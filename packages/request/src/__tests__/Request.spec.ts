@@ -24,6 +24,7 @@ describe('Request', () => {
   describe('get', () => {
     it('text: responds OK', async () => {
       expect.assertions(2);
+
       const scope: Scope = nock(url).get('/').reply(OK, strRes);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -37,6 +38,7 @@ describe('Request', () => {
 
     it('json: responds OK', async () => {
       expect.assertions(2);
+
       const scope: Scope = nock(url).get('/').reply(OK, res);
 
       const request: Request<'json'> = new Request<'json'>('json');
@@ -50,6 +52,7 @@ describe('Request', () => {
 
     it('buffer: responds OK', async () => {
       expect.assertions(2);
+
       const scope: Scope = nock(url).get('/').reply(OK, bufferRes);
 
       const request: Request<'buffer'> = new Request<'buffer'>('buffer');
@@ -63,6 +66,7 @@ describe('Request', () => {
 
     it('responds MULTIPLE_CHOICE', async () => {
       expect.assertions(1);
+
       const scope: Scope = nock(url).get('/').reply(MULTIPLE_CHOICE, bufferRes);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -73,6 +77,7 @@ describe('Request', () => {
 
     it('responds BAD_REQUEST', async () => {
       expect.assertions(1);
+
       const scope: Scope = nock(url).get('/').reply(BAD_REQUEST, bufferRes);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -83,6 +88,7 @@ describe('Request', () => {
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
       expect.assertions(1);
+
       const scope: Scope = nock(url).get('/').reply(INTERNAL_SERVER_ERROR, bufferRes);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -95,6 +101,7 @@ describe('Request', () => {
   describe('post', () => {
     it('text: responds OK', async () => {
       expect.assertions(2);
+
       const scope: Scope = nock(url).post('/').reply(OK, strRes);
 
       const request: Request<'text'> = new Request('text');
@@ -108,6 +115,7 @@ describe('Request', () => {
 
     it('json: responds OK', async () => {
       expect.assertions(2);
+
       const scope: Scope = nock(url).post('/').reply(OK, res);
 
       const request: Request<'json'> = new Request<'json'>('json');
@@ -121,6 +129,7 @@ describe('Request', () => {
 
     it('buffer: responds OK', async () => {
       expect.assertions(2);
+
       const scope: Scope = nock(url).post('/').reply(OK, bufferRes);
 
       const request: Request<'buffer'> = new Request<'buffer'>('buffer');
@@ -134,6 +143,7 @@ describe('Request', () => {
 
     it('responds MULTIPLE_CHOICE', async () => {
       expect.assertions(1);
+
       const scope: Scope = nock(url).post('/').reply(MULTIPLE_CHOICE, bufferRes);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -144,6 +154,7 @@ describe('Request', () => {
 
     it('responds BAD_REQUEST', async () => {
       expect.assertions(1);
+
       const scope: Scope = nock(url).post('/').reply(BAD_REQUEST, bufferRes);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -154,6 +165,7 @@ describe('Request', () => {
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
       expect.assertions(1);
+
       const scope: Scope = nock(url).post('/').reply(INTERNAL_SERVER_ERROR, bufferRes);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -166,6 +178,7 @@ describe('Request', () => {
   describe('put', () => {
     it('text: responds OK', async () => {
       expect.assertions(2);
+
       const scope: Scope = nock(url).put('/').reply(OK, strRes);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -179,6 +192,7 @@ describe('Request', () => {
 
     it('json: responds OK', async () => {
       expect.assertions(2);
+
       const scope: Scope = nock(url).put('/').reply(OK, res);
 
       const request: Request<'json'> = new Request<'json'>('json');
@@ -192,6 +206,7 @@ describe('Request', () => {
 
     it('buffer: responds OK', async () => {
       expect.assertions(2);
+
       const scope: Scope = nock(url).put('/').reply(OK, bufferRes);
 
       const request: Request<'buffer'> = new Request<'buffer'>('buffer');
@@ -205,6 +220,7 @@ describe('Request', () => {
 
     it('responds MULTIPLE_CHOICE', async () => {
       expect.assertions(1);
+
       const scope: Scope = nock(url).put('/').reply(MULTIPLE_CHOICE, bufferRes);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -215,6 +231,7 @@ describe('Request', () => {
 
     it('responds BAD_REQUEST', async () => {
       expect.assertions(1);
+
       const scope: Scope = nock(url).put('/').reply(BAD_REQUEST, bufferRes);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -225,6 +242,7 @@ describe('Request', () => {
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
       expect.assertions(1);
+
       const scope: Scope = nock(url).put('/').reply(INTERNAL_SERVER_ERROR, bufferRes);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -237,6 +255,7 @@ describe('Request', () => {
   describe('delete', () => {
     it('text: responds OK', async () => {
       expect.assertions(2);
+
       const scope: Scope = nock(url).delete('/').reply(OK, strRes);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -250,6 +269,7 @@ describe('Request', () => {
 
     it('json: responds OK', async () => {
       expect.assertions(2);
+
       const scope: Scope = nock(url).delete('/').reply(OK, res);
 
       const request: Request<'json'> = new Request<'json'>('json');
@@ -263,6 +283,7 @@ describe('Request', () => {
 
     it('buffer: responds OK', async () => {
       expect.assertions(2);
+
       const scope: Scope = nock(url).delete('/').reply(OK, bufferRes);
 
       const request: Request<'buffer'> = new Request<'buffer'>('buffer');
@@ -276,6 +297,7 @@ describe('Request', () => {
 
     it('responds MULTIPLE_CHOICE', async () => {
       expect.assertions(1);
+
       const scope: Scope = nock(url).delete('/').reply(MULTIPLE_CHOICE, bufferRes);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -286,6 +308,7 @@ describe('Request', () => {
 
     it('responds BAD_REQUEST', async () => {
       expect.assertions(1);
+
       const scope: Scope = nock(url).delete('/').reply(BAD_REQUEST, bufferRes);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -296,6 +319,7 @@ describe('Request', () => {
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
       expect.assertions(1);
+
       const scope: Scope = nock(url).delete('/').reply(INTERNAL_SERVER_ERROR, bufferRes);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -308,6 +332,7 @@ describe('Request', () => {
   describe('head', () => {
     it('text: responds OK', async () => {
       expect.assertions(2);
+
       const scope: Scope = nock(url).head('/').reply(OK, strRes);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -321,6 +346,7 @@ describe('Request', () => {
 
     it('json: responds OK', async () => {
       expect.assertions(2);
+
       const scope: Scope = nock(url).head('/').reply(OK, res);
 
       const request: Request<'json'> = new Request<'json'>('json');
@@ -334,6 +360,7 @@ describe('Request', () => {
 
     it('buffer: responds OK', async () => {
       expect.assertions(2);
+
       const scope: Scope = nock(url).head('/').reply(OK, bufferRes);
 
       const request: Request<'buffer'> = new Request<'buffer'>('buffer');
@@ -347,6 +374,7 @@ describe('Request', () => {
 
     it('responds MULTIPLE_CHOICE', async () => {
       expect.assertions(1);
+
       const scope: Scope = nock(url).head('/').reply(MULTIPLE_CHOICE);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -357,6 +385,7 @@ describe('Request', () => {
 
     it('responds BAD_REQUEST', async () => {
       expect.assertions(1);
+
       const scope: Scope = nock(url).head('/').reply(BAD_REQUEST);
 
       const request: Request<'text'> = new Request<'text'>('text');
@@ -367,6 +396,7 @@ describe('Request', () => {
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
       expect.assertions(1);
+
       const scope: Scope = nock(url).head('/').reply(INTERNAL_SERVER_ERROR);
 
       const request: Request<'text'> = new Request<'text'>('text');

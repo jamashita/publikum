@@ -11,6 +11,7 @@ describe('JSONable', () => {
   describe('isJSONable', () => {
     it('normal case', () => {
       expect.assertions(15);
+
       expect(isJSONable(null)).toBe(false);
       expect(isJSONable(undefined)).toBe(false);
       expect(isJSONable('')).toBe(false);

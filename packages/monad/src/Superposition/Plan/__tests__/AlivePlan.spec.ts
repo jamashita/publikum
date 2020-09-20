@@ -11,6 +11,7 @@ describe('AlivePlan', () => {
   describe('onMap', () => {
     it('A given', () => {
       expect.assertions(6);
+
       const value: number = 101;
 
       const spy1: SinonSpy = sinon.spy();
@@ -50,6 +51,7 @@ describe('AlivePlan', () => {
 
     it('Promise<A> given', async () => {
       expect.assertions(6);
+
       const value: number = 101;
 
       const spy1: SinonSpy = sinon.spy();
@@ -97,6 +99,7 @@ describe('AlivePlan', () => {
 
     it('Alive Superposition<A, D> given', async () => {
       expect.assertions(6);
+
       const value: number = 101;
 
       const spy1: SinonSpy = sinon.spy();
@@ -144,6 +147,7 @@ describe('AlivePlan', () => {
 
     it('Promise<Alive Superposition<A, D>> given', async () => {
       expect.assertions(6);
+
       const value: number = 101;
 
       const spy1: SinonSpy = sinon.spy();
@@ -191,6 +195,7 @@ describe('AlivePlan', () => {
 
     it('D thrown', () => {
       expect.assertions(6);
+
       const value: number = 101;
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -231,6 +236,7 @@ describe('AlivePlan', () => {
 
     it('Promise<A> rejected', async () => {
       expect.assertions(6);
+
       const value: number = 101;
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -279,6 +285,7 @@ describe('AlivePlan', () => {
 
     it('Dead Superposition<A, D> given', async () => {
       expect.assertions(6);
+
       const value: number = 101;
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -327,6 +334,7 @@ describe('AlivePlan', () => {
 
     it('Promise<Dead Superposition<A, D>> given', async () => {
       expect.assertions(6);
+
       const value: number = 101;
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -340,7 +348,6 @@ describe('AlivePlan', () => {
           (n: number) => {
             spy1();
             expect(n).toBe(value);
-
 
             return Promise.resolve<Superposition<number, MockRuntimeError>>(Superposition.dead<number, MockRuntimeError>(error, MockRuntimeError));
           },
@@ -376,6 +383,7 @@ describe('AlivePlan', () => {
 
     it('error thrown', () => {
       expect.assertions(6);
+
       const value: number = 101;
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -416,6 +424,7 @@ describe('AlivePlan', () => {
 
     it('Promise rejected given', async () => {
       expect.assertions(6);
+
       const value: number = 101;
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -464,6 +473,7 @@ describe('AlivePlan', () => {
 
     it('Contradiction Superposition given', async () => {
       expect.assertions(6);
+
       const value: number = 101;
       const error: MockRuntimeError = new MockRuntimeError();
 

@@ -7,6 +7,7 @@ describe('IUnscharferelation', () => {
   describe('isUnscharferelation', () => {
     it('normal case', () => {
       expect.assertions(24);
+
       const unscharferelation1: Unscharferelation<number> = Unscharferelation.present<number>(4);
       const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number>) => {
