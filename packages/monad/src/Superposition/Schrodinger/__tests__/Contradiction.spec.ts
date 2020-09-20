@@ -10,6 +10,7 @@ describe('Contradiction', () => {
   describe('get', () => {
     it('throws given error', () => {
       expect.assertions(2);
+
       const error1: MockRuntimeError = new MockRuntimeError();
       const error2: MockRuntimeError = new MockRuntimeError();
       const contradiction1: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(error1);
@@ -27,6 +28,7 @@ describe('Contradiction', () => {
   describe('getCause', () => {
     it('returns given error', () => {
       expect.assertions(2);
+
       const error1: MockRuntimeError = new MockRuntimeError();
       const error2: MockRuntimeError = new MockRuntimeError();
       const contradiction1: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(error1);
@@ -40,6 +42,7 @@ describe('Contradiction', () => {
   describe('isAlive', () => {
     it('always returns false', () => {
       expect.assertions(1);
+
       const error: MockRuntimeError = new MockRuntimeError();
       const contradiction: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(error);
 
@@ -50,6 +53,7 @@ describe('Contradiction', () => {
   describe('isDead', () => {
     it('always returns false', () => {
       expect.assertions(1);
+
       const error: MockRuntimeError = new MockRuntimeError();
       const contradiction: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(error);
 
@@ -60,6 +64,7 @@ describe('Contradiction', () => {
   describe('isContradiction', () => {
     it('always returns true', () => {
       expect.assertions(1);
+
       const error: MockRuntimeError = new MockRuntimeError();
       const contradiction: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(error);
 
@@ -70,6 +75,7 @@ describe('Contradiction', () => {
   describe('ifAlive', () => {
     it('will not be invoked', () => {
       expect.assertions(1);
+
       const value: number = 1;
 
       const spy: SinonSpy = sinon.spy();
@@ -88,6 +94,7 @@ describe('Contradiction', () => {
   describe('ifDead', () => {
     it('will not be invoked', () => {
       expect.assertions(1);
+
       const value: number = 1;
 
       const spy: SinonSpy = sinon.spy();
@@ -106,6 +113,7 @@ describe('Contradiction', () => {
   describe('ifContradiction', () => {
     it('will be invoked', () => {
       expect.assertions(2);
+
       const value: number = 1;
 
       const spy: SinonSpy = sinon.spy();
@@ -124,6 +132,7 @@ describe('Contradiction', () => {
   describe('equals', () => {
     it('returns true if Contradiction given even if the cause is different', () => {
       expect.assertions(5);
+
       const alive: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(2);
       const dead: Dead<number, MockRuntimeError> = Dead.of<number, MockRuntimeError>(new MockRuntimeError());
       const contradiction: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(null);
@@ -142,6 +151,7 @@ describe('Contradiction', () => {
   describe('toString', () => {
     it('returns Contradiction and its retaining cause', () => {
       expect.assertions(1);
+
       expect(Contradiction.of<number, MockRuntimeError>(null).toString()).toBe('Contradiction: null');
     });
   });

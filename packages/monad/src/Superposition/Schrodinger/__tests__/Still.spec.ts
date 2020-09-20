@@ -11,6 +11,7 @@ describe('Still', () => {
   describe('get', () => {
     it('throws the inside error', () => {
       expect.assertions(1);
+
       const still: Still<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
 
       expect(() => {
@@ -22,6 +23,7 @@ describe('Still', () => {
   describe('isAlive', () => {
     it('always returns false', () => {
       expect.assertions(1);
+
       const still: Still<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
 
       expect(still.isAlive()).toBe(false);
@@ -31,6 +33,7 @@ describe('Still', () => {
   describe('isDead', () => {
     it('always returns false', () => {
       expect.assertions(1);
+
       const still: Still<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
 
       expect(still.isDead()).toBe(false);
@@ -40,6 +43,7 @@ describe('Still', () => {
   describe('isContradiction', () => {
     it('always returns false', () => {
       expect.assertions(1);
+
       const still: Still<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
 
       expect(still.isContradiction()).toBe(false);
@@ -49,6 +53,7 @@ describe('Still', () => {
   describe('ifAlive', () => {
     it('will not be invoked', () => {
       expect.assertions(1);
+
       const spy: SinonSpy = sinon.spy();
 
       const still: Still<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
@@ -65,6 +70,7 @@ describe('Still', () => {
   describe('ifDead', () => {
     it('will not be invoked', () => {
       expect.assertions(1);
+
       const spy: SinonSpy = sinon.spy();
 
       const still: Still<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
@@ -81,6 +87,7 @@ describe('Still', () => {
   describe('ifContradiction', () => {
     it('will not be invoked', () => {
       expect.assertions(1);
+
       const spy: SinonSpy = sinon.spy();
 
       const still: Still<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
@@ -97,6 +104,7 @@ describe('Still', () => {
   describe('equals', () => {
     it('returns true if Still given', () => {
       expect.assertions(5);
+
       const alive: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(2);
       const dead: Dead<number, MockRuntimeError> = Dead.of<number, MockRuntimeError>(new MockRuntimeError());
       const contradiction: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(null);
@@ -115,6 +123,7 @@ describe('Still', () => {
   describe('toString', () => {
     it('returns Still', () => {
       expect.assertions(1);
+
       expect(Still.of<number, MockRuntimeError>().toString()).toBe('Still');
     });
   });

@@ -10,6 +10,7 @@ describe('Serializable', () => {
   describe('isSerializable', () => {
     it('normal case', () => {
       expect.assertions(15);
+
       expect(isSerializable(null)).toBe(false);
       expect(isSerializable(undefined)).toBe(false);
       expect(isSerializable('')).toBe(false);

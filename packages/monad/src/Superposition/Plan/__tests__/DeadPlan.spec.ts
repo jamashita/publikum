@@ -11,6 +11,7 @@ describe('DeadPlan', () => {
   describe('onRecover', () => {
     it('A given', () => {
       expect.assertions(6);
+
       const value: number = 101;
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -51,6 +52,7 @@ describe('DeadPlan', () => {
 
     it('Promise<A> given', async () => {
       expect.assertions(6);
+
       const value: number = 101;
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -99,6 +101,7 @@ describe('DeadPlan', () => {
 
     it('Alive Superposition<A, D> given', async () => {
       expect.assertions(6);
+
       const value: number = 101;
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -147,6 +150,7 @@ describe('DeadPlan', () => {
 
     it('Promise<Alive Superposition<A, D>> given', async () => {
       expect.assertions(6);
+
       const value: number = 101;
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -195,6 +199,7 @@ describe('DeadPlan', () => {
 
     it('D thrown', () => {
       expect.assertions(6);
+
       const error: MockRuntimeError = new MockRuntimeError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -234,6 +239,7 @@ describe('DeadPlan', () => {
 
     it('Promise<A> rejected', async () => {
       expect.assertions(6);
+
       const error: MockRuntimeError = new MockRuntimeError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -281,6 +287,7 @@ describe('DeadPlan', () => {
 
     it('Dead Superposition<A, D> given', async () => {
       expect.assertions(6);
+
       const error: MockRuntimeError = new MockRuntimeError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -328,6 +335,7 @@ describe('DeadPlan', () => {
 
     it('Promise<Dead Superposition<A, D>> given', async () => {
       expect.assertions(6);
+
       const error: MockRuntimeError = new MockRuntimeError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -375,6 +383,7 @@ describe('DeadPlan', () => {
 
     it('error thrown', () => {
       expect.assertions(5);
+
       const error: MockRuntimeError = new MockRuntimeError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -413,6 +422,7 @@ describe('DeadPlan', () => {
 
     it('Promise rejected given', async () => {
       expect.assertions(5);
+
       const error: MockRuntimeError = new MockRuntimeError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -459,6 +469,7 @@ describe('DeadPlan', () => {
 
     it('Contradiction Superposition given', async () => {
       expect.assertions(5);
+
       const error: MockRuntimeError = new MockRuntimeError();
 
       const spy1: SinonSpy = sinon.spy();

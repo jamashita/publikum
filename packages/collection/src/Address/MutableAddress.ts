@@ -50,7 +50,6 @@ export class MutableAddress<E extends Nominative<E>> extends AAddress<E, 'Mutabl
 
     this.elements.delete(element.hashCode());
 
-
     return this;
   }
 

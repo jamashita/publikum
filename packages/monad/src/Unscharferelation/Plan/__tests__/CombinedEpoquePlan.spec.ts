@@ -6,6 +6,7 @@ describe('CombinedEpoquePlan', () => {
   describe('onMap', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const value: number = -35;
 
       const spy1: SinonSpy = sinon.spy();
@@ -37,6 +38,7 @@ describe('CombinedEpoquePlan', () => {
   describe('onRecover', () => {
     it('normal case', () => {
       expect.assertions(3);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();
@@ -65,6 +67,7 @@ describe('CombinedEpoquePlan', () => {
   describe('onDestroy', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const value: number = -35;
 
       const spy1: SinonSpy = sinon.spy();

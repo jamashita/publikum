@@ -6,6 +6,7 @@ describe('RecoveryEpoquePlan', () => {
   describe('onRecover', () => {
     it('normal case', () => {
       expect.assertions(3);
+
       const spy1: SinonSpy = sinon.spy();
       const spy2: SinonSpy = sinon.spy();
       const spy3: SinonSpy = sinon.spy();

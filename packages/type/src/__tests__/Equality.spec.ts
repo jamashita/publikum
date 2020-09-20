@@ -4,6 +4,7 @@ describe('Equality', () => {
   describe('same', () => {
     it('true pattern', () => {
       expect.assertions(18);
+
       expect(Equality.same({}, {})).toBe(true);
       expect(
         Equality.same(
@@ -174,6 +175,7 @@ describe('Equality', () => {
 
     it('false pattern', () => {
       expect.assertions(11);
+
       expect(Equality.same({}, [])).toBe(false);
       expect(
         Equality.same(

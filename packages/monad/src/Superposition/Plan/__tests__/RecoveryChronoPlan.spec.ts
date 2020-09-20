@@ -8,6 +8,7 @@ describe('RecoveryChronoPlan', () => {
   describe('onRecover', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const value: MockRuntimeError = new MockRuntimeError();
 
       const spy1: SinonSpy = sinon.spy();

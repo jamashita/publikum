@@ -6,6 +6,7 @@ describe('MapEpoquePlan', () => {
   describe('onMap', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const value: number = -35;
 
       const spy1: SinonSpy = sinon.spy();

@@ -7,6 +7,7 @@ describe('CombinedChronoPlan', () => {
   describe('onMap', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const value: number = -35;
 
       const spy1: SinonSpy = sinon.spy();
@@ -38,6 +39,7 @@ describe('CombinedChronoPlan', () => {
   describe('onRecover', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const value: MockRuntimeError = new MockRuntimeError();
 
       const spy1: SinonSpy = sinon.spy();
@@ -69,6 +71,7 @@ describe('CombinedChronoPlan', () => {
   describe('onDestroy', () => {
     it('normal case', () => {
       expect.assertions(4);
+
       const value: number = -35;
 
       const spy1: SinonSpy = sinon.spy();

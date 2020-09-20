@@ -14,6 +14,7 @@ describe('Cache', () => {
   describe('get', () => {
     it('normal case', () => {
       expect.assertions(5);
+
       const cache: Cache = new Cache();
       const identifier1: symbol = Symbol();
       const identifier2: symbol = Symbol();
@@ -40,6 +41,7 @@ describe('Cache', () => {
 
     it('timeout: timeout 0 is not going to be volate', async () => {
       expect.assertions(2);
+
       const cache: Cache = new Cache(0);
       const identifier: symbol = Symbol();
       const value: string = 'pppp';
@@ -54,6 +56,7 @@ describe('Cache', () => {
 
     it('timeout: timeout negative value is not going to be volate', async () => {
       expect.assertions(2);
+
       const cache: Cache = new Cache(-193);
       const identifier: symbol = Symbol();
       const value: string = 'pppp';
@@ -68,6 +71,7 @@ describe('Cache', () => {
 
     it('timeout: perform volatilization', async () => {
       expect.assertions(2);
+
       const cache: Cache = new Cache(1);
       const identifier: symbol = Symbol();
       const value: string = 'pppp';
@@ -84,6 +88,7 @@ describe('Cache', () => {
 
     it('timeout: update timeout', async () => {
       expect.assertions(2);
+
       const cache: Cache = new Cache(3);
       const identifier: symbol = Symbol();
       const value1: string = 'pppp';
@@ -103,6 +108,7 @@ describe('Cache', () => {
 
     it('only retains the last one', () => {
       expect.assertions(2);
+
       const cache: Cache = new Cache();
       const identifier1: symbol = Symbol();
       const value1: number = 1;
@@ -116,6 +122,7 @@ describe('Cache', () => {
 
     it('throws CacheError when value is not set', () => {
       expect.assertions(1);
+
       const cache: Cache = new Cache();
       const identifier: symbol = Symbol();
 

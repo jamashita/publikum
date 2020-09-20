@@ -1,7 +1,10 @@
-import { MockRuntimeError } from '@jamashita/publikum-error';
 import { randomBytes } from 'crypto';
 import { Kind } from '../Kind';
 import { Inconnu } from '../Value';
+
+class MockError extends Error {
+  // NOOP
+}
 
 const chars: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
@@ -17,6 +20,7 @@ describe('Kind', () => {
   describe('isUndefined', () => {
     it('returns true only the value is undefined', () => {
       expect.assertions(13);
+
       expect(Kind.isUndefined(null)).toBe(false);
       expect(Kind.isUndefined(undefined)).toBe(true);
       expect(Kind.isUndefined('')).toBe(false);
@@ -36,6 +40,7 @@ describe('Kind', () => {
   describe('isNull', () => {
     it('returns true only the value is null', () => {
       expect.assertions(13);
+
       expect(Kind.isNull(null)).toBe(true);
       expect(Kind.isNull(undefined)).toBe(false);
       expect(Kind.isNull('')).toBe(false);
@@ -55,6 +60,7 @@ describe('Kind', () => {
   describe('isString', () => {
     it('even if numerical strings given, return true', () => {
       expect.assertions(13);
+
       expect(Kind.isString(null)).toBe(false);
       expect(Kind.isString(undefined)).toBe(false);
       expect(Kind.isString('')).toBe(true);
@@ -74,6 +80,7 @@ describe('Kind', () => {
   describe('isNumericalString', () => {
     it('returns true if the string is able to convert number', () => {
       expect.assertions(52);
+
       expect(Kind.isNumericalString(null)).toBe(false);
       expect(Kind.isNumericalString(undefined)).toBe(false);
       expect(Kind.isNumericalString(123)).toBe(false);
@@ -132,6 +139,7 @@ describe('Kind', () => {
   describe('isNumber', () => {
     it('returns true even if double values are provided', () => {
       expect.assertions(15);
+
       expect(Kind.isNumber(null)).toBe(false);
       expect(Kind.isNumber(undefined)).toBe(false);
       expect(Kind.isNumber('')).toBe(false);
@@ -153,6 +161,7 @@ describe('Kind', () => {
   describe('isInteger', () => {
     it('returns false when the double values are given', () => {
       expect.assertions(16);
+
       expect(Kind.isInteger(null)).toBe(false);
       expect(Kind.isInteger(undefined)).toBe(false);
       expect(Kind.isInteger('')).toBe(false);
@@ -175,6 +184,7 @@ describe('Kind', () => {
   describe('isNaN', () => {
     it('returns true when only the value is NaN', () => {
       expect.assertions(16);
+
       expect(Kind.isNaN(null)).toBe(false);
       expect(Kind.isNaN(undefined)).toBe(false);
       expect(Kind.isNaN('')).toBe(false);
@@ -197,6 +207,7 @@ describe('Kind', () => {
   describe('isBoolean', () => {
     it('returns true when true and false are given', () => {
       expect.assertions(15);
+
       expect(Kind.isBoolean(null)).toBe(false);
       expect(Kind.isBoolean(undefined)).toBe(false);
       expect(Kind.isBoolean('')).toBe(false);
@@ -218,6 +229,7 @@ describe('Kind', () => {
   describe('isSymbol', () => {
     it('returns true only the value is undefined', () => {
       expect.assertions(13);
+
       expect(Kind.isSymbol(null)).toBe(false);
       expect(Kind.isSymbol(undefined)).toBe(false);
       expect(Kind.isSymbol('')).toBe(false);
@@ -237,6 +249,7 @@ describe('Kind', () => {
   describe('isBigInt', () => {
     it('returns true only the value is undefined', () => {
       expect.assertions(13);
+
       expect(Kind.isBigInt(null)).toBe(false);
       expect(Kind.isBigInt(undefined)).toBe(false);
       expect(Kind.isBigInt('')).toBe(false);
@@ -256,6 +269,7 @@ describe('Kind', () => {
   describe('isPrimitive', () => {
     it('returns true if the value is null, undefined, boolean, number, string', () => {
       expect.assertions(20);
+
       expect(Kind.isPrimitive(null)).toBe(true);
       expect(Kind.isPrimitive(undefined)).toBe(true);
       expect(Kind.isPrimitive(false)).toBe(true);
@@ -282,6 +296,7 @@ describe('Kind', () => {
   describe('isFunction', () => {
     it('returns true only if the function given', () => {
       expect.assertions(17);
+
       expect(Kind.isFunction(null)).toBe(false);
       expect(Kind.isFunction(undefined)).toBe(false);
       expect(Kind.isFunction('')).toBe(false);
@@ -309,6 +324,7 @@ describe('Kind', () => {
   describe('isObject', () => {
     it('returns true only if the array given', () => {
       expect.assertions(17);
+
       expect(Kind.isObject(null)).toBe(false);
       expect(Kind.isObject(undefined)).toBe(false);
       expect(Kind.isObject('')).toBe(false);
@@ -336,6 +352,7 @@ describe('Kind', () => {
   describe('isPromiseLike', () => {
     it('returns true only if the array given', () => {
       expect.assertions(28);
+
       expect(Kind.isPromiseLike(null)).toBe(false);
       expect(Kind.isPromiseLike(undefined)).toBe(false);
       expect(Kind.isPromiseLike('')).toBe(false);
@@ -422,6 +439,7 @@ describe('Kind', () => {
   describe('isArray', () => {
     it('returns true only if the array given', () => {
       expect.assertions(16);
+
       expect(Kind.isArray(null)).toBe(false);
       expect(Kind.isArray(undefined)).toBe(false);
       expect(Kind.isArray('')).toBe(false);
@@ -444,34 +462,39 @@ describe('Kind', () => {
   describe('isClass', () => {
     it('returns false if array given', () => {
       expect.assertions(6);
+
       expect(Kind.isClass({}, Object)).toBe(true);
       expect(Kind.isClass([], Array)).toBe(true);
       expect(Kind.isClass(Object.create(null), Object)).toBe(false);
       expect(Kind.isClass(new Error(), Error)).toBe(true);
-      expect(Kind.isClass(new MockRuntimeError(), Error)).toBe(true);
-      expect(Kind.isClass(new MockRuntimeError(), MockRuntimeError)).toBe(true);
+      expect(Kind.isClass(new MockError(), Error)).toBe(true);
+      expect(Kind.isClass(new MockError(), MockError)).toBe(true);
     });
   });
 
   describe('notate', () => {
     it('undefined', () => {
       expect.assertions(1);
+
       expect(Kind.notate(undefined)).toBe('undefined');
     });
 
     it('null', () => {
       expect.assertions(1);
+
       expect(Kind.notate(null)).toBe('null');
     });
 
     it('boolean', () => {
       expect.assertions(2);
+
       expect(Kind.notate(false)).toBe('false');
       expect(Kind.notate(true)).toBe('true');
     });
 
     it('number', () => {
       expect.assertions(201);
+
       for (let i: number = -100; i <= 100; i++) {
         expect(Kind.notate(i)).toBe(`${i}`);
       }
@@ -479,6 +502,7 @@ describe('Kind', () => {
 
     it('string', () => {
       expect.assertions(100);
+
       for (let i: number = 0; i < 100; i++) {
         const str: string = random(40);
 
@@ -488,6 +512,7 @@ describe('Kind', () => {
 
     it('symbol', () => {
       expect.assertions(100);
+
       for (let i: number = 0; i < 100; i++) {
         const sym: symbol = Symbol(random(40));
 
@@ -497,6 +522,7 @@ describe('Kind', () => {
 
     it('bigint', () => {
       expect.assertions(201);
+
       for (let i: bigint = -100n; i <= 100n; i++) {
         expect(Kind.notate(i)).toBe(`${i}`);
       }
@@ -504,6 +530,7 @@ describe('Kind', () => {
 
     it('object literal', () => {
       expect.assertions(2);
+
       expect(Kind.notate({})).toBe('[object Object]');
 
       const obj: Inconnu = {};
@@ -517,6 +544,7 @@ describe('Kind', () => {
 
     it('object.create(null)', () => {
       expect.assertions(2);
+
       expect(Kind.notate(Object.create(null))).toBe('[object Object]');
 
       const obj: Inconnu = {};
@@ -530,6 +558,7 @@ describe('Kind', () => {
 
     it('returns itself when it has toString()', () => {
       expect.assertions(100);
+
       for (let i: number = 0; i < 100; i++) {
         const str: string = random(40);
 

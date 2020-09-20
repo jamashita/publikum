@@ -6,6 +6,7 @@ describe('Entity', () => {
   describe('equals', () => {
     it('returns true when the ids equal', () => {
       expect.assertions(3);
+
       const vo1: MockNominative<boolean> = new MockNominative<boolean>(true);
       const vo2: MockNominative<boolean> = new MockNominative<boolean>(false);
       const vo3: MockNominative<boolean> = new MockNominative<boolean>(true);
@@ -23,6 +24,7 @@ describe('Entity', () => {
   describe('hashCode', () => {
     it('returns same value of the hashCode of id', () => {
       expect.assertions(1);
+
       const vo: MockValueObject = new MockValueObject(undefined);
 
       const entity: MockEntity = new MockEntity(vo, {});
@@ -32,6 +34,7 @@ describe('Entity', () => {
 
     it('only depends on the id value, even if the other values are changed, returns same hashCode', () => {
       expect.assertions(2);
+
       const vo: MockValueObject = new MockValueObject(null);
 
       const entity: MockEntity = new MockEntity(vo, {});
