@@ -1,11 +1,9 @@
 import { Kind } from '@jamashita/publikum-type';
 import { Objet } from './Objet';
 
-export abstract class ValueObject<T extends ValueObject<T, N>, N extends string = string> extends Objet<T, N> {
+export abstract class ValueObject<N extends string = string> extends Objet<N> {
   public abstract readonly noun: N;
   private code?: string;
-
-  public abstract equals(other: T): boolean;
 
   public abstract serialize(): string;
 

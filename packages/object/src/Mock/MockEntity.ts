@@ -3,7 +3,7 @@ import { AnonymousNominative } from '@jamashita/publikum-interface';
 import { ObjectLiteral } from '@jamashita/publikum-type';
 import { Entity } from '../Entity';
 
-export class MockEntity extends Entity<AnonymousNominative, MockEntity> {
+export class MockEntity extends Entity<MockEntity, AnonymousNominative> {
   public readonly noun: 'MockEntity' = 'MockEntity';
   private readonly id: AnonymousNominative;
   public other: ObjectLiteral;
@@ -19,10 +19,6 @@ export class MockEntity extends Entity<AnonymousNominative, MockEntity> {
   }
 
   public duplicate(): MockEntity {
-    throw new UnimplementedError();
-  }
-
-  public toJSON(): ObjectLiteral {
     throw new UnimplementedError();
   }
 
