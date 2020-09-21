@@ -146,19 +146,23 @@ Class for random string, random number.
 
 ### TODO
 * [ ] `indexDB` repository implementation
-* [x] accepts Error constructors in Superposition Epoque
 * [ ] implementing cancelable iterator class.
-* [x] mutable collections
 * [ ] `map()` for collections
 * [ ] utility class for Promise collection manipulation
     * Unscharfeleration
         * [ ] `sequence<P>(arr: Array<Promise<P>>): Promise<Array<P>>;`
-        * [x] `anyway<P>(arr: Array<Promise<P>>): Promise<Array<Heisenberg<P>>>;`
     * Superposition
         * [ ] `sequence<A, D>(arr: Array<Promise<A>>): Promise<Array<Schrodinger<A, D>>>;`
-        * [x] `anyway<A, D>(arr: Array<Promise<A>>): Promise<Array<Schrodinger<A, D>>>;`
-* [x] `AJAX.head()`
-* [x] `Request.head()`
+    * Collection
+        * Sequence
+            * [ ] `ofIterable`
+            * [ ] `ofSequence`
+        * Project
+            * [ ] `ofIterable`
+            * [ ] `ofProject`
+        * Address
+            * [ ] `ofIterable`
+            * [ ] `ofAddress`
 
 ## Conventional commit
 
