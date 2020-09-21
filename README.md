@@ -7,6 +7,19 @@ my reusable playground :)
 
 ![CI](https://github.com/jamashita/publikum/workflows/CI/badge.svg)
 
+## Requisite
+
+```
+> node -v
+v14.5.0
+
+> npm -v
+6.14.5
+
+> yarn -v
+1.22.5
+```
+
 ## Classes
 
 ### Objects
@@ -146,6 +159,12 @@ Class for random string, random number.
         * [x] `anyway<A, D>(arr: Array<Promise<A>>): Promise<Array<Schrodinger<A, D>>>;`
 * [x] `AJAX.head()`
 * [x] `Request.head()`
+
+## Conventional commit
+
+```
+git cz
+```
 
 ## License
 
