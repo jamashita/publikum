@@ -1,7 +1,7 @@
 import { Nominative } from '@jamashita/publikum-interface';
 import hash from 'object-hash';
 
-export abstract class Objet<N extends string = string> implements Nominative<Objet<N>, N> {
+export abstract class Objet<N extends string = string> implements Nominative<N> {
   public abstract readonly noun: N;
 
   protected constructor() {

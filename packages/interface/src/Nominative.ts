@@ -3,26 +3,18 @@ import { Equalable, isEqualable } from './Equalable';
 import { isNoun, Noun } from './Noun';
 import { isSerializable, Serializable } from './Serializable';
 
-export interface Nominative<T extends Nominative<T>, N extends string = string>
-  extends Equalable<T>,
-    Serializable,
-    Noun<N> {
+export interface Nominative<N extends string = string> extends Equalable<Nominative>, Serializable, Noun<N> {
   hashCode(): string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AnonymousNominative extends Nominative<AnonymousNominative> {
-  // NOOP
-}
-
-export const isNominative = <T extends Nominative<T> = AnonymousNominative, N extends string = string>(n: unknown): n is Nominative<T, N> => {
-  if (!Kind.isObject<Nominative<T, N>>(n)) {
+export const isNominative = <N extends string = string>(n: unknown): n is Nominative<N> => {
+  if (!Kind.isObject<Nominative<N>>(n)) {
     return false;
   }
   if (!Kind.isFunction(n.hashCode)) {
     return false;
   }
-  if (!isEqualable<T>(n)) {
+  if (!isEqualable<Nominative>(n)) {
     return false;
   }
   if (!isNoun(n)) {
