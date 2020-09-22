@@ -5,8 +5,9 @@ import { Contradiction } from './Contradiction';
 import { Dead } from './Dead';
 import { Schrodinger } from './Schrodinger';
 
-export class Still<A, D extends Error> extends ValueObject<Still<A, D>, 'Still'> implements Schrodinger<A, D, 'Still'> {
+export class Still<A, D extends Error> extends ValueObject<'Still'> implements Schrodinger<A, D, 'Still'> {
   public readonly noun: 'Still' = 'Still';
+
   private static readonly INSTANCE: Still<unknown, Error> = new Still<unknown, Error>();
 
   public static of<AT, DT extends Error>(): Still<AT, DT> {
@@ -53,7 +54,10 @@ export class Still<A, D extends Error> extends ValueObject<Still<A, D>, 'Still'>
     if (this === other) {
       return true;
     }
+    if (!(other instanceof Still)) {
+      return false;
+    }
 
-    return false;
+    return true;
   }
 }

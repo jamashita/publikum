@@ -1,4 +1,5 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
+import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { SuperpositionError } from '../../Error/SuperpositionError';
 import { Alive } from '../Alive';
@@ -56,9 +57,8 @@ describe('Still', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const still: Still<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
+      const still: Schrodinger<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
 
-      // @ts-expect-error
       still.ifAlive(() => {
         spy();
       });
@@ -73,9 +73,8 @@ describe('Still', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const still: Still<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
+      const still: Schrodinger<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
 
-      // @ts-expect-error
       still.ifDead(() => {
         spy();
       });
@@ -90,9 +89,8 @@ describe('Still', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const still: Still<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
+      const still: Schrodinger<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
 
-      // @ts-expect-error
       still.ifContradiction(() => {
         spy();
       });
@@ -102,8 +100,24 @@ describe('Still', () => {
   });
 
   describe('equals', () => {
+    it('returns true if the same instance given', () => {
+      expect.assertions(1);
+
+      const schrodinger: Schrodinger<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
+
+      expect(schrodinger.equals(schrodinger)).toBe(true);
+    });
+
+    it('returns false if different class instance given', () => {
+      expect.assertions(1);
+
+      const schrodinger: Schrodinger<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
+
+      expect(schrodinger.equals(new MockValueObject('mock'))).toBe(false);
+    });
+
     it('returns true if Still given', () => {
-      expect.assertions(5);
+      expect.assertions(4);
 
       const alive: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(2);
       const dead: Dead<number, MockRuntimeError> = Dead.of<number, MockRuntimeError>(new MockRuntimeError());
@@ -112,7 +126,6 @@ describe('Still', () => {
 
       const schrodinger: Schrodinger<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
 
-      expect(schrodinger.equals(schrodinger)).toBe(true);
       expect(schrodinger.equals(alive)).toBe(false);
       expect(schrodinger.equals(dead)).toBe(false);
       expect(schrodinger.equals(contradiction)).toBe(false);
