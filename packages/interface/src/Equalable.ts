@@ -1,16 +1,11 @@
 import { Kind } from '@jamashita/publikum-type';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface AnonymousEqualable extends Equalable<AnonymousEqualable> {
-  // NOOP
+export interface Equalable {
+  equals(other: unknown): boolean;
 }
 
-export interface Equalable<T extends Equalable<T>> {
-  equals(other: T): boolean;
-}
-
-export const isEqualable = <T extends Equalable<T> = AnonymousEqualable>(n: unknown): n is Equalable<T> => {
-  if (!Kind.isObject<Equalable<T>>(n)) {
+export const isEqualable = (n: unknown): n is Equalable => {
+  if (!Kind.isObject<Equalable>(n)) {
     return false;
   }
   if (!Kind.isFunction(n.equals)) {

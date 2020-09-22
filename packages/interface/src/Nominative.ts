@@ -3,7 +3,7 @@ import { Equalable, isEqualable } from './Equalable';
 import { isNoun, Noun } from './Noun';
 import { isSerializable, Serializable } from './Serializable';
 
-export interface Nominative<N extends string = string> extends Equalable<Nominative>, Serializable, Noun<N> {
+export interface Nominative<N extends string = string> extends Equalable, Serializable, Noun<N> {
   hashCode(): string;
 }
 
@@ -14,7 +14,7 @@ export const isNominative = <N extends string = string>(n: unknown): n is Nomina
   if (!Kind.isFunction(n.hashCode)) {
     return false;
   }
-  if (!isEqualable<Nominative>(n)) {
+  if (!isEqualable(n)) {
     return false;
   }
   if (!isNoun(n)) {

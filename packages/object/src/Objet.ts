@@ -8,7 +8,7 @@ export abstract class Objet<N extends string = string> implements Nominative<N> 
     // NOOP
   }
 
-  public abstract equals(other: Objet): boolean;
+  public abstract equals(other: unknown): boolean;
 
   public abstract serialize(): string;
 
