@@ -1,4 +1,4 @@
-import { ValueObject } from '@jamashita/publikum-object';
+import { Objet, ValueObject } from '@jamashita/publikum-object';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import utc from 'dayjs/plugin/utc';
@@ -9,7 +9,7 @@ dayjs.extend(minMax);
 
 export type ZeitUnitType = 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year';
 
-export class Zeit extends ValueObject<Zeit, 'Zeit'> {
+export class Zeit extends ValueObject<'Zeit'> {
   public readonly noun: 'Zeit' = 'Zeit';
   private readonly zeit: dayjs.Dayjs;
   private readonly format: string;
@@ -76,9 +76,12 @@ export class Zeit extends ValueObject<Zeit, 'Zeit'> {
     this.format = format;
   }
 
-  public equals(other: Zeit): boolean {
+  public equals(other: Objet): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof Zeit)) {
+      return false;
     }
     if (this.format !== other.format) {
       return false;
