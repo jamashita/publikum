@@ -1,4 +1,4 @@
-import { Objet, ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/publikum-object';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import utc from 'dayjs/plugin/utc';
@@ -76,7 +76,7 @@ export class Zeit extends ValueObject<'Zeit'> {
     this.format = format;
   }
 
-  public equals(other: Objet): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }
