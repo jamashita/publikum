@@ -1,4 +1,5 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
+import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { UnscharferelationError } from '../../Unscharferelation/Error/UnscharferelationError';
 import { Heisenberg } from '../../Unscharferelation/Heisenberg/Heisenberg';
@@ -14,6 +15,32 @@ import { Superposition } from '../Superposition';
 
 describe('Superposition', () => {
   describe('equals', () => {
+    it('returns true if the same instance given', () => {
+      expect.assertions(1);
+
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
+          chrono.accept(-1);
+        },
+        MockRuntimeError
+      );
+
+      expect(superposition.equals(superposition)).toBe(true);
+    });
+
+    it('returns false if the different class instance given', () => {
+      expect.assertions(1);
+
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
+          chrono.accept(-1);
+        },
+        MockRuntimeError
+      );
+
+      expect(superposition.equals(new MockValueObject('mock'))).toBe(false);
+    });
+
     it('returns true if their retaining Schrodingers are the same', () => {
       expect.assertions(5);
 

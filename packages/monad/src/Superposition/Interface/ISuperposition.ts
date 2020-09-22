@@ -6,7 +6,7 @@ import { Schrodinger } from '../Schrodinger/Schrodinger';
 import { DeadConstructor } from './DeadConstructor';
 import { Detoxicated } from './Detoxicated';
 
-export interface ISuperposition<A, D extends Error, N extends string = string> extends Nominative<ISuperposition<A, D, N>, N> {
+export interface ISuperposition<A, D extends Error, N extends string = string> extends Nominative<N> {
   get(): Promise<Detoxicated<A>>;
 
   getErrors(): Set<DeadConstructor<D>>;

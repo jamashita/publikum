@@ -25,7 +25,7 @@ import { Dead } from './Schrodinger/Dead';
 import { Schrodinger } from './Schrodinger/Schrodinger';
 import { Still } from './Schrodinger/Still';
 
-export class SuperpositionInternal<A, D extends Error> extends Objet<SuperpositionInternal<A, D>, 'SuperpositionInternal'>
+export class SuperpositionInternal<A, D extends Error> extends Objet<'SuperpositionInternal'>
   implements ISuperposition<A, D, 'SuperpositionInternal'>, Chrono<A, D> {
   public readonly noun: 'SuperpositionInternal' = 'SuperpositionInternal';
   private schrodinger: Schrodinger<A, D>;
@@ -44,9 +44,12 @@ export class SuperpositionInternal<A, D extends Error> extends Objet<Superpositi
     func(this);
   }
 
-  public equals(other: SuperpositionInternal<A, D>): boolean {
+  public equals(other: Objet): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof SuperpositionInternal)) {
+      return false;
     }
 
     return this.schrodinger.equals(other.schrodinger);
