@@ -10,9 +10,12 @@ export class MockNominative<T extends Primitive> extends ValueObject<'MockNomina
     this.value = value;
   }
 
-  public equals(other: MockNominative<T>): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof MockNominative)) {
+      return false;
     }
     if (this.value === other.value) {
       return true;
