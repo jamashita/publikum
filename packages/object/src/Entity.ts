@@ -1,8 +1,8 @@
 import { Cloneable, Nominative } from '@jamashita/publikum-interface';
 import { Objet } from './Objet';
 
-export abstract class Entity<T extends Entity<T, I, N>, I extends Nominative<I, N>, N extends string = string> extends Objet<N>
-  implements Cloneable<Entity<T, I, N>> {
+export abstract class Entity<T extends Entity<T, I, N>, I extends Nominative<N>, N extends string = string> extends Objet<N>
+  implements Cloneable<T> {
   public abstract readonly noun: N;
 
   public abstract getIdentifier(): I;

@@ -1,3 +1,4 @@
+import { MockValueObject } from '@jamashita/publikum-object';
 import dayjs from 'dayjs';
 import sinon, { SinonFakeTimers } from 'sinon';
 import { ZeitError } from '../Error/ZeitError';
@@ -303,14 +304,29 @@ describe('Zeit', () => {
   });
 
   describe('equals', () => {
+    it('returns true if they are the same instance', () => {
+      expect.assertions(1);
+
+      const zeit1: Zeit = Zeit.ofString('2000-01-01', 'YYYY-MM-DD');
+
+      expect(zeit1.equals(zeit1)).toBe(true);
+    });
+
+    it('returns false if different instance given', () => {
+      expect.assertions(1);
+
+      const zeit1: Zeit = Zeit.ofString('2000-01-01', 'YYYY-MM-DD');
+
+      expect(zeit1.equals(new MockValueObject('2000-01-01'))).toBe(false);
+    });
+
     it('returns true if all the properties are the same', () => {
-      expect.assertions(3);
+      expect.assertions(2);
 
       const zeit1: Zeit = Zeit.ofString('2000-01-01', 'YYYY-MM-DD');
       const zeit2: Zeit = Zeit.ofString('2000-01-02', 'YYYY-MM-DD');
       const zeit3: Zeit = Zeit.ofString('2000-01-01', 'YYYY-MM-DD');
 
-      expect(zeit1.equals(zeit1)).toBe(true);
       expect(zeit1.equals(zeit2)).toBe(false);
       expect(zeit1.equals(zeit3)).toBe(true);
     });
