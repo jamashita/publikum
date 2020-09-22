@@ -1,4 +1,5 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
+import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { UnscharferelationError } from '../../Error/UnscharferelationError';
 import { Absent } from '../Absent';
@@ -115,6 +116,14 @@ describe('Uncertain', () => {
       const heisenberg: Heisenberg<number> = Uncertain.of<number>();
 
       expect(heisenberg.equals(heisenberg)).toBe(true);
+    });
+
+    it('returns false if the different class instance given', () => {
+      expect.assertions(1);
+
+      const heisenberg: Heisenberg<number> = Uncertain.of<number>();
+
+      expect(heisenberg.equals(new MockValueObject('mock'))).toBe(false);
     });
 
     it('returns true if Uncertain given', () => {

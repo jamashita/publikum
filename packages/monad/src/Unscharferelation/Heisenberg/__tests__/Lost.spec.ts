@@ -1,4 +1,5 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
+import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { Absent } from '../Absent';
 import { Heisenberg } from '../Heisenberg';
@@ -132,6 +133,14 @@ describe('Lost', () => {
       const heisenberg: Heisenberg<number> = Lost.of<number>(new SyntaxError());
 
       expect(heisenberg.equals(heisenberg)).toBe(true);
+    });
+
+    it('returns false if the different class instance given', () => {
+      expect.assertions(1);
+
+      const heisenberg: Heisenberg<number> = Lost.of<number>(new SyntaxError());
+
+      expect(heisenberg.equals(new MockValueObject('mock'))).toBe(false);
     });
 
     it('returns true if Lost given even if the cause is different', () => {

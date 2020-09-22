@@ -53,8 +53,11 @@ export class Lost<P> extends ValueObject<'Lost'> implements Heisenberg<P, 'Lost'
     if (this === other) {
       return true;
     }
+    if (other instanceof Lost) {
+      return true;
+    }
 
-    return other.isLost();
+    return false;
   }
 
   public getCause(): unknown {

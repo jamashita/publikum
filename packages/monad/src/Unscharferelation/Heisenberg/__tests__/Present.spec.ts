@@ -1,5 +1,6 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
 import { Equalable } from '@jamashita/publikum-interface';
+import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { Absent } from '../Absent';
 import { Heisenberg } from '../Heisenberg';
@@ -170,6 +171,14 @@ describe('Present', () => {
       const heisenberg: Heisenberg<number> = Present.of<number>(2);
 
       expect(heisenberg.equals(heisenberg)).toBe(true);
+    });
+
+    it('returns false if different class instance given', () => {
+      expect.assertions(1);
+
+      const heisenberg: Heisenberg<number> = Present.of<number>(2);
+
+      expect(heisenberg.equals(new MockValueObject('mock'))).toBe(false);
     });
 
     it('returns true if same value Present given', () => {
