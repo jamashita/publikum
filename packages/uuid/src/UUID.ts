@@ -1,4 +1,4 @@
-import { Objet, ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/publikum-object';
 import Chance from 'chance';
 import { UUIDError } from './Error/UUIDError';
 
@@ -46,7 +46,7 @@ export class UUID extends ValueObject<'UUID'> {
     this.id = id;
   }
 
-  public equals(other: Objet): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }
