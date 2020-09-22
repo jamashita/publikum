@@ -200,14 +200,13 @@ describe('Present', () => {
     });
 
     it('returns true if same Equalable instance Present given', () => {
-      expect.assertions(3);
+      expect.assertions(2);
 
       const present1: Present<TestEqualable> = Present.of<TestEqualable>(new TestEqualable(true));
       const present2: Present<TestEqualable> = Present.of<TestEqualable>(new TestEqualable(false));
 
       const heisenberg: Heisenberg<TestEqualable> = Present.of<TestEqualable>(new TestEqualable(true));
 
-      expect(heisenberg.equals(heisenberg)).toBe(true);
       expect(heisenberg.equals(present1)).toBe(true);
       expect(heisenberg.equals(present2)).toBe(false);
     });

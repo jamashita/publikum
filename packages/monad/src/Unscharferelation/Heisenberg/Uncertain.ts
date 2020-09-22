@@ -7,6 +7,7 @@ import { Present } from './Present';
 
 export class Uncertain<P> extends ValueObject<'Uncertain'> implements Heisenberg<P, 'Uncertain'> {
   public readonly noun: 'Uncertain' = 'Uncertain';
+
   private static readonly INSTANCE: Uncertain<unknown> = new Uncertain<unknown>();
 
   public static of<PT>(): Uncertain<PT> {

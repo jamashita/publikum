@@ -7,6 +7,7 @@ import { Present } from './Present';
 
 export class Absent<P> extends ValueObject<'Absent'> implements Heisenberg<P, 'Absent'> {
   public readonly noun: 'Absent' = 'Absent';
+
   private static readonly INSTANCE: Absent<unknown> = new Absent<unknown>();
 
   public static of<PT>(): Absent<PT> {
