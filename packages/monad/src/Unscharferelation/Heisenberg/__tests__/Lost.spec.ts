@@ -79,9 +79,8 @@ describe('Lost', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const lost: Lost<number> = Lost.of<number>(error);
+      const lost: Heisenberg<number> = Lost.of<number>(error);
 
-      // @ts-expect-error
       lost.ifPresent(() => {
         spy();
       });
@@ -98,9 +97,8 @@ describe('Lost', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const lost: Lost<number> = Lost.of<number>(error);
+      const lost: Heisenberg<number> = Lost.of<number>(error);
 
-      // @ts-expect-error
       lost.ifAbsent(() => {
         spy();
       });
@@ -117,7 +115,7 @@ describe('Lost', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const lost: Lost<number> = Lost.of<number>(error);
+      const lost: Heisenberg<number> = Lost.of<number>(error);
 
       lost.ifLost(() => {
         spy();
@@ -128,8 +126,16 @@ describe('Lost', () => {
   });
 
   describe('equals', () => {
+    it('returns true if the same instance given', () => {
+      expect.assertions(1);
+
+      const heisenberg: Heisenberg<number> = Lost.of<number>(new SyntaxError());
+
+      expect(heisenberg.equals(heisenberg)).toBe(true);
+    });
+
     it('returns true if Lost given even if the cause is different', () => {
-      expect.assertions(5);
+      expect.assertions(4);
 
       const present: Present<number> = Present.of<number>(2);
       const absent: Absent<number> = Absent.of<number>();
@@ -138,7 +144,6 @@ describe('Lost', () => {
 
       const heisenberg: Heisenberg<number> = Lost.of<number>(new SyntaxError());
 
-      expect(heisenberg.equals(heisenberg)).toBe(true);
       expect(heisenberg.equals(present)).toBe(false);
       expect(heisenberg.equals(absent)).toBe(false);
       expect(heisenberg.equals(lost)).toBe(true);

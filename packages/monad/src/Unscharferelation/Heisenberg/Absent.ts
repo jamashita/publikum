@@ -5,7 +5,7 @@ import { Heisenberg } from './Heisenberg';
 import { Lost } from './Lost';
 import { Present } from './Present';
 
-export class Absent<P> extends ValueObject<Absent<P>, 'Absent'> implements Heisenberg<P, 'Absent'> {
+export class Absent<P> extends ValueObject<'Absent'> implements Heisenberg<P, 'Absent'> {
   public readonly noun: 'Absent' = 'Absent';
   private static readonly INSTANCE: Absent<unknown> = new Absent<unknown>();
 

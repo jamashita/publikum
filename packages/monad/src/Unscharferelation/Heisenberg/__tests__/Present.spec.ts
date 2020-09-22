@@ -116,7 +116,7 @@ describe('Present', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const present: Present<number> = Present.of<number>(value);
+      const present: Heisenberg<number> = Present.of<number>(value);
 
       present.ifPresent((v: number) => {
         spy();
@@ -135,9 +135,8 @@ describe('Present', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const present: Present<number> = Present.of<number>(value);
+      const present: Heisenberg<number> = Present.of<number>(value);
 
-      // @ts-expect-error
       present.ifAbsent(() => {
         spy();
       });
@@ -154,9 +153,8 @@ describe('Present', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const present: Present<number> = Present.of<number>(value);
+      const present: Heisenberg<number> = Present.of<number>(value);
 
-      // @ts-expect-error
       present.ifLost(() => {
         spy();
       });
@@ -166,8 +164,16 @@ describe('Present', () => {
   });
 
   describe('equals', () => {
+    it('returns true if same instance given', () => {
+      expect.assertions(1);
+
+      const heisenberg: Heisenberg<number> = Present.of<number>(2);
+
+      expect(heisenberg.equals(heisenberg)).toBe(true);
+    });
+
     it('returns true if same value Present given', () => {
-      expect.assertions(6);
+      expect.assertions(5);
 
       const present1: Present<number> = Present.of<number>(2);
       const present2: Present<number> = Present.of<number>(3);
@@ -177,7 +183,6 @@ describe('Present', () => {
 
       const heisenberg: Heisenberg<number> = Present.of<number>(2);
 
-      expect(heisenberg.equals(heisenberg)).toBe(true);
       expect(heisenberg.equals(present1)).toBe(true);
       expect(heisenberg.equals(present2)).toBe(false);
       expect(heisenberg.equals(absent)).toBe(false);

@@ -66,9 +66,8 @@ describe('Uncertain', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const uncertain: Uncertain<number> = Uncertain.of<number>();
+      const uncertain: Heisenberg<number> = Uncertain.of<number>();
 
-      // @ts-expect-error
       uncertain.ifPresent(() => {
         spy();
       });
@@ -83,9 +82,8 @@ describe('Uncertain', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const uncertain: Uncertain<number> = Uncertain.of<number>();
+      const uncertain: Heisenberg<number> = Uncertain.of<number>();
 
-      // @ts-expect-error
       uncertain.ifAbsent(() => {
         spy();
       });
@@ -100,9 +98,8 @@ describe('Uncertain', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const uncertain: Uncertain<number> = Uncertain.of<number>();
+      const uncertain: Heisenberg<number> = Uncertain.of<number>();
 
-      // @ts-expect-error
       uncertain.ifLost(() => {
         spy();
       });
@@ -112,8 +109,16 @@ describe('Uncertain', () => {
   });
 
   describe('equals', () => {
+    it('returns true if the same instance given', () => {
+      expect.assertions(1);
+
+      const heisenberg: Heisenberg<number> = Uncertain.of<number>();
+
+      expect(heisenberg.equals(heisenberg)).toBe(true);
+    });
+
     it('returns true if Uncertain given', () => {
-      expect.assertions(5);
+      expect.assertions(4);
 
       const present: Present<number> = Present.of<number>(2);
       const absent: Absent<number> = Absent.of<number>();
@@ -122,7 +127,6 @@ describe('Uncertain', () => {
 
       const heisenberg: Heisenberg<number> = Uncertain.of<number>();
 
-      expect(heisenberg.equals(heisenberg)).toBe(true);
       expect(heisenberg.equals(present)).toBe(false);
       expect(heisenberg.equals(absent)).toBe(false);
       expect(heisenberg.equals(lost)).toBe(false);

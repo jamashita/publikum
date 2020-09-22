@@ -5,7 +5,7 @@ import { Heisenberg } from './Heisenberg';
 import { Lost } from './Lost';
 import { Present } from './Present';
 
-export class Uncertain<P> extends ValueObject<Uncertain<P>, 'Uncertain'> implements Heisenberg<P, 'Uncertain'> {
+export class Uncertain<P> extends ValueObject<'Uncertain'> implements Heisenberg<P, 'Uncertain'> {
   public readonly noun: 'Uncertain' = 'Uncertain';
   private static readonly INSTANCE: Uncertain<unknown> = new Uncertain<unknown>();
 

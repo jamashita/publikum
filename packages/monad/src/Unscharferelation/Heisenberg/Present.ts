@@ -6,7 +6,7 @@ import { Absent } from './Absent';
 import { Heisenberg } from './Heisenberg';
 import { Lost } from './Lost';
 
-export class Present<P> extends ValueObject<Present<P>, 'Present'> implements Heisenberg<P, 'Present'> {
+export class Present<P> extends ValueObject<'Present'> implements Heisenberg<P, 'Present'> {
   public readonly noun: 'Present' = 'Present';
   private readonly value: Matter<P>;
 
@@ -61,10 +61,8 @@ export class Present<P> extends ValueObject<Present<P>, 'Present'> implements He
     if (this.value === other.value) {
       return true;
     }
-    if (isEqualable(this.value)) {
-      if (isEqualable(other.value)) {
-        return this.value.equals(other.value);
-      }
+    if (isEqualable(this.value) && isEqualable(other.value)) {
+      return this.value.equals(other.value);
     }
 
     return false;
