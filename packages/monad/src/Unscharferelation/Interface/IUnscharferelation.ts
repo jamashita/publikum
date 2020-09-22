@@ -14,7 +14,7 @@ import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
 import { Matter } from './Matter';
 
-export interface IUnscharferelation<P, N extends string = string> extends Nominative<IUnscharferelation<P, N>, N> {
+export interface IUnscharferelation<P, N extends string = string> extends Nominative<N> {
   get(): Promise<Matter<P>>;
 
   terminate(): Promise<Heisenberg<P>>;

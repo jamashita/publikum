@@ -20,7 +20,7 @@ import { Matter } from './Interface/Matter';
 import { Nihil } from './Interface/Nihil';
 import { UnscharferelationInternal } from './UnscharferelationInternal';
 
-export class Unscharferelation<P> extends Objet<Unscharferelation<P>, 'Unscharferelation'> implements IUnscharferelation<P, 'Unscharferelation'> {
+export class Unscharferelation<P> extends Objet<'Unscharferelation'> implements IUnscharferelation<P, 'Unscharferelation'> {
   public readonly noun: 'Unscharferelation' = 'Unscharferelation';
   private readonly internal: IUnscharferelation<P>;
 
@@ -166,9 +166,12 @@ export class Unscharferelation<P> extends Objet<Unscharferelation<P>, 'Unscharfe
     this.internal = internal;
   }
 
-  public equals(other: Unscharferelation<P>): boolean {
+  public equals(other: Objet): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof Unscharferelation)) {
+      return false;
     }
 
     return this.internal.equals(other.internal);

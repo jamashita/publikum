@@ -34,7 +34,7 @@ import { MapEpoquePlan } from './Plan/MapEpoquePlan';
 import { PresentPlan } from './Plan/PresentPlan';
 import { RecoveryEpoquePlan } from './Plan/RecoveryEpoquePlan';
 
-export class UnscharferelationInternal<P> extends Objet<UnscharferelationInternal<P>, 'UnscharferelationInternal'>
+export class UnscharferelationInternal<P> extends Objet<'UnscharferelationInternal'>
   implements IUnscharferelation<P, 'UnscharferelationInternal'>, Epoque<P, 'UnscharferelationInternal'> {
   public readonly noun: 'UnscharferelationInternal' = 'UnscharferelationInternal';
   private heisenberg: Heisenberg<P>;
@@ -51,9 +51,12 @@ export class UnscharferelationInternal<P> extends Objet<UnscharferelationInterna
     func(this);
   }
 
-  public equals(other: UnscharferelationInternal<P>): boolean {
+  public equals(other: Objet): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof UnscharferelationInternal)) {
+      return false;
     }
 
     return this.heisenberg.equals(other.heisenberg);

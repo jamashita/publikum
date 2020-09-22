@@ -1,4 +1,5 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
+import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { Schrodinger } from '../../Superposition/Schrodinger/Schrodinger';
 import { Epoque } from '../Epoque/Interface/Epoque';
@@ -664,8 +665,33 @@ describe('Unscharferelation', () => {
   });
 
   describe('equals', () => {
+    it('returns true if the same instance given', () => {
+      expect.assertions(1);
+
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.accept(-1);
+        }
+      );
+
+      expect(unscharferelation.equals(unscharferelation)).toBe(true);
+    });
+
+    it('returns false if the class instance given', () => {
+      expect.assertions(1);
+
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.accept(-1);
+        }
+      );
+
+      expect(unscharferelation.equals(new MockValueObject('mock'))).toBe(false);
+    });
+
+
     it('returns true if their retaining Heisenbergs are the same', () => {
-      expect.assertions(4);
+      expect.assertions(3);
 
       const unscharferelation1: Unscharferelation<number> = Unscharferelation.of<number>(
         (epoque: Epoque<number>) => {
@@ -688,7 +714,6 @@ describe('Unscharferelation', () => {
         }
       );
 
-      expect(unscharferelation1.equals(unscharferelation1)).toBe(true);
       expect(unscharferelation1.equals(unscharferelation2)).toBe(true);
       expect(unscharferelation1.equals(unscharferelation3)).toBe(false);
       expect(unscharferelation1.equals(unscharferelation4)).toBe(false);

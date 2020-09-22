@@ -6,7 +6,7 @@ import { Heisenberg } from '../Heisenberg/Heisenberg';
 import { IUnscharferelation } from '../Interface/IUnscharferelation';
 import { Matter } from '../Interface/Matter';
 
-export class MockUnscharferelation<P> extends ValueObject<MockUnscharferelation<P>, 'MockUnscharferelation'> implements IUnscharferelation<P, 'MockUnscharferelation'> {
+export class MockUnscharferelation<P> extends ValueObject<'MockUnscharferelation'> implements IUnscharferelation<P, 'MockUnscharferelation'> {
   public readonly noun: 'MockUnscharferelation' = 'MockUnscharferelation';
 
   public constructor() {
