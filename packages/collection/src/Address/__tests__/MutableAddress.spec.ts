@@ -2,14 +2,14 @@ import { MockNominative } from '@jamashita/publikum-object';
 import { MutableAddress } from '../MutableAddress';
 
 describe('MutableAddress', () => {
-  describe('of', () => {
+  describe('ofSet', () => {
     it('normal case', () => {
       expect.assertions(2);
 
-      const address1: MutableAddress<MockNominative<number>> = MutableAddress.of<MockNominative<number>>(
+      const address1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
         new Set<MockNominative<number>>([new MockNominative<number>(1), new MockNominative<number>(3)])
       );
-      const address2: MutableAddress<MockNominative<number>> = MutableAddress.of<MockNominative<number>>(
+      const address2: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
         new Set<MockNominative<number>>([
           new MockNominative<number>(2),
           new MockNominative<number>(4),
@@ -68,7 +68,7 @@ describe('MutableAddress', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
-      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.of<MockNominative<number>>(
+      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
         new Set<MockNominative<number>>([noun1, noun2])
       );
       const nouns2: MutableAddress<MockNominative<number>> = nouns1.add(noun1);
@@ -84,7 +84,7 @@ describe('MutableAddress', () => {
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(1);
 
-      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.of<MockNominative<number>>(
+      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
         new Set<MockNominative<number>>([noun1, noun2])
       );
       const nouns2: MutableAddress<MockNominative<number>> = nouns1.add(noun3);
@@ -101,7 +101,7 @@ describe('MutableAddress', () => {
       const noun1: MockNominative<number> = new MockNominative<number>(1);
       const noun2: MockNominative<number> = new MockNominative<number>(2);
 
-      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.of<MockNominative<number>>(
+      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
         new Set<MockNominative<number>>([noun1, noun2])
       );
       const nouns2: MutableAddress<MockNominative<number>> = nouns1.remove(noun1);
@@ -127,7 +127,7 @@ describe('MutableAddress', () => {
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(2);
 
-      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.of<MockNominative<number>>(
+      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
         new Set<MockNominative<number>>([noun1, noun2])
       );
       const nouns2: MutableAddress<MockNominative<number>> = nouns1.remove(noun3);
@@ -143,13 +143,35 @@ describe('MutableAddress', () => {
       const noun2: MockNominative<number> = new MockNominative<number>(2);
       const noun3: MockNominative<number> = new MockNominative<number>(3);
 
-      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.of<MockNominative<number>>(
+      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
         new Set<MockNominative<number>>([noun1, noun2])
       );
       const nouns2: MutableAddress<MockNominative<number>> = nouns1.remove(noun3);
 
       expect(nouns1).toBe(nouns2);
       expect(nouns1.size()).toBe(2);
+    });
+  });
+
+  describe('map', () => {
+    it('normal case', () => {
+      expect.assertions(6);
+
+      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const noun4: MockNominative<number> = new MockNominative<number>(4);
+
+      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(new Set<MockNominative<number>>([noun1, noun2, noun3, noun4]));
+      const nouns2: MutableAddress<MockNominative<number>> = nouns1.map((v: MockNominative<number>) => {
+        return new MockNominative(v.get() * 2);
+      });
+
+      expect(nouns1.size()).toBe(nouns2.size());
+      expect(nouns1).not.toBe(nouns2);
+      nouns2.forEach((v: MockNominative<number>) => {
+        expect(v.get() % 2).toBe(0);
+      });
     });
   });
 
@@ -162,7 +184,7 @@ describe('MutableAddress', () => {
       const noun3: MockNominative<number> = new MockNominative<number>(3);
       const noun4: MockNominative<number> = new MockNominative<number>(4);
 
-      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.of<MockNominative<number>>(
+      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
         new Set<MockNominative<number>>([noun1, noun2, noun3, noun4])
       );
       const nouns2: MutableAddress<MockNominative<number>> = nouns1.duplicate();
@@ -179,7 +201,7 @@ describe('MutableAddress', () => {
       const noun3: MockNominative<number> = new MockNominative<number>(3);
       const noun4: MockNominative<number> = new MockNominative<number>(4);
 
-      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.of<MockNominative<number>>(
+      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
         new Set<MockNominative<number>>([noun1, noun2, noun3])
       );
       const nouns2: MutableAddress<MockNominative<number>> = nouns1.duplicate();

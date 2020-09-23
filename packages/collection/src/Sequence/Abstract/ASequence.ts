@@ -23,12 +23,6 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
     this.elements = elements;
   }
 
-  public [Symbol.iterator](): Iterator<Pair<number, V>> {
-    return this.elements.map<Pair<number, V>>((e: V, index: number) => {
-      return Pair.of(index, e);
-    })[Symbol.iterator]();
-  }
-
   public abstract add(value: V): Sequence<V, N>;
 
   public abstract set(key: number, value: V): Sequence<V>;
@@ -40,6 +34,12 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
   public abstract filter(iterator: Enumerator<number, V>): Sequence<V, N>;
 
   public abstract duplicate(): Sequence<V, N>;
+
+  public [Symbol.iterator](): Iterator<Pair<number, V>> {
+    return this.elements.map<Pair<number, V>>((e: V, index: number) => {
+      return Pair.of(index, e);
+    })[Symbol.iterator]();
+  }
 
   public get(key: number): Nullable<V> {
     const element: Ambiguous<V> = this.elements[key];

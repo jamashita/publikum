@@ -1,25 +1,32 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Nullable, Peek, Predicate } from '@jamashita/publikum-type';
+import { BinaryPredicate, Mapper, Nullable, Peek, Predicate } from '@jamashita/publikum-type';
 import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Address } from '../Interface/Address';
 
-export abstract class AAddress<E extends Nominative<E>, N extends string = string> extends Quantity<AAddress<E, N>, void, E, N>
-  implements Address<E, N> {
+export abstract class AAddress<V extends Nominative, N extends string = string> extends Quantity<void, V, N> implements Address<V, N> {
   public abstract readonly noun: N;
-  protected readonly elements: Map<string, E>;
+  protected readonly elements: Map<string, V>;
 
-  protected constructor(elements: Map<string, E>) {
+  protected constructor(elements: Map<string, V>) {
     super();
     this.elements = elements;
   }
 
-  public [Symbol.iterator](): Iterator<Pair<void, E>> {
-    const iterator: IterableIterator<E> = this.elements.values();
-    const iterable: Array<Pair<void, E>> = [];
+  public abstract duplicate(): Address<V, N>;
 
-    let res: IteratorResult<E> = iterator.next();
+  public abstract add(element: V): Address<V, N>;
+
+  public abstract remove(element: V): Address<V, N>;
+
+  public abstract map<W extends Nominative>(mapper: Mapper<V, W>): Address<W>;
+
+  public [Symbol.iterator](): Iterator<Pair<void, V>> {
+    const iterator: IterableIterator<V> = this.elements.values();
+    const iterable: Array<Pair<void, V>> = [];
+
+    let res: IteratorResult<V> = iterator.next();
 
     while (res.done !== true) {
       iterable.push(Pair.of(undefined, res.value));
@@ -30,17 +37,11 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     return iterable[Symbol.iterator]();
   }
 
-  public abstract add(element: E): Address<E, N>;
-
-  public abstract remove(element: E): Address<E, N>;
-
-  public abstract duplicate(): Address<E, N>;
-
-  public get(): Nullable<E> {
+  public get(): Nullable<V> {
     return null;
   }
 
-  public contains(value: E): boolean {
+  public contains(value: V): boolean {
     return this.elements.has(value.hashCode());
   }
 
@@ -56,7 +57,7 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     return false;
   }
 
-  public forEach(iteration: CancellableEnumerator<void, E>): void {
+  public forEach(iteration: CancellableEnumerator<void, V>): void {
     let done: boolean = false;
     const cancel: Peek = () => {
       done = true;
@@ -71,7 +72,7 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     }
   }
 
-  public find(predicate: Predicate<E>): Nullable<E> {
+  public find(predicate: Predicate<V>): Nullable<V> {
     for (const [, element] of this.elements) {
       if (predicate(element)) {
         return element;
@@ -81,7 +82,7 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     return null;
   }
 
-  public every(predicate: BinaryPredicate<E, void>): boolean {
+  public every(predicate: BinaryPredicate<V, void>): boolean {
     for (const [, element] of this.elements) {
       if (!predicate(element)) {
         return false;
@@ -91,7 +92,7 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     return true;
   }
 
-  public some(predicate: BinaryPredicate<E, void>): boolean {
+  public some(predicate: BinaryPredicate<V, void>): boolean {
     for (const [, element] of this.elements) {
       if (predicate(element)) {
         return true;
@@ -101,38 +102,41 @@ export abstract class AAddress<E extends Nominative<E>, N extends string = strin
     return false;
   }
 
-  public equals(other: Address<E, N>): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof AAddress)) {
+      return false;
     }
     if (this.size() !== other.size()) {
       return false;
     }
 
-    return this.every((element: E) => {
+    return this.every((element: V) => {
       return other.contains(element);
     });
   }
 
-  public toSet(): Set<E> {
-    return new Set<E>(this.elements.values());
+  public toSet(): Set<V> {
+    return new Set<V>(this.elements.values());
   }
 
   public serialize(): string {
     const properties: Array<string> = [];
 
-    this.forEach((element: E) => {
+    this.forEach((element: V) => {
       properties.push(element.toString());
     });
 
     return properties.join(', ');
   }
 
-  public values(): Iterable<E> {
-    const iterator: IterableIterator<E> = this.elements.values();
-    const iterable: Array<E> = [];
+  public values(): Iterable<V> {
+    const iterator: IterableIterator<V> = this.elements.values();
+    const iterable: Array<V> = [];
 
-    let res: IteratorResult<E> = iterator.next();
+    let res: IteratorResult<V> = iterator.next();
 
     while (res.done !== true) {
       iterable.push(res.value);

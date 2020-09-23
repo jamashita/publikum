@@ -26,7 +26,6 @@ export abstract class AProject<K extends Nominative, V extends Nominative, N ext
     return this.elements.values();
   }
 
-
   public get(key: K): Nullable<V> {
     const element: Ambiguous<Pair<K, V>> = this.elements.get(key.hashCode());
 
