@@ -5,8 +5,9 @@ import { Heisenberg } from './Heisenberg';
 import { Lost } from './Lost';
 import { Present } from './Present';
 
-export class Uncertain<P> extends ValueObject<Uncertain<P>, 'Uncertain'> implements Heisenberg<P, 'Uncertain'> {
+export class Uncertain<P> extends ValueObject<'Uncertain'> implements Heisenberg<P, 'Uncertain'> {
   public readonly noun: 'Uncertain' = 'Uncertain';
+
   private static readonly INSTANCE: Uncertain<unknown> = new Uncertain<unknown>();
 
   public static of<PT>(): Uncertain<PT> {
@@ -49,9 +50,12 @@ export class Uncertain<P> extends ValueObject<Uncertain<P>, 'Uncertain'> impleme
     // NOOP
   }
 
-  public equals(other: Heisenberg<P>): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof Uncertain)) {
+      return false;
     }
 
     return false;

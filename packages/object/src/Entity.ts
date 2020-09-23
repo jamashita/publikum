@@ -1,24 +1,28 @@
-import { Cloneable, JSONable, Nominative } from '@jamashita/publikum-interface';
-import { ObjectLiteral } from '@jamashita/publikum-type';
+import { Cloneable, Nominative } from '@jamashita/publikum-interface';
 import { Objet } from './Objet';
 
-export abstract class Entity<I extends Nominative<I, N>, T extends Entity<I, T, N, O>, N extends string = string, O extends ObjectLiteral = ObjectLiteral>
-  extends Objet<T, N> implements Cloneable<Entity<I, T, N, O>>, JSONable<O> {
+export abstract class Entity<T extends Entity<T, I, N>, I extends Nominative<N>, N extends string = string> extends Objet<N>
+  implements Cloneable<T> {
   public abstract readonly noun: N;
+
+  public abstract getIdentifier(): I;
 
   public abstract duplicate(): T;
 
-  public abstract toJSON(): O;
-
   public abstract serialize(): string;
 
-  public equals(other: T): boolean {
+  public equals(other: unknown): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!(other instanceof Entity)) {
+      return false;
+    }
+
     return this.getIdentifier().equals(other.getIdentifier());
   }
 
   public hashCode(): string {
     return this.getIdentifier().hashCode();
   }
-
-  public abstract getIdentifier(): I;
 }

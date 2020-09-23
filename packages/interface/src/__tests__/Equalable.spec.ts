@@ -1,7 +1,7 @@
 import { Equalable, isEqualable } from '../Equalable';
 
-class MockEqualable implements Equalable<MockEqualable> {
-  public equals(other: MockEqualable): boolean {
+class MockEqualable implements Equalable {
+  public equals(other: unknown): boolean {
     return this === other;
   }
 }

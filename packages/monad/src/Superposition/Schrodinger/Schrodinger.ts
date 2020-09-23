@@ -7,7 +7,7 @@ import { Dead } from './Dead';
 
 type SchrodingerType = 'Alive' | 'Dead' | 'Still' | 'Contradiction';
 
-export interface Schrodinger<A, D extends Error, N extends SchrodingerType = SchrodingerType> extends Nominative<Schrodinger<A, D, N>> {
+export interface Schrodinger<A, D extends Error, N extends SchrodingerType = SchrodingerType> extends Nominative<N> {
   get(): Detoxicated<A>;
 
   isAlive(): this is Alive<A, D>;

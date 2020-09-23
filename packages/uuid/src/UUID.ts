@@ -5,7 +5,7 @@ import { UUIDError } from './Error/UUIDError';
 const chance: Chance.Chance = new Chance();
 const REGEX: RegExp = /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/u;
 
-export class UUID extends ValueObject<UUID, 'UUID'> {
+export class UUID extends ValueObject<'UUID'> {
   public readonly noun: 'UUID' = 'UUID';
   private readonly id: string;
 
@@ -46,9 +46,12 @@ export class UUID extends ValueObject<UUID, 'UUID'> {
     this.id = id;
   }
 
-  public equals(other: UUID): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof UUID)) {
+      return false;
     }
     if (this.id === other.id) {
       return true;

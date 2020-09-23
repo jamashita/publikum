@@ -1,4 +1,5 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
+import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { UnscharferelationError } from '../../Unscharferelation/Error/UnscharferelationError';
 import { Heisenberg } from '../../Unscharferelation/Heisenberg/Heisenberg';
@@ -9,8 +10,34 @@ import { SuperpositionInternal } from '../SuperpositionInternal';
 
 describe('SuperpositionInternal', () => {
   describe('equals', () => {
+    it('returns true if the same instance given', () => {
+      expect.assertions(1);
+
+      const superposition: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
+          chrono.accept(-1);
+        },
+        [MockRuntimeError]
+      );
+
+      expect(superposition.equals(superposition)).toBe(true);
+    });
+
+    it('returns false if the different class instance given', () => {
+      expect.assertions(1);
+
+      const superposition: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
+          chrono.accept(-1);
+        },
+        [MockRuntimeError]
+      );
+
+      expect(superposition.equals(new MockValueObject('mock'))).toBe(false);
+    });
+
     it('returns true if their retaining Schrodingers are the same', () => {
-      expect.assertions(5);
+      expect.assertions(4);
 
       const superposition1: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
         (chrono: Chrono<number, MockRuntimeError>) => {
@@ -43,7 +70,6 @@ describe('SuperpositionInternal', () => {
         [MockRuntimeError]
       );
 
-      expect(superposition1.equals(superposition1)).toBe(true);
       expect(superposition1.equals(superposition2)).toBe(true);
       expect(superposition1.equals(superposition3)).toBe(false);
       expect(superposition1.equals(superposition4)).toBe(false);

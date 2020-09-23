@@ -1,36 +1,42 @@
+import { ReadonlyAddress } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
+import { Mapper } from '@jamashita/publikum-type';
 import { AAddress } from './Abstract/AAddress';
 
-export class MutableAddress<E extends Nominative<E>> extends AAddress<E, 'MutableAddress'> {
+export class MutableAddress<V extends Nominative> extends AAddress<V, 'MutableAddress'> {
   public readonly noun: 'MutableAddress' = 'MutableAddress';
 
-  public static of<ET extends Nominative<ET>>(elements: ReadonlySet<ET>): MutableAddress<ET> {
-    if (elements.size === 0) {
-      return MutableAddress.empty<ET>();
-    }
+  public static of<VT extends Nominative>(elements: ReadonlyAddress<VT>): MutableAddress<VT> {
+    return MutableAddress.of<VT>(elements);
+  }
 
-    const map: Map<string, ET> = new Map<string, ET>();
+  public static ofSet<VT extends Nominative>(elements: ReadonlySet<VT>): MutableAddress<VT> {
+    const map: Map<string, VT> = new Map<string, VT>();
 
-    elements.forEach((e: ET) => {
-      map.set(e.hashCode(), e);
+    elements.forEach((v: VT) => {
+      map.set(v.hashCode(), v);
     });
 
-    return MutableAddress.ofMap<ET>(map);
+    return MutableAddress.ofInternal<VT>(map);
   }
 
-  private static ofMap<ET extends Nominative<ET>>(elements: Map<string, ET>): MutableAddress<ET> {
-    return new MutableAddress<ET>(elements);
+  private static ofInternal<VT extends Nominative>(elements: Map<string, VT>): MutableAddress<VT> {
+    if (elements.size === 0) {
+      return MutableAddress.empty<VT>();
+    }
+
+    return new MutableAddress<VT>(elements);
   }
 
-  public static empty<ET extends Nominative<ET>>(): MutableAddress<ET> {
-    return MutableAddress.ofMap(new Map<string, ET>());
+  public static empty<VT extends Nominative>(): MutableAddress<VT> {
+    return new MutableAddress<VT>(new Map<string, VT>());
   }
 
-  protected constructor(elements: Map<string, E>) {
+  protected constructor(elements: Map<string, V>) {
     super(elements);
   }
 
-  public add(element: E): MutableAddress<E> {
+  public add(element: V): MutableAddress<V> {
     if (this.contains(element)) {
       return this;
     }
@@ -40,7 +46,7 @@ export class MutableAddress<E extends Nominative<E>> extends AAddress<E, 'Mutabl
     return this;
   }
 
-  public remove(element: E): MutableAddress<E> {
+  public remove(element: V): MutableAddress<V> {
     if (this.isEmpty()) {
       return this;
     }
@@ -53,7 +59,19 @@ export class MutableAddress<E extends Nominative<E>> extends AAddress<E, 'Mutabl
     return this;
   }
 
-  public duplicate(): MutableAddress<E> {
-    return MutableAddress.ofMap<E>(new Map<string, E>(this.elements));
+  public map<W extends Nominative>(mapper: Mapper<V, W>): MutableAddress<W> {
+    const map: Map<string, W> = new Map<string, W>();
+    let i: number = 0;
+
+    this.elements.forEach((v: V) => {
+      map.set(v.hashCode(), mapper(v, i));
+      i++;
+    });
+
+    return MutableAddress.ofInternal<W>(map);
+  }
+
+  public duplicate(): MutableAddress<V> {
+    return MutableAddress.ofInternal<V>(new Map<string, V>(this.elements));
   }
 }

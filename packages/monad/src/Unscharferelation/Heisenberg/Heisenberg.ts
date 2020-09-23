@@ -7,7 +7,7 @@ import { Present } from './Present';
 
 type HeisenbergType = 'Present' | 'Absent' | 'Uncertain' | 'Lost';
 
-export interface Heisenberg<P, N extends HeisenbergType = HeisenbergType> extends Nominative<Heisenberg<P, N>> {
+export interface Heisenberg<P, N extends HeisenbergType = HeisenbergType> extends Nominative {
   readonly noun: N;
 
   get(): Matter<P>;

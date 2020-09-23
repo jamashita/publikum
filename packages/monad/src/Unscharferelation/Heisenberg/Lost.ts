@@ -4,7 +4,7 @@ import { Absent } from './Absent';
 import { Heisenberg } from './Heisenberg';
 import { Present } from './Present';
 
-export class Lost<P> extends ValueObject<Lost<P>, 'Lost'> implements Heisenberg<P, 'Lost'> {
+export class Lost<P> extends ValueObject<'Lost'> implements Heisenberg<P, 'Lost'> {
   public readonly noun: 'Lost' = 'Lost';
   private readonly cause: unknown;
 
@@ -49,12 +49,15 @@ export class Lost<P> extends ValueObject<Lost<P>, 'Lost'> implements Heisenberg<
     consumer(this.cause);
   }
 
-  public equals(other: Heisenberg<P>): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }
+    if (other instanceof Lost) {
+      return true;
+    }
 
-    return other.isLost();
+    return false;
   }
 
   public getCause(): unknown {

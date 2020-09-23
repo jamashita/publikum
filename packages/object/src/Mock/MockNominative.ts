@@ -1,7 +1,7 @@
 import { Kind, Primitive } from '@jamashita/publikum-type';
 import { ValueObject } from '../ValueObject';
 
-export class MockNominative<T extends Primitive> extends ValueObject<MockNominative<T>, 'MockNominative'> {
+export class MockNominative<T extends Primitive> extends ValueObject<'MockNominative'> {
   public readonly noun: 'MockNominative' = 'MockNominative';
   private readonly value: T;
 
@@ -10,9 +10,12 @@ export class MockNominative<T extends Primitive> extends ValueObject<MockNominat
     this.value = value;
   }
 
-  public equals(other: MockNominative<T>): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof MockNominative)) {
+      return false;
     }
     if (this.value === other.value) {
       return true;

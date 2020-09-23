@@ -5,8 +5,9 @@ import { Heisenberg } from './Heisenberg';
 import { Lost } from './Lost';
 import { Present } from './Present';
 
-export class Absent<P> extends ValueObject<Absent<P>, 'Absent'> implements Heisenberg<P, 'Absent'> {
+export class Absent<P> extends ValueObject<'Absent'> implements Heisenberg<P, 'Absent'> {
   public readonly noun: 'Absent' = 'Absent';
+
   private static readonly INSTANCE: Absent<unknown> = new Absent<unknown>();
 
   public static of<PT>(): Absent<PT> {
@@ -49,11 +50,14 @@ export class Absent<P> extends ValueObject<Absent<P>, 'Absent'> implements Heise
     // NOOP
   }
 
-  public equals(other: Heisenberg<P>): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }
+    if (other instanceof Absent) {
+      return true;
+    }
 
-    return other.isAbsent();
+    return false;
   }
 }

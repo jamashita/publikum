@@ -1,29 +1,31 @@
+import { ReadonlyProject } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
+import { Mapper } from '@jamashita/publikum-type';
 import { Pair } from '../Pair';
 import { AProject } from './Abstract/AProject';
 
-export class MutableProject<K extends Nominative<K>, V extends Nominative<V>> extends AProject<K, V, 'MutableProject'> {
+export class MutableProject<K extends Nominative, V extends Nominative> extends AProject<K, V, 'MutableProject'> {
   public readonly noun: 'MutableProject' = 'MutableProject';
 
-  public static of<KT extends Nominative<KT>, VT extends Nominative<VT>>(elements: ReadonlyMap<KT, VT>): MutableProject<KT, VT> {
-    if (elements.size === 0) {
-      return MutableProject.empty<KT, VT>();
-    }
+  public static of<KT extends Nominative, VT extends Nominative>(elements: ReadonlyProject<KT, VT>): MutableProject<KT, VT> {
+    return MutableProject.ofMap<KT, VT>(elements.toMap());
+  }
 
+  public static ofMap<KT extends Nominative, VT extends Nominative>(elements: ReadonlyMap<KT, VT>): MutableProject<KT, VT> {
     const map: Map<string, Pair<KT, VT>> = new Map<string, Pair<KT, VT>>();
 
     elements.forEach((v: VT, k: KT) => {
       map.set(k.hashCode(), Pair.of(k, v));
     });
 
-    return MutableProject.ofMap<KT, VT>(map);
+    return MutableProject.ofInternal<KT, VT>(map);
   }
 
-  private static ofMap<KT extends Nominative<KT>, VT extends Nominative<VT>>(elements: Map<string, Pair<KT, VT>>): MutableProject<KT, VT> {
+  private static ofInternal<KT extends Nominative, VT extends Nominative>(elements: Map<string, Pair<KT, VT>>): MutableProject<KT, VT> {
     return new MutableProject<KT, VT>(elements);
   }
 
-  public static empty<KT extends Nominative<KT>, VT extends Nominative<VT>>(): MutableProject<KT, VT> {
+  public static empty<KT extends Nominative, VT extends Nominative>(): MutableProject<KT, VT> {
     return new MutableProject<KT, VT>(new Map<string, Pair<KT, VT>>());
   }
 
@@ -50,7 +52,19 @@ export class MutableProject<K extends Nominative<K>, V extends Nominative<V>> ex
     return this;
   }
 
+  public map<W extends Nominative>(mapper: Mapper<V, W>): MutableProject<K, W> {
+    const project: MutableProject<K, W> = MutableProject.empty<K, W>();
+    let i: number = 0;
+
+    this.elements.forEach((pair: Pair<K, V>) => {
+      project.set(pair.getKey(), mapper(pair.getValue(), i));
+      i++;
+    });
+
+    return project;
+  }
+
   public duplicate(): MutableProject<K, V> {
-    return MutableProject.ofMap<K, V>(new Map<string, Pair<K, V>>(this.elements));
+    return MutableProject.ofInternal<K, V>(new Map<string, Pair<K, V>>(this.elements));
   }
 }

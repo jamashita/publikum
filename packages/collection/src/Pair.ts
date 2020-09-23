@@ -1,7 +1,7 @@
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 
-export class Pair<K, V> extends ValueObject<Pair<K, V>, 'Pair'> {
+export class Pair<K, V> extends ValueObject<'Pair'> {
   public readonly noun: 'Pair' = 'Pair';
   private readonly key: K;
   private readonly value: V;
@@ -16,7 +16,7 @@ export class Pair<K, V> extends ValueObject<Pair<K, V>, 'Pair'> {
     this.value = value;
   }
 
-  public equals(other: Pair<K, V>): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }

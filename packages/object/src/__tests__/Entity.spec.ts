@@ -4,8 +4,28 @@ import { MockValueObject } from '../Mock/MockValueObject';
 
 describe('Entity', () => {
   describe('equals', () => {
+    it('returns true when the same instance given', () => {
+      expect.assertions(1);
+
+      const vo: MockNominative<boolean> = new MockNominative<boolean>(true);
+
+      const entity: MockEntity = new MockEntity(vo, {});
+
+      expect(entity.equals(entity)).toBe(true);
+    });
+
+    it('returns false when the different class instance given', () => {
+      expect.assertions(1);
+
+      const vo: MockNominative<boolean> = new MockNominative<boolean>(true);
+
+      const entity: MockEntity = new MockEntity(vo, {});
+
+      expect(entity.equals(new MockValueObject('mock'))).toBe(false);
+    });
+
     it('returns true when the ids equal', () => {
-      expect.assertions(3);
+      expect.assertions(2);
 
       const vo1: MockNominative<boolean> = new MockNominative<boolean>(true);
       const vo2: MockNominative<boolean> = new MockNominative<boolean>(false);
@@ -15,7 +35,6 @@ describe('Entity', () => {
       const entity2: MockEntity = new MockEntity(vo2, {});
       const entity3: MockEntity = new MockEntity(vo3, {});
 
-      expect(entity1.equals(entity1)).toBe(true);
       expect(entity1.equals(entity2)).toBe(false);
       expect(entity1.equals(entity3)).toBe(true);
     });

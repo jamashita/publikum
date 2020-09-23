@@ -7,7 +7,7 @@ import { Detoxicated } from '../Interface/Detoxicated';
 import { ISuperposition } from '../Interface/ISuperposition';
 import { Schrodinger } from '../Schrodinger/Schrodinger';
 
-export class MockSuperposition<A, D extends Error> extends ValueObject<MockSuperposition<A, D>, 'MockSuperposition'> implements ISuperposition<A, D, 'MockSuperposition'> {
+export class MockSuperposition<A, D extends Error> extends ValueObject<'MockSuperposition'> implements ISuperposition<A, D, 'MockSuperposition'> {
   public readonly noun: 'MockSuperposition' = 'MockSuperposition';
 
   public constructor() {

@@ -1,12 +1,11 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Ambiguous, BinaryPredicate, Kind, Nullable, Peek } from '@jamashita/publikum-type';
+import { Ambiguous, BinaryPredicate, Kind, Mapper, Nullable, Peek } from '@jamashita/publikum-type';
 import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Project } from '../Interface/Project';
 
-export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>, N extends string = string> extends Quantity<AProject<K, V, N>, K, V, N>
-  implements Project<K, V, N> {
+export abstract class AProject<K extends Nominative, V extends Nominative, N extends string = string> extends Quantity<K, V, N> implements Project<K, V, N> {
   public abstract readonly noun: N;
   protected readonly elements: Map<string, Pair<K, V>>;
 
@@ -15,15 +14,17 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
     this.elements = elements;
   }
 
-  public [Symbol.iterator](): Iterator<Pair<K, V>> {
-    return this.elements.values();
-  }
+  public abstract duplicate(): Project<K, V, N>;
 
   public abstract set(key: K, value: V): Project<K, V, N>;
 
   public abstract remove(key: K): Project<K, V, N>;
 
-  public abstract duplicate(): Project<K, V, N>;
+  public abstract map<W extends Nominative>(mapper: Mapper<V, W>): Project<K, W>;
+
+  public [Symbol.iterator](): Iterator<Pair<K, V>> {
+    return this.elements.values();
+  }
 
   public get(key: K): Nullable<V> {
     const element: Ambiguous<Pair<K, V>> = this.elements.get(key.hashCode());
@@ -97,16 +98,19 @@ export abstract class AProject<K extends Nominative<K>, V extends Nominative<V>,
     return false;
   }
 
-  public equals(other: Project<K, V, N>): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
+    }
+    if (!(other instanceof AProject)) {
+      return false;
     }
     if (this.size() !== other.size()) {
       return false;
     }
 
     return this.every((value: V, key: K) => {
-      const v: Nullable<V> = other.get(key);
+      const v: Nullable<unknown> = other.get(key);
 
       if (!Kind.isNull(v)) {
         if (value.equals(v)) {

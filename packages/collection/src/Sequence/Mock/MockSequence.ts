@@ -2,34 +2,34 @@ import { UnimplementedError } from '@jamashita/publikum-error';
 import { Nominative } from '@jamashita/publikum-interface';
 import { ASequence } from '../Abstract/ASequence';
 
-export class MockSequence<E extends Nominative<E>> extends ASequence<E, 'MockSequence'> {
+export class MockSequence<V extends Nominative> extends ASequence<V, 'MockSequence'> {
   public readonly noun: 'MockSequence' = 'MockSequence';
 
-  public constructor(elements: Array<E>) {
+  public constructor(elements: Array<V>) {
     super(elements);
   }
 
-  public add(): MockSequence<E> {
+  public add(): MockSequence<V> {
     throw new UnimplementedError();
   }
 
-  public remove(): MockSequence<E> {
+  public remove(): MockSequence<V> {
     throw new UnimplementedError();
   }
 
-  public set(): MockSequence<E> {
+  public set(): MockSequence<V> {
     throw new UnimplementedError();
   }
 
-  public map<F extends Nominative<F>>(): MockSequence<F> {
+  public map<W extends Nominative>(): MockSequence<W> {
     throw new UnimplementedError();
   }
 
-  public filter(): MockSequence<E> {
+  public filter(): MockSequence<V> {
     throw new UnimplementedError();
   }
 
-  public duplicate(): MockSequence<E> {
+  public duplicate(): MockSequence<V> {
     throw new UnimplementedError();
   }
 }

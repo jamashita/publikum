@@ -1,73 +1,78 @@
-import { AnonymousNominative, Nominative } from '@jamashita/publikum-interface';
+import { ReadonlySequence } from '@jamashita/publikum-collection';
+import { Nominative } from '@jamashita/publikum-interface';
 import { Enumerator, Mapper } from '@jamashita/publikum-type';
 import { ASequence } from './Abstract/ASequence';
 
-export class ImmutableSequence<E extends Nominative<E>> extends ASequence<E, 'ImmutableSequence'> {
+export class ImmutableSequence<V extends Nominative> extends ASequence<V, 'ImmutableSequence'> {
   public readonly noun: 'ImmutableSequence' = 'ImmutableSequence';
 
-  private static readonly EMPTY: ImmutableSequence<AnonymousNominative> = new ImmutableSequence<AnonymousNominative>([]);
+  private static readonly EMPTY: ImmutableSequence<Nominative> = new ImmutableSequence<Nominative>([]);
 
-  public static of<ET extends Nominative<ET>>(elements: ReadonlyArray<ET>): ImmutableSequence<ET> {
+  public static of<VT extends Nominative>(elements: ReadonlySequence<VT>): ImmutableSequence<VT> {
+    return ImmutableSequence.ofArray<VT>(elements.toArray());
+  }
+
+  public static ofArray<VT extends Nominative>(elements: ReadonlyArray<VT>): ImmutableSequence<VT> {
     if (elements.length === 0) {
-      return ImmutableSequence.empty<ET>();
+      return ImmutableSequence.empty<VT>();
     }
 
-    return new ImmutableSequence<ET>([...elements]);
+    return new ImmutableSequence<VT>([...elements]);
   }
 
-  public static empty<ET extends Nominative<ET>>(): ImmutableSequence<ET> {
-    return ImmutableSequence.EMPTY as ImmutableSequence<ET>;
+  public static empty<VT extends Nominative>(): ImmutableSequence<VT> {
+    return ImmutableSequence.EMPTY as ImmutableSequence<VT>;
   }
 
-  protected constructor(elements: Array<E>) {
+  protected constructor(elements: Array<V>) {
     super(elements);
   }
 
-  public set(index: number, element: E): ImmutableSequence<E> {
-    if (index >= this.elements.length) {
+  public set(key: number, value: V): ImmutableSequence<V> {
+    if (key >= this.elements.length) {
       return this;
     }
 
-    const elements: Array<E> = [...this.elements.slice(0, index), element, ...this.elements.slice(index + 1)];
+    const elements: Array<V> = [...this.elements.slice(0, key), value, ...this.elements.slice(key + 1)];
 
-    return ImmutableSequence.of<E>(elements);
+    return ImmutableSequence.ofArray<V>(elements);
   }
 
-  public remove(index: number): ImmutableSequence<E> {
-    if (index >= this.elements.length) {
+  public remove(key: number): ImmutableSequence<V> {
+    if (key >= this.elements.length) {
       return this;
     }
 
-    const elements: Array<E> = [...this.elements.slice(0, index), ...this.elements.slice(index + 1)];
+    const elements: Array<V> = [...this.elements.slice(0, key), ...this.elements.slice(key + 1)];
 
-    return ImmutableSequence.of<E>(elements);
+    return ImmutableSequence.ofArray<V>(elements);
   }
 
-  public add(element: E): ImmutableSequence<E> {
-    return ImmutableSequence.of<E>([...this.elements, element]);
+  public add(value: V): ImmutableSequence<V> {
+    return ImmutableSequence.ofArray<V>([...this.elements, value]);
   }
 
   public isEmpty(): boolean {
-    if (this === ImmutableSequence.empty<E>()) {
+    if (this === ImmutableSequence.empty<V>()) {
       return true;
     }
 
     return super.isEmpty();
   }
 
-  public map<F extends Nominative<F>>(mapper: Mapper<E, F>): ImmutableSequence<F> {
-    return ImmutableSequence.of<F>(this.elements.map<F>(mapper));
+  public map<W extends Nominative>(mapper: Mapper<V, W>): ImmutableSequence<W> {
+    return ImmutableSequence.ofArray<W>(this.elements.map<W>(mapper));
   }
 
-  public filter(iterator: Enumerator<number, E>): ImmutableSequence<E> {
-    return ImmutableSequence.of<E>(this.elements.filter(iterator));
+  public filter(iterator: Enumerator<number, V>): ImmutableSequence<V> {
+    return ImmutableSequence.ofArray<V>(this.elements.filter(iterator));
   }
 
-  public duplicate(): ImmutableSequence<E> {
+  public duplicate(): ImmutableSequence<V> {
     if (this.isEmpty()) {
-      return ImmutableSequence.empty<E>();
+      return ImmutableSequence.empty<V>();
     }
 
-    return ImmutableSequence.of<E>([...this.elements]);
+    return ImmutableSequence.ofArray<V>([...this.elements]);
   }
 }

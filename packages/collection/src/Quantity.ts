@@ -4,8 +4,7 @@ import { CancellableEnumerator } from './Interface/CancellableEnumerator';
 import { Collection } from './Interface/Collection';
 import { Pair } from './Pair';
 
-export abstract class Quantity<T extends Quantity<T, K, V, N>, K, V, N extends string = string> extends Objet<T, N>
-  implements Collection<T, K, V, N> {
+export abstract class Quantity<K, V, N extends string = string> extends Objet<N> implements Collection<K, V, N> {
   protected constructor() {
     super();
   }

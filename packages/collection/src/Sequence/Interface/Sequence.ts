@@ -1,16 +1,10 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Enumerator, Mapper } from '@jamashita/publikum-type';
 import { ReadonlySequence } from './ReadonlySequence';
 
-export interface Sequence<E extends Nominative<E>, N extends string = string>
-  extends ReadonlySequence<Sequence<E, N>, E, N> {
-  add(element: E): Sequence<E, N>;
+export interface Sequence<V extends Nominative, N extends string = string> extends ReadonlySequence<V, N> {
+  add(value: V): Sequence<V>;
 
-  set(index: number, element: E): Sequence<E>;
+  set(key: number, value: V): Sequence<V>;
 
-  remove(index: number): Sequence<E>;
-
-  map<F extends Nominative<F>>(mapper: Mapper<E, F>): Sequence<F, N>;
-
-  filter(iterator: Enumerator<number, E>): Sequence<E, N>;
+  remove(key: number): Sequence<V>;
 }

@@ -4,7 +4,7 @@ import { Alive } from './Alive';
 import { Contradiction } from './Contradiction';
 import { Schrodinger } from './Schrodinger';
 
-export class Dead<A, D extends Error> extends ValueObject<Dead<A, D>, 'Dead'> implements Schrodinger<A, D, 'Dead'> {
+export class Dead<A, D extends Error> extends ValueObject<'Dead'> implements Schrodinger<A, D, 'Dead'> {
   public readonly noun: 'Dead' = 'Dead';
   private readonly error: D;
 
@@ -50,14 +50,14 @@ export class Dead<A, D extends Error> extends ValueObject<Dead<A, D>, 'Dead'> im
     // NOOP
   }
 
-  public equals(other: Schrodinger<A, D>): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }
-    if (!other.isDead()) {
+    if (!(other instanceof Dead)) {
       return false;
     }
-    if (this.error.name === other.error.name) {
+    if (this.error === other.error) {
       return true;
     }
 

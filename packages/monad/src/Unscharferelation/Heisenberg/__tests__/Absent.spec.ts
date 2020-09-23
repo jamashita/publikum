@@ -1,4 +1,5 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
+import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { UnscharferelationError } from '../../Error/UnscharferelationError';
 import { Absent } from '../Absent';
@@ -66,9 +67,8 @@ describe('Absent', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const absent: Absent<number> = Absent.of<number>();
+      const absent: Heisenberg<number> = Absent.of<number>();
 
-      // @ts-expect-error
       absent.ifPresent(() => {
         spy();
       });
@@ -83,7 +83,7 @@ describe('Absent', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const absent: Absent<number> = Absent.of<number>();
+      const absent: Heisenberg<number> = Absent.of<number>();
 
       absent.ifAbsent(() => {
         spy();
@@ -99,9 +99,8 @@ describe('Absent', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const absent: Absent<number> = Absent.of<number>();
+      const absent: Heisenberg<number> = Absent.of<number>();
 
-      // @ts-expect-error
       absent.ifLost(() => {
         spy();
       });
@@ -111,8 +110,24 @@ describe('Absent', () => {
   });
 
   describe('equals', () => {
+    it('returns true if the same instance given', () => {
+      expect.assertions(1);
+
+      const heisenberg: Heisenberg<number> = Absent.of<number>();
+
+      expect(heisenberg.equals(heisenberg)).toBe(true);
+    });
+
+    it('returns false if the different class instance given', () => {
+      expect.assertions(1);
+
+      const heisenberg: Heisenberg<number> = Absent.of<number>();
+
+      expect(heisenberg.equals(new MockValueObject('mock'))).toBe(false);
+    });
+
     it('returns true if Absent given', () => {
-      expect.assertions(5);
+      expect.assertions(4);
 
       const present: Present<number> = Present.of<number>(2);
       const absent: Absent<number> = Absent.of<number>();
@@ -121,7 +136,6 @@ describe('Absent', () => {
 
       const heisenberg: Heisenberg<number> = Absent.of<number>();
 
-      expect(heisenberg.equals(heisenberg)).toBe(true);
       expect(heisenberg.equals(present)).toBe(false);
       expect(heisenberg.equals(absent)).toBe(true);
       expect(heisenberg.equals(lost)).toBe(false);

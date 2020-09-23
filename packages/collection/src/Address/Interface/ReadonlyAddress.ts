@@ -1,12 +1,11 @@
-import { Cloneable, Nominative } from '@jamashita/publikum-interface';
-import { Nullable, Predicate } from '@jamashita/publikum-type';
+import { Nominative } from '@jamashita/publikum-interface';
+import { Mapper, Nullable, Predicate } from '@jamashita/publikum-type';
 import { Collection } from '../../Interface/Collection';
 
-export interface ReadonlyAddress<T extends ReadonlyAddress<T, E, N>, E extends Nominative<E>, N extends string = string>
-  extends Collection<T, void, E, N>,
-    Cloneable<T>,
-    Nominative<T, N> {
-  find(predicate: Predicate<E>): Nullable<E>;
+export interface ReadonlyAddress<V extends Nominative, N extends string = string> extends Collection<void, V, N> {
+  find(predicate: Predicate<V>): Nullable<V>;
 
-  toSet(): Set<E>;
+  map<W extends Nominative>(mapper: Mapper<V, W>): ReadonlyAddress<W>;
+
+  toSet(): Set<V>;
 }
