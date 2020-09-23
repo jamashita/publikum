@@ -11,7 +11,14 @@ export abstract class Entity<T extends Entity<T, I, N>, I extends Nominative<N>,
 
   public abstract serialize(): string;
 
-  public equals(other: Entity<T, I>): boolean {
+  public equals(other: unknown): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!(other instanceof Entity)) {
+      return false;
+    }
+
     return this.getIdentifier().equals(other.getIdentifier());
   }
 
