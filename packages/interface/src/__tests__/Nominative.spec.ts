@@ -3,7 +3,7 @@ import { isNominative, Nominative } from '../Nominative';
 class MockNominative implements Nominative<'mock'> {
   public readonly noun: 'mock' = 'mock';
 
-  public equals(other: MockNominative): boolean {
+  public equals(other: unknown): boolean {
     return this === other;
   }
 

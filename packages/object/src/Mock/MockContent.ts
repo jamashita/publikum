@@ -9,7 +9,7 @@ export class MockContent<C> extends ValueObject<'MockContent'> {
     this.content = content;
   }
 
-  public equals(other: MockContent<C>): boolean {
+  public equals(other: unknown): boolean {
     return this === other;
   }
 
