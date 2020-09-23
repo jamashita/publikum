@@ -147,22 +147,19 @@ Class for random string, random number.
 ### TODO
 * [ ] `indexDB` repository implementation
 * [ ] implementing cancelable iterator class.
-* [ ] `map()` for collections
+* [x] `map()` for collections
 * [ ] utility class for Promise collection manipulation
     * Unscharfeleration
         * [ ] `sequence<P>(arr: Array<Promise<P>>): Promise<Array<P>>;`
     * Superposition
         * [ ] `sequence<A, D>(arr: Array<Promise<A>>): Promise<Array<Schrodinger<A, D>>>;`
-    * Collection
-        * Sequence
-            * [ ] `ofIterable`
-            * [ ] `ofSequence`
-        * Project
-            * [ ] `ofIterable`
-            * [ ] `ofProject`
-        * Address
-            * [ ] `ofIterable`
-            * [ ] `ofAddress`
+* [x] Collection factory
+    * Sequence
+        * [x] `ofSequence`
+    * Project
+        * [x] `ofProject`
+    * Address
+        * [x] `ofAddress`
 
 ## Conventional commit
 
