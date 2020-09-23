@@ -1,5 +1,5 @@
 import { isEqualable } from '@jamashita/publikum-interface';
-import { Objet, ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/publikum-object';
 import { Consumer, Kind } from '@jamashita/publikum-type';
 import { Matter } from '../Interface/Matter';
 import { Absent } from './Absent';
@@ -51,7 +51,7 @@ export class Present<P> extends ValueObject<'Present'> implements Heisenberg<P, 
     // NOOP
   }
 
-  public equals(other: Objet): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }

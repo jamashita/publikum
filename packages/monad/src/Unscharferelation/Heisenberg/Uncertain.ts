@@ -1,4 +1,4 @@
-import { Objet, ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/publikum-object';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Absent } from './Absent';
 import { Heisenberg } from './Heisenberg';
@@ -50,7 +50,7 @@ export class Uncertain<P> extends ValueObject<'Uncertain'> implements Heisenberg
     // NOOP
   }
 
-  public equals(other: Objet): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }

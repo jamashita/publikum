@@ -166,7 +166,7 @@ export class Unscharferelation<P> extends Objet<'Unscharferelation'> implements 
     this.internal = internal;
   }
 
-  public equals(other: Objet): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }

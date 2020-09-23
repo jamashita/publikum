@@ -50,7 +50,7 @@ export class Absent<P> extends ValueObject<'Absent'> implements Heisenberg<P, 'A
     // NOOP
   }
 
-  public equals(other: ValueObject): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }

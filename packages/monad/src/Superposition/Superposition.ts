@@ -196,7 +196,7 @@ export class Superposition<A, D extends Error> extends Objet<'Superposition'> im
     this.internal = internal;
   }
 
-  public equals(other: Objet): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }

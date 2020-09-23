@@ -49,7 +49,7 @@ export class Lost<P> extends ValueObject<'Lost'> implements Heisenberg<P, 'Lost'
     consumer(this.cause);
   }
 
-  public equals(other: Heisenberg<P>): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }

@@ -44,7 +44,7 @@ export class SuperpositionInternal<A, D extends Error> extends Objet<'Superposit
     func(this);
   }
 
-  public equals(other: Objet): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }

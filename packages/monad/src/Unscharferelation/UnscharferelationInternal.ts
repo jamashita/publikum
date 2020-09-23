@@ -51,7 +51,7 @@ export class UnscharferelationInternal<P> extends Objet<'UnscharferelationIntern
     func(this);
   }
 
-  public equals(other: Objet): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }

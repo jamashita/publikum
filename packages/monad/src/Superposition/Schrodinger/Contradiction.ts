@@ -1,4 +1,4 @@
-import { Objet, ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/publikum-object';
 import { Consumer, Kind } from '@jamashita/publikum-type';
 import { Alive } from './Alive';
 import { Dead } from './Dead';
@@ -49,7 +49,7 @@ export class Contradiction<A, D extends Error> extends ValueObject<'Contradictio
     consumer(this.cause);
   }
 
-  public equals(other: Objet): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }

@@ -50,7 +50,7 @@ export class Still<A, D extends Error> extends ValueObject<'Still'> implements S
     // NOOP
   }
 
-  public equals(other: Schrodinger<A, D>): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }

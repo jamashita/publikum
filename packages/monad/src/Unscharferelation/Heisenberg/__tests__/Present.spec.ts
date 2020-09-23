@@ -8,14 +8,21 @@ import { Lost } from '../Lost';
 import { Present } from '../Present';
 import { Uncertain } from '../Uncertain';
 
-class TestEqualable implements Equalable<TestEqualable> {
+class TestEqualable implements Equalable {
   private readonly eq: boolean;
 
   public constructor(eq: boolean) {
     this.eq = eq;
   }
 
-  public equals(other: TestEqualable): boolean {
+  public equals(other: unknown): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!(other instanceof TestEqualable)) {
+      return false;
+    }
+
     return this.eq === other.eq;
   }
 }

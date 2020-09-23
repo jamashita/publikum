@@ -1,4 +1,4 @@
-import { Objet, ValueObject } from '@jamashita/publikum-object';
+import { ValueObject } from '@jamashita/publikum-object';
 import { Consumer, Kind } from '@jamashita/publikum-type';
 import { Alive } from './Alive';
 import { Contradiction } from './Contradiction';
@@ -50,7 +50,7 @@ export class Dead<A, D extends Error> extends ValueObject<'Dead'> implements Sch
     // NOOP
   }
 
-  public equals(other: Objet): boolean {
+  public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }
