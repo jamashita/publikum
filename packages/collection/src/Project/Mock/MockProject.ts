@@ -1,4 +1,3 @@
-import { ReadonlyProject } from '@jamashita/publikum-collection';
 import { UnimplementedError } from '@jamashita/publikum-error';
 import { Nominative } from '@jamashita/publikum-interface';
 import { Pair } from '../../Pair';
@@ -29,7 +28,7 @@ export class MockProject<K extends Nominative, V extends Nominative> extends APr
     throw new UnimplementedError();
   }
 
-  public map<W extends Nominative>(): ReadonlyProject<K, W> {
+  public map<W extends Nominative>(): MockProject<K, W> {
     throw new UnimplementedError();
   }
 
