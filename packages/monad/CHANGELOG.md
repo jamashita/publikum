@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.14.0](https://github.com/jamashita/publikum/compare/v2.11.4...v2.14.0) (2020-09-23)
+
+
+### Features
+
+* 🎸 Heisenberg equals imporovement ([bb1bf4b](https://github.com/jamashita/publikum/commit/bb1bf4b4304be5d138c487bb6dbfd2ade355b5cb))
+
+
+
+
+
 ## [2.11.4](https://github.com/jamashita/publikum/compare/v2.11.3...v2.11.4) (2020-09-20)
 
 **Note:** Version bump only for package @jamashita/publikum-monad

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.14.0](https://github.com/jamashita/publikum/compare/v2.11.4...v2.14.0) (2020-09-23)
+
+
+### Features
+
+* 🎸 equals() update ([8ecdde0](https://github.com/jamashita/publikum/commit/8ecdde0d52998364e7c42ebe6f5ceb88ecbd9ec2))
+
+
+
+
+
 ## [2.11.4](https://github.com/jamashita/publikum/compare/v2.11.3...v2.11.4) (2020-09-20)
 
 **Note:** Version bump only for package @jamashita/publikum-uuid
