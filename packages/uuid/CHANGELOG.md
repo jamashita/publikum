@@ -1,24 +1,18 @@
-# @jamashita/publikum-uuid 1.0.0 (2020-09-23)
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [2.13.6](https://github.com/jamashita/publikum/compare/v2.11.4...v2.13.6) (2020-09-23)
 
 
 ### Features
 
 * 🎸 equals() update ([8ecdde0](https://github.com/jamashita/publikum/commit/8ecdde0d52998364e7c42ebe6f5ceb88ecbd9ec2))
-* 🎸 remove unnecessary modile resolution export ([ea89500](https://github.com/jamashita/publikum/commit/ea89500cfcef3aa2f34eea7558a3f05901bdd55e))
 
 
 
 
-
-### Dependencies
-
-* **@jamashita/publikum-error:** upgraded to 1.0.0
-* **@jamashita/publikum-object:** upgraded to 1.0.0
-
-# Change Log
-
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 ## [2.11.4](https://github.com/jamashita/publikum/compare/v2.11.3...v2.11.4) (2020-09-20)
 

@@ -1,23 +1,18 @@
-# @jamashita/publikum-interface 1.0.0 (2020-09-23)
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [2.13.6](https://github.com/jamashita/publikum/compare/v2.11.4...v2.13.6) (2020-09-23)
 
 
 ### Features
 
 * 🎸 new Nominative ([caa9fc8](https://github.com/jamashita/publikum/commit/caa9fc890b4b5ed183296d648c57dff2fc505ceb))
-* 🎸 remove unnecessary modile resolution export ([ea89500](https://github.com/jamashita/publikum/commit/ea89500cfcef3aa2f34eea7558a3f05901bdd55e))
 
 
 
 
-
-### Dependencies
-
-* **@jamashita/publikum-type:** upgraded to 1.0.0
-
-# Change Log
-
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 ## [2.11.4](https://github.com/jamashita/publikum/compare/v2.11.3...v2.11.4) (2020-09-20)
 

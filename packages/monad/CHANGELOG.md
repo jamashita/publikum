@@ -1,26 +1,18 @@
-# @jamashita/publikum-monad 1.0.0 (2020-09-23)
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [2.13.6](https://github.com/jamashita/publikum/compare/v2.11.4...v2.13.6) (2020-09-23)
 
 
 ### Features
 
 * 🎸 Heisenberg equals imporovement ([bb1bf4b](https://github.com/jamashita/publikum/commit/bb1bf4b4304be5d138c487bb6dbfd2ade355b5cb))
-* 🎸 remove unnecessary modile resolution export ([ea89500](https://github.com/jamashita/publikum/commit/ea89500cfcef3aa2f34eea7558a3f05901bdd55e))
 
 
 
 
-
-### Dependencies
-
-* **@jamashita/publikum-error:** upgraded to 1.0.0
-* **@jamashita/publikum-interface:** upgraded to 1.0.0
-* **@jamashita/publikum-object:** upgraded to 1.0.0
-* **@jamashita/publikum-type:** upgraded to 1.0.0
-
-# Change Log
-
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 ## [2.11.4](https://github.com/jamashita/publikum/compare/v2.11.3...v2.11.4) (2020-09-20)
 
