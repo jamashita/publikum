@@ -2,7 +2,7 @@ import { AnonymousNominative, Nominative } from '@jamashita/publikum-interface';
 import { Pair } from '../Pair';
 import { AProject } from './Abstract/AProject';
 
-export class ImmutableProject<K extends Nominative<K>, V extends Nominative<V>> extends AProject<K, V, 'ImmutableProject'> {
+export class ImmutableProject<K extends Nominative, V extends Nominative> extends AProject<K, V, 'ImmutableProject'> {
   public readonly noun: 'ImmutableProject' = 'ImmutableProject';
 
   private static readonly EMPTY: ImmutableProject<AnonymousNominative, AnonymousNominative> = new ImmutableProject<AnonymousNominative,

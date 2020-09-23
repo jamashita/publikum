@@ -1,57 +1,62 @@
+import { ReadonlySequence } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { Enumerator, Mapper } from '@jamashita/publikum-type';
 import { ASequence } from './Abstract/ASequence';
 
-export class MutableSequence<E extends Nominative<E>> extends ASequence<E, 'MutableSequence'> {
+export class MutableSequence<V extends Nominative> extends ASequence<V, 'MutableSequence'> {
   public readonly noun: 'MutableSequence' = 'MutableSequence';
 
-  public static of<ET extends Nominative<ET>>(elements: ReadonlyArray<ET>): MutableSequence<ET> {
-    return new MutableSequence<ET>([...elements]);
+  public static of<VT extends Nominative>(elements: ReadonlySequence<VT>): MutableSequence<VT> {
+    return MutableSequence.ofArray<VT>(elements.toArray());
   }
 
-  public static empty<ET extends Nominative<ET>>(): MutableSequence<ET> {
-    return MutableSequence.of<ET>([]);
+  public static ofArray<VT extends Nominative>(elements: ReadonlyArray<VT>): MutableSequence<VT> {
+    return new MutableSequence<VT>([...elements]);
   }
 
-  protected constructor(elements: Array<E>) {
+  public static empty<VT extends Nominative>(): MutableSequence<VT> {
+    return MutableSequence.ofArray<VT>([]);
+  }
+
+  protected constructor(elements: Array<V>) {
     super(elements);
   }
 
-  public set(index: number, element: E): MutableSequence<E> {
-    if (index >= this.elements.length) {
+  public set(key: number, value: V): MutableSequence<V> {
+    if (key >= this.elements.length) {
       return this;
     }
 
-    this.elements = [...this.elements.slice(0, index), element, ...this.elements.slice(index + 1)];
+    this.elements = [...this.elements.slice(0, key), value, ...this.elements.slice(key + 1)];
 
     return this;
   }
 
-  public remove(index: number): MutableSequence<E> {
-    if (index >= this.elements.length) {
+  public remove(key: number): MutableSequence<V> {
+    if (key >= this.elements.length) {
       return this;
     }
 
-    this.elements = [...this.elements.slice(0, index), ...this.elements.slice(index + 1)];
+    this.elements = [...this.elements.slice(0, key), ...this.elements.slice(key + 1)];
 
     return this;
   }
 
-  public add(element: E): MutableSequence<E> {
-    this.elements.push(element);
+  public add(value: V): MutableSequence<V> {
+    this.elements.push(value);
 
     return this;
   }
 
-  public map<F extends Nominative<F>>(mapper: Mapper<E, F>): MutableSequence<F> {
-    return MutableSequence.of<F>(this.elements.map<F>(mapper));
+  public map<W extends Nominative>(mapper: Mapper<V, W>): MutableSequence<W> {
+    return MutableSequence.ofArray<W>(this.elements.map<W>(mapper));
   }
 
-  public filter(iterator: Enumerator<number, E>): MutableSequence<E> {
-    return MutableSequence.of<E>(this.elements.filter(iterator));
+  public filter(iterator: Enumerator<number, V>): MutableSequence<V> {
+    return MutableSequence.ofArray<V>(this.elements.filter(iterator));
   }
 
-  public duplicate(): MutableSequence<E> {
-    return MutableSequence.of<E>([...this.elements]);
+  public duplicate(): MutableSequence<V> {
+    return MutableSequence.ofArray<V>([...this.elements]);
   }
 }
