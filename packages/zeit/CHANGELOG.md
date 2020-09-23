@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.14.0](https://github.com/jamashita/publikum/compare/v2.11.4...v2.14.0) (2020-09-23)
+
+
+### Features
+
+* 🎸 new nominative adopted ([89ea9ce](https://github.com/jamashita/publikum/commit/89ea9ce6741355bb61b919dbb629c6938b8c8e56))
+
+
+
+
+
 ## [2.11.4](https://github.com/jamashita/publikum/compare/v2.11.3...v2.11.4) (2020-09-20)
 
 **Note:** Version bump only for package @jamashita/publikum-zeit

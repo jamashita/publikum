@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.14.0](https://github.com/jamashita/publikum/compare/v2.11.4...v2.14.0) (2020-09-23)
+
+
+### Features
+
+* 🎸 collection update ([daae4ed](https://github.com/jamashita/publikum/commit/daae4ed159eaf0f8cafe31853805798fae7dc3aa))
+* 🎸 visibility changed , abstract classes invisible now ([def916c](https://github.com/jamashita/publikum/commit/def916c5749c7c4c5a7863d7a959b047c1638742))
+
+
+
+
+
 ## [2.11.4](https://github.com/jamashita/publikum/compare/v2.11.3...v2.11.4) (2020-09-20)
 
 **Note:** Version bump only for package @jamashita/publikum-collection
