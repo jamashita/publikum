@@ -1,3 +1,26 @@
+# @jamashita/publikum-object 1.0.0 (2020-09-23)
+
+
+### Features
+
+* 🎸 new Nominative ([caa9fc8](https://github.com/jamashita/publikum/commit/caa9fc890b4b5ed183296d648c57dff2fc505ceb))
+* 🎸 remove unnecessary modile resolution export ([ea89500](https://github.com/jamashita/publikum/commit/ea89500cfcef3aa2f34eea7558a3f05901bdd55e))
+
+
+### Performance Improvements
+
+* ⚡️ mock data update ([fadf9ee](https://github.com/jamashita/publikum/commit/fadf9eedc03f97ad887f4ff893b3c1e1a4325840))
+
+
+
+
+
+### Dependencies
+
+* **@jamashita/publikum-error:** upgraded to 1.0.0
+* **@jamashita/publikum-interface:** upgraded to 1.0.0
+* **@jamashita/publikum-type:** upgraded to 1.0.0
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
