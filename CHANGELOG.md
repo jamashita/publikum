@@ -1,14 +1,15 @@
-## [2.14.2](https://github.com/jamashita/publikum/compare/v2.14.1...v2.14.2) (2020-09-26)
-
-
-### Bug Fixes
-
-* 🐛 both outout ([ba8c6c2](https://github.com/jamashita/publikum/commit/ba8c6c2e4a8f451eb17b177169c2fea951c21f3f))
-
 # Change Log
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+
+
+**Note:** Version bump only for package @jamashita/publikum
+
+
+
+
 
 ## [2.14.1](https://github.com/jamashita/publikum/compare/v2.14.0...v2.14.1) (2020-09-23)
 
