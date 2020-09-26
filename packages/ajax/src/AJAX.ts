@@ -81,7 +81,7 @@ export class AJAX<T extends AJAXResponseType> implements IAJAX<T> {
     };
   }
 
-  private stringify(payload?: ObjectLiteral): Promise<string | void> {
+  private stringify(payload?: ObjectLiteral): Promise<Omittable<string>> {
     if (Kind.isUndefined(payload)) {
       return Promise.resolve();
     }
