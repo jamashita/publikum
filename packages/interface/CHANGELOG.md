@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.3](https://github.com/jamashita/publikum/compare/v2.14.2...v2.14.3) (2020-09-26)
+
+**Note:** Version bump only for package @jamashita/publikum-interface
+
+
+
+
+
 
 
 **Note:** Version bump only for package @jamashita/publikum-interface
