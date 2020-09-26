@@ -1,5 +1,5 @@
 {
-  "branches": "release/*",
+  "branches": "release",
   "repositoryUrl": "https://github.com/jamashita/publikum",
   "plugins": [
     "@semantic-release/commit-analyzer",
