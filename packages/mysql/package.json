@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-mysql",
-  "version": "2.14.0",
+  "version": "2.14.1",
   "private": false,
   "repository": {
     "type": "git",
@@ -11,11 +11,13 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "require": "./dist/cjs/index.js"
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js"
     }
   },
   "main": "./dist/cjs/index.js",
-  "types": "./dist/cjs/index.d.ts",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
   "files": [
     "dist",
     "src"
@@ -23,6 +25,7 @@
   "scripts": {
     "build": "yarn clean && concurrently \"npm:build:*\"",
     "build:cjs": "tsc -b tsconfig.cjs.json ../error/tsconfig.cjs.json ../interface/tsconfig.cjs.json ../type/tsconfig.cjs.json",
+    "build:esm": "tsc -b tsconfig.esm.json ../error/tsconfig.esm.json ../interface/tsconfig.esm.json ../type/tsconfig.esm.json",
     "clean": "rimraf dist && rimraf coverage",
     "test": "jest test --detectOpenHandles --passWithNoTests",
     "update": "yarn update:upgrade && yarn update:install",
@@ -30,9 +33,9 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^2.14.0",
-    "@jamashita/publikum-interface": "^2.14.0",
-    "@jamashita/publikum-type": "^2.14.0",
+    "@jamashita/publikum-error": "^2.14.1",
+    "@jamashita/publikum-interface": "^2.14.1",
+    "@jamashita/publikum-type": "^2.14.1",
     "mysql": "2.18.1"
   },
   "engines": {

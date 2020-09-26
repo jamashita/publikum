@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-ajax",
-  "version": "2.14.0",
+  "version": "2.14.1",
   "private": false,
   "repository": {
     "type": "git",
@@ -11,9 +11,11 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "require": "./dist/cjs/index.js",
       "import": "./dist/esm/index.js"
     }
   },
+  "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
   "files": [
@@ -22,6 +24,7 @@
   ],
   "scripts": {
     "build": "yarn clean && concurrently \"npm:build:*\"",
+    "build:cjs": "tsc -b tsconfig.cjs.json ../error/tsconfig.cjs.json ../type/tsconfig.cjs.json",
     "build:esm": "tsc -b tsconfig.esm.json ../error/tsconfig.esm.json ../type/tsconfig.esm.json",
     "clean": "rimraf dist && rimraf coverage",
     "test": "jest test --detectOpenHandles --passWithNoTests",
@@ -30,9 +33,9 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^2.14.0",
-    "@jamashita/publikum-json": "^2.14.0",
-    "@jamashita/publikum-type": "^2.14.0",
+    "@jamashita/publikum-error": "^2.14.1",
+    "@jamashita/publikum-json": "^2.14.1",
+    "@jamashita/publikum-type": "^2.14.1",
     "axios": "0.20.0"
   },
   "devDependencies": {
