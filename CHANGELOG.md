@@ -1,3 +1,15 @@
+# [2.15.0](https://github.com/jamashita/publikum/compare/v2.14.3...v2.15.0) (2020-09-27)
+
+
+### Features
+
+* 🎸 Zeit.isAcceptable() ([7bdb1e1](https://github.com/jamashita/publikum/commit/7bdb1e18197fbc707cc1f863c107ecf45a059ea4))
+
+
+### Performance Improvements
+
+* ⚡️ update ([1259931](https://github.com/jamashita/publikum/commit/12599311936e318298f108a573499cc11e38a5ee))
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
