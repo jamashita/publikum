@@ -1,4 +1,6 @@
-# [2.15.0](https://github.com/jamashita/publikum/compare/v2.14.3...v2.15.0) (2020-09-27)
+### Bug Fixes
+
+* 🐛 force publish option enabled ([7f7b085](https://github.com/jamashita/publikum/commit/7f7b085b1425ae26705c6364270539faa045ca4b))
 
 
 ### Features
