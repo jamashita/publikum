@@ -153,13 +153,7 @@ Class for random string, random number.
         * [ ] `sequence<P>(arr: Array<Promise<P>>): Promise<Array<P>>;`
     * Superposition
         * [ ] `sequence<A, D>(arr: Array<Promise<A>>): Promise<Array<Schrodinger<A, D>>>;`
-* [x] Collection factory
-    * Sequence
-        * [x] `ofSequence`
-    * Project
-        * [x] `ofProject`
-    * Address
-        * [x] `ofAddress`
+* [x] `Zeit.isAcceptable(str: string, format: string): boolean`
 
 ## Conventional commit
 
