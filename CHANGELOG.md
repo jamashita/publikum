@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.16.4](https://github.com/jamashita/publikum/compare/v2.16.3...v2.16.4) (2020-09-27)
+
+
+### Bug Fixes
+
+* 🐛 package tag version ([e7e10c6](https://github.com/jamashita/publikum/commit/e7e10c6fe630a6b441ab7d5cb30df620b915b3c2))
+
+
+
+
+
 
 
 **Note:** Version bump only for package @jamashita/publikum
