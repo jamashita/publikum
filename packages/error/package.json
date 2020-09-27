@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-error",
-  "version": "2.16.5",
+  "version": "2.16.6",
   "private": false,
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-interface": "^2.16.5",
+    "@jamashita/publikum-interface": "^2.16.6",
     "make-error-cause": "2.3.0"
   },
   "engines": {
