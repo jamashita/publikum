@@ -1,3 +1,7 @@
+### Bug Fixes
+
+* 🐛 force publish option enabled ([7f7b085](https://github.com/jamashita/publikum/commit/7f7b085b1425ae26705c6364270539faa045ca4b))
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
