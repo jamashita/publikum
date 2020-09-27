@@ -1,8 +1,8 @@
-import { ReadonlyProject } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { Mapper } from '@jamashita/publikum-type';
 import { Pair } from '../Pair';
 import { AProject } from './Abstract/AProject';
+import { ReadonlyProject } from './Interface/ReadonlyProject';
 
 export class MutableProject<K extends Nominative, V extends Nominative> extends AProject<K, V, 'MutableProject'> {
   public readonly noun: 'MutableProject' = 'MutableProject';
