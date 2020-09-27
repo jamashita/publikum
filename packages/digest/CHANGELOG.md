@@ -1,3 +1,10 @@
+# [@jamashita/publikum-digest-v1.0.1](https://github.com/jamashita/publikum/compare/@jamashita/publikum-digest-v1.0.0...@jamashita/publikum-digest-v1.0.1) (2020-09-27)
+
+
+### Bug Fixes
+
+* 🐛 both outout ([ba8c6c2](https://github.com/jamashita/publikum/commit/ba8c6c2e4a8f451eb17b177169c2fea951c21f3f))
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
