@@ -19,6 +19,7 @@
     "clean": "rimraf coverage && rimraf docs && lerna run --parallel clean",
     "commit": "git cz",
     "documentation": "typedoc --includeVersion --exclude 'node_modules' --exclude '**/*.spec.ts' --stripInternal --out docs .",
+    "force publish": "lerna publish --force-publish=* --no-git-tag-version --no-push",
     "format": "eslint --fix 'packages/*/src/**/*.{ts,tsx}'",
     "release": "lerna exec --concurrency 1 -- semantic-release -e semantic-release-monorepo --tag-format='v\\${version}'",
     "reset": "lerna clean",
