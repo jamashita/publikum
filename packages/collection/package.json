@@ -1,13 +1,13 @@
 {
   "name": "@jamashita/publikum-collection",
-  "version": "2.14.3",
+  "version": "2.16.2",
   "private": false,
   "repository": {
     "type": "git",
     "url": "git@github.com:jamashita/publikum.git"
   },
   "license": "MIT",
-  "author": "jamashita <jaashita@arachnid.xyz>",
+  "author": "jamashita <jamashita@arachnid.xyz>",
   "sideEffects": false,
   "exports": {
     ".": {
@@ -33,12 +33,12 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-interface": "^2.14.3",
-    "@jamashita/publikum-object": "^2.14.3",
-    "@jamashita/publikum-type": "^2.14.3"
+    "@jamashita/publikum-interface": "^2.16.2",
+    "@jamashita/publikum-object": "^2.16.2",
+    "@jamashita/publikum-type": "^2.16.2"
   },
   "devDependencies": {
-    "@jamashita/publikum-error": "^2.14.3",
+    "@jamashita/publikum-error": "^2.16.2",
     "sinon": "9.0.3"
   },
   "engines": {

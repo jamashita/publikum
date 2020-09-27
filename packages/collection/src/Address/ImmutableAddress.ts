@@ -1,7 +1,7 @@
-import { ReadonlyAddress } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { Mapper } from '@jamashita/publikum-type';
 import { AAddress } from './Abstract/AAddress';
+import { ReadonlyAddress } from './Interface/ReadonlyAddress';
 
 export class ImmutableAddress<V extends Nominative> extends AAddress<V, 'ImmutableAddress'> {
   public readonly noun: 'ImmutableAddress' = 'ImmutableAddress';

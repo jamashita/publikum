@@ -1,7 +1,7 @@
-import { ReadonlySequence } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { Enumerator, Mapper } from '@jamashita/publikum-type';
 import { ASequence } from './Abstract/ASequence';
+import { ReadonlySequence } from './Interface/ReadonlySequence';
 
 export class MutableSequence<V extends Nominative> extends ASequence<V, 'MutableSequence'> {
   public readonly noun: 'MutableSequence' = 'MutableSequence';
