@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.15.0](https://github.com/jamashita/publikum/compare/v2.14.3...v2.15.0) (2020-09-27)
+
+
+### Bug Fixes
+
+* 🐛 force publish option enabled ([7f7b085](https://github.com/jamashita/publikum/commit/7f7b085b1425ae26705c6364270539faa045ca4b))
+
+
+### Features
+
+* 🎸 Zeit.isAcceptable() ([7bdb1e1](https://github.com/jamashita/publikum/commit/7bdb1e18197fbc707cc1f863c107ecf45a059ea4))
+
+
+### Performance Improvements
+
+* ⚡️ update ([1259931](https://github.com/jamashita/publikum/commit/12599311936e318298f108a573499cc11e38a5ee))
+
+
+
+
+
 ## [2.14.3](https://github.com/jamashita/publikum/compare/v2.14.2...v2.14.3) (2020-09-26)
 
 **Note:** Version bump only for package @jamashita/publikum
