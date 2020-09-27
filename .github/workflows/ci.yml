@@ -4,6 +4,7 @@ on:
     branches:
       - 'feature/*'
       - 'hotfix/*'
+      - 'release'
 jobs:
   ci:
     runs-on: 'ubuntu-latest'
