@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.16.0](https://github.com/jamashita/publikum/compare/v2.14.3...v2.16.0) (2020-09-27)
+
+**Note:** Version bump only for package @jamashita/publikum-mysql
+
+
+
+
+
+## [2.15.1](https://github.com/jamashita/publikum/compare/v2.15.0...v2.15.1) (2020-09-27)
+
+**Note:** Version bump only for package @jamashita/publikum-mysql
+
+
+
+
+
+# [2.15.0](https://github.com/jamashita/publikum/compare/v2.14.3...v2.15.0) (2020-09-27)
+
+**Note:** Version bump only for package @jamashita/publikum-mysql
+
+
+
+
+
 ## [2.14.3](https://github.com/jamashita/publikum/compare/v2.14.2...v2.14.3) (2020-09-26)
 
 **Note:** Version bump only for package @jamashita/publikum-mysql
