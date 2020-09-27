@@ -7,7 +7,7 @@
     "url": "git@github.com:jamashita/publikum.git"
   },
   "license": "MIT",
-  "author": "jamashita <jaashita@arachnid.xyz>",
+  "author": "jamashita <jamashita@arachnid.xyz>",
   "sideEffects": false,
   "exports": {
     ".": {
