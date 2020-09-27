@@ -1,3 +1,10 @@
+## [2.16.3](https://github.com/jamashita/publikum/compare/v2.16.2...v2.16.3) (2020-09-27)
+
+
+### Bug Fixes
+
+* 🐛 incorrect import paths ([8a0677e](https://github.com/jamashita/publikum/commit/8a0677e1afe4569436787a27fb4ac779eaf67279))
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
