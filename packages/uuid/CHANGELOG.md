@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.16.5](https://github.com/jamashita/publikum/compare/v2.16.4...v2.16.5) (2020-09-27)
+
+
+### Bug Fixes
+
+* 🐛 tsconfig.json update super ([983ef82](https://github.com/jamashita/publikum/commit/983ef8247c345eff79dc79dd56f5bbb9f57be27f))
+
+
+
+
+
 ## [2.16.4](https://github.com/jamashita/publikum/compare/v2.16.3...v2.16.4) (2020-09-27)
 
 **Note:** Version bump only for package @jamashita/publikum-uuid
