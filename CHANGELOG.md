@@ -1,11 +1,22 @@
-### Bug Fixes
-
-* 🐛 force publish option enabled ([7f7b085](https://github.com/jamashita/publikum/commit/7f7b085b1425ae26705c6364270539faa045ca4b))
-
 # Change Log
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [2.16.1](https://github.com/jamashita/publikum/compare/v2.16.0...v2.16.1) (2020-09-27)
+
+
+### Bug Fixes
+
+* 🐛 force publish option enabled ([56d3062](https://github.com/jamashita/publikum/commit/56d3062e41a1a5a592af17c7812af7ea9163d700))
+
+
+
+# [2.15.0](https://github.com/jamashita/publikum/compare/v2.14.3...v2.15.0) (2020-09-27)
+
+
+
+
 
 # [2.16.0](https://github.com/jamashita/publikum/compare/v2.14.3...v2.16.0) (2020-09-27)
 
