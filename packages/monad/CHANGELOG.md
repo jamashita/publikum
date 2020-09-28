@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.17.0](https://github.com/jamashita/publikum/compare/v2.16.2...v2.17.0) (2020-09-28)
+
+
+### Features
+
+* 🎸 update, especially references to our packages ([b268dec](https://github.com/jamashita/publikum/commit/b268dec587801981c6ef0b2bcdc86adcc3615b1f))
+
+
+
+
+
 ## [2.16.2](https://github.com/jamashita/publikum/compare/v2.16.1...v2.16.2) (2020-09-27)
 
 **Note:** Version bump only for package @jamashita/publikum-monad
