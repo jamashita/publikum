@@ -534,43 +534,43 @@
   resolved "https://registry.yarnpkg.com/@jamashita/eslint-config/-/eslint-config-1.2.2.tgz#d98948797e12a1cfe45fdab96178a01c31fc4636"
   integrity sha512-s5mdzm7/vu2NTr9X9VAw+5wDWUAeYDT9Bu8zGmf3UQ6ii5hSjMvtz+QxDh/sAGc5l+bMvX7qgywc0VBWI1rOVw==
 
-"@jamashita/publikum-error@^2.18.2":
-  version "2.18.2"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-error/-/publikum-error-2.18.2.tgz#bc761cc09b32ac551626fee311f08e2cbb1f1fca"
-  integrity sha512-ASI5frzdcfuMwfLWMD2ZuaixSzi8jiBi94/RRWzcuE0bb9BX673cOIuHrilD1lr+ZTyV6HZcFY5sIQ7b9hfN0g==
+"@jamashita/publikum-error@^2.19.2":
+  version "2.19.2"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-error/-/publikum-error-2.19.2.tgz#dcda90523ae26cfa5460d9cea243a959b6805f98"
+  integrity sha512-lDI+zosWfF9zV1KV+NXHcD3yeu1YQ4DC9I9pzR0/8kjzx0zUBB6GDnNsMokIKi635nI6rGYjvqP9An2PX7DtNg==
   dependencies:
-    "@jamashita/publikum-interface" "^2.18.2"
+    "@jamashita/publikum-interface" "^2.19.2"
     make-error-cause "2.3.0"
 
-"@jamashita/publikum-interface@^2.18.2":
-  version "2.18.2"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-interface/-/publikum-interface-2.18.2.tgz#da00064e1ad60f55eecbae4079d8cb04491507b6"
-  integrity sha512-4ZzXer2x8/r1akKS70Y8gdthvT00vQ7Hw1O6OmLSS7aaldOh79ZtT75saSwuRz0G1VMqW2dgZ6AJ8FsDooD/5Q==
+"@jamashita/publikum-interface@^2.19.2":
+  version "2.19.2"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-interface/-/publikum-interface-2.19.2.tgz#a958976d31e79936796ab56300e2e5291d3633f1"
+  integrity sha512-QstfwxDqepP2t5jgwmzOW0bjGVLjL9EfDTu2AX5mos0XUUBafuYVIjl+oHv8X0QtwiHgo0NOaRcikJv/UHvJjQ==
   dependencies:
-    "@jamashita/publikum-type" "^2.18.2"
+    "@jamashita/publikum-type" "^2.19.2"
 
-"@jamashita/publikum-json@^2.18.2":
-  version "2.18.2"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-json/-/publikum-json-2.18.2.tgz#4a3e9b18322c822f009fdd444a8b0b5a4a231190"
-  integrity sha512-5zplOOuw3bPPxADid1de73kmrVTuPyYEvnhfgbCyn1y7jVn6kMlaVMTKvxO4ZQd6liFWkYcoznM4Qzy8yR0Anw==
+"@jamashita/publikum-json@^2.19.2":
+  version "2.19.2"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-json/-/publikum-json-2.19.2.tgz#724122ec2c3734d92f53cbff7d04c33d95540867"
+  integrity sha512-FiHn1jZNf3f0sfbyuusP+ifrdFd3Ib0lcZM7RNO/rsPPI20/xrB/miRMxkW2VTGdJK/aWDzyIDFDq5UpX4m0/A==
   dependencies:
-    "@jamashita/publikum-error" "^2.18.2"
-    "@jamashita/publikum-type" "^2.18.2"
+    "@jamashita/publikum-error" "^2.19.2"
+    "@jamashita/publikum-type" "^2.19.2"
 
-"@jamashita/publikum-object@^2.18.2":
-  version "2.18.2"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-object/-/publikum-object-2.18.2.tgz#6b439be6e437e752fbd3505174eddaa59c2561a1"
-  integrity sha512-kAMpa4hfO86DOC+AJckUcjFIq9v7SRJvvhx0zTTaG0rh8cPpyxQzCc4v8lYxY7P8aOaXrgrIW7qUlkhS+auQRw==
+"@jamashita/publikum-object@^2.19.2":
+  version "2.19.2"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-object/-/publikum-object-2.19.2.tgz#4f61988b1c4e8cf41d2483d56e27d55b78fb011b"
+  integrity sha512-W+ULyM+gbGbf6BKmvQTJsJ0Yd1+kdqrTds58QZoCjPwQ8FKmM8KVblK4KHnka/4PPRLBVshvcZ+cLJsA/pPUkg==
   dependencies:
-    "@jamashita/publikum-error" "^2.18.2"
-    "@jamashita/publikum-interface" "^2.18.2"
-    "@jamashita/publikum-type" "^2.18.2"
+    "@jamashita/publikum-error" "^2.19.2"
+    "@jamashita/publikum-interface" "^2.19.2"
+    "@jamashita/publikum-type" "^2.19.2"
     object-hash "2.0.3"
 
-"@jamashita/publikum-type@^2.18.2":
-  version "2.18.2"
-  resolved "https://registry.yarnpkg.com/@jamashita/publikum-type/-/publikum-type-2.18.2.tgz#37e28e76d9a5432aa75c78fbb0c6a8db68e91ee1"
-  integrity sha512-FpdliiOUR3/QNF/napm93OyhGQ1NNwT1emkQ7GM0dVtdjDB/0UxdA9aItpvOj2icMA3FPYHifei45NcpX97hGw==
+"@jamashita/publikum-type@^2.19.2":
+  version "2.19.2"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-type/-/publikum-type-2.19.2.tgz#ae22511b2ef4f78f03f283d795407c2237bb6edc"
+  integrity sha512-VtINgDe7uOn34SmuMbP7nmXL+zcJgLE2FrTb9aVzW8I+zH9pfhq/r1zJbXoLogNZfziPbjWyC86l6e6eA9VJtA==
 
 "@jest/console@^26.3.0":
   version "26.3.0"

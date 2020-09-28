@@ -33,9 +33,9 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^2.19.1",
-    "@jamashita/publikum-json": "^2.19.1",
-    "@jamashita/publikum-type": "^2.19.1",
+    "@jamashita/publikum-error": "^2.19.2",
+    "@jamashita/publikum-json": "^2.19.2",
+    "@jamashita/publikum-type": "^2.19.2",
     "axios": "0.20.0"
   },
   "devDependencies": {
