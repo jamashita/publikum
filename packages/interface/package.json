@@ -33,7 +33,7 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-type": "^2.16.9"
+    "@jamashita/publikum-type": "^2.17.0"
   },
   "engines": {
     "node": ">= 14.5.0",
