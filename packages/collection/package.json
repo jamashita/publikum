@@ -33,12 +33,12 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-interface": "^2.17.0",
-    "@jamashita/publikum-object": "^2.17.0",
-    "@jamashita/publikum-type": "^2.17.0"
+    "@jamashita/publikum-interface": "^2.18.0",
+    "@jamashita/publikum-object": "^2.18.0",
+    "@jamashita/publikum-type": "^2.18.0"
   },
   "devDependencies": {
-    "@jamashita/publikum-error": "^2.17.0",
+    "@jamashita/publikum-error": "^2.18.0",
     "sinon": "9.0.3"
   },
   "engines": {
