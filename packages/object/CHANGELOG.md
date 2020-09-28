@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.18.0](https://github.com/jamashita/publikum/compare/v2.16.2...v2.18.0) (2020-09-28)
+
+
+### Bug Fixes
+
+* 🐛 update behind version ([e261923](https://github.com/jamashita/publikum/commit/e2619238f78b6211608e41a10c45a99737d20858))
+
+
+### Features
+
+* 🎸 update, especially references to our packages ([b268dec](https://github.com/jamashita/publikum/commit/b268dec587801981c6ef0b2bcdc86adcc3615b1f))
+
+
+
+
+
 # [2.17.0](https://github.com/jamashita/publikum/compare/v2.16.2...v2.17.0) (2020-09-28)
 
 

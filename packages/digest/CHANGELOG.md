@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.18.0](https://github.com/jamashita/publikum/compare/v2.16.2...v2.18.0) (2020-09-28)
+
+**Note:** Version bump only for package @jamashita/publikum-digest
+
+
+
+
+
 # [2.17.0](https://github.com/jamashita/publikum/compare/v2.16.2...v2.17.0) (2020-09-28)
 
 **Note:** Version bump only for package @jamashita/publikum-digest
