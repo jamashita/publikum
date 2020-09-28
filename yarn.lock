@@ -534,6 +534,44 @@
   resolved "https://registry.yarnpkg.com/@jamashita/eslint-config/-/eslint-config-1.2.2.tgz#d98948797e12a1cfe45fdab96178a01c31fc4636"
   integrity sha512-s5mdzm7/vu2NTr9X9VAw+5wDWUAeYDT9Bu8zGmf3UQ6ii5hSjMvtz+QxDh/sAGc5l+bMvX7qgywc0VBWI1rOVw==
 
+"@jamashita/publikum-error@^2.18.2":
+  version "2.18.2"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-error/-/publikum-error-2.18.2.tgz#bc761cc09b32ac551626fee311f08e2cbb1f1fca"
+  integrity sha512-ASI5frzdcfuMwfLWMD2ZuaixSzi8jiBi94/RRWzcuE0bb9BX673cOIuHrilD1lr+ZTyV6HZcFY5sIQ7b9hfN0g==
+  dependencies:
+    "@jamashita/publikum-interface" "^2.18.2"
+    make-error-cause "2.3.0"
+
+"@jamashita/publikum-interface@^2.18.2":
+  version "2.18.2"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-interface/-/publikum-interface-2.18.2.tgz#da00064e1ad60f55eecbae4079d8cb04491507b6"
+  integrity sha512-4ZzXer2x8/r1akKS70Y8gdthvT00vQ7Hw1O6OmLSS7aaldOh79ZtT75saSwuRz0G1VMqW2dgZ6AJ8FsDooD/5Q==
+  dependencies:
+    "@jamashita/publikum-type" "^2.18.2"
+
+"@jamashita/publikum-json@^2.18.2":
+  version "2.18.2"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-json/-/publikum-json-2.18.2.tgz#4a3e9b18322c822f009fdd444a8b0b5a4a231190"
+  integrity sha512-5zplOOuw3bPPxADid1de73kmrVTuPyYEvnhfgbCyn1y7jVn6kMlaVMTKvxO4ZQd6liFWkYcoznM4Qzy8yR0Anw==
+  dependencies:
+    "@jamashita/publikum-error" "^2.18.2"
+    "@jamashita/publikum-type" "^2.18.2"
+
+"@jamashita/publikum-object@^2.18.2":
+  version "2.18.2"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-object/-/publikum-object-2.18.2.tgz#6b439be6e437e752fbd3505174eddaa59c2561a1"
+  integrity sha512-kAMpa4hfO86DOC+AJckUcjFIq9v7SRJvvhx0zTTaG0rh8cPpyxQzCc4v8lYxY7P8aOaXrgrIW7qUlkhS+auQRw==
+  dependencies:
+    "@jamashita/publikum-error" "^2.18.2"
+    "@jamashita/publikum-interface" "^2.18.2"
+    "@jamashita/publikum-type" "^2.18.2"
+    object-hash "2.0.3"
+
+"@jamashita/publikum-type@^2.18.2":
+  version "2.18.2"
+  resolved "https://registry.yarnpkg.com/@jamashita/publikum-type/-/publikum-type-2.18.2.tgz#37e28e76d9a5432aa75c78fbb0c6a8db68e91ee1"
+  integrity sha512-FpdliiOUR3/QNF/napm93OyhGQ1NNwT1emkQ7GM0dVtdjDB/0UxdA9aItpvOj2icMA3FPYHifei45NcpX97hGw==
+
 "@jest/console@^26.3.0":
   version "26.3.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-26.3.0.tgz#ed04063efb280c88ba87388b6f16427c0a85c856"
@@ -4208,6 +4246,19 @@ execa@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/execa/-/execa-0.7.0.tgz#944becd34cc41ee32a63a9faf27ad5a65fc59777"
   integrity sha1-lEvs00zEHuMqY6n68nrVpl/Fl3c=
+  dependencies:
+    cross-spawn "^5.0.1"
+    get-stream "^3.0.0"
+    is-stream "^1.1.0"
+    npm-run-path "^2.0.0"
+    p-finally "^1.0.0"
+    signal-exit "^3.0.0"
+    strip-eof "^1.0.0"
+
+execa@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/execa/-/execa-0.8.0.tgz#d8d76bbc1b55217ed190fd6dd49d3c774ecfc8da"
+  integrity sha1-2NdrvBtVIX7RkP1t1J08d07PyNo=
   dependencies:
     cross-spawn "^5.0.1"
     get-stream "^3.0.0"
@@ -8198,7 +8249,7 @@ p-is-promise@^3.0.0:
   resolved "https://registry.yarnpkg.com/p-is-promise/-/p-is-promise-3.0.0.tgz#58e78c7dfe2e163cf2a04ff869e7c1dba64a5971"
   integrity sha512-Wo8VsW4IRQSKVXsJCn7TomUaVtyfjVDn3nUP7kE967BQk0CwFpdbZs0X0uk5sW9mkBa9eNM7hCMaG93WUAwxYQ==
 
-p-limit@^1.1.0:
+p-limit@^1.1.0, p-limit@^1.2.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-1.3.0.tgz#b86bd5f0c25690911c7590fcbfc2010d54b3ccb8"
   integrity sha512-vvcXsLAJ9Dr5rQOPk7toZQZJApBl2K4J6dANSsEuh6QI41JYcsS/qhTGa9ErIUUgK3WNQoJYvylxvjqmiqEA9Q==
@@ -8628,6 +8679,13 @@ pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
+pkg-up@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/pkg-up/-/pkg-up-2.0.0.tgz#c819ac728059a461cab1c3889a2be3c49a004d7f"
+  integrity sha1-yBmscoBZpGHKscOImivjxJoATX8=
+  dependencies:
+    find-up "^2.1.0"
+
 please-upgrade-node@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/please-upgrade-node/-/please-upgrade-node-3.2.0.tgz#aeddd3f994c933e4ad98b99d9a556efa0e2fe942"
@@ -8835,6 +8893,11 @@ qw@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/qw/-/qw-1.0.1.tgz#efbfdc740f9ad054304426acb183412cc8b996d4"
   integrity sha1-77/cdA+a0FQwRCassYNBLMi5ltQ=
+
+ramda@^0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.25.0.tgz#8fdf68231cffa90bc2f9460390a0cb74a29b29a9"
+  integrity sha512-GXpfrYVPwx3K7RQ6aYT8KPS8XViSXUVJT1ONhoKPE9VAleW42YE+U+8VEyGWt41EnEQW7gwecYJriTI0pKoecQ==
 
 rc-config-loader@^3.0.0:
   version "3.0.0"
@@ -9429,6 +9492,24 @@ saxes@^5.0.0:
   integrity sha512-5LBh1Tls8c9xgGjw3QrMwETmTMVk0oFgvrFSvWx62llR2hcEInrKNZ2GZCCuuy2lvWrdl5jhbpeqc5hRYKFOcw==
   dependencies:
     xmlchars "^2.2.0"
+
+semantic-release-monorepo@7.0.3:
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/semantic-release-monorepo/-/semantic-release-monorepo-7.0.3.tgz#128860022938a2626f7186d4e900c9b3773b33e0"
+  integrity sha512-6RyvDxyBKQSXe7H1hEElkDVZJGdjoT+/aLlt481QdBG8ao46kOBE2sS41WhEIrvLBrdUFt4WL6TiSTvhjRx5SA==
+  dependencies:
+    debug "^3.1.0"
+    execa "^0.8.0"
+    p-limit "^1.2.0"
+    pkg-up "^2.0.0"
+    ramda "^0.25.0"
+    read-pkg "^3.0.0"
+    semantic-release-plugin-decorators "^3.0.0"
+
+semantic-release-plugin-decorators@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/semantic-release-plugin-decorators/-/semantic-release-plugin-decorators-3.0.0.tgz#b4cbe9cda7e9e2198caf8103cf56de9742d6f5e4"
+  integrity sha512-BIUUe9gUwH+N5k/fr9KEin/2cU80r62kLBPLS/o9Dl/TK3gNsu4CJgb7SAJyWvoothDRbWLZSgTS3Qz8UJuT/Q==
 
 semantic-release@17.1.2:
   version "17.1.2"

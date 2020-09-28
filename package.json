@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum",
-  "version": "2.15.0",
+  "version": "2.17.0",
   "private": true,
   "repository": {
     "type": "git",
@@ -19,8 +19,9 @@
     "clean": "rimraf coverage && rimraf docs && lerna run --parallel clean",
     "commit": "git cz",
     "documentation": "typedoc --includeVersion --exclude 'node_modules' --exclude '**/*.spec.ts' --stripInternal --out docs .",
+    "force publish": "lerna publish --force-publish=* --no-git-tag-version --no-push",
     "format": "eslint --fix 'packages/*/src/**/*.{ts,tsx}'",
-    "release": "semantic-release",
+    "release": "lerna exec --concurrency 1 -- semantic-release -e semantic-release-monorepo --tag-format='v\\${version}'",
     "reset": "lerna clean",
     "setup": "lerna bootstrap && lerna link",
     "test": "jest test --detectOpenHandles --passWithNoTests",
@@ -75,6 +76,7 @@
     "npm-check-updates": "9.0.2",
     "rimraf": "3.0.2",
     "semantic-release": "17.1.2",
+    "semantic-release-monorepo": "7.0.3",
     "sinon": "9.0.3",
     "sort-package-json": "1.46.0",
     "ts-jest": "26.4.0",
