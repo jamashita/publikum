@@ -33,9 +33,9 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^2.16.2",
-    "@jamashita/publikum-object": "^2.16.2",
-    "dayjs": "1.8.36"
+    "@jamashita/publikum-error": "^2.16.9",
+    "@jamashita/publikum-object": "^2.16.9",
+    "dayjs": "1.9.0"
   },
   "devDependencies": {
     "sinon": "9.0.3"
