@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.18.2](https://github.com/jamashita/publikum/compare/v2.18.1...v2.18.2) (2020-09-28)
+
+**Note:** Version bump only for package @jamashita/publikum-cache
+
+
+
+
+
+## [2.18.1](https://github.com/jamashita/publikum/compare/v2.18.0...v2.18.1) (2020-09-28)
+
+
+### Bug Fixes
+
+* 🐛 version arranged ([d21f22b](https://github.com/jamashita/publikum/commit/d21f22bd7b12a1dbf673d94664d77c3e7ea2b344))
+
+
+
+
+
 # [2.18.0](https://github.com/jamashita/publikum/compare/v2.16.2...v2.18.0) (2020-09-28)
 
 
