@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.19.0](https://github.com/jamashita/publikum/compare/v2.18.1...v2.19.0) (2020-09-28)
+
+
+### Features
+
+* 🎸 version renewed ([dd1ddf1](https://github.com/jamashita/publikum/commit/dd1ddf191f30fec8d42dfa7eee03f3c5896aefd5))
+
+
+
+## [2.16.8](https://github.com/jamashita/publikum/compare/v2.16.7...v2.16.8) (2020-09-27)
+
+
+
+## [2.16.7](https://github.com/jamashita/publikum/compare/v2.16.3...v2.16.7) (2020-09-27)
+
+
+### Bug Fixes
+
+* 🐛 tsconfig.json update super ([983ef82](https://github.com/jamashita/publikum/commit/983ef8247c345eff79dc79dd56f5bbb9f57be27f))
+
+
+
+
+
 ## [2.18.2](https://github.com/jamashita/publikum/compare/v2.18.1...v2.18.2) (2020-09-28)
 
 **Note:** Version bump only for package @jamashita/publikum-request
