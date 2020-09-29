@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-monad",
-  "version": "2.21.0",
+  "version": "2.21.1",
   "private": false,
   "repository": {
     "type": "git",
@@ -33,10 +33,10 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^2.21.0",
-    "@jamashita/publikum-interface": "^2.21.0",
-    "@jamashita/publikum-object": "^2.21.0",
-    "@jamashita/publikum-type": "^2.21.0"
+    "@jamashita/publikum-error": "^2.21.1",
+    "@jamashita/publikum-interface": "^2.21.1",
+    "@jamashita/publikum-object": "^2.21.1",
+    "@jamashita/publikum-type": "^2.21.1"
   },
   "devDependencies": {
     "sinon": "9.0.3"
