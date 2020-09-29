@@ -1,10 +1,15 @@
 {
   "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    /* Basic Options */
     "module": "esnext",
-    /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
     "outDir": "dist/esm"
-    /* Redirect output structure to the directory. */
-  }
+  },
+  "references": [
+    {
+      "path": "../error/tsconfig.esm.json"
+    },
+    {
+      "path": "../object/tsconfig.esm.json"
+    }
+  ]
 }
