@@ -28,7 +28,7 @@
     "update": "yarn update:upgrade && yarn update:install",
     "update:install": "yarn install && yarn upgrade && lerna run --parallel update:install",
     "update:upgrade": "ncu --upgrade --timeout 600000 && lerna run --parallel update:upgrade",
-    "versionup": "lerna version --conventional-commits --conventional-graduate"
+    "versionup": "lerna version --conventional-commits --conventional-graduate --include-merged-tags"
   },
   "dependencies": {
     "axios": "0.20.0",

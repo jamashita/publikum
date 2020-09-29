@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-cache",
-  "version": "2.19.0",
+  "version": "2.20.0",
   "private": false,
   "repository": {
     "type": "git",
@@ -24,8 +24,8 @@
   ],
   "scripts": {
     "build": "yarn clean && concurrently \"npm:build:*\"",
-    "build:cjs": "tsc -b tsconfig.cjs.json ../error/tsconfig.cjs.json ../type/tsconfig.cjs.json",
-    "build:esm": "tsc -b tsconfig.esm.json ../error/tsconfig.esm.json ../type/tsconfig.esm.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esm": "tsc -p tsconfig.esm.json",
     "clean": "rimraf dist && rimraf coverage",
     "test": "jest test --detectOpenHandles --passWithNoTests",
     "update": "yarn update:upgrade && yarn update:install",
@@ -33,8 +33,8 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^2.18.2",
-    "@jamashita/publikum-type": "^2.18.2"
+    "@jamashita/publikum-error": "^2.19.2",
+    "@jamashita/publikum-type": "^2.19.2"
   },
   "engines": {
     "node": ">= 14.5.0",
