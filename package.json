@@ -15,13 +15,16 @@
     ]
   },
   "scripts": {
+    "//": "lerna exec --concurrency 1 -- semantic-release -e semantic-release-monorepo --tag-format='v\\${version}'",
     "build": "lerna run --parallel build",
     "clean": "rimraf coverage && rimraf docs && lerna run --parallel clean",
     "commit": "git cz",
     "documentation": "typedoc --includeVersion --exclude 'node_modules' --exclude '**/*.spec.ts' --stripInternal --out docs .",
     "force publish": "lerna publish --force-publish=* --no-git-tag-version --no-push",
     "format": "eslint --fix 'packages/*/src/**/*.{ts,tsx}'",
-    "release": "lerna exec --concurrency 1 -- semantic-release -e semantic-release-monorepo --tag-format='v\\${version}'",
+    "prerelease": "lerna version --no-push",
+    "release": "lerna publish from-git --yes",
+    "postrelease": "git push --follow-tags origin",
     "reset": "lerna clean",
     "setup": "lerna bootstrap && lerna link",
     "test": "jest test --detectOpenHandles --passWithNoTests",
