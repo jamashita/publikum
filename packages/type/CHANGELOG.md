@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.22.0](https://github.com/jamashita/publikum/compare/v2.21.1...v2.22.0) (2020-10-03)
+
+
+### Features
+
+* 🎸 deleted main andm odule ([c2b7224](https://github.com/jamashita/publikum/commit/c2b72246694e37e487859ac33821c41bbdb04907))
+
+
+
+
+
 ## [2.21.1](https://github.com/jamashita/publikum/compare/v2.21.0...v2.21.1) (2020-09-29)
 
 **Note:** Version bump only for package @jamashita/publikum-type
