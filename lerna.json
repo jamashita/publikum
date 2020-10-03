@@ -7,6 +7,11 @@
       "exact": true
     },
     "publish": {
+      "ignoreChanges": [
+        "**/CHANGELOG.md",
+        "**/node_modules/**",
+        "**/*.spec.*"
+      ],
       "conventionalCommits": true,
       "message": "chore(release): publish %s"
     },
