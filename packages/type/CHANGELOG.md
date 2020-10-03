@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.21.1](https://github.com/jamashita/publikum/compare/v2.21.0...v2.21.1) (2020-09-29)
+
+**Note:** Version bump only for package @jamashita/publikum-type
+
+
+
+
+
+# [2.21.0](https://github.com/jamashita/publikum/compare/v2.20.0...v2.21.0) (2020-09-29)
+
+
+### Features
+
+* 🎸 new type definition for comptositiono ([1630c4d](https://github.com/jamashita/publikum/commit/1630c4d479381c1c9f0a76892f383ff0040edb2d))
+
+
+
+
+
 # [2.20.0](https://github.com/jamashita/publikum/compare/v2.19.1...v2.20.0) (2020-09-28)
 
 

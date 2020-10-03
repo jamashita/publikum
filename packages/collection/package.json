@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-collection",
-  "version": "2.20.0",
+  "version": "2.21.1",
   "private": false,
   "repository": {
     "type": "git",
@@ -15,8 +15,6 @@
       "import": "./dist/esm/index.js"
     }
   },
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
   "files": [
     "dist",
@@ -33,12 +31,12 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-interface": "^2.19.2",
-    "@jamashita/publikum-object": "^2.19.2",
-    "@jamashita/publikum-type": "^2.19.2"
+    "@jamashita/publikum-interface": "^2.21.1",
+    "@jamashita/publikum-object": "^2.21.1",
+    "@jamashita/publikum-type": "^2.21.1"
   },
   "devDependencies": {
-    "@jamashita/publikum-error": "^2.19.2",
+    "@jamashita/publikum-error": "^2.21.1",
     "sinon": "9.0.3"
   },
   "engines": {
