@@ -11,12 +11,15 @@ import {
   UnaryFunction
 } from '@jamashita/publikum-type';
 import { DestroyPassPlan } from '../Plan/DestroyPassPlan';
+import { DestroySpoilPlan } from '../Plan/DestroySpoilPlan';
 import { DestroyPlan } from '../Plan/Interface/DestroyPlan';
 import { MapPlan } from '../Plan/Interface/MapPlan';
 import { Plan } from '../Plan/Interface/Plan';
 import { RecoveryPlan } from '../Plan/Interface/RecoveryPlan';
 import { MapPassPlan } from '../Plan/MapPassPlan';
+import { MapSpoilPlan } from '../Plan/MapSpoilPlan';
 import { RecoveryPassPlan } from '../Plan/RecoveryPassPlan';
+import { RecoverySpoilPlan } from '../Plan/RecoverySpoilPlan';
 import { Chrono } from '../Superposition/Chrono/Interface/Chrono';
 import { Detoxicated } from '../Superposition/Interface/Detoxicated';
 import { SuperpositionInternal } from '../Superposition/SuperpositionInternal';
@@ -35,10 +38,6 @@ import { DestroyEpoquePlan } from './Plan/DestroyEpoquePlan';
 import { MapEpoquePlan } from './Plan/MapEpoquePlan';
 import { PresentPlan } from './Plan/PresentPlan';
 import { RecoveryEpoquePlan } from './Plan/RecoveryEpoquePlan';
-
-const spoil = (): void => {
-  // NOOP
-};
 
 export class UnscharferelationInternal<P> extends Objet<'UnscharferelationInternal'>
   implements IUnscharferelation<P, 'UnscharferelationInternal'>, Epoque<P, 'UnscharferelationInternal'> {
@@ -137,19 +136,19 @@ export class UnscharferelationInternal<P> extends Objet<'UnscharferelationIntern
   }
 
   public ifPresent(consumer: Consumer<Matter<P>>): this {
-    this.handle(MapPassPlan.of<Matter<P>>(consumer), RecoveryPassPlan.of<void>(spoil), DestroyPassPlan.of(spoil));
+    this.handle(MapPassPlan.of<Matter<P>>(consumer), RecoverySpoilPlan.of<void>(), DestroySpoilPlan.of());
 
     return this;
   }
 
   public ifAbsent(consumer: Consumer<void>): this {
-    this.handle(MapPassPlan.of<Matter<P>>(spoil), RecoveryPassPlan.of<void>(consumer), DestroyPassPlan.of(spoil));
+    this.handle(MapSpoilPlan.of<Matter<P>>(), RecoveryPassPlan.of<void>(consumer), DestroySpoilPlan.of());
 
     return this;
   }
 
   public ifLost(consumer: Consumer<unknown>): this {
-    this.handle(MapPassPlan.of<Matter<P>>(spoil), RecoveryPassPlan.of<void>(spoil), DestroyPassPlan.of(consumer));
+    this.handle(MapSpoilPlan.of<Matter<P>>(), RecoverySpoilPlan.of<void>(), DestroyPassPlan.of(consumer));
 
     return this;
   }

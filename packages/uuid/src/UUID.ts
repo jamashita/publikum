@@ -1,8 +1,7 @@
 import { ValueObject } from '@jamashita/publikum-object';
-import Chance from 'chance';
+import { v4, v5 } from 'uuid';
 import { UUIDError } from './Error/UUIDError';
 
-const chance: Chance.Chance = new Chance();
 const REGEX: RegExp = /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/u;
 
 export class UUID extends ValueObject<'UUID'> {
@@ -30,15 +29,13 @@ export class UUID extends ValueObject<'UUID'> {
   }
 
   public static v4(): UUID {
-    const id: string = chance.guid({ version: 4 });
-
-    return new UUID(id);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    return new UUID(v4());
   }
 
   public static v5(): UUID {
-    const id: string = chance.guid({ version: 5 });
-
-    return new UUID(id);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    return new UUID(v5('PUBLIKUM', '6740811d-e75f-4b29-aa7d-7ff91ac8198d'));
   }
 
   private constructor(id: string) {

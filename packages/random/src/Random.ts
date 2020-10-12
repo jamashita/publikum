@@ -1,20 +1,16 @@
-import Chance from 'chance';
-
-const chance: Chance.Chance = new Chance();
+import cryptoRandomString from 'crypto-random-string';
+import { randomInt } from 'd3-random';
 
 export class Random {
   public static string(length: number, pool?: string): string {
-    return chance.string({
+    return cryptoRandomString({
       length,
-      pool
+      characters: pool
     });
   }
 
   public static integer(min: number, max: number): number {
-    return chance.integer({
-      min,
-      max
-    });
+    return randomInt(min, max)();
   }
 
   private constructor() {
