@@ -28,7 +28,8 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "chance": "1.1.7"
+    "crypto-random-string": "3.3.0",
+    "d3-random": "2.2.2"
   },
   "engines": {
     "node": ">= 14.5.0",
