@@ -33,7 +33,7 @@
     "dayjs": "1.9.1"
   },
   "devDependencies": {
-    "sinon": "9.1.0"
+    "sinon": "9.2.0"
   },
   "engines": {
     "node": ">= 14.5.0",
