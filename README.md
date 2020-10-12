@@ -191,6 +191,9 @@ Class for random string, random number.
   * Superposition
     * [ ] `sequence<A, D>(arr: Array<Promise<A>>): Promise<Array<Schrodinger<A, D>>>;`
 * [x] `Zeit.isAcceptable(str: string, format: string): boolean`
+* [ ] `Zeit.toString(format?: string): string` accepts FORMAT (omittable)
+* [ ] `Unscharferelation.tapif(cond: str, () => {})`
+* [ ] `Superposition.tapif(cond: str, () => {})`
 
 ## Conventional commit
 
