@@ -2533,6 +2533,204 @@ describe('SuperpositionInternal', () => {
     });
   });
 
+  describe('ifAlive', () => {
+    it('if Alive, the callback will be invoked', async () => {
+      expect.assertions(3);
+
+      const value: number = -201;
+
+      const superposition: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
+          chrono.accept(value);
+        }, [MockRuntimeError]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.ifAlive((n: number) => {
+        spy();
+        expect(n).toBe(value);
+      }).terminate();
+
+      expect(spy.called).toBe(true);
+      expect(schrodinger.isAlive()).toBe(true);
+    });
+
+    it('if Dead, the callback will not be invoked', async () => {
+      expect.assertions(2);
+
+      const error: MockRuntimeError = new MockRuntimeError();
+
+      const superposition: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
+          chrono.decline(error);
+        }, [MockRuntimeError]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.ifAlive(() => {
+        spy();
+      }).terminate();
+
+      expect(spy.called).toBe(false);
+      expect(schrodinger.isDead()).toBe(true);
+    });
+
+    it('if Contradiction, the callback will not be invoked', async () => {
+      expect.assertions(2);
+
+      const error: MockRuntimeError = new MockRuntimeError();
+
+      const superposition: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
+          chrono.throw(error);
+        }, [MockRuntimeError]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.ifAlive(() => {
+        spy();
+      }).terminate();
+
+      expect(spy.called).toBe(false);
+      expect(schrodinger.isContradiction()).toBe(true);
+    });
+  });
+
+  describe('ifDead', () => {
+    it('if Alive, the callback will not be invoked', async () => {
+      expect.assertions(2);
+
+      const value: number = -201;
+
+      const superposition: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
+          chrono.accept(value);
+        }, [MockRuntimeError]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.ifDead(() => {
+        spy();
+      }).terminate();
+
+      expect(spy.called).toBe(false);
+      expect(schrodinger.isAlive()).toBe(true);
+    });
+
+    it('if Dead, the callback will be invoked', async () => {
+      expect.assertions(3);
+
+      const error: MockRuntimeError = new MockRuntimeError();
+
+      const superposition: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
+          chrono.decline(error);
+        }, [MockRuntimeError]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.ifDead((e: MockRuntimeError) => {
+        spy();
+        expect(e).toBe(error);
+      }).terminate();
+
+      expect(spy.called).toBe(true);
+      expect(schrodinger.isDead()).toBe(true);
+    });
+
+    it('if Contradiction, the callback will not be invoked', async () => {
+      expect.assertions(2);
+
+      const error: MockRuntimeError = new MockRuntimeError();
+
+      const superposition: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
+          chrono.throw(error);
+        }, [MockRuntimeError]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.ifDead(() => {
+        spy();
+      }).terminate();
+
+      expect(spy.called).toBe(false);
+      expect(schrodinger.isContradiction()).toBe(true);
+    });
+  });
+
+  describe('ifContradiction', () => {
+    it('if Alive, the callback will not be invoked', async () => {
+      expect.assertions(2);
+
+      const value: number = -201;
+
+      const superposition: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
+          chrono.accept(value);
+        }, [MockRuntimeError]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.ifContradiction(() => {
+        spy();
+      }).terminate();
+
+      expect(spy.called).toBe(false);
+      expect(schrodinger.isAlive()).toBe(true);
+    });
+
+    it('if Dead, the callback will not be invoked', async () => {
+      expect.assertions(2);
+
+      const error: MockRuntimeError = new MockRuntimeError();
+
+      const superposition: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
+          chrono.decline(error);
+        }, [MockRuntimeError]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.ifContradiction(() => {
+        spy();
+      }).terminate();
+
+      expect(spy.called).toBe(false);
+      expect(schrodinger.isDead()).toBe(true);
+    });
+
+    it('if Contradiction, the callback will be invoked', async () => {
+      expect.assertions(3);
+
+      const error: MockRuntimeError = new MockRuntimeError();
+
+      const superposition: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
+          chrono.throw(error);
+        }, [MockRuntimeError]
+      );
+
+      const spy: SinonSpy = sinon.spy();
+
+      const schrodinger: Schrodinger<number, MockRuntimeError> = await superposition.ifContradiction((e: unknown) => {
+        spy();
+        expect(e).toBe(error);
+      }).terminate();
+
+      expect(spy.called).toBe(true);
+      expect(schrodinger.isContradiction()).toBe(true);
+    });
+  });
+
   describe('pass', () => {
     it('accept case', () => {
       expect.assertions(4);
@@ -2782,3 +2980,4 @@ describe('SuperpositionInternal', () => {
     });
   });
 });
+

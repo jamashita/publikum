@@ -390,5 +390,25 @@ describe('Zeit', () => {
       expect(Zeit.ofString('2000-01-01 00:07:00', 'YYYY-MM-DD HH:mm:ss').toString()).toBe('2000-01-01 00:07:00');
       expect(Zeit.ofString('2000-01-01 00:00:08', 'YYYY-MM-DD HH:mm:ss').toString()).toBe('2000-01-01 00:00:08');
     });
+
+    it('with format arg: shorthand format', () => {
+      expect.assertions(6);
+
+      expect(Zeit.ofString('2000-01-01 00:00:00', 'YYYY-MM-DD HH:mm:ss').toString('YYYY-MM-DD')).toBe('2000-01-01');
+      expect(Zeit.ofString('3000-01-01 00:00:00', 'YYYY-MM-DD HH:mm:ss').toString('YYYY-MM-DD')).toBe('3000-01-01');
+      expect(Zeit.ofString('2000-01-05 00:00:00', 'YYYY-MM-DD HH:mm:ss').toString('YYYY-MM-DD')).toBe('2000-01-05');
+      expect(Zeit.ofString('2000-01-01 06:00:00', 'YYYY-MM-DD HH:mm:ss').toString('YYYY-MM-DD')).toBe('2000-01-01');
+      expect(Zeit.ofString('2000-01-01 00:07:00', 'YYYY-MM-DD HH:mm:ss').toString('YYYY-MM-DD')).toBe('2000-01-01');
+      expect(Zeit.ofString('2000-01-01 00:00:08', 'YYYY-MM-DD HH:mm:ss').toString('YYYY-MM-DD')).toBe('2000-01-01');
+    });
+
+    it('with format arg: longhand format', () => {
+      expect.assertions(4);
+
+      expect(Zeit.ofString('2000-01-01', 'YYYY-MM-DD').toString('YYYY-MM-DD HH:mm:ss')).toBe('2000-01-01 00:00:00');
+      expect(Zeit.ofString('2001-01-01', 'YYYY-MM-DD').toString('YYYY-MM-DD HH:mm:ss')).toBe('2001-01-01 00:00:00');
+      expect(Zeit.ofString('2000-02-01', 'YYYY-MM-DD').toString('YYYY-MM-DD HH:mm:ss')).toBe('2000-02-01 00:00:00');
+      expect(Zeit.ofString('2000-01-03', 'YYYY-MM-DD').toString('YYYY-MM-DD HH:mm:ss')).toBe('2000-01-03 00:00:00');
+    });
   });
 });

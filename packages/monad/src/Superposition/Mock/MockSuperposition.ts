@@ -34,6 +34,18 @@ export class MockSuperposition<A, D extends Error> extends ValueObject<'MockSupe
     throw new UnimplementedError();
   }
 
+  public ifAlive(): this {
+    throw new UnimplementedError();
+  }
+
+  public ifDead(): this {
+    throw new UnimplementedError();
+  }
+
+  public ifContradiction(): this {
+    throw new UnimplementedError();
+  }
+
   public filter(): ISuperposition<A, D | SuperpositionError> {
     throw new UnimplementedError();
   }

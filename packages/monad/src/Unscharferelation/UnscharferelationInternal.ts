@@ -10,11 +10,13 @@ import {
   SyncAsync,
   UnaryFunction
 } from '@jamashita/publikum-type';
+import { DestroyPassPlan } from '../Plan/DestroyPassPlan';
 import { DestroyPlan } from '../Plan/Interface/DestroyPlan';
 import { MapPlan } from '../Plan/Interface/MapPlan';
 import { Plan } from '../Plan/Interface/Plan';
 import { RecoveryPlan } from '../Plan/Interface/RecoveryPlan';
-import { PassThroughPlan } from '../Plan/PassThroughPlan';
+import { MapPassPlan } from '../Plan/MapPassPlan';
+import { RecoveryPassPlan } from '../Plan/RecoveryPassPlan';
 import { Chrono } from '../Superposition/Chrono/Interface/Chrono';
 import { Detoxicated } from '../Superposition/Interface/Detoxicated';
 import { SuperpositionInternal } from '../Superposition/SuperpositionInternal';
@@ -33,6 +35,10 @@ import { DestroyEpoquePlan } from './Plan/DestroyEpoquePlan';
 import { MapEpoquePlan } from './Plan/MapEpoquePlan';
 import { PresentPlan } from './Plan/PresentPlan';
 import { RecoveryEpoquePlan } from './Plan/RecoveryEpoquePlan';
+
+const spoil = (): void => {
+  // NOOP
+};
 
 export class UnscharferelationInternal<P> extends Objet<'UnscharferelationInternal'>
   implements IUnscharferelation<P, 'UnscharferelationInternal'>, Epoque<P, 'UnscharferelationInternal'> {
@@ -131,26 +137,31 @@ export class UnscharferelationInternal<P> extends Objet<'UnscharferelationIntern
   }
 
   public ifPresent(consumer: Consumer<Matter<P>>): this {
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    const plan: Plan<Matter<P>, void> = PassThroughPlan.of<Matter<P>, void>(consumer, this.spoil, this.spoil);
+    this.handle(MapPassPlan.of<Matter<P>>(consumer), RecoveryPassPlan.of<void>(spoil), DestroyPassPlan.of(spoil));
 
-    this.handle(plan, plan, plan);
+    return this;
+  }
+
+  public ifAbsent(consumer: Consumer<void>): this {
+    this.handle(MapPassPlan.of<Matter<P>>(spoil), RecoveryPassPlan.of<void>(consumer), DestroyPassPlan.of(spoil));
+
+    return this;
+  }
+
+  public ifLost(consumer: Consumer<unknown>): this {
+    this.handle(MapPassPlan.of<Matter<P>>(spoil), RecoveryPassPlan.of<void>(spoil), DestroyPassPlan.of(consumer));
 
     return this;
   }
 
   public pass(accepted: Consumer<Matter<P>>, declined: Consumer<void>, thrown: Consumer<unknown>): this {
-    const plan: Plan<Matter<P>, void> = PassThroughPlan.of<Matter<P>, void>(accepted, declined, thrown);
-
-    this.handle(plan, plan, plan);
+    this.handle(MapPassPlan.of<Matter<P>>(accepted), RecoveryPassPlan.of<void>(declined), DestroyPassPlan.of(thrown));
 
     return this;
   }
 
   public peek(peek: Peek): this {
-    const plan: Plan<Matter<P>, void> = PassThroughPlan.of<Matter<P>, void>(peek, peek, peek);
-
-    this.handle(plan, plan, plan);
+    this.handle(MapPassPlan.of<Matter<P>>(peek), RecoveryPassPlan.of<void>(peek), DestroyPassPlan.of(peek));
 
     return this;
   }
@@ -227,9 +238,5 @@ export class UnscharferelationInternal<P> extends Objet<'UnscharferelationIntern
     }
 
     return this.plans.add(CombinedEpoquePlan.of<P>(map, recover, destroy));
-  }
-
-  private spoil(): void {
-    // NOOP
   }
 }
