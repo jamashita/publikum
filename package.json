@@ -37,8 +37,8 @@
   "dependencies": {
     "axios": "0.20.0",
     "bcrypt": "5.0.0",
-    "chance": "1.1.7",
     "crypto-random-string": "3.3.0",
+    "d3-random": "2.2.2",
     "dayjs": "1.9.1",
     "got": "11.7.0",
     "ioredis": "4.17.3",
@@ -60,6 +60,7 @@
     "@semantic-release/release-notes-generator": "9.0.1",
     "@types/bcrypt": "3.0.0",
     "@types/chance": "1.1.0",
+    "@types/d3-random": "2.2.0",
     "@types/ioredis": "4.17.5",
     "@types/jest": "26.0.14",
     "@types/mysql": "2.15.15",
