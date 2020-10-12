@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0](https://github.com/jamashita/publikum/compare/v2.26.1...v2.27.0) (2020-10-12)
+
+
+### Features
+
+* 🎸 spoil updated ([20709f9](https://github.com/jamashita/publikum/commit/20709f9fd484a934e3a81d97f53b2f8f6a1db7f2))
+* 🎸 spoilplan done ([108982d](https://github.com/jamashita/publikum/commit/108982d3aaf07826e4482f1bcfb3ffd22d413638))
+* 🎸 tests done ([dafc552](https://github.com/jamashita/publikum/commit/dafc552a91d29fe83f78a694259a251d725aa64f))
+
+
+
+
+
 ## [2.26.1](https://github.com/jamashita/publikum/compare/v2.26.0...v2.26.1) (2020-10-12)
 
 **Note:** Version bump only for package @jamashita/publikum-monad
