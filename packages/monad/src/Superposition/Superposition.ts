@@ -249,6 +249,24 @@ export class Superposition<A, D extends Error> extends Objet<'Superposition'> im
     return Superposition.ofSuperposition<B, E>(this.internal.transform<B, E>(alive, dead, ...errors));
   }
 
+  public ifAlive(consumer: Consumer<Detoxicated<A>>): this {
+    this.internal.ifAlive(consumer);
+
+    return this;
+  }
+
+  public ifDead(consumer: Consumer<D>): this {
+    this.internal.ifDead(consumer);
+
+    return this;
+  }
+
+  public ifContradiction(consumer: Consumer<unknown>): this {
+    this.internal.ifContradiction(consumer);
+
+    return this;
+  }
+
   public pass(
     accepted: Consumer<Detoxicated<A>>,
     declined: Consumer<D>,

@@ -8,7 +8,7 @@ import { SuperpositionInternal } from '../SuperpositionInternal';
 describe('ISuperposition', () => {
   describe('isSuperposition', () => {
     it('normal case', () => {
-      expect.assertions(25);
+      expect.assertions(28);
 
       const superposition1: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(4);
       const superposition2: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
@@ -166,6 +166,108 @@ describe('ISuperposition', () => {
           transform() {
             // NOOP
           },
+          ifAlive() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        isSuperposition<number, MockRuntimeError>({
+          get() {
+            // NOOP
+          },
+          getErrors() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          },
+          filter() {
+            // NOOP
+          },
+          map() {
+            // NOOP
+          },
+          recover() {
+            // NOOP
+          },
+          transform() {
+            // NOOP
+          },
+          ifAlive() {
+            // NOOP
+          },
+          ifDead() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        isSuperposition<number, MockRuntimeError>({
+          get() {
+            // NOOP
+          },
+          getErrors() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          },
+          filter() {
+            // NOOP
+          },
+          map() {
+            // NOOP
+          },
+          recover() {
+            // NOOP
+          },
+          transform() {
+            // NOOP
+          },
+          ifAlive() {
+            // NOOP
+          },
+          ifDead() {
+            // NOOP
+          },
+          ifContradiction() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        isSuperposition<number, MockRuntimeError>({
+          get() {
+            // NOOP
+          },
+          getErrors() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          },
+          filter() {
+            // NOOP
+          },
+          map() {
+            // NOOP
+          },
+          recover() {
+            // NOOP
+          },
+          transform() {
+            // NOOP
+          },
+          ifAlive() {
+            // NOOP
+          },
+          ifDead() {
+            // NOOP
+          },
+          ifContradiction() {
+            // NOOP
+          },
           pass() {
             // NOOP
           }
@@ -192,6 +294,15 @@ describe('ISuperposition', () => {
             // NOOP
           },
           transform() {
+            // NOOP
+          },
+          ifAlive() {
+            // NOOP
+          },
+          ifDead() {
+            // NOOP
+          },
+          ifContradiction() {
             // NOOP
           },
           pass() {
@@ -223,6 +334,15 @@ describe('ISuperposition', () => {
             // NOOP
           },
           transform() {
+            // NOOP
+          },
+          ifAlive() {
+            // NOOP
+          },
+          ifDead() {
+            // NOOP
+          },
+          ifContradiction() {
             // NOOP
           },
           pass() {

@@ -31,6 +31,12 @@ export interface ISuperposition<A, D extends Error, N extends string = string> e
     ...errors: ReadonlyArray<DeadConstructor<E>>
   ): ISuperposition<B, E>;
 
+  ifAlive(consumer: Consumer<Detoxicated<A>>): this;
+
+  ifDead(consumer: Consumer<D>): this;
+
+  ifContradiction(consumer: Consumer<unknown>): this;
+
   pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): this;
 
   peek(peek: Peek): this;
@@ -61,6 +67,15 @@ export const isSuperposition = <A, D extends Error>(value: unknown): value is IS
     return false;
   }
   if (!Kind.isFunction(value.transform)) {
+    return false;
+  }
+  if (!Kind.isFunction(value.ifAlive)) {
+    return false;
+  }
+  if (!Kind.isFunction(value.ifDead)) {
+    return false;
+  }
+  if (!Kind.isFunction(value.ifContradiction)) {
     return false;
   }
   if (!Kind.isFunction(value.pass)) {

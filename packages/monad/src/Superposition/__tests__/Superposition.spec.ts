@@ -1030,6 +1030,66 @@ describe('Superposition', () => {
     });
   });
 
+  describe('ifAlive', () => {
+    it('delegates inner Superposition', () => {
+      expect.assertions(1);
+
+      const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
+
+      const spy: SinonSpy = sinon.spy();
+
+      mock.ifAlive = spy;
+
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.ofSuperposition<number, MockRuntimeError>(mock);
+
+      superposition.ifAlive(() => {
+        // NOOP
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('ifDead', () => {
+    it('delegates inner Superposition', () => {
+      expect.assertions(1);
+
+      const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
+
+      const spy: SinonSpy = sinon.spy();
+
+      mock.ifDead = spy;
+
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.ofSuperposition<number, MockRuntimeError>(mock);
+
+      superposition.ifDead(() => {
+        // NOOP
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('ifContradiction', () => {
+    it('delegates inner Superposition', () => {
+      expect.assertions(1);
+
+      const mock: MockSuperposition<number, MockRuntimeError> = new MockSuperposition<number, MockRuntimeError>();
+
+      const spy: SinonSpy = sinon.spy();
+
+      mock.ifContradiction = spy;
+
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.ofSuperposition<number, MockRuntimeError>(mock);
+
+      superposition.ifContradiction(() => {
+        // NOOP
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
   describe('pass', () => {
     it('delegates inner Superposition', () => {
       expect.assertions(1);

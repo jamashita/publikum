@@ -855,7 +855,46 @@ describe('Unscharferelation', () => {
       const unscharferelation: Unscharferelation<number> = Unscharferelation.ofUnscharferelation<number>(mock);
 
       unscharferelation.ifPresent(() => {
-        return 2;
+        // NOOP
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('ifAbsent', () => {
+    it('delegates inner Unscharferelation', () => {
+      expect.assertions(1);
+
+      const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
+
+      const spy: SinonSpy = sinon.spy();
+
+      mock.ifAbsent = spy;
+
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofUnscharferelation<number>(mock);
+
+      unscharferelation.ifAbsent(() => {
+        // NOOP
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+  describe('ifLost', () => {
+    it('delegates inner Unscharferelation', () => {
+      expect.assertions(1);
+
+      const mock: MockUnscharferelation<number> = new MockUnscharferelation<number>();
+
+      const spy: SinonSpy = sinon.spy();
+
+      mock.ifLost = spy;
+
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.ofUnscharferelation<number>(mock);
+
+      unscharferelation.ifLost(() => {
+        // NOOP
       });
 
       expect(spy.called).toBe(true);

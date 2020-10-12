@@ -3,7 +3,53 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.16.9](https://github.com/jamashita/publikum/compare/v2.16.8...v2.16.9) (2020-09-27)
+# [2.25.0](https://github.com/jamashita/publikum/compare/v2.24.0...v2.25.0) (2020-10-05)
+
+
+### Features
+
+* 🎸 update ([17057c9](https://github.com/jamashita/publikum/commit/17057c9c10001f7a7bbba7103fad3f34964efa4d))
+
+
+
+
+
+# [2.24.0](https://github.com/jamashita/publikum/compare/v2.22.0...v2.24.0) (2020-10-03)
+
+
+### Features
+
+* 🎸 add changelog ([538009d](https://github.com/jamashita/publikum/commit/538009dec9ef688243edd1c1589e687665d761ad))
+* 🎸 type ([0d262d9](https://github.com/jamashita/publikum/commit/0d262d9f53646e94345a84162c854fdae03d2227))
+* 🎸 update ([e63aa52](https://github.com/jamashita/publikum/commit/e63aa52d8838b4d3352099d9a763121660223d27))
+
+
+
+
+
+# [2.23.0](https://github.com/jamashita/publikum/compare/v2.22.0...v2.23.0) (2020-10-03)
+
+
+### Features
+
+* 🎸 update ([e63aa52](https://github.com/jamashita/publikum/commit/e63aa52d8838b4d3352099d9a763121660223d27))
+
+
+
+
+
+# [2.22.0](https://github.com/jamashita/publikum/compare/v2.21.1...v2.22.0) (2020-10-03)
+
+
+### Features
+
+* 🎸 deleted main andm odule ([c2b7224](https://github.com/jamashita/publikum/commit/c2b72246694e37e487859ac33821c41bbdb04907))
+
+
+
+
+
+## [2.21.1](https://github.com/jamashita/publikum/compare/v2.21.0...v2.21.1) (2020-09-29)
 
 **Note:** Version bump only for package @jamashita/publikum-collection
 
@@ -11,11 +57,52 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [2.16.8](https://github.com/jamashita/publikum/compare/v2.17.0...v2.16.8) (2020-09-27)
+# [2.21.0](https://github.com/jamashita/publikum/compare/v2.20.0...v2.21.0) (2020-09-29)
 
 **Note:** Version bump only for package @jamashita/publikum-collection
 
 
+
+
+
+# [2.20.0](https://github.com/jamashita/publikum/compare/v2.19.1...v2.20.0) (2020-09-28)
+
+
+### Features
+
+* 🎸 2.19.2 ([df5fa2e](https://github.com/jamashita/publikum/commit/df5fa2ef2547d949919583812a89d9834984f46d))
+* 🎸 updated to 2.19.2 ([ecb6751](https://github.com/jamashita/publikum/commit/ecb67516bcb5585efe4656f705be4ee81fd30685))
+
+
+
+
+
+## [2.19.2](https://github.com/jamashita/publikum/compare/v2.19.1...v2.19.2) (2020-09-28)
+
+**Note:** Version bump only for package @jamashita/publikum-collection
+
+
+
+
+
+## [2.19.1](https://github.com/jamashita/publikum/compare/v2.19.0...v2.19.1) (2020-09-28)
+
+**Note:** Version bump only for package @jamashita/publikum-collection
+
+
+
+
+
+# [2.19.0](https://github.com/jamashita/publikum/compare/v2.18.1...v2.19.0) (2020-09-28)
+
+
+### Features
+
+* 🎸 version renewed ([dd1ddf1](https://github.com/jamashita/publikum/commit/dd1ddf191f30fec8d42dfa7eee03f3c5896aefd5))
+
+
+
+## [2.16.8](https://github.com/jamashita/publikum/compare/v2.16.7...v2.16.8) (2020-09-27)
 
 
 
@@ -30,7 +117,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [2.16.6](https://github.com/jamashita/publikum/compare/v2.16.5...v2.16.6) (2020-09-27)
+## [2.18.2](https://github.com/jamashita/publikum/compare/v2.18.1...v2.18.2) (2020-09-28)
 
 **Note:** Version bump only for package @jamashita/publikum-collection
 
@@ -38,28 +125,45 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [2.16.5](https://github.com/jamashita/publikum/compare/v2.16.4...v2.16.5) (2020-09-27)
+## [2.18.1](https://github.com/jamashita/publikum/compare/v2.18.0...v2.18.1) (2020-09-28)
 
 
 ### Bug Fixes
 
-* 🐛 tsconfig.json update super ([983ef82](https://github.com/jamashita/publikum/commit/983ef8247c345eff79dc79dd56f5bbb9f57be27f))
+* 🐛 version arranged ([d21f22b](https://github.com/jamashita/publikum/commit/d21f22bd7b12a1dbf673d94664d77c3e7ea2b344))
 
 
 
 
 
-## [2.16.4](https://github.com/jamashita/publikum/compare/v2.16.3...v2.16.4) (2020-09-27)
-
-**Note:** Version bump only for package @jamashita/publikum-collection
+# [2.18.0](https://github.com/jamashita/publikum/compare/v2.16.2...v2.18.0) (2020-09-28)
 
 
+### Bug Fixes
+
+* 🐛 incorrect import paths ([8a0677e](https://github.com/jamashita/publikum/commit/8a0677e1afe4569436787a27fb4ac779eaf67279))
+* 🐛 update behind version ([e261923](https://github.com/jamashita/publikum/commit/e2619238f78b6211608e41a10c45a99737d20858))
+
+
+### Features
+
+* 🎸 update, especially references to our packages ([b268dec](https://github.com/jamashita/publikum/commit/b268dec587801981c6ef0b2bcdc86adcc3615b1f))
 
 
 
 
 
-**Note:** Version bump only for package @jamashita/publikum-collection
+# [2.17.0](https://github.com/jamashita/publikum/compare/v2.16.2...v2.17.0) (2020-09-28)
+
+
+### Bug Fixes
+
+* 🐛 incorrect import paths ([8a0677e](https://github.com/jamashita/publikum/commit/8a0677e1afe4569436787a27fb4ac779eaf67279))
+
+
+### Features
+
+* 🎸 update, especially references to our packages ([b268dec](https://github.com/jamashita/publikum/commit/b268dec587801981c6ef0b2bcdc86adcc3615b1f))
 
 
 

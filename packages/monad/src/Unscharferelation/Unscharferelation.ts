@@ -207,6 +207,18 @@ export class Unscharferelation<P> extends Objet<'Unscharferelation'> implements 
     return this;
   }
 
+  public ifAbsent(consumer: Consumer<void>): this {
+    this.internal.ifAbsent(consumer);
+
+    return this;
+  }
+
+  public ifLost(consumer: Consumer<unknown>): this {
+    this.internal.ifLost(consumer);
+
+    return this;
+  }
+
   public pass(accepted: Consumer<Matter<P>>, declined: Consumer<void>, thrown: Consumer<unknown>): this {
     this.internal.pass(accepted, declined, thrown);
 

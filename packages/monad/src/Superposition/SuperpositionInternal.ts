@@ -1,10 +1,12 @@
 import { Objet } from '@jamashita/publikum-object';
 import { Consumer, Kind, Peek, Predicate, Reject, Resolve, SyncAsync, UnaryFunction } from '@jamashita/publikum-type';
+import { DestroyPassPlan } from '../Plan/DestroyPassPlan';
 import { DestroyPlan } from '../Plan/Interface/DestroyPlan';
 import { MapPlan } from '../Plan/Interface/MapPlan';
 import { Plan } from '../Plan/Interface/Plan';
 import { RecoveryPlan } from '../Plan/Interface/RecoveryPlan';
-import { PassThroughPlan } from '../Plan/PassThroughPlan';
+import { MapPassPlan } from '../Plan/MapPassPlan';
+import { RecoveryPassPlan } from '../Plan/RecoveryPassPlan';
 import { Epoque } from '../Unscharferelation/Epoque/Interface/Epoque';
 import { Matter } from '../Unscharferelation/Interface/Matter';
 import { UnscharferelationInternal } from '../Unscharferelation/UnscharferelationInternal';
@@ -24,6 +26,10 @@ import { Contradiction } from './Schrodinger/Contradiction';
 import { Dead } from './Schrodinger/Dead';
 import { Schrodinger } from './Schrodinger/Schrodinger';
 import { Still } from './Schrodinger/Still';
+
+const spoil = (): void => {
+  // NOOP
+};
 
 export class SuperpositionInternal<A, D extends Error> extends Objet<'SuperpositionInternal'>
   implements ISuperposition<A, D, 'SuperpositionInternal'>, Chrono<A, D> {
@@ -149,18 +155,32 @@ export class SuperpositionInternal<A, D extends Error> extends Objet<'Superposit
     }, errors);
   }
 
-  public pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): this {
-    const plan: Plan<Detoxicated<A>, D> = PassThroughPlan.of<Detoxicated<A>, D>(accepted, declined, thrown);
+  public ifAlive(consumer: Consumer<Detoxicated<A>>): this {
+    this.handle(MapPassPlan.of<Detoxicated<A>>(consumer), RecoveryPassPlan.of<D>(spoil), DestroyPassPlan.of(spoil));
 
-    this.handle(plan, plan, plan);
+    return this;
+  }
+
+  public ifDead(consumer: Consumer<D>): this {
+    this.handle(MapPassPlan.of<Detoxicated<A>>(spoil), RecoveryPassPlan.of<D>(consumer), DestroyPassPlan.of(spoil));
+
+    return this;
+  }
+
+  public ifContradiction(consumer: Consumer<unknown>): this {
+    this.handle(MapPassPlan.of<Detoxicated<A>>(spoil), RecoveryPassPlan.of<D>(spoil), DestroyPassPlan.of(consumer));
+
+    return this;
+  }
+
+  public pass(accepted: Consumer<Detoxicated<A>>, declined: Consumer<D>, thrown: Consumer<unknown>): this {
+    this.handle(MapPassPlan.of<Detoxicated<A>>(accepted), RecoveryPassPlan.of<D>(declined), DestroyPassPlan.of(thrown));
 
     return this;
   }
 
   public peek(peek: Peek): this {
-    const plan: Plan<Detoxicated<A>, D> = PassThroughPlan.of<Detoxicated<A>, D>(peek, peek, peek);
-
-    this.handle(plan, plan, plan);
+    this.handle(MapPassPlan.of<Detoxicated<A>>(peek), RecoveryPassPlan.of<D>(peek), DestroyPassPlan.of(peek));
 
     return this;
   }

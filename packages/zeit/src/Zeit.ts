@@ -1,4 +1,5 @@
 import { ValueObject } from '@jamashita/publikum-object';
+import { Kind } from '@jamashita/publikum-type';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import utc from 'dayjs/plugin/utc';
@@ -100,8 +101,16 @@ export class Zeit extends ValueObject<'Zeit'> {
     return this.zeit.isSame(other.zeit);
   }
 
-  public serialize(): string {
-    return this.zeit.format(this.format);
+  public serialize(format?: string): string {
+    if (Kind.isUndefined(format)) {
+      return this.zeit.format(this.format);
+    }
+
+    return this.zeit.format(format);
+  }
+
+  public toString(format?: string): string {
+    return this.serialize(format);
   }
 
   public get(): dayjs.Dayjs {

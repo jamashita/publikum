@@ -16,7 +16,7 @@ export type Freeze<T extends object> = {
 export type Vague<T extends object = object> = {
   [P in keyof T]: unknown;
 };
-export type Inconnu = Record<string, unknown>;
+export type Inconnu = { [key: string]: unknown; };
 export type PlainObject = {
   [key: string]: PlainObjectItem;
 };
