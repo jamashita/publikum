@@ -1726,7 +1726,7 @@ describe('UnscharferelationInternal', () => {
       expect(heisenberg.isAbsent()).toBe(true);
     });
 
-    it('if Lost, the callback will be invoked', async () => {
+    it('if Lost, the callback will not be invoked', async () => {
       expect.assertions(2);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -1855,7 +1855,7 @@ describe('UnscharferelationInternal', () => {
     });
 
     it('if Lost, the callback will be invoked', async () => {
-      expect.assertions(2);
+      expect.assertions(3);
 
       const error: MockRuntimeError = new MockRuntimeError();
 
@@ -1867,8 +1867,9 @@ describe('UnscharferelationInternal', () => {
 
       const spy: SinonSpy = sinon.spy();
 
-      const heisenberg: Heisenberg<number> = await unscharferelation.ifLost(() => {
+      const heisenberg: Heisenberg<number> = await unscharferelation.ifLost((e: unknown) => {
         spy();
+        expect(e).toBe(error);
       }).terminate();
 
       expect(spy.called).toBe(true);
