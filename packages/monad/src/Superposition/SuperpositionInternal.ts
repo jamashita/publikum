@@ -1,12 +1,15 @@
 import { Objet } from '@jamashita/publikum-object';
 import { Consumer, Kind, Peek, Predicate, Reject, Resolve, SyncAsync, UnaryFunction } from '@jamashita/publikum-type';
 import { DestroyPassPlan } from '../Plan/DestroyPassPlan';
+import { DestroySpoilPlan } from '../Plan/DestroySpoilPlan';
 import { DestroyPlan } from '../Plan/Interface/DestroyPlan';
 import { MapPlan } from '../Plan/Interface/MapPlan';
 import { Plan } from '../Plan/Interface/Plan';
 import { RecoveryPlan } from '../Plan/Interface/RecoveryPlan';
 import { MapPassPlan } from '../Plan/MapPassPlan';
+import { MapSpoilPlan } from '../Plan/MapSpoilPlan';
 import { RecoveryPassPlan } from '../Plan/RecoveryPassPlan';
+import { RecoverySpoilPlan } from '../Plan/RecoverySpoilPlan';
 import { Epoque } from '../Unscharferelation/Epoque/Interface/Epoque';
 import { Matter } from '../Unscharferelation/Interface/Matter';
 import { UnscharferelationInternal } from '../Unscharferelation/UnscharferelationInternal';
@@ -26,10 +29,6 @@ import { Contradiction } from './Schrodinger/Contradiction';
 import { Dead } from './Schrodinger/Dead';
 import { Schrodinger } from './Schrodinger/Schrodinger';
 import { Still } from './Schrodinger/Still';
-
-const spoil = (): void => {
-  // NOOP
-};
 
 export class SuperpositionInternal<A, D extends Error> extends Objet<'SuperpositionInternal'>
   implements ISuperposition<A, D, 'SuperpositionInternal'>, Chrono<A, D> {
@@ -156,19 +155,19 @@ export class SuperpositionInternal<A, D extends Error> extends Objet<'Superposit
   }
 
   public ifAlive(consumer: Consumer<Detoxicated<A>>): this {
-    this.handle(MapPassPlan.of<Detoxicated<A>>(consumer), RecoveryPassPlan.of<D>(spoil), DestroyPassPlan.of(spoil));
+    this.handle(MapPassPlan.of<Detoxicated<A>>(consumer), RecoverySpoilPlan.of<D>(), DestroySpoilPlan.of());
 
     return this;
   }
 
   public ifDead(consumer: Consumer<D>): this {
-    this.handle(MapPassPlan.of<Detoxicated<A>>(spoil), RecoveryPassPlan.of<D>(consumer), DestroyPassPlan.of(spoil));
+    this.handle(MapSpoilPlan.of<Detoxicated<A>>(), RecoveryPassPlan.of<D>(consumer), DestroySpoilPlan.of());
 
     return this;
   }
 
   public ifContradiction(consumer: Consumer<unknown>): this {
-    this.handle(MapPassPlan.of<Detoxicated<A>>(spoil), RecoveryPassPlan.of<D>(spoil), DestroyPassPlan.of(consumer));
+    this.handle(MapSpoilPlan.of<Detoxicated<A>>(), RecoverySpoilPlan.of<D>(), DestroyPassPlan.of(consumer));
 
     return this;
   }
