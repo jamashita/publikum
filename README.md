@@ -184,16 +184,19 @@ Class for random string, random number.
 
 * [ ] `indexDB` repository implementation
 * [ ] implementing cancelable iterator class.
-* [x] `map()` for collections
 * [ ] utility class for Promise collection manipulation
   * Unscharfeleration
     * [ ] `sequence<P>(arr: Array<Promise<P>>): Promise<Array<P>>;`
   * Superposition
     * [ ] `sequence<A, D>(arr: Array<Promise<A>>): Promise<Array<Schrodinger<A, D>>>;`
 * [x] `Zeit.isAcceptable(str: string, format: string): boolean`
-* [ ] `Zeit.toString(format?: string): string` accepts FORMAT (omittable)
-* [ ] `Unscharferelation.tapif(cond: str, () => {})`
-* [ ] `Superposition.tapif(cond: str, () => {})`
+* [x] `Zeit.toString(format?: string): string` accepts FORMAT (omittable)
+* [x] `Unscharferelation.ifPresent((value: P) => {})`
+* [x] `Unscharferelation.ifAbsent(() => {})`
+* [x] `Unscharferelation.ifLost((cause: unknown) => {})`
+* [x] `Superposition.ifAlive((value: A) => {})`
+* [x] `Superposition.ifDead((value: D) => {})`
+* [x] `Superposition.ifContradiction((cause: unknown) => {})`
 
 ## Conventional commit
 
