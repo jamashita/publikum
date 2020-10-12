@@ -37,6 +37,14 @@ export class MockUnscharferelation<P> extends ValueObject<'MockUnscharferelation
     throw new UnimplementedError();
   }
 
+  public ifAbsent(): this {
+    throw new UnimplementedError();
+  }
+
+  public ifLost(): this {
+    throw new UnimplementedError();
+  }
+
   public pass(): this {
     throw new UnimplementedError();
   }
