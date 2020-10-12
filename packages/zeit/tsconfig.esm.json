@@ -10,6 +10,9 @@
     },
     {
       "path": "../object/tsconfig.esm.json"
+    },
+    {
+      "type": "../type/tsconfig.esm.json"
     }
   ]
 }
