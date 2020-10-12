@@ -27,6 +27,10 @@ export interface IUnscharferelation<P, N extends string = string> extends Nomina
 
   ifPresent(consumer: Consumer<Matter<P>>): this;
 
+  ifAbsent(consumer: Consumer<void>): this;
+
+  ifLost(consumer: Consumer<unknown>): this;
+
   pass(accepted: Consumer<Matter<P>>, declined: Consumer<void>, thrown: Consumer<unknown>): this;
 
   peek(peek: Peek): this;
@@ -54,6 +58,12 @@ export const isUnscharferelation = <P>(value: unknown): value is IUnscharferelat
     return false;
   }
   if (!Kind.isFunction(value.ifPresent)) {
+    return false;
+  }
+  if (!Kind.isFunction(value.ifAbsent)) {
+    return false;
+  }
+  if (!Kind.isFunction(value.ifLost)) {
     return false;
   }
   if (!Kind.isFunction(value.pass)) {

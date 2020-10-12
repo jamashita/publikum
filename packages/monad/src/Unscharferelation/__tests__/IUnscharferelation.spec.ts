@@ -6,7 +6,7 @@ import { UnscharferelationInternal } from '../UnscharferelationInternal';
 describe('IUnscharferelation', () => {
   describe('isUnscharferelation', () => {
     it('normal case', () => {
-      expect.assertions(24);
+      expect.assertions(26);
 
       const unscharferelation1: Unscharferelation<number> = Unscharferelation.present<number>(4);
       const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -135,6 +135,65 @@ describe('IUnscharferelation', () => {
           ifPresent() {
             // NOOP
           },
+          ifAbsent() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        isUnscharferelation<number>({
+          get() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          },
+          filter() {
+            // NOOP
+          },
+          map() {
+            // NOOP
+          },
+          recover() {
+            // NOOP
+          },
+          ifPresent() {
+            // NOOP
+          },
+          ifAbsent() {
+            // NOOP
+          },
+          ifLost() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        isUnscharferelation<number>({
+          get() {
+            // NOOP
+          },
+          terminate() {
+            // NOOP
+          },
+          filter() {
+            // NOOP
+          },
+          map() {
+            // NOOP
+          },
+          recover() {
+            // NOOP
+          },
+          ifPresent() {
+            // NOOP
+          },
+          ifAbsent() {
+            // NOOP
+          },
+          ifLost() {
+            // NOOP
+          },
           pass() {
             // NOOP
           }
@@ -155,6 +214,15 @@ describe('IUnscharferelation', () => {
             // NOOP
           },
           recover() {
+            // NOOP
+          },
+          ifPresent() {
+            // NOOP
+          },
+          ifAbsent() {
+            // NOOP
+          },
+          ifLost() {
             // NOOP
           },
           pass() {
@@ -183,6 +251,12 @@ describe('IUnscharferelation', () => {
             // NOOP
           },
           ifPresent() {
+            // NOOP
+          },
+          ifAbsent() {
+            // NOOP
+          },
+          ifLost() {
             // NOOP
           },
           pass() {
