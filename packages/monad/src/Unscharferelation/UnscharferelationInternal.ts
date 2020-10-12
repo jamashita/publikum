@@ -40,7 +40,6 @@ const spoil = (): void => {
   // NOOP
 };
 
-
 export class UnscharferelationInternal<P> extends Objet<'UnscharferelationInternal'>
   implements IUnscharferelation<P, 'UnscharferelationInternal'>, Epoque<P, 'UnscharferelationInternal'> {
   public readonly noun: 'UnscharferelationInternal' = 'UnscharferelationInternal';
