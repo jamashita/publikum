@@ -5,6 +5,13 @@
 
 ![CI](https://github.com/jamashita/publikum/workflows/CI/badge.svg)
 
+## Installation
+
+```
+npm install --save @jamashita/publikum-monad
+yarn add @jamashita/publikum-monad                      
+```
+
 ## What this package supplies
 
 1. `Unscharferelation`
@@ -23,15 +30,15 @@ type Peek = () => unknown | void;
 type SyncAsync<T> = T | PromiseLike<T>;
 ```
 
-## Unscharferelation
+## What is Unscharferelation?
 
 This is an `Optional` class that can deal with `Promise`.
 
-## Motivation
+### Motivation
 
 [HERE!](https://github.com/jamashita/publikum/wiki/Unscharferelation---Motivation)
 
-### Prerequisite for Unscahrferelation
+#### Prerequisite for Unscahrferelation
 
 [ALSO HERE!](https://github.com/jamashita/publikum/wiki/Unscharferelation---Motivation#helpers)
 
@@ -75,10 +82,13 @@ else {
 
 ## What Unscharfeleration enables
 
-- We can build applications without considering the value is `nullable` or not
-- We can build applications without considering the value is Synchronous or Asynchronous
+- Unscharfeleration enables us not to consider the value is `nullable` or not
+- Unscharfeleration enables us not to consider the value is Synchronous or Asynchronous
 
 ## Unscharfeleration API
+
+What is Epoque? What is Heisenberg?
+[See here!](https://github.com/jamashita/publikum/wiki/Unscharferelation---Motivation#helpers)
 
 ### (static) `of<P>(func: UnaryFunction<Epoque<M>, unknown>): Unscharferelation<P>`
 
@@ -86,13 +96,13 @@ Forge a `Unscharferelation` instance. The callback argument is not the same as `
 
 ```typescript
 Unscharferelation.of<ResponseBody>((epoque: Epoque<ResponseBody>) => {
-  request.get('https://....', (res: Response) => {
+  db.query('SELECT * FROM ...', (res?: Response) => {
     try {
-      if (res.body === null || res.body === undefined) {
+      if (res === null || res === undefined) {
         return epoque.decline();
       }
 
-      return epoque.accept(res.body);
+      return epoque.accept(res);
     }
     catch (err: unknown) {
       return epoque.throw(err);
@@ -107,19 +117,40 @@ Unscharferelation.of<ResponseBody>((epoque: Epoque<ResponseBody>) => {
 * When `SyncAsync<null | undefined>` given, returns Absent Unscharferelation
 * When rejected `Promise` given, returns Lost Unscharferelation
 
+```typescript
+Unscharferelation.maybe<null>(null);
+// Absent Unscharferelation
+Unscharferelation.maybe<undefined>(undefined);
+// Absent Unscharferelation
+Unscharferelation.maybe<null>(Promise.resolve<null>(null));
+// Absent Unscharferelation
+Unscharferelation.maybe<undefined>(Promise.resolve<undefined>(undefined));
+// Absent Unscharferelation
+```
+
 ### (static) `all<P>(unscharferelations: Iterable<Unscharferelation<P>>): Unscharferelation<Array<P>>`
 
 Alike `Promise.all()`, it aggregates all `Unscharferelations`.
 
-* Only when all `Unscharferelations` are Present, returns Present `Unscharferelation<Array<P>>`
-* When at least one of them is to be Absent, returns Absent `Unscharferelation<Array<P>>`
-* When at least one of them is to be Lost, Returns Lost `Unscharferelation<Array<P>>`
+* Only when all `Unscharferelations` are Present, returns Present Unscharferelation
+* When at least one of them is to be Absent, returns Absent Unscharferelation
+* When at least one of them is to be Lost, Returns Lost Unscharferelation
 
-When Absent and Lost are satisfied together, `Unscharfeleration` is going to be `Lost`.
+```typescript
+const array: Array<Unscharferelation<Response>> = [unscharferelation1, unscharferelation2, unscharferelation3];
+const unscharferelations: Unscharferelation<Array<Response>> = Unscharferelation.all<Response>(array);
+```
+
+When Absent and Lost are satisfied together, `Unscharfeleration` will be `Lost`.
 
 ### (static) `anyway<P>(unscharferelations: Iterable<Unscharferelation<P>>): Promise<Array<Heisenberg<P>>>`
 
 Unlike to `Unscharferelation.all()`, this executes all `Unscharfelerations` even if they are going to be Absent or Lost.
+
+```typescript
+const array: Array<Unscharferelation<Response>> = [unscharferelation1, unscharferelation2, unscharferelation3];
+const heisenbergs: Array<Heisenberg<Response>> = await Unscharferelation.anyway<Response>(array);
+```
 
 ### (static) `ofHeisenberg<P>(heisenberg: Heisenberg<P>): Unscharferelation<P>`
 
@@ -138,6 +169,9 @@ Forge a `Unscharferelation` instance.
 ### (instance) `get(): Promise<P>`
 
 Get the retaining value.
+
+* When `Unscharferelation` is Absent, `UnscharferelationError` will be thrown
+* When `Unscharferelation` is Lost, its retaining value will be thrown
 
 ### (instance) `terminate(): Promise<Heisenberg<P>>`
 
@@ -172,6 +206,25 @@ If `Unscharferelation` is Present, `predicate` is invoked and if it returns fals
 ### (instance) `peek(peek: Peek): this`
 
 These methods are used for peeking.
+
+## Chaining
+
+`Unscharferelation` supports method chain. You can chan as much as you want and get the result by adding `terminate()`
+at the last of them.
+
+```typescript
+const address: string = Unscharferelation.maybe<Response>(userRepositoty.selectByName('foo bar')).map<User>((res: Response) => {
+  return res.user;
+}).map<Company>((user: User) => {
+  return companyRepository.findByUserID(user.userID);
+}).map<string>((company: Company) => {
+  return company.address;
+}).recover<string>((err: UnscharferelationError) => {
+  // ...
+
+  return 'xxxx';
+}).terminate();
+```
 
 ## Superposition
 
