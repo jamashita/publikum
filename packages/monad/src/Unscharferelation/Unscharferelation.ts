@@ -78,7 +78,7 @@ export class Unscharferelation<P> extends Objet<'Unscharferelation'> implements 
     return Promise.all<Heisenberg<PT>>(promises);
   }
 
-  public static maybe<PT>(value: PromiseLike<Suspicious<Matter<PT>>> | Suspicious<Matter<PT>>): Unscharferelation<PT> {
+  public static maybe<PT>(value: SyncAsync<Suspicious<Matter<PT>>>): Unscharferelation<PT> {
     return Unscharferelation.of<PT>((epoque: Epoque<PT>) => {
       if (Kind.isPromiseLike<Suspicious<Matter<PT>>>(value)) {
         return value.then<unknown, unknown>(
@@ -119,7 +119,7 @@ export class Unscharferelation<P> extends Objet<'Unscharferelation'> implements 
     });
   }
 
-  public static present<PT>(value: PromiseLike<Matter<PT>> | Matter<PT>): Unscharferelation<PT> {
+  public static present<PT>(value: SyncAsync<Matter<PT>>): Unscharferelation<PT> {
     return Unscharferelation.of<PT>((epoque: Epoque<PT>) => {
       if (Kind.isPromiseLike<Matter<PT>>(value)) {
         return value.then<unknown, unknown>(
@@ -136,7 +136,7 @@ export class Unscharferelation<P> extends Objet<'Unscharferelation'> implements 
     });
   }
 
-  public static absent<PT>(value: PromiseLike<Nihil> | Nihil): Unscharferelation<PT> {
+  public static absent<PT>(value: SyncAsync<Nihil>): Unscharferelation<PT> {
     return Unscharferelation.of<PT>((epoque: Epoque<PT>) => {
       if (Kind.isPromiseLike<Nihil>(value)) {
         return value.then<unknown, unknown>(

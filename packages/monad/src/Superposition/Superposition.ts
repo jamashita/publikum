@@ -86,7 +86,7 @@ export class Superposition<A, D extends Error> extends Objet<'Superposition'> im
   public static playground<AT, DT extends Error>(supplier: Supplier<SyncAsync<Detoxicated<AT>>>, ...errors: ReadonlyArray<DeadConstructor<DT>>): Superposition<AT, DT> {
     return Superposition.of<AT, DT>((chrono: Chrono<AT, DT>) => {
       try {
-        const value: PromiseLike<Detoxicated<AT>> | Detoxicated<AT> = supplier();
+        const value: SyncAsync<Detoxicated<AT>> = supplier();
 
         if (Kind.isPromiseLike<Detoxicated<AT>>(value)) {
           return value.then<unknown, unknown>(
