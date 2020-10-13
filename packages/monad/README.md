@@ -346,11 +346,6 @@ In general, `Try` is an abstract class, and it has 2 concrete classes, one is `S
 expected value, another is `Failure` that describes that has an unexpected value (mainly it would be an exception)
 . `Try` can force users to consider whether the instance is an expected value or no.
 
-このような問題を回避する考えとして`Try`があります。この型は「成功したかもしれないし失敗したかもしれない」というのらりくらりとした状態を表すモナドです。
-
-`Try`はそれ自体は抽象クラスとして表現されており、サブクラスに成功時の値をもっている`Success`と、失敗時の例外をもっている`Failure`をもっています。このサブクラスを直接扱うことなく`Try`
-を使うことで、使用者に成功した(`Success`)かもしれないし、失敗した(`Failure`)かもしれないことを隠蔽しています。
-
 ### `Try` in TypeScript
 
 To build `Try`, you can easily achieve by using `Union types`, and `Discriminated unions.
