@@ -179,7 +179,7 @@ else {
 
 ### Heisenberg<P>
 
-This is an interface, this retains the result and also describes status for `Unshcarferelation`.
+This is an interface, this retains the result and also describes the status for `Unshcarferelation`.
 
 4 classes implement `Heisenberg` and each of them means
 
@@ -300,18 +300,18 @@ These methods are used for peeking.
 
 ## Superposition
 
-Superposition is a `Try` packagefor TS that can deal with Promise.
+Superposition is a `Try` package for TS that can deal with Promise.
 
 ### What is `Try`?
 
-Many languages have `Exception` function. When an exceptions are thrown, that method immidiately shut the process and
-until the execption is caught, the shut-process goes up to the callees.
+Many languages have `Exception` function. When exceptions are thrown, that method immediately shut the process and until
+the exception is caught, the shut-process goes up to the callees.
 
 `Error` is called for `Exception` in JavaScript, TypeScript, but they are equivalent.
 
 ### Catch errors
 
-We can catch errors by using `try - catch` syntax. put the methods that may throw errors in `try` and if errors are
+We can catch errors by using `try-catch` syntax. put the methods that may throw errors in `try` and if errors are
 thrown, `catch` can catch them.
 
 ```typescript
@@ -340,7 +340,7 @@ thrown when they call methods in advance.
 
 ### `Try`
 
-`Try` enables to avoid this problem. `Try` describes that might succeed, or might fail.
+`Try` enables us to avoid this problem. `Try` describes that might succeed, or might fail.
 
 In general, `Try` is an abstract class, and it has 2 concrete classes, one is `Success` that describes that has an
 expected value, another is `Failure` that describes that has an unexpected value (mainly it would be an exception)
@@ -395,7 +395,7 @@ error generic. Now `Try<T>` is `Try<T, E>`.
 
 `Promise` is a class for asynchronous action in JavaScript and TypeScript. This class is essential for nowadays
 TypeScript development. This class can be a problem. Because this is just a ticket for the future response. `Promise`
-absolutely does not throw erros but its retaining action may throw errors. `Try<Promise<T>, E>`
+absolutely does not throw errors but its retaining action may throw errors. `Try<Promise<T>, E>`
 is definitely `Success<Promise<T>, E>`. In other words, `Try<Promise<T>, E>` does not make any sense.
 
 ## What Superposition enables
@@ -407,7 +407,7 @@ is definitely `Success<Promise<T>, E>`. In other words, `Try<Promise<T>, E>` doe
 
 ### `Schrodinger<A, D>`
 
-This is an interface, this retains either result, succeeded one or failed one, and also describes status
+This is an interface, this retains either result, succeeded one or failed one, and also describes the status
 for `Superposition`.
 
 4 classes implement `Schrodinger` and each of them means
@@ -415,7 +415,7 @@ for `Superposition`.
 * `Alive<A, D>`
   * This means fulfilled, and retains the succeeded instance as expected
 * `Dead<A, D>`
-  * This means **recoverable** rejected, and retains no errors. Errors must be one of more of the instances of the
+  * This means **recoverable** rejected, and retains no errors. Errors must be one or more of the instances of the
     generic D
 * `Contradiction<A, D>`
   * This means rejected, and retains `unknown` value
@@ -456,9 +456,9 @@ Superposition.of<number, SyntaxError>((chrono: Chrono<number, SyntaxError>) => {
 
 ### (static) `playground<A, D>(supplier: Supplier<SyncAsync<A>>, ...errors: Array<DeadConstructor<D>>): Superposition<A, D>`
 
-* When `SyncAsync<non-error>` value given, returns Alive Superposition
+* When `SyncAsync<non-error>` value is given, returns Alive Superposition
 * When `SyncAsync<error>` given, returns Dead Superposition
-* When thrown error is not contained in `errors`, returns Contradiction Superposition
+* When a thrown error is not contained in `errors`, returns Contradiction Superposition
 
 ### (static) `all<A, D>(superpositions: Iterable<Superposition<A, D>>): Superposition<Array<A>, D>`
 
@@ -476,18 +476,18 @@ Unlike to `Superposition.all()`, this executes all `Superpositions` even if they
 
 ### (static) `ofSchrodinger<AT, DT extends Error>(schrodinger: Schrodinger<AT, DT>, ...errors: ReadonlyArray<DeadConstructor<DT>>): Superposition<A, D>`
 
-Forge a `Superpositioin` instance.
+Forge a `Superposition` instance.
 
 ### (static) `alive<A, D>(value: SyncAsync<A>, ...errors: Array<DeadConstructor<D>>): Superposition<A, D> {`
 
-* When `SyncAsync<non-error>` value given, returns Alive Superposition
+* When `SyncAsync<non-error>` value is given, returns Alive Superposition
 * When rejected `Promise` given, returns Contradiction Superposition
 
 ### (static) `dead<A, D>(error: PromiseLike<A> | D, ...errors: Array<DeadConstructor<D>>): Superposition<A, D>`
 
 * When `SyncAsync<error>` given, returns Dead Superposition
 * When rejected `Promise` given, returns Dead or Contradiction Superposition
-  * When error is contained in `errors`, returns Dead Superposition, otherwise returns Contradiction Superposition
+  * When an error is contained in `errors`, returns Dead Superposition, otherwise returns Contradiction Superposition
 
 ### (instance) `get(): Promise<A>`
 
@@ -496,7 +496,7 @@ Get the retaining value.
 ### (instance) `terminate(): Promise<Schrodinger<A, D>>`
 
 `Superposition` supports method chain. This method is prepared to wait for all the chains done.  
-Please use this method to avoid to be thrown erros when using `get()` when its `Superposition` is going to
+Please use this method to avoid to be thrown errors when using `get()` when its `Superposition` is going to
 be `Dead, Contradiction`.
 
 ### (instance) `filter(predicate: Predicate<A>): Superposition<A, D | SuperpositionError>`
