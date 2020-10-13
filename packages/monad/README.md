@@ -226,52 +226,21 @@ const address: string = Unscharferelation.maybe<Response>(userRepositoty.selectB
 }).terminate();
 ```
 
-## Superposition
+## What is Superposition?
 
-Superposition is a `Try` package for TS that can deal with Promise.
+This is a `Try` class that can deal with `Promise`.
 
-### What is `Try`?
+### Motivation
 
-Many languages have `Exception` function. When exceptions are thrown, that method immediately shut the process and until
-the exception is caught, the shut-process goes up to the callees.
+[HERE!](https://github.com/jamashita/publikum/wiki/Superposition-Motivation)
 
-`Error` is called for `Exception` in JavaScript, TypeScript, but they are equivalent.
+#### Prerequisite for Superposition
 
-### Catch errors
+[ALSO HERE!](https://github.com/jamashita/publikum/wiki/Superposition-Motivation)
 
-We can catch errors by using `try-catch` syntax. put the methods that may throw errors in `try` and if errors are
-thrown, `catch` can catch them.
+### Try is easily built in TypeScript
 
-```typescript
-try {
-  method();
-}
-catch (err: unknown) {
-  // ...
-}
-```
-
-### A tragedy in TypeScript
-
-TypeScript can catch errors, but these errors must be `any, unknown` in TypeScript because JavaScript can throw whatever
-you want, even if it is string, other primitive types, or something else.
-
-### In TypeScript
-
-TypeScript does not support `throws`. It cannot check errors. The caller has to investigate and know what is going to be
-thrown when they call methods in advance.
-
-### `Try`
-
-`Try` enables us to avoid this problem. `Try` describes that might succeed, or might fail.
-
-In general, `Try` is an abstract class, and it has 2 concrete classes, one is `Success` that describes that has an
-expected value, another is `Failure` that describes that has an unexpected value (mainly it would be an exception)
-. `Try` can force users to consider whether the instance is an expected value or no.
-
-### `Try` in TypeScript
-
-To build `Try`, you can easily achieve by using `Union types`, and `Discriminated unions.
+By doing this, you can easily build sooooo easily.
 
 ```typescript
 type Success<T> = Readonly<{
@@ -287,71 +256,41 @@ type Failure = Readonly<{
 type Try<T> = Success<T> | Failure;
 ```
 
-We can immediately find that is `Success<T>, Failure` only if we check `tried.success`.
+### An obstacle appears
 
-`Discriminated unions`のおかげで`tried.success`の値さえ判別できればそれが`Success, Failure`のどちらかがわかります。
+`Promise` brings us a tragedy.
+
+`Promise` is a class for asynchronous action in JavaScript and TypeScript. This class is essential for nowadays
+TypeScript development. This class can be a problem, because this is just a ticket for the future response. `Promise`
+absolutely does not throw errors but its retaining action may throw them. `Try<Promise<T>, E>`
+is definitely `Success<Promise<T>, E>`. In other words, `Try<Promise<T>, E>` does not make any sense.
 
 ```typescript
 const tried: Try<UserID> = createUser(user);
 
 if (tried.success) {
-  // This tried is Success<UserID>
+  // does not this really throw any errors?
+  try {
+    await tried.value;
+  }
+  catch (err: unknown) {
+    // ...
+  }
 }
 else {
   // This tried is Failure
 }
 ```
 
-### Supports error generic
-
-This `Try` only tell us that has succeeded or failed, this is not convenient, So I extended `Try` feature to support
-error generic. Now `Try<T>` is `Try<T, E>`.
-
-### A new obstacle
-
-`Promise` brings us a tragedy.
-
-`Promise` is a class for asynchronous action in JavaScript and TypeScript. This class is essential for nowadays
-TypeScript development. This class can be a problem. Because this is just a ticket for the future response. `Promise`
-absolutely does not throw errors but its retaining action may throw errors. `Try<Promise<T>, E>`
-is definitely `Success<Promise<T>, E>`. In other words, `Try<Promise<T>, E>` does not make any sense.
-
 ## What Superposition enables
 
-- We can build applications without considering nor investigating the method throws errors
-- We can build applications without considering the action is Synchronous or Asynchronous
-
-## Superposition helpers
-
-### `Schrodinger<A, D>`
-
-This is an interface, this retains either result, succeeded one or failed one, and also describes the status
-for `Superposition`.
-
-4 classes implement `Schrodinger` and each of them means
-
-* `Alive<A, D>`
-  * This means fulfilled, and retains the succeeded instance as expected
-* `Dead<A, D>`
-  * This means **recoverable** rejected, and retains no errors. Errors must be one or more of the instances of the
-    generic D
-* `Contradiction<A, D>`
-  * This means rejected, and retains `unknown` value
-    * This is equivalent to `rejected Promise` but this is not **recoverable**
-* `Still<A, D>`
-  * This means pending, the result is not ready
-
-`Alive, Dead, Contradiction` are called SETTLED, that means, when it would be once, would never change to others.
-
-#### Chrono<M, R>
-
-This is an interface that is alternative for `resolve, reject` in `new Promise()`. This
-can `accept(), decline(), and throw()`.
-
-When accepted one, the result would be `Alive`, declined once, the result would be `Dead`, thrown once, the result would
-be `Contradiction`.`
+- Superposition enables us not to consider nor investigate the method throws errors
+- Superposition enables us not to consider the action is Synchronous or Asynchronous
 
 ## Superposition API
+
+What is Chrono? What is
+Schrodinger? [See here!](https://github.com/jamashita/publikum/wiki/Superposition-Motivation#helpers)
 
 ### (static) `of<A, D>(func: UnaryFunction<Chrono<A, D>, unknown>, ...errors: Array<DeadConstructor<D>>): Superposition<A, D>`
 
@@ -378,6 +317,12 @@ Superposition.of<number, SyntaxError>((chrono: Chrono<number, SyntaxError>) => {
 * When `SyncAsync<error>` given, returns Dead Superposition
 * When a thrown error is not contained in `errors`, returns Contradiction Superposition
 
+```typescript
+Superposition.playground<User, DBError>(() => {
+  return db.query('SELECT * FROM ....');
+}, DBError);
+```
+
 ### (static) `all<A, D>(superpositions: Iterable<Superposition<A, D>>): Superposition<Array<A>, D>`
 
 Alike `Promise.all()`, it aggregates all `Superpositions`.
@@ -386,11 +331,21 @@ Alike `Promise.all()`, it aggregates all `Superpositions`.
 * When at least one of them is to be Dead, returns Dead `Superposition<Array<A>, D>`
 * When at least one of them is to be Contradiction, Returns Contradiction `Superposition<Array<A>, D>`
 
+```typescript
+const array: Array<Superposition<Response>> = [superposition1, superposition2, superposition3];
+const superpositions: Superposition<Array<Response>> = Superposition.all<Response>(array);
+```
+
 When Dead and Contradiction are satisfied together, `Superposition` is going to be `Contradiction`.
 
 ### (static) `anyway<A, D>(superpositions: Iterable<Superposition<A, D>>): Promise<Array<Schrodinger<A, D>>> {`
 
 Unlike to `Superposition.all()`, this executes all `Superpositions` even if they are going to be Dead or Contradiction.
+
+```typescript
+const array: Array<Superposition<Response>> = [superposition1, superposition2, superposition3];
+const schrodingers: Array<Schrodinger<Response>> = await Superposition.anyway<Response>(array);
+```
 
 ### (static) `ofSchrodinger<AT, DT extends Error>(schrodinger: Schrodinger<AT, DT>, ...errors: ReadonlyArray<DeadConstructor<DT>>): Superposition<A, D>`
 
@@ -458,3 +413,24 @@ if `Superposition` is Alive, `predicate` is invoked and if it returns false, `Su
 ### (instance) `peek(peek: Peek): this`
 
 These methods are used for peeking.
+
+## Chaining
+
+`Superposition` supports method chain. You can chan as much as you want and get the result by adding `terminate()`
+at the last of them.
+
+```typescript
+const address: string = Superposition.playground<Response, UserError>(() => {
+  return userRepositoty.selectByName('foo bar');
+}, UserError).map<User, UserError>((res: Response) => {
+  return res.user;
+}).map<Company, UserError | CompanyError>((user: User) => {
+  return companyRepository.findByUserID(user.userID);
+}, CompanyError).map<string, UserError | CompanyError>((company: Company) => {
+  return company.address;
+}).recover<string, Error>((err: UserError | CompanyError) => {
+  // ...
+
+  return 'xxxx';
+}).terminate();
+```
