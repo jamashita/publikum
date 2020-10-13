@@ -213,7 +213,7 @@ These methods are used for peeking.
 at the last of them.
 
 ```typescript
-const address: string = Unscharferelation.maybe<Response>(userRepositoty.selectByName('foo bar')).map<User>((res: Response) => {
+const address: string = await Unscharferelation.maybe<Response>(userRepositoty.selectByName('foo bar')).map<User>((res: Response) => {
   return res.user;
 }).map<Company>((user: User) => {
   return companyRepository.findByUserID(user.userID);
@@ -420,7 +420,7 @@ These methods are used for peeking.
 at the last of them.
 
 ```typescript
-const address: string = Superposition.playground<Response, UserError>(() => {
+const address: string = await Superposition.playground<Response, UserError>(() => {
   return userRepositoty.selectByName('foo bar');
 }, UserError).map<User, UserError>((res: Response) => {
   return res.user;
