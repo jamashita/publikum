@@ -95,7 +95,7 @@ What is Epoque? What is Heisenberg?
 Forge a `Unscharferelation` instance. The callback argument is not the same as `Promise`, such as
 
 ```typescript
-Unscharferelation.of<ResponseBody>((epoque: Epoque<ResponseBody>) => {
+Unscharferelation.of<Response>((epoque: Epoque<Response>) => {
   db.query('SELECT * FROM ...', (res?: Response) => {
     try {
       if (res === null || res === undefined) {
@@ -301,7 +301,7 @@ Superposition.of<number, SyntaxError>((chrono: Chrono<number, SyntaxError>) => {
   try {
     return chrono.accept(JSON.parse(str));
   }
-  catch (err) {
+  catch (err: unknown) {
     if (err instanceof SyntaxError) {
       return chrono.decline(err);
     }
