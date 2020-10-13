@@ -14,8 +14,8 @@ yarn add @jamashita/publikum-monad
 
 ## What this package supplies
 
-1. `Unscharferelation`
-2. `Superposition`
+1. [Unscharferelation](https://github.com/jamashita/publikum/blob/main/packages/monad/README.md#what-is-unscharferelation)
+2. [Superposition](https://github.com/jamashita/publikum/blob/main/packages/monad/README.md#what-is-superposition)
 
 ### Prerequisite
 
