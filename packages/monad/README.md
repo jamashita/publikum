@@ -25,103 +25,19 @@ type SyncAsync<T> = T | PromiseLike<T>;
 
 ## Unscharferelation
 
-Unscharferlation is an `Optional` package for TS that can deal with Promise.
+This is an `Optional` class that can deal with `Promise`.
 
-### What is `Optional`?
+## Motivation
 
-Many languages have `null`(`nil`) to describe that has no reference. Besides, JavaScript has `undefined` as well. These
-2 types mean that they do not have values.
+[HERE!](https://github.com/jamashita/publikum/wiki/Unscharferelation---Motivation)
 
-### `null, undefined` do not have wrapper classes
+### Prerequisite for Unscahrferelation
 
-Primitive types in JavaScript are they.
+[ALSO HERE!](https://github.com/jamashita/publikum/wiki/Unscharferelation---Motivation#helpers)
 
-* `undefined`
-* `null`
-* `boolean`
-* `number`
-* `string`
-* `symbol`
-* `bigint`
+### Optional is easily built in TypeScript
 
-`boolean, number, string, symbol, bigint` have wrappers.
-
-As usual, everyone might not consider that the primitive types only focus on the values themselves, and do not have
-methods. Then, why can we get the length of the text by typing `str.length`? It is because JavaScript implicitly
-converts them to their wrappers. this conversion is called `autoboxing`, but I would not talk about it anymore because
-this feature does not have any relationship to the next section.
-
-### The code may be aborted when `null, undefined` given
-
-Because of `null, undefined` do not have wrappers, that means, they do not have properties nor methods. It makes
-abortion to make accesses to their properties or methods.  
-(JavaScript will throw `TypeError`)
-
-```typescript
-null.length;
-// TypeError: Cannot read property 'length' of null
-
-undefined.length;
-// TypeError: Cannot read property 'length' of undefined
-
-null();
-// TypeError: null is not a function
-
-undefined();
-// TypeError: undefined is not a function
-```
-
-### Otherwise, in Java
-
-In Java, we can not only put its instance but also `null` when the type is not primitive types but reference types. This
-feature remains vast of catastrophes when one makes applications, one has to always pay attention to whether `null`
-given or not, and also has to consider where `null` would not be given.  
-(Nowadays, some annotations guarantee those values are not `nullable`)
-
-In Java, engineers that are not good at error handing can easily return `null`. This is quite problematic but actually
-allowed, and this `null` function enables such an arrogant way.
-
-### In TypeScript
-
-TypeScript can be null safety (this is configurable by changing the settings in `tsconfig.json`, but I strongly
-recommend turning it on). `null, undefined` cannot be put even if the variable is not allowed `null, undefined`.
-
-```typescript
-const girl: Mankind = null;
-// Type 'null' is not assignable to type 'Mankind'
-
-const boy: Mankind = undefined;
-// Type 'undefined' is not assignable to type 'Mankind'
-```
-
-If you want to be tolerant, you can use `Union types`.
-
-```typescript
-const girl: Mankind | null = null;
-const boy: Mankind | undefined = undefined;
-```
-
-You can do below as well, of course.
-
-```typescript
-const girl: null = null;
-const boy: undefined = undefined;
-const baby: void = undefined;
-```
-
-`Union types` are really useful but `Union types` will delegate the type check for the caller.
-
-### `Optional`
-
-`Optional` enables to avoid this problem. `Optional` describes that may have, or may not have.
-
-In general, `Optional` is an abstract class, and it has 2 concrete classes, one is `Some` that describes that has a
-value, another is `None` that describes that has no values. `Optional` can force users to consider whether the instance
-has a value or no.
-
-### `Optional` in TypeScript
-
-To build `Optional`, you can easily achieve by using `Union types`, and `Discriminated unions`.
+By doing this, you can build sooooo easily.
 
 ```typescript
 type Some<T> = Readonly<{
@@ -136,26 +52,13 @@ type None = Readonly<{
 type Optional<T> = Some<T> | None;
 ```
 
-We can immediately find that is `Some<T>, None` only if we check `optional.present`.
-
-```typescript
-const optional: Optional<User> = findUserByID(1999);
-
-if (optional.present) {
-  // This optional is Some<User>
-}
-else {
-  // This optional is None
-}
-```
-
-### A new obstacle
+### An obstacle appears!
 
 `Promise` brings us a tragedy.
 
 `Promise` is a class for asynchronous action in JavaScript and TypeScript. This class is essential for nowadays
-TypeScript development. This class can be a problem. Because this is just a ticket for the future response. This does
-actually exist, `Promise` does not guarantee that the future response exists. So `Optional<Promise<T>>` is
+TypeScript development. This class can be a problem, because this is just a ticket for the future response. `Promise`
+does actually exist, but not guarantee that the future response exists. So `Optional<Promise<T>>` is
 definitely `Some<Promise<T>>`. In other words, `Optional<Promise<T>>` does not make any sense.
 
 ```typescript
@@ -174,34 +77,6 @@ else {
 
 - We can build applications without considering the value is `nullable` or not
 - We can build applications without considering the value is Synchronous or Asynchronous
-
-## Unscharferelation helpers
-
-### Heisenberg<P>
-
-This is an interface, this retains the result and also describes the status for `Unshcarferelation`.
-
-4 classes implement `Heisenberg` and each of them means
-
-* `Present<P>`
-  * This means fulfilled, and retains the very instance as expected
-* `Absent<P>`
-  * This means **recoverable** rejected, and retains no values
-* `Lost<P>`
-  * This means rejected, and retains `unknown` value
-    * This is equivalent to `rejected Promise` but this is not **recoverable**
-* `Uncertain<P>`
-  * This means pending, the result is not ready
-
-`Present, Absent, Lost` are called SETTLED, that means, when it would be once, would never change to others.
-
-### Epoque<M>
-
-This is an interface that is alternative for `resolve, reject` in `new Promise()`. This
-can `accept(), decline(), and throw()`.
-
-When accepted one, the result would be `Present`, declined once, the result would be `Absent`, thrown once, the result
-would be `Lost`.`
 
 ## Unscharfeleration API
 
@@ -327,11 +202,6 @@ catch (err: unknown) {
 
 TypeScript can catch errors, but these errors must be `any, unknown` in TypeScript because JavaScript can throw whatever
 you want, even if it is string, other primitive types, or something else.
-
-### Otherwise, in Java
-
-Exceptions in Java can be thrown when the class implements `Throwable`, and it also supports `thrown` clause that
-describes the methods may throw such Exceptions to the callee.
 
 ### In TypeScript
 
