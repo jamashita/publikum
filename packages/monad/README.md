@@ -266,12 +266,12 @@ absolutely does not throw errors but its retaining action may throw them. `Try<P
 is definitely `Success<Promise<T>, E>`. In other words, `Try<Promise<T>, E>` does not make any sense.
 
 ```typescript
-const tried: Try<UserID> = createUser(user);
+const tried: Try<Promise<UserID>> = createUser(user);
 
 if (tried.success) {
   // does not this really throw any errors?
   try {
-    await tried.value;
+    const userID: UserID = await tried.value;
   }
   catch (err: unknown) {
     // ...
