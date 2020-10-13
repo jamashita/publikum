@@ -29,8 +29,8 @@ Unscharferlation is an `Optional` package for TS that can deal with Promise.
 
 ### What is `Optional` ?
 
-Many languages have `null`(`nil`) in order to describe that has no reference. In addition, JavaScript has `undefined` as
-well. These 2 types mean that, they do not have values.
+Many languages have `null`(`nil`) to describe that has no reference. Besides, JavaScript has `undefined` as well. These
+2 types mean that they do not have values.
 
 ### `null, undefined` do not have wrapper classes
 
@@ -47,7 +47,7 @@ Primitive types in JavaScript are they.
 `boolean, number, string, symbol, bigint` have wrappers.
 
 As usual, everyone might not consider that the primitive types only focus on the values themselves, and do not have
-methods. Then, why can we get the length of the text by typing `str.length` ? It is because that JavaScript implicitly
+methods. Then, why can we get the length of the text by typing `str.length`? It is because JavaScript implicitly
 converts them to their wrappers. this conversion is called `autoboxing`, but I would not talk about it anymore because
 this feature does not have any relationship to the next section.
 
@@ -74,17 +74,17 @@ undefined();
 ### Otherwise, in Java
 
 In Java, we can not only put its instance but also `null` when the type is not primitive types but reference types. This
-feature remains vast of catastrophes when one makes applications, one has to always pay attention whether `null` given
-or not, and also has to consider from where `null` would not be given.  
-(Nowadays, there are some annotations that guarantee those values are not `nullable`)
+feature remains vast of catastrophes when one makes applications, one has to always pay attention to whether `null`
+given or not, and also has to consider where `null` would not be given.  
+(Nowadays, some annotations guarantee those values are not `nullable`)
 
 In Java, engineers that are not good at error handing can easily return `null`. This is quite problematic but actually
-allowed, and this `null` function enables such arrogant way.
+allowed, and this `null` function enables such an arrogant way.
 
 ### In TypeScript
 
-TypeScript can be `null safety` (this is configurable by changing the settings in `tsconfig.json`). `null, undefined`
-cannot be put even if the variable is not allowed `null, undefined`.
+TypeScript can be null safety (this is configurable by changing the settings in `tsconfig.json`, but I strongly
+recommend turning it on). `null, undefined` cannot be put even if the variable is not allowed `null, undefined`.
 
 ```typescript
 const girl: Mankind = null;
@@ -94,7 +94,7 @@ const boy: Mankind = undefined;
 // Type 'undefined' is not assignable to type 'Mankind'
 ```
 
-If you want to be tolerant, you can use 'Union types'.
+If you want to be tolerant, you can use `Union types`.
 
 ```typescript
 const girl: Mankind | null = null;
@@ -115,13 +115,13 @@ const baby: void = undefined;
 
 `Optional` enables to avoid this problem. `Optional` describes that may have, or may not have.
 
-In general, `Optional` is abstract, and it has 2 concrete classes, one is `Some` that describes that has a value,
-another is `None` that describes that has no values. `Optional` can force to users consider whether the instance has a
-value or no.
+In general, `Optional` is an abstract class, and it has 2 concrete classes, one is `Some` that describes that has a
+value, another is `None` that describes that has no values. `Optional` can force users to consider whether the instance
+has a value or no.
 
 ### `Optional` in TypeScript
 
-To build `Optional`, you can easily achieve by using `Union types`, and furthermore `Discriminated unions`
+To build `Optional`, you can easily achieve by using `Union types`, and `Discriminated unions`
 
 ```typescript
 type Some<T> = Readonly<{
@@ -136,7 +136,7 @@ type None = Readonly<{
 type Optional<T> = Some<T> | None;
 ```
 
-We can immediately find that is `Some, None` only if we check `optional.present`.
+We can immediately find that is `Some<T>, None` only if we check `optional.present`.
 
 ```typescript
 const optional: Optional<User> = findUserByID(1999);
@@ -151,17 +151,18 @@ else {
 
 ### A new obstacle
 
-`Primise` brings us a tragedy.
+`Promise` brings us a tragedy.
 
-`Promise` is a class for asynchronous action in JavaScript, TypeScript. This class is essential for nowadays TypeScript
-development. And this class can be problem. Because this is just a ticket for the future response. This does actually
-exist, but this does not guarantee that the future response exists. So `Optional<Promise<T>>` is
-definitely `Some<Promise<T>>`. In short, `Optional` of `Promise` does not make any sense.
+`Promise` is a class for asynchronous action in JavaScript and TypeScript. This class is essential for nowadays
+TypeScript development. This class can be a problem. Because this is just a ticket for the future response. This does
+actually exist, `Promise` does not guarantee that the future response exists. So `Optional<Promise<T>>` is
+definitely `Some<Promise<T>>`. In other words, `Optional<Promise<T>>` does not make any sense.
 
 ```typescript
 const optional: Optional<Promise<User | null>> = findUserByID(1999);
 
 if (optional.present) {
+  // finally you have to check the value is null or not!
   const res: User | null = await optional.value;
 }
 else {
@@ -206,7 +207,7 @@ result would be `Lost`.`
 
 ### (static) `of<P>(func: UnaryFunction<Epoque<P>, unknown>): Unscharferelation<P>`
 
-Forge a `Unscharferelation` instance. The callback argument is not same as `Promise`, Such as
+Forge a `Unscharferelation` instance. The callback argument is not the same as `Promise`, Such as
 
 ```typescript
 Unscharferelation.of<ResponseBody>((epoque: Epoque<ResponseBody>) => {
@@ -236,19 +237,18 @@ Unscharferelation.of<ResponseBody>((epoque: Epoque<ResponseBody>) => {
 Like `Promise.all()`, it aggregates all `Unscharferelations`.
 
 * Only when all `Unscharferelations` are Present, returns `Present<Array<P>>`
-* When at least one of them are to be Absent, returns `Absent`
-* When at least one of them are to be Lost, Returns `Lost`
+* When at least one of them is to be Absent, returns `Absent`
+* When at least one of them is to be Lost, Returns `Lost`
 
 When Absent and Lost are satisfied together, `Unscharfeleration` is going to be `Lost`.
 
 ### (static) `anyway<P>(unscharferelations: Iterable<Unscharferelation<P>>): Promise<Array<Heisenberg<P>>>`
 
-Unlike to `Unscharferelation.all()`, this absolutely execute all `Unscharfelerations` even if they are going to be
-Absent or Lost.
+Unlike to `Unscharferelation.all()`, this executes all `Unscharfelerations` even if they are going to be Absent or Lost.
 
 ### (static) `ofHeisenberg<P>(heisenberg: Heisenberg<P>): Unscharferelation<P>`
 
-Forge a `Unscharferelation` instance. The callback argument is not same as `Promise`, Such as
+Forge a `Unscharferelation` instance. The callback argument is not the same as `Promise`, Such as
 
 * Returns `Present<P>` when non
 
@@ -268,8 +268,8 @@ Get the retaining value.
 
 ### (instance) `terminate(): Promise<Heisenberg<P>>`
 
-`Unscharferelation` supports method chain. this method is prepared in order to wait all the chains done.  
-Please use this method in order to avoid to be thrown errors when use `get()` when its `Unscharfeleration` is going to
+`Unscharferelation` supports method chain. this method is prepared to wait for all the chains done.  
+Please use this method to avoid to be thrown errors when using `get()` when its `Unscharfeleration` is going to
 be `Absent, Lost`.
 
 ### (instance) `filter(predicate: Predicate<P>): Unscharferelation<P>`
@@ -281,14 +281,14 @@ Absent.
 
 * When `Unscharferelation` is Present, `mapper` is going to be invoked and the next `Unscharferelation`
   becomes `Present, Absent` due to the return value
-  * When error thrown, the next `Unscharferelation` is going to be `Lost`
+  * When an error is thrown, the next `Unscharferelation` is going to be `Lost`
 * When `Unscharferelation` is not Present, `mapper` is not going be invoked
 
 ### (instance) `recover<Q = P>(mapper: Supplier<SyncAsync<Unscharferelation<Q> | Q>>): Unscharferelation<P | Q>;`
 
 * When `Unscharferelation` is Absent, `mapper` is going to be invoked and the next `Unscharferelation`
   becomes `Present, Absent` due to the return value
-  * When error thrown, the next `Unscharferelation` is going to be `Lost`
+  * When an error is thrown, the next `Unscharferelation` is going to be `Lost`
 * When `Unscharferelation` is not Absent, `mapper` is not going be invoked
 
 ### (instance) `ifPresent(consumer: Consumer<P>): this`
