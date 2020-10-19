@@ -1,10 +1,15 @@
-import { UnimplementedError } from '@jamashita/publikum-error';
 import { ValueObject } from '@jamashita/publikum-object';
 import { SerializableTreeObject, StructurableTreeObject, TreeID } from '@jamashita/publikum-tree';
 import { ObjectLiteral } from '@jamashita/publikum-type';
 
 export class MockTreeObject<K extends TreeID> extends ValueObject<'MockTreeObject'> implements StructurableTreeObject<K, 'MockTreeObject'>, SerializableTreeObject<'MockTreeObject'> {
   public readonly noun: 'MockTreeObject' = 'MockTreeObject';
+  private readonly id: K;
+
+  public constructor(id: K) {
+    super();
+    this.id = id;
+  }
 
   public equals(other: unknown): boolean {
     if (this === other) {
@@ -14,18 +19,20 @@ export class MockTreeObject<K extends TreeID> extends ValueObject<'MockTreeObjec
       return false;
     }
 
-    return true;
+    return this.id.equals(other.id);
   }
 
   public serialize(): string {
-    throw new UnimplementedError();
+    return this.id.toString();
   }
 
   public getTreeID(): K {
-    throw new UnimplementedError();
+    return this.id;
   }
 
   public toJSON(): ObjectLiteral {
-    throw new UnimplementedError();
+    return {
+      id: this.id.get()
+    };
   }
 }
