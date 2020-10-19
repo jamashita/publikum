@@ -6,7 +6,16 @@
   },
   "references": [
     {
+      "path": "../collection/tsconfig.cjs.json"
+    },
+    {
       "path": "../error/tsconfig.cjs.json"
+    },
+    {
+      "path": "../interface/tsconfig.cjs.json"
+    },
+    {
+      "path": "../object/tsconfig.cjs.json"
     },
     {
       "path": "../type/tsconfig.cjs.json"

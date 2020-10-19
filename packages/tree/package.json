@@ -28,7 +28,10 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
+    "@jamashita/publikum-collection": "2.27.1",
     "@jamashita/publikum-error": "^2.27.1",
+    "@jamashita/publikum-interface": "2.27.1",
+    "@jamashita/publikum-object": "2.27.1",
     "@jamashita/publikum-type": "^2.27.1"
   },
   "devDependencies": {},
