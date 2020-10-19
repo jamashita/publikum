@@ -1,7 +1,7 @@
 import { ReadonlyAddress } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
-import { TreeNode } from './Interface/TreeNode';
+import { TreeNode } from '../Interface/TreeNode';
 
 export abstract class ATreeNode<V extends Nominative, T extends TreeNode<V, T>, N extends string> extends ValueObject<N> implements TreeNode<V, T, N> {
   public readonly noun: N;

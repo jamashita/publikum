@@ -1,7 +1,7 @@
 import { ImmutableAddress, ReadonlyAddress } from '@jamashita/publikum-collection';
 import { StructurableTreeObject } from '../Interface/StructurableTreeObject';
 import { TreeID } from '../Interface/TreeID';
-import { ATreeNode } from './ATreeNode';
+import { ATreeNode } from './Abstract/ATreeNode';
 
 export class StructurableTreeNode<K extends TreeID, V extends StructurableTreeObject<K>> extends ATreeNode<V, StructurableTreeNode<K, V>, 'StructurableTreeNode'> {
   public static of<KT extends TreeID, VT extends StructurableTreeObject<KT>>(value: VT, children: ReadonlyAddress<StructurableTreeNode<KT, VT>>): StructurableTreeNode<KT, VT> {

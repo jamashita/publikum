@@ -2,7 +2,7 @@ import { ImmutableAddress, ReadonlyAddress } from '@jamashita/publikum-collectio
 import { JSONable } from '@jamashita/publikum-interface';
 import { ObjectLiteral } from '@jamashita/publikum-type';
 import { SerializableTreeObject } from '../Interface/SerializableTreeObject';
-import { ATreeNode } from './ATreeNode';
+import { ATreeNode } from './Abstract/ATreeNode';
 
 export type TreeNodeJSON = Readonly<{
   value: ObjectLiteral;
