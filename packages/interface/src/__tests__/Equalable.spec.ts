@@ -8,7 +8,7 @@ class MockEqualable implements Equalable {
 
 describe('Equalable', () => {
   describe('isEqualable', () => {
-    it('normal case', () => {
+    it('returns true if the object has equals()', () => {
       expect.assertions(15);
 
       expect(isEqualable(null)).toBe(false);

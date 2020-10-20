@@ -18,7 +18,7 @@ class MockNominative implements Nominative<'mock'> {
 
 describe('Nominative', () => {
   describe('isNominative', () => {
-    it('normal case', () => {
+    it('returns true if the object has noun, hashCode(), equals(), serialize() and toString()', () => {
       expect.assertions(18);
 
       expect(isNominative(null)).toBe(false);

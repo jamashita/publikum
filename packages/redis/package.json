@@ -22,7 +22,6 @@
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "tsc -p tsconfig.esm.json",
     "clean": "rimraf dist && rimraf coverage",
-    "test": "jest test --detectOpenHandles",
     "update": "yarn update:upgrade && yarn update:install",
     "update:install": "yarn install",
     "update:upgrade": "ncu --upgrade --timeout 600000"
