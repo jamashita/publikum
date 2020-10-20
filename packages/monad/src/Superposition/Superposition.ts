@@ -9,8 +9,6 @@ import {
   SyncAsync,
   UnaryFunction
 } from '@jamashita/publikum-type';
-import { Epoque } from '../Unscharferelation/Epoque/Interface/Epoque';
-import { Matter } from '../Unscharferelation/Interface/Matter';
 import { Unscharferelation } from '../Unscharferelation/Unscharferelation';
 import { Chrono } from './Chrono/Interface/Chrono';
 import { SuperpositionError } from './Error/SuperpositionError';
@@ -272,22 +270,6 @@ export class Superposition<A, D extends Error> extends Objet<'Superposition'> im
   }
 
   public toUnscharferelation(): Unscharferelation<A> {
-    return Unscharferelation.of<A>((epoque: Epoque<A>) => {
-      this.pass(
-        (v: Detoxicated<A>) => {
-          if (Kind.isUndefined(v) || Kind.isNull(v)) {
-            return epoque.decline();
-          }
-
-          return epoque.accept((v as unknown) as Matter<A>);
-        },
-        () => {
-          return epoque.decline();
-        },
-        (e: unknown) => {
-          return epoque.throw(e);
-        }
-      );
-    });
+    return Unscharferelation.ofUnscharferelation<A>(this.internal.toUnscharferelation());
   }
 }
