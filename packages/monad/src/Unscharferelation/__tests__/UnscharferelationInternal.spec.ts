@@ -1,4 +1,5 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
+import { Matter, Plan } from '@jamashita/publikum-monad';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { Schrodinger } from '../../Superposition/Schrodinger/Schrodinger';
@@ -100,6 +101,10 @@ describe('UnscharferelationInternal', () => {
       expect.assertions(4);
 
       const value: number = -35;
+      const spy: SinonSpy = sinon.spy();
+      const plans: Set<Plan<Matter<number>, void>> = new Set<Plan<Matter<number>, void>>();
+
+      plans.forEach = spy;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number>) => {
@@ -107,17 +112,20 @@ describe('UnscharferelationInternal', () => {
         }
       );
 
+      // @ts-expect-error
+      unscharferelation.plans = plans;
+
       const heisenberg1: Heisenberg<number> = await unscharferelation.terminate();
 
       expect(heisenberg1.isPresent()).toBe(true);
       expect(heisenberg1.get()).toBe(value);
 
-      unscharferelation.decline();
+      unscharferelation.accept(value);
 
       const heisenberg2: Heisenberg<number> = await unscharferelation.terminate();
 
-      expect(heisenberg2.isPresent()).toBe(true);
-      expect(heisenberg2.get()).toBe(value);
+      expect(spy.callCount).toBe(0);
+      expect(heisenberg1.equals(heisenberg2)).toBe(true);
     });
 
     it('call multiple maps', async () => {
@@ -155,9 +163,12 @@ describe('UnscharferelationInternal', () => {
 
   describe('decline', () => {
     it('if done once, do nothing', async () => {
-      expect.assertions(2);
+      expect.assertions(3);
 
-      const value: number = -1.3;
+      const spy: SinonSpy = sinon.spy();
+      const plans: Set<Plan<Matter<number>, void>> = new Set<Plan<Matter<number>, void>>();
+
+      plans.forEach = spy;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number>) => {
@@ -165,15 +176,19 @@ describe('UnscharferelationInternal', () => {
         }
       );
 
+      // @ts-expect-error
+      unscharferelation.plans = plans;
+
       const heisenberg1: Heisenberg<number> = await unscharferelation.terminate();
 
       expect(heisenberg1.isAbsent()).toBe(true);
 
-      unscharferelation.accept(value);
+      unscharferelation.decline();
 
       const heisenberg2: Heisenberg<number> = await unscharferelation.terminate();
 
-      expect(heisenberg2.isAbsent()).toBe(true);
+      expect(spy.callCount).toBe(0);
+      expect(heisenberg1.equals(heisenberg2)).toBe(true);
     });
 
     it('call multiple maps', async () => {
@@ -207,10 +222,13 @@ describe('UnscharferelationInternal', () => {
 
   describe('throw', () => {
     it('if done once, do nothing', async () => {
-      expect.assertions(2);
+      expect.assertions(4);
 
-      const value: number = -1.3;
       const error: MockRuntimeError = new MockRuntimeError();
+      const spy: SinonSpy = sinon.spy();
+      const plans: Set<Plan<Matter<number>, void>> = new Set<Plan<Matter<number>, void>>();
+
+      plans.forEach = spy;
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
         (epoque: Epoque<number>) => {
@@ -218,15 +236,22 @@ describe('UnscharferelationInternal', () => {
         }
       );
 
+      // @ts-expect-error
+      unscharferelation.plans = plans;
+
       const heisenberg1: Heisenberg<number> = await unscharferelation.terminate();
 
       expect(heisenberg1.isLost()).toBe(true);
+      expect(() => {
+        heisenberg1.get();
+      }).toThrow(error);
 
-      unscharferelation.accept(value);
+      unscharferelation.throw(error);
 
       const heisenberg2: Heisenberg<number> = await unscharferelation.terminate();
 
-      expect(heisenberg2.isLost()).toBe(true);
+      expect(spy.callCount).toBe(0);
+      expect(heisenberg1.equals(heisenberg2)).toBe(true);
     });
 
     it('call multiple maps, but nothing will be invoked', async () => {
