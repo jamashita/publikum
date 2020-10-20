@@ -18,9 +18,9 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
   public abstract readonly noun: N;
   protected elements: Array<V>;
 
-  protected constructor(elements: Array<V>) {
+  protected constructor(elements: ReadonlyArray<V>) {
     super();
-    this.elements = elements;
+    this.elements = [...elements];
   }
 
   public abstract add(value: V): Sequence<V, N>;

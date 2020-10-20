@@ -3,6 +3,26 @@ import { Nullable } from '@jamashita/publikum-type';
 import { MutableSequence } from '../MutableSequence';
 
 describe('MutableSequence', () => {
+  describe('of', () => {
+    it('returns copied collection, does not use the same one', () => {
+      expect.assertions(4);
+
+      const sequence: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([
+        new MockNominative<number>(1),
+        new MockNominative<number>(2)
+      ]);
+      const copied: MutableSequence<MockNominative<number>> = MutableSequence.of<MockNominative<number>>(sequence);
+
+      expect(sequence.size()).toBe(copied.size());
+      expect(sequence.get(0)).toBe(copied.get(0));
+      expect(sequence.get(1)).toBe(copied.get(1));
+
+      sequence.add(new MockNominative<number>(3));
+
+      expect(sequence.size()).not.toBe(copied.size());
+    });
+  });
+
   describe('ofArray', () => {
     it('normal case', () => {
       expect.assertions(2);

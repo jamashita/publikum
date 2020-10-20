@@ -1,4 +1,4 @@
-import { MockContent, MockNominative } from '@jamashita/publikum-object';
+import { MockContent, MockNominative, MockValueObject } from '@jamashita/publikum-object';
 import { Nullable, Peek } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
 import { MockSequence } from '../Mock/MockSequence';
@@ -373,6 +373,14 @@ describe('ASequence', () => {
 
       expect(nouns1.equals(nouns1)).toBe(true);
       expect(nouns1.equals(nouns2)).toBe(false);
+    });
+
+    it('returns false when the different class instance given', () => {
+      expect.assertions(1);
+
+      const nouns: MockSequence<MockNominative<number>> = new MockSequence<MockNominative<number>>([]);
+
+      expect(nouns.equals(new MockValueObject('mock'))).toBe(false);
     });
 
     it('returns false if the sequence is different', () => {
