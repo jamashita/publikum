@@ -35,7 +35,7 @@ export class ImmutableProject<K extends Nominative, V extends Nominative> extend
     return ImmutableProject.EMPTY as ImmutableProject<KT, VT>;
   }
 
-  protected constructor(elements: Map<string, Pair<K, V>>) {
+  protected constructor(elements: ReadonlyMap<string, Pair<K, V>>) {
     super(elements);
   }
 

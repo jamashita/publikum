@@ -11,14 +11,14 @@ export class MutableSequence<V extends Nominative> extends ASequence<V, 'Mutable
   }
 
   public static ofArray<VT extends Nominative>(elements: ReadonlyArray<VT>): MutableSequence<VT> {
-    return new MutableSequence<VT>([...elements]);
+    return new MutableSequence<VT>(elements);
   }
 
   public static empty<VT extends Nominative>(): MutableSequence<VT> {
     return MutableSequence.ofArray<VT>([]);
   }
 
-  protected constructor(elements: Array<V>) {
+  protected constructor(elements: ReadonlyArray<V>) {
     super(elements);
   }
 

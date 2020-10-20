@@ -36,37 +36,41 @@ describe('Nominative', () => {
       expect(isNominative([])).toBe(false);
       expect(
         isNominative({
+          hashCode() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        isNominative({
+          hashCode() {
+            // NOOP
+          },
+          equals() {
+            // NOOP
+          }
+        })
+      ).toBe(false);
+      expect(
+        isNominative({
+          hashCode() {
+            // NOOP
+          },
+          equals() {
+            // NOOP
+          },
           noun: 'que'
         })
       ).toBe(false);
       expect(
         isNominative({
-          noun: 'que',
-          equals() {
-            // NOOP
-          }
-        })
-      ).toBe(false);
-      expect(
-        isNominative({
-          noun: 'que',
-          equals() {
-            // NOOP
-          },
-          hashCode() {
-            // NOOP
-          }
-        })
-      ).toBe(false);
-      expect(
-        isNominative({
-          noun: 'que',
-          equals() {
-            // NOOP
-          },
           hashCode() {
             // NOOP
           },
+          equals() {
+            // NOOP
+          },
+          noun: 'que',
           serialize() {
             // NOOP
           }

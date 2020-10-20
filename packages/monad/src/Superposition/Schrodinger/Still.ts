@@ -54,10 +54,7 @@ export class Still<A, D extends Error> extends ValueObject<'Still'> implements S
     if (this === other) {
       return true;
     }
-    if (!(other instanceof Still)) {
-      return false;
-    }
 
-    return true;
+    return false;
   }
 }

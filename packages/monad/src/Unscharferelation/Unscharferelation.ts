@@ -45,7 +45,7 @@ export class Unscharferelation<P> extends Objet<'Unscharferelation'> implements 
             const heisenberg: Heisenberg<PT> = heisenbergs[i];
 
             if (heisenberg.isLost()) {
-              return epoque.throw(new UnscharferelationError('REJECTED'));
+              return epoque.throw(heisenberg.getCause());
             }
             if (heisenberg.isPresent()) {
               arr.push(heisenberg.get());
@@ -62,9 +62,6 @@ export class Unscharferelation<P> extends Objet<'Unscharferelation'> implements 
           }
 
           return epoque.accept(arr);
-        },
-        (e: unknown) => {
-          return epoque.throw(e);
         }
       );
     });

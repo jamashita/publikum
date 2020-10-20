@@ -3,6 +3,26 @@ import { Nullable } from '@jamashita/publikum-type';
 import { ImmutableSequence } from '../ImmutableSequence';
 
 describe('ImmutableSequence', () => {
+  describe('of', () => {
+    it('returns copied collection, does not use the same one', () => {
+      expect.assertions(4);
+
+      const sequence: ImmutableSequence<MockNominative<number>> = ImmutableSequence.ofArray<MockNominative<number>>([
+        new MockNominative<number>(1),
+        new MockNominative<number>(2)
+      ]);
+      const copied: ImmutableSequence<MockNominative<number>> = ImmutableSequence.of<MockNominative<number>>(sequence);
+
+      expect(sequence.size()).toBe(copied.size());
+      expect(sequence.get(0)).toBe(copied.get(0));
+      expect(sequence.get(1)).toBe(copied.get(1));
+
+      sequence.add(new MockNominative<number>(3));
+
+      expect(sequence.size()).toBe(copied.size());
+    });
+  });
+
   describe('ofArray', () => {
     it('when the arguments specified with 0 length array, returns singleton', () => {
       expect.assertions(2);

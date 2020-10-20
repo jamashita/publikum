@@ -1,4 +1,4 @@
-import { MockContent, MockNominative } from '@jamashita/publikum-object';
+import { MockContent, MockNominative, MockValueObject } from '@jamashita/publikum-object';
 import { BinaryPredicate, Peek } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
 import { MockProject } from '../Mock/MockProject';
@@ -455,6 +455,14 @@ describe('AProject', () => {
 
       expect(nouns1.equals(nouns1)).toBe(true);
       expect(nouns1.equals(nouns2)).toBe(false);
+    });
+
+    it('returns false when the different class instance given', () => {
+      expect.assertions(1);
+
+      const nouns: MockProject<MockNominative<number>, MockNominative<number>> = new MockProject<MockNominative<number>, MockNominative<number>>(new Map<MockNominative<number>, MockNominative<number>>());
+
+      expect(nouns.equals(new MockValueObject('mock'))).toBe(false);
     });
 
     it('returns false if the values are different', () => {

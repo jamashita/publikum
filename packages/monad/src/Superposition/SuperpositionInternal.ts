@@ -34,7 +34,7 @@ export class SuperpositionInternal<A, D extends Error> extends Objet<'Superposit
   implements ISuperposition<A, D, 'SuperpositionInternal'>, Chrono<A, D> {
   public readonly noun: 'SuperpositionInternal' = 'SuperpositionInternal';
   private schrodinger: Schrodinger<A, D>;
-  private readonly plans: Set<Plan<A, D>>;
+  private readonly plans: Set<Plan<Detoxicated<A>, D>>;
   private readonly errors: Set<DeadConstructor<D>>;
 
   public static of<AT, DT extends Error>(func: UnaryFunction<Chrono<AT, DT>, unknown>, errors: Iterable<DeadConstructor<DT>>): SuperpositionInternal<AT, DT> {

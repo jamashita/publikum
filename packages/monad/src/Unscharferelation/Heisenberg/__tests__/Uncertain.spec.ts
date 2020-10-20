@@ -1,11 +1,7 @@
-import { MockRuntimeError } from '@jamashita/publikum-error';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { UnscharferelationError } from '../../Error/UnscharferelationError';
-import { Absent } from '../Absent';
 import { Heisenberg } from '../Heisenberg';
-import { Lost } from '../Lost';
-import { Present } from '../Present';
 import { Uncertain } from '../Uncertain';
 
 describe('Uncertain', () => {
@@ -124,22 +120,6 @@ describe('Uncertain', () => {
       const heisenberg: Heisenberg<number> = Uncertain.of<number>();
 
       expect(heisenberg.equals(new MockValueObject('mock'))).toBe(false);
-    });
-
-    it('returns true if Uncertain given', () => {
-      expect.assertions(4);
-
-      const present: Present<number> = Present.of<number>(2);
-      const absent: Absent<number> = Absent.of<number>();
-      const lost: Lost<number> = Lost.of<number>(new MockRuntimeError());
-      const uncertain: Uncertain<number> = Uncertain.of<number>();
-
-      const heisenberg: Heisenberg<number> = Uncertain.of<number>();
-
-      expect(heisenberg.equals(present)).toBe(false);
-      expect(heisenberg.equals(absent)).toBe(false);
-      expect(heisenberg.equals(lost)).toBe(false);
-      expect(heisenberg.equals(uncertain)).toBe(true);
     });
   });
 

@@ -116,7 +116,7 @@ describe('Zeit', () => {
       const zeiten: Array<Zeit> = [];
 
       expect(() => {
-        Zeit.max(zeiten, format);
+        Zeit.min(zeiten, format);
       }).toThrow(ZeitError);
     });
   });

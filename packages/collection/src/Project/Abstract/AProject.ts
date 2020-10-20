@@ -9,9 +9,9 @@ export abstract class AProject<K extends Nominative, V extends Nominative, N ext
   public abstract readonly noun: N;
   protected readonly elements: Map<string, Pair<K, V>>;
 
-  protected constructor(elements: Map<string, Pair<K, V>>) {
+  protected constructor(elements: ReadonlyMap<string, Pair<K, V>>) {
     super();
-    this.elements = elements;
+    this.elements = new Map<string, Pair<K, V>>(elements);
   }
 
   public abstract duplicate(): Project<K, V, N>;

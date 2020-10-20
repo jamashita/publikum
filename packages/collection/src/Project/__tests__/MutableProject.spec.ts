@@ -2,6 +2,31 @@ import { MockNominative } from '@jamashita/publikum-object';
 import { MutableProject } from '../MutableProject';
 
 describe('MutableProject', () => {
+  describe('of', () => {
+    it('returns copied collection, does not use the same one', () => {
+      expect.assertions(6);
+
+      const project: MutableProject<MockNominative<number>, MockNominative<number>> = MutableProject.ofMap<MockNominative<number>,
+        MockNominative<number>>(
+        new Map<MockNominative<number>, MockNominative<number>>([
+          [new MockNominative<number>(1), new MockNominative<number>(2)],
+          [new MockNominative<number>(3), new MockNominative<number>(4)]
+        ])
+      );
+      const copied: MutableProject<MockNominative<number>, MockNominative<number>> = MutableProject.of<MockNominative<number>, MockNominative<number>>(project);
+
+      expect(project.size()).toBe(copied.size());
+      expect(project.get(new MockNominative<number>(1))).not.toBeNull();
+      expect(project.get(new MockNominative<number>(1))).toBe(copied.get(new MockNominative<number>(1)));
+      expect(project.get(new MockNominative<number>(3))).not.toBeNull();
+      expect(project.get(new MockNominative<number>(3))).toBe(copied.get(new MockNominative<number>(3)));
+
+      project.set(new MockNominative<number>(5), new MockNominative<number>(6));
+
+      expect(project.size()).not.toBe(copied.size());
+    });
+  });
+
   describe('ofMap', () => {
     it('normal case', () => {
       expect.assertions(2);

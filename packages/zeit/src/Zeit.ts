@@ -37,7 +37,7 @@ export class Zeit extends ValueObject<'Zeit'> {
     const z: Array<Zeit> = [...zeiten];
 
     if (z.length === 0) {
-      throw new ZeitError('ZEITEN IS EMPTY');
+      throw new ZeitError('ZEITEN ARE EMPTY');
     }
     if (z.length === 1) {
       return z[0];
@@ -56,7 +56,7 @@ export class Zeit extends ValueObject<'Zeit'> {
     const z: Array<Zeit> = [...zeiten];
 
     if (z.length === 0) {
-      throw new ZeitError('ZEITEN IS EMPTY');
+      throw new ZeitError('ZEITEN ARE EMPTY');
     }
     if (z.length === 1) {
       return z[0];

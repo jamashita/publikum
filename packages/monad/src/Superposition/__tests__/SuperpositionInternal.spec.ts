@@ -1,4 +1,5 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
+import { Detoxicated, Plan } from '@jamashita/publikum-monad';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { UnscharferelationError } from '../../Unscharferelation/Error/UnscharferelationError';
@@ -108,26 +109,35 @@ describe('SuperpositionInternal', () => {
 
   describe('accept', () => {
     it('if done once, do nothing', async () => {
-      expect.assertions(2);
+      expect.assertions(4);
 
-      const error: MockRuntimeError = new MockRuntimeError();
+      const value: number = -35;
+      const spy: SinonSpy = sinon.spy();
+      const plans: Set<Plan<Detoxicated<number>, MockRuntimeError>> = new Set<Plan<Detoxicated<number>, MockRuntimeError>>();
 
-      const superposition: SuperpositionInternal<void, MockRuntimeError> = SuperpositionInternal.of<void, MockRuntimeError>(
-        (chrono: Chrono<void, MockRuntimeError>) => {
-          chrono.accept();
+      plans.forEach = spy;
+
+      const superposition: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
+        (chrono: Chrono<number, MockRuntimeError>) => {
+          chrono.accept(value);
         },
         [MockRuntimeError]
       );
 
-      const schrodinger1: Schrodinger<void, MockRuntimeError> = await superposition.terminate();
+      // @ts-expect-error
+      superposition.plans = plans;
+
+      const schrodinger1: Schrodinger<number, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger1.isAlive()).toBe(true);
+      expect(schrodinger1.get()).toBe(value);
 
-      superposition.decline(error);
+      superposition.accept(value);
 
-      const schrodinger2: Schrodinger<void, MockRuntimeError> = await superposition.terminate();
+      const schrodinger2: Schrodinger<number, MockRuntimeError> = await superposition.terminate();
 
-      expect(schrodinger2.isAlive()).toBe(true);
+      expect(spy.called).toBe(false);
+      expect(schrodinger1).toBe(schrodinger2);
     });
 
     it('call multiple maps', async () => {
@@ -166,10 +176,13 @@ describe('SuperpositionInternal', () => {
 
   describe('decline', () => {
     it('if done once, do nothing', async () => {
-      expect.assertions(2);
+      expect.assertions(3);
 
       const error: MockRuntimeError = new MockRuntimeError();
-      const value: number = -1.3;
+      const spy: SinonSpy = sinon.spy();
+      const plans: Set<Plan<Detoxicated<number>, MockRuntimeError>> = new Set<Plan<Detoxicated<number>, MockRuntimeError>>();
+
+      plans.forEach = spy;
 
       const superposition: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
         (chrono: Chrono<number, MockRuntimeError>) => {
@@ -178,15 +191,19 @@ describe('SuperpositionInternal', () => {
         [MockRuntimeError]
       );
 
+      // @ts-expect-error
+      superposition.plans = plans;
+
       const schrodinger1: Schrodinger<number, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger1.isDead()).toBe(true);
 
-      superposition.accept(value);
+      superposition.decline(error);
 
       const schrodinger2: Schrodinger<number, MockRuntimeError> = await superposition.terminate();
 
-      expect(schrodinger2.isDead()).toBe(true);
+      expect(spy.called).toBe(false);
+      expect(schrodinger1).toBe(schrodinger2);
     });
 
     it('call multiple maps', async () => {
@@ -223,10 +240,13 @@ describe('SuperpositionInternal', () => {
 
   describe('throw', () => {
     it('if done once, do nothing', async () => {
-      expect.assertions(2);
+      expect.assertions(4);
 
-      const value: number = -1.3;
       const error: MockRuntimeError = new MockRuntimeError();
+      const spy: SinonSpy = sinon.spy();
+      const plans: Set<Plan<Detoxicated<number>, void>> = new Set<Plan<Detoxicated<number>, void>>();
+
+      plans.forEach = spy;
 
       const superposition: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
         (chrono: Chrono<number, MockRuntimeError>) => {
@@ -235,15 +255,22 @@ describe('SuperpositionInternal', () => {
         [MockRuntimeError]
       );
 
+      // @ts-expect-error
+      superposition.plans = plans;
+
       const schrodinger1: Schrodinger<number, MockRuntimeError> = await superposition.terminate();
 
       expect(schrodinger1.isContradiction()).toBe(true);
+      expect(() => {
+        schrodinger1.get();
+      }).toThrow(error);
 
-      superposition.accept(value);
+      superposition.throw(error);
 
       const schrodinger2: Schrodinger<number, MockRuntimeError> = await superposition.terminate();
 
-      expect(schrodinger2.isContradiction()).toBe(true);
+      expect(spy.called).toBe(false);
+      expect(schrodinger1).toBe(schrodinger2);
     });
 
     it('call multiple maps', async () => {

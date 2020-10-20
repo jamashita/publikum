@@ -29,7 +29,7 @@ export class MutableProject<K extends Nominative, V extends Nominative> extends 
     return new MutableProject<KT, VT>(new Map<string, Pair<KT, VT>>());
   }
 
-  protected constructor(elements: Map<string, Pair<K, V>>) {
+  protected constructor(elements: ReadonlyMap<string, Pair<K, V>>) {
     super(elements);
   }
 

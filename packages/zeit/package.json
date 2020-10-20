@@ -31,7 +31,7 @@
     "@jamashita/publikum-error": "^2.27.1",
     "@jamashita/publikum-object": "^2.27.1",
     "@jamashita/publikum-type": "^2.27.1",
-    "dayjs": "1.9.1"
+    "dayjs": "1.9.3"
   },
   "devDependencies": {
     "sinon": "9.2.0"
