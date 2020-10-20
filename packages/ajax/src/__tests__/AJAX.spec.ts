@@ -322,6 +322,29 @@ describe('AJAX', () => {
       server.restore();
     });
 
+    it('with payload: responds OK', async () => {
+      expect.assertions(2);
+
+      const server: SinonFakeServer = sinon.fakeServer.create();
+
+      server.autoRespond = true;
+      server.respondWith('POST', url, [
+        OK,
+        {
+          'Content-Type': 'text/html'
+        },
+        strRes
+      ]);
+
+      const ajax: AJAX<'json'> = new AJAX<'json'>('json');
+
+      const r: AJAXResponse<'json'> = await ajax.post(url, {});
+
+      expect(r.status).toBe(OK);
+      expect(r.body).toStrictEqual(JSON.parse(strRes));
+      server.restore();
+    });
+
     it('responds MULTIPLE_CHOICE', async () => {
       expect.assertions(2);
 
@@ -505,6 +528,29 @@ describe('AJAX', () => {
 
       expect(r.status).toBe(OK);
       expect(r.body).toBe(bufferRes);
+      server.restore();
+    });
+
+    it('with payload: responds OK', async () => {
+      expect.assertions(2);
+
+      const server: SinonFakeServer = sinon.fakeServer.create();
+
+      server.autoRespond = true;
+      server.respondWith('PUT', url, [
+        OK,
+        {
+          'Content-Type': 'text/html'
+        },
+        strRes
+      ]);
+
+      const ajax: AJAX<'json'> = new AJAX<'json'>('json');
+
+      const r: AJAXResponse<'json'> = await ajax.put(url, {});
+
+      expect(r.status).toBe(OK);
+      expect(r.body).toStrictEqual(JSON.parse(strRes));
       server.restore();
     });
 
