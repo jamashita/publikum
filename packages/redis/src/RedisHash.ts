@@ -12,11 +12,7 @@ export class RedisHash implements IRedisHash {
 
   public async set(key: string, field: string, value: string): Promise<boolean> {
     try {
-      const result: 0 | 1 = await this.client.hset(key, field, value);
-
-      if (result === 0) {
-        return false;
-      }
+      await this.client.hset(key, field, value);
 
       return true;
     }
