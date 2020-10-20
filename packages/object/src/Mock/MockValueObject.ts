@@ -1,24 +1,31 @@
-import { UnimplementedError } from '@jamashita/publikum-error';
+import { Kind } from '@jamashita/publikum-type';
 import { ValueObject } from '../ValueObject';
 
-export class MockValueObject extends ValueObject<'MockValueObject'> {
+export class MockValueObject<V> extends ValueObject<'MockValueObject'> {
   public readonly noun: 'MockValueObject' = 'MockValueObject';
-  private readonly value: unknown;
+  private readonly value: V;
 
-  public constructor(value: unknown) {
+  public constructor(value: V) {
     super();
     this.value = value;
   }
 
-  public equals(): boolean {
-    throw new UnimplementedError();
+  public equals(other: unknown): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!(other instanceof MockValueObject)) {
+      return false;
+    }
+
+    return this.value === other.value;
   }
 
   public serialize(): string {
-    throw new UnimplementedError();
+    return Kind.notate(this.value);
   }
 
-  public get(): unknown {
+  public get(): V {
     return this.value;
   }
 }
