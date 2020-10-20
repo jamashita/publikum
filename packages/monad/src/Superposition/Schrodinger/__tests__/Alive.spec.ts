@@ -1,5 +1,4 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
-import { Equalable } from '@jamashita/publikum-interface';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { Alive } from '../Alive';
@@ -8,28 +7,9 @@ import { Dead } from '../Dead';
 import { Schrodinger } from '../Schrodinger';
 import { Still } from '../Still';
 
-class TestEqualable implements Equalable {
-  private readonly eq: boolean;
-
-  public constructor(eq: boolean) {
-    this.eq = eq;
-  }
-
-  public equals(other: unknown): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (!(other instanceof TestEqualable)) {
-      return false;
-    }
-
-    return this.eq === other.eq;
-  }
-}
-
 describe('Alive', () => {
   describe('get', () => {
-    it('returns the inside value', () => {
+    it('returns the inner value', () => {
       expect.assertions(1);
 
       const value: string = 'the lazy fox';
@@ -171,13 +151,13 @@ describe('Alive', () => {
       expect(schrodinger.equals(still)).toBe(false);
     });
 
-    it('returns true if the same Equalable instance Alive given', () => {
+    it('returns true if the same Equalable instance given', () => {
       expect.assertions(2);
 
-      const alive1: Alive<TestEqualable, MockRuntimeError> = Alive.of<TestEqualable, MockRuntimeError>(new TestEqualable(true));
-      const alive2: Alive<TestEqualable, MockRuntimeError> = Alive.of<TestEqualable, MockRuntimeError>(new TestEqualable(false));
+      const alive1: Alive<MockValueObject, MockRuntimeError> = Alive.of<MockValueObject, MockRuntimeError>(new MockValueObject(true));
+      const alive2: Alive<MockValueObject, MockRuntimeError> = Alive.of<MockValueObject, MockRuntimeError>(new MockValueObject(false));
 
-      const schrodinger: Schrodinger<TestEqualable, MockRuntimeError> = Alive.of<TestEqualable, MockRuntimeError>(new TestEqualable(true));
+      const schrodinger: Schrodinger<MockValueObject, MockRuntimeError> = Alive.of<MockValueObject, MockRuntimeError>(new MockValueObject(true));
 
       expect(schrodinger.equals(alive1)).toBe(true);
       expect(schrodinger.equals(alive2)).toBe(false);

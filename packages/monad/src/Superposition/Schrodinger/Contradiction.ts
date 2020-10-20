@@ -1,3 +1,4 @@
+import { isEqualable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Consumer, Kind } from '@jamashita/publikum-type';
 import { Alive } from './Alive';
@@ -56,8 +57,14 @@ export class Contradiction<A, D extends Error> extends ValueObject<'Contradictio
     if (!(other instanceof Contradiction)) {
       return false;
     }
+    if (this.cause === other.cause) {
+      return true;
+    }
+    if (isEqualable(this.cause) && isEqualable(other.cause)) {
+      return this.cause.equals(other.cause);
+    }
 
-    return true;
+    return false;
   }
 
   public getCause(): unknown {
