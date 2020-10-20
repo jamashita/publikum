@@ -6,8 +6,9 @@ import { ReadonlyAddress } from './Interface/ReadonlyAddress';
 export class MutableAddress<V extends Nominative> extends AAddress<V, 'MutableAddress'> {
   public readonly noun: 'MutableAddress' = 'MutableAddress';
 
+  // TODO TEST
   public static of<VT extends Nominative>(elements: ReadonlyAddress<VT>): MutableAddress<VT> {
-    return MutableAddress.of<VT>(elements);
+    return MutableAddress.ofSet<VT>(elements.toSet());
   }
 
   public static ofSet<VT extends Nominative>(elements: ReadonlySet<VT>): MutableAddress<VT> {
@@ -32,7 +33,7 @@ export class MutableAddress<V extends Nominative> extends AAddress<V, 'MutableAd
     return new MutableAddress<VT>(new Map<string, VT>());
   }
 
-  protected constructor(elements: Map<string, V>) {
+  protected constructor(elements: ReadonlyMap<string, V>) {
     super(elements);
   }
 

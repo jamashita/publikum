@@ -1,4 +1,4 @@
-import { MockContent, MockNominative } from '@jamashita/publikum-object';
+import { MockContent, MockNominative, MockValueObject } from '@jamashita/publikum-object';
 import { Nullable, Peek, Predicate } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
 import { MockAddress } from '../Mock/MockAddress';
@@ -329,6 +329,14 @@ describe('AAddress', () => {
 
       expect(nouns1.equals(nouns1)).toBe(true);
       expect(nouns1.equals(nouns2)).toBe(false);
+    });
+
+    it('returns false when the different class instance given', () => {
+      expect.assertions(1);
+
+      const nouns: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(new Set());
+
+      expect(nouns.equals(new MockValueObject('mock'))).toBe(false);
     });
 
     it('returns true even if the sequence is different', () => {

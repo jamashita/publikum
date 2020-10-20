@@ -9,9 +9,9 @@ export abstract class AAddress<V extends Nominative, N extends string = string> 
   public abstract readonly noun: N;
   protected readonly elements: Map<string, V>;
 
-  protected constructor(elements: Map<string, V>) {
+  protected constructor(elements: ReadonlyMap<string, V>) {
     super();
-    this.elements = elements;
+    this.elements = new Map<string, V>(elements);
   }
 
   public abstract duplicate(): Address<V, N>;

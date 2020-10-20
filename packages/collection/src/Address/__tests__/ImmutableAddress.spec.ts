@@ -2,8 +2,31 @@ import { MockNominative } from '@jamashita/publikum-object';
 import { ImmutableAddress } from '../ImmutableAddress';
 
 describe('ImmutableAddress', () => {
+  describe('of', () => {
+    it('returns copied collection, does not use the same one', () => {
+      expect.assertions(4);
+
+      const address: ImmutableAddress<MockNominative<number>> = ImmutableAddress.ofSet<MockNominative<number>>(
+        new Set<MockNominative<number>>([
+          new MockNominative<number>(1),
+          new MockNominative<number>(2)
+        ])
+      );
+      const copied: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(address);
+
+      expect(address.size()).toBe(copied.size());
+      address.forEach((n: MockNominative<number>) => {
+        expect(copied.contains(n)).toBe(true);
+      });
+
+      address.add(new MockNominative<number>(3));
+
+      expect(address.size()).toBe(copied.size());
+    });
+  });
+
   describe('ofSet', () => {
-    it('when the arguments specified with 0 length set, returns ImmutableAddress.empty()', () => {
+    it('returns MutableAddress.empty() when set size is 0', () => {
       expect.assertions(2);
 
       const address: ImmutableAddress<MockNominative<number>> = ImmutableAddress.ofSet<MockNominative<number>>(new Set<MockNominative<number>>());
