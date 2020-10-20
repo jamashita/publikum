@@ -6,7 +6,7 @@ import { DestroyChronoPlan } from '../DestroyChronoPlan';
 
 describe('DestroyChronoPlan', () => {
   describe('onDestroy', () => {
-    it('normal case', () => {
+    it('invokes thrid callback', () => {
       expect.assertions(4);
 
       const value: number = -35;
