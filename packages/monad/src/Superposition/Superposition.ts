@@ -67,9 +67,6 @@ export class Superposition<A, D extends Error> extends Objet<'Superposition'> im
           }
 
           return chrono.accept(arr);
-        },
-        (e: unknown) => {
-          return chrono.throw(e);
         }
       );
     });

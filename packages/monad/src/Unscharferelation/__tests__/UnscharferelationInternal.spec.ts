@@ -124,8 +124,8 @@ describe('UnscharferelationInternal', () => {
 
       const heisenberg2: Heisenberg<number> = await unscharferelation.terminate();
 
-      expect(spy.callCount).toBe(0);
-      expect(heisenberg1.equals(heisenberg2)).toBe(true);
+      expect(spy.called).toBe(false);
+      expect(heisenberg1).toBe(heisenberg2);
     });
 
     it('call multiple maps', async () => {
@@ -187,8 +187,8 @@ describe('UnscharferelationInternal', () => {
 
       const heisenberg2: Heisenberg<number> = await unscharferelation.terminate();
 
-      expect(spy.callCount).toBe(0);
-      expect(heisenberg1.equals(heisenberg2)).toBe(true);
+      expect(spy.called).toBe(false);
+      expect(heisenberg1).toBe(heisenberg2);
     });
 
     it('call multiple maps', async () => {

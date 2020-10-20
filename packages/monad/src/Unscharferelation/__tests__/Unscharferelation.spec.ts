@@ -393,9 +393,7 @@ describe('Unscharferelation', () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.present<number>(Promise.resolve<number>(0)),
         Unscharferelation.of((epoque: Epoque<number>) => {
-          setImmediate(() => {
-            epoque.throw(error);
-          });
+          epoque.throw(error);
         }),
         Unscharferelation.present<number>(Promise.resolve<number>(2))
       ];
@@ -418,9 +416,7 @@ describe('Unscharferelation', () => {
       const unscharferelations: Array<Unscharferelation<number>> = [
         Unscharferelation.absent<number>(Promise.resolve<void>(undefined)),
         Unscharferelation.of((epoque: Epoque<number>) => {
-          setImmediate(() => {
-            epoque.throw(error);
-          });
+          epoque.throw(error);
         }),
         Unscharferelation.absent<number>(Promise.resolve<void>(undefined))
       ];
