@@ -25,9 +25,9 @@ describe('StructurableTreeNode', () => {
         ImmutableAddress.ofSet<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(new Set<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
           StructurableTreeNode.of<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 2')),
             ImmutableAddress.ofSet<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(new Set<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
-              StructurableTreeNode.of<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 3')), ImmutableAddress.empty<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>())
+              StructurableTreeNode.of<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 3')))
             ]))),
-          StructurableTreeNode.of<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 4')), ImmutableAddress.empty<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>())
+          StructurableTreeNode.of<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 4')))
         ]))
       );
 

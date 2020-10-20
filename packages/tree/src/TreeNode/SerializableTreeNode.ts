@@ -10,7 +10,7 @@ export type TreeNodeJSON = Readonly<{
 }>;
 
 export class SerializableTreeNode<V extends SerializableTreeObject> extends ATreeNode<V, SerializableTreeNode<V>, 'SerializableTreeNode'> implements JSONable<TreeNodeJSON> {
-  public static of<VT extends SerializableTreeObject>(value: VT, children: ReadonlyAddress<SerializableTreeNode<VT>>): SerializableTreeNode<VT> {
+  public static of<VT extends SerializableTreeObject>(value: VT, children: ReadonlyAddress<SerializableTreeNode<VT>> = ImmutableAddress.empty<SerializableTreeNode<VT>>()): SerializableTreeNode<VT> {
     if (children.isEmpty()) {
       return new SerializableTreeNode<VT>(value, ImmutableAddress.empty<SerializableTreeNode<VT>>());
     }

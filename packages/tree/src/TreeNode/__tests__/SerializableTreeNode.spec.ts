@@ -25,9 +25,9 @@ describe('SerializableTreeNode', () => {
         ImmutableAddress.ofSet<SerializableTreeNode<MockTreeObject<MockTreeID>>>(new Set<SerializableTreeNode<MockTreeObject<MockTreeID>>>([
           SerializableTreeNode.of<MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 2')),
             ImmutableAddress.ofSet<SerializableTreeNode<MockTreeObject<MockTreeID>>>(new Set<SerializableTreeNode<MockTreeObject<MockTreeID>>>([
-              SerializableTreeNode.of<MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 3')), ImmutableAddress.empty<SerializableTreeNode<MockTreeObject<MockTreeID>>>())
+              SerializableTreeNode.of<MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 3')))
             ]))),
-          SerializableTreeNode.of<MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 4')), ImmutableAddress.empty<SerializableTreeNode<MockTreeObject<MockTreeID>>>())
+          SerializableTreeNode.of<MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 4')))
         ]))
       );
 
