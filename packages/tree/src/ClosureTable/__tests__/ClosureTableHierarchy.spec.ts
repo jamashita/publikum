@@ -1,6 +1,6 @@
 import { MockValueObject } from '@jamashita/publikum-object';
-import { MockTreeID } from '@jamashita/publikum-tree';
 import { TreeIDFactory } from '../../Interface/TreeIDFactory';
+import { MockTreeID } from '../../Mock/MockTreeID';
 import { ClosureTableHierarchy, ClosureTableJSON } from '../ClosureTableHierarchy';
 
 class TestTreeIDFactory implements TreeIDFactory<MockTreeID> {
