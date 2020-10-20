@@ -1,5 +1,5 @@
-import { MockTreeID } from '@jamashita/publikum-tree';
 import sinon, { SinonSpy } from 'sinon';
+import { MockTreeID } from '../Mock/MockTreeID';
 import { MockTreeObject } from '../Mock/MockTreeObject';
 import { SerializableTree } from '../SerializableTree';
 import { SerializableTreeNode } from '../TreeNode/SerializableTreeNode';

@@ -1,6 +1,8 @@
 import { ValueObject } from '@jamashita/publikum-object';
-import { SerializableTreeObject, StructurableTreeObject, TreeID } from '@jamashita/publikum-tree';
 import { ObjectLiteral } from '@jamashita/publikum-type';
+import { SerializableTreeObject } from '../Interface/SerializableTreeObject';
+import { StructurableTreeObject } from '../Interface/StructurableTreeObject';
+import { TreeID } from '../Interface/TreeID';
 
 export class MockTreeObject<K extends TreeID> extends ValueObject<'MockTreeObject'> implements StructurableTreeObject<K, 'MockTreeObject'>, SerializableTreeObject<'MockTreeObject'> {
   public readonly noun: 'MockTreeObject' = 'MockTreeObject';

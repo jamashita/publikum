@@ -1,5 +1,5 @@
 import { ImmutableAddress, MockAddress, MutableAddress } from '@jamashita/publikum-collection';
-import { MockTreeID } from '@jamashita/publikum-tree';
+import { MockTreeID } from '../../Mock/MockTreeID';
 import { MockTreeObject } from '../../Mock/MockTreeObject';
 import { StructurableTreeNode } from '../StructurableTreeNode';
 

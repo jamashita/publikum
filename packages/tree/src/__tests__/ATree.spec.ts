@@ -1,7 +1,7 @@
 import { ImmutableAddress } from '@jamashita/publikum-collection';
-import { MockTreeID } from '@jamashita/publikum-tree';
 import sinon, { SinonSpy } from 'sinon';
 import { MockTree } from '../Mock/MockTree';
+import { MockTreeID } from '../Mock/MockTreeID';
 import { MockTreeObject } from '../Mock/MockTreeObject';
 import { MockTreeNode } from '../TreeNode/Mock/MockTreeNode';
 
