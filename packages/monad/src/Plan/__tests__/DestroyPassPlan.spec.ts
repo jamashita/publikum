@@ -3,7 +3,7 @@ import { DestroyPassPlan } from '../DestroyPassPlan';
 
 describe('DestroyPassPlan', () => {
   describe('onDestroy', () => {
-    it('normal case', () => {
+    it('invokes callback when onDestroy() called', () => {
       expect.assertions(2);
 
       const value: number = -35;
