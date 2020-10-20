@@ -54,9 +54,6 @@ export class Uncertain<P> extends ValueObject<'Uncertain'> implements Heisenberg
     if (this === other) {
       return true;
     }
-    if (!(other instanceof Uncertain)) {
-      return false;
-    }
 
     return false;
   }

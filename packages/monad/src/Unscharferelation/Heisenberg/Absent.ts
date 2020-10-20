@@ -54,9 +54,6 @@ export class Absent<P> extends ValueObject<'Absent'> implements Heisenberg<P, 'A
     if (this === other) {
       return true;
     }
-    if (other instanceof Absent) {
-      return true;
-    }
 
     return false;
   }
