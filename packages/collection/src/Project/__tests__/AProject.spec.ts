@@ -572,7 +572,7 @@ describe('AProject', () => {
   });
 
   describe('toString', () => {
-    it('returns key-value concatnated string', () => {
+    it('returns key-value concatenated string', () => {
       expect.assertions(1);
 
       const key1: MockNominative<number> = new MockNominative<number>(1);

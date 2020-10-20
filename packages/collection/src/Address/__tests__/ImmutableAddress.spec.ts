@@ -6,22 +6,22 @@ describe('ImmutableAddress', () => {
     it('returns copied collection, does not use the same one', () => {
       expect.assertions(4);
 
-      const value: ImmutableAddress<MockNominative<number>> = ImmutableAddress.ofSet<MockNominative<number>>(
+      const address: ImmutableAddress<MockNominative<number>> = ImmutableAddress.ofSet<MockNominative<number>>(
         new Set<MockNominative<number>>([
           new MockNominative<number>(1),
           new MockNominative<number>(2)
         ])
       );
-      const copied: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(value);
+      const copied: ImmutableAddress<MockNominative<number>> = ImmutableAddress.of<MockNominative<number>>(address);
 
-      expect(value.size()).toBe(copied.size());
-      value.forEach((v: MockNominative<number>) => {
+      expect(address.size()).toBe(copied.size());
+      address.forEach((v: MockNominative<number>) => {
         expect(copied.contains(v)).toBe(true);
       });
 
-      value.add(new MockNominative<number>(3));
+      address.add(new MockNominative<number>(3));
 
-      expect(value.size()).toBe(copied.size());
+      expect(address.size()).toBe(copied.size());
     });
   });
 
@@ -29,19 +29,19 @@ describe('ImmutableAddress', () => {
     it('returns ImmutableAddress.empty() when the size is 0', () => {
       expect.assertions(2);
 
-      const value: ImmutableAddress<MockNominative<number>> = ImmutableAddress.ofSet<MockNominative<number>>(new Set<MockNominative<number>>());
+      const address: ImmutableAddress<MockNominative<number>> = ImmutableAddress.ofSet<MockNominative<number>>(new Set<MockNominative<number>>());
 
-      expect(value.isEmpty()).toBe(true);
-      expect(value).toBe(ImmutableAddress.empty<MockNominative<number>>());
+      expect(address.isEmpty()).toBe(true);
+      expect(address).toBe(ImmutableAddress.empty<MockNominative<number>>());
     });
 
     it('returns instance', () => {
       expect.assertions(2);
 
-      const value1: ImmutableAddress<MockNominative<number>> = ImmutableAddress.ofSet<MockNominative<number>>(
+      const address1: ImmutableAddress<MockNominative<number>> = ImmutableAddress.ofSet<MockNominative<number>>(
         new Set<MockNominative<number>>([new MockNominative<number>(1), new MockNominative<number>(3)])
       );
-      const value2: ImmutableAddress<MockNominative<number>> = ImmutableAddress.ofSet<MockNominative<number>>(
+      const address2: ImmutableAddress<MockNominative<number>> = ImmutableAddress.ofSet<MockNominative<number>>(
         new Set<MockNominative<number>>([
           new MockNominative<number>(2),
           new MockNominative<number>(4),
@@ -49,13 +49,13 @@ describe('ImmutableAddress', () => {
         ])
       );
 
-      expect(value1.size()).toBe(2);
-      expect(value2.size()).toBe(3);
+      expect(address1.size()).toBe(2);
+      expect(address2.size()).toBe(3);
     });
   });
 
   describe('empty', () => {
-    it('returns singleton singleton instance', () => {
+    it('returns singleton instance', () => {
       expect.assertions(1);
 
       expect(ImmutableAddress.empty<MockNominative<number>>()).toBe(ImmutableAddress.empty<MockNominative<number>>());
@@ -64,9 +64,7 @@ describe('ImmutableAddress', () => {
     it('always returns 0-size set', () => {
       expect.assertions(1);
 
-      const value: ImmutableAddress<MockNominative<number>> = ImmutableAddress.empty<MockNominative<number>>();
-
-      expect(value.isEmpty()).toBe(true);
+      expect(ImmutableAddress.empty<MockNominative<number>>().isEmpty()).toBe(true);
     });
   });
 

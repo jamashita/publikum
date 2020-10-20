@@ -15,13 +15,13 @@ describe('MutableAddress', () => {
       const copied: MutableAddress<MockNominative<number>> = MutableAddress.of<MockNominative<number>>(address);
 
       expect(address.size()).toBe(copied.size());
-      address.forEach((n: MockNominative<number>) => {
-        expect(copied.contains(n)).toBe(true);
+      address.forEach((v: MockNominative<number>) => {
+        expect(copied.contains(v)).toBe(true);
       });
 
       address.add(new MockNominative<number>(3));
 
-      expect(address.isEmpty()).not.toBe(copied.size());
+      expect(address.size()).not.toBe(copied.size());
     });
   });
 
@@ -157,22 +157,6 @@ describe('MutableAddress', () => {
 
       expect(address.remove(value2)).toBe(address);
       expect(address.size()).toBe(beforeLength);
-    });
-
-    it('returns the removed Address', () => {
-      expect.assertions(2);
-
-      const value1: MockNominative<number> = new MockNominative<number>(1);
-      const value2: MockNominative<number> = new MockNominative<number>(2);
-      const value3: MockNominative<number> = new MockNominative<number>(2);
-
-      const address1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
-        new Set<MockNominative<number>>([value1, value2])
-      );
-      const address2: MutableAddress<MockNominative<number>> = address1.remove(value3);
-
-      expect(address1).toBe(address2);
-      expect(address1.size()).toBe(1);
     });
   });
 

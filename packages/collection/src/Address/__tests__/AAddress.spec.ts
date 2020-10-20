@@ -359,7 +359,7 @@ describe('AAddress', () => {
     });
 
     it('returns true even if the order is different', () => {
-      expect.assertions(2);
+      expect.assertions(1);
 
       const value1: MockNominative<number> = new MockNominative<number>(1);
       const value2: MockNominative<number> = new MockNominative<number>(2);
@@ -371,12 +371,11 @@ describe('AAddress', () => {
         new Set<MockNominative<number>>([value1, value2])
       );
 
-      expect(address1.equals(address1)).toBe(true);
       expect(address1.equals(address2)).toBe(true);
     });
 
     it('returns true if the size is the same and the order is the quite same', () => {
-      expect.assertions(2);
+      expect.assertions(1);
 
       const value1: MockNominative<number> = new MockNominative<number>(1);
       const value2: MockNominative<number> = new MockNominative<number>(2);
@@ -388,13 +387,12 @@ describe('AAddress', () => {
         new Set<MockNominative<number>>([value1, value2])
       );
 
-      expect(address1.equals(address1)).toBe(true);
       expect(address1.equals(address2)).toBe(true);
     });
   });
 
   describe('toString', () => {
-    it('returns concatnated string', () => {
+    it('returns concatenated string', () => {
       expect.assertions(1);
 
       const value1: MockNominative<number> = new MockNominative<number>(1);
