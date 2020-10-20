@@ -1,4 +1,4 @@
-import { Pair } from '..';
+import { Pair } from '../Pair';
 
 describe('Pair', () => {
   describe('equals', () => {
@@ -16,7 +16,7 @@ describe('Pair', () => {
   });
 
   describe('toString', () => {
-    it('normal case', () => {
+    it('returns as key-value Pair', () => {
       expect.assertions(1);
 
       const key: number = -4;
