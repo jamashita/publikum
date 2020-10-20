@@ -44,7 +44,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('text: responds OK', async () => {
+    it('responds OK: response is text', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -67,7 +67,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('json: responds OK', async () => {
+    it('responds OK: response is json', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -90,7 +90,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('blob: responds OK', async () => {
+    it('responds OK: response is blob', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -113,7 +113,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('arraybuffer: responds OK', async () => {
+    it('responds OK: response is arraybuffer', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -230,7 +230,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('text: responds OK', async () => {
+    it('responds OK: response is text', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -253,7 +253,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('json: responds OK', async () => {
+    it('responds OK: response is json', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -276,7 +276,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('blob: responds OK', async () => {
+    it('responds OK: response is blob', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -299,7 +299,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('arraybuffer: responds OK', async () => {
+    it('responds OK: response is arraybuffer', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -322,7 +322,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('with payload: responds OK', async () => {
+    it('responds OK: response is with payload', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -439,7 +439,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('responds OK', async () => {
+    it('responds OK: response is text', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -462,7 +462,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('json: responds OK', async () => {
+    it('responds OK: response is json', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -485,7 +485,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('blob: responds OK', async () => {
+    it('responds OK: response is blob', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -508,7 +508,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('arraybuffer: responds OK', async () => {
+    it('responds OK: response is arraybuffer', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -531,7 +531,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('with payload: responds OK', async () => {
+    it('responds OK: response is with payload', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -648,7 +648,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('text: responds OK', async () => {
+    it('responds OK: response is text', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -671,7 +671,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('json: responds OK', async () => {
+    it('responds OK: response is json', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -694,7 +694,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('blob: responds OK', async () => {
+    it('responds OK: response is blob', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -717,7 +717,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('arraybuffer: responds OK', async () => {
+    it('responds OK: response is arraybuffer', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -834,7 +834,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('text: responds OK', async () => {
+    it('responds OK: response is text', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -857,7 +857,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('json: responds OK', async () => {
+    it('responds OK: response is json', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -880,7 +880,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('blob: responds OK', async () => {
+    it('responds OK: response is blob', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
@@ -903,7 +903,7 @@ describe('AJAX', () => {
       server.restore();
     });
 
-    it('arraybuffer: responds OK', async () => {
+    it('responds OK: response is arraybuffer', async () => {
       expect.assertions(2);
 
       const server: SinonFakeServer = sinon.fakeServer.create();
