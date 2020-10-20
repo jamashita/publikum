@@ -2,6 +2,31 @@ import { MockNominative } from '@jamashita/publikum-object';
 import { ImmutableProject } from '../ImmutableProject';
 
 describe('ImmutableProject', () => {
+  describe('of', () => {
+    it('returns copied collection, does not use the same one', () => {
+      expect.assertions(6);
+
+      const project: ImmutableProject<MockNominative<number>, MockNominative<number>> = ImmutableProject.ofMap<MockNominative<number>,
+        MockNominative<number>>(
+        new Map<MockNominative<number>, MockNominative<number>>([
+          [new MockNominative<number>(1), new MockNominative<number>(2)],
+          [new MockNominative<number>(3), new MockNominative<number>(4)]
+        ])
+      );
+      const copied: ImmutableProject<MockNominative<number>, MockNominative<number>> = ImmutableProject.of<MockNominative<number>, MockNominative<number>>(project);
+
+      expect(project.size()).toBe(copied.size());
+      expect(project.get(new MockNominative<number>(1))).not.toBeNull();
+      expect(project.get(new MockNominative<number>(1))).toBe(copied.get(new MockNominative<number>(1)));
+      expect(project.get(new MockNominative<number>(3))).not.toBeNull();
+      expect(project.get(new MockNominative<number>(3))).toBe(copied.get(new MockNominative<number>(3)));
+
+      project.set(new MockNominative<number>(5), new MockNominative<number>(6));
+
+      expect(project.size()).toBe(copied.size());
+    });
+  });
+
   describe('ofMap', () => {
     it('when the arguments specified with 0 length set, returns ImmutableAddress.empty()', () => {
       expect.assertions(2);
