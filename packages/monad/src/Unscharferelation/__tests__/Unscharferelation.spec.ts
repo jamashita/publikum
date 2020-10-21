@@ -606,11 +606,8 @@ describe('Unscharferelation', () => {
     it('returns true if the same instance given', () => {
       expect.assertions(1);
 
-      const unscharferelation: Unscharferelation<number> = Unscharferelation.of<number>(
-        (epoque: Epoque<number>) => {
-          epoque.accept(-1);
-        }
-      );
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.present<number>(-1);
+
 
       expect(unscharferelation.equals(unscharferelation)).toBe(true);
     });
@@ -618,11 +615,7 @@ describe('Unscharferelation', () => {
     it('returns false if the class instance given', () => {
       expect.assertions(1);
 
-      const unscharferelation: Unscharferelation<number> = Unscharferelation.of<number>(
-        (epoque: Epoque<number>) => {
-          epoque.accept(-1);
-        }
-      );
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.present<number>(-1);
 
       expect(unscharferelation.equals(new MockValueObject('mock'))).toBe(false);
     });
@@ -631,26 +624,10 @@ describe('Unscharferelation', () => {
     it('returns true if their retaining Heisenbergs are the same', () => {
       expect.assertions(3);
 
-      const unscharferelation1: Unscharferelation<number> = Unscharferelation.of<number>(
-        (epoque: Epoque<number>) => {
-          epoque.accept(-1);
-        }
-      );
-      const unscharferelation2: Unscharferelation<number> = Unscharferelation.of<number>(
-        (epoque: Epoque<number>) => {
-          epoque.accept(-1);
-        }
-      );
-      const unscharferelation3: Unscharferelation<number> = Unscharferelation.of<number>(
-        (epoque: Epoque<number>) => {
-          epoque.accept(0);
-        }
-      );
-      const unscharferelation4: Unscharferelation<number> = Unscharferelation.of<number>(
-        (epoque: Epoque<number>) => {
-          epoque.decline();
-        }
-      );
+      const unscharferelation1: Unscharferelation<number> = Unscharferelation.present<number>(-1);
+      const unscharferelation2: Unscharferelation<number> = Unscharferelation.present<number>(-1);
+      const unscharferelation3: Unscharferelation<number> = Unscharferelation.present<number>(0);
+      const unscharferelation4: Unscharferelation<number> = Unscharferelation.absent<number>();
 
       expect(unscharferelation1.equals(unscharferelation2)).toBe(true);
       expect(unscharferelation1.equals(unscharferelation3)).toBe(false);
@@ -662,16 +639,8 @@ describe('Unscharferelation', () => {
     it('returns its retaining Heisenberg string', () => {
       expect.assertions(3);
 
-      const unscharferelation1: Unscharferelation<number> = Unscharferelation.of<number>(
-        (epoque: Epoque<number>) => {
-          epoque.accept(-1);
-        }
-      );
-      const unscharferelation2: Unscharferelation<number> = Unscharferelation.of<number>(
-        (epoque: Epoque<number>) => {
-          epoque.decline();
-        }
-      );
+      const unscharferelation1: Unscharferelation<number> = Unscharferelation.present<number>(-1);
+      const unscharferelation2: Unscharferelation<number> = Unscharferelation.absent<number>();
       const unscharferelation3: Unscharferelation<number> = Unscharferelation.of<number>(
         (epoque: Epoque<number>) => {
           epoque.throw(null);
@@ -893,11 +862,7 @@ describe('Unscharferelation', () => {
 
       const value: number = -201;
 
-      const unscharferelation: Unscharferelation<number> = Unscharferelation.of<number>(
-        (epoque: Epoque<number>) => {
-          epoque.accept(value);
-        }
-      );
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.present<number>(value);
 
       const schrodinger: Schrodinger<number, UnscharferelationError> = await unscharferelation.toSuperposition().terminate();
 
@@ -910,11 +875,7 @@ describe('Unscharferelation', () => {
 
       const value: MockRuntimeError = new MockRuntimeError();
 
-      const unscharferelation: Unscharferelation<MockRuntimeError> = Unscharferelation.of<MockRuntimeError>(
-        (epoque: Epoque<MockRuntimeError>) => {
-          epoque.accept(value);
-        }
-      );
+      const unscharferelation: Unscharferelation<MockRuntimeError> = Unscharferelation.present<MockRuntimeError>(value);
 
       const schrodinger: Schrodinger<MockRuntimeError, UnscharferelationError> = await unscharferelation.toSuperposition().terminate();
 
@@ -927,11 +888,7 @@ describe('Unscharferelation', () => {
     it('Absent: will transform to Dead', async () => {
       expect.assertions(2);
 
-      const unscharferelation: Unscharferelation<number> = Unscharferelation.of<number>(
-        (epoque: Epoque<number>) => {
-          epoque.decline();
-        }
-      );
+      const unscharferelation: Unscharferelation<number> = Unscharferelation.absent<number>();
 
       const schrodinger: Schrodinger<number, UnscharferelationError> = await unscharferelation.toSuperposition().terminate();
 

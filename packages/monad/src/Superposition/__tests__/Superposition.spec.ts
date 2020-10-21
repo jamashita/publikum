@@ -718,12 +718,7 @@ describe('Superposition', () => {
     it('returns true if the same instance given', () => {
       expect.assertions(1);
 
-      const superposition: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
-        (chrono: Chrono<number, MockRuntimeError>) => {
-          chrono.accept(-1);
-        },
-        MockRuntimeError
-      );
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(-1, MockRuntimeError);
 
       expect(superposition.equals(superposition)).toBe(true);
     });
@@ -731,12 +726,7 @@ describe('Superposition', () => {
     it('returns false if the different class instance given', () => {
       expect.assertions(1);
 
-      const superposition: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
-        (chrono: Chrono<number, MockRuntimeError>) => {
-          chrono.accept(-1);
-        },
-        MockRuntimeError
-      );
+      const superposition: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(-1, MockRuntimeError);
 
       expect(superposition.equals(new MockValueObject('mock'))).toBe(false);
     });
@@ -744,30 +734,10 @@ describe('Superposition', () => {
     it('returns true if their retaining Schrodingers are the same', () => {
       expect.assertions(5);
 
-      const superposition1: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
-        (chrono: Chrono<number, MockRuntimeError>) => {
-          chrono.accept(-1);
-        },
-        MockRuntimeError
-      );
-      const superposition2: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
-        (chrono: Chrono<number, MockRuntimeError>) => {
-          chrono.accept(-1);
-        },
-        MockRuntimeError
-      );
-      const superposition3: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
-        (chrono: Chrono<number, MockRuntimeError>) => {
-          chrono.accept(0);
-        },
-        MockRuntimeError
-      );
-      const superposition4: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
-        (chrono: Chrono<number, MockRuntimeError>) => {
-          chrono.decline(new MockRuntimeError());
-        },
-        MockRuntimeError
-      );
+      const superposition1: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(-1, MockRuntimeError);
+      const superposition2: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(-1, MockRuntimeError);
+      const superposition3: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(0, MockRuntimeError);
+      const superposition4: Superposition<number, MockRuntimeError> = Superposition.dead<number, MockRuntimeError>(new MockRuntimeError(), MockRuntimeError);
       const superposition5: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
         (chrono: Chrono<number, MockRuntimeError>) => {
           chrono.throw(null);
@@ -787,18 +757,8 @@ describe('Superposition', () => {
     it('returns its retaining Schrodinger string', () => {
       expect.assertions(3);
 
-      const superposition1: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
-        (chrono: Chrono<number, MockRuntimeError>) => {
-          chrono.accept(-1);
-        },
-        MockRuntimeError
-      );
-      const superposition2: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
-        (chrono: Chrono<number, MockRuntimeError>) => {
-          chrono.decline(new MockRuntimeError());
-        },
-        MockRuntimeError
-      );
+      const superposition1: Superposition<number, MockRuntimeError> = Superposition.alive<number, MockRuntimeError>(-1, MockRuntimeError);
+      const superposition2: Superposition<number, MockRuntimeError> = Superposition.dead<number, MockRuntimeError>(new MockRuntimeError(), MockRuntimeError);
       const superposition3: Superposition<number, MockRuntimeError> = Superposition.of<number, MockRuntimeError>(
         (chrono: Chrono<number, MockRuntimeError>) => {
           chrono.throw(null);
