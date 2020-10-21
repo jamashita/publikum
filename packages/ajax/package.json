@@ -31,7 +31,7 @@
     "@jamashita/publikum-error": "^2.27.1",
     "@jamashita/publikum-json": "^2.27.1",
     "@jamashita/publikum-type": "^2.27.1",
-    "axios": "0.20.0"
+    "ky": "0.24.0"
   },
   "devDependencies": {
     "sinon": "9.2.0"

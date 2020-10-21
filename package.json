@@ -35,13 +35,13 @@
     "versionup": "lerna version --conventional-commits --conventional-graduate --include-merged-tags"
   },
   "dependencies": {
-    "axios": "0.20.0",
     "bcrypt": "5.0.0",
     "crypto-random-string": "3.3.0",
     "d3-random": "2.2.2",
     "dayjs": "1.9.3",
     "got": "11.7.0",
     "ioredis": "4.17.3",
+    "ky": "0.24.0",
     "make-error-cause": "2.3.0",
     "mysql": "2.18.1",
     "object-hash": "2.0.3",
