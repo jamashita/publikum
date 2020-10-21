@@ -27,7 +27,7 @@ describe('Lost', () => {
   });
 
   describe('getCause', () => {
-    it('returns given error', () => {
+    it('returns thrown error', () => {
       expect.assertions(2);
 
       const error1: MockRuntimeError = new MockRuntimeError();
@@ -41,7 +41,7 @@ describe('Lost', () => {
   });
 
   describe('isPresent', () => {
-    it('returns false', () => {
+    it('always returns false', () => {
       expect.assertions(1);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -51,7 +51,7 @@ describe('Lost', () => {
     });
   });
   describe('isAbsent', () => {
-    it('returns false', () => {
+    it('always returns false', () => {
       expect.assertions(1);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -62,7 +62,7 @@ describe('Lost', () => {
   });
 
   describe('isLost', () => {
-    it('returns true', () => {
+    it('always returns true', () => {
       expect.assertions(1);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -138,25 +138,39 @@ describe('Lost', () => {
     it('returns false if the different class instance given', () => {
       expect.assertions(1);
 
-      const heisenberg: Heisenberg<number> = Lost.of<number>(new SyntaxError());
+      const heisenberg: Heisenberg<number> = Lost.of<number>(undefined);
 
-      expect(heisenberg.equals(new MockValueObject('mock'))).toBe(false);
+      expect(heisenberg.equals(new MockValueObject<string>('mock'))).toBe(false);
     });
 
-    it('returns true if Lost given even if the cause is different', () => {
-      expect.assertions(4);
+    it('returns true if the same value Lost given', () => {
+      expect.assertions(5);
 
       const present: Present<number> = Present.of<number>(2);
       const absent: Absent<number> = Absent.of<number>();
-      const lost: Lost<number> = Lost.of<number>(new MockRuntimeError());
+      const lost1: Lost<number> = Lost.of<number>(null);
+      const lost2: Lost<number> = Lost.of<number>(undefined);
       const uncertain: Uncertain<number> = Uncertain.of<number>();
 
-      const heisenberg: Heisenberg<number> = Lost.of<number>(new SyntaxError());
+      const heisenberg: Heisenberg<number> = Lost.of<number>(null);
 
       expect(heisenberg.equals(present)).toBe(false);
       expect(heisenberg.equals(absent)).toBe(false);
-      expect(heisenberg.equals(lost)).toBe(true);
+      expect(heisenberg.equals(lost1)).toBe(true);
+      expect(heisenberg.equals(lost2)).toBe(false);
       expect(heisenberg.equals(uncertain)).toBe(false);
+    });
+
+    it('returns true if the same Equalable instance given', () => {
+      expect.assertions(2);
+
+      const lost1: Lost<number> = Lost.of<number>(new MockValueObject<string>('mock 1'));
+      const lost2: Lost<number> = Lost.of<number>(new MockValueObject<string>('mock 2'));
+
+      const heisenberg: Heisenberg<number> = Lost.of<number>(new MockValueObject<string>('mock 1'));
+
+      expect(heisenberg.equals(lost1)).toBe(true);
+      expect(heisenberg.equals(lost2)).toBe(false);
     });
   });
 

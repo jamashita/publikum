@@ -142,7 +142,7 @@ describe('Contradiction', () => {
 
       const schrodinger: Schrodinger<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(undefined);
 
-      expect(schrodinger.equals(new MockValueObject('mock'))).toBe(false);
+      expect(schrodinger.equals(new MockValueObject<string>('mock'))).toBe(false);
     });
 
     it('returns true if the same value Contradiction given', () => {
@@ -166,10 +166,10 @@ describe('Contradiction', () => {
     it('returns true if the same Equalable instance given', () => {
       expect.assertions(2);
 
-      const contradiction1: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(new MockValueObject('mock 1'));
-      const contradiction2: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(new MockValueObject('mock 2'));
+      const contradiction1: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(new MockValueObject<string>('mock 1'));
+      const contradiction2: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(new MockValueObject<string>('mock 2'));
 
-      const schrodinger: Schrodinger<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(new MockValueObject('mock 1'));
+      const schrodinger: Schrodinger<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(new MockValueObject<string>('mock 1'));
 
       expect(schrodinger.equals(contradiction1)).toBe(true);
       expect(schrodinger.equals(contradiction2)).toBe(false);
