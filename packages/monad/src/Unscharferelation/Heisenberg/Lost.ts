@@ -60,7 +60,7 @@ export class Lost<P> extends ValueObject<'Lost'> implements Heisenberg<P, 'Lost'
     if (this.cause === other.cause) {
       return true;
     }
-    if (isEqualable(this.cause) && isEqualable(other.cause)) {
+    if (isEqualable(this.cause)) {
       return this.cause.equals(other.cause);
     }
 

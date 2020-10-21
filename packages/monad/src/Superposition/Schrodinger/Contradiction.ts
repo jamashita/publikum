@@ -60,7 +60,7 @@ export class Contradiction<A, D extends Error> extends ValueObject<'Contradictio
     if (this.cause === other.cause) {
       return true;
     }
-    if (isEqualable(this.cause) && isEqualable(other.cause)) {
+    if (isEqualable(this.cause)) {
       return this.cause.equals(other.cause);
     }
 
