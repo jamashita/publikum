@@ -36,7 +36,6 @@
   "devDependencies": {
     "http-status-codes": "2.1.4",
     "jest-fetch-mock": "3.0.3",
-    "node-fetch": "2.6.1",
     "sinon": "9.2.0"
   },
   "engines": {

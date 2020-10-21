@@ -83,7 +83,6 @@
     "lerna": "3.22.1",
     "lint-staged": "10.4.2",
     "nock": "13.0.4",
-    "node-fetch": "2.6.1",
     "npm-check-updates": "9.1.0",
     "rimraf": "3.0.2",
     "semantic-release": "17.2.1",
