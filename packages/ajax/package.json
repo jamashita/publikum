@@ -34,6 +34,7 @@
     "ky": "0.24.0"
   },
   "devDependencies": {
+    "node-fetch": "2.6.1",
     "sinon": "9.2.0"
   },
   "engines": {
