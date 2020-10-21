@@ -78,6 +78,7 @@
     "git-cz": "4.7.1",
     "husky": "4.3.0",
     "jest": "26.6.0",
+    "jest-fetch-mock": "3.0.3",
     "lerna": "3.22.1",
     "lint-staged": "10.4.2",
     "nock": "13.0.4",
