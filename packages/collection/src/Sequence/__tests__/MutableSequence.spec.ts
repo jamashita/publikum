@@ -1,4 +1,4 @@
-import { MockNominative } from '@jamashita/publikum-object';
+import { MockValueObject } from '@jamashita/publikum-object';
 import { Nullable } from '@jamashita/publikum-type';
 import { MutableSequence } from '../MutableSequence';
 
@@ -7,18 +7,18 @@ describe('MutableSequence', () => {
     it('returns copied collection, does not use the same one', () => {
       expect.assertions(4);
 
-      const sequence: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([
-        new MockNominative<number>(1),
-        new MockNominative<number>(2)
+      const sequence: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([
+        new MockValueObject<number>(1),
+        new MockValueObject<number>(2)
       ]);
-      const copied: MutableSequence<MockNominative<number>> = MutableSequence.of<MockNominative<number>>(sequence);
+      const copied: MutableSequence<MockValueObject<number>> = MutableSequence.of<MockValueObject<number>>(sequence);
 
       expect(sequence.size()).toBe(copied.size());
-      sequence.forEach((v: MockNominative<number>) => {
+      sequence.forEach((v: MockValueObject<number>) => {
         expect(copied.contains(v)).toBe(true);
       });
 
-      sequence.add(new MockNominative<number>(3));
+      sequence.add(new MockValueObject<number>(3));
 
       expect(sequence.size()).not.toBe(copied.size());
     });
@@ -28,7 +28,7 @@ describe('MutableSequence', () => {
     it('returns MutableSequence.empty() when set size is 0', () => {
       expect.assertions(1);
 
-      const sequence: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([]);
+      const sequence: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([]);
 
       expect(sequence.isEmpty()).toBe(true);
     });
@@ -36,14 +36,14 @@ describe('MutableSequence', () => {
     it('returns instance', () => {
       expect.assertions(2);
 
-      const sequence1: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([
-        new MockNominative<number>(1),
-        new MockNominative<number>(3)
+      const sequence1: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([
+        new MockValueObject<number>(1),
+        new MockValueObject<number>(3)
       ]);
-      const sequence2: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([
-        new MockNominative<number>(2),
-        new MockNominative<number>(4),
-        new MockNominative<number>(5)
+      const sequence2: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([
+        new MockValueObject<number>(2),
+        new MockValueObject<number>(4),
+        new MockValueObject<number>(5)
       ]);
 
       expect(sequence1.size()).toBe(2);
@@ -55,13 +55,13 @@ describe('MutableSequence', () => {
     it('does not return singleton instance', () => {
       expect.assertions(1);
 
-      expect(MutableSequence.empty<MockNominative<number>>()).not.toBe(MutableSequence.empty<MockNominative<number>>());
+      expect(MutableSequence.empty<MockValueObject<number>>()).not.toBe(MutableSequence.empty<MockValueObject<number>>());
     });
 
     it('always returns 0-size array', () => {
       expect.assertions(1);
 
-      expect(MutableSequence.empty<MockNominative<number>>().isEmpty()).toBe(true);
+      expect(MutableSequence.empty<MockValueObject<number>>().isEmpty()).toBe(true);
     });
   });
 
@@ -69,27 +69,27 @@ describe('MutableSequence', () => {
     it('can extend mutably', () => {
       expect.assertions(13);
 
-      const value1: MockNominative<number> = new MockNominative<number>(1);
-      const value2: MockNominative<number> = new MockNominative<number>(2);
-      const value3: MockNominative<number> = new MockNominative<number>(3);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
 
-      const sequence1: MutableSequence<MockNominative<number>> = MutableSequence.empty<MockNominative<number>>();
+      const sequence1: MutableSequence<MockValueObject<number>> = MutableSequence.empty<MockValueObject<number>>();
 
       expect(sequence1.size()).toBe(0);
 
-      const sequence2: MutableSequence<MockNominative<number>> = sequence1.add(value1);
+      const sequence2: MutableSequence<MockValueObject<number>> = sequence1.add(value1);
 
       expect(sequence1).toBe(sequence2);
       expect(sequence2.get(0)).toBe(value1);
 
-      const sequence3: MutableSequence<MockNominative<number>> = sequence2.add(value2);
+      const sequence3: MutableSequence<MockValueObject<number>> = sequence2.add(value2);
 
       expect(sequence1).toBe(sequence2);
       expect(sequence2).toBe(sequence3);
       expect(sequence3.get(0)).toBe(value1);
       expect(sequence3.get(1)).toBe(value2);
 
-      const sequence4: MutableSequence<MockNominative<number>> = sequence3.add(value3);
+      const sequence4: MutableSequence<MockValueObject<number>> = sequence3.add(value3);
 
       expect(sequence2).toBe(sequence3);
       expect(sequence3).toBe(sequence4);
@@ -104,17 +104,17 @@ describe('MutableSequence', () => {
     it('can be set the value into first position', () => {
       expect.assertions(5);
 
-      const value1: MockNominative<number> = new MockNominative<number>(1);
-      const value2: MockNominative<number> = new MockNominative<number>(2);
-      const value3: MockNominative<number> = new MockNominative<number>(3);
-      const value4: MockNominative<number> = new MockNominative<number>(4);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
+      const value4: MockValueObject<number> = new MockValueObject<number>(4);
 
-      const sequence1: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([
+      const sequence1: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([
         value1,
         value2,
         value3
       ]);
-      const sequence2: MutableSequence<MockNominative<number>> = sequence1.set(0, value4);
+      const sequence2: MutableSequence<MockValueObject<number>> = sequence1.set(0, value4);
 
       expect(sequence1).toBe(sequence2);
       expect(sequence1.size()).toBe(3);
@@ -126,17 +126,17 @@ describe('MutableSequence', () => {
     it('can be set the value into middle position', () => {
       expect.assertions(5);
 
-      const value1: MockNominative<number> = new MockNominative<number>(1);
-      const value2: MockNominative<number> = new MockNominative<number>(2);
-      const value3: MockNominative<number> = new MockNominative<number>(3);
-      const value4: MockNominative<number> = new MockNominative<number>(4);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
+      const value4: MockValueObject<number> = new MockValueObject<number>(4);
 
-      const sequence1: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([
+      const sequence1: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([
         value1,
         value2,
         value3
       ]);
-      const sequence2: MutableSequence<MockNominative<number>> = sequence1.set(1, value4);
+      const sequence2: MutableSequence<MockValueObject<number>> = sequence1.set(1, value4);
 
       expect(sequence1).toBe(sequence2);
       expect(sequence1.size()).toBe(3);
@@ -148,17 +148,17 @@ describe('MutableSequence', () => {
     it('can be set the value into last position', () => {
       expect.assertions(5);
 
-      const value1: MockNominative<number> = new MockNominative<number>(1);
-      const value2: MockNominative<number> = new MockNominative<number>(2);
-      const value3: MockNominative<number> = new MockNominative<number>(3);
-      const value4: MockNominative<number> = new MockNominative<number>(4);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
+      const value4: MockValueObject<number> = new MockValueObject<number>(4);
 
-      const sequence1: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([
+      const sequence1: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([
         value1,
         value2,
         value3
       ]);
-      const sequence2: MutableSequence<MockNominative<number>> = sequence1.set(2, value4);
+      const sequence2: MutableSequence<MockValueObject<number>> = sequence1.set(2, value4);
 
       expect(sequence1).toBe(sequence2);
       expect(sequence1.size()).toBe(3);
@@ -170,12 +170,12 @@ describe('MutableSequence', () => {
     it('returns itself when given key is less than 0', () => {
       expect.assertions(2);
 
-      const value: MockNominative<number> = new MockNominative<number>(1);
+      const value: MockValueObject<number> = new MockValueObject<number>(1);
 
-      const sequence1: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([]);
+      const sequence1: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([]);
       const beforeLength: number = sequence1.size();
 
-      const sequence2: MutableSequence<MockNominative<number>> = sequence1.set(-1, value);
+      const sequence2: MutableSequence<MockValueObject<number>> = sequence1.set(-1, value);
 
       expect(sequence1).toBe(sequence2);
       expect(sequence1.size()).toBe(beforeLength);
@@ -184,12 +184,12 @@ describe('MutableSequence', () => {
     it('returns itself when given key is greater than sequence length', () => {
       expect.assertions(2);
 
-      const value: MockNominative<number> = new MockNominative<number>(1);
+      const value: MockValueObject<number> = new MockValueObject<number>(1);
 
-      const sequence1: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([]);
+      const sequence1: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([]);
       const beforeLength: number = sequence1.size();
 
-      const sequence2: MutableSequence<MockNominative<number>> = sequence1.set(300, value);
+      const sequence2: MutableSequence<MockValueObject<number>> = sequence1.set(300, value);
 
       expect(sequence1).toBe(sequence2);
       expect(sequence1.size()).toBe(beforeLength);
@@ -198,12 +198,12 @@ describe('MutableSequence', () => {
     it('returns itself when given key is not integer', () => {
       expect.assertions(2);
 
-      const value: MockNominative<number> = new MockNominative<number>(1);
+      const value: MockValueObject<number> = new MockValueObject<number>(1);
 
-      const sequence1: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([]);
+      const sequence1: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([]);
       const beforeLength: number = sequence1.size();
 
-      const sequence2: MutableSequence<MockNominative<number>> = sequence1.set(0.9, value);
+      const sequence2: MutableSequence<MockValueObject<number>> = sequence1.set(0.9, value);
 
       expect(sequence1).toBe(sequence2);
       expect(sequence1.size()).toBe(beforeLength);
@@ -214,16 +214,16 @@ describe('MutableSequence', () => {
     it('can remove retaining value if it contains', () => {
       expect.assertions(2);
 
-      const value1: MockNominative<number> = new MockNominative<number>(1);
-      const value2: MockNominative<number> = new MockNominative<number>(2);
-      const value3: MockNominative<number> = new MockNominative<number>(3);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
 
-      const sequence1: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([
+      const sequence1: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([
         value1,
         value2,
         value3
       ]);
-      const sequence2: MutableSequence<MockNominative<number>> = sequence1.remove(0);
+      const sequence2: MutableSequence<MockValueObject<number>> = sequence1.remove(0);
 
       expect(sequence1).toBe(sequence2);
       expect(sequence1.size()).toBe(2);
@@ -232,16 +232,16 @@ describe('MutableSequence', () => {
     it('removes middle value', () => {
       expect.assertions(4);
 
-      const value1: MockNominative<number> = new MockNominative<number>(1);
-      const value2: MockNominative<number> = new MockNominative<number>(2);
-      const value3: MockNominative<number> = new MockNominative<number>(3);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
 
-      const sequence1: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([
+      const sequence1: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([
         value1,
         value2,
         value3
       ]);
-      const sequence2: MutableSequence<MockNominative<number>> = sequence1.remove(1);
+      const sequence2: MutableSequence<MockValueObject<number>> = sequence1.remove(1);
 
       expect(sequence1).toBe(sequence2);
       expect(sequence1.size()).toBe(2);
@@ -252,16 +252,16 @@ describe('MutableSequence', () => {
     it('removes last value', () => {
       expect.assertions(4);
 
-      const value1: MockNominative<number> = new MockNominative<number>(1);
-      const value2: MockNominative<number> = new MockNominative<number>(2);
-      const value3: MockNominative<number> = new MockNominative<number>(3);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
 
-      const sequence1: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([
+      const sequence1: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([
         value1,
         value2,
         value3
       ]);
-      const sequence2: MutableSequence<MockNominative<number>> = sequence1.remove(2);
+      const sequence2: MutableSequence<MockValueObject<number>> = sequence1.remove(2);
 
       expect(sequence1).toBe(sequence2);
       expect(sequence1.size()).toBe(2);
@@ -272,16 +272,16 @@ describe('MutableSequence', () => {
     it('returns itself when give key is greater than sequence length', () => {
       expect.assertions(1);
 
-      const value1: MockNominative<number> = new MockNominative<number>(1);
-      const value2: MockNominative<number> = new MockNominative<number>(2);
-      const value3: MockNominative<number> = new MockNominative<number>(3);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
 
-      const sequence1: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([
+      const sequence1: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([
         value1,
         value2,
         value3
       ]);
-      const sequence2: MutableSequence<MockNominative<number>> = sequence1.remove(3);
+      const sequence2: MutableSequence<MockValueObject<number>> = sequence1.remove(3);
 
       expect(sequence1).toBe(sequence2);
     });
@@ -289,16 +289,16 @@ describe('MutableSequence', () => {
     it('returns itself when give key is less than 0', () => {
       expect.assertions(1);
 
-      const value1: MockNominative<number> = new MockNominative<number>(1);
-      const value2: MockNominative<number> = new MockNominative<number>(2);
-      const value3: MockNominative<number> = new MockNominative<number>(3);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
 
-      const sequence1: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([
+      const sequence1: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([
         value1,
         value2,
         value3
       ]);
-      const sequence2: MutableSequence<MockNominative<number>> = sequence1.remove(-1);
+      const sequence2: MutableSequence<MockValueObject<number>> = sequence1.remove(-1);
 
       expect(sequence1).toBe(sequence2);
     });
@@ -306,16 +306,16 @@ describe('MutableSequence', () => {
     it('returns itself when give key is not integer', () => {
       expect.assertions(1);
 
-      const value1: MockNominative<number> = new MockNominative<number>(1);
-      const value2: MockNominative<number> = new MockNominative<number>(2);
-      const value3: MockNominative<number> = new MockNominative<number>(3);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
 
-      const sequence1: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([
+      const sequence1: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([
         value1,
         value2,
         value3
       ]);
-      const sequence2: MutableSequence<MockNominative<number>> = sequence1.remove(0.9);
+      const sequence2: MutableSequence<MockValueObject<number>> = sequence1.remove(0.9);
 
       expect(sequence1).toBe(sequence2);
     });
@@ -325,11 +325,11 @@ describe('MutableSequence', () => {
     it('returns true if the value size is 0', () => {
       expect.assertions(2);
 
-      const sequence1: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([
-        new MockNominative<number>(1),
-        new MockNominative<number>(2)
+      const sequence1: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([
+        new MockValueObject<number>(1),
+        new MockValueObject<number>(2)
       ]);
-      const sequence2: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([]);
+      const sequence2: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([]);
 
       expect(sequence1.isEmpty()).toBe(false);
       expect(sequence2.isEmpty()).toBe(true);
@@ -340,23 +340,23 @@ describe('MutableSequence', () => {
     it('execute the mapper function and returns mapped Address immutably', () => {
       expect.assertions(5);
 
-      const sequence1: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([
-        new MockNominative<number>(1),
-        new MockNominative<number>(2),
-        new MockNominative<number>(3)
+      const sequence1: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([
+        new MockValueObject<number>(1),
+        new MockValueObject<number>(2),
+        new MockValueObject<number>(3)
       ]);
-      const sequence2: MutableSequence<MockNominative<string>> = sequence1.map<MockNominative<string>>(
-        (value: MockNominative<number>) => {
+      const sequence2: MutableSequence<MockValueObject<string>> = sequence1.map<MockValueObject<string>>(
+        (value: MockValueObject<number>) => {
           const num: number = value.get();
 
-          return new MockNominative<string>(`${num ** 2}`);
+          return new MockValueObject<string>(`${num ** 2}`);
         }
       );
 
       expect(sequence1.size()).toBe(sequence2.size());
       expect(sequence1).not.toBe(sequence2);
-      sequence2.forEach((v: MockNominative<string>, k: number) => {
-        const mock: Nullable<MockNominative<number>> = sequence1.get(k);
+      sequence2.forEach((v: MockValueObject<string>, k: number) => {
+        const mock: Nullable<MockValueObject<number>> = sequence1.get(k);
 
         if (mock === null) {
           fail();
@@ -374,26 +374,26 @@ describe('MutableSequence', () => {
     it('can remove unexpected values', () => {
       expect.assertions(6);
 
-      const value1: MockNominative<number> = new MockNominative<number>(1);
-      const value2: MockNominative<number> = new MockNominative<number>(2);
-      const value3: MockNominative<number> = new MockNominative<number>(3);
-      const value4: MockNominative<number> = new MockNominative<number>(2);
-      const value5: MockNominative<number> = new MockNominative<number>(5);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
+      const value4: MockValueObject<number> = new MockValueObject<number>(2);
+      const value5: MockValueObject<number> = new MockValueObject<number>(5);
 
-      const sequence: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([
+      const sequence: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([
         value1,
         value2,
         value3,
         value4
       ]);
 
-      const filtered1: MutableSequence<MockNominative<number>> = sequence.filter((mock: MockNominative<number>) => {
+      const filtered1: MutableSequence<MockValueObject<number>> = sequence.filter((mock: MockValueObject<number>) => {
         return mock.get() % 2 === 0;
       });
-      const filtered2: MutableSequence<MockNominative<number>> = sequence.filter((mock: MockNominative<number>) => {
+      const filtered2: MutableSequence<MockValueObject<number>> = sequence.filter((mock: MockValueObject<number>) => {
         return mock === value4;
       });
-      const filtered3: MutableSequence<MockNominative<number>> = sequence.filter((mock: MockNominative<number>) => {
+      const filtered3: MutableSequence<MockValueObject<number>> = sequence.filter((mock: MockValueObject<number>) => {
         return mock === value5;
       });
 
@@ -410,17 +410,17 @@ describe('MutableSequence', () => {
     it('returns shallow-copied instance', () => {
       expect.assertions(6);
 
-      const sequence1: MutableSequence<MockNominative<number>> = MutableSequence.ofArray<MockNominative<number>>([
-        new MockNominative<number>(1),
-        new MockNominative<number>(2),
-        new MockNominative<number>(3),
-        new MockNominative<number>(2)
+      const sequence1: MutableSequence<MockValueObject<number>> = MutableSequence.ofArray<MockValueObject<number>>([
+        new MockValueObject<number>(1),
+        new MockValueObject<number>(2),
+        new MockValueObject<number>(3),
+        new MockValueObject<number>(2)
       ]);
-      const sequence2: MutableSequence<MockNominative<number>> = sequence1.duplicate();
+      const sequence2: MutableSequence<MockValueObject<number>> = sequence1.duplicate();
 
       expect(sequence1.size()).toBe(sequence2.size());
       expect(sequence1).not.toBe(sequence2);
-      sequence1.forEach((v: MockNominative<number>, k: number) => {
+      sequence1.forEach((v: MockValueObject<number>, k: number) => {
         expect(v).toBe(sequence2.get(k));
       });
     });
