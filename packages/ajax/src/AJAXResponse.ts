@@ -1,6 +1,6 @@
 import { ObjectLiteral } from '@jamashita/publikum-type';
 
-export type AJAXBodyKV = Readonly<{
+type AJAXBodyKV = Readonly<{
   arraybuffer: ArrayBuffer;
   blob: Blob;
   json: ObjectLiteral;
