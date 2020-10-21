@@ -107,7 +107,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('invokes first callback when Alive Superposition<A, D> given', async () => {
+    it('invokes first callback when Alive Superposition given', async () => {
       expect.assertions(6);
 
       const value: number = 101;
@@ -156,7 +156,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('invokes first callback when Promise<Alive Superposition<A, D>> given', async () => {
+    it('invokes first callback when Promise<Alive Superposition> given', async () => {
       expect.assertions(6);
 
       const value: number = 101;
@@ -301,7 +301,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('invokes second callback when Dead Superposition<A, D> given', async () => {
+    it('invokes second callback when Dead Superposition given', async () => {
       expect.assertions(6);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -349,7 +349,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('invokes second callback when Promise<Dead Superposition<A, D>> given', async () => {
+    it('invokes second callback when Promise<Dead Superposition given', async () => {
       expect.assertions(6);
 
       const error: MockRuntimeError = new MockRuntimeError();

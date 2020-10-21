@@ -348,7 +348,7 @@ describe('AlivePlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('invokes second callback when Promise<Dead Superposition<A, D>> given', async () => {
+    it('invokes second callback when Promise<Dead Superposition> given', async () => {
       expect.assertions(6);
 
       const value: number = 101;
