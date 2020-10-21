@@ -33,6 +33,7 @@
     "got": "11.7.0"
   },
   "devDependencies": {
+    "http-status-codes": "2.1.4",
     "nock": "13.0.4"
   },
   "engines": {
