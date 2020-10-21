@@ -5,7 +5,7 @@ import { UnscharferelationInternal } from '../UnscharferelationInternal';
 
 describe('IUnscharferelation', () => {
   describe('isUnscharferelation', () => {
-    it('normal case', () => {
+    it('returns true if IUnscharferelation methods the given object have', () => {
       expect.assertions(26);
 
       const unscharferelation1: Unscharferelation<number> = Unscharferelation.present<number>(4);

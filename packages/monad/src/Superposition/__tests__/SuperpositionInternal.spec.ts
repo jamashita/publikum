@@ -1123,12 +1123,12 @@ describe('SuperpositionInternal', () => {
     it('instantly declines once declined Superposition', async () => {
       expect.assertions(4);
 
-      const value1: number = 2;
+      const value: number = 2;
       const error: MockRuntimeError = new MockRuntimeError();
 
       const superposition1: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
         (chrono: Chrono<number, MockRuntimeError>) => {
-          chrono.accept(value1);
+          chrono.accept(value);
         },
         [MockRuntimeError]
       );
@@ -1145,7 +1145,7 @@ describe('SuperpositionInternal', () => {
 
       await superposition1.map<number, MockRuntimeError>((v: number) => {
         spy1();
-        expect(v).toBe(value1);
+        expect(v).toBe(value);
 
         return superposition2;
       }).recover<number, MockRuntimeError>(() => {
@@ -1166,12 +1166,12 @@ describe('SuperpositionInternal', () => {
     it('instantly throws once thrown Superposition', async () => {
       expect.assertions(4);
 
-      const value1: number = 2;
+      const value: number = 2;
       const error: MockRuntimeError = new MockRuntimeError();
 
       const superposition1: SuperpositionInternal<number, MockRuntimeError> = SuperpositionInternal.of<number, MockRuntimeError>(
         (chrono: Chrono<number, MockRuntimeError>) => {
-          chrono.accept(value1);
+          chrono.accept(value);
         },
         [MockRuntimeError]
       );
@@ -1188,7 +1188,7 @@ describe('SuperpositionInternal', () => {
 
       await superposition1.map<number, MockRuntimeError>((v: number) => {
         spy1();
-        expect(v).toBe(value1);
+        expect(v).toBe(value);
 
         return superposition2;
       }).recover<number, MockRuntimeError>(() => {
@@ -1197,7 +1197,7 @@ describe('SuperpositionInternal', () => {
         return superposition2;
       }, MockRuntimeError).map<number, MockRuntimeError>((v: number) => {
         spy3();
-        expect(v).toBe(value1);
+        expect(v).toBe(value);
 
         return superposition2;
       }).terminate();
@@ -2838,7 +2838,7 @@ describe('SuperpositionInternal', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('invokes first callback if Superposition is Dead', () => {
+    it('invokes second callback if Superposition is Dead', () => {
       expect.assertions(4);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -2872,7 +2872,7 @@ describe('SuperpositionInternal', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('invokes first callback if Superposition is Contradiction', () => {
+    it('invokes third callback if Superposition is Contradiction', () => {
       expect.assertions(4);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -2929,7 +2929,7 @@ describe('SuperpositionInternal', () => {
       expect(spy.called).toBe(true);
     });
 
-    it('invokes first callback if Superposition is Dead', () => {
+    it('invokes second callback if Superposition is Dead', () => {
       expect.assertions(1);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -2950,7 +2950,7 @@ describe('SuperpositionInternal', () => {
       expect(spy.called).toBe(true);
     });
 
-    it('invokes first callback if Superposition is Contradiction', () => {
+    it('invokes third callback if Superposition is Contradiction', () => {
       expect.assertions(1);
 
       const error: MockRuntimeError = new MockRuntimeError();
