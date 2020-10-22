@@ -14,7 +14,7 @@ const jr: ObjectLiteral = {
 const br: Buffer = Buffer.from('f8060634-7b33-4582-8bb5-a8e98e91cc4f');
 const url: string = 'https://example.com';
 
-describe('Request', () => {
+describe.skip('Request', () => {
   beforeEach(() => {
     if (!nock.isActive()) {
       nock.activate();
