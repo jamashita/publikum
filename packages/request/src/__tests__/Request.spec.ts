@@ -5,9 +5,6 @@ import { RequestError } from '../Error/RequestError';
 import { Request } from '../Request';
 import { RequestResponse } from '../RequestResponse';
 
-nock.disableNetConnect();
-nock.restore();
-
 const sr: string = 'ce8781d8-85ac-4b3e-908f-17253facb1af';
 const jr: ObjectLiteral = {
   mo: 'response string',
@@ -19,12 +16,23 @@ const url: string = 'https://example.com';
 
 describe('Request', () => {
   beforeEach(() => {
-    nock.activate();
+    if (!nock.isActive()) {
+      nock.activate();
+    }
   });
 
   afterEach(() => {
-    nock.restore();
     nock.cleanAll();
+    nock.restore();
+  });
+
+  beforeAll(() => {
+    nock.disableNetConnect();
+  });
+
+  afterAll(() => {
+    nock.cleanAll();
+    nock.restore();
   });
 
   describe('get', () => {

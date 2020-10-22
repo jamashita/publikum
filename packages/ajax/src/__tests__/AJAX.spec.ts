@@ -5,8 +5,6 @@ import fetchMock, { MockResponseInit } from 'jest-fetch-mock';
 import { AJAX } from '../AJAX';
 import { AJAXResponse } from '../AJAXResponse';
 
-fetchMock.enableMocks();
-
 const bufToChar = (buf: ArrayBuffer): string => {
   return Buffer.from(new Uint8Array(buf)).toString('hex');
 };
@@ -23,6 +21,10 @@ const bfr: ArrayBuffer = new ArrayBuffer(1);
 const url: string = 'https://example.com/morceau/de/poitrine';
 
 describe('AJAX', () => {
+  beforeAll(() => {
+    fetchMock.enableMocks();
+  });
+
   beforeEach(() => {
     fetchMock.resetMocks();
   });
