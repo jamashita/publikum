@@ -31,8 +31,7 @@ describe('Request', () => {
   });
 
   afterAll(() => {
-    nock.cleanAll();
-    nock.restore();
+    nock.enableNetConnect();
   });
 
   describe('get', () => {
@@ -45,6 +44,7 @@ describe('Request', () => {
 
       await expect(request.get(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
 
     it('responds OK: response is text', async () => {
@@ -59,6 +59,7 @@ describe('Request', () => {
       expect(r.status).toBe(StatusCodes.OK);
       expect(r.body).toBe(sr);
       scope.done();
+      nock.restore();
     });
 
     it('responds OK: response is json', async () => {
@@ -73,6 +74,7 @@ describe('Request', () => {
       expect(r.status).toBe(StatusCodes.OK);
       expect(r.body).toStrictEqual(jr);
       scope.done();
+      nock.restore();
     });
 
     it('responds OK: response is buffer', async () => {
@@ -87,6 +89,7 @@ describe('Request', () => {
       expect(r.status).toBe(StatusCodes.OK);
       expect(r.body.equals(br)).toBe(true);
       scope.done();
+      nock.restore();
     });
 
     it('responds MULTIPLE_CHOICES', async () => {
@@ -98,6 +101,7 @@ describe('Request', () => {
 
       await expect(request.get(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
 
     it('responds BAD_REQUEST', async () => {
@@ -109,6 +113,7 @@ describe('Request', () => {
 
       await expect(request.get(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
@@ -120,6 +125,7 @@ describe('Request', () => {
 
       await expect(request.get(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
   });
 
@@ -133,6 +139,7 @@ describe('Request', () => {
 
       await expect(request.post(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
 
     it('responds OK: response is text', async () => {
@@ -147,6 +154,7 @@ describe('Request', () => {
       expect(r.status).toBe(StatusCodes.OK);
       expect(r.body).toBe(sr);
       scope.done();
+      nock.restore();
     });
 
     it('responds OK: response is json', async () => {
@@ -161,6 +169,7 @@ describe('Request', () => {
       expect(r.status).toBe(StatusCodes.OK);
       expect(r.body).toStrictEqual(jr);
       scope.done();
+      nock.restore();
     });
 
     it('responds OK: response is buffer', async () => {
@@ -175,6 +184,7 @@ describe('Request', () => {
       expect(r.status).toBe(StatusCodes.OK);
       expect(r.body.equals(br)).toBe(true);
       scope.done();
+      nock.restore();
     });
 
     it('responds MULTIPLE_CHOICES', async () => {
@@ -186,6 +196,7 @@ describe('Request', () => {
 
       await expect(request.post(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
 
     it('responds BAD_REQUEST', async () => {
@@ -197,6 +208,7 @@ describe('Request', () => {
 
       await expect(request.post(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
@@ -208,6 +220,7 @@ describe('Request', () => {
 
       await expect(request.post(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
   });
 
@@ -221,6 +234,7 @@ describe('Request', () => {
 
       await expect(request.put(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
 
     it('responds OK: response is text', async () => {
@@ -235,6 +249,7 @@ describe('Request', () => {
       expect(r.status).toBe(StatusCodes.OK);
       expect(r.body).toBe(sr);
       scope.done();
+      nock.restore();
     });
 
     it('responds OK: response is json', async () => {
@@ -249,6 +264,7 @@ describe('Request', () => {
       expect(r.status).toBe(StatusCodes.OK);
       expect(r.body).toStrictEqual(jr);
       scope.done();
+      nock.restore();
     });
 
     it('responds OK: response is buffer', async () => {
@@ -263,6 +279,7 @@ describe('Request', () => {
       expect(r.status).toBe(StatusCodes.OK);
       expect(r.body.equals(br)).toBe(true);
       scope.done();
+      nock.restore();
     });
 
     it('responds MULTIPLE_CHOICES', async () => {
@@ -274,6 +291,7 @@ describe('Request', () => {
 
       await expect(request.put(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
 
     it('responds BAD_REQUEST', async () => {
@@ -285,6 +303,7 @@ describe('Request', () => {
 
       await expect(request.put(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
@@ -296,6 +315,7 @@ describe('Request', () => {
 
       await expect(request.put(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
   });
 
@@ -309,6 +329,7 @@ describe('Request', () => {
 
       await expect(request.delete(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
 
     it('responds OK: response is text', async () => {
@@ -323,6 +344,7 @@ describe('Request', () => {
       expect(r.status).toBe(StatusCodes.OK);
       expect(r.body).toBe(sr);
       scope.done();
+      nock.restore();
     });
 
     it('responds OK: response is json', async () => {
@@ -337,6 +359,7 @@ describe('Request', () => {
       expect(r.status).toBe(StatusCodes.OK);
       expect(r.body).toStrictEqual(jr);
       scope.done();
+      nock.restore();
     });
 
     it('responds OK: response is buffer', async () => {
@@ -351,6 +374,7 @@ describe('Request', () => {
       expect(r.status).toBe(StatusCodes.OK);
       expect(r.body.equals(br)).toBe(true);
       scope.done();
+      nock.restore();
     });
 
     it('responds MULTIPLE_CHOICES', async () => {
@@ -362,6 +386,7 @@ describe('Request', () => {
 
       await expect(request.delete(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
 
     it('responds BAD_REQUEST', async () => {
@@ -373,6 +398,7 @@ describe('Request', () => {
 
       await expect(request.delete(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
@@ -384,6 +410,7 @@ describe('Request', () => {
 
       await expect(request.delete(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
   });
 
@@ -400,6 +427,7 @@ describe('Request', () => {
       expect(r.status).toBe(StatusCodes.OK);
       expect(r.body).toBe(sr);
       scope.done();
+      nock.restore();
     });
 
     it('responds OK: response is json', async () => {
@@ -414,6 +442,7 @@ describe('Request', () => {
       expect(r.status).toBe(StatusCodes.OK);
       expect(r.body).toStrictEqual(jr);
       scope.done();
+      nock.restore();
     });
 
     it('responds OK: response is buffer', async () => {
@@ -428,6 +457,7 @@ describe('Request', () => {
       expect(r.status).toBe(StatusCodes.OK);
       expect(r.body.equals(br)).toBe(true);
       scope.done();
+      nock.restore();
     });
 
     it('responds MULTIPLE_CHOICES', async () => {
@@ -439,6 +469,7 @@ describe('Request', () => {
 
       await expect(request.head(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
 
     it('responds BAD_REQUEST', async () => {
@@ -450,6 +481,7 @@ describe('Request', () => {
 
       await expect(request.head(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
 
     it('responds INTERNAL_SERVER_ERROR', async () => {
@@ -461,6 +493,7 @@ describe('Request', () => {
 
       await expect(request.head(url)).rejects.toThrow(RequestError);
       scope.done();
+      nock.restore();
     });
   });
 });
