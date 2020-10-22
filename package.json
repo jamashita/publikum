@@ -39,7 +39,6 @@
     "crypto-random-string": "3.3.0",
     "d3-random": "2.2.2",
     "dayjs": "1.9.3",
-    "got": "11.8.0",
     "ioredis": "4.17.3",
     "ky": "0.24.0",
     "make-error-cause": "2.3.0",
