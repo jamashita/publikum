@@ -5,7 +5,7 @@ import { CombinedChronoPlan } from '../CombinedChronoPlan';
 
 describe('CombinedChronoPlan', () => {
   describe('onMap', () => {
-    it('normal case', () => {
+    it('invokes first callback', () => {
       expect.assertions(4);
 
       const value: number = -35;
@@ -37,7 +37,7 @@ describe('CombinedChronoPlan', () => {
   });
 
   describe('onRecover', () => {
-    it('normal case', () => {
+    it('invokes second callback', () => {
       expect.assertions(4);
 
       const value: MockRuntimeError = new MockRuntimeError();
@@ -69,7 +69,7 @@ describe('CombinedChronoPlan', () => {
   });
 
   describe('onDestroy', () => {
-    it('normal case', () => {
+    it('invokes third callback', () => {
       expect.assertions(4);
 
       const value: number = -35;

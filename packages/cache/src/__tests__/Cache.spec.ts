@@ -12,7 +12,7 @@ const wait = (timeout: number): Promise<void> => {
 
 describe('Cache', () => {
   describe('get', () => {
-    it('normal case', () => {
+    it('can get the correct value even the key is correct', () => {
       expect.assertions(5);
 
       const cache: Cache = new Cache();
@@ -28,18 +28,19 @@ describe('Cache', () => {
       const value5: number = Infinity;
 
       cache.set(identifier1, value1);
-      expect(cache.get<number>(identifier1)).toBe(value1);
       cache.set(identifier2, value2);
-      expect(cache.get<number>(identifier2)).toBe(value2);
       cache.set(identifier3, value3);
-      expect(cache.get<number>(identifier3)).toBe(value3);
       cache.set(identifier4, value4);
-      expect(cache.get<number>(identifier4)).toBe(value4);
       cache.set(identifier5, value5);
+
+      expect(cache.get<number>(identifier1)).toBe(value1);
+      expect(cache.get<number>(identifier2)).toBe(value2);
+      expect(cache.get<number>(identifier3)).toBe(value3);
+      expect(cache.get<number>(identifier4)).toBe(value4);
       expect(cache.get<number>(identifier5)).toBe(value5);
     });
 
-    it('timeout: timeout 0 is not going to be volate', async () => {
+    it('does not make the value disappear when timeout is set to 0', async () => {
       expect.assertions(2);
 
       const cache: Cache = new Cache(0);
@@ -47,6 +48,7 @@ describe('Cache', () => {
       const value: string = 'pppp';
 
       cache.set(identifier, value);
+
       expect(cache.get<string>(identifier)).toBe(value);
 
       await wait(3000);
@@ -54,7 +56,7 @@ describe('Cache', () => {
       expect(cache.get<string>(identifier)).toBe(value);
     });
 
-    it('timeout: timeout negative value is not going to be volate', async () => {
+    it('does not make the value disappear when timeout is set to negative', async () => {
       expect.assertions(2);
 
       const cache: Cache = new Cache(-193);
@@ -62,6 +64,7 @@ describe('Cache', () => {
       const value: string = 'pppp';
 
       cache.set(identifier, value);
+
       expect(cache.get<string>(identifier)).toBe(value);
 
       await wait(3000);
@@ -69,7 +72,7 @@ describe('Cache', () => {
       expect(cache.get<string>(identifier)).toBe(value);
     });
 
-    it('timeout: perform volatilization', async () => {
+    it('performs volatilization after the timeout', async () => {
       expect.assertions(2);
 
       const cache: Cache = new Cache(1);
@@ -77,6 +80,7 @@ describe('Cache', () => {
       const value: string = 'pppp';
 
       cache.set(identifier, value);
+
       expect(cache.get<string>(identifier)).toBe(value);
 
       await wait(3000);
@@ -86,7 +90,7 @@ describe('Cache', () => {
       }).toThrow(CacheError);
     });
 
-    it('timeout: update timeout', async () => {
+    it('will not disappear if it is updated', async () => {
       expect.assertions(2);
 
       const cache: Cache = new Cache(3);
@@ -99,6 +103,7 @@ describe('Cache', () => {
       await wait(2000);
 
       expect(cache.get<string>(identifier)).toBe(value1);
+
       cache.set(identifier, value2);
 
       await wait(2000);

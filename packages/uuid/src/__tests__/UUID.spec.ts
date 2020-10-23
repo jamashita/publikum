@@ -4,7 +4,7 @@ import { UUID } from '../UUID';
 
 describe('UUID', () => {
   describe('of', () => {
-    it('normal case', () => {
+    it('returns instance', () => {
       expect.assertions(1);
 
       const uuid: string = '998106de-b2e7-4981-9643-22cd30cd74de';
@@ -30,7 +30,7 @@ describe('UUID', () => {
   });
 
   describe('isAcceptable', () => {
-    it('normal case', () => {
+    it('returns true if given string is not violated to uuid format', () => {
       expect.assertions(1);
 
       const uuid: string = '998106de-b2e7-4981-9643-22cd30cd74de';
@@ -38,7 +38,7 @@ describe('UUID', () => {
       expect(UUID.isAcceptable(uuid)).toBe(true);
     });
 
-    it('generated UUID must pass', () => {
+    it('generates UUID that must pass', () => {
       expect.assertions(200);
 
       for (let i: number = 0; i < 100; i++) {

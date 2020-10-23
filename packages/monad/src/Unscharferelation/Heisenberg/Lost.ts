@@ -1,3 +1,4 @@
+import { isEqualable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Consumer, Kind } from '@jamashita/publikum-type';
 import { Absent } from './Absent';
@@ -53,8 +54,14 @@ export class Lost<P> extends ValueObject<'Lost'> implements Heisenberg<P, 'Lost'
     if (this === other) {
       return true;
     }
-    if (other instanceof Lost) {
+    if (!(other instanceof Lost)) {
+      return false;
+    }
+    if (this.cause === other.cause) {
       return true;
+    }
+    if (isEqualable(this.cause)) {
+      return this.cause.equals(other.cause);
     }
 
     return false;

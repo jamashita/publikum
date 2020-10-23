@@ -1,28 +1,31 @@
-import { UnimplementedError } from '@jamashita/publikum-error';
 import { Nominative } from '@jamashita/publikum-interface';
 import { ObjectLiteral } from '@jamashita/publikum-type';
 import { Entity } from '../Entity';
 
-export class MockEntity extends Entity<MockEntity, Nominative> {
+export class MockEntity<V extends Nominative> extends Entity<MockEntity<V>, Nominative> {
   public readonly noun: 'MockEntity' = 'MockEntity';
-  private readonly id: Nominative;
-  public other: ObjectLiteral;
+  private readonly id: V;
+  private other: ObjectLiteral;
 
-  public constructor(id: Nominative, other: ObjectLiteral) {
+  public constructor(id: V, other: ObjectLiteral) {
     super();
     this.id = id;
     this.other = other;
   }
 
-  public getIdentifier(): Nominative {
+  public getIdentifier(): V {
     return this.id;
   }
 
-  public duplicate(): MockEntity {
-    throw new UnimplementedError();
+  public duplicate(): MockEntity<V> {
+    return new MockEntity<V>(this.id, this.other);
   }
 
   public serialize(): string {
-    throw new UnimplementedError();
+    return `${this.id.toString()}, ${JSON.stringify(this.other)}`;
+  }
+
+  public setObject(obj: ObjectLiteral): void {
+    this.other = obj;
   }
 }

@@ -4,7 +4,7 @@ import { CombinedEpoquePlan } from '../CombinedEpoquePlan';
 
 describe('CombinedEpoquePlan', () => {
   describe('onMap', () => {
-    it('normal case', () => {
+    it('invokes first callback', () => {
       expect.assertions(4);
 
       const value: number = -35;
@@ -36,7 +36,7 @@ describe('CombinedEpoquePlan', () => {
   });
 
   describe('onRecover', () => {
-    it('normal case', () => {
+    it('invokes second callback', () => {
       expect.assertions(3);
 
       const spy1: SinonSpy = sinon.spy();
@@ -65,7 +65,7 @@ describe('CombinedEpoquePlan', () => {
   });
 
   describe('onDestroy', () => {
-    it('normal case', () => {
+    it('invokes third callback', () => {
       expect.assertions(4);
 
       const value: number = -35;

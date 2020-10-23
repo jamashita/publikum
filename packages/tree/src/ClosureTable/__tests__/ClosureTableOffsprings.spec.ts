@@ -39,7 +39,7 @@ describe('ClosureTableOffsprings', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(1);
 
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([new MockValueObject('mock 1'), new MockValueObject('mock 2')]);
+      const offsprings: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.ofArray<MockValueObject<string>>([new MockValueObject<string>('mock 1'), new MockValueObject<string>('mock 2')]);
 
       expect(offsprings.equals(offsprings)).toBe(true);
     });
@@ -47,24 +47,24 @@ describe('ClosureTableOffsprings', () => {
     it('returns false when the different class instance given', () => {
       expect.assertions(1);
 
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([new MockValueObject('mock 1'), new MockValueObject('mock 2')]);
+      const offsprings: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.ofArray<MockValueObject<string>>([new MockValueObject<string>('mock 1'), new MockValueObject<string>('mock 2')]);
 
-      expect(offsprings.equals(new MockValueObject('mock 1'))).toBe(false);
+      expect(offsprings.equals(new MockValueObject<string>('mock 1'))).toBe(false);
     });
 
     it('delegates its inner collection instance', () => {
       expect.assertions(1);
 
       const spy: SinonSpy = sinon.spy();
-      const address: Address<MockValueObject> = new MockAddress<MockValueObject>(new Set<MockValueObject>());
+      const address: Address<MockValueObject<string>> = new MockAddress<MockValueObject<string>>(new Set<MockValueObject<string>>());
 
       address.equals = spy;
 
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      const offsprings: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.empty<MockValueObject<string>>();
       // @ts-expect-error
       offsprings.offsprings = address;
 
-      offsprings.equals(ClosureTableOffsprings.of<MockValueObject>(ImmutableAddress.ofSet<MockValueObject>(new Set<MockValueObject>([new MockValueObject('mock 1')]))));
+      offsprings.equals(ClosureTableOffsprings.of<MockValueObject<string>>(ImmutableAddress.ofSet<MockValueObject<string>>(new Set<MockValueObject<string>>([new MockValueObject<string>('mock 1')]))));
 
       expect(spy.called).toBe(true);
     });
@@ -79,7 +79,7 @@ describe('ClosureTableOffsprings', () => {
 
       address.toString = spy;
 
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      const offsprings: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.empty<MockValueObject<string>>();
       // @ts-expect-error
       offsprings.offsprings = address;
 
@@ -98,7 +98,7 @@ describe('ClosureTableOffsprings', () => {
 
       address.size = spy;
 
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      const offsprings: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.empty<MockValueObject<string>>();
       // @ts-expect-error
       offsprings.offsprings = address;
 
@@ -117,7 +117,7 @@ describe('ClosureTableOffsprings', () => {
 
       address.values = spy;
 
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      const offsprings: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.empty<MockValueObject<string>>();
       // @ts-expect-error
       offsprings.offsprings = address;
 
@@ -131,13 +131,13 @@ describe('ClosureTableOffsprings', () => {
     it('returns Pair<void, K>', () => {
       expect.assertions(3);
 
-      const array: Array<MockValueObject> = [
-        new MockValueObject('mock 1'),
-        new MockValueObject('mock 2'),
-        new MockValueObject('mock 3')
+      const array: Array<MockValueObject<string>> = [
+        new MockValueObject<string>('mock 1'),
+        new MockValueObject<string>('mock 2'),
+        new MockValueObject<string>('mock 3')
       ];
 
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>(array);
+      const offsprings: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.ofArray<MockValueObject<string>>(array);
       let i: number = 0;
 
       for (const pair of offsprings) {
@@ -156,11 +156,11 @@ describe('ClosureTableOffsprings', () => {
 
       address.contains = spy;
 
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      const offsprings: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.empty<MockValueObject<string>>();
       // @ts-expect-error
       offsprings.offsprings = address;
 
-      offsprings.contains(new MockValueObject('mock'));
+      offsprings.contains(new MockValueObject<string>('mock'));
 
       expect(spy.called).toBe(true);
     });
@@ -175,7 +175,7 @@ describe('ClosureTableOffsprings', () => {
 
       address.every = spy;
 
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      const offsprings: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.empty<MockValueObject<string>>();
       // @ts-expect-error
       offsprings.offsprings = address;
 
@@ -196,7 +196,7 @@ describe('ClosureTableOffsprings', () => {
 
       address.forEach = spy;
 
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      const offsprings: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.empty<MockValueObject<string>>();
       // @ts-expect-error
       offsprings.offsprings = address;
 
@@ -212,8 +212,8 @@ describe('ClosureTableOffsprings', () => {
     it('returns null', () => {
       expect.assertions(2);
 
-      const offsprings1: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
-      const offsprings2: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([new MockValueObject('mock')]);
+      const offsprings1: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.empty<MockValueObject<string>>();
+      const offsprings2: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.ofArray<MockValueObject<string>>([new MockValueObject<string>('mock')]);
 
       expect(offsprings1.get()).toBeNull();
       expect(offsprings2.get()).toBeNull();
@@ -229,7 +229,7 @@ describe('ClosureTableOffsprings', () => {
 
       address.isEmpty = spy;
 
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      const offsprings: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.empty<MockValueObject<string>>();
       // @ts-expect-error
       offsprings.offsprings = address;
 
@@ -248,7 +248,7 @@ describe('ClosureTableOffsprings', () => {
 
       address.some = spy;
 
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      const offsprings: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.empty<MockValueObject<string>>();
       // @ts-expect-error
       offsprings.offsprings = address;
 
@@ -264,7 +264,7 @@ describe('ClosureTableOffsprings', () => {
     it('returns true when the size is 1', () => {
       expect.assertions(1);
 
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([new MockValueObject('mock 1')]);
+      const offsprings: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.ofArray<MockValueObject<string>>([new MockValueObject<string>('mock 1')]);
 
       expect(offsprings.isLeaf()).toBe(true);
     });
@@ -272,8 +272,8 @@ describe('ClosureTableOffsprings', () => {
     it('returns false when the size is not 1', () => {
       expect.assertions(2);
 
-      const offsprings01: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([]);
-      const offsprings02: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([new MockValueObject('mock 1'), new MockValueObject('mock 2')]);
+      const offsprings01: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.ofArray<MockValueObject<string>>([]);
+      const offsprings02: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.ofArray<MockValueObject<string>>([new MockValueObject<string>('mock 1'), new MockValueObject<string>('mock 2')]);
 
       expect(offsprings01.isLeaf()).toBe(false);
       expect(offsprings02.isLeaf()).toBe(false);
@@ -284,8 +284,8 @@ describe('ClosureTableOffsprings', () => {
     it('returns the subtraction of sizes', () => {
       expect.assertions(3);
 
-      const offsprings01: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([]);
-      const offsprings02: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([new MockValueObject('mock 1'), new MockValueObject('mock 2')]);
+      const offsprings01: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.ofArray<MockValueObject<string>>([]);
+      const offsprings02: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.ofArray<MockValueObject<string>>([new MockValueObject<string>('mock 1'), new MockValueObject<string>('mock 2')]);
 
       expect(offsprings01.compare(offsprings01)).toBe(0);
       expect(offsprings01.compare(offsprings02)).toBe(-2);
@@ -297,8 +297,8 @@ describe('ClosureTableOffsprings', () => {
     it('returns Iterator<K>', () => {
       expect.assertions(2);
 
-      const array: Array<MockValueObject> = [new MockValueObject('mock 1'), new MockValueObject('mock 2')];
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>(array);
+      const array: Array<MockValueObject<string>> = [new MockValueObject<string>('mock 1'), new MockValueObject<string>('mock 2')];
+      const offsprings: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.ofArray<MockValueObject<string>>(array);
       let i: number = 0;
 
       for (const p of offsprings.values()) {
@@ -317,11 +317,11 @@ describe('ClosureTableOffsprings', () => {
 
       address.map = spy;
 
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      const offsprings: ClosureTableOffsprings<MockValueObject<string>> = ClosureTableOffsprings.empty<MockValueObject<string>>();
       // @ts-expect-error
       offsprings.offsprings = address;
 
-      offsprings.map((mock: MockValueObject) => {
+      offsprings.map((mock: MockValueObject<string>) => {
         return mock;
       });
 

@@ -1,10 +1,10 @@
 import { ImmutableProject, MutableProject, Pair, Project, ReadonlyAddress } from '@jamashita/publikum-collection';
-import { StructurableTreeNode } from '@jamashita/publikum-tree';
 import { Nullable } from '@jamashita/publikum-type';
 import { TreeError } from '../../Error/TreeError';
 import { MockTreeID } from '../../Mock/MockTreeID';
 import { MockTreeObject } from '../../Mock/MockTreeObject';
 import { StructurableTree } from '../../StructurableTree';
+import { StructurableTreeNode } from '../../TreeNode/StructurableTreeNode';
 import { ClosureTable } from '../ClosureTable';
 import { ClosureTableTreeFactory } from '../ClosureTableTreeFactory';
 import { MockClosureTable } from '../Mock/MockClosureTable';

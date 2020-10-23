@@ -61,7 +61,7 @@ export class Present<P> extends ValueObject<'Present'> implements Heisenberg<P, 
     if (this.value === other.value) {
       return true;
     }
-    if (isEqualable(this.value) && isEqualable(other.value)) {
+    if (isEqualable(this.value)) {
       return this.value.equals(other.value);
     }
 

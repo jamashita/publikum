@@ -97,7 +97,7 @@ describe('UnscharferelationInternal', () => {
   });
 
   describe('accept', () => {
-    it('if done once, do nothing', async () => {
+    it('does nothing if done once', async () => {
       expect.assertions(4);
 
       const value: number = -35;
@@ -128,7 +128,7 @@ describe('UnscharferelationInternal', () => {
       expect(heisenberg1).toBe(heisenberg2);
     });
 
-    it('call multiple maps', async () => {
+    it('invokes all maps', async () => {
       expect.assertions(4);
 
       const value: number = -1.3;
@@ -162,7 +162,7 @@ describe('UnscharferelationInternal', () => {
   });
 
   describe('decline', () => {
-    it('if done once, do nothing', async () => {
+    it('does nothing if done once', async () => {
       expect.assertions(3);
 
       const spy: SinonSpy = sinon.spy();
@@ -191,7 +191,7 @@ describe('UnscharferelationInternal', () => {
       expect(heisenberg1).toBe(heisenberg2);
     });
 
-    it('call multiple maps', async () => {
+    it('invokes all maps', async () => {
       expect.assertions(2);
 
       const spy1: SinonSpy = sinon.spy();
@@ -221,7 +221,7 @@ describe('UnscharferelationInternal', () => {
   });
 
   describe('throw', () => {
-    it('if done once, do nothing', async () => {
+    it('does nothing if done once', async () => {
       expect.assertions(4);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -254,7 +254,7 @@ describe('UnscharferelationInternal', () => {
       expect(heisenberg1.equals(heisenberg2)).toBe(true);
     });
 
-    it('call multiple maps, but nothing will be invoked', async () => {
+    it('invokes all maps', async () => {
       expect.assertions(4);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -361,7 +361,7 @@ describe('UnscharferelationInternal', () => {
   });
 
   describe('filter', () => {
-    it('Present: predicate returns true', async () => {
+    it('does nothing when Unscharferelation is Present and predicate returned true', async () => {
       expect.assertions(2);
 
       const value: number = -201;
@@ -381,7 +381,7 @@ describe('UnscharferelationInternal', () => {
       expect(heisenberg.get()).toBe(value);
     });
 
-    it('Present: predicate returns false', async () => {
+    it('becomes Absent Unscharferelation when Heisenberg is Present and predicate returned false', async () => {
       expect.assertions(2);
 
       const value: number = -201;
@@ -403,7 +403,7 @@ describe('UnscharferelationInternal', () => {
       }).toThrow(UnscharferelationError);
     });
 
-    it('Absent: returns its copy inspite of the return value of filter', async () => {
+    it('returns its copy and predicate will not be invoked when Heisenberg is Absent', async () => {
       expect.assertions(4);
 
       const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -430,7 +430,7 @@ describe('UnscharferelationInternal', () => {
       }).toThrow(UnscharferelationError);
     });
 
-    it('Lost: returns its copy', async () => {
+    it('returns its copy and predicate will not be invoked when Heisenberg is Lost', async () => {
       expect.assertions(4);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -461,7 +461,7 @@ describe('UnscharferelationInternal', () => {
   });
 
   describe('map', () => {
-    it('sync case', async () => {
+    it('invokes callbacks unless it is not Absent nor Lost', async () => {
       expect.assertions(6);
 
       const value: number = -201;
@@ -498,7 +498,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('async case', async () => {
+    it('invokes callbacks unless it is not Absent nor Lost, even if the return value is Promise', async () => {
       expect.assertions(6);
 
       const value: number = -201;
@@ -535,7 +535,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('sync Present Unscharferelation case', async () => {
+    it('invokes callbacks unless it is not Absent nor Lost, even if the return value is Present Unscharferelation', async () => {
       expect.assertions(6);
 
       const value1: number = -201;
@@ -583,7 +583,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('async Present Unscharferelation case', async () => {
+    it('invokes callbacks unless it is not Absent nor Lost, even if the return value is Promise<Present Unscharferelation>', async () => {
       expect.assertions(6);
 
       const value1: number = -201;
@@ -631,7 +631,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('sync case: returns null', async () => {
+    it('will not invoke callbacks when a callback returns null', async () => {
       expect.assertions(4);
 
       const value: number = -201;
@@ -666,7 +666,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('async case: returns Promise null', async () => {
+    it('will not invoke callbacks when a callback returns Promise<null>', async () => {
       expect.assertions(4);
 
       const value: number = -201;
@@ -701,7 +701,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('sync Absent Unscharferelation case', async () => {
+    it('will not invoke callbacks when a callback returns Absent Unscharferelation', async () => {
       expect.assertions(4);
 
       const value: number = -201;
@@ -746,7 +746,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('async Absent Unscharferelation case', async () => {
+    it('will not invoke callbacks when a callback returns Promise<Absent Unscharferelation>', async () => {
       expect.assertions(4);
 
       const value: number = -201;
@@ -791,7 +791,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('sync case: throw error', async () => {
+    it('will not invoke callbacks when a callback throws unexpected error', async () => {
       expect.assertions(5);
 
       const value: number = -201;
@@ -833,7 +833,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('async case: returns Promise reject', async () => {
+    it('will not invoke callbacks when a callback returns unexpected rejected Promise', async () => {
       expect.assertions(5);
 
       const value: number = -201;
@@ -875,7 +875,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Lost Unscharferelation case', async () => {
+    it('will not invoke callbacks when a callback returns Lost Unscharferelation', async () => {
       expect.assertions(5);
 
       const value: number = -201;
@@ -934,7 +934,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('already accepted Unscharferelation case', async () => {
+    it('will not invoke callbacks when a callback returns Promise<Lost Unscharferelation>', async () => {
       expect.assertions(6);
 
       const value1: number = -201;
@@ -977,7 +977,50 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('already declined Unscharferelation case', async () => {
+    it('instantly accepts once accepted Unscharferelation', async () => {
+      expect.assertions(6);
+
+      const value1: number = -201;
+      const value2: number = -2010;
+
+      const unscharferelation1: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.accept(value1);
+        }
+      );
+      const unscharferelation2: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
+        (epoque: Epoque<number>) => {
+          epoque.accept(value2);
+        }
+      );
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+
+      await unscharferelation1.map<number>((v: number) => {
+        spy1();
+        expect(v).toBe(value1);
+
+        return unscharferelation2;
+      }).map<number>((v: number) => {
+        spy2();
+        expect(v).toBe(value2);
+
+        return unscharferelation2;
+      }).map<number>((v: number) => {
+        spy3();
+        expect(v).toBe(value2);
+
+        return unscharferelation2;
+      }).terminate();
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(true);
+      expect(spy3.called).toBe(true);
+    });
+
+    it('instantly declines once declined Unscharferelation', async () => {
       expect.assertions(4);
 
       const value: number = -201;
@@ -1017,7 +1060,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('already thrown Unscharferelation case', async () => {
+    it('instantly throws once declined Unscharferelation', async () => {
       expect.assertions(4);
 
       const value: number = -201;
@@ -1060,7 +1103,7 @@ describe('UnscharferelationInternal', () => {
   });
 
   describe('recover', () => {
-    it('sync case', async () => {
+    it('invokes callbacks unless it is not Present nor Lost', async () => {
       expect.assertions(4);
 
       const value: number = -201;
@@ -1095,7 +1138,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('async case', async () => {
+    it('invokes callbacks unless it is not Present nor Lost, even if the return value is Promise', async () => {
       expect.assertions(4);
 
       const value: number = -201;
@@ -1130,7 +1173,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('sync Present Unscharferelation case', async () => {
+    it('invokes callbacks unless it is not Present nor Lost, even if the return value is Present Unscharferelation', async () => {
       expect.assertions(4);
 
       const value1: number = -20100;
@@ -1176,7 +1219,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('async Present Unscharferelation case', async () => {
+    it('invokes callbacks unless it is not Present nor Lost, even if the return value is Promise<Present Unscharferelation>', async () => {
       expect.assertions(4);
 
       const value1: number = -20100;
@@ -1222,7 +1265,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('sync case: returns null', async () => {
+    it('will not invoke callbacks with a callback returns null', async () => {
       expect.assertions(4);
 
       const value: number = -201;
@@ -1257,7 +1300,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy2.called).toBe(true);
     });
 
-    it('async case: returns accepted null', async () => {
+    it('will not invoke callbacks with a callback returns Promise<null>', async () => {
       expect.assertions(4);
 
       const value: number = -201;
@@ -1292,7 +1335,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('sync Absent Unscharferelation case', async () => {
+    it('will not invoke callbacks with a callback returns Absent Unscharferelation', async () => {
       expect.assertions(4);
 
       const value: number = -201;
@@ -1337,7 +1380,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('async Absent Unscharferelation case', async () => {
+    it('will not invoke callbacks with a callback returns Promise<Absent Unscharferelation>', async () => {
       expect.assertions(4);
 
       const value: number = -201;
@@ -1382,7 +1425,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('sync case: throw error', async () => {
+    it('will not invoke callbacks with a callback throws unexpected error', async () => {
       expect.assertions(5);
 
       const value: number = -201;
@@ -1424,7 +1467,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('async case: returns Promise reject', async () => {
+    it('will not invoke callbacks with a callback throws unexpected rejected Promise', async () => {
       expect.assertions(5);
 
       const value: number = -201;
@@ -1466,7 +1509,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Lost Unscharferelation case', async () => {
+    it('will not invoke callbacks with a callback returns Lost Unscharferelation', async () => {
       expect.assertions(5);
 
       const value: number = -201;
@@ -1525,7 +1568,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Promise<Lost Unscharferelation> case', async () => {
+    it('will not invoke callbacks with a callback returns Promise<Lost Unscharferelation>', async () => {
       expect.assertions(5);
 
       const value: number = -201;
@@ -1584,7 +1627,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('already accepted Unscharferelation case', async () => {
+    it('instantly accepts once accepted Unscharferelation', async () => {
       expect.assertions(6);
 
       const value1: number = -201;
@@ -1627,7 +1670,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('already declined Unscharferelation case', async () => {
+    it('instantly declines once declined Unscharferelation', async () => {
       expect.assertions(4);
 
       const value: number = -201;
@@ -1667,7 +1710,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(true);
     });
 
-    it('already thrown Unscharferelation case', async () => {
+    it('instantly throws once thrown Unscharferelation', async () => {
       expect.assertions(4);
 
       const value: number = -201;
@@ -1710,7 +1753,7 @@ describe('UnscharferelationInternal', () => {
   });
 
   describe('ifPresent', () => {
-    it('if Present, the callback will be invoked', async () => {
+    it('invokes callback if Unscharferelation is Present', async () => {
       expect.assertions(3);
 
       const value: number = -201;
@@ -1732,7 +1775,7 @@ describe('UnscharferelationInternal', () => {
       expect(heisenberg.isPresent()).toBe(true);
     });
 
-    it('if Absent, the callback will not be invoked', async () => {
+    it('does not invoke callback if Unscharferelation is Absent', async () => {
       expect.assertions(2);
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -1751,7 +1794,7 @@ describe('UnscharferelationInternal', () => {
       expect(heisenberg.isAbsent()).toBe(true);
     });
 
-    it('if Lost, the callback will not be invoked', async () => {
+    it('does not invoke callback if Unscharferelation is Lost', async () => {
       expect.assertions(2);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -1774,7 +1817,7 @@ describe('UnscharferelationInternal', () => {
   });
 
   describe('ifAbsent', () => {
-    it('if Present, the callback will not be invoked', async () => {
+    it('does not invoke callback if Unscharferelation is Present', async () => {
       expect.assertions(3);
 
       const value: number = -201;
@@ -1796,7 +1839,7 @@ describe('UnscharferelationInternal', () => {
       expect(heisenberg.get()).toBe(value);
     });
 
-    it('if Absent, the callback will be invoked', async () => {
+    it('invokes callback if Unscharferelation is Absent', async () => {
       expect.assertions(2);
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -1815,7 +1858,7 @@ describe('UnscharferelationInternal', () => {
       expect(heisenberg.isAbsent()).toBe(true);
     });
 
-    it('if Lost, the callback will not be invoked', async () => {
+    it('does not invoke callback if Unscharferelation is Lost', async () => {
       expect.assertions(2);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -1838,7 +1881,7 @@ describe('UnscharferelationInternal', () => {
   });
 
   describe('ifLost', () => {
-    it('if Present, the callback will not be invoked', async () => {
+    it('does not invoke callback if Unscharferelation is Present', async () => {
       expect.assertions(3);
 
       const value: number = -201;
@@ -1860,7 +1903,7 @@ describe('UnscharferelationInternal', () => {
       expect(heisenberg.get()).toBe(value);
     });
 
-    it('if Absent, the callback will not be invoked', async () => {
+    it('does not invoke callback if Unscharferelation is Absent', async () => {
       expect.assertions(2);
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -1879,7 +1922,7 @@ describe('UnscharferelationInternal', () => {
       expect(heisenberg.isAbsent()).toBe(true);
     });
 
-    it('if Lost, the callback will be invoked', async () => {
+    it('invokes callback if Unscharferelation is Lost', async () => {
       expect.assertions(3);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -1903,7 +1946,7 @@ describe('UnscharferelationInternal', () => {
   });
 
   describe('pass', () => {
-    it('accept case', () => {
+    it('invokes first callback if Unscharferelation is Present', () => {
       expect.assertions(4);
 
       const value: number = -201;
@@ -1936,7 +1979,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('decline case', () => {
+    it('invokes second callback if Unscharferelation is Absent', () => {
       expect.assertions(3);
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -1966,7 +2009,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy3.called).toBe(false);
     });
 
-    it('throw case', () => {
+    it('invokes third callback if Unscharferelation is Lost', () => {
       expect.assertions(4);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -2001,7 +2044,7 @@ describe('UnscharferelationInternal', () => {
   });
 
   describe('peek', () => {
-    it('accept case', () => {
+    it('invokes first callback if Unscharferelation is Present', () => {
       expect.assertions(1);
 
       const value: number = -201;
@@ -2021,7 +2064,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy.called).toBe(true);
     });
 
-    it('decline case', () => {
+    it('invokes second callback if Unscharferelation is Absent', () => {
       expect.assertions(1);
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -2039,7 +2082,7 @@ describe('UnscharferelationInternal', () => {
       expect(spy.called).toBe(true);
     });
 
-    it('throw case', () => {
+    it('invokes third callback if Unscharferelation is Lost', () => {
       expect.assertions(1);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -2061,7 +2104,7 @@ describe('UnscharferelationInternal', () => {
   });
 
   describe('toSuperposition', () => {
-    it('Present: will transform to Alive', async () => {
+    it('will transform to Alive Superposition if Unscharferelation is Present', async () => {
       expect.assertions(2);
 
       const value: number = -201;
@@ -2078,7 +2121,7 @@ describe('UnscharferelationInternal', () => {
       expect(schrodinger.get()).toBe(value);
     });
 
-    it('Present: if the value is Error, will transform to Dead', async () => {
+    it('will transform to Dead Superposition if the value is error', async () => {
       expect.assertions(2);
 
       const value: MockRuntimeError = new MockRuntimeError();
@@ -2097,7 +2140,7 @@ describe('UnscharferelationInternal', () => {
       }).toThrow(UnscharferelationError);
     });
 
-    it('Absent: will transform to Dead', async () => {
+    it('will transform to Dead Superposition if Unscharferelation is Absent', async () => {
       expect.assertions(2);
 
       const unscharferelation: UnscharferelationInternal<number> = UnscharferelationInternal.of<number>(
@@ -2114,7 +2157,7 @@ describe('UnscharferelationInternal', () => {
       }).toThrow(UnscharferelationError);
     });
 
-    it('Lost: will transform to Contradiction', async () => {
+    it('will transform to Contradiction Superposition if Unscharferelation is Lost', async () => {
       expect.assertions(2);
 
       const error: MockRuntimeError = new MockRuntimeError();

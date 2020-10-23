@@ -36,10 +36,6 @@ export class ClosureTableTreeFactory<K extends TreeID, V extends StructurableTre
       return !Kind.isNull(node);
     });
 
-    if (array.length === 0) {
-      throw new TreeError('NO TREE BUILT');
-    }
-
     const project: MutableProject<K, StructurableTree<K, V>> = MutableProject.empty<K, StructurableTree<K, V>>();
 
     array.forEach((node: StructurableTreeNode<K, V>) => {

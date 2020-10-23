@@ -6,7 +6,6 @@ import { ReadonlyAddress } from './Interface/ReadonlyAddress';
 export class MutableAddress<V extends Nominative> extends AAddress<V, 'MutableAddress'> {
   public readonly noun: 'MutableAddress' = 'MutableAddress';
 
-  // TODO TEST
   public static of<VT extends Nominative>(elements: ReadonlyAddress<VT>): MutableAddress<VT> {
     return MutableAddress.ofSet<VT>(elements.toSet());
   }

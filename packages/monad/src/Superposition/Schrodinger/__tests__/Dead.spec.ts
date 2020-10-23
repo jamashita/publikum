@@ -1,4 +1,5 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
+import { Equalable } from '@jamashita/publikum-interface';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { Alive } from '../Alive';
@@ -7,21 +8,43 @@ import { Dead } from '../Dead';
 import { Schrodinger } from '../Schrodinger';
 import { Still } from '../Still';
 
+class EqualableError extends MockRuntimeError implements Equalable {
+  private readonly identifier: unknown;
+
+  public constructor(identifier: unknown) {
+    super();
+    this.identifier = identifier;
+  }
+
+  public equals(other: unknown): boolean {
+    if (this === other) {
+      return true;
+    }
+    if (!(other instanceof EqualableError)) {
+      return false;
+    }
+
+    return this.identifier === other.identifier;
+  }
+}
+
 describe('Dead', () => {
   describe('get', () => {
-    it('throws the inside error', () => {
+    it('throws the inner error', () => {
       expect.assertions(1);
 
-      const dead: Dead<number, MockRuntimeError> = Dead.of<number, MockRuntimeError>(new MockRuntimeError());
+      const error: MockRuntimeError = new MockRuntimeError();
+
+      const dead: Dead<number, MockRuntimeError> = Dead.of<number, MockRuntimeError>(error);
 
       expect(() => {
         dead.get();
-      }).toThrow(MockRuntimeError);
+      }).toThrow(error);
     });
   });
 
   describe('getError', () => {
-    it('normal case', () => {
+    it('returns thrown error', () => {
       expect.assertions(1);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -139,7 +162,7 @@ describe('Dead', () => {
       expect(schrodinger.equals(new MockValueObject('mock'))).toBe(false);
     });
 
-    it('returns true if Dead given even if the save error given', () => {
+    it('returns true if the same error Dead given', () => {
       expect.assertions(5);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -159,14 +182,16 @@ describe('Dead', () => {
       expect(schrodinger.equals(still)).toBe(false);
     });
 
-    it('returns false if the different error given', () => {
-      expect.assertions(1);
+    it('returns true if the same Equalable instance given', () => {
+      expect.assertions(2);
 
-      const dead: Dead<number, Error> = Dead.of<number, Error>(new SyntaxError());
+      const dead1: Dead<number, MockRuntimeError> = Dead.of<number, EqualableError>(new EqualableError('error 1'));
+      const dead2: Dead<number, MockRuntimeError> = Dead.of<number, EqualableError>(new EqualableError('error 2'));
 
-      const schrodinger: Schrodinger<number, Error> = Dead.of<number, Error>(new MockRuntimeError());
+      const schrodinger: Schrodinger<number, MockRuntimeError> = Dead.of<number, MockRuntimeError>(new EqualableError('error 1'));
 
-      expect(schrodinger.equals(dead)).toBe(false);
+      expect(schrodinger.equals(dead1)).toBe(true);
+      expect(schrodinger.equals(dead2)).toBe(false);
     });
   });
 

@@ -6,7 +6,7 @@ class MockNoun implements Noun {
 
 describe('Noun', () => {
   describe('isNoun', () => {
-    it('normal case', () => {
+    it('returns true if the object has noun', () => {
       expect.assertions(15);
 
       expect(isNoun(null)).toBe(false);
