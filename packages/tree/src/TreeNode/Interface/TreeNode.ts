@@ -1,5 +1,5 @@
 import { ReadonlyTreeNode } from './ReadonlyTreeNode';
 
 export interface TreeNode<V, T extends TreeNode<V, T>, N extends string = string> extends ReadonlyTreeNode<V, T, N> {
-  set(value: V): void;
+  set(parent: T, value: V): TreeNode<V, T, N>;
 }
