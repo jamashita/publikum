@@ -16,11 +16,11 @@ import { Sequence } from '../Interface/Sequence';
 
 export abstract class ASequence<V extends Nominative, N extends string = string> extends Quantity<number, V, N> implements Sequence<V, N> {
   public abstract readonly noun: N;
-  protected elements: Array<V>;
+  protected sequence: Array<V>;
 
-  protected constructor(elements: ReadonlyArray<V>) {
+  protected constructor(sequence: ReadonlyArray<V>) {
     super();
-    this.elements = [...elements];
+    this.sequence = [...sequence];
   }
 
   public abstract add(value: V): Sequence<V, N>;
@@ -36,31 +36,31 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
   public abstract duplicate(): Sequence<V, N>;
 
   public [Symbol.iterator](): Iterator<Pair<number, V>> {
-    return this.elements.map<Pair<number, V>>((e: V, index: number) => {
+    return this.sequence.map<Pair<number, V>>((e: V, index: number) => {
       return Pair.of(index, e);
     })[Symbol.iterator]();
   }
 
   public get(key: number): Nullable<V> {
-    const element: Ambiguous<V> = this.elements[key];
+    const v: Ambiguous<V> = this.sequence[key];
 
-    if (Kind.isUndefined(element)) {
+    if (Kind.isUndefined(v)) {
       return null;
     }
 
-    return element;
+    return v;
   }
 
   public contains(value: V): boolean {
-    const found: Ambiguous<V> = this.elements.find((element: V) => {
-      return value.equals(element);
+    const found: Ambiguous<V> = this.sequence.find((v: V) => {
+      return v.equals(value);
     });
 
     return !Kind.isUndefined(found);
   }
 
   public size(): number {
-    return this.elements.length;
+    return this.sequence.length;
   }
 
   public isEmpty(): boolean {
@@ -77,8 +77,8 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
       done = true;
     };
 
-    for (let i: number = 0; i < this.elements.length; i++) {
-      iteration(this.elements[i], i, cancel);
+    for (let i: number = 0; i < this.sequence.length; i++) {
+      iteration(this.sequence[i], i, cancel);
 
       if (done) {
         return;
@@ -87,21 +87,21 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
   }
 
   public find(predicate: Predicate<V>): Nullable<V> {
-    const element: Ambiguous<V> = this.elements.find(predicate);
+    const found: Ambiguous<V> = this.sequence.find(predicate);
 
-    if (Kind.isUndefined(element)) {
+    if (Kind.isUndefined(found)) {
       return null;
     }
 
-    return element;
+    return found;
   }
 
   public every(predicate: BinaryPredicate<V, number>): boolean {
-    return this.elements.every(predicate);
+    return this.sequence.every(predicate);
   }
 
   public some(predicate: BinaryPredicate<V, number>): boolean {
-    return this.elements.some(predicate);
+    return this.sequence.some(predicate);
   }
 
   public equals(other: unknown): boolean {
@@ -137,12 +137,12 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
   }
 
   public toArray(): Array<V> {
-    return [...this.elements];
+    return [...this.sequence];
   }
 
   public serialize(): string {
-    return this.elements.map<string>((element: V) => {
-      return element.toString();
+    return this.sequence.map<string>((v: V) => {
+      return v.toString();
     }).join(', ');
   }
 
