@@ -2,6 +2,7 @@ import { UnimplementedError } from '@jamashita/publikum-error';
 import { Nominative } from '@jamashita/publikum-interface';
 import { Pair } from '../../Pair';
 import { AProject } from '../Abstract/AProject';
+import { Project } from '../Interface';
 
 export class MockProject<K extends Nominative, V extends Nominative> extends AProject<K, V, 'MockProject'> {
   public readonly noun: 'MockProject' = 'MockProject';
@@ -33,6 +34,10 @@ export class MockProject<K extends Nominative, V extends Nominative> extends APr
   }
 
   public duplicate(): MockProject<K, V> {
+    throw new UnimplementedError();
+  }
+
+  public filter(): Project<K, V> {
     throw new UnimplementedError();
   }
 }

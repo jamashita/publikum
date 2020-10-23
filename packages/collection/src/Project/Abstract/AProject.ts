@@ -14,13 +14,15 @@ export abstract class AProject<K extends Nominative, V extends Nominative, N ext
     this.project = new Map<string, Pair<K, V>>(project);
   }
 
-  public abstract duplicate(): Project<K, V, N>;
-
   public abstract set(key: K, value: V): Project<K, V, N>;
 
   public abstract remove(key: K): Project<K, V, N>;
 
   public abstract map<W extends Nominative>(mapper: Mapper<V, W>): Project<K, W>;
+
+  public abstract filter(predicate: BinaryPredicate<V, K>): Project<K, V> ;
+
+  public abstract duplicate(): Project<K, V, N>;
 
   public [Symbol.iterator](): Iterator<Pair<K, V>> {
     return this.project.values();
@@ -181,4 +183,30 @@ export abstract class AProject<K extends Nominative, V extends Nominative, N ext
 
     return null;
   }
+
+  protected mapInternal<W extends Nominative>(mapper: Mapper<V, W>): Map<string, Pair<K, W>> {
+    const m: Map<string, Pair<K, W>> = new Map<string, Pair<K, W>>();
+    let i: number = 0;
+
+    this.project.forEach((p: Pair<K, V>) => {
+      m.set(p.getKey().hashCode(), Pair.of<K, W>(p.getKey(), mapper(p.getValue(), i)));
+      i++;
+    });
+
+    return m;
+  }
+
+  protected filterInternal(predicate: BinaryPredicate<V, K>): Map<string, Pair<K, V>> {
+    const m: Map<string, Pair<K, V>> = new Map<string, Pair<K, V>>();
+
+    for (const [, p] of this.project) {
+      if (predicate(p.getValue(), p.getKey())) {
+        m.set(p.getKey().hashCode(), p);
+      }
+    }
+
+    return m;
+  }
 }
+
+

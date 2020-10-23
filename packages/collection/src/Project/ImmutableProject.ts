@@ -1,5 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Mapper } from '@jamashita/publikum-type';
+import { BinaryPredicate, Mapper } from '@jamashita/publikum-type';
 import { Pair } from '../Pair';
 import { AProject } from './Abstract/AProject';
 import { ReadonlyProject } from './Interface/ReadonlyProject';
@@ -35,8 +35,8 @@ export class ImmutableProject<K extends Nominative, V extends Nominative> extend
     return ImmutableProject.EMPTY as ImmutableProject<KT, VT>;
   }
 
-  protected constructor(elements: ReadonlyMap<string, Pair<K, V>>) {
-    super(elements);
+  protected constructor(project: ReadonlyMap<string, Pair<K, V>>) {
+    super(project);
   }
 
   public set(key: K, value: V): ImmutableProject<K, V> {
@@ -71,13 +71,7 @@ export class ImmutableProject<K extends Nominative, V extends Nominative> extend
   }
 
   public map<W extends Nominative>(mapper: Mapper<V, W>): ImmutableProject<K, W> {
-    const m: Map<string, Pair<K, W>> = new Map<string, Pair<K, W>>();
-    let i: number = 0;
-
-    this.project.forEach((p: Pair<K, V>) => {
-      m.set(p.getKey().hashCode(), Pair.of<K, W>(p.getKey(), mapper(p.getValue(), i)));
-      i++;
-    });
+    const m: Map<string, Pair<K, W>> = this.mapInternal<W>(mapper);
 
     return ImmutableProject.ofInternal<K, W>(m);
   }
@@ -88,6 +82,12 @@ export class ImmutableProject<K extends Nominative, V extends Nominative> extend
     }
 
     const m: Map<string, Pair<K, V>> = new Map<string, Pair<K, V>>(this.project);
+
+    return ImmutableProject.ofInternal<K, V>(m);
+  }
+
+  public filter(predicate: BinaryPredicate<V, K>): ImmutableProject<K, V> {
+    const m: Map<string, Pair<K, V>> = this.filterInternal(predicate);
 
     return ImmutableProject.ofInternal<K, V>(m);
   }

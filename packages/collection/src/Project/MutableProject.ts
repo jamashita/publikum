@@ -1,5 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Mapper } from '@jamashita/publikum-type';
+import { BinaryPredicate, Mapper } from '@jamashita/publikum-type';
 import { Pair } from '../Pair';
 import { AProject } from './Abstract/AProject';
 import { ReadonlyProject } from './Interface/ReadonlyProject';
@@ -53,18 +53,18 @@ export class MutableProject<K extends Nominative, V extends Nominative> extends 
   }
 
   public map<W extends Nominative>(mapper: Mapper<V, W>): MutableProject<K, W> {
-    const project: MutableProject<K, W> = MutableProject.empty<K, W>();
-    let i: number = 0;
+    const m: Map<string, Pair<K, W>> = this.mapInternal<W>(mapper);
 
-    this.project.forEach((p: Pair<K, V>) => {
-      project.set(p.getKey(), mapper(p.getValue(), i));
-      i++;
-    });
-
-    return project;
+    return MutableProject.ofInternal<K, W>(m);
   }
 
   public duplicate(): MutableProject<K, V> {
     return MutableProject.ofInternal<K, V>(new Map<string, Pair<K, V>>(this.project));
+  }
+
+  public filter(predicate: BinaryPredicate<V, K>): MutableProject<K, V> {
+    const m: Map<string, Pair<K, V>> = this.filterInternal(predicate);
+
+    return MutableProject.ofInternal<K, V>(m);
   }
 }
