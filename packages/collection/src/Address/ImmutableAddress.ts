@@ -8,65 +8,65 @@ export class ImmutableAddress<V extends Nominative> extends AAddress<V, 'Immutab
 
   private static readonly EMPTY: ImmutableAddress<Nominative> = new ImmutableAddress(new Map<string, Nominative>());
 
-  public static of<VT extends Nominative>(elements: ReadonlyAddress<VT>): ImmutableAddress<VT> {
-    return ImmutableAddress.ofSet<VT>(elements.toSet());
+  public static of<VT extends Nominative>(address: ReadonlyAddress<VT>): ImmutableAddress<VT> {
+    return ImmutableAddress.ofSet<VT>(address.toSet());
   }
 
-  public static ofSet<VT extends Nominative>(elements: ReadonlySet<VT>): ImmutableAddress<VT> {
-    const map: Map<string, VT> = new Map<string, VT>();
+  public static ofSet<VT extends Nominative>(set: ReadonlySet<VT>): ImmutableAddress<VT> {
+    const m: Map<string, VT> = new Map<string, VT>();
 
-    elements.forEach((v: VT) => {
-      map.set(v.hashCode(), v);
+    set.forEach((v: VT) => {
+      m.set(v.hashCode(), v);
     });
 
-    return ImmutableAddress.ofInternal<VT>(map);
+    return ImmutableAddress.ofInternal<VT>(m);
   }
 
-  private static ofInternal<VT extends Nominative>(elements: Map<string, VT>): ImmutableAddress<VT> {
-    if (elements.size === 0) {
+  private static ofInternal<VT extends Nominative>(address: Map<string, VT>): ImmutableAddress<VT> {
+    if (address.size === 0) {
       return ImmutableAddress.empty<VT>();
     }
 
-    return new ImmutableAddress<VT>(elements);
+    return new ImmutableAddress<VT>(address);
   }
 
   public static empty<VT extends Nominative>(): ImmutableAddress<VT> {
     return ImmutableAddress.EMPTY as ImmutableAddress<VT>;
   }
 
-  protected constructor(elements: Map<string, V>) {
-    super(elements);
+  protected constructor(address: Map<string, V>) {
+    super(address);
   }
 
-  public add(element: V): ImmutableAddress<V> {
-    if (this.contains(element)) {
+  public add(value: V): ImmutableAddress<V> {
+    if (this.contains(value)) {
       return this;
     }
 
-    const map: Map<string, V> = new Map<string, V>(this.elements);
+    const m: Map<string, V> = new Map<string, V>(this.address);
 
-    map.set(element.hashCode(), element);
+    m.set(value.hashCode(), value);
 
-    return ImmutableAddress.ofInternal<V>(map);
+    return ImmutableAddress.ofInternal<V>(m);
   }
 
-  public remove(element: V): ImmutableAddress<V> {
+  public remove(value: V): ImmutableAddress<V> {
     if (this.isEmpty()) {
       return this;
     }
-    if (!this.contains(element)) {
+    if (!this.contains(value)) {
       return this;
     }
 
-    const map: Map<string, V> = new Map<string, V>(this.elements);
+    const m: Map<string, V> = new Map<string, V>(this.address);
 
-    map.delete(element.hashCode());
+    m.delete(value.hashCode());
 
-    if (map.size === 0) {
+    if (m.size === 0) {
       return ImmutableAddress.empty<V>();
     }
 
-    return ImmutableAddress.ofInternal<V>(map);
+    return ImmutableAddress.ofInternal<V>(m);
   }
 
   public isEmpty(): boolean {
@@ -78,15 +78,15 @@ export class ImmutableAddress<V extends Nominative> extends AAddress<V, 'Immutab
   }
 
   public map<W extends Nominative>(mapper: Mapper<V, W>): ImmutableAddress<W> {
-    const map: Map<string, W> = new Map<string, W>();
+    const m: Map<string, W> = new Map<string, W>();
     let i: number = 0;
 
-    this.elements.forEach((v: V) => {
-      map.set(v.hashCode(), mapper(v, i));
+    this.address.forEach((v: V) => {
+      m.set(v.hashCode(), mapper(v, i));
       i++;
     });
 
-    return ImmutableAddress.ofInternal<W>(map);
+    return ImmutableAddress.ofInternal<W>(m);
   }
 
   public duplicate(): ImmutableAddress<V> {
@@ -94,8 +94,8 @@ export class ImmutableAddress<V extends Nominative> extends AAddress<V, 'Immutab
       return ImmutableAddress.empty<V>();
     }
 
-    const map: Map<string, V> = new Map<string, V>(this.elements);
+    const m: Map<string, V> = new Map<string, V>(this.address);
 
-    return ImmutableAddress.ofInternal<V>(map);
+    return ImmutableAddress.ofInternal<V>(m);
   }
 }

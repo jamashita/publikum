@@ -7,23 +7,23 @@ import { Address } from '../Interface/Address';
 
 export abstract class AAddress<V extends Nominative, N extends string = string> extends Quantity<void, V, N> implements Address<V, N> {
   public abstract readonly noun: N;
-  protected readonly elements: Map<string, V>;
+  protected readonly address: Map<string, V>;
 
-  protected constructor(elements: ReadonlyMap<string, V>) {
+  protected constructor(address: ReadonlyMap<string, V>) {
     super();
-    this.elements = new Map<string, V>(elements);
+    this.address = new Map<string, V>(address);
   }
 
   public abstract duplicate(): Address<V, N>;
 
-  public abstract add(element: V): Address<V, N>;
+  public abstract add(value: V): Address<V, N>;
 
-  public abstract remove(element: V): Address<V, N>;
+  public abstract remove(value: V): Address<V, N>;
 
   public abstract map<W extends Nominative>(mapper: Mapper<V, W>): Address<W>;
 
   public [Symbol.iterator](): Iterator<Pair<void, V>> {
-    const iterator: IterableIterator<V> = this.elements.values();
+    const iterator: IterableIterator<V> = this.address.values();
     const iterable: Array<Pair<void, V>> = [];
 
     let res: IteratorResult<V> = iterator.next();
@@ -42,11 +42,11 @@ export abstract class AAddress<V extends Nominative, N extends string = string> 
   }
 
   public contains(value: V): boolean {
-    return this.elements.has(value.hashCode());
+    return this.address.has(value.hashCode());
   }
 
   public size(): number {
-    return this.elements.size;
+    return this.address.size;
   }
 
   public isEmpty(): boolean {
@@ -63,7 +63,7 @@ export abstract class AAddress<V extends Nominative, N extends string = string> 
       done = true;
     };
 
-    for (const [, v] of this.elements) {
+    for (const [, v] of this.address) {
       iteration(v, undefined, cancel);
 
       if (done) {
@@ -73,9 +73,9 @@ export abstract class AAddress<V extends Nominative, N extends string = string> 
   }
 
   public find(predicate: Predicate<V>): Nullable<V> {
-    for (const [, element] of this.elements) {
-      if (predicate(element)) {
-        return element;
+    for (const [, v] of this.address) {
+      if (predicate(v)) {
+        return v;
       }
     }
 
@@ -83,8 +83,8 @@ export abstract class AAddress<V extends Nominative, N extends string = string> 
   }
 
   public every(predicate: BinaryPredicate<V, void>): boolean {
-    for (const [, element] of this.elements) {
-      if (!predicate(element)) {
+    for (const [, v] of this.address) {
+      if (!predicate(v)) {
         return false;
       }
     }
@@ -93,8 +93,8 @@ export abstract class AAddress<V extends Nominative, N extends string = string> 
   }
 
   public some(predicate: BinaryPredicate<V, void>): boolean {
-    for (const [, element] of this.elements) {
-      if (predicate(element)) {
+    for (const [, v] of this.address) {
+      if (predicate(v)) {
         return true;
       }
     }
@@ -113,13 +113,13 @@ export abstract class AAddress<V extends Nominative, N extends string = string> 
       return false;
     }
 
-    return this.every((element: V) => {
-      return other.contains(element);
+    return this.every((value: V) => {
+      return other.contains(value);
     });
   }
 
   public toSet(): Set<V> {
-    return new Set<V>(this.elements.values());
+    return new Set<V>(this.address.values());
   }
 
   public serialize(): string {
@@ -133,7 +133,7 @@ export abstract class AAddress<V extends Nominative, N extends string = string> 
   }
 
   public values(): Iterable<V> {
-    const iterator: IterableIterator<V> = this.elements.values();
+    const iterator: IterableIterator<V> = this.address.values();
     const iterable: Array<V> = [];
 
     let res: IteratorResult<V> = iterator.next();

@@ -5,18 +5,18 @@ import { AAddress } from '../Abstract/AAddress';
 export class MockAddress<V extends Nominative> extends AAddress<V, 'MockAddress'> {
   public readonly noun: 'MockAddress' = 'MockAddress';
 
-  private static constructMap<VT extends Nominative>(elements: ReadonlySet<VT>): Map<string, VT> {
-    const map: Map<string, VT> = new Map<string, VT>();
+  private static toMap<VT extends Nominative>(set: ReadonlySet<VT>): Map<string, VT> {
+    const m: Map<string, VT> = new Map<string, VT>();
 
-    elements.forEach((e: VT) => {
-      map.set(e.hashCode(), e);
+    set.forEach((v: VT) => {
+      m.set(v.hashCode(), v);
     });
 
-    return map;
+    return m;
   }
 
-  public constructor(elements: ReadonlySet<V>) {
-    super(MockAddress.constructMap<V>(elements));
+  public constructor(set: ReadonlySet<V>) {
+    super(MockAddress.toMap<V>(set));
   }
 
   public add(): MockAddress<V> {
