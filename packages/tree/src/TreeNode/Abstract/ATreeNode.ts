@@ -68,7 +68,7 @@ export abstract class ATreeNode<V extends Nominative, T extends ATreeNode<V, T>,
       return 1;
     }
 
-    let size: number = 0;
+    let size: number = 1;
 
     this.children.forEach((child: T) => {
       size += child.size();
