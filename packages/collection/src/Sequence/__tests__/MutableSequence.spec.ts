@@ -369,7 +369,7 @@ describe('MutableSequence', () => {
   });
 
   describe('filter', () => {
-    it('can remove unexpected values', () => {
+    it('can remove match values', () => {
       expect.assertions(6);
 
       const value1: MockValueObject<number> = new MockValueObject<number>(1);

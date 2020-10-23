@@ -389,7 +389,7 @@ describe('ImmutableSequence', () => {
   });
 
   describe('filter', () => {
-    it('can remove match value', () => {
+    it('can remove match values', () => {
       expect.assertions(6);
 
       const value1: MockValueObject<number> = new MockValueObject<number>(1);
