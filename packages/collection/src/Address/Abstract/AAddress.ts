@@ -1,5 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Mapper, Nullable, Peek, Predicate } from '@jamashita/publikum-type';
+import { BinaryPredicate, Mapper, Nullable, Peek } from '@jamashita/publikum-type';
 import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
@@ -72,7 +72,7 @@ export abstract class AAddress<V extends Nominative, N extends string = string> 
     }
   }
 
-  public find(predicate: Predicate<V>): Nullable<V> {
+  public find(predicate: BinaryPredicate<V, void>): Nullable<V> {
     for (const [, v] of this.address) {
       if (predicate(v)) {
         return v;

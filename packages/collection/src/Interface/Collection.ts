@@ -18,5 +18,7 @@ export interface Collection<K, V, N extends string = string> extends Nominative<
 
   some(predicate: BinaryPredicate<V, K>): boolean;
 
+  find(predicate: BinaryPredicate<V, K>): Nullable<V>;
+
   values(): Iterable<V>;
 }

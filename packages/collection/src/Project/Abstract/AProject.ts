@@ -171,4 +171,14 @@ export abstract class AProject<K extends Nominative, V extends Nominative, N ext
 
     return iterable;
   }
+
+  public find(predicate: BinaryPredicate<V, K>): Nullable<V> {
+    for (const [, p] of this.project) {
+      if (predicate(p.getValue(), p.getKey())) {
+        return p.getValue();
+      }
+    }
+
+    return null;
+  }
 }

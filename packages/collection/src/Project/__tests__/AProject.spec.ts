@@ -1,5 +1,5 @@
 import { MockValueObject } from '@jamashita/publikum-object';
-import { BinaryPredicate, Peek } from '@jamashita/publikum-type';
+import { BinaryPredicate, Nullable, Peek } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
 import { MockProject } from '../Mock/MockProject';
 
@@ -672,6 +672,51 @@ describe('AProject', () => {
         expect(key).toBe(values[i]);
         i++;
       }
+    });
+  });
+
+  describe('AProject', () => {
+    it('returns the first found value', () => {
+      expect.assertions(5);
+
+      const key1: MockValueObject<string> = new MockValueObject<string>('a');
+      const key2: MockValueObject<string> = new MockValueObject<string>('d');
+      const key3: MockValueObject<string> = new MockValueObject<string>('g');
+      const key4: MockValueObject<string> = new MockValueObject<string>('k');
+
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
+      const value4: MockValueObject<number> = new MockValueObject<number>(4);
+
+      const project: MockProject<MockValueObject<string>, MockValueObject<number>> = new MockProject<MockValueObject<string>, MockValueObject<number>>(new Map<MockValueObject<string>, MockValueObject<number>>([
+        [key1, value1],
+        [key2, value2],
+        [key3, value3],
+        [key4, value4]
+      ]));
+
+      const found1: Nullable<MockValueObject<number>> = project.find((v: MockValueObject<number>) => {
+        return v.get() === 1;
+      });
+      const found2: Nullable<MockValueObject<number>> = project.find((v: MockValueObject<number>) => {
+        return v.get() === 2;
+      });
+      const found3: Nullable<MockValueObject<number>> = project.find((v: MockValueObject<number>) => {
+        return v.get() % 2 === 0;
+      });
+      const found4: Nullable<MockValueObject<number>> = project.find((v: MockValueObject<number>) => {
+        return v.get() > 1000;
+      });
+      const found5: Nullable<MockValueObject<number>> = project.find((_v: MockValueObject<number>, k: MockValueObject<string>) => {
+        return k.get().length === 1;
+      });
+
+      expect(found1).toBe(value1);
+      expect(found2).toBe(value2);
+      expect(found3).toBe(value2);
+      expect(found4).toBeNull();
+      expect(found5).toBe(value1);
     });
   });
 });

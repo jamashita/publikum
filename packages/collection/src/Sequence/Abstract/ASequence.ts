@@ -1,14 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import {
-  Ambiguous,
-  BinaryPredicate,
-  Enumerator,
-  Kind,
-  Mapper,
-  Nullable,
-  Peek,
-  Predicate
-} from '@jamashita/publikum-type';
+import { Ambiguous, BinaryPredicate, Enumerator, Kind, Mapper, Nullable, Peek } from '@jamashita/publikum-type';
 import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
@@ -86,7 +77,7 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
     }
   }
 
-  public find(predicate: Predicate<V>): Nullable<V> {
+  public find(predicate: BinaryPredicate<V, number>): Nullable<V> {
     const found: Ambiguous<V> = this.sequence.find(predicate);
 
     if (Kind.isUndefined(found)) {

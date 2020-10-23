@@ -172,17 +172,17 @@ describe('ASequence', () => {
         value4
       ]);
 
-      const found1: Nullable<MockValueObject<number>> = sequence.find((mock: MockValueObject<number>) => {
-        return mock.get() === 1;
+      const found1: Nullable<MockValueObject<number>> = sequence.find((v: MockValueObject<number>) => {
+        return v.get() === 1;
       });
-      const found2: Nullable<MockValueObject<number>> = sequence.find((mock: MockValueObject<number>) => {
-        return mock.get() === 2;
+      const found2: Nullable<MockValueObject<number>> = sequence.find((v: MockValueObject<number>) => {
+        return v.get() === 2;
       });
-      const found3: Nullable<MockValueObject<number>> = sequence.find((mock: MockValueObject<number>) => {
-        return mock.get() % 2 === 0;
+      const found3: Nullable<MockValueObject<number>> = sequence.find((v: MockValueObject<number>) => {
+        return v.get() % 2 === 0;
       });
-      const found4: Nullable<MockValueObject<number>> = sequence.find((mock: MockValueObject<number>) => {
-        return mock.get() > 1000;
+      const found4: Nullable<MockValueObject<number>> = sequence.find((v: MockValueObject<number>) => {
+        return v.get() > 1000;
       });
 
       expect(found1).toBe(value1);
@@ -203,8 +203,8 @@ describe('ASequence', () => {
         new MockValueObject<number>(8)
       ]);
 
-      const every: boolean = sequence.every((mock: MockValueObject<number>) => {
-        return mock.get() % 2 === 0;
+      const every: boolean = sequence.every((v: MockValueObject<number>) => {
+        return v.get() % 2 === 0;
       });
 
       expect(every).toBe(true);
@@ -256,8 +256,8 @@ describe('ASequence', () => {
         value4
       ]);
 
-      const predicate: Predicate<MockValueObject<number>> = (mock: MockValueObject<number>) => {
-        return mock.get() % 2 === 0;
+      const predicate: Predicate<MockValueObject<number>> = (v: MockValueObject<number>) => {
+        return v.get() % 2 === 0;
       };
 
       const every1: boolean = sequence1.every(predicate);
@@ -293,8 +293,8 @@ describe('ASequence', () => {
         new MockValueObject<number>(3)
       ]);
 
-      const predicate: Predicate<MockValueObject<number>> = (mock: MockValueObject<number>) => {
-        return mock.get() % 2 === 0;
+      const predicate: Predicate<MockValueObject<number>> = (v: MockValueObject<number>) => {
+        return v.get() % 2 === 0;
       };
 
       const some1: boolean = sequence1.some(predicate);
@@ -319,8 +319,8 @@ describe('ASequence', () => {
         value4
       ]);
 
-      const predicate: Predicate<MockValueObject<number>> = (mock: MockValueObject<number>) => {
-        return mock.get() % 2 === 1;
+      const predicate: Predicate<MockValueObject<number>> = (v: MockValueObject<number>) => {
+        return v.get() % 2 === 1;
       };
 
       const some: boolean = sequence.some(predicate);

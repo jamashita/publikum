@@ -179,17 +179,17 @@ describe('AAddress', () => {
         new Set<MockValueObject<number>>([value1, value2, value3, value4])
       );
 
-      const found1: Nullable<MockValueObject<number>> = address.find((mock: MockValueObject<number>) => {
-        return mock.get() === 1;
+      const found1: Nullable<MockValueObject<number>> = address.find((v: MockValueObject<number>) => {
+        return v.get() === 1;
       });
-      const found2: Nullable<MockValueObject<number>> = address.find((mock: MockValueObject<number>) => {
-        return mock.get() === 2;
+      const found2: Nullable<MockValueObject<number>> = address.find((v: MockValueObject<number>) => {
+        return v.get() === 2;
       });
-      const found3: Nullable<MockValueObject<number>> = address.find((mock: MockValueObject<number>) => {
-        return mock.get() % 2 === 0;
+      const found3: Nullable<MockValueObject<number>> = address.find((v: MockValueObject<number>) => {
+        return v.get() % 2 === 0;
       });
-      const found4: Nullable<MockValueObject<number>> = address.find((mock: MockValueObject<number>) => {
-        return mock.get() > 1000;
+      const found4: Nullable<MockValueObject<number>> = address.find((v: MockValueObject<number>) => {
+        return v.get() > 1000;
       });
 
       expect(found1).toBe(value1);
@@ -247,8 +247,8 @@ describe('AAddress', () => {
         new Set<MockValueObject<number>>([value1, value2, value5, value4])
       );
 
-      const predicate: Predicate<MockValueObject<number>> = (mock: MockValueObject<number>) => {
-        return mock.get() % 2 === 0;
+      const predicate: Predicate<MockValueObject<number>> = (v: MockValueObject<number>) => {
+        return v.get() % 2 === 0;
       };
 
       const every1: boolean = address1.every(predicate);
@@ -286,8 +286,8 @@ describe('AAddress', () => {
         new Set<MockValueObject<number>>([value1, value5, value6, value7])
       );
 
-      const predicate: Predicate<MockValueObject<number>> = (mock: MockValueObject<number>) => {
-        return mock.get() % 2 === 0;
+      const predicate: Predicate<MockValueObject<number>> = (v: MockValueObject<number>) => {
+        return v.get() % 2 === 0;
       };
 
       const some1: boolean = address1.some(predicate);
@@ -309,8 +309,8 @@ describe('AAddress', () => {
         new Set<MockValueObject<number>>([value1, value2, value3, value4])
       );
 
-      const predicate: Predicate<MockValueObject<number>> = (mock: MockValueObject<number>) => {
-        return mock.get() % 2 === 1;
+      const predicate: Predicate<MockValueObject<number>> = (v: MockValueObject<number>) => {
+        return v.get() % 2 === 1;
       };
 
       const some: boolean = address.some(predicate);
