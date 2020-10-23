@@ -16,8 +16,6 @@ export abstract class ATreeNode<V extends Nominative, T extends ATreeNode<V, T>,
     this.children = children;
   }
 
-  public abstract set(parent: T, value: V): TreeNode<V, T, N>;
-
   public equals(other: unknown): boolean {
     if (this === other) {
       return true;
