@@ -22,7 +22,7 @@ export interface Collection<K, V, N extends string = string> extends Nominative<
 
   map<W extends Nominative>(mapper: Mapper<V, W>): Collection<K, W>;
 
-  filter(iterator: BinaryPredicate<V, K>): Collection<K, V>;
+  filter(predicate: BinaryPredicate<V, K>): Collection<K, V>;
 
   values(): Iterable<V>;
 }
