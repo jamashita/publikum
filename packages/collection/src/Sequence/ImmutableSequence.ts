@@ -1,5 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Enumerator, Mapper } from '@jamashita/publikum-type';
+import { Enumerator, Kind, Mapper } from '@jamashita/publikum-type';
 import { ASequence } from './Abstract/ASequence';
 import { ReadonlySequence } from './Interface/ReadonlySequence';
 
@@ -29,7 +29,13 @@ export class ImmutableSequence<V extends Nominative> extends ASequence<V, 'Immut
   }
 
   public set(key: number, value: V): ImmutableSequence<V> {
+    if (key < 0) {
+      return this;
+    }
     if (key >= this.elements.length) {
+      return this;
+    }
+    if (!Kind.isInteger(key)) {
       return this;
     }
 
@@ -39,7 +45,13 @@ export class ImmutableSequence<V extends Nominative> extends ASequence<V, 'Immut
   }
 
   public remove(key: number): ImmutableSequence<V> {
+    if (key < 0) {
+      return this;
+    }
     if (key >= this.elements.length) {
+      return this;
+    }
+    if (!Kind.isInteger(key)) {
       return this;
     }
 

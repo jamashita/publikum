@@ -2,7 +2,7 @@ import { Equality } from '../Equality';
 
 describe('Equality', () => {
   describe('same', () => {
-    it('true pattern', () => {
+    it('can compare given two objects are the same', () => {
       expect.assertions(18);
 
       expect(Equality.same({}, {})).toBe(true);
@@ -173,7 +173,7 @@ describe('Equality', () => {
       expect(Equality.same([undefined, [undefined]], [undefined, [undefined]])).toBe(true);
     });
 
-    it('false pattern', () => {
+    it('returns false when the different two objects are given', () => {
       expect.assertions(11);
 
       expect(Equality.same({}, [])).toBe(false);

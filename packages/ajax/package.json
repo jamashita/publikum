@@ -22,7 +22,7 @@
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "tsc -p tsconfig.esm.json",
     "clean": "rimraf dist && rimraf coverage",
-    "test": "jest test --detectOpenHandles --passWithNoTests",
+    "test": "jest test --detectOpenHandles",
     "update": "yarn update:upgrade && yarn update:install",
     "update:install": "yarn install",
     "update:upgrade": "ncu --upgrade --timeout 600000"
@@ -31,9 +31,11 @@
     "@jamashita/publikum-error": "^2.27.1",
     "@jamashita/publikum-json": "^2.27.1",
     "@jamashita/publikum-type": "^2.27.1",
-    "axios": "0.20.0"
+    "ky": "0.24.0"
   },
   "devDependencies": {
+    "http-status-codes": "2.1.4",
+    "jest-fetch-mock": "3.0.3",
     "sinon": "9.2.0"
   },
   "engines": {

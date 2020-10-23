@@ -58,7 +58,7 @@ describe('Kind', () => {
   });
 
   describe('isString', () => {
-    it('even if numerical strings given, return true', () => {
+    it('return true even if numerical strings given', () => {
       expect.assertions(13);
 
       expect(Kind.isString(null)).toBe(false);
@@ -473,26 +473,26 @@ describe('Kind', () => {
   });
 
   describe('notate', () => {
-    it('undefined', () => {
+    it('describes undefined', () => {
       expect.assertions(1);
 
       expect(Kind.notate(undefined)).toBe('undefined');
     });
 
-    it('null', () => {
+    it('describes null', () => {
       expect.assertions(1);
 
       expect(Kind.notate(null)).toBe('null');
     });
 
-    it('boolean', () => {
+    it('describes boolean', () => {
       expect.assertions(2);
 
       expect(Kind.notate(false)).toBe('false');
       expect(Kind.notate(true)).toBe('true');
     });
 
-    it('number', () => {
+    it('describes number', () => {
       expect.assertions(201);
 
       for (let i: number = -100; i <= 100; i++) {
@@ -500,7 +500,7 @@ describe('Kind', () => {
       }
     });
 
-    it('string', () => {
+    it('describes string', () => {
       expect.assertions(100);
 
       for (let i: number = 0; i < 100; i++) {
@@ -510,7 +510,7 @@ describe('Kind', () => {
       }
     });
 
-    it('symbol', () => {
+    it('describes symbol', () => {
       expect.assertions(100);
 
       for (let i: number = 0; i < 100; i++) {
@@ -520,7 +520,7 @@ describe('Kind', () => {
       }
     });
 
-    it('bigint', () => {
+    it('describes bigint', () => {
       expect.assertions(201);
 
       for (let i: bigint = -100n; i <= 100n; i++) {
@@ -528,7 +528,7 @@ describe('Kind', () => {
       }
     });
 
-    it('object literal', () => {
+    it('describes object literal', () => {
       expect.assertions(2);
 
       expect(Kind.notate({})).toBe('[object Object]');
@@ -542,7 +542,7 @@ describe('Kind', () => {
       expect(Kind.notate(obj)).toBe('[object Object]');
     });
 
-    it('object.create(null)', () => {
+    it('describes object.create(null)', () => {
       expect.assertions(2);
 
       expect(Kind.notate(Object.create(null))).toBe('[object Object]');

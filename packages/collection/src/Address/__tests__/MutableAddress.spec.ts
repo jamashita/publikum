@@ -1,4 +1,4 @@
-import { MockNominative } from '@jamashita/publikum-object';
+import { MockValueObject } from '@jamashita/publikum-object';
 import { MutableAddress } from '../MutableAddress';
 
 describe('MutableAddress', () => {
@@ -6,22 +6,22 @@ describe('MutableAddress', () => {
     it('returns copied collection, does not use the same one', () => {
       expect.assertions(4);
 
-      const address: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
-        new Set<MockNominative<number>>([
-          new MockNominative<number>(1),
-          new MockNominative<number>(2)
+      const address: MutableAddress<MockValueObject<number>> = MutableAddress.ofSet<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([
+          new MockValueObject<number>(1),
+          new MockValueObject<number>(2)
         ])
       );
-      const copied: MutableAddress<MockNominative<number>> = MutableAddress.of<MockNominative<number>>(address);
+      const copied: MutableAddress<MockValueObject<number>> = MutableAddress.of<MockValueObject<number>>(address);
 
       expect(address.size()).toBe(copied.size());
-      address.forEach((n: MockNominative<number>) => {
-        expect(copied.contains(n)).toBe(true);
+      address.forEach((v: MockValueObject<number>) => {
+        expect(copied.contains(v)).toBe(true);
       });
 
-      address.add(new MockNominative<number>(3));
+      address.add(new MockValueObject<number>(3));
 
-      expect(address.isEmpty()).not.toBe(copied.size());
+      expect(address.size()).not.toBe(copied.size());
     });
   });
 
@@ -29,22 +29,27 @@ describe('MutableAddress', () => {
     it('returns MutableAddress.empty() when set size is 0', () => {
       expect.assertions(1);
 
-      const address: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(new Set<MockNominative<number>>());
+      const address: MutableAddress<MockValueObject<number>> = MutableAddress.ofSet<MockValueObject<number>>(
+        new Set<MockValueObject<number>>()
+      );
 
       expect(address.isEmpty()).toBe(true);
     });
 
-    it('normal case', () => {
+    it('returns instance', () => {
       expect.assertions(2);
 
-      const address1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
-        new Set<MockNominative<number>>([new MockNominative<number>(1), new MockNominative<number>(3)])
+      const address1: MutableAddress<MockValueObject<number>> = MutableAddress.ofSet<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([
+          new MockValueObject<number>(1),
+          new MockValueObject<number>(3)
+        ])
       );
-      const address2: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
-        new Set<MockNominative<number>>([
-          new MockNominative<number>(2),
-          new MockNominative<number>(4),
-          new MockNominative<number>(5)
+      const address2: MutableAddress<MockValueObject<number>> = MutableAddress.ofSet<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([
+          new MockValueObject<number>(2),
+          new MockValueObject<number>(4),
+          new MockValueObject<number>(5)
         ])
       );
 
@@ -54,18 +59,16 @@ describe('MutableAddress', () => {
   });
 
   describe('empty', () => {
-    it('always empty, the size is 0', () => {
+    it('does not return singleton instance', () => {
       expect.assertions(1);
 
-      const address: MutableAddress<MockNominative<number>> = MutableAddress.empty<MockNominative<number>>();
-
-      expect(address.isEmpty()).toBe(true);
+      expect(MutableAddress.empty<MockValueObject<number>>()).not.toBe(MutableAddress.empty<MockValueObject<number>>());
     });
 
-    it('returns different empty Address', () => {
+    it('always returns 0-size set', () => {
       expect.assertions(1);
 
-      expect(MutableAddress.empty<MockNominative<number>>()).not.toBe(MutableAddress.empty<MockNominative<number>>());
+      expect(MutableAddress.empty<MockValueObject<number>>().isEmpty()).toBe(true);
     });
   });
 
@@ -73,174 +76,154 @@ describe('MutableAddress', () => {
     it('can extend mutably', () => {
       expect.assertions(6);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
 
-      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.empty<MockNominative<number>>();
+      const address1: MutableAddress<MockValueObject<number>> = MutableAddress.empty<MockValueObject<number>>();
 
-      expect(nouns1.size()).toBe(0);
+      expect(address1.size()).toBe(0);
 
-      const nouns2: MutableAddress<MockNominative<number>> = nouns1.add(noun1);
+      const address2: MutableAddress<MockValueObject<number>> = address1.add(value1);
 
-      expect(nouns1).toBe(nouns2);
-      expect(nouns1.size()).toBe(1);
+      expect(address1).toBe(address2);
+      expect(address1.size()).toBe(1);
 
-      const nouns3: MutableAddress<MockNominative<number>> = nouns2.add(noun2).add(noun3);
+      const address3: MutableAddress<MockValueObject<number>> = address2.add(value2).add(value3);
 
-      expect(nouns1).toBe(nouns2);
-      expect(nouns2).toBe(nouns3);
-      expect(nouns1.size()).toBe(3);
+      expect(address1).toBe(address2);
+      expect(address2).toBe(address3);
+      expect(address1.size()).toBe(3);
     });
 
-    it('does nothing when the arguments are already contained', () => {
+    it('does nothing when the address are already contained', () => {
       expect.assertions(2);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
 
-      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
-        new Set<MockNominative<number>>([noun1, noun2])
+      const address1: MutableAddress<MockValueObject<number>> = MutableAddress.ofSet<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2])
       );
-      const nouns2: MutableAddress<MockNominative<number>> = nouns1.add(noun1);
+      const address2: MutableAddress<MockValueObject<number>> = address1.add(value1);
 
-      expect(nouns1).toBe(nouns2);
-      expect(nouns1.size()).toBe(2);
+      expect(address1).toBe(address2);
+      expect(address1.size()).toBe(2);
     });
 
-    it('does nothing when the same value other object are already contained', () => {
+    it('does nothing when the other same value objects are already contained', () => {
       expect.assertions(2);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(1);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(1);
 
-      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
-        new Set<MockNominative<number>>([noun1, noun2])
+      const address1: MutableAddress<MockValueObject<number>> = MutableAddress.ofSet<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2])
       );
-      const nouns2: MutableAddress<MockNominative<number>> = nouns1.add(noun3);
+      const address2: MutableAddress<MockValueObject<number>> = address1.add(value3);
 
-      expect(nouns1).toBe(nouns2);
-      expect(nouns1.size()).toBe(2);
+      expect(address1).toBe(address2);
+      expect(address1.size()).toBe(2);
     });
   });
 
   describe('remove', () => {
-    it('normal case', () => {
+    it('can remove retaining value if it contains', () => {
       expect.assertions(2);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
 
-      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
-        new Set<MockNominative<number>>([noun1, noun2])
+      const address1: MutableAddress<MockValueObject<number>> = MutableAddress.ofSet<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2])
       );
-      const nouns2: MutableAddress<MockNominative<number>> = nouns1.remove(noun1);
+      const address2: MutableAddress<MockValueObject<number>> = address1.remove(value1);
 
-      expect(nouns1).toBe(nouns2);
-      expect(nouns2.size()).toBe(1);
+      expect(address1).toBe(address2);
+      expect(address2.size()).toBe(1);
     });
 
-    it('does nothing because the address is already nothing', () => {
-      expect.assertions(1);
-
-      const noun: MockNominative<number> = new MockNominative<number>(1);
-
-      const nouns: MutableAddress<MockNominative<number>> = MutableAddress.empty<MockNominative<number>>();
-
-      expect(nouns.remove(noun)).toBe(nouns);
-    });
-
-    it('returns the value even if the other', () => {
+    it('does nothing when there is no such value', () => {
       expect.assertions(2);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(2);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
 
-      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
-        new Set<MockNominative<number>>([noun1, noun2])
+      const address: MutableAddress<MockValueObject<number>> = MutableAddress.ofSet<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1])
       );
-      const nouns2: MutableAddress<MockNominative<number>> = nouns1.remove(noun3);
+      const beforeLength: number = address.size();
 
-      expect(nouns1).toBe(nouns2);
-      expect(nouns1.size()).toBe(1);
+      expect(address.remove(value2)).toBe(address);
+      expect(address.size()).toBe(beforeLength);
     });
+  });
 
-    it('does not contains the value, returns itself', () => {
+  describe('isEmpty', () => {
+    it('returns true if the value size is 0', () => {
       expect.assertions(2);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
 
-      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
-        new Set<MockNominative<number>>([noun1, noun2])
+      const address1: MutableAddress<MockValueObject<number>> = MutableAddress.ofSet<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2])
       );
-      const nouns2: MutableAddress<MockNominative<number>> = nouns1.remove(noun3);
+      const address2: MutableAddress<MockValueObject<number>> = MutableAddress.ofSet<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([])
+      );
 
-      expect(nouns1).toBe(nouns2);
-      expect(nouns1.size()).toBe(2);
+      expect(address1.isEmpty()).toBe(false);
+      expect(address2.isEmpty()).toBe(true);
     });
   });
 
   describe('map', () => {
-    it('normal case', () => {
+    it('execute the mapper function and returns mapped Address immutably', () => {
       expect.assertions(6);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
-      const noun4: MockNominative<number> = new MockNominative<number>(4);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
+      const value4: MockValueObject<number> = new MockValueObject<number>(4);
 
-      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(new Set<MockNominative<number>>([noun1, noun2, noun3, noun4]));
-      const nouns2: MutableAddress<MockNominative<number>> = nouns1.map((v: MockNominative<number>) => {
-        return new MockNominative(v.get() * 2);
+      const address1: MutableAddress<MockValueObject<number>> = MutableAddress.ofSet<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2, value3, value4])
+      );
+      const address2: MutableAddress<MockValueObject<number>> = address1.map((v: MockValueObject<number>) => {
+        return new MockValueObject(v.get() * 2);
       });
 
-      expect(nouns1.size()).toBe(nouns2.size());
-      expect(nouns1).not.toBe(nouns2);
-      nouns2.forEach((v: MockNominative<number>) => {
+      expect(address1.size()).toBe(address2.size());
+      expect(address1).not.toBe(address2);
+      address2.forEach((v: MockValueObject<number>) => {
         expect(v.get() % 2).toBe(0);
       });
     });
   });
 
   describe('duplicate', () => {
-    it('normal case', () => {
-      expect.assertions(2);
+    it('returns shallow-copied instance', () => {
+      expect.assertions(7);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
-      const noun4: MockNominative<number> = new MockNominative<number>(4);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
+      const value4: MockValueObject<number> = new MockValueObject<number>(4);
+      const value5: MockValueObject<number> = new MockValueObject<number>(5);
 
-      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
-        new Set<MockNominative<number>>([noun1, noun2, noun3, noun4])
+      const address1: MutableAddress<MockValueObject<number>> = MutableAddress.ofSet<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2, value3, value4])
       );
-      const nouns2: MutableAddress<MockNominative<number>> = nouns1.duplicate();
+      const address2: MutableAddress<MockValueObject<number>> = address1.duplicate();
 
-      expect(nouns1.size()).toBe(nouns2.size());
-      expect(nouns1).not.toBe(nouns2);
-    });
-
-    it('does not affect original one', () => {
-      expect.assertions(3);
-
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
-      const noun4: MockNominative<number> = new MockNominative<number>(4);
-
-      const nouns1: MutableAddress<MockNominative<number>> = MutableAddress.ofSet<MockNominative<number>>(
-        new Set<MockNominative<number>>([noun1, noun2, noun3])
-      );
-      const nouns2: MutableAddress<MockNominative<number>> = nouns1.duplicate();
-      const nouns3: MutableAddress<MockNominative<number>> = nouns2.add(noun4);
-
-      expect(nouns1.size()).not.toBe(nouns2.size());
-      expect(nouns1).not.toBe(nouns2);
-      expect(nouns2).toBe(nouns3);
+      expect(address1.size()).toBe(address2.size());
+      expect(address1).not.toBe(address2);
+      expect(address2).toBe(address2.add(value5));
+      address1.forEach((v: MockValueObject<number>) => {
+        expect(address2.contains(v)).toBe(true);
+      });
     });
   });
 });

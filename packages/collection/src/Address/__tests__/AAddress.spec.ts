@@ -1,99 +1,118 @@
-import { MockContent, MockNominative, MockValueObject } from '@jamashita/publikum-object';
+import { MockValueObject } from '@jamashita/publikum-object';
 import { Nullable, Peek, Predicate } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
 import { MockAddress } from '../Mock/MockAddress';
 
 describe('AAddress', () => {
   describe('iterator', () => {
-    it('normal case', () => {
+    it('returns Pair<void, MockValueObject<number>>', () => {
       expect.assertions(2);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const values: Array<MockNominative<number>> = [noun1, noun2];
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const values: Array<MockValueObject<number>> = [value1, value2];
 
-      const nouns: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun1, noun2])
+      const address: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2])
       );
 
       let i: number = 0;
 
-      for (const noun of nouns) {
-        expect(noun.getValue()).toBe(values[i]);
+      for (const value of address) {
+        expect(value.getValue()).toBe(values[i]);
         i++;
       }
     });
   });
 
   describe('get', () => {
-    it('always returns Absent', () => {
+    it('always returns null', () => {
       expect.assertions(4);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
 
-      const nouns1: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(new Set());
-      const nouns2: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(new Set([noun1]));
+      const address1: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>()
+      );
+      const address2: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1])
+      );
 
-      expect(nouns1.size()).toBe(0);
-      expect(nouns2.get()).toBeNull();
-      expect(nouns2.size()).toBe(1);
-      expect(nouns2.get()).toBeNull();
+      expect(address1.size()).toBe(0);
+      expect(address2.get()).toBeNull();
+      expect(address2.size()).toBe(1);
+      expect(address2.get()).toBeNull();
     });
   });
 
   describe('contains', () => {
-    it('returns true if the elements exists', () => {
-      expect.assertions(4);
+    it('returns false if the value does not exist', () => {
+      expect.assertions(1);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
-      const noun4: MockNominative<number> = new MockNominative<number>(2);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
 
-      const nouns: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun1, noun2])
+      const address: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2])
       );
 
-      expect(nouns.contains(noun1)).toBe(true);
-      expect(nouns.contains(noun2)).toBe(true);
-      expect(nouns.contains(noun3)).toBe(false);
-      expect(nouns.contains(noun4)).toBe(true);
+      expect(address.contains(value3)).toBe(false);
+    });
+
+    it('returns true if the value exists', () => {
+      expect.assertions(3);
+
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(2);
+
+      const address: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2])
+      );
+
+      expect(address.contains(value1)).toBe(true);
+      expect(address.contains(value2)).toBe(true);
+      expect(address.contains(value3)).toBe(true);
     });
   });
 
   describe('isEmpty', () => {
-    it('returns true if the elements are 0', () => {
+    it('returns true if the values does not exist', () => {
       expect.assertions(2);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
 
-      const nouns1: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun1, noun2])
+      const address1: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2])
       );
-      const nouns2: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(new Set());
+      const address2: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>()
+      );
 
-      expect(nouns1.isEmpty()).toBe(false);
-      expect(nouns2.isEmpty()).toBe(true);
+      expect(address1.isEmpty()).toBe(false);
+      expect(address2.isEmpty()).toBe(true);
     });
   });
 
   describe('forEach', () => {
-    it('normal case', () => {
+    it('calls back as much as the size of set', () => {
       expect.assertions(4);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
-      const elements: Array<MockNominative<number>> = [noun1, noun2, noun3];
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
+      const values: Array<MockValueObject<number>> = [value1, value2, value3];
 
-      const nouns: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(new Set(elements));
-
-      expect(nouns.size()).toBe(elements.length);
+      const address: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>(values)
+      );
       let i: number = 0;
 
-      nouns.forEach((noun: MockNominative<number>) => {
-        expect(noun).toBe(elements[i]);
+      expect(address.size()).toBe(values.length);
+      address.forEach((value: MockValueObject<number>) => {
+        expect(value).toBe(values[i]);
         i++;
       });
     });
@@ -106,21 +125,21 @@ describe('AAddress', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
       const spy5: SinonSpy = sinon.spy();
-      const peeks: MockAddress<MockContent<Peek>> = new MockAddress<MockContent<Peek>>(
-        new Set<MockContent<Peek>>([
-          new MockContent<Peek>(() => {
+      const peeks: MockAddress<MockValueObject<Peek>> = new MockAddress<MockValueObject<Peek>>(
+        new Set<MockValueObject<Peek>>([
+          new MockValueObject<Peek>(() => {
             spy1();
           }),
-          new MockContent<Peek>(() => {
+          new MockValueObject<Peek>(() => {
             spy2();
           }),
-          new MockContent<Peek>(() => {
+          new MockValueObject<Peek>(() => {
             spy3();
           }),
-          new MockContent<Peek>(() => {
+          new MockValueObject<Peek>(() => {
             spy4();
           }),
-          new MockContent<Peek>(() => {
+          new MockValueObject<Peek>(() => {
             spy5();
           })
         ])
@@ -128,12 +147,14 @@ describe('AAddress', () => {
 
       let i: number = 0;
 
-      peeks.forEach((peek: MockContent<Peek>, _: void, cancel: Peek) => {
+      peeks.forEach((peek: MockValueObject<Peek>, _: void, cancel: Peek) => {
         peek.get()();
 
         if (i === 2) {
           cancel();
+          return;
         }
+
         i++;
       });
 
@@ -146,98 +167,96 @@ describe('AAddress', () => {
   });
 
   describe('find', () => {
-    it('normal case', () => {
+    it('returns the first found value', () => {
       expect.assertions(4);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
-      const noun4: MockNominative<number> = new MockNominative<number>(4);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
+      const value4: MockValueObject<number> = new MockValueObject<number>(4);
 
-      const nouns: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun1, noun2, noun3, noun4])
+      const address: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2, value3, value4])
       );
 
-      const found1: Nullable<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found1: Nullable<MockValueObject<number>> = address.find((mock: MockValueObject<number>) => {
         return mock.get() === 1;
       });
-      const found2: Nullable<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found2: Nullable<MockValueObject<number>> = address.find((mock: MockValueObject<number>) => {
         return mock.get() === 2;
       });
-      const found3: Nullable<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found3: Nullable<MockValueObject<number>> = address.find((mock: MockValueObject<number>) => {
         return mock.get() % 2 === 0;
       });
-      const found4: Nullable<MockNominative<number>> = nouns.find((mock: MockNominative<number>) => {
+      const found4: Nullable<MockValueObject<number>> = address.find((mock: MockValueObject<number>) => {
         return mock.get() > 1000;
       });
 
-      expect(found1).toBe(noun1);
-      expect(found2).toBe(noun2);
-      expect(found3).toBe(noun2);
+      expect(found1).toBe(value1);
+      expect(found2).toBe(value2);
+      expect(found3).toBe(value2);
       expect(found4).toBeNull();
     });
   });
 
   describe('every', () => {
-    it('normal case', () => {
+    it('returns true if all the values are the same', () => {
       expect.assertions(1);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(2);
-      const noun2: MockNominative<number> = new MockNominative<number>(4);
-      const noun3: MockNominative<number> = new MockNominative<number>(6);
-      const noun4: MockNominative<number> = new MockNominative<number>(8);
+      const value1: MockValueObject<number> = new MockValueObject<number>(2);
+      const value2: MockValueObject<number> = new MockValueObject<number>(4);
+      const value3: MockValueObject<number> = new MockValueObject<number>(6);
+      const value4: MockValueObject<number> = new MockValueObject<number>(8);
 
-      const nouns: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun1, noun2, noun3, noun4])
+      const address: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2, value3, value4])
       );
 
-      const predicate: Predicate<MockNominative<number>> = (mock: MockNominative<number>) => {
-        return mock.get() % 2 === 0;
-      };
-
-      const every: boolean = nouns.every(predicate);
+      const every: boolean = address.every((value: MockValueObject<number>) => {
+        return value.get() % 2 === 0;
+      });
 
       expect(every).toBe(true);
     });
 
-    it('if one of them are not satisfied, returns false', () => {
+    it('returns false if at least one of the values is not false', () => {
       expect.assertions(6);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(4);
-      const noun3: MockNominative<number> = new MockNominative<number>(6);
-      const noun4: MockNominative<number> = new MockNominative<number>(8);
-      const noun5: MockNominative<number> = new MockNominative<number>(3);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(4);
+      const value3: MockValueObject<number> = new MockValueObject<number>(6);
+      const value4: MockValueObject<number> = new MockValueObject<number>(8);
+      const value5: MockValueObject<number> = new MockValueObject<number>(3);
 
-      const nouns1: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun1, noun2, noun3, noun4])
+      const address1: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2, value3, value4])
       );
-      const nouns2: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun2, noun1, noun3, noun4])
+      const address2: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value2, value1, value3, value4])
       );
-      const nouns3: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun2, noun3, noun1, noun4])
+      const address3: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value2, value3, value1, value4])
       );
-      const nouns4: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun2, noun3, noun4, noun1])
+      const address4: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value2, value3, value4, value1])
       );
-      const nouns5: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun1, noun5, noun3, noun4])
+      const address5: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value5, value3, value4])
       );
-      const nouns6: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun1, noun2, noun5, noun4])
+      const address6: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2, value5, value4])
       );
 
-      const predicate: Predicate<MockNominative<number>> = (mock: MockNominative<number>) => {
+      const predicate: Predicate<MockValueObject<number>> = (mock: MockValueObject<number>) => {
         return mock.get() % 2 === 0;
       };
 
-      const every1: boolean = nouns1.every(predicate);
-      const every2: boolean = nouns2.every(predicate);
-      const every3: boolean = nouns3.every(predicate);
-      const every4: boolean = nouns4.every(predicate);
-      const every5: boolean = nouns5.every(predicate);
-      const every6: boolean = nouns6.every(predicate);
+      const every1: boolean = address1.every(predicate);
+      const every2: boolean = address2.every(predicate);
+      const every3: boolean = address3.every(predicate);
+      const every4: boolean = address4.every(predicate);
+      const every5: boolean = address5.every(predicate);
+      const every6: boolean = address6.every(predicate);
 
       expect(every1).toBe(false);
       expect(every2).toBe(false);
@@ -249,182 +268,185 @@ describe('AAddress', () => {
   });
 
   describe('some', () => {
-    it('normal case', () => {
+    it('returns true if at least one of the values returns true', () => {
       expect.assertions(2);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(2);
-      const noun2: MockNominative<number> = new MockNominative<number>(4);
-      const noun3: MockNominative<number> = new MockNominative<number>(6);
-      const noun4: MockNominative<number> = new MockNominative<number>(8);
+      const value1: MockValueObject<number> = new MockValueObject<number>(2);
+      const value2: MockValueObject<number> = new MockValueObject<number>(4);
+      const value3: MockValueObject<number> = new MockValueObject<number>(6);
+      const value4: MockValueObject<number> = new MockValueObject<number>(8);
+      const value5: MockValueObject<number> = new MockValueObject<number>(3);
+      const value6: MockValueObject<number> = new MockValueObject<number>(5);
+      const value7: MockValueObject<number> = new MockValueObject<number>(7);
 
-      const nouns: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun1, noun2, noun3, noun4])
+      const address1: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2, value3, value4])
+      );
+      const address2: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value5, value6, value7])
       );
 
-      const predicate: Predicate<MockNominative<number>> = (mock: MockNominative<number>) => {
+      const predicate: Predicate<MockValueObject<number>> = (mock: MockValueObject<number>) => {
         return mock.get() % 2 === 0;
       };
 
-      const some1: boolean = nouns.some(predicate);
-      const some2: boolean = nouns.some(predicate);
+      const some1: boolean = address1.some(predicate);
+      const some2: boolean = address2.some(predicate);
 
       expect(some1).toBe(true);
       expect(some2).toBe(true);
     });
 
-    it('if none of them are not satisfied, returns false', () => {
-      expect.assertions(5);
+    it('returns false if none of the values are true', () => {
+      expect.assertions(1);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(4);
-      const noun3: MockNominative<number> = new MockNominative<number>(6);
-      const noun4: MockNominative<number> = new MockNominative<number>(8);
-      const noun5: MockNominative<number> = new MockNominative<number>(10);
+      const value1: MockValueObject<number> = new MockValueObject<number>(4);
+      const value2: MockValueObject<number> = new MockValueObject<number>(6);
+      const value3: MockValueObject<number> = new MockValueObject<number>(8);
+      const value4: MockValueObject<number> = new MockValueObject<number>(10);
 
-      const nouns1: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun1, noun2, noun3, noun4])
-      );
-      const nouns2: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun2, noun1, noun3, noun4])
-      );
-      const nouns3: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun2, noun3, noun1, noun4])
-      );
-      const nouns4: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun2, noun3, noun4, noun1])
-      );
-      const nouns5: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun2, noun3, noun4, noun5])
+      const address: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2, value3, value4])
       );
 
-      const predicate: Predicate<MockNominative<number>> = (mock: MockNominative<number>) => {
+      const predicate: Predicate<MockValueObject<number>> = (mock: MockValueObject<number>) => {
         return mock.get() % 2 === 1;
       };
 
-      const some1: boolean = nouns1.some(predicate);
-      const some2: boolean = nouns2.some(predicate);
-      const some3: boolean = nouns3.some(predicate);
-      const some4: boolean = nouns4.some(predicate);
-      const some5: boolean = nouns5.some(predicate);
+      const some: boolean = address.some(predicate);
 
-      expect(some1).toBe(true);
-      expect(some2).toBe(true);
-      expect(some3).toBe(true);
-      expect(some4).toBe(true);
-      expect(some5).toBe(false);
+      expect(some).toBe(false);
     });
   });
 
   describe('equals', () => {
-    it('returns false if the length is different', () => {
-      expect.assertions(2);
+    it('returns true when the same instance given', () => {
+      expect.assertions(1);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const value: MockValueObject<number> = new MockValueObject<number>(1);
 
-      const nouns1: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(new Set([noun1]));
-      const nouns2: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun1, noun2])
+      const address: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value])
       );
 
-      expect(nouns1.equals(nouns1)).toBe(true);
-      expect(nouns1.equals(nouns2)).toBe(false);
+      expect(address.equals(address)).toBe(true);
+    });
+
+    it('returns false if the size is different', () => {
+      expect.assertions(1);
+
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+
+      const address1: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1])
+      );
+      const address2: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2])
+      );
+
+      expect(address1.equals(address2)).toBe(false);
     });
 
     it('returns false when the different class instance given', () => {
       expect.assertions(1);
 
-      const nouns: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(new Set());
+      const address: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>()
+      );
 
-      expect(nouns.equals(new MockValueObject('mock'))).toBe(false);
+      expect(address.equals(new MockValueObject('mock'))).toBe(false);
     });
 
-    it('returns true even if the sequence is different', () => {
-      expect.assertions(2);
+    it('returns true even if the order is different', () => {
+      expect.assertions(1);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
 
-      const nouns1: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun2, noun1])
+      const address1: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value2, value1])
       );
-      const nouns2: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun1, noun2])
+      const address2: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2])
       );
 
-      expect(nouns1.equals(nouns1)).toBe(true);
-      expect(nouns1.equals(nouns2)).toBe(true);
+      expect(address1.equals(address2)).toBe(true);
     });
 
-    it('returns true if the length is the same and the sequence is the same', () => {
-      expect.assertions(2);
+    it('returns true if the size is the same and the order is the quite same', () => {
+      expect.assertions(1);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
 
-      const nouns1: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun1, noun2])
+      const address1: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2])
       );
-      const nouns2: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun1, noun2])
+      const address2: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2])
       );
 
-      expect(nouns1.equals(nouns1)).toBe(true);
-      expect(nouns1.equals(nouns2)).toBe(true);
+      expect(address1.equals(address2)).toBe(true);
     });
   });
 
   describe('toString', () => {
-    it('normal case', () => {
+    it('returns concatenated string', () => {
       expect.assertions(1);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
 
-      const nouns: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun1, noun2, noun3])
+      const address: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2, value3])
       );
 
-      expect(nouns.toString()).toBe('1, 2, 3');
+      expect(address.toString()).toBe('1, 2, 3');
     });
   });
 
   describe('toSet', () => {
-    it('normal case', () => {
-      expect.assertions(4);
+    it('returns its retaining shallow-copied set', () => {
+      expect.assertions(5);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const noun3: MockNominative<number> = new MockNominative<number>(3);
-      const elements: Array<MockNominative<number>> = [noun1, noun2, noun3];
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
+      const values: Array<MockValueObject<number>> = [value1, value2, value3];
 
-      const nouns: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(new Set(elements));
-      const set: Set<MockNominative<number>> = nouns.toSet();
+      const address: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set(values)
+      );
+      const set: Set<MockValueObject<number>> = address.toSet();
 
-      expect(nouns.size()).toBe(set.size);
+      expect(address.size()).toBe(set.size);
       for (let i: number = 0; i < set.size; i++) {
-        expect(set.has(elements[i])).toBe(true);
+        expect(set.has(values[i])).toBe(true);
       }
+      set.add(new MockValueObject<number>(4));
+
+      expect(address.size()).not.toBe(set.size);
     });
   });
 
   describe('values', () => {
-    it('normal case', () => {
+    it('returns its retaining values', () => {
       expect.assertions(2);
 
-      const noun1: MockNominative<number> = new MockNominative<number>(1);
-      const noun2: MockNominative<number> = new MockNominative<number>(2);
-      const values: Array<MockNominative<number>> = [noun1, noun2];
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const values: Array<MockValueObject<number>> = [value1, value2];
 
-      const nouns: MockAddress<MockNominative<number>> = new MockAddress<MockNominative<number>>(
-        new Set([noun1, noun2])
+      const address: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2])
       );
 
       let i: number = 0;
 
-      for (const noun of nouns.values()) {
-        expect(noun.get()).toBe(values[i].get());
+      for (const value of address.values()) {
+        expect(value.get()).toBe(values[i].get());
         i++;
       }
     });

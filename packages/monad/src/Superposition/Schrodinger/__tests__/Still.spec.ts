@@ -1,4 +1,5 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
+import { Alive, Contradiction, Dead } from '@jamashita/publikum-monad';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { SuperpositionError } from '../../Error/SuperpositionError';
@@ -7,7 +8,7 @@ import { Still } from '../Still';
 
 describe('Still', () => {
   describe('get', () => {
-    it('throws the inside error', () => {
+    it('throws SuperpositionError', () => {
       expect.assertions(1);
 
       const still: Still<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
@@ -111,6 +112,22 @@ describe('Still', () => {
       const schrodinger: Schrodinger<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
 
       expect(schrodinger.equals(new MockValueObject('mock'))).toBe(false);
+    });
+
+    it('returns true if Still given', () => {
+      expect.assertions(4);
+
+      const alive: Alive<number, MockRuntimeError> = Alive.of<number, MockRuntimeError>(2);
+      const dead: Dead<number, MockRuntimeError> = Dead.of<number, MockRuntimeError>(new MockRuntimeError());
+      const contradiction: Contradiction<number, MockRuntimeError> = Contradiction.of<number, MockRuntimeError>(null);
+      const still: Still<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
+
+      const schrodinger: Schrodinger<number, MockRuntimeError> = Still.of<number, MockRuntimeError>();
+
+      expect(schrodinger.equals(alive)).toBe(false);
+      expect(schrodinger.equals(dead)).toBe(false);
+      expect(schrodinger.equals(contradiction)).toBe(false);
+      expect(schrodinger.equals(still)).toBe(true);
     });
   });
 

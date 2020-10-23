@@ -1,5 +1,4 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
-import { Equalable } from '@jamashita/publikum-interface';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { Absent } from '../Absent';
@@ -8,28 +7,9 @@ import { Lost } from '../Lost';
 import { Present } from '../Present';
 import { Uncertain } from '../Uncertain';
 
-class TestEqualable implements Equalable {
-  private readonly eq: boolean;
-
-  public constructor(eq: boolean) {
-    this.eq = eq;
-  }
-
-  public equals(other: unknown): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (!(other instanceof TestEqualable)) {
-      return false;
-    }
-
-    return this.eq === other.eq;
-  }
-}
-
 describe('Present', () => {
   describe('get', () => {
-    it('the value is got by get method', () => {
+    it('returns the inner value', () => {
       expect.assertions(7);
 
       const present1: Present<number> = Present.of<number>(1);
@@ -51,7 +31,7 @@ describe('Present', () => {
   });
 
   describe('isPresent', () => {
-    it('returns true', () => {
+    it('always returns true', () => {
       expect.assertions(7);
 
       const present1: Present<number> = Present.of<number>(1);
@@ -73,7 +53,7 @@ describe('Present', () => {
   });
 
   describe('isAbsent', () => {
-    it('returns false', () => {
+    it('always returns false', () => {
       expect.assertions(7);
 
       const present1: Present<number> = Present.of<number>(1);
@@ -95,7 +75,7 @@ describe('Present', () => {
   });
 
   describe('isLost', () => {
-    it('returns false', () => {
+    it('always returns false', () => {
       expect.assertions(7);
 
       const present1: Present<number> = Present.of<number>(1);
@@ -206,13 +186,13 @@ describe('Present', () => {
       expect(heisenberg.equals(uncertain)).toBe(false);
     });
 
-    it('returns true if same Equalable instance Present given', () => {
+    it('returns true if the same Equalable instance given', () => {
       expect.assertions(2);
 
-      const present1: Present<TestEqualable> = Present.of<TestEqualable>(new TestEqualable(true));
-      const present2: Present<TestEqualable> = Present.of<TestEqualable>(new TestEqualable(false));
+      const present1: Present<MockValueObject<boolean>> = Present.of<MockValueObject<boolean>>(new MockValueObject<boolean>(true));
+      const present2: Present<MockValueObject<boolean>> = Present.of<MockValueObject<boolean>>(new MockValueObject<boolean>(false));
 
-      const heisenberg: Heisenberg<TestEqualable> = Present.of<TestEqualable>(new TestEqualable(true));
+      const heisenberg: Heisenberg<MockValueObject<boolean>> = Present.of<MockValueObject<boolean>>(new MockValueObject<boolean>(true));
 
       expect(heisenberg.equals(present1)).toBe(true);
       expect(heisenberg.equals(present2)).toBe(false);

@@ -9,7 +9,7 @@ class MockJSONable implements JSONable {
 
 describe('JSONable', () => {
   describe('isJSONable', () => {
-    it('normal case', () => {
+    it('returns true if the object has toJSON()', () => {
       expect.assertions(15);
 
       expect(isJSONable(null)).toBe(false);

@@ -9,8 +9,6 @@ import {
   SyncAsync,
   UnaryFunction
 } from '@jamashita/publikum-type';
-import { Chrono } from '../Superposition/Chrono/Interface/Chrono';
-import { Detoxicated } from '../Superposition/Interface/Detoxicated';
 import { Superposition } from '../Superposition/Superposition';
 import { Epoque } from './Epoque/Interface/Epoque';
 import { UnscharferelationError } from './Error/UnscharferelationError';
@@ -229,22 +227,6 @@ export class Unscharferelation<P> extends Objet<'Unscharferelation'> implements 
   }
 
   public toSuperposition(): Superposition<P, UnscharferelationError> {
-    return Superposition.of<P, UnscharferelationError>((chrono: Chrono<P, UnscharferelationError>) => {
-      this.pass(
-        (value: Matter<P>) => {
-          if (value instanceof Error) {
-            return chrono.decline(new UnscharferelationError('ABSENT'));
-          }
-
-          return chrono.accept((value as unknown) as Detoxicated<P>);
-        },
-        () => {
-          return chrono.decline(new UnscharferelationError('ABSENT'));
-        },
-        (e: unknown) => {
-          return chrono.throw(e);
-        }
-      );
-    }, UnscharferelationError);
+    return Superposition.ofSuperposition<P, UnscharferelationError>(this.internal.toSuperposition());
   }
 }

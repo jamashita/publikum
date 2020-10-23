@@ -1,3 +1,4 @@
+import { isEqualable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Consumer, Kind } from '@jamashita/publikum-type';
 import { Alive } from './Alive';
@@ -59,6 +60,9 @@ export class Dead<A, D extends Error> extends ValueObject<'Dead'> implements Sch
     }
     if (this.error === other.error) {
       return true;
+    }
+    if (isEqualable(this.error)) {
+      return this.error.equals(other.error);
     }
 
     return false;

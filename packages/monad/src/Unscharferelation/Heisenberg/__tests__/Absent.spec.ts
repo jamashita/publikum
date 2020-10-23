@@ -7,22 +7,18 @@ import { Heisenberg } from '../Heisenberg';
 describe('Absent', () => {
   describe('get', () => {
     it('throws UnscharferelationError', () => {
-      expect.assertions(2);
+      expect.assertions(1);
 
-      const absent1: Absent<void> = Absent.of<void>();
-      const absent2: Absent<number> = Absent.of<number>();
+      const absent: Absent<number> = Absent.of<number>();
 
       expect(() => {
-        absent1.get();
-      }).toThrow(UnscharferelationError);
-      expect(() => {
-        absent2.get();
+        absent.get();
       }).toThrow(UnscharferelationError);
     });
   });
 
   describe('isPresent', () => {
-    it('returns false', () => {
+    it('always returns false', () => {
       expect.assertions(2);
 
       const absent1: Absent<void> = Absent.of<void>();
@@ -34,7 +30,7 @@ describe('Absent', () => {
   });
 
   describe('isAbsent', () => {
-    it('returns true', () => {
+    it('always returns true', () => {
       expect.assertions(2);
 
       const absent1: Absent<void> = Absent.of<void>();
@@ -46,7 +42,7 @@ describe('Absent', () => {
   });
 
   describe('isLost', () => {
-    it('returns false', () => {
+    it('always returns false', () => {
       expect.assertions(2);
 
       const absent1: Absent<void> = Absent.of<void>();

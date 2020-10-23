@@ -6,7 +6,7 @@ import { RecoveryChronoPlan } from '../RecoveryChronoPlan';
 
 describe('RecoveryChronoPlan', () => {
   describe('onRecover', () => {
-    it('normal case', () => {
+    it('invokes second callback', () => {
       expect.assertions(4);
 
       const value: MockRuntimeError = new MockRuntimeError();

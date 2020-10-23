@@ -2,7 +2,7 @@ import { Clone } from '../Clone';
 
 describe('Clone', () => {
   describe('copy', () => {
-    it('true pattern', () => {
+    it('can copy ObjectLiterals', () => {
       expect.assertions(18);
 
       expect(Clone.copy({})).toStrictEqual({});

@@ -61,7 +61,7 @@ export class Alive<A, D extends Error> extends ValueObject<'Alive'> implements S
     if (this.value === other.value) {
       return true;
     }
-    if (isEqualable(this.value) && isEqualable(other.value)) {
+    if (isEqualable(this.value)) {
       return this.value.equals(other.value);
     }
 

@@ -4,7 +4,7 @@ import { MapEpoquePlan } from '../MapEpoquePlan';
 
 describe('MapEpoquePlan', () => {
   describe('onMap', () => {
-    it('normal case', () => {
+    it('invokes first callback', () => {
       expect.assertions(4);
 
       const value: number = -35;

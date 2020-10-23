@@ -2,7 +2,7 @@ import { Digest } from '../Digest';
 
 describe('Digest', () => {
   describe('generate', () => {
-    it('generated hashes are usually different', async () => {
+    it('generates different hashes', async () => {
       expect.assertions(1);
 
       const password: string = 'The quick brown fox jumps over the lazy dog';
@@ -16,7 +16,7 @@ describe('Digest', () => {
   });
 
   describe('compare', () => {
-    it('even if the hashes are different, compare returns true', async () => {
+    it('returns true even if the hashes are different', async () => {
       expect.assertions(2);
 
       const password: string = 'The quick brown fox jumps over the lazy dog';

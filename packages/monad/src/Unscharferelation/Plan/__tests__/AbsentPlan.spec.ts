@@ -8,7 +8,7 @@ import { AbsentPlan } from '../AbsentPlan';
 
 describe('AbsentPlan', () => {
   describe('onRecover', () => {
-    it('P given', () => {
+    it('invokes first callback when P given', async () => {
       expect.assertions(5);
 
       const value: number = 10;
@@ -18,27 +18,35 @@ describe('AbsentPlan', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const plan: AbsentPlan<number> = AbsentPlan.of<number>(
-        () => {
-          spy1();
-
-          return value - 6;
-        },
-        new MockEpoque<number>(
-          (n: number) => {
-            spy2();
-            expect(n).toBe(value - 6);
-          },
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const plan: AbsentPlan<number> = AbsentPlan.of<number>(
           () => {
-            spy3();
-          },
-          () => {
-            spy4();
-          }
-        )
-      );
+            spy1();
 
-      plan.onRecover();
+            return value - 6;
+          },
+          new MockEpoque<number>(
+            (n: number) => {
+              spy2();
+              expect(n).toBe(value - 6);
+
+              resolve();
+            },
+            () => {
+              spy3();
+
+              resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
+            }
+          )
+        );
+
+        plan.onRecover();
+      });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -46,7 +54,7 @@ describe('AbsentPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Promise<P> given', async () => {
+    it('invokes first callback when Promise<P> given', async () => {
       expect.assertions(5);
 
       const value: number = 10;
@@ -92,7 +100,7 @@ describe('AbsentPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Present Unscharferelation given', async () => {
+    it('invokes first callback when Present Unscharferelation given', async () => {
       expect.assertions(5);
 
       const value: number = 10;
@@ -140,7 +148,7 @@ describe('AbsentPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Promise<Present Unscharferelation> given', async () => {
+    it('invokes first callback when Promise<Present Unscharferelation> given', async () => {
       expect.assertions(5);
 
       const value: number = 10;
@@ -188,7 +196,7 @@ describe('AbsentPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('null given', async () => {
+    it('invokes second callback when null given', async () => {
       expect.assertions(4);
 
       const spy1: SinonSpy = sinon.spy();
@@ -231,7 +239,7 @@ describe('AbsentPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('undefined given', async () => {
+    it('invokes second callback when undefined given', async () => {
       expect.assertions(4);
 
       const spy1: SinonSpy = sinon.spy();
@@ -244,7 +252,7 @@ describe('AbsentPlan', () => {
           () => {
             spy1();
 
-            return null;
+            return undefined;
           },
           new MockEpoque<number>(
             () => {
@@ -274,7 +282,7 @@ describe('AbsentPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Promise<null> given', async () => {
+    it('invokes second callback when Promise<null> given', async () => {
       expect.assertions(4);
 
       const spy1: SinonSpy = sinon.spy();
@@ -317,7 +325,7 @@ describe('AbsentPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Promise<undefined> given', async () => {
+    it('invokes second callback when Promise<undefined> given', async () => {
       expect.assertions(4);
 
       const spy1: SinonSpy = sinon.spy();
@@ -360,7 +368,7 @@ describe('AbsentPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Absent Unscharferelation given', async () => {
+    it('invokes second callback when Absent Unscharferelation given', async () => {
       expect.assertions(4);
 
       const spy1: SinonSpy = sinon.spy();
@@ -373,9 +381,7 @@ describe('AbsentPlan', () => {
           () => {
             spy1();
 
-            return Unscharferelation.of<number>((e: Epoque<number>) => {
-              return e.decline();
-            });
+            return Unscharferelation.absent<number>();
           },
           new MockEpoque<number>(
             () => {
@@ -405,7 +411,7 @@ describe('AbsentPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Promise<Absent Unscharferelation> given', async () => {
+    it('invokes second callback when Promise<Absent Unscharferelation> given', async () => {
       expect.assertions(4);
 
       const spy1: SinonSpy = sinon.spy();
@@ -448,7 +454,7 @@ describe('AbsentPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('error thrown', () => {
+    it('invokes third callback when an unexpected error thrown', async () => {
       expect.assertions(5);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -458,27 +464,35 @@ describe('AbsentPlan', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const plan: AbsentPlan<number> = AbsentPlan.of<number>(
-        () => {
-          spy1();
-
-          throw error;
-        },
-        new MockEpoque<number>(
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const plan: AbsentPlan<number> = AbsentPlan.of<number>(
           () => {
-            spy2();
-          },
-          () => {
-            spy3();
-          },
-          (n: unknown) => {
-            spy4();
-            expect(n).toBe(error);
-          }
-        )
-      );
+            spy1();
 
-      plan.onRecover();
+            throw error;
+          },
+          new MockEpoque<number>(
+            () => {
+              spy2();
+
+              resolve();
+            },
+            () => {
+              spy3();
+
+              resolve();
+            },
+            (n: unknown) => {
+              spy4();
+              expect(n).toBe(error);
+
+              resolve();
+            }
+          )
+);
+
+        plan.onRecover();
+      });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -486,7 +500,7 @@ describe('AbsentPlan', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('Promise rejected given', async () => {
+    it('invokes third callback when an unexpected rejected Promise given', async () => {
       expect.assertions(5);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -532,7 +546,7 @@ describe('AbsentPlan', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('Lost Unscharferelation given', async () => {
+    it('invokes third callback when Lost Unscharferelation given', async () => {
       expect.assertions(5);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -550,6 +564,54 @@ describe('AbsentPlan', () => {
             return Unscharferelation.of<number>((e: Epoque<number>) => {
               return e.throw(error);
             });
+          },
+          new MockEpoque<number>(
+            () => {
+              spy2();
+
+              resolve();
+            },
+            () => {
+              spy3();
+
+              resolve();
+            },
+            (n: unknown) => {
+              spy4();
+              expect(n).toBe(error);
+
+              resolve();
+            }
+          )
+        );
+
+        plan.onRecover();
+      });
+
+      expect(spy1.called).toBe(true);
+      expect(spy2.called).toBe(false);
+      expect(spy3.called).toBe(false);
+      expect(spy4.called).toBe(true);
+    });
+
+    it('invokes third callback when Promise<Lost Unscharferelation> given', async () => {
+      expect.assertions(5);
+
+      const error: MockRuntimeError = new MockRuntimeError();
+
+      const spy1: SinonSpy = sinon.spy();
+      const spy2: SinonSpy = sinon.spy();
+      const spy3: SinonSpy = sinon.spy();
+      const spy4: SinonSpy = sinon.spy();
+
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const plan: AbsentPlan<number> = AbsentPlan.of<number>(
+          () => {
+            spy1();
+
+            return Promise.resolve<Unscharferelation<number>>(Unscharferelation.of<number>((e: Epoque<number>) => {
+              return e.throw(error);
+            }));
           },
           new MockEpoque<number>(
             () => {

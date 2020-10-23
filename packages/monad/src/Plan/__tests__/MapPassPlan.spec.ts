@@ -3,7 +3,7 @@ import { MapPassPlan } from '../MapPassPlan';
 
 describe('MapPassPlan', () => {
   describe('onMap', () => {
-    it('normal case', () => {
+    it('invokes callback when onMap() called', () => {
       expect.assertions(2);
 
       const value: number = -35;

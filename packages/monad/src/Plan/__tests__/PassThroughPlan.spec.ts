@@ -3,7 +3,7 @@ import { PassThroughPlan } from '../PassThroughPlan';
 
 describe('PassThroughPlan', () => {
   describe('onMap', () => {
-    it('normal case', () => {
+    it('invokes first callback when onMap() called', () => {
       expect.assertions(4);
 
       const value: number = -35;
@@ -34,7 +34,7 @@ describe('PassThroughPlan', () => {
   });
 
   describe('onRecover', () => {
-    it('normal case', () => {
+    it('invokes second callback when onRecover() called', () => {
       expect.assertions(4);
 
       const value: string = 'halt';
@@ -65,7 +65,7 @@ describe('PassThroughPlan', () => {
   });
 
   describe('onDestroy', () => {
-    it('normal case', () => {
+    it('invokes third callback when onDestroy() called', () => {
       expect.assertions(4);
 
       const value: number = -35;

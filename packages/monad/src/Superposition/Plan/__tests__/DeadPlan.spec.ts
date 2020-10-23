@@ -9,7 +9,7 @@ import { DeadPlan } from '../DeadPlan';
 
 describe('DeadPlan', () => {
   describe('onRecover', () => {
-    it('A given', () => {
+    it('invokes first callback when A given', async () => {
       expect.assertions(6);
 
       const value: number = 101;
@@ -20,29 +20,37 @@ describe('DeadPlan', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const plan: DeadPlan<number, MockRuntimeError, MockRuntimeError> = DeadPlan.of<number, MockRuntimeError, MockRuntimeError>(
-        (e: MockRuntimeError) => {
-          spy1();
-          expect(e).toBe(error);
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const plan: DeadPlan<number, MockRuntimeError, MockRuntimeError> = DeadPlan.of<number, MockRuntimeError, MockRuntimeError>(
+          (e: MockRuntimeError) => {
+            spy1();
+            expect(e).toBe(error);
 
-          return value;
-        },
-        new MockChrono<number, MockRuntimeError>(
-          (n: number) => {
-            spy2();
-            expect(n).toBe(value);
+            return value;
           },
-          () => {
-            spy3();
-          },
-          () => {
-            spy4();
-          },
-          new Set<DeadConstructor<MockRuntimeError>>([MockRuntimeError])
-        )
-      );
+          new MockChrono<number, MockRuntimeError>(
+            (n: number) => {
+              spy2();
+              expect(n).toBe(value);
 
-      plan.onRecover(error);
+              resolve();
+            },
+            () => {
+              spy3();
+
+              resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
+            },
+            new Set<DeadConstructor<MockRuntimeError>>([MockRuntimeError])
+          )
+        );
+
+        plan.onRecover(error);
+      });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(true);
@@ -50,7 +58,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Promise<A> given', async () => {
+    it('invokes first callback when Promise<A> given', async () => {
       expect.assertions(6);
 
       const value: number = 101;
@@ -99,7 +107,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Alive Superposition<A, D> given', async () => {
+    it('invokes first callback when Alive Superposition given', async () => {
       expect.assertions(6);
 
       const value: number = 101;
@@ -148,7 +156,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Promise<Alive Superposition<A, D>> given', async () => {
+    it('invokes first callback when Promise<Alive Superposition> given', async () => {
       expect.assertions(6);
 
       const value: number = 101;
@@ -197,7 +205,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('D thrown', () => {
+    it('invokes second callback when D thrown', async () => {
       expect.assertions(6);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -207,29 +215,37 @@ describe('DeadPlan', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const plan: DeadPlan<number, MockRuntimeError, MockRuntimeError> = DeadPlan.of<number, MockRuntimeError, MockRuntimeError>(
-        (e: MockRuntimeError) => {
-          spy1();
-          expect(e).toBe(error);
-
-          throw error;
-        },
-        new MockChrono<number, MockRuntimeError>(
-          () => {
-            spy2();
-          },
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const plan: DeadPlan<number, MockRuntimeError, MockRuntimeError> = DeadPlan.of<number, MockRuntimeError, MockRuntimeError>(
           (e: MockRuntimeError) => {
-            spy3();
+            spy1();
             expect(e).toBe(error);
-          },
-          () => {
-            spy4();
-          },
-          new Set<DeadConstructor<MockRuntimeError>>([MockRuntimeError])
-        )
-      );
 
-      plan.onRecover(error);
+            throw error;
+          },
+          new MockChrono<number, MockRuntimeError>(
+            () => {
+              spy2();
+
+              resolve();
+            },
+            (e: MockRuntimeError) => {
+              spy3();
+              expect(e).toBe(error);
+
+              resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
+            },
+            new Set<DeadConstructor<MockRuntimeError>>([MockRuntimeError])
+          )
+        );
+
+        plan.onRecover(error);
+      });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -237,7 +253,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Promise<A> rejected', async () => {
+    it('invokes second callback when rejected Promise<A> given', async () => {
       expect.assertions(6);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -285,7 +301,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Dead Superposition<A, D> given', async () => {
+    it('invokes second callback when Dead Superposition given', async () => {
       expect.assertions(6);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -333,7 +349,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('Promise<Dead Superposition<A, D>> given', async () => {
+    it('invokes second callback when Promise<Dead Superposition given', async () => {
       expect.assertions(6);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -381,7 +397,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(false);
     });
 
-    it('error thrown', () => {
+    it('invokes third callback when an unexpected error thrown', async () => {
       expect.assertions(5);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -391,28 +407,36 @@ describe('DeadPlan', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      const plan: DeadPlan<number, MockRuntimeError, MockRuntimeError> = DeadPlan.of<number, MockRuntimeError, MockRuntimeError>(
-        (e: MockRuntimeError) => {
-          spy1();
-          expect(e).toBe(error);
+      await new Promise<void>((resolve: Resolve<void>) => {
+        const plan: DeadPlan<number, MockRuntimeError, MockRuntimeError> = DeadPlan.of<number, MockRuntimeError, MockRuntimeError>(
+          (e: MockRuntimeError) => {
+            spy1();
+            expect(e).toBe(error);
 
-          throw error;
-        },
-        new MockChrono<number, MockRuntimeError>(
-          () => {
-            spy2();
+            throw error;
           },
-          () => {
-            spy3();
-          },
-          () => {
-            spy4();
-          },
-          new Set<DeadConstructor<MockRuntimeError>>()
-        )
-      );
+          new MockChrono<number, MockRuntimeError>(
+            () => {
+              spy2();
 
-      plan.onRecover(error);
+              resolve();
+            },
+            () => {
+              spy3();
+
+              resolve();
+            },
+            () => {
+              spy4();
+
+              resolve();
+            },
+            new Set<DeadConstructor<MockRuntimeError>>()
+          )
+        );
+
+        plan.onRecover(error);
+      });
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -420,7 +444,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('Promise rejected given', async () => {
+    it('invokes third callback when an unexpected rejected Promise given', async () => {
       expect.assertions(5);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -467,7 +491,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('Contradiction Superposition given', async () => {
+    it('invokes third callback when Contradiction Superposition given', () => {
       expect.assertions(5);
 
       const error: MockRuntimeError = new MockRuntimeError();
@@ -477,38 +501,30 @@ describe('DeadPlan', () => {
       const spy3: SinonSpy = sinon.spy();
       const spy4: SinonSpy = sinon.spy();
 
-      await new Promise<void>((resolve: Resolve<void>) => {
-        const plan: DeadPlan<number, MockRuntimeError, MockRuntimeError> = DeadPlan.of<number, MockRuntimeError, MockRuntimeError>(
-          (e: MockRuntimeError) => {
-            spy1();
-            expect(e).toBe(error);
+      const plan: DeadPlan<number, MockRuntimeError, MockRuntimeError> = DeadPlan.of<number, MockRuntimeError, MockRuntimeError>(
+        (e: MockRuntimeError) => {
+          spy1();
+          expect(e).toBe(error);
 
-            return Superposition.of<number, MockRuntimeError>((c: Chrono<number, MockRuntimeError>) => {
-              return c.throw(error);
-            });
+          return Superposition.of<number, MockRuntimeError>((c: Chrono<number, MockRuntimeError>) => {
+            return c.throw(error);
+          });
+        },
+        new MockChrono<number, MockRuntimeError>(
+          () => {
+            spy2();
           },
-          new MockChrono<number, MockRuntimeError>(
-            () => {
-              spy2();
+          () => {
+            spy3();
+          },
+          () => {
+            spy4();
+          },
+          new Set<DeadConstructor<MockRuntimeError>>()
+        )
+      );
 
-              resolve();
-            },
-            () => {
-              spy3();
-
-              resolve();
-            },
-            () => {
-              spy4();
-
-              resolve();
-            },
-            new Set<DeadConstructor<MockRuntimeError>>()
-          )
-        );
-
-        plan.onRecover(error);
-      });
+      plan.onRecover(error);
 
       expect(spy1.called).toBe(true);
       expect(spy2.called).toBe(false);
@@ -516,7 +532,7 @@ describe('DeadPlan', () => {
       expect(spy4.called).toBe(true);
     });
 
-    it('Promise<Contradiction Superposition<A, D>> given', async () => {
+    it('invokes third callback when Promise<Contradiction Superposition> given', async () => {
       expect.assertions(5);
 
       const error: MockRuntimeError = new MockRuntimeError();
