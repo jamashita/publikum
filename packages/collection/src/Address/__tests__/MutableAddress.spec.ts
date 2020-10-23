@@ -158,6 +158,14 @@ describe('MutableAddress', () => {
       expect(address.remove(value2)).toBe(address);
       expect(address.size()).toBe(beforeLength);
     });
+
+    it('does nothing when Address is empty', () => {
+      expect.assertions(1);
+
+      const address: MutableAddress<MockValueObject<number>> = MutableAddress.empty<MockValueObject<number>>();
+
+      expect(address.remove(new MockValueObject<number>(1))).toBe(address);
+    });
   });
 
   describe('isEmpty', () => {
