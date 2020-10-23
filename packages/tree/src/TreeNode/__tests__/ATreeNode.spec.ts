@@ -144,4 +144,67 @@ describe('ATreeNode', () => {
       expect(node.isLeaf()).toBe(true);
     });
   });
+
+  describe('contains', () => {
+    it('returns true if TreeNode itself has the value', () => {
+      expect.assertions(1);
+
+      const node: MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeObject(new MockTreeID('mock 1')),
+        ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+          new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+            new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 2')),
+              ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+                new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+                  new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 3')))
+                ])
+              ))
+          ])
+        )
+      );
+
+      expect(node.contains(new MockTreeObject<MockTreeID>(new MockTreeID('mock 1')))).toBe(true);
+    });
+
+    it('returns true if TreeNode\'s children have the value', () => {
+      expect.assertions(2);
+
+      const node: MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeObject(new MockTreeID('mock 1')),
+        ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+          new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+            new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 2')),
+              ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+                new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+                  new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 3')))
+                ])
+              ))
+          ])
+        )
+      );
+
+      expect(node.contains(new MockTreeObject<MockTreeID>(new MockTreeID('mock 2')))).toBe(true);
+      expect(node.contains(new MockTreeObject<MockTreeID>(new MockTreeID('mock 3')))).toBe(true);
+    });
+
+    it('returns true if TreeNode does not contain such value', () => {
+      expect.assertions(1);
+
+      const node: MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeObject(new MockTreeID('mock 1')),
+        ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+          new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+            new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 2')),
+              ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+                new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+                  new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 3')))
+                ])
+              ))
+          ])
+        )
+      );
+
+      expect(node.contains(new MockTreeObject<MockTreeID>(new MockTreeID('mock 4')))).toBe(false);
+    });
+  });
 });
