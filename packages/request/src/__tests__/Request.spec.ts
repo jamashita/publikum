@@ -26,6 +26,7 @@ describe('Request', () => {
 
   afterEach(() => {
     nock.cleanAll();
+    nock.restore();
   });
 
   afterAll(() => {
