@@ -264,7 +264,7 @@ describe('ImmutableProject', () => {
   });
 
   describe('filter', () => {
-    it('can remove match value', () => {
+    it('can remove match values', () => {
       expect.assertions(7);
 
       const key1: MockValueObject<number> = new MockValueObject<number>(1);

@@ -23,7 +23,7 @@ export class ImmutableProject<K extends Nominative, V extends Nominative> extend
     return ImmutableProject.ofInternal<KT, VT>(m);
   }
 
-  private static ofInternal<KT extends Nominative, VT extends Nominative>(project: Map<string, Pair<KT, VT>>): ImmutableProject<KT, VT> {
+  private static ofInternal<KT extends Nominative, VT extends Nominative>(project: ReadonlyMap<string, Pair<KT, VT>>): ImmutableProject<KT, VT> {
     if (project.size === 0) {
       return ImmutableProject.empty<KT, VT>();
     }
