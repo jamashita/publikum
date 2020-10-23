@@ -1,3 +1,4 @@
+import { ReadonlyAddress } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Mapper, Nullable, Peek } from '@jamashita/publikum-type';
 import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
@@ -14,13 +15,15 @@ export abstract class AAddress<V extends Nominative, N extends string = string> 
     this.address = new Map<string, V>(address);
   }
 
-  public abstract duplicate(): Address<V, N>;
-
   public abstract add(value: V): Address<V, N>;
 
   public abstract remove(value: V): Address<V, N>;
 
   public abstract map<W extends Nominative>(mapper: Mapper<V, W>): Address<W>;
+
+  public abstract filter(predicate: BinaryPredicate<V, void>): ReadonlyAddress<V>;
+
+  public abstract duplicate(): Address<V, N>;
 
   public [Symbol.iterator](): Iterator<Pair<void, V>> {
     const iterator: IterableIterator<V> = this.address.values();
@@ -145,5 +148,29 @@ export abstract class AAddress<V extends Nominative, N extends string = string> 
     }
 
     return iterable;
+  }
+
+  protected mapInternal<W extends Nominative>(mapper: Mapper<V, W>): Map<string, W> {
+    const m: Map<string, W> = new Map<string, W>();
+    let i: number = 0;
+
+    this.address.forEach((v: V) => {
+      m.set(v.hashCode(), mapper(v, i));
+      i++;
+    });
+
+    return m;
+  }
+
+  protected filterInternal(predicate: BinaryPredicate<V, void>): Map<string, V> {
+    const m: Map<string, V> = new Map<string, V>();
+
+    for (const [, v] of this.address) {
+      if (predicate(v, undefined)) {
+        m.set(v.hashCode(), v);
+      }
+    }
+
+    return m;
   }
 }

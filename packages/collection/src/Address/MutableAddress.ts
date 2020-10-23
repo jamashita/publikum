@@ -1,5 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Mapper } from '@jamashita/publikum-type';
+import { BinaryPredicate, Mapper } from '@jamashita/publikum-type';
 import { AAddress } from './Abstract/AAddress';
 import { ReadonlyAddress } from './Interface/ReadonlyAddress';
 
@@ -60,15 +60,15 @@ export class MutableAddress<V extends Nominative> extends AAddress<V, 'MutableAd
   }
 
   public map<W extends Nominative>(mapper: Mapper<V, W>): MutableAddress<W> {
-    const m: Map<string, W> = new Map<string, W>();
-    let i: number = 0;
-
-    this.address.forEach((v: V) => {
-      m.set(v.hashCode(), mapper(v, i));
-      i++;
-    });
+    const m: Map<string, W> = this.mapInternal<W>(mapper);
 
     return MutableAddress.ofInternal<W>(m);
+  }
+
+  public filter(predicate: BinaryPredicate<V, void>): MutableAddress<V> {
+    const m: Map<string, V> = this.filterInternal(predicate);
+
+    return MutableAddress.ofInternal<V>(m);
   }
 
   public duplicate(): MutableAddress<V> {

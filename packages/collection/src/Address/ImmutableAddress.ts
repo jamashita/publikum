@@ -1,11 +1,10 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Mapper } from '@jamashita/publikum-type';
+import { BinaryPredicate, Mapper } from '@jamashita/publikum-type';
 import { AAddress } from './Abstract/AAddress';
 import { ReadonlyAddress } from './Interface/ReadonlyAddress';
 
 export class ImmutableAddress<V extends Nominative> extends AAddress<V, 'ImmutableAddress'> {
   public readonly noun: 'ImmutableAddress' = 'ImmutableAddress';
-
   private static readonly EMPTY: ImmutableAddress<Nominative> = new ImmutableAddress(new Map<string, Nominative>());
 
   public static of<VT extends Nominative>(address: ReadonlyAddress<VT>): ImmutableAddress<VT> {
@@ -22,7 +21,7 @@ export class ImmutableAddress<V extends Nominative> extends AAddress<V, 'Immutab
     return ImmutableAddress.ofInternal<VT>(m);
   }
 
-  private static ofInternal<VT extends Nominative>(address: Map<string, VT>): ImmutableAddress<VT> {
+  private static ofInternal<VT extends Nominative>(address: ReadonlyMap<string, VT>): ImmutableAddress<VT> {
     if (address.size === 0) {
       return ImmutableAddress.empty<VT>();
     }
@@ -34,7 +33,7 @@ export class ImmutableAddress<V extends Nominative> extends AAddress<V, 'Immutab
     return ImmutableAddress.EMPTY as ImmutableAddress<VT>;
   }
 
-  protected constructor(address: Map<string, V>) {
+  protected constructor(address: ReadonlyMap<string, V>) {
     super(address);
   }
 
@@ -62,10 +61,6 @@ export class ImmutableAddress<V extends Nominative> extends AAddress<V, 'Immutab
 
     m.delete(value.hashCode());
 
-    if (m.size === 0) {
-      return ImmutableAddress.empty<V>();
-    }
-
     return ImmutableAddress.ofInternal<V>(m);
   }
 
@@ -78,15 +73,15 @@ export class ImmutableAddress<V extends Nominative> extends AAddress<V, 'Immutab
   }
 
   public map<W extends Nominative>(mapper: Mapper<V, W>): ImmutableAddress<W> {
-    const m: Map<string, W> = new Map<string, W>();
-    let i: number = 0;
-
-    this.address.forEach((v: V) => {
-      m.set(v.hashCode(), mapper(v, i));
-      i++;
-    });
+    const m: Map<string, W> = this.mapInternal<W>(mapper);
 
     return ImmutableAddress.ofInternal<W>(m);
+  }
+
+  public filter(predicate: BinaryPredicate<V, void>): ImmutableAddress<V> {
+    const m: Map<string, V> = this.filterInternal(predicate);
+
+    return ImmutableAddress.ofInternal<V>(m);
   }
 
   public duplicate(): ImmutableAddress<V> {

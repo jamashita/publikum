@@ -231,6 +231,33 @@ describe('ImmutableAddress', () => {
     });
   });
 
+  describe('filter', () => {
+    it('can remove match values', () => {
+      expect.assertions(4);
+
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
+      const value4: MockValueObject<number> = new MockValueObject<number>(4);
+      const value5: MockValueObject<number> = new MockValueObject<number>(5);
+
+      const address1: ImmutableAddress<MockValueObject<number>> = ImmutableAddress.ofSet<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2, value3, value4])
+      );
+      const filtered1: ImmutableAddress<MockValueObject<number>> = address1.filter((v: MockValueObject<number>) => {
+        return v.get() % 2 === 0;
+      });
+      const filtered2: ImmutableAddress<MockValueObject<number>> = address1.filter((v: MockValueObject<number>) => {
+        return v === value5;
+      });
+
+      expect(filtered1.size()).toBe(2);
+      expect(filtered1.contains(value2)).toBe(true);
+      expect(filtered1.contains(value4)).toBe(true);
+      expect(filtered2.size()).toBe(0);
+    });
+  });
+
   describe('duplicate', () => {
     it('returns ImmutableAddress.empty() when there are no values', () => {
       expect.assertions(1);

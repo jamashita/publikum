@@ -1,6 +1,7 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
 import { Nominative } from '@jamashita/publikum-interface';
 import { AAddress } from '../Abstract/AAddress';
+import { ReadonlyAddress } from '../Interface';
 
 export class MockAddress<V extends Nominative> extends AAddress<V, 'MockAddress'> {
   public readonly noun: 'MockAddress' = 'MockAddress';
@@ -32,6 +33,10 @@ export class MockAddress<V extends Nominative> extends AAddress<V, 'MockAddress'
   }
 
   public map<W extends Nominative>(): MockAddress<W> {
+    throw new UnimplementedError();
+  }
+
+  public filter(): ReadonlyAddress<V> {
     throw new UnimplementedError();
   }
 }
