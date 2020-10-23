@@ -1,5 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Ambiguous, BinaryPredicate, Enumerator, Kind, Mapper, Nullable, Peek } from '@jamashita/publikum-type';
+import { Ambiguous, BinaryPredicate, Kind, Mapper, Nullable, Peek } from '@jamashita/publikum-type';
 import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
@@ -22,7 +22,7 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
 
   public abstract map<W extends Nominative>(mapper: Mapper<V, W>): Sequence<W, N>;
 
-  public abstract filter(iterator: Enumerator<number, V>): Sequence<V, N>;
+  public abstract filter(predicate: BinaryPredicate<V, number>): Sequence<V, N>;
 
   public abstract duplicate(): Sequence<V, N>;
 

@@ -376,16 +376,14 @@ describe('ImmutableSequence', () => {
       expect(sequence1.size()).toBe(sequence2.size());
       expect(sequence1).not.toBe(sequence2);
       sequence2.forEach((v: MockValueObject<string>, k: number) => {
-        const mock: Nullable<MockValueObject<number>> = sequence1.get(k);
+        const value: Nullable<MockValueObject<number>> = sequence1.get(k);
 
-        if (mock === null) {
+        if (value === null) {
           fail();
           return;
         }
 
-        const value: number = mock.get() ** 2;
-
-        expect(v.get()).toBe(value.toString());
+        expect(v.get()).toBe(`${value.get() ** 2}`);
       });
     });
   });
@@ -407,14 +405,14 @@ describe('ImmutableSequence', () => {
         value4
       ]);
 
-      const filtered1: ImmutableSequence<MockValueObject<number>> = sequence.filter((mock: MockValueObject<number>) => {
-        return mock.get() % 2 === 0;
+      const filtered1: ImmutableSequence<MockValueObject<number>> = sequence.filter((v: MockValueObject<number>) => {
+        return v.get() % 2 === 0;
       });
-      const filtered2: ImmutableSequence<MockValueObject<number>> = sequence.filter((mock: MockValueObject<number>) => {
-        return mock === value4;
+      const filtered2: ImmutableSequence<MockValueObject<number>> = sequence.filter((v: MockValueObject<number>) => {
+        return v === value4;
       });
-      const filtered3: ImmutableSequence<MockValueObject<number>> = sequence.filter((mock: MockValueObject<number>) => {
-        return mock === value5;
+      const filtered3: ImmutableSequence<MockValueObject<number>> = sequence.filter((v: MockValueObject<number>) => {
+        return v === value5;
       });
 
       expect(filtered1.size()).toBe(2);

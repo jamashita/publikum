@@ -1,5 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Enumerator, Kind, Mapper } from '@jamashita/publikum-type';
+import { BinaryPredicate, Kind, Mapper } from '@jamashita/publikum-type';
 import { ASequence } from './Abstract/ASequence';
 import { ReadonlySequence } from './Interface/ReadonlySequence';
 
@@ -64,8 +64,8 @@ export class MutableSequence<V extends Nominative> extends ASequence<V, 'Mutable
     return MutableSequence.ofArray<W>(this.sequence.map<W>(mapper));
   }
 
-  public filter(iterator: Enumerator<number, V>): MutableSequence<V> {
-    return MutableSequence.ofArray<V>(this.sequence.filter(iterator));
+  public filter(predicate: BinaryPredicate<V, number>): MutableSequence<V> {
+    return MutableSequence.ofArray<V>(this.sequence.filter(predicate));
   }
 
   public duplicate(): MutableSequence<V> {

@@ -5,8 +5,8 @@ import { ASequence } from '../Abstract/ASequence';
 export class MockSequence<V extends Nominative> extends ASequence<V, 'MockSequence'> {
   public readonly noun: 'MockSequence' = 'MockSequence';
 
-  public constructor(elements: ReadonlyArray<V>) {
-    super(elements);
+  public constructor(sequence: ReadonlyArray<V>) {
+    super(sequence);
   }
 
   public add(): MockSequence<V> {

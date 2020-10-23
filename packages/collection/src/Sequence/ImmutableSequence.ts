@@ -1,5 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Enumerator, Kind, Mapper } from '@jamashita/publikum-type';
+import { BinaryPredicate, Kind, Mapper } from '@jamashita/publikum-type';
 import { ASequence } from './Abstract/ASequence';
 import { ReadonlySequence } from './Interface/ReadonlySequence';
 
@@ -17,7 +17,7 @@ export class ImmutableSequence<V extends Nominative> extends ASequence<V, 'Immut
       return ImmutableSequence.empty<VT>();
     }
 
-    return new ImmutableSequence<VT>([...array]);
+    return new ImmutableSequence<VT>(array);
   }
 
   public static empty<VT extends Nominative>(): ImmutableSequence<VT> {
@@ -76,8 +76,8 @@ export class ImmutableSequence<V extends Nominative> extends ASequence<V, 'Immut
     return ImmutableSequence.ofArray<W>(this.sequence.map<W>(mapper));
   }
 
-  public filter(iterator: Enumerator<number, V>): ImmutableSequence<V> {
-    return ImmutableSequence.ofArray<V>(this.sequence.filter(iterator));
+  public filter(predicate: BinaryPredicate<V, number>): ImmutableSequence<V> {
+    return ImmutableSequence.ofArray<V>(this.sequence.filter(predicate));
   }
 
   public duplicate(): ImmutableSequence<V> {
