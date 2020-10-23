@@ -24,7 +24,7 @@ export class ImmutableSequence<V extends Nominative> extends ASequence<V, 'Immut
     return ImmutableSequence.EMPTY as ImmutableSequence<VT>;
   }
 
-  protected constructor(sequence: Array<V>) {
+  protected constructor(sequence: ReadonlyArray<V>) {
     super(sequence);
   }
 

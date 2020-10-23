@@ -7,11 +7,11 @@ import { Project } from '../Interface/Project';
 
 export abstract class AProject<K extends Nominative, V extends Nominative, N extends string = string> extends Quantity<K, V, N> implements Project<K, V, N> {
   public abstract readonly noun: N;
-  protected readonly elements: Map<string, Pair<K, V>>;
+  protected readonly project: Map<string, Pair<K, V>>;
 
-  protected constructor(elements: ReadonlyMap<string, Pair<K, V>>) {
+  protected constructor(project: ReadonlyMap<string, Pair<K, V>>) {
     super();
-    this.elements = new Map<string, Pair<K, V>>(elements);
+    this.project = new Map<string, Pair<K, V>>(project);
   }
 
   public abstract duplicate(): Project<K, V, N>;
@@ -23,27 +23,27 @@ export abstract class AProject<K extends Nominative, V extends Nominative, N ext
   public abstract map<W extends Nominative>(mapper: Mapper<V, W>): Project<K, W>;
 
   public [Symbol.iterator](): Iterator<Pair<K, V>> {
-    return this.elements.values();
+    return this.project.values();
   }
 
   public get(key: K): Nullable<V> {
-    const element: Ambiguous<Pair<K, V>> = this.elements.get(key.hashCode());
+    const p: Ambiguous<Pair<K, V>> = this.project.get(key.hashCode());
 
-    if (Kind.isUndefined(element)) {
+    if (Kind.isUndefined(p)) {
       return null;
     }
 
-    return element.getValue();
+    return p.getValue();
   }
 
   public has(key: K): boolean {
-    return this.elements.has(key.hashCode());
+    return this.project.has(key.hashCode());
   }
 
   // FIXME O(n)
   public contains(value: V): boolean {
-    for (const [, pair] of this.elements) {
-      if (value.equals(pair.getValue())) {
+    for (const [, p] of this.project) {
+      if (value.equals(p.getValue())) {
         return true;
       }
     }
@@ -52,7 +52,7 @@ export abstract class AProject<K extends Nominative, V extends Nominative, N ext
   }
 
   public size(): number {
-    return this.elements.size;
+    return this.project.size;
   }
 
   public isEmpty(): boolean {
@@ -69,7 +69,7 @@ export abstract class AProject<K extends Nominative, V extends Nominative, N ext
       done = true;
     };
 
-    for (const [, p] of this.elements) {
+    for (const [, p] of this.project) {
       iteration(p.getValue(), p.getKey(), cancel);
 
       if (done) {
@@ -79,8 +79,8 @@ export abstract class AProject<K extends Nominative, V extends Nominative, N ext
   }
 
   public every(predicate: BinaryPredicate<V, K>): boolean {
-    for (const [, pair] of this.elements) {
-      if (!predicate(pair.getValue(), pair.getKey())) {
+    for (const [, p] of this.project) {
+      if (!predicate(p.getValue(), p.getKey())) {
         return false;
       }
     }
@@ -89,8 +89,8 @@ export abstract class AProject<K extends Nominative, V extends Nominative, N ext
   }
 
   public some(predicate: BinaryPredicate<V, K>): boolean {
-    for (const [, pair] of this.elements) {
-      if (predicate(pair.getValue(), pair.getKey())) {
+    for (const [, p] of this.project) {
+      if (predicate(p.getValue(), p.getKey())) {
         return true;
       }
     }
@@ -109,11 +109,11 @@ export abstract class AProject<K extends Nominative, V extends Nominative, N ext
       return false;
     }
 
-    return this.every((value: V, key: K) => {
-      const v: Nullable<unknown> = other.get(key);
+    return this.every((v: V, k: K) => {
+      const value: Nullable<unknown> = other.get(k);
 
-      if (!Kind.isNull(v)) {
-        if (value.equals(v)) {
+      if (!Kind.isNull(value)) {
+        if (v.equals(value)) {
           return true;
         }
       }
@@ -125,8 +125,8 @@ export abstract class AProject<K extends Nominative, V extends Nominative, N ext
   public toMap(): Map<K, V> {
     const map: Map<K, V> = new Map<K, V>();
 
-    this.forEach((value: V, key: K) => {
-      map.set(key, value);
+    this.forEach((v: V, k: K) => {
+      map.set(k, v);
     });
 
     return map;
@@ -135,15 +135,15 @@ export abstract class AProject<K extends Nominative, V extends Nominative, N ext
   public serialize(): string {
     const properties: Array<string> = [];
 
-    this.forEach((value: V, key: K) => {
-      properties.push(`{${key.toString()}: ${value.toString()}}`);
+    this.forEach((v: V, k: K) => {
+      properties.push(`{${k.toString()}: ${v.toString()}}`);
     });
 
     return properties.join(', ');
   }
 
   public keys(): Iterable<K> {
-    const iterator: IterableIterator<Pair<K, V>> = this.elements.values();
+    const iterator: IterableIterator<Pair<K, V>> = this.project.values();
     const iterable: Array<K> = [];
 
     let res: IteratorResult<Pair<K, V>> = iterator.next();
@@ -158,7 +158,7 @@ export abstract class AProject<K extends Nominative, V extends Nominative, N ext
   }
 
   public values(): Iterable<V> {
-    const iterator: IterableIterator<Pair<K, V>> = this.elements.values();
+    const iterator: IterableIterator<Pair<K, V>> = this.project.values();
     const iterable: Array<V> = [];
 
     let res: IteratorResult<Pair<K, V>> = iterator.next();
