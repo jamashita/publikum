@@ -2,9 +2,8 @@ import { UnimplementedError } from '@jamashita/publikum-error';
 import { Nominative } from '@jamashita/publikum-interface';
 import { Pair } from '../../Pair';
 import { AProject } from '../Abstract/AProject';
-import { Project } from '../Interface';
 
-export class MockProject<K extends Nominative, V extends Nominative> extends AProject<K, V, 'MockProject'> {
+export class MockProject<K extends Nominative, V extends Nominative> extends AProject<K, V, MockProject<K, V>, 'MockProject'> {
   public readonly noun: 'MockProject' = 'MockProject';
 
   private static toMap<KT extends Nominative, VT extends Nominative>(project: Map<KT, VT>): Map<string, Pair<KT, VT>> {
@@ -37,7 +36,7 @@ export class MockProject<K extends Nominative, V extends Nominative> extends APr
     throw new UnimplementedError();
   }
 
-  public filter(): Project<K, V> {
-    throw new UnimplementedError();
+  protected forge(self: Map<K, V>): MockProject<K, V> {
+    return new MockProject<K, V>(self);
   }
 }

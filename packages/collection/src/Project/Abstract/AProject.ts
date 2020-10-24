@@ -5,7 +5,7 @@ import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Project } from '../Interface/Project';
 
-export abstract class AProject<K extends Nominative, V extends Nominative, N extends string = string> extends Quantity<K, V, N> implements Project<K, V, N> {
+export abstract class AProject<K extends Nominative, V extends Nominative, T extends AProject<K, V, T>, N extends string = string> extends Quantity<K, V, N> implements Project<K, V, N> {
   public abstract readonly noun: N;
   protected readonly project: Map<string, Pair<K, V>>;
 
@@ -14,13 +14,25 @@ export abstract class AProject<K extends Nominative, V extends Nominative, N ext
     this.project = new Map<string, Pair<K, V>>(project);
   }
 
+  protected abstract forge(self: Map<K, V>): T;
+
   public abstract set(key: K, value: V): Project<K, V, N>;
 
   public abstract remove(key: K): Project<K, V, N>;
 
   public abstract map<W extends Nominative>(mapper: Mapper<V, W>): Project<K, W>;
 
-  public abstract filter(predicate: BinaryPredicate<V, K>): Project<K, V> ;
+  public filter(predicate: BinaryPredicate<V, K>): T {
+    const m: Map<K, V> = new Map<K, V>();
+
+    for (const [, p] of this.project) {
+      if (predicate(p.getValue(), p.getKey())) {
+        m.set(p.getKey(), p.getValue());
+      }
+    }
+
+    return this.forge(m);
+  }
 
   public abstract duplicate(): Project<K, V, N>;
 
@@ -192,18 +204,6 @@ export abstract class AProject<K extends Nominative, V extends Nominative, N ext
       m.set(p.getKey().hashCode(), Pair.of<K, W>(p.getKey(), mapper(p.getValue(), i)));
       i++;
     });
-
-    return m;
-  }
-
-  protected filterInternal(predicate: BinaryPredicate<V, K>): Map<string, Pair<K, V>> {
-    const m: Map<string, Pair<K, V>> = new Map<string, Pair<K, V>>();
-
-    for (const [, p] of this.project) {
-      if (predicate(p.getValue(), p.getKey())) {
-        m.set(p.getKey().hashCode(), p);
-      }
-    }
 
     return m;
   }

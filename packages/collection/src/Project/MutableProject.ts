@@ -1,10 +1,10 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Mapper } from '@jamashita/publikum-type';
+import { Mapper } from '@jamashita/publikum-type';
 import { Pair } from '../Pair';
 import { AProject } from './Abstract/AProject';
 import { ReadonlyProject } from './Interface/ReadonlyProject';
 
-export class MutableProject<K extends Nominative, V extends Nominative> extends AProject<K, V, 'MutableProject'> {
+export class MutableProject<K extends Nominative, V extends Nominative> extends AProject<K, V, MutableProject<K, V>, 'MutableProject'> {
   public readonly noun: 'MutableProject' = 'MutableProject';
 
   public static of<KT extends Nominative, VT extends Nominative>(project: ReadonlyProject<KT, VT>): MutableProject<KT, VT> {
@@ -31,6 +31,10 @@ export class MutableProject<K extends Nominative, V extends Nominative> extends 
 
   protected constructor(project: ReadonlyMap<string, Pair<K, V>>) {
     super(project);
+  }
+
+  protected forge(self: Map<K, V>): MutableProject<K, V> {
+    return MutableProject.ofMap<K, V>(self);
   }
 
   public set(key: K, value: V): MutableProject<K, V> {
@@ -60,11 +64,5 @@ export class MutableProject<K extends Nominative, V extends Nominative> extends 
 
   public duplicate(): MutableProject<K, V> {
     return MutableProject.ofInternal<K, V>(new Map<string, Pair<K, V>>(this.project));
-  }
-
-  public filter(predicate: BinaryPredicate<V, K>): MutableProject<K, V> {
-    const m: Map<string, Pair<K, V>> = this.filterInternal(predicate);
-
-    return MutableProject.ofInternal<K, V>(m);
   }
 }
