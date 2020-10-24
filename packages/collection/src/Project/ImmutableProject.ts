@@ -6,6 +6,7 @@ import { ReadonlyProject } from './Interface/ReadonlyProject';
 
 export class ImmutableProject<K extends Nominative, V extends Nominative> extends AProject<K, V, ImmutableProject<K, V>, 'ImmutableProject'> {
   public readonly noun: 'ImmutableProject' = 'ImmutableProject';
+
   private static readonly EMPTY: ImmutableProject<Nominative, Nominative> = new ImmutableProject<Nominative, Nominative>(new Map<string, Pair<Nominative, Nominative>>());
 
   public static of<KT extends Nominative, VT extends Nominative>(project: ReadonlyProject<KT, VT>): ImmutableProject<KT, VT> {

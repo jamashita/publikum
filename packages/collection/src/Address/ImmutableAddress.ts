@@ -5,6 +5,7 @@ import { ReadonlyAddress } from './Interface/ReadonlyAddress';
 
 export class ImmutableAddress<V extends Nominative> extends AAddress<V, ImmutableAddress<V>, 'ImmutableAddress'> {
   public readonly noun: 'ImmutableAddress' = 'ImmutableAddress';
+
   private static readonly EMPTY: ImmutableAddress<Nominative> = new ImmutableAddress(new Map<string, Nominative>());
 
   public static of<VT extends Nominative>(address: ReadonlyAddress<VT>): ImmutableAddress<VT> {
