@@ -16,6 +16,25 @@ describe('SerializableTreeNode', () => {
     });
   });
 
+  describe('ofNode', () => {
+    it('copies shallowly', () => {
+      expect.assertions(2);
+
+      const node01: SerializableTreeNode<MockTreeObject<MockTreeID>> = SerializableTreeNode.of<MockTreeObject<MockTreeID>>(
+        new MockTreeObject(new MockTreeID('mock 1')),
+        ImmutableAddress.ofSet<SerializableTreeNode<MockTreeObject<MockTreeID>>>(
+          new Set<SerializableTreeNode<MockTreeObject<MockTreeID>>>([
+            SerializableTreeNode.of<MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 2')))
+          ])
+        )
+      );
+      const node02: SerializableTreeNode<MockTreeObject<MockTreeID>> = SerializableTreeNode.ofNode<MockTreeObject<MockTreeID>>(node01);
+
+      expect(node01.getValue().equals(node02.getValue())).toBe(true);
+      expect(node01.getChildren().equals(node02.getChildren())).toBe(true);
+    });
+  });
+
   describe('find', () => {
     it('returns the value itself when the TreeNode value matches', () => {
       expect.assertions(1);

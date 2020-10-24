@@ -14,6 +14,10 @@ export class SerializableTreeNode<V extends SerializableTreeObject> extends ATre
     return new SerializableTreeNode<VT>(value, ImmutableAddress.of<SerializableTreeNode<VT>>(children));
   }
 
+  public static ofNode<VT extends SerializableTreeObject>(node: SerializableTreeNode<VT>): SerializableTreeNode<VT> {
+    return new SerializableTreeNode<VT>(node.getValue(), node.getChildren());
+  }
+
   protected constructor(value: V, children: ReadonlyAddress<SerializableTreeNode<V>>) {
     super(value, children, 'SerializableTreeNode');
   }

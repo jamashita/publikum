@@ -16,6 +16,30 @@ describe('StructurableTreeNode', () => {
     });
   });
 
+  describe('ofNode', () => {
+    it('copies shallowly', () => {
+      expect.assertions(2);
+
+      const node01: StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTreeNode.of<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeObject(new MockTreeID('mock 1')),
+        ImmutableAddress.ofSet<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+          new Set<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+            StructurableTreeNode.of<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 2')),
+              ImmutableAddress.ofSet<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+                new Set<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+                  StructurableTreeNode.of<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 3')))
+                ])
+              ))
+          ])
+        )
+      );
+      const node02: StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTreeNode.ofNode<MockTreeID, MockTreeObject<MockTreeID>>(node01);
+
+      expect(node01.getValue().equals(node02.getValue())).toBe(true);
+      expect(node01.getChildren().equals(node02.getChildren())).toBe(true);
+    });
+  });
+
   describe('find', () => {
     it('returns the value itself when the TreeNode value matches', () => {
       expect.assertions(1);

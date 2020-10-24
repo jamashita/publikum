@@ -8,6 +8,10 @@ export class StructurableTreeNode<K extends TreeID, V extends StructurableTreeOb
     return new StructurableTreeNode<KT, VT>(value, ImmutableAddress.of<StructurableTreeNode<KT, VT>>(children));
   }
 
+  public static ofNode<KT extends TreeID, VT extends StructurableTreeObject<KT>>(node: StructurableTreeNode<KT, VT>): StructurableTreeNode<KT, VT> {
+    return StructurableTreeNode.of<KT, VT>(node.getValue(), node.getChildren());
+  }
+
   protected constructor(value: V, children: ReadonlyAddress<StructurableTreeNode<K, V>>) {
     super(value, children, 'StructurableTreeNode');
   }
