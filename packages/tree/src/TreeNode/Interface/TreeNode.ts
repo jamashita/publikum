@@ -2,10 +2,10 @@ import { ReadonlyAddress } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { Nullable, Predicate } from '@jamashita/publikum-type';
 
-export interface TreeNode<V, T extends TreeNode<V, T>, N extends string = string> extends Nominative<N> {
+export interface TreeNode<V, N extends string = string> extends Nominative<N> {
   getValue(): V;
 
-  getChildren(): ReadonlyAddress<T>;
+  getChildren(): ReadonlyAddress<TreeNode<V>>;
 
   contains(value: V): boolean;
 
@@ -13,5 +13,5 @@ export interface TreeNode<V, T extends TreeNode<V, T>, N extends string = string
 
   isLeaf(): boolean;
 
-  find(predicate: Predicate<V>): Nullable<V>;
+  find(predicate: Predicate<V>): Nullable<TreeNode<V>>;
 }
