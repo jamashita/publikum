@@ -4,17 +4,19 @@ import { ValueObject } from '@jamashita/publikum-object';
 import { Kind, Nullable, Predicate } from '@jamashita/publikum-type';
 import { TreeNode } from '../Interface/TreeNode';
 
-export abstract class ATreeNode<V extends Nominative, N extends string = string> extends ValueObject<N> implements TreeNode<V, N> {
+export abstract class ATreeNode<V extends Nominative, T extends ATreeNode<V, T>, N extends string = string> extends ValueObject<N> implements TreeNode<V, N> {
   public readonly noun: N;
   protected readonly value: V;
-  protected readonly children: ReadonlyAddress<ATreeNode<V>>;
+  protected readonly children: ReadonlyAddress<T>;
 
-  protected constructor(value: V, children: ReadonlyAddress<ATreeNode<V>>, noun: N) {
+  protected constructor(value: V, children: ReadonlyAddress<T>, noun: N) {
     super();
     this.noun = noun;
     this.value = value;
     this.children = children;
   }
+
+  protected abstract forge(self: ATreeNode<V, T>): T;
 
   public equals(other: unknown): boolean {
     if (this === other) {
@@ -45,7 +47,7 @@ export abstract class ATreeNode<V extends Nominative, N extends string = string>
     return this.value;
   }
 
-  public getChildren(): ReadonlyAddress<ATreeNode<V>> {
+  public getChildren(): ReadonlyAddress<T> {
     return this.children;
   }
 
@@ -58,7 +60,7 @@ export abstract class ATreeNode<V extends Nominative, N extends string = string>
       return true;
     }
 
-    return this.children.some((child: ATreeNode<V>) => {
+    return this.children.some((child: T) => {
       return child.contains(value);
     });
   }
@@ -70,20 +72,20 @@ export abstract class ATreeNode<V extends Nominative, N extends string = string>
 
     let size: number = 1;
 
-    this.children.forEach((child: ATreeNode<V>) => {
+    this.children.forEach((child: T) => {
       size += child.size();
     });
 
     return size;
   }
 
-  public find(predicate: Predicate<V>): Nullable<ATreeNode<V>> {
+  public find(predicate: Predicate<V>): Nullable<T> {
     if (predicate(this.value)) {
-      return this;
+      return this.forge(this);
     }
 
     for (const v of this.children.values()) {
-      const n: Nullable<ATreeNode<V>> = v.find(predicate);
+      const n: Nullable<T> = v.find(predicate);
 
       if (!Kind.isNull(n)) {
         return n;

@@ -18,6 +18,14 @@ export class SerializableTreeNode<V extends SerializableTreeObject> extends ATre
     super(value, children, 'SerializableTreeNode');
   }
 
+  protected forge(self: ATreeNode<V, SerializableTreeNode<V>>): SerializableTreeNode<V> {
+    if (self instanceof SerializableTreeNode) {
+      return self as SerializableTreeNode<V>;
+    }
+
+    return SerializableTreeNode.of<V>(self.getValue(), self.getChildren());
+  }
+
   public toJSON(): TreeNodeJSON {
     const children: Array<ObjectLiteral> = [];
 

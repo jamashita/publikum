@@ -12,6 +12,14 @@ export class StructurableTreeNode<K extends TreeID, V extends StructurableTreeOb
     super(value, children, 'StructurableTreeNode');
   }
 
+  protected forge(self: ATreeNode<V, StructurableTreeNode<K, V>>): StructurableTreeNode<K, V> {
+    if (self instanceof StructurableTreeNode) {
+      return self as StructurableTreeNode<K, V>;
+    }
+
+    return StructurableTreeNode.of<K, V>(self.getValue(), self.getChildren());
+  }
+
   public getTreeID(): K {
     return this.value.getTreeID();
   }
