@@ -1,28 +1,25 @@
 import { ReadonlyAddress } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
-import { ValueObject } from '@jamashita/publikum-object';
+import { Objet } from '@jamashita/publikum-object';
 import { Kind, Nullable, Predicate } from '@jamashita/publikum-type';
-import { TreeNode } from '../Interface/TreeNode';
 
-export abstract class ATreeNode<V extends Nominative, T extends ATreeNode<V, T>, N extends string = string> extends ValueObject<N> implements TreeNode<V, N> {
-  public readonly noun: N;
+export abstract class TreeNode<V extends Nominative, T extends TreeNode<V, T>, N extends string = string> extends Objet<N> {
   protected readonly value: V;
   protected readonly children: ReadonlyAddress<T>;
 
-  protected constructor(value: V, children: ReadonlyAddress<T>, noun: N) {
+  protected constructor(value: V, children: ReadonlyAddress<T>) {
     super();
-    this.noun = noun;
     this.value = value;
     this.children = children;
   }
 
-  protected abstract forge(self: ATreeNode<V, T>): T;
+  protected abstract forge(node: TreeNode<V, T>): T;
 
   public equals(other: unknown): boolean {
     if (this === other) {
       return true;
     }
-    if (!(other instanceof ATreeNode)) {
+    if (!(other instanceof TreeNode)) {
       return false;
     }
     if (!this.value.equals(other.value)) {

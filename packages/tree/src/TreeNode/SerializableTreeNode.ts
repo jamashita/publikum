@@ -2,14 +2,16 @@ import { ImmutableAddress, ReadonlyAddress } from '@jamashita/publikum-collectio
 import { JSONable } from '@jamashita/publikum-interface';
 import { ObjectLiteral } from '@jamashita/publikum-type';
 import { SerializableTreeObject } from '../Interface/SerializableTreeObject';
-import { ATreeNode } from './Abstract/ATreeNode';
+import { TreeNode } from './TreeNode';
 
 export type TreeNodeJSON = Readonly<{
   value: ObjectLiteral;
   children: ReadonlyArray<ObjectLiteral>;
 }>;
 
-export class SerializableTreeNode<V extends SerializableTreeObject> extends ATreeNode<V, SerializableTreeNode<V>, 'SerializableTreeNode'> implements JSONable<TreeNodeJSON> {
+export class SerializableTreeNode<V extends SerializableTreeObject> extends TreeNode<V, SerializableTreeNode<V>, 'SerializableTreeNode'> implements JSONable<TreeNodeJSON> {
+  public readonly noun: 'SerializableTreeNode' = 'SerializableTreeNode';
+
   public static of<VT extends SerializableTreeObject>(value: VT, children: ReadonlyAddress<SerializableTreeNode<VT>> = ImmutableAddress.empty<SerializableTreeNode<VT>>()): SerializableTreeNode<VT> {
     return new SerializableTreeNode<VT>(value, ImmutableAddress.of<SerializableTreeNode<VT>>(children));
   }
@@ -19,15 +21,15 @@ export class SerializableTreeNode<V extends SerializableTreeObject> extends ATre
   }
 
   protected constructor(value: V, children: ReadonlyAddress<SerializableTreeNode<V>>) {
-    super(value, children, 'SerializableTreeNode');
+    super(value, children);
   }
 
-  protected forge(self: ATreeNode<V, SerializableTreeNode<V>>): SerializableTreeNode<V> {
-    if (self instanceof SerializableTreeNode) {
-      return self as SerializableTreeNode<V>;
+  protected forge(node: TreeNode<V, SerializableTreeNode<V>>): SerializableTreeNode<V> {
+    if (node instanceof SerializableTreeNode) {
+      return node as SerializableTreeNode<V>;
     }
 
-    return SerializableTreeNode.of<V>(self.getValue(), self.getChildren());
+    return SerializableTreeNode.of<V>(node.getValue(), node.getChildren());
   }
 
   public toJSON(): TreeNodeJSON {

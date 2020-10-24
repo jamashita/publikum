@@ -3,7 +3,7 @@ import { MockTreeID } from '../../Mock/MockTreeID';
 import { MockTreeObject } from '../../Mock/MockTreeObject';
 import { MockTreeNode } from '../Mock/MockTreeNode';
 
-describe('ATreeNode', () => {
+describe('TreeNode', () => {
   describe('equals', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(2);
