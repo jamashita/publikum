@@ -38,8 +38,8 @@ export class ImmutableProject<K extends Nominative, V extends Nominative> extend
     super(project);
   }
 
-  protected forge(self: Map<K, V>): ImmutableProject<K, V> {
-    return ImmutableProject.ofMap<K, V>(self);
+  protected forge(self: Map<string, Pair<K, V>>): ImmutableProject<K, V> {
+    return ImmutableProject.ofInternal<K, V>(self);
   }
 
   public set(key: K, value: V): ImmutableProject<K, V> {

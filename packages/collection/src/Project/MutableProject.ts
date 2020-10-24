@@ -33,8 +33,8 @@ export class MutableProject<K extends Nominative, V extends Nominative> extends 
     super(project);
   }
 
-  protected forge(self: Map<K, V>): MutableProject<K, V> {
-    return MutableProject.ofMap<K, V>(self);
+  protected forge(self: Map<string, Pair<K, V>>): MutableProject<K, V> {
+    return MutableProject.ofInternal<K, V>(self);
   }
 
   public set(key: K, value: V): MutableProject<K, V> {

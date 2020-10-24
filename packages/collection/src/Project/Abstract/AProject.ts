@@ -14,7 +14,7 @@ export abstract class AProject<K extends Nominative, V extends Nominative, T ext
     this.project = new Map<string, Pair<K, V>>(project);
   }
 
-  protected abstract forge(self: Map<K, V>): T;
+  protected abstract forge(self: Map<string, Pair<K, V>>): T;
 
   public abstract set(key: K, value: V): Project<K, V, N>;
 
@@ -23,11 +23,11 @@ export abstract class AProject<K extends Nominative, V extends Nominative, T ext
   public abstract map<W extends Nominative>(mapper: Mapper<V, W>): Project<K, W>;
 
   public filter(predicate: BinaryPredicate<V, K>): T {
-    const m: Map<K, V> = new Map<K, V>();
+    const m: Map<string, Pair<K, V>> = new Map<string, Pair<K, V>>();
 
     for (const [, p] of this.project) {
       if (predicate(p.getValue(), p.getKey())) {
-        m.set(p.getKey(), p.getValue());
+        m.set(p.getKey().hashCode(), p);
       }
     }
 

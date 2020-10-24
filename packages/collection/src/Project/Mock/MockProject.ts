@@ -36,7 +36,13 @@ export class MockProject<K extends Nominative, V extends Nominative> extends APr
     throw new UnimplementedError();
   }
 
-  protected forge(self: Map<K, V>): MockProject<K, V> {
-    return new MockProject<K, V>(self);
+  protected forge(self: Map<string, Pair<K, V>>): MockProject<K, V> {
+    const map: Map<K, V> = new Map<K, V>();
+
+    self.forEach((p: Pair<K, V>) => {
+      map.set(p.getKey(), p.getValue());
+    });
+
+    return new MockProject<K, V>(map);
   }
 }
