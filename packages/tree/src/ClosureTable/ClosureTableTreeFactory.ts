@@ -8,6 +8,7 @@ import { StructurableTreeNode } from '../TreeNode/StructurableTreeNode';
 import { ClosureTable } from './ClosureTable';
 import { ClosureTableOffsprings } from './ClosureTableOffsprings';
 
+// FIXME still weird
 export class ClosureTableTreeFactory<K extends TreeID, V extends StructurableTreeObject<K>> {
   private readonly table: ClosureTable<K>;
 

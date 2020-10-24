@@ -1,5 +1,6 @@
 import {
   CancellableEnumerator,
+  Collection,
   ImmutableAddress,
   MutableAddress,
   Pair,
@@ -93,6 +94,18 @@ export class ClosureTableOffsprings<K extends Nominative> extends Quantity<void,
     return this.offsprings.some(predicate);
   }
 
+  public filter(predicate: BinaryPredicate<K, void>): Collection<void, K> {
+    return this.offsprings.filter(predicate);
+  }
+
+  public find(predicate: BinaryPredicate<K, void>): Nullable<K> {
+    return this.offsprings.find(predicate);
+  }
+
+  public map<W extends Nominative>(mapper: Mapper<K, W>): ImmutableAddress<W> {
+    return this.offsprings.map<W>(mapper);
+  }
+
   public isLeaf(): boolean {
     if (this.offsprings.size() === 1) {
       return true;
@@ -103,9 +116,5 @@ export class ClosureTableOffsprings<K extends Nominative> extends Quantity<void,
 
   public compare(other: ClosureTableOffsprings<K>): number {
     return this.offsprings.size() - other.offsprings.size();
-  }
-
-  public map<L extends Nominative>(mapper: Mapper<K, L>): ReadonlyAddress<L> {
-    return this.offsprings.map<L>(mapper);
   }
 }

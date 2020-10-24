@@ -1,17 +1,11 @@
 import { ImmutableAddress, ImmutableProject, MockAddress } from '@jamashita/publikum-collection';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
-import { TreeIDFactory } from '../../Interface/TreeIDFactory';
 import { MockTreeID } from '../../Mock/MockTreeID';
 import { ClosureTableHierarchies } from '../ClosureTableHierarchies';
 import { ClosureTableHierarchy, ClosureTableJSON } from '../ClosureTableHierarchy';
 import { MockClosureTableHierarchy } from '../Mock/MockClosureTableHierarchy';
-
-class TestTreeIDFactory implements TreeIDFactory<MockTreeID> {
-  public forge(id: string): MockTreeID {
-    return new MockTreeID(id);
-  }
-}
+import { MockTreeIDFactory } from '../Mock/MockTreeIDFactory';
 
 describe('ClosureTableHierarchies', () => {
   describe('of', () => {
@@ -77,7 +71,7 @@ describe('ClosureTableHierarchies', () => {
         }
       ];
 
-      const factory: TestTreeIDFactory = new TestTreeIDFactory();
+      const factory: MockTreeIDFactory = new MockTreeIDFactory();
 
       const hierarchies: ClosureTableHierarchies<MockTreeID> = ClosureTableHierarchies.ofJSON<MockTreeID>(json, factory);
 
@@ -349,6 +343,69 @@ describe('ClosureTableHierarchies', () => {
       hierarchies.hierarchies = address;
 
       hierarchies.values();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('filter', () => {
+    it('deletes its retaining address', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const address: MockAddress<ClosureTableHierarchy<MockTreeID>> = new MockAddress<ClosureTableHierarchy<MockTreeID>>(new Set<ClosureTableHierarchy<MockTreeID>>());
+
+      address.filter = spy;
+
+      const hierarchies: ClosureTableHierarchies<MockTreeID> = ClosureTableHierarchies.empty<MockTreeID>();
+      // @ts-expect-error
+      hierarchies.hierarchies = address;
+
+      hierarchies.filter(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('find', () => {
+    it('deletes its retaining address', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const address: MockAddress<ClosureTableHierarchy<MockTreeID>> = new MockAddress<ClosureTableHierarchy<MockTreeID>>(new Set<ClosureTableHierarchy<MockTreeID>>());
+
+      address.find = spy;
+
+      const hierarchies: ClosureTableHierarchies<MockTreeID> = ClosureTableHierarchies.empty<MockTreeID>();
+      // @ts-expect-error
+      hierarchies.hierarchies = address;
+
+      hierarchies.find(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('map', () => {
+    it('deletes its retaining address', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const address: MockAddress<ClosureTableHierarchy<MockTreeID>> = new MockAddress<ClosureTableHierarchy<MockTreeID>>(new Set<ClosureTableHierarchy<MockTreeID>>());
+
+      address.map = spy;
+
+      const hierarchies: ClosureTableHierarchies<MockTreeID> = ClosureTableHierarchies.empty<MockTreeID>();
+      // @ts-expect-error
+      hierarchies.hierarchies = address;
+
+      hierarchies.map((hierarchy: ClosureTableHierarchy<MockTreeID>) => {
+        return hierarchy;
+      });
 
       expect(spy.called).toBe(true);
     });
