@@ -1,4 +1,3 @@
-import { ReadonlyAddress } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Mapper, Nullable, Peek } from '@jamashita/publikum-type';
 import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
@@ -6,7 +5,7 @@ import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Address } from '../Interface/Address';
 
-export abstract class AAddress<V extends Nominative, N extends string = string> extends Quantity<void, V, N> implements Address<V, N> {
+export abstract class AAddress<V extends Nominative, T extends AAddress<V, T>, N extends string = string> extends Quantity<void, V, N> implements Address<V, N> {
   public abstract readonly noun: N;
   protected readonly address: Map<string, V>;
 
@@ -15,13 +14,13 @@ export abstract class AAddress<V extends Nominative, N extends string = string> 
     this.address = new Map<string, V>(address);
   }
 
+  protected abstract forge(self: Map<string, V>): T;
+
   public abstract add(value: V): Address<V, N>;
 
   public abstract remove(value: V): Address<V, N>;
 
   public abstract map<W extends Nominative>(mapper: Mapper<V, W>): Address<W>;
-
-  public abstract filter(predicate: BinaryPredicate<V, void>): ReadonlyAddress<V>;
 
   public abstract duplicate(): Address<V, N>;
 
@@ -150,6 +149,18 @@ export abstract class AAddress<V extends Nominative, N extends string = string> 
     return iterable;
   }
 
+  public filter(predicate: BinaryPredicate<V, void>): T {
+    const m: Map<string, V> = new Map<string, V>();
+
+    for (const [, v] of this.address) {
+      if (predicate(v, undefined)) {
+        m.set(v.hashCode(), v);
+      }
+    }
+
+    return this.forge(m);
+  }
+
   protected mapInternal<W extends Nominative>(mapper: Mapper<V, W>): Map<string, W> {
     const m: Map<string, W> = new Map<string, W>();
     let i: number = 0;
@@ -158,18 +169,6 @@ export abstract class AAddress<V extends Nominative, N extends string = string> 
       m.set(v.hashCode(), mapper(v, i));
       i++;
     });
-
-    return m;
-  }
-
-  protected filterInternal(predicate: BinaryPredicate<V, void>): Map<string, V> {
-    const m: Map<string, V> = new Map<string, V>();
-
-    for (const [, v] of this.address) {
-      if (predicate(v, undefined)) {
-        m.set(v.hashCode(), v);
-      }
-    }
 
     return m;
   }

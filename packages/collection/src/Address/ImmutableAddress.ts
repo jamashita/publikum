@@ -1,9 +1,9 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Mapper } from '@jamashita/publikum-type';
+import { Mapper } from '@jamashita/publikum-type';
 import { AAddress } from './Abstract/AAddress';
 import { ReadonlyAddress } from './Interface/ReadonlyAddress';
 
-export class ImmutableAddress<V extends Nominative> extends AAddress<V, 'ImmutableAddress'> {
+export class ImmutableAddress<V extends Nominative> extends AAddress<V, ImmutableAddress<V>, 'ImmutableAddress'> {
   public readonly noun: 'ImmutableAddress' = 'ImmutableAddress';
   private static readonly EMPTY: ImmutableAddress<Nominative> = new ImmutableAddress(new Map<string, Nominative>());
 
@@ -35,6 +35,10 @@ export class ImmutableAddress<V extends Nominative> extends AAddress<V, 'Immutab
 
   protected constructor(address: ReadonlyMap<string, V>) {
     super(address);
+  }
+
+  protected forge(self: Map<string, V>): ImmutableAddress<V> {
+    return ImmutableAddress.ofInternal<V>(self);
   }
 
   public add(value: V): ImmutableAddress<V> {
@@ -76,12 +80,6 @@ export class ImmutableAddress<V extends Nominative> extends AAddress<V, 'Immutab
     const m: Map<string, W> = this.mapInternal<W>(mapper);
 
     return ImmutableAddress.ofInternal<W>(m);
-  }
-
-  public filter(predicate: BinaryPredicate<V, void>): ImmutableAddress<V> {
-    const m: Map<string, V> = this.filterInternal(predicate);
-
-    return ImmutableAddress.ofInternal<V>(m);
   }
 
   public duplicate(): ImmutableAddress<V> {

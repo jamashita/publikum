@@ -1,9 +1,8 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
 import { Nominative } from '@jamashita/publikum-interface';
 import { AAddress } from '../Abstract/AAddress';
-import { ReadonlyAddress } from '../Interface';
 
-export class MockAddress<V extends Nominative> extends AAddress<V, 'MockAddress'> {
+export class MockAddress<V extends Nominative> extends AAddress<V, MockAddress<V>, 'MockAddress'> {
   public readonly noun: 'MockAddress' = 'MockAddress';
 
   private static toMap<VT extends Nominative>(set: ReadonlySet<VT>): Map<string, VT> {
@@ -20,6 +19,16 @@ export class MockAddress<V extends Nominative> extends AAddress<V, 'MockAddress'
     super(MockAddress.toMap<V>(set));
   }
 
+  protected forge(self: Map<string, V>): MockAddress<V> {
+    const set: Set<V> = new Set<V>();
+
+    self.forEach((v: V) => {
+      set.add(v);
+    });
+
+    return new MockAddress<V>(set);
+  }
+
   public add(): MockAddress<V> {
     throw new UnimplementedError();
   }
@@ -33,10 +42,6 @@ export class MockAddress<V extends Nominative> extends AAddress<V, 'MockAddress'
   }
 
   public map<W extends Nominative>(): MockAddress<W> {
-    throw new UnimplementedError();
-  }
-
-  public filter(): ReadonlyAddress<V> {
     throw new UnimplementedError();
   }
 }
