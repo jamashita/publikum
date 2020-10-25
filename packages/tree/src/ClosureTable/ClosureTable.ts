@@ -6,15 +6,11 @@ import {
   MutableProject,
   Pair,
   Quantity,
-  ReadonlyAddress,
   ReadonlySequence
 } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface/src';
 import { BinaryPredicate, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
-import { StructurableTreeObject } from '../Interface/StructurableTreeObject';
 import { TreeID } from '../Interface/TreeID';
-import { StructurableTree } from '../StructurableTree';
-import { StructurableTreeNode } from '../TreeNode/StructurableTreeNode';
 import { ClosureTableHierarchies } from './ClosureTableHierarchies';
 import { ClosureTableHierarchy } from './ClosureTableHierarchy';
 import { ClosureTableOffsprings } from './ClosureTableOffsprings';
@@ -56,39 +52,6 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffs
 
   public static empty<KT extends TreeID>(): ClosureTable<KT> {
     return ClosureTable.EMPTY as ClosureTable<KT>;
-  }
-
-  // TODO NECESSARY ?
-  public static toHierarchies<KT extends TreeID, VT extends StructurableTreeObject<KT>>(tree: StructurableTree<KT, VT>): ClosureTableHierarchies<KT> {
-    const hierarchies: MutableProject<KT, MutableAddress<KT>> = MutableProject.empty<KT, MutableAddress<KT>>();
-
-    ClosureTable.retrieve<KT, VT>(tree.getRoot(), hierarchies);
-
-    return ClosureTableHierarchies.of<KT>(hierarchies);
-  }
-
-  private static retrieve<KT extends TreeID, VT extends StructurableTreeObject<KT>>(node: StructurableTreeNode<KT, VT>, hierarchies: MutableProject<KT, MutableAddress<KT>>): void {
-    const offsprings: MutableAddress<KT> = MutableAddress.empty<KT>();
-
-    hierarchies.set(node.getTreeID(), offsprings);
-    offsprings.add(node.getTreeID());
-
-    if (!node.isLeaf()) {
-      ClosureTable.retrieveChildren<KT, VT>(node, node.getChildren(), hierarchies);
-    }
-  }
-
-  private static retrieveChildren<KT extends TreeID, VT extends StructurableTreeObject<KT>>(node: StructurableTreeNode<KT, VT>, children: ReadonlyAddress<StructurableTreeNode<KT, VT>>, hierarchies: MutableProject<KT, MutableAddress<KT>>): void {
-    children.forEach((child: StructurableTreeNode<KT, VT>) => {
-      const offsprings: MutableAddress<KT> = hierarchies.get(node.getTreeID()) as MutableAddress<KT>;
-
-      offsprings.add(child.getTreeID());
-      ClosureTable.retrieve<KT, VT>(child, hierarchies);
-
-      if (!child.isLeaf()) {
-        ClosureTable.retrieveChildren<KT, VT>(node, child.getChildren(), hierarchies);
-      }
-    });
   }
 
   protected constructor(table: ImmutableProject<K, ClosureTableOffsprings<K>>) {

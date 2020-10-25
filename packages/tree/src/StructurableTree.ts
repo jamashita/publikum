@@ -1,3 +1,5 @@
+import { MutableAddress, MutableProject, ReadonlyAddress } from '@jamashita/publikum-collection';
+import { ClosureTableHierarchies } from './ClosureTable/ClosureTableHierarchies';
 import { StructurableTreeObject } from './Interface/StructurableTreeObject';
 import { TreeID } from './Interface/TreeID';
 import { Tree } from './Tree';
@@ -16,5 +18,37 @@ export class StructurableTree<K extends TreeID, V extends StructurableTreeObject
 
   public getTreeID(): K {
     return this.root.getTreeID();
+  }
+
+  public toHierarchies(): ClosureTableHierarchies<K> {
+    const hierarchies: MutableProject<K, MutableAddress<K>> = MutableProject.empty<K, MutableAddress<K>>();
+
+    this.retrieve(this.root, hierarchies);
+
+    return ClosureTableHierarchies.of<K>(hierarchies);
+  }
+
+  private retrieve(node: StructurableTreeNode<K, V>, hierarchies: MutableProject<K, MutableAddress<K>>): void {
+    const offsprings: MutableAddress<K> = MutableAddress.empty<K>();
+
+    hierarchies.set(node.getTreeID(), offsprings);
+    offsprings.add(node.getTreeID());
+
+    if (!node.isLeaf()) {
+      this.retrieveChildren(node, node.getChildren(), hierarchies);
+    }
+  }
+
+  private retrieveChildren(node: StructurableTreeNode<K, V>, children: ReadonlyAddress<StructurableTreeNode<K, V>>, hierarchies: MutableProject<K, MutableAddress<K>>): void {
+    children.forEach((child: StructurableTreeNode<K, V>) => {
+      const offsprings: MutableAddress<K> = hierarchies.get(node.getTreeID()) as MutableAddress<K>;
+
+      offsprings.add(child.getTreeID());
+      this.retrieve(child, hierarchies);
+
+      if (!child.isLeaf()) {
+        this.retrieveChildren(node, child.getChildren(), hierarchies);
+      }
+    });
   }
 }
