@@ -8,30 +8,21 @@ import { StructurableTreeNode } from '../TreeNode/StructurableTreeNode';
 import { ClosureTable } from './ClosureTable';
 import { ClosureTableOffsprings } from './ClosureTableOffsprings';
 
+// FIXME still weird, should rename to StructurableTreFactory
 export class ClosureTableTreeFactory<K extends TreeID, V extends StructurableTreeObject<K>> {
-  private readonly table: ClosureTable<K>;
-
-  public static of<KT extends TreeID, VT extends StructurableTreeObject<KT>>(table: ClosureTable<KT>): ClosureTableTreeFactory<KT, VT> {
+  // TODO ARGS CHANGED
+  public forge(table: ClosureTable<K>, values: ReadonlyProject<K, V>): MutableProject<K, StructurableTree<K, V>> {
     if (table.isEmpty()) {
       throw new TreeError('THIS CLOSURE TABLE IS EMPTY');
     }
-
-    return new ClosureTableTreeFactory<KT, VT>(table);
-  }
-
-  protected constructor(table: ClosureTable<K>) {
-    this.table = table;
-  }
-
-  public forge(values: ReadonlyProject<K, V>): MutableProject<K, StructurableTree<K, V>> {
     if (values.isEmpty()) {
       throw new TreeError('VALUES ARE EMPTY');
     }
 
     const pool: MutableProject<K, StructurableTreeNode<K, V>> = MutableProject.empty<K, StructurableTreeNode<K, V>>();
     const used: MutableAddress<K> = MutableAddress.empty<K>();
-    const array: ReadonlyArray<StructurableTreeNode<K, V>> = this.table.sort().toArray().map<Nullable<StructurableTreeNode<K, V>>>((key: K) => {
-      return this.forgeInternal(key, values, pool, used);
+    const array: ReadonlyArray<StructurableTreeNode<K, V>> = table.sort().toArray().map<Nullable<StructurableTreeNode<K, V>>>((key: K) => {
+      return this.forgeInternal(key, values, pool, used, table);
     }).filter<StructurableTreeNode<K, V>>((node: Nullable<StructurableTreeNode<K, V>>): node is StructurableTreeNode<K, V> => {
       return !Kind.isNull(node);
     });
@@ -45,7 +36,7 @@ export class ClosureTableTreeFactory<K extends TreeID, V extends StructurableTre
     return project;
   }
 
-  private forgeInternal(key: K, values: ReadonlyProject<K, V>, pool: MutableProject<K, StructurableTreeNode<K, V>>, used: MutableAddress<K>): Nullable<StructurableTreeNode<K, V>> {
+  private forgeInternal(key: K, values: ReadonlyProject<K, V>, pool: MutableProject<K, StructurableTreeNode<K, V>>, used: MutableAddress<K>, table: ClosureTable<K>): Nullable<StructurableTreeNode<K, V>> {
     const already: Nullable<StructurableTreeNode<K, V>> = pool.get(key);
 
     if (!Kind.isNull(already)) {
@@ -63,7 +54,7 @@ export class ClosureTableTreeFactory<K extends TreeID, V extends StructurableTre
       throw new TreeError(`THIS KEY DOES NOT HAVE VALUE. GIVEN: ${key.toString()}`);
     }
 
-    const offsprings: ClosureTableOffsprings<K> = this.table.get(key) as ClosureTableOffsprings<K>;
+    const offsprings: ClosureTableOffsprings<K> = table.get(key) as ClosureTableOffsprings<K>;
     const address: MutableAddress<StructurableTreeNode<K, V>> = MutableAddress.empty<StructurableTreeNode<K, V>>();
 
     offsprings.forEach((child: K) => {
@@ -71,7 +62,7 @@ export class ClosureTableTreeFactory<K extends TreeID, V extends StructurableTre
         return;
       }
 
-      const node: Nullable<StructurableTreeNode<K, V>> = this.forgeInternal(child, values, pool, used);
+      const node: Nullable<StructurableTreeNode<K, V>> = this.forgeInternal(child, values, pool, used, table);
 
       if (Kind.isNull(node)) {
         return;
