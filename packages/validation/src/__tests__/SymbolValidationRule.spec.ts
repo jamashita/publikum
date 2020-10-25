@@ -20,7 +20,7 @@ describe('SymbolValidationRule', () => {
       }).not.toThrow(ValidationError);
     });
 
-    it('throws ValidationError when non-boolean values given', () => {
+    it('throws ValidationError when non-symbol values given', () => {
       expect.assertions(12);
 
       const rule: SymbolValidationRule = new SymbolValidationRule();
