@@ -190,6 +190,7 @@ Class for random string, random number.
   * Superposition
     * [ ] `sequence<A, D>(arr: Array<Promise<A>>): Promise<Array<Schrodinger<A, D>>>;`
 * [ ] validation decorator
+* [ ] can get constract from DeadContractor.constractor
 
 ## Conventional commit
 
