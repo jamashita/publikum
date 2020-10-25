@@ -1,4 +1,5 @@
 import { Ambiguous, Kind } from '@jamashita/publikum-type';
+import 'reflect-metadata';
 import { ValidationRule } from '../Interface/ValidationRule';
 
 const VALIDATION_KEY: symbol = Symbol();
