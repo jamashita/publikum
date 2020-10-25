@@ -2,60 +2,71 @@ import { Ambiguous, Kind } from '@jamashita/publikum-type';
 import 'reflect-metadata';
 import { ValidationRule } from '../Interface/ValidationRule';
 
-const VALIDATION_KEY: symbol = Symbol();
+const INDEX_KEY: symbol = Symbol();
+const RULE_KEY: symbol = Symbol();
 
-const getRules = (target: object, key: string | symbol): Array<ValidationRule> => {
-  const rules: Ambiguous<Array<ValidationRule>> = Reflect.getMetadata(VALIDATION_KEY, target, key) as Ambiguous<Array<ValidationRule>>;
-
-  if (Kind.isUndefined(rules)) {
-    return [];
-  }
-
-  return rules;
+const getIndex = (target: object, key: string | symbol): Ambiguous<Array<number>> => {
+  return Reflect.getOwnMetadata(INDEX_KEY, target, key) as Ambiguous<Array<number>>;
 };
 
-const getKeys = (target: object): Set<string | symbol> => {
-  const properties: Ambiguous<Set<string | symbol>> = Reflect.getMetadata(VALIDATION_KEY, target) as Ambiguous<Set<string | symbol>>;
-
-  if (Kind.isUndefined(properties)) {
-    return new Set<string | symbol>();
-  }
-
-  return properties;
+const getRules = (target: object, key: string | symbol): Ambiguous<Map<number, ValidationRule>> => {
+  return Reflect.getOwnMetadata(RULE_KEY, target, key) as Ambiguous<Map<number, ValidationRule>>;
 };
 
-// TODO TESSTS!!!
+// TODO TESTS!!!
 export const Validate = (): MethodDecorator => {
-  return <T>(target: object, _k: string | symbol, descriptor: TypedPropertyDescriptor<T>): void => {
-    getKeys(target).forEach((key: string | symbol) => {
-      getRules(target, key).forEach((rule: ValidationRule) => {
-        if (Kind.isString(key)) {
-          if (Kind.isFunction(descriptor.value)) {
-            const method: Function = descriptor.value;
+  return <T>(target: object, key: string | symbol, descriptor: TypedPropertyDescriptor<T>): void => {
+    const indice: Ambiguous<Array<number>> = getIndex(target, key);
+    const rules: Ambiguous<Map<number, ValidationRule>> = getRules(target, key);
 
-            // @ts-expect-error
-            descriptor.value = (...args: Array<unknown>) => {
-              rule.evaluate(target, args[0], key);
+    if (Kind.isUndefined(indice)) {
+      return;
+    }
+    if (Kind.isUndefined(rules)) {
+      return;
+    }
 
-              method.apply(method, args);
-            };
-          }
+    indice.forEach((index: number) => {
+      rules.forEach((rule: ValidationRule, i: number) => {
+        if (index !== i) {
+          return;
         }
+        if (!Kind.isFunction(descriptor.value)) {
+          return;
+        }
+
+        const method: Function = descriptor.value;
+
+        // @ts-expect-error
+        descriptor.value = (...args: Array<unknown>) => {
+          rule.evaluate(target, args[i], key);
+
+          method.apply(method, args);
+        };
       });
     });
   };
 };
 
-export const addRule = (target: object, key: string | symbol, rule: ValidationRule): void => {
-  const rules: Array<ValidationRule> = getRules(target, key);
-  const properties: Set<string | symbol> = getKeys(target);
+export const addRule = (target: object, key: string | symbol, index: number, rule: ValidationRule): void => {
+  const indice: Ambiguous<Array<number>> = getIndex(target, key);
+  const rules: Ambiguous<Map<number, ValidationRule>> = getRules(target, key);
 
-  rules.push(rule);
-
-  if (!properties.has(key)) {
-    properties.add(key);
+  if (Kind.isUndefined(indice)) {
+    Reflect.defineMetadata(INDEX_KEY, [index], target, key);
+  }
+  else {
+    indice.push(index);
   }
 
-  Reflect.defineMetadata(VALIDATION_KEY, rules, target, key);
-  Reflect.defineMetadata(VALIDATION_KEY, properties, target);
+  if (Kind.isUndefined(rules)) {
+    const r: Map<number, ValidationRule> = new Map<number, ValidationRule>();
+
+    r.set(index, rule);
+
+    Reflect.defineMetadata(RULE_KEY, r, target, key);
+  }
+  else {
+    rules.set(index, rule);
+  }
 };
