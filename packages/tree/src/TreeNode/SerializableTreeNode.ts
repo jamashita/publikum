@@ -20,7 +20,7 @@ export class SerializableTreeNode<V extends SerializableTreeObject> extends Tree
     return new SerializableTreeNode<VT>(node.getValue(), node.getChildren());
   }
 
-  protected constructor(value: V, children: ReadonlyAddress<SerializableTreeNode<V>>) {
+  protected constructor(value: V, children: ImmutableAddress<SerializableTreeNode<V>>) {
     super(value, children);
   }
 

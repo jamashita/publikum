@@ -14,7 +14,7 @@ export class StructurableTreeNode<K extends TreeID, V extends StructurableTreeOb
     return StructurableTreeNode.of<KT, VT>(node.getValue(), node.getChildren());
   }
 
-  protected constructor(value: V, children: ReadonlyAddress<StructurableTreeNode<K, V>>) {
+  protected constructor(value: V, children: ImmutableAddress<StructurableTreeNode<K, V>>) {
     super(value, children);
   }
 

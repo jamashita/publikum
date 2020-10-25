@@ -1,13 +1,13 @@
-import { ReadonlyAddress } from '@jamashita/publikum-collection';
+import { ImmutableAddress } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { Objet } from '@jamashita/publikum-object';
 import { Kind, Nullable, Predicate } from '@jamashita/publikum-type';
 
 export abstract class TreeNode<V extends Nominative, T extends TreeNode<V, T>, N extends string = string> extends Objet<N> {
   protected readonly value: V;
-  protected readonly children: ReadonlyAddress<T>;
+  protected readonly children: ImmutableAddress<T>;
 
-  protected constructor(value: V, children: ReadonlyAddress<T>) {
+  protected constructor(value: V, children: ImmutableAddress<T>) {
     super();
     this.value = value;
     this.children = children;
@@ -44,7 +44,7 @@ export abstract class TreeNode<V extends Nominative, T extends TreeNode<V, T>, N
     return this.value;
   }
 
-  public getChildren(): ReadonlyAddress<T> {
+  public getChildren(): ImmutableAddress<T> {
     return this.children;
   }
 
