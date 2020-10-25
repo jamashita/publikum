@@ -241,7 +241,7 @@ describe('NumberValidationRule', () => {
       }).not.toThrow(ValidationError);
     });
 
-    it('throws ValidationError when NaN given if noInfinity is set to true', () => {
+    it('throws ValidationError when Infinity of -Inifinity given if noInfinity is set to true', () => {
       expect.assertions(5);
 
       const rule: NumberValidationRule = new NumberValidationRule({
