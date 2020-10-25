@@ -24,7 +24,7 @@ describe('SymbolValidation', () => {
       }).not.toThrow(ValidationError);
     });
 
-    it('throws ValidationError when non-string values given', () => {
+    it('throws ValidationError when non-symbol values given', () => {
       expect.assertions(12);
 
       const validation: MockValidation = new MockValidation();

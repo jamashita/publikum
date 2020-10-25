@@ -27,7 +27,7 @@ describe('BooleanValidation', () => {
       }).not.toThrow(ValidationError);
     });
 
-    it('throws ValidationError when non-string values given', () => {
+    it('throws ValidationError when non-boolean values given', () => {
       expect.assertions(11);
 
       const validation: MockValidation = new MockValidation();
