@@ -51,7 +51,7 @@ describe('StringValidationRule', () => {
       }).toThrow(ValidationError);
     });
 
-    it('throws ValidationError when less than min string length given', () => {
+    it('throws ValidationError when given value is less than min string length given', () => {
       expect.assertions(5);
 
       const rule: StringValidationRule = new StringValidationRule({
@@ -75,7 +75,7 @@ describe('StringValidationRule', () => {
       }).not.toThrow(ValidationError);
     });
 
-    it('throws ValidationError when greater than max string length given', () => {
+    it('throws ValidationError when given value is greater than max string length given', () => {
       expect.assertions(5);
 
       const rule: StringValidationRule = new StringValidationRule({
