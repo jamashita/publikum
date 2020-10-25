@@ -8,6 +8,7 @@ export type StringValidatorArgs = Partial<Readonly<{
   pattern: RegExp;
 }>>;
 
+// TODO NUMERICAL STRING?
 export class StringValidationRule implements ValidationRule {
   private readonly min?: number;
   private readonly max?: number;
