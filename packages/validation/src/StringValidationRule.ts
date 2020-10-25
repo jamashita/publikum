@@ -1,6 +1,6 @@
 import { Kind } from '@jamashita/publikum-type';
-import { ValidationError } from '../Error/ValidationError';
-import { ValidationRule } from '../ValidationRule';
+import { ValidationError } from './Error/ValidationError';
+import { ValidationRule } from './Interface/ValidationRule';
 
 export type StringValidatorArgs = Partial<Readonly<{
   min: number;
