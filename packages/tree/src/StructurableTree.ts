@@ -45,6 +45,10 @@ export class StructurableTree<K extends TreeID, V extends StructurableTreeObject
 
       offsprings.add(child.getTreeID());
       this.retrieve(child, hierarchies);
+
+      if (!child.isLeaf()) {
+        this.retrieveChildren(node, child.getChildren(), hierarchies);
+      }
     });
   }
 }
