@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "composite": true,
+    "paths": {
+      "@jamashita/publikum-*": [
+        "node_modules/@jamashita/publikum-*/src"
+      ]
+    }
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "src/**/__tests__",
+    "dist",
+    "node_modules"
+  ]
+}
