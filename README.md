@@ -197,6 +197,7 @@ Class for random string, random number.
 * [x] `Superposition.ifAlive((value: A) => {})`
 * [x] `Superposition.ifDead((value: D) => {})`
 * [x] `Superposition.ifContradiction((cause: unknown) => {})`
+* [ ] validation decorator
 
 ## Conventional commit
 
