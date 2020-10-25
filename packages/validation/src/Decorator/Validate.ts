@@ -33,10 +33,9 @@ export const Validate = (): MethodDecorator => {
 
             // @ts-expect-error
             descriptor.value = (...args: Array<unknown>) => {
-              // @ts-expect-error
-              rule.evaluate(target, target[key], key);
+              rule.evaluate(target, args[0], key);
 
-              Reflect.apply(method, descriptor.value, args);
+              method.apply(method, args);
             };
           }
         }
