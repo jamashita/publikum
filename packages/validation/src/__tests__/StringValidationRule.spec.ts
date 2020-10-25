@@ -4,6 +4,16 @@ import { StringValidationRule } from '../StringValidationRule';
 
 describe('StringValidationRule', () => {
   describe('evaluate', () => {
+    it('does not throw any Error', () => {
+      expect.assertions(1);
+
+      const rule: StringValidationRule = new StringValidationRule({});
+
+      expect(() => {
+        rule.evaluate({}, '');
+      }).not.toThrow(ValidationError);
+    });
+
     it('throws ValidationError when non-string values given', () => {
       expect.assertions(10);
 
