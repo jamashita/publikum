@@ -52,7 +52,7 @@ class MockNoInfinityValidation {
   }
 }
 
-describe('StringValidatorRule', () => {
+describe('StringValidation', () => {
   describe('decorator', () => {
     it('does not throw any Error', () => {
       expect.assertions(6);
