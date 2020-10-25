@@ -1,13 +1,11 @@
-import { MockProject, Project, ReadonlyAddress, ReadonlySequence } from '@jamashita/publikum-collection';
+import { MockAddress, MockProject, Project, ReadonlyAddress, ReadonlySequence } from '@jamashita/publikum-collection';
 import sinon, { SinonSpy } from 'sinon';
 import { MockTreeID } from '../../Mock/MockTreeID';
 import { ClosureTable } from '../ClosureTable';
 import { ClosureTableHierarchies } from '../ClosureTableHierarchies';
-import { ClosureTableOffsprings } from '../ClosureTableOffsprings';
 import { MockClosureTable } from '../Mock/MockClosureTable';
 import { MockClosureTableHierarchies } from '../Mock/MockClosureTableHierarchies';
 import { MockClosureTableHierarchy } from '../Mock/MockClosureTableHierarchy';
-import { MockClosureTableOffsprings } from '../Mock/MockClosureTableOffsprings';
 
 describe('ClosureTable', () => {
   describe('of', () => {
@@ -94,7 +92,7 @@ describe('ClosureTable', () => {
       // @ts-expect-error
       table.table = project;
 
-      table.contains(new MockClosureTableOffsprings<MockTreeID>(new MockTreeID('mock')));
+      table.contains(new MockAddress<MockTreeID>(new Set<MockTreeID>([new MockTreeID('mock')])));
 
       expect(spy.called).toBe(true);
     });
@@ -347,7 +345,7 @@ describe('ClosureTable', () => {
       // @ts-expect-error
       table.table = project;
 
-      table.map((offsprings: ClosureTableOffsprings<MockTreeID>) => {
+      table.map((offsprings: ReadonlyAddress<MockTreeID>) => {
         return offsprings;
       });
 
