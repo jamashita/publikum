@@ -16,6 +16,96 @@ describe('SerializableTreeNode', () => {
     });
   });
 
+  describe('ofNode', () => {
+    it('copies shallowly', () => {
+      expect.assertions(2);
+
+      const node01: SerializableTreeNode<MockTreeObject<MockTreeID>> = SerializableTreeNode.of<MockTreeObject<MockTreeID>>(
+        new MockTreeObject(new MockTreeID('mock 1')),
+        ImmutableAddress.ofSet<SerializableTreeNode<MockTreeObject<MockTreeID>>>(
+          new Set<SerializableTreeNode<MockTreeObject<MockTreeID>>>([
+            SerializableTreeNode.of<MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 2')))
+          ])
+        )
+      );
+      const node02: SerializableTreeNode<MockTreeObject<MockTreeID>> = SerializableTreeNode.ofNode<MockTreeObject<MockTreeID>>(node01);
+
+      expect(node01.getValue().equals(node02.getValue())).toBe(true);
+      expect(node01.getChildren().equals(node02.getChildren())).toBe(true);
+    });
+  });
+
+  describe('find', () => {
+    it('returns the value itself when the TreeNode value matches', () => {
+      expect.assertions(1);
+
+      const node: SerializableTreeNode<MockTreeObject<MockTreeID>> = SerializableTreeNode.of<MockTreeObject<MockTreeID>>(
+        new MockTreeObject(new MockTreeID('mock 1')),
+        ImmutableAddress.ofSet<SerializableTreeNode<MockTreeObject<MockTreeID>>>(
+          new Set<SerializableTreeNode<MockTreeObject<MockTreeID>>>([
+            SerializableTreeNode.of<MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 2')),
+              ImmutableAddress.ofSet<SerializableTreeNode<MockTreeObject<MockTreeID>>>(
+                new Set<SerializableTreeNode<MockTreeObject<MockTreeID>>>([
+                  SerializableTreeNode.of<MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 3')))
+                ])
+              ))
+          ])
+        )
+      );
+
+      expect(node.find((v: MockTreeObject<MockTreeID>) => {
+        return v.getTreeID().equals(new MockTreeID('mock 1'));
+      })?.getValue().getTreeID().equals(new MockTreeID('mock 1'))).toBe(true);
+    });
+
+    it('returns children\'s value when the TreeNode\'s children value matches', () => {
+      expect.assertions(2);
+
+      const node: SerializableTreeNode<MockTreeObject<MockTreeID>> = SerializableTreeNode.of<MockTreeObject<MockTreeID>>(
+        new MockTreeObject(new MockTreeID('mock 1')),
+        ImmutableAddress.ofSet<SerializableTreeNode<MockTreeObject<MockTreeID>>>(
+          new Set<SerializableTreeNode<MockTreeObject<MockTreeID>>>([
+            SerializableTreeNode.of<MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 2')),
+              ImmutableAddress.ofSet<SerializableTreeNode<MockTreeObject<MockTreeID>>>(
+                new Set<SerializableTreeNode<MockTreeObject<MockTreeID>>>([
+                  SerializableTreeNode.of<MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 3')))
+                ])
+              ))
+          ])
+        )
+      );
+
+      expect(node.find((v: MockTreeObject<MockTreeID>) => {
+        return v.getTreeID().equals(new MockTreeID('mock 2'));
+      })?.getValue().getTreeID().equals(new MockTreeID('mock 2'))).toBe(true);
+      expect(node.find((v: MockTreeObject<MockTreeID>) => {
+        return v.getTreeID().equals(new MockTreeID('mock 3'));
+      })?.getValue().getTreeID().equals(new MockTreeID('mock 3'))).toBe(true);
+    });
+
+    it('returns null when the TreeNode does not have such value', () => {
+      expect.assertions(1);
+
+      const node: SerializableTreeNode<MockTreeObject<MockTreeID>> = SerializableTreeNode.of<MockTreeObject<MockTreeID>>(
+        new MockTreeObject(new MockTreeID('mock 1')),
+        ImmutableAddress.ofSet<SerializableTreeNode<MockTreeObject<MockTreeID>>>(
+          new Set<SerializableTreeNode<MockTreeObject<MockTreeID>>>([
+            SerializableTreeNode.of<MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 2')),
+              ImmutableAddress.ofSet<SerializableTreeNode<MockTreeObject<MockTreeID>>>(
+                new Set<SerializableTreeNode<MockTreeObject<MockTreeID>>>([
+                  SerializableTreeNode.of<MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 3')))
+                ])
+              ))
+          ])
+        )
+      );
+
+      expect(node.find((v: MockTreeObject<MockTreeID>) => {
+        return v.getTreeID().equals(new MockTreeID('mock 4'));
+      })).toBeNull();
+    });
+  });
+
   describe('toJSON', () => {
     it('returns SerializableTreeNodeJSON', () => {
       expect.assertions(1);

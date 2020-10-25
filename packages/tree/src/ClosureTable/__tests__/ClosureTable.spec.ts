@@ -12,17 +12,18 @@ import { StructurableTree } from '../../StructurableTree';
 import { StructurableTreeNode } from '../../TreeNode/StructurableTreeNode';
 import { ClosureTable } from '../ClosureTable';
 import { ClosureTableHierarchies } from '../ClosureTableHierarchies';
-import { ClosureTableHierarchy } from '../ClosureTableHierarchy';
+import { ClosureTableOffsprings } from '../ClosureTableOffsprings';
 import { MockClosureTable } from '../Mock/MockClosureTable';
+import { MockClosureTableHierarchies } from '../Mock/MockClosureTableHierarchies';
 import { MockClosureTableHierarchy } from '../Mock/MockClosureTableHierarchy';
 import { MockClosureTableOffsprings } from '../Mock/MockClosureTableOffsprings';
 
 describe('ClosureTable', () => {
   describe('of', () => {
-    it('returns ClosureTable.empty() when 0-length array given', () => {
+    it('returns ClosureTable.empty() ClosureTableHierarchies.empty() given', () => {
       expect.assertions(1);
 
-      expect(ClosureTable.of<MockTreeID>([])).toBe(ClosureTable.empty<MockTreeID>());
+      expect(ClosureTable.of<MockTreeID>(ClosureTableHierarchies.empty<MockTreeID>())).toBe(ClosureTable.empty<MockTreeID>());
     });
   });
 
@@ -176,7 +177,7 @@ describe('ClosureTable', () => {
     it('returns Pair<K, ReadonlyAddress<K>>', () => {
       expect.assertions(9);
 
-      const array: Array<ClosureTableHierarchy<MockTreeID>> = [
+      const hierarchies: ClosureTableHierarchies<MockTreeID> = new MockClosureTableHierarchies(
         new MockClosureTableHierarchy(new MockTreeID('mock 10'), new MockTreeID('mock 10')),
         new MockClosureTableHierarchy(new MockTreeID('mock 11'), new MockTreeID('mock 11')),
         new MockClosureTableHierarchy(new MockTreeID('mock 10'), new MockTreeID('mock 01')),
@@ -184,9 +185,9 @@ describe('ClosureTable', () => {
         new MockClosureTableHierarchy(new MockTreeID('mock 11'), new MockTreeID('mock 02')),
         new MockClosureTableHierarchy(new MockTreeID('mock 11'), new MockTreeID('mock 01')),
         new MockClosureTableHierarchy(new MockTreeID('mock 10'), new MockTreeID('mock 03'))
-      ];
+      );
 
-      const table: ClosureTable<MockTreeID> = ClosureTable.of<MockTreeID>(array);
+      const table: ClosureTable<MockTreeID> = ClosureTable.of<MockTreeID>(hierarchies);
       let i: number = 0;
 
       for (const pair of table) {
@@ -195,10 +196,10 @@ describe('ClosureTable', () => {
             const vs: Array<MockTreeID> = [...pair.getValue().values()];
 
             expect(vs).toHaveLength(4);
-            expect(vs[0]).toBe(array[0].getOffspring());
-            expect(vs[1]).toBe(array[2].getOffspring());
-            expect(vs[2]).toBe(array[3].getOffspring());
-            expect(vs[3]).toBe(array[6].getOffspring());
+            expect(vs[0]).toBe(hierarchies.get(0)?.getOffspring());
+            expect(vs[1]).toBe(hierarchies.get(2)?.getOffspring());
+            expect(vs[2]).toBe(hierarchies.get(3)?.getOffspring());
+            expect(vs[3]).toBe(hierarchies.get(6)?.getOffspring());
             i++;
             break;
           }
@@ -206,9 +207,9 @@ describe('ClosureTable', () => {
             const vs: Array<MockTreeID> = [...pair.getValue().values()];
 
             expect(vs).toHaveLength(3);
-            expect(vs[0]).toBe(array[1].getOffspring());
-            expect(vs[1]).toBe(array[4].getOffspring());
-            expect(vs[2]).toBe(array[5].getOffspring());
+            expect(vs[0]).toBe(hierarchies.get(1)?.getOffspring());
+            expect(vs[1]).toBe(hierarchies.get(4)?.getOffspring());
+            expect(vs[2]).toBe(hierarchies.get(5)?.getOffspring());
             i++;
             break;
           }
@@ -433,20 +434,82 @@ describe('ClosureTable', () => {
     });
   });
 
+  describe('filter', () => {
+    it('delegates its inner collection object', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const project: Project<MockTreeID, ReadonlyAddress<MockTreeID>> = new MockProject<MockTreeID, ReadonlyAddress<MockTreeID>>(new Map<MockTreeID, ReadonlyAddress<MockTreeID>>());
+
+      project.filter = spy;
+
+      const table: ClosureTable<MockTreeID> = ClosureTable.empty<MockTreeID>();
+      // @ts-expect-error
+      table.table = project;
+
+      table.filter(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('find', () => {
+    it('delegates its inner collection object', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const project: Project<MockTreeID, ReadonlyAddress<MockTreeID>> = new MockProject<MockTreeID, ReadonlyAddress<MockTreeID>>(new Map<MockTreeID, ReadonlyAddress<MockTreeID>>());
+
+      project.find = spy;
+
+      const table: ClosureTable<MockTreeID> = ClosureTable.empty<MockTreeID>();
+      // @ts-expect-error
+      table.table = project;
+
+      table.find(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+  describe('map', () => {
+    it('delegates its inner collection object', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const project: Project<MockTreeID, ReadonlyAddress<MockTreeID>> = new MockProject<MockTreeID, ReadonlyAddress<MockTreeID>>(new Map<MockTreeID, ReadonlyAddress<MockTreeID>>());
+
+      project.map = spy;
+
+      const table: ClosureTable<MockTreeID> = ClosureTable.empty<MockTreeID>();
+      // @ts-expect-error
+      table.table = project;
+
+      table.map((offsprings: ClosureTableOffsprings<MockTreeID>) => {
+        return offsprings;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
   describe('sort', () => {
     it('returns desc ordered pairs', () => {
       expect.assertions(4);
 
-      const array: Array<ClosureTableHierarchy<MockTreeID>> = [
+      const hierarchies: ClosureTableHierarchies<MockTreeID> = new MockClosureTableHierarchies(
         new MockClosureTableHierarchy(new MockTreeID('mock 10'), new MockTreeID('mock 01')),
         new MockClosureTableHierarchy(new MockTreeID('mock 10'), new MockTreeID('mock 02')),
         new MockClosureTableHierarchy(new MockTreeID('mock 11'), new MockTreeID('mock 02')),
         new MockClosureTableHierarchy(new MockTreeID('mock 11'), new MockTreeID('mock 01')),
         new MockClosureTableHierarchy(new MockTreeID('mock 10'), new MockTreeID('mock 03')),
         new MockClosureTableHierarchy(new MockTreeID('mock 12'), new MockTreeID('mock 03'))
-      ];
+      );
 
-      const table: ClosureTable<MockTreeID> = ClosureTable.of<MockTreeID>(array);
+      const table: ClosureTable<MockTreeID> = ClosureTable.of<MockTreeID>(hierarchies);
       const keys: ReadonlySequence<MockTreeID> = table.sort();
 
       expect(keys.size()).toBe(3);

@@ -1,16 +1,17 @@
 import {
   CancellableEnumerator,
+  Collection,
   ImmutableSequence,
   Pair,
   Quantity,
   ReadonlyAddress,
   ReadonlyProject
 } from '@jamashita/publikum-collection';
-import { JSONable } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
+import { JSONable, Nominative } from '@jamashita/publikum-interface';
+import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
 import { TreeID } from '../Interface/TreeID';
-import { TreeIDFactory } from '../Interface/TreeIDFactory';
 import { ClosureTableHierarchy, ClosureTableJSON } from './ClosureTableHierarchy';
+import { TreeIDFactory } from './Interface/TreeIDFactory';
 
 export class ClosureTableHierarchies<K extends TreeID> extends Quantity<number, ClosureTableHierarchy<K>, 'ClosureTableHierarchies'> implements JSONable<ReadonlyArray<ClosureTableJSON>> {
   public readonly noun: 'ClosureTableHierarchies' = 'ClosureTableHierarchies';
@@ -104,6 +105,18 @@ export class ClosureTableHierarchies<K extends TreeID> extends Quantity<number, 
 
   public values(): Iterable<ClosureTableHierarchy<K>> {
     return this.hierarchies.values();
+  }
+
+  public filter(predicate: BinaryPredicate<ClosureTableHierarchy<K>, number>): Collection<number, ClosureTableHierarchy<K>> {
+    return this.hierarchies.filter(predicate);
+  }
+
+  public find(predicate: BinaryPredicate<ClosureTableHierarchy<K>, number>): Nullable<ClosureTableHierarchy<K>> {
+    return this.hierarchies.find(predicate);
+  }
+
+  public map<W extends Nominative>(mapper: Mapper<ClosureTableHierarchy<K>, W>): ImmutableSequence<W> {
+    return this.hierarchies.map<W>(mapper);
   }
 
   public toJSON(): ReadonlyArray<ClosureTableJSON> {

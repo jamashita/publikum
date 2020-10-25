@@ -186,6 +186,14 @@ describe('ImmutableAddress', () => {
 
       expect(address2).toBe(ImmutableAddress.empty<MockValueObject<number>>());
     });
+
+    it('does nothing when Address is empty', () => {
+      expect.assertions(1);
+
+      const address: ImmutableAddress<MockValueObject<number>> = ImmutableAddress.empty<MockValueObject<number>>();
+
+      expect(address.remove(new MockValueObject<number>(1))).toBe(address);
+    });
   });
 
   describe('isEmpty', () => {

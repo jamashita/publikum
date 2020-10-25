@@ -29,21 +29,21 @@ describe('UUID', () => {
     });
   });
 
-  describe('isAcceptable', () => {
+  describe('validate', () => {
     it('returns true if given string is not violated to uuid format', () => {
       expect.assertions(1);
 
       const uuid: string = '998106de-b2e7-4981-9643-22cd30cd74de';
 
-      expect(UUID.isAcceptable(uuid)).toBe(true);
+      expect(UUID.validate(uuid)).toBe(true);
     });
 
     it('generates UUID that must pass', () => {
       expect.assertions(200);
 
       for (let i: number = 0; i < 100; i++) {
-        expect(UUID.isAcceptable(UUID.v4().get())).toBe(true);
-        expect(UUID.isAcceptable(UUID.v5().get())).toBe(true);
+        expect(UUID.validate(UUID.v4().get())).toBe(true);
+        expect(UUID.validate(UUID.v5().get())).toBe(true);
       }
     });
   });

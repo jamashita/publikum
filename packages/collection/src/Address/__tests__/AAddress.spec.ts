@@ -179,17 +179,17 @@ describe('AAddress', () => {
         new Set<MockValueObject<number>>([value1, value2, value3, value4])
       );
 
-      const found1: Nullable<MockValueObject<number>> = address.find((mock: MockValueObject<number>) => {
-        return mock.get() === 1;
+      const found1: Nullable<MockValueObject<number>> = address.find((v: MockValueObject<number>) => {
+        return v.get() === 1;
       });
-      const found2: Nullable<MockValueObject<number>> = address.find((mock: MockValueObject<number>) => {
-        return mock.get() === 2;
+      const found2: Nullable<MockValueObject<number>> = address.find((v: MockValueObject<number>) => {
+        return v.get() === 2;
       });
-      const found3: Nullable<MockValueObject<number>> = address.find((mock: MockValueObject<number>) => {
-        return mock.get() % 2 === 0;
+      const found3: Nullable<MockValueObject<number>> = address.find((v: MockValueObject<number>) => {
+        return v.get() % 2 === 0;
       });
-      const found4: Nullable<MockValueObject<number>> = address.find((mock: MockValueObject<number>) => {
-        return mock.get() > 1000;
+      const found4: Nullable<MockValueObject<number>> = address.find((v: MockValueObject<number>) => {
+        return v.get() > 1000;
       });
 
       expect(found1).toBe(value1);
@@ -247,8 +247,8 @@ describe('AAddress', () => {
         new Set<MockValueObject<number>>([value1, value2, value5, value4])
       );
 
-      const predicate: Predicate<MockValueObject<number>> = (mock: MockValueObject<number>) => {
-        return mock.get() % 2 === 0;
+      const predicate: Predicate<MockValueObject<number>> = (v: MockValueObject<number>) => {
+        return v.get() % 2 === 0;
       };
 
       const every1: boolean = address1.every(predicate);
@@ -286,8 +286,8 @@ describe('AAddress', () => {
         new Set<MockValueObject<number>>([value1, value5, value6, value7])
       );
 
-      const predicate: Predicate<MockValueObject<number>> = (mock: MockValueObject<number>) => {
-        return mock.get() % 2 === 0;
+      const predicate: Predicate<MockValueObject<number>> = (v: MockValueObject<number>) => {
+        return v.get() % 2 === 0;
       };
 
       const some1: boolean = address1.some(predicate);
@@ -309,8 +309,8 @@ describe('AAddress', () => {
         new Set<MockValueObject<number>>([value1, value2, value3, value4])
       );
 
-      const predicate: Predicate<MockValueObject<number>> = (mock: MockValueObject<number>) => {
-        return mock.get() % 2 === 1;
+      const predicate: Predicate<MockValueObject<number>> = (v: MockValueObject<number>) => {
+        return v.get() % 2 === 1;
       };
 
       const some: boolean = address.some(predicate);
@@ -449,6 +449,33 @@ describe('AAddress', () => {
         expect(value.get()).toBe(values[i].get());
         i++;
       }
+    });
+  });
+
+  describe('filter', () => {
+    it('can remove match values', () => {
+      expect.assertions(4);
+
+      const value1: MockValueObject<number> = new MockValueObject<number>(1);
+      const value2: MockValueObject<number> = new MockValueObject<number>(2);
+      const value3: MockValueObject<number> = new MockValueObject<number>(3);
+      const value4: MockValueObject<number> = new MockValueObject<number>(4);
+      const value5: MockValueObject<number> = new MockValueObject<number>(5);
+
+      const address1: MockAddress<MockValueObject<number>> = new MockAddress<MockValueObject<number>>(
+        new Set<MockValueObject<number>>([value1, value2, value3, value4])
+      );
+      const filtered1: MockAddress<MockValueObject<number>> = address1.filter((v: MockValueObject<number>) => {
+        return v.get() % 2 === 0;
+      });
+      const filtered2: MockAddress<MockValueObject<number>> = address1.filter((v: MockValueObject<number>) => {
+        return v === value5;
+      });
+
+      expect(filtered1.size()).toBe(2);
+      expect(filtered1.contains(value2)).toBe(true);
+      expect(filtered1.contains(value4)).toBe(true);
+      expect(filtered2.size()).toBe(0);
     });
   });
 });

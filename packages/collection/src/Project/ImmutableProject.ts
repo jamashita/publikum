@@ -4,63 +4,66 @@ import { Pair } from '../Pair';
 import { AProject } from './Abstract/AProject';
 import { ReadonlyProject } from './Interface/ReadonlyProject';
 
-export class ImmutableProject<K extends Nominative, V extends Nominative> extends AProject<K, V, 'ImmutableProject'> {
+export class ImmutableProject<K extends Nominative, V extends Nominative> extends AProject<K, V, ImmutableProject<K, V>, 'ImmutableProject'> {
   public readonly noun: 'ImmutableProject' = 'ImmutableProject';
 
   private static readonly EMPTY: ImmutableProject<Nominative, Nominative> = new ImmutableProject<Nominative, Nominative>(new Map<string, Pair<Nominative, Nominative>>());
 
-  public static of<KT extends Nominative, VT extends Nominative>(elements: ReadonlyProject<KT, VT>): ImmutableProject<KT, VT> {
-    return ImmutableProject.ofMap<KT, VT>(elements.toMap());
+  public static of<KT extends Nominative, VT extends Nominative>(project: ReadonlyProject<KT, VT>): ImmutableProject<KT, VT> {
+    return ImmutableProject.ofMap<KT, VT>(project.toMap());
   }
 
-  public static ofMap<KT extends Nominative, VT extends Nominative>(elements: ReadonlyMap<KT, VT>): ImmutableProject<KT, VT> {
-    const map: Map<string, Pair<KT, VT>> = new Map<string, Pair<KT, VT>>();
+  public static ofMap<KT extends Nominative, VT extends Nominative>(map: ReadonlyMap<KT, VT>): ImmutableProject<KT, VT> {
+    const m: Map<string, Pair<KT, VT>> = new Map<string, Pair<KT, VT>>();
 
-    elements.forEach((v: VT, k: KT) => {
-      map.set(k.hashCode(), Pair.of(k, v));
+    map.forEach((v: VT, k: KT) => {
+      m.set(k.hashCode(), Pair.of(k, v));
     });
 
-    return ImmutableProject.ofInternal<KT, VT>(map);
+    return ImmutableProject.ofInternal<KT, VT>(m);
   }
 
-  private static ofInternal<KT extends Nominative, VT extends Nominative>(elements: Map<string, Pair<KT, VT>>): ImmutableProject<KT, VT> {
-    if (elements.size === 0) {
+  private static ofInternal<KT extends Nominative, VT extends Nominative>(project: ReadonlyMap<string, Pair<KT, VT>>): ImmutableProject<KT, VT> {
+    if (project.size === 0) {
       return ImmutableProject.empty<KT, VT>();
     }
 
-    return new ImmutableProject<KT, VT>(elements);
+    return new ImmutableProject<KT, VT>(project);
   }
 
   public static empty<KT extends Nominative, VT extends Nominative>(): ImmutableProject<KT, VT> {
     return ImmutableProject.EMPTY as ImmutableProject<KT, VT>;
   }
 
-  protected constructor(elements: ReadonlyMap<string, Pair<K, V>>) {
-    super(elements);
+  protected constructor(project: ReadonlyMap<string, Pair<K, V>>) {
+    super(project);
+  }
+
+  protected forge(self: Map<string, Pair<K, V>>): ImmutableProject<K, V> {
+    return ImmutableProject.ofInternal<K, V>(self);
   }
 
   public set(key: K, value: V): ImmutableProject<K, V> {
-    const map: Map<string, Pair<K, V>> = new Map<string, Pair<K, V>>(this.elements);
+    const m: Map<string, Pair<K, V>> = new Map<string, Pair<K, V>>(this.project);
 
-    map.set(key.hashCode(), Pair.of(key, value));
+    m.set(key.hashCode(), Pair.of(key, value));
 
-    return ImmutableProject.ofInternal<K, V>(map);
+    return ImmutableProject.ofInternal<K, V>(m);
   }
 
   public remove(key: K): ImmutableProject<K, V> {
     if (this.isEmpty()) {
       return this;
     }
-
-    const map: Map<string, Pair<K, V>> = new Map<string, Pair<K, V>>(this.elements);
-
-    const deleted: boolean = map.delete(key.hashCode());
-
-    if (deleted) {
-      return ImmutableProject.ofInternal<K, V>(map);
+    if (!this.has(key)) {
+      return this;
     }
 
-    return this;
+    const m: Map<string, Pair<K, V>> = new Map<string, Pair<K, V>>(this.project);
+
+    m.delete(key.hashCode());
+
+    return ImmutableProject.ofInternal<K, V>(m);
   }
 
   public isEmpty(): boolean {
@@ -72,15 +75,9 @@ export class ImmutableProject<K extends Nominative, V extends Nominative> extend
   }
 
   public map<W extends Nominative>(mapper: Mapper<V, W>): ImmutableProject<K, W> {
-    const map: Map<string, Pair<K, W>> = new Map<string, Pair<K, W>>();
-    let i: number = 0;
+    const m: Map<string, Pair<K, W>> = this.mapInternal<W>(mapper);
 
-    this.elements.forEach((pair: Pair<K, V>) => {
-      map.set(pair.getKey().hashCode(), Pair.of<K, W>(pair.getKey(), mapper(pair.getValue(), i)));
-      i++;
-    });
-
-    return ImmutableProject.ofInternal<K, W>(map);
+    return ImmutableProject.ofInternal<K, W>(m);
   }
 
   public duplicate(): ImmutableProject<K, V> {
@@ -88,8 +85,8 @@ export class ImmutableProject<K extends Nominative, V extends Nominative> extend
       return ImmutableProject.empty<K, V>();
     }
 
-    const map: Map<string, Pair<K, V>> = new Map<string, Pair<K, V>>(this.elements);
+    const m: Map<string, Pair<K, V>> = new Map<string, Pair<K, V>>(this.project);
 
-    return ImmutableProject.ofInternal<K, V>(map);
+    return ImmutableProject.ofInternal<K, V>(m);
   }
 }

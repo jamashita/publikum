@@ -5,7 +5,7 @@ import { MockTreeID } from '../Mock/MockTreeID';
 import { MockTreeObject } from '../Mock/MockTreeObject';
 import { MockTreeNode } from '../TreeNode/Mock/MockTreeNode';
 
-describe('ATree', () => {
+describe('Tree', () => {
   describe('equals', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(1);
@@ -113,6 +113,59 @@ describe('ATree', () => {
       const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(root);
 
       expect(tree.getRoot()).toBe(root);
+    });
+  });
+
+  describe('contains', () => {
+    it('delegates to retaining root', () => {
+      expect.assertions(1);
+
+      const root: MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock')));
+      const spy: SinonSpy = sinon.spy();
+
+      root.contains = spy;
+
+      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(root);
+
+      tree.contains(new MockTreeObject(new MockTreeID('mockmock')));
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('find', () => {
+    it('delegates to retaining root', () => {
+      expect.assertions(1);
+
+      const root: MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock')));
+      const spy: SinonSpy = sinon.spy();
+
+      root.find = spy;
+
+      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(root);
+
+      tree.find(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('size', () => {
+    it('delegates to retaining root', () => {
+      expect.assertions(1);
+
+      const root: MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock')));
+      const spy: SinonSpy = sinon.spy();
+
+      root.size = spy;
+
+      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(root);
+
+      tree.size();
+
+      expect(spy.called).toBe(true);
     });
   });
 });

@@ -1,5 +1,6 @@
+import { Nominative } from '@jamashita/publikum-interface';
 import { Objet } from '@jamashita/publikum-object';
-import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
 import { CancellableEnumerator } from './Interface/CancellableEnumerator';
 import { Collection } from './Interface/Collection';
 import { Pair } from './Pair';
@@ -26,4 +27,10 @@ export abstract class Quantity<K, V, N extends string = string> extends Objet<N>
   public abstract some(predicate: BinaryPredicate<V, K>): boolean;
 
   public abstract values(): Iterable<V>;
+
+  public abstract filter(predicate: BinaryPredicate<V, K>): Collection<K, V>;
+
+  public abstract find(predicate: BinaryPredicate<V, K>): Nullable<V>;
+
+  public abstract map<W extends Nominative>(mapper: Mapper<V, W>): Collection<K, W>;
 }

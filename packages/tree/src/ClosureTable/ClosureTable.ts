@@ -9,7 +9,8 @@ import {
   ReadonlyAddress,
   ReadonlySequence
 } from '@jamashita/publikum-collection';
-import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
+import { Nominative } from '@jamashita/publikum-interface/src';
+import { BinaryPredicate, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
 import { StructurableTreeObject } from '../Interface/StructurableTreeObject';
 import { TreeID } from '../Interface/TreeID';
 import { StructurableTree } from '../StructurableTree';
@@ -24,8 +25,8 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffs
 
   private static readonly EMPTY: ClosureTable<TreeID> = new ClosureTable<TreeID>(ImmutableProject.empty<TreeID, ClosureTableOffsprings<TreeID>>());
 
-  public static of<KT extends TreeID>(hierarchies: ReadonlyArray<ClosureTableHierarchy<KT>>): ClosureTable<KT> {
-    if (hierarchies.length === 0) {
+  public static of<KT extends TreeID>(hierarchies: ClosureTableHierarchies<KT>): ClosureTable<KT> {
+    if (hierarchies.isEmpty()) {
       return ClosureTable.empty<KT>();
     }
 
@@ -57,6 +58,7 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffs
     return ClosureTable.EMPTY as ClosureTable<KT>;
   }
 
+  // TODO NECESSARY ?
   public static toHierarchies<KT extends TreeID, VT extends StructurableTreeObject<KT>>(tree: StructurableTree<KT, VT>): ClosureTableHierarchies<KT> {
     const hierarchies: MutableProject<KT, MutableAddress<KT>> = MutableProject.empty<KT, MutableAddress<KT>>();
 
@@ -143,6 +145,18 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffs
 
   public values(): Iterable<ClosureTableOffsprings<K>> {
     return this.table.values();
+  }
+
+  public filter(predicate: BinaryPredicate<ClosureTableOffsprings<K>, K>): ImmutableProject<K, ClosureTableOffsprings<K>> {
+    return this.table.filter(predicate);
+  }
+
+  public find(predicate: BinaryPredicate<ClosureTableOffsprings<K>, K>): Nullable<ClosureTableOffsprings<K>> {
+    return this.table.find(predicate);
+  }
+
+  public map<W extends Nominative>(mapper: Mapper<ClosureTableOffsprings<K>, W>): ImmutableProject<K, W> {
+    return this.table.map<W>(mapper);
   }
 
   public sort(): ReadonlySequence<K> {

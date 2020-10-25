@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.28.0](https://github.com/jamashita/publikum/compare/v2.27.1...v2.28.0) (2020-10-23)
+
+
+### Features
+
+* 🎸 removed got ([b1029c2](https://github.com/jamashita/publikum/commit/b1029c2c164fe72efd55cb629d4d8676c226401a))
+* 🎸 update ([ce5cb46](https://github.com/jamashita/publikum/commit/ce5cb462688505c8ae92a60e876c649768b7bd09))
+* 🎸 update ([b7174e7](https://github.com/jamashita/publikum/commit/b7174e7227fe81173f6a4a224d0129b80cd69641))
+
+
+
+
+
 ## [2.27.1](https://github.com/jamashita/publikum/compare/v2.27.0...v2.27.1) (2020-10-12)
 
 **Note:** Version bump only for package @jamashita/publikum-request

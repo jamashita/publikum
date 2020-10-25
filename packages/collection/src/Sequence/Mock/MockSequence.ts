@@ -5,19 +5,19 @@ import { ASequence } from '../Abstract/ASequence';
 export class MockSequence<V extends Nominative> extends ASequence<V, 'MockSequence'> {
   public readonly noun: 'MockSequence' = 'MockSequence';
 
-  public constructor(elements: Array<V>) {
-    super(elements);
+  public constructor(sequence: ReadonlyArray<V>) {
+    super(sequence);
   }
 
   public add(): MockSequence<V> {
     throw new UnimplementedError();
   }
 
-  public remove(): MockSequence<V> {
+  public set(): MockSequence<V> {
     throw new UnimplementedError();
   }
 
-  public set(): MockSequence<V> {
+  public remove(): MockSequence<V> {
     throw new UnimplementedError();
   }
 

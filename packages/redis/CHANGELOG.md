@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.28.0](https://github.com/jamashita/publikum/compare/v2.27.1...v2.28.0) (2020-10-23)
+
+
+### Bug Fixes
+
+* 🐛 0 | 1 -> 'OK' ([510a5ea](https://github.com/jamashita/publikum/commit/510a5ea6d16acf564e2a9b538eaf941f15ec64a4))
+
+
+
+
+
 ## [2.27.1](https://github.com/jamashita/publikum/compare/v2.27.0...v2.27.1) (2020-10-12)
 
 **Note:** Version bump only for package @jamashita/publikum-redis

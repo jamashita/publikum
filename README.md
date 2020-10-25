@@ -189,14 +189,8 @@ Class for random string, random number.
     * [ ] `sequence<P>(arr: Array<Promise<P>>): Promise<Array<P>>;`
   * Superposition
     * [ ] `sequence<A, D>(arr: Array<Promise<A>>): Promise<Array<Schrodinger<A, D>>>;`
-* [x] `Zeit.isAcceptable(str: string, format: string): boolean`
-* [x] `Zeit.toString(format?: string): string` accepts FORMAT (omittable)
-* [x] `Unscharferelation.ifPresent((value: P) => {})`
-* [x] `Unscharferelation.ifAbsent(() => {})`
-* [x] `Unscharferelation.ifLost((cause: unknown) => {})`
-* [x] `Superposition.ifAlive((value: A) => {})`
-* [x] `Superposition.ifDead((value: D) => {})`
-* [x] `Superposition.ifContradiction((cause: unknown) => {})`
+* [ ] validation decorator
+* [ ] can get constract from DeadContractor.constractor
 
 ## Conventional commit
 

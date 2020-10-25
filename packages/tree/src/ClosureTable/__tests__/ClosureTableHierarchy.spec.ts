@@ -1,13 +1,7 @@
 import { MockValueObject } from '@jamashita/publikum-object';
-import { TreeIDFactory } from '../../Interface/TreeIDFactory';
 import { MockTreeID } from '../../Mock/MockTreeID';
 import { ClosureTableHierarchy, ClosureTableJSON } from '../ClosureTableHierarchy';
-
-class TestTreeIDFactory implements TreeIDFactory<MockTreeID> {
-  public forge(id: string): MockTreeID {
-    return new MockTreeID(id);
-  }
-}
+import { MockTreeIDFactory } from '../Mock/MockTreeIDFactory';
 
 describe('ClosureTableHierarchy', () => {
   describe('ofJSON', () => {
@@ -19,7 +13,7 @@ describe('ClosureTableHierarchy', () => {
         offspring: 'e45eb02f-837a-40c9-8925-474e2f18faf0'
       };
 
-      const factory: TestTreeIDFactory = new TestTreeIDFactory();
+      const factory: MockTreeIDFactory = new MockTreeIDFactory();
 
       const hierarchy: ClosureTableHierarchy<MockTreeID> = ClosureTableHierarchy.ofJSON<MockTreeID>(json, factory);
 
