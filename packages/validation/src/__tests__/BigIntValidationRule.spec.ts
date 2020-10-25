@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { BigIntValidationRule } from '../BigIntValidationRule';
 import { ValidationError } from '../Error/ValidationError';
 

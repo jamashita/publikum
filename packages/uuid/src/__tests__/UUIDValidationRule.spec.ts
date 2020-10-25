@@ -1,5 +1,4 @@
 import { ValidationError } from '@jamashita/publikum-validation';
-import 'reflect-metadata';
 import { UUIDValidationRule } from '../UUIDValidationRule';
 
 describe('UUIDValidationRule', () => {

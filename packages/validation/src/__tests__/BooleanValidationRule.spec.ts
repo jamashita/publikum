@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { BooleanValidationRule } from '../BooleanValidationRule';
 import { ValidationError } from '../Error/ValidationError';
 

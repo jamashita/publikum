@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { ValidationError } from '../Error/ValidationError';
 import { SymbolValidationRule } from '../SymbolValidationRule';
 
