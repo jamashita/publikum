@@ -9,14 +9,14 @@ export class UUID extends ValueObject<'UUID'> {
   private readonly id: string;
 
   public static of(id: string): UUID {
-    if (UUID.isAcceptable(id)) {
+    if (UUID.validate(id)) {
       return new UUID(id);
     }
 
     throw new UUIDError(`ILLEGAL ID SPECIFIED: ${id}`);
   }
 
-  public static isAcceptable(str: string): boolean {
+  public static validate(str: string): boolean {
     return UUID.regex().test(str);
   }
 
