@@ -23,6 +23,7 @@ const getKeys = (target: object): Set<string | symbol> => {
   return properties;
 };
 
+// TODO TESSTS!!!
 export const Validate = (): MethodDecorator => {
   return <T>(target: object, _k: string | symbol, descriptor: TypedPropertyDescriptor<T>): void => {
     getKeys(target).forEach((key: string | symbol) => {
