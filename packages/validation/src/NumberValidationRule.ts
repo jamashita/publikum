@@ -2,7 +2,7 @@ import { Kind } from '@jamashita/publikum-type';
 import { ValidationError } from './Error/ValidationError';
 import { ValidationRule } from './Interface/ValidationRule';
 
-export type NumberValidatorArgs = Partial<Readonly<{
+export type NumberValidationArgs = Partial<Readonly<{
   min: number;
   max: number;
   int: boolean;
@@ -17,7 +17,7 @@ export class NumberValidationRule implements ValidationRule {
   private readonly noNaN: boolean;
   private readonly noInfinity: boolean;
 
-  public constructor({ min, max, int = false, noNaN = false, noInfinity = false }: NumberValidatorArgs) {
+  public constructor({ min, max, int = false, noNaN = false, noInfinity = false }: NumberValidationArgs) {
     this.min = min;
     this.max = max;
     this.int = int;

@@ -2,7 +2,7 @@ import { Kind } from '@jamashita/publikum-type';
 import { ValidationError } from './Error/ValidationError';
 import { ValidationRule } from './Interface/ValidationRule';
 
-export type StringValidatorArgs = Partial<Readonly<{
+export type StringValidationArgs = Partial<Readonly<{
   min: number;
   max: number;
   pattern: RegExp;
@@ -14,7 +14,7 @@ export class StringValidationRule implements ValidationRule {
   private readonly max?: number;
   private readonly pattern?: RegExp;
 
-  public constructor({ min, max, pattern }: StringValidatorArgs) {
+  public constructor({ min, max, pattern }: StringValidationArgs) {
     this.min = min;
     this.max = max;
     this.pattern = pattern;
