@@ -7,31 +7,25 @@ import { Validate } from '../Validate';
 class MockValidation {
   @Validate()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public act(@StringValidation() _s: unknown): void {
+  public act1(@StringValidation() _s: unknown): void {
     // NOOP
   }
-}
 
-class MockMinValidation {
   @Validate()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public act(@StringValidation({ min: 4 }) _s: unknown): void {
+  public act2(@StringValidation({ min: 4 }) _s: unknown): void {
     // NOOP
   }
-}
 
-class MockMaxValidation {
   @Validate()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public act(@StringValidation({ max: 4 }) _s: unknown): void {
+  public act3(@StringValidation({ max: 4 }) _s: unknown): void {
     // NOOP
   }
-}
 
-class MockPatternValidation {
   @Validate()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public act(@StringValidation({ pattern: /^a.*b$/iu }) _s: unknown): void {
+  public act4(@StringValidation({ pattern: /^a.*b$/iu }) _s: unknown): void {
     // NOOP
   }
 }
@@ -44,7 +38,7 @@ describe('StringValidation', () => {
       const validation: MockValidation = new MockValidation();
 
       expect(() => {
-        validation.act('');
+        validation.act1('');
       }).not.toThrow(ValidationError);
     });
 
@@ -54,109 +48,109 @@ describe('StringValidation', () => {
       const validation: MockValidation = new MockValidation();
 
       expect(() => {
-        validation.act(null);
+        validation.act1(null);
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act(undefined);
+        validation.act1(undefined);
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act(123);
+        validation.act1(123);
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act(0);
+        validation.act1(0);
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act(false);
+        validation.act1(false);
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act(true);
+        validation.act1(true);
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act(Symbol('p'));
+        validation.act1(Symbol('p'));
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act(20n);
+        validation.act1(20n);
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act({});
+        validation.act1({});
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act([]);
+        validation.act1([]);
       }).toThrow(ValidationError);
     });
 
     it('throws ValidationError when less than min string length given', () => {
       expect.assertions(5);
 
-      const validation: MockMinValidation = new MockMinValidation();
+      const validation: MockValidation = new MockValidation();
 
       expect(() => {
-        validation.act('');
+        validation.act2('');
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act('p');
+        validation.act2('p');
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act('pq');
+        validation.act2('pq');
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act('pqw');
+        validation.act2('pqw');
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act('pqwo');
+        validation.act2('pqwo');
       }).not.toThrow(ValidationError);
     });
 
     it('throws ValidationError when greater than max string length given', () => {
       expect.assertions(5);
 
-      const validation: MockMaxValidation = new MockMaxValidation();
+      const validation: MockValidation = new MockValidation();
 
       expect(() => {
-        validation.act('pqwo1029');
+        validation.act3('pqwo1029');
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act('pqwo102');
+        validation.act3('pqwo102');
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act('pqwo10');
+        validation.act3('pqwo10');
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act('pqwo1');
+        validation.act3('pqwo1');
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act('pqwo');
+        validation.act3('pqwo');
       }).not.toThrow(ValidationError);
     });
 
     it('throws ValidationError when string pattern does not match', () => {
       expect.assertions(8);
 
-      const validation: MockPatternValidation = new MockPatternValidation();
+      const validation: MockValidation = new MockValidation();
 
       expect(() => {
-        validation.act('a');
+        validation.act4('a');
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act('b');
+        validation.act4('b');
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act('ab');
+        validation.act4('ab');
       }).not.toThrow(ValidationError);
       expect(() => {
-        validation.act('ba');
+        validation.act4('ba');
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act('aab');
+        validation.act4('aab');
       }).not.toThrow(ValidationError);
       expect(() => {
-        validation.act('abb');
+        validation.act4('abb');
       }).not.toThrow(ValidationError);
       expect(() => {
-        validation.act('acb');
+        validation.act4('acb');
       }).not.toThrow(ValidationError);
       expect(() => {
-        validation.act('abcab');
+        validation.act4('abcab');
       }).not.toThrow(ValidationError);
     });
   });

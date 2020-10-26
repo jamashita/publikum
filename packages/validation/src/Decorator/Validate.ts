@@ -5,8 +5,8 @@ import { ValidationRule } from '../Interface/ValidationRule';
 const INDEX_KEY: symbol = Symbol();
 const RULE_KEY: symbol = Symbol();
 
-const getIndex = (target: object, key: string | symbol): Ambiguous<Array<number>> => {
-  return Reflect.getOwnMetadata(INDEX_KEY, target, key) as Ambiguous<Array<number>>;
+const getIndex = (target: object, key: string | symbol): Ambiguous<Set<number>> => {
+  return Reflect.getOwnMetadata(INDEX_KEY, target, key) as Ambiguous<Set<number>>;
 };
 
 const getRules = (target: object, key: string | symbol): Ambiguous<Map<number, ValidationRule>> => {
@@ -16,7 +16,7 @@ const getRules = (target: object, key: string | symbol): Ambiguous<Map<number, V
 // TODO TESTS!!!
 export const Validate = (): MethodDecorator => {
   return <T>(target: object, key: string | symbol, descriptor: TypedPropertyDescriptor<T>): void => {
-    const indice: Ambiguous<Array<number>> = getIndex(target, key);
+    const indice: Ambiguous<Set<number>> = getIndex(target, key);
     const rules: Ambiguous<Map<number, ValidationRule>> = getRules(target, key);
 
     if (Kind.isUndefined(indice)) {
@@ -49,14 +49,18 @@ export const Validate = (): MethodDecorator => {
 };
 
 export const addRule = (target: object, key: string | symbol, index: number, rule: ValidationRule): void => {
-  const indice: Ambiguous<Array<number>> = getIndex(target, key);
+  const indice: Ambiguous<Set<number>> = getIndex(target, key);
   const rules: Ambiguous<Map<number, ValidationRule>> = getRules(target, key);
 
   if (Kind.isUndefined(indice)) {
-    Reflect.defineMetadata(INDEX_KEY, [index], target, key);
+    const s: Set<number> = new Set<number>();
+
+    s.add(index);
+
+    Reflect.defineMetadata(INDEX_KEY, s, target, key);
   }
   else {
-    indice.push(index);
+    indice.add(index);
   }
 
   if (Kind.isUndefined(rules)) {
