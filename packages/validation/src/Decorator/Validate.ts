@@ -13,7 +13,6 @@ const getRules = (target: object, key: string | symbol): Ambiguous<Map<number, V
   return Reflect.getOwnMetadata(RULE_KEY, target, key) as Ambiguous<Map<number, ValidationRule>>;
 };
 
-// TODO TESTS!!!
 export const Validate = (): MethodDecorator => {
   return <T>(target: object, key: string | symbol, descriptor: TypedPropertyDescriptor<T>): void => {
     const indice: Ambiguous<Set<number>> = getIndex(target, key);
