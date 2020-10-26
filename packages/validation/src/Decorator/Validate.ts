@@ -17,11 +17,13 @@ const getRules = (target: object, key: string | symbol): Ambiguous<Map<number, V
 export const Validate = (): MethodDecorator => {
   return <T>(target: object, key: string | symbol, descriptor: TypedPropertyDescriptor<T>): void => {
     const indice: Ambiguous<Set<number>> = getIndex(target, key);
-    const rules: Ambiguous<Map<number, ValidationRule>> = getRules(target, key);
 
     if (Kind.isUndefined(indice)) {
       return;
     }
+
+    const rules: Ambiguous<Map<number, ValidationRule>> = getRules(target, key);
+
     if (Kind.isUndefined(rules)) {
       return;
     }
