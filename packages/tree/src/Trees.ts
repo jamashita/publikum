@@ -4,11 +4,11 @@ import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
 import { Tree } from './Tree';
 import { TreeNode } from './TreeNode/TreeNode';
 
-export abstract class Trees<K, V extends Nominative, T extends TreeNode<V, T>, E extends Tree<V, T>, N extends string = string> extends Quantity<K, E, N> {
+export abstract class Trees<K, V extends Nominative, T extends TreeNode<V, T>, E extends Tree<V, T>, C extends Collection<K, E>, N extends string = string> extends Quantity<K, E, N> {
   public abstract readonly noun: N;
-  protected readonly trees: Collection<K, E>;
+  protected readonly trees: C;
 
-  protected constructor(trees: Collection<K, E>) {
+  protected constructor(trees: C) {
     super();
     this.trees = trees;
   }

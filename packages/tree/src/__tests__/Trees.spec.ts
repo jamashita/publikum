@@ -1,8 +1,11 @@
 import { ImmutableAddress, ImmutableProject, MockProject } from '@jamashita/publikum-collection';
 import { MockValueObject } from '@jamashita/publikum-object';
-import { MockTree, MockTreeID, MockTreeNode, MockTreeObject } from '@jamashita/publikum-tree';
 import sinon, { SinonSpy } from 'sinon';
+import { MockTree } from '../Mock/MockTree';
+import { MockTreeID } from '../Mock/MockTreeID';
+import { MockTreeObject } from '../Mock/MockTreeObject';
 import { MockTrees } from '../Mock/MockTrees';
+import { MockTreeNode } from '../TreeNode/Mock/MockTreeNode';
 
 describe('Trees', () => {
   describe('iterator', () => {
