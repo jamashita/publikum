@@ -12,16 +12,16 @@ export type TreeNodeJSON = Readonly<{
 export class SerializableTreeNode<V extends SerializableTreeObject> extends TreeNode<V, SerializableTreeNode<V>, 'SerializableTreeNode'> implements JSONable<TreeNodeJSON> {
   public readonly noun: 'SerializableTreeNode' = 'SerializableTreeNode';
 
-  public static of<VT extends SerializableTreeObject>(value: VT, children: ReadonlyAddress<SerializableTreeNode<VT>> = ImmutableAddress.empty<SerializableTreeNode<VT>>()): SerializableTreeNode<VT> {
-    return new SerializableTreeNode<VT>(value, ImmutableAddress.of<SerializableTreeNode<VT>>(children));
-  }
-
-  public static ofNode<VT extends SerializableTreeObject>(node: SerializableTreeNode<VT>): SerializableTreeNode<VT> {
+  public static of<VT extends SerializableTreeObject>(node: SerializableTreeNode<VT>): SerializableTreeNode<VT> {
     return new SerializableTreeNode<VT>(node.getValue(), node.getChildren());
   }
 
-  protected constructor(value: V, children: ImmutableAddress<SerializableTreeNode<V>>) {
-    super(value, children);
+  public static ofValue<VT extends SerializableTreeObject>(value: VT, children?: ReadonlyAddress<SerializableTreeNode<VT>>): SerializableTreeNode<VT> {
+    return new SerializableTreeNode<VT>(value, children);
+  }
+
+  protected constructor(value: V, children: ReadonlyAddress<SerializableTreeNode<V>> = ImmutableAddress.empty<SerializableTreeNode<V>>()) {
+    super(value, ImmutableAddress.of<SerializableTreeNode<V>>(children));
   }
 
   protected forge(node: TreeNode<V, SerializableTreeNode<V>>): SerializableTreeNode<V> {
@@ -29,7 +29,7 @@ export class SerializableTreeNode<V extends SerializableTreeObject> extends Tree
       return node as SerializableTreeNode<V>;
     }
 
-    return SerializableTreeNode.of<V>(node.getValue(), node.getChildren());
+    return SerializableTreeNode.ofValue<V>(node.getValue(), node.getChildren());
   }
 
   public toJSON(): TreeNodeJSON {
