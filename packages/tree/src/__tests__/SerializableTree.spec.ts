@@ -10,7 +10,7 @@ describe('SerializableTree', () => {
       expect.assertions(1);
 
       const spy: SinonSpy = sinon.spy();
-      const root: SerializableTreeNode<MockTreeObject<MockTreeID>> = SerializableTreeNode.of<MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock')));
+      const root: SerializableTreeNode<MockTreeObject<MockTreeID>> = SerializableTreeNode.ofValue<MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock')));
 
       root.toJSON = spy;
 
