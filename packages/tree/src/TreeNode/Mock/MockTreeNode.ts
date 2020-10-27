@@ -7,7 +7,7 @@ export class MockTreeNode<K extends TreeID, V extends StructurableTreeObject<K>>
   public readonly noun: 'MockTreeNode' = 'MockTreeNode';
 
   public constructor(value: V, children: ReadonlyAddress<MockTreeNode<K, V>> = ImmutableAddress.empty<MockTreeNode<K, V>>()) {
-    super(value, children);
+    super(value, ImmutableAddress.of<MockTreeNode<K, V>>(children));
   }
 
   protected forge(node: TreeNode<V, MockTreeNode<K, V>>): MockTreeNode<K, V> {
