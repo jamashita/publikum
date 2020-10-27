@@ -6,7 +6,6 @@ import { Quantity } from '../../Quantity';
 import { Sequence } from '../Interface/Sequence';
 
 export abstract class ASequence<V extends Nominative, N extends string = string> extends Quantity<number, V, N> implements Sequence<V, N> {
-  public abstract readonly noun: N;
   protected sequence: Array<V>;
 
   protected constructor(sequence: ReadonlyArray<V>) {

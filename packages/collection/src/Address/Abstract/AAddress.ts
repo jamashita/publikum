@@ -6,7 +6,6 @@ import { Quantity } from '../../Quantity';
 import { Address } from '../Interface/Address';
 
 export abstract class AAddress<V extends Nominative, T extends AAddress<V, T>, N extends string = string> extends Quantity<void, V, N> implements Address<V, N> {
-  public abstract readonly noun: N;
   protected readonly address: Map<string, V>;
 
   protected constructor(address: ReadonlyMap<string, V>) {
