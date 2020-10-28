@@ -1,8 +1,10 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
-import { Alive, Contradiction, Dead } from '@jamashita/publikum-monad';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { SuperpositionError } from '../../Error/SuperpositionError';
+import { Alive } from '../Alive';
+import { Contradiction } from '../Contradiction';
+import { Dead } from '../Dead';
 import { Schrodinger } from '../Schrodinger';
 import { Still } from '../Still';
 

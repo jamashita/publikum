@@ -1,9 +1,9 @@
-import { AJAXError } from '@jamashita/publikum-ajax';
 import { ObjectLiteral } from '@jamashita/publikum-type';
 import { StatusCodes } from 'http-status-codes';
 import fetchMock, { MockResponseInit } from 'jest-fetch-mock';
 import { AJAX } from '../AJAX';
 import { AJAXResponse } from '../AJAXResponse';
+import { AJAXError } from '../Error/AJAXError';
 
 const bufToChar = (buf: ArrayBuffer): string => {
   return Buffer.from(new Uint8Array(buf)).toString('hex');

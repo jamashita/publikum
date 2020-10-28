@@ -1,11 +1,12 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
-import { Matter, Plan } from '@jamashita/publikum-monad';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
+import { Plan } from '../../Plan/Interface/Plan';
 import { Schrodinger } from '../../Superposition/Schrodinger/Schrodinger';
 import { Epoque } from '../Epoque/Interface/Epoque';
 import { UnscharferelationError } from '../Error/UnscharferelationError';
 import { Heisenberg } from '../Heisenberg/Heisenberg';
+import { Matter } from '../Interface/Matter';
 import { UnscharferelationInternal } from '../UnscharferelationInternal';
 
 describe('UnscharferelationInternal', () => {

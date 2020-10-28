@@ -1,9 +1,11 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
-import { Absent, Lost, Present } from '@jamashita/publikum-monad';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { UnscharferelationError } from '../../Error/UnscharferelationError';
+import { Absent } from '../Absent';
 import { Heisenberg } from '../Heisenberg';
+import { Lost } from '../Lost';
+import { Present } from '../Present';
 import { Uncertain } from '../Uncertain';
 
 describe('Uncertain', () => {
