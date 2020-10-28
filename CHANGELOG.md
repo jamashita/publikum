@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.29.1](https://github.com/jamashita/publikum/compare/v2.29.0...v2.29.1) (2020-10-28)
+
+
+### Bug Fixes
+
+* 🐛 expose path correction ([4a375ce](https://github.com/jamashita/publikum/commit/4a375ce2a3da7b8d05cf4bcaba59c31b979cb8a4))
+* 🐛 import path corrections ([ec2645a](https://github.com/jamashita/publikum/commit/ec2645a9a61db70fe54701bf8e8c39201b4b8670))
+
+
+
+
+
 # [2.29.0](https://github.com/jamashita/publikum/compare/v2.28.0...v2.29.0) (2020-10-28)
 
 
