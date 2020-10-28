@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.29.0](https://github.com/jamashita/publikum/compare/v2.28.0...v2.29.0) (2020-10-28)
+
+
+### Features
+
+* 🎸 expose ([3fbb783](https://github.com/jamashita/publikum/commit/3fbb78316cd1a199f910e29878bb078ab4ab131f))
+* 🎸 isAcceptable() -> validate() ([659d3c7](https://github.com/jamashita/publikum/commit/659d3c795387eaa717e925aad8918e87d32f6394))
+* 🎸 reflect-metadata ([f685fe9](https://github.com/jamashita/publikum/commit/f685fe9c0bbb11f7a49d99ecabf4641aebcc677e))
+* 🎸 UUIDValidation ([4a0846d](https://github.com/jamashita/publikum/commit/4a0846d51df287d2d181ba21ed53ec4bf0e3d647))
+* 🎸 UUIDValidationRule ([51d8216](https://github.com/jamashita/publikum/commit/51d82160ce19dd9c923ce98135f09573ff5c2172))
+
+
+
+
+
 # [2.28.0](https://github.com/jamashita/publikum/compare/v2.27.1...v2.28.0) (2020-10-23)
 
 **Note:** Version bump only for package @jamashita/publikum-uuid

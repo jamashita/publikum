@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.29.0](https://github.com/jamashita/publikum/compare/v2.28.0...v2.29.0) (2020-10-28)
+
+
+### Features
+
+* 🎸 collection.find() ([1468ef6](https://github.com/jamashita/publikum/commit/1468ef6a3879c170177b09b2f51057acf1257cee))
+* 🎸 filter() and map() ([43a02be](https://github.com/jamashita/publikum/commit/43a02bebf358b9be7a976a6034a47995f9f1d65c))
+* 🎸 map() and filter() ([30bfb76](https://github.com/jamashita/publikum/commit/30bfb761085f04477350baa6782e63d4885d2773))
+* 🎸 map(), filter() ([a85163a](https://github.com/jamashita/publikum/commit/a85163ab97a8780d6a58b30e9920855f6c49dca1))
+* 🎸 SEquence udpate ([19b3f62](https://github.com/jamashita/publikum/commit/19b3f625461e0a17abd85967baa11d62393d5561))
+* 🎸 update ([f39be57](https://github.com/jamashita/publikum/commit/f39be573c2994e7305557d2df02a4b497d1866ca))
+
+
+
+
+
 # [2.28.0](https://github.com/jamashita/publikum/compare/v2.27.1...v2.28.0) (2020-10-23)
 
 **Note:** Version bump only for package @jamashita/publikum-collection

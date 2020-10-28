@@ -8,7 +8,7 @@ import {
   Quantity,
   ReadonlyAddress
 } from '@jamashita/publikum-collection';
-import { Nominative } from '@jamashita/publikum-interface/src';
+import { Nominative } from '@jamashita/publikum-interface/';
 import { BinaryPredicate, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
 import { TreeID } from '../Interface/TreeID';
 import { ClosureTableHierarchies } from './ClosureTableHierarchies';
