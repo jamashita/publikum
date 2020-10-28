@@ -1,4 +1,4 @@
-import { MockTreeID } from '@jamashita/publikum-tree';
+import { MockTreeID } from '../../Mock/MockTreeID';
 import { TreeIDFactory } from '../Interface/TreeIDFactory';
 
 export class MockTreeIDFactory implements TreeIDFactory<MockTreeID> {
