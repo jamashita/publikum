@@ -3,21 +3,21 @@ import { Mapper } from '@jamashita/publikum-type';
 import { AAddress } from './Abstract/AAddress';
 import { ReadonlyAddress } from './Interface/ReadonlyAddress';
 
-export class MutableAddress<V extends Nominative> extends AAddress<V, 'MutableAddress'> {
+export class MutableAddress<V extends Nominative> extends AAddress<V, MutableAddress<V>, 'MutableAddress'> {
   public readonly noun: 'MutableAddress' = 'MutableAddress';
 
-  public static of<VT extends Nominative>(elements: ReadonlyAddress<VT>): MutableAddress<VT> {
-    return MutableAddress.ofSet<VT>(elements.toSet());
+  public static of<VT extends Nominative>(address: ReadonlyAddress<VT>): MutableAddress<VT> {
+    return MutableAddress.ofSet<VT>(address.toSet());
   }
 
-  public static ofSet<VT extends Nominative>(elements: ReadonlySet<VT>): MutableAddress<VT> {
-    const map: Map<string, VT> = new Map<string, VT>();
+  public static ofSet<VT extends Nominative>(set: ReadonlySet<VT>): MutableAddress<VT> {
+    const m: Map<string, VT> = new Map<string, VT>();
 
-    elements.forEach((v: VT) => {
-      map.set(v.hashCode(), v);
+    set.forEach((v: VT) => {
+      m.set(v.hashCode(), v);
     });
 
-    return MutableAddress.ofInternal<VT>(map);
+    return MutableAddress.ofInternal<VT>(m);
   }
 
   private static ofInternal<VT extends Nominative>(elements: Map<string, VT>): MutableAddress<VT> {
@@ -36,42 +36,40 @@ export class MutableAddress<V extends Nominative> extends AAddress<V, 'MutableAd
     super(elements);
   }
 
-  public add(element: V): MutableAddress<V> {
-    if (this.contains(element)) {
+  protected forge(self: Map<string, V>): MutableAddress<V> {
+    return MutableAddress.ofInternal<V>(self);
+  }
+
+  public add(value: V): MutableAddress<V> {
+    if (this.contains(value)) {
       return this;
     }
 
-    this.elements.set(element.hashCode(), element);
+    this.address.set(value.hashCode(), value);
 
     return this;
   }
 
-  public remove(element: V): MutableAddress<V> {
+  public remove(value: V): MutableAddress<V> {
     if (this.isEmpty()) {
       return this;
     }
-    if (!this.contains(element)) {
+    if (!this.contains(value)) {
       return this;
     }
 
-    this.elements.delete(element.hashCode());
+    this.address.delete(value.hashCode());
 
     return this;
   }
 
   public map<W extends Nominative>(mapper: Mapper<V, W>): MutableAddress<W> {
-    const map: Map<string, W> = new Map<string, W>();
-    let i: number = 0;
+    const m: Map<string, W> = this.mapInternal<W>(mapper);
 
-    this.elements.forEach((v: V) => {
-      map.set(v.hashCode(), mapper(v, i));
-      i++;
-    });
-
-    return MutableAddress.ofInternal<W>(map);
+    return MutableAddress.ofInternal<W>(m);
   }
 
   public duplicate(): MutableAddress<V> {
-    return MutableAddress.ofInternal<V>(new Map<string, V>(this.elements));
+    return MutableAddress.ofInternal<V>(new Map<string, V>(this.address));
   }
 }

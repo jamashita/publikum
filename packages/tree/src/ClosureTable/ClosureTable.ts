@@ -6,26 +6,22 @@ import {
   MutableProject,
   Pair,
   Quantity,
-  ReadonlyAddress,
-  ReadonlySequence
+  ReadonlyAddress
 } from '@jamashita/publikum-collection';
-import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
-import { StructurableTreeObject } from '../Interface/StructurableTreeObject';
+import { Nominative } from '@jamashita/publikum-interface/src';
+import { BinaryPredicate, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
 import { TreeID } from '../Interface/TreeID';
-import { StructurableTree } from '../StructurableTree';
-import { StructurableTreeNode } from '../TreeNode/StructurableTreeNode';
 import { ClosureTableHierarchies } from './ClosureTableHierarchies';
 import { ClosureTableHierarchy } from './ClosureTableHierarchy';
-import { ClosureTableOffsprings } from './ClosureTableOffsprings';
 
-export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffsprings<K>, 'ClosureTable'> {
+export class ClosureTable<K extends TreeID> extends Quantity<K, ReadonlyAddress<K>, 'ClosureTable'> {
   public readonly noun: 'ClosureTable' = 'ClosureTable';
-  private readonly table: ImmutableProject<K, ClosureTableOffsprings<K>>;
+  private readonly table: ImmutableProject<K, ReadonlyAddress<K>>;
 
-  private static readonly EMPTY: ClosureTable<TreeID> = new ClosureTable<TreeID>(ImmutableProject.empty<TreeID, ClosureTableOffsprings<TreeID>>());
+  private static readonly EMPTY: ClosureTable<TreeID> = new ClosureTable<TreeID>(ImmutableProject.empty<TreeID, ReadonlyAddress<TreeID>>());
 
-  public static of<KT extends TreeID>(hierarchies: ReadonlyArray<ClosureTableHierarchy<KT>>): ClosureTable<KT> {
-    if (hierarchies.length === 0) {
+  public static of<KT extends TreeID>(hierarchies: ClosureTableHierarchies<KT>): ClosureTable<KT> {
+    if (hierarchies.isEmpty()) {
       return ClosureTable.empty<KT>();
     }
 
@@ -46,59 +42,23 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffs
       offsprings.add(hierarchy.getOffspring());
     });
 
-    const table: MutableProject<KT, ClosureTableOffsprings<KT>> = project.map<ClosureTableOffsprings<KT>>((offsprings: MutableAddress<KT>) => {
-      return ClosureTableOffsprings.of<KT>(offsprings);
-    });
-
-    return new ClosureTable<KT>(ImmutableProject.of<KT, ClosureTableOffsprings<KT>>(table));
+    return new ClosureTable<KT>(ImmutableProject.of<KT, ReadonlyAddress<KT>>(project));
   }
 
   public static empty<KT extends TreeID>(): ClosureTable<KT> {
     return ClosureTable.EMPTY as ClosureTable<KT>;
   }
 
-  public static toHierarchies<KT extends TreeID, VT extends StructurableTreeObject<KT>>(tree: StructurableTree<KT, VT>): ClosureTableHierarchies<KT> {
-    const hierarchies: MutableProject<KT, MutableAddress<KT>> = MutableProject.empty<KT, MutableAddress<KT>>();
-
-    ClosureTable.retrieve<KT, VT>(tree.getRoot(), hierarchies);
-
-    return ClosureTableHierarchies.of<KT>(hierarchies);
-  }
-
-  private static retrieve<KT extends TreeID, VT extends StructurableTreeObject<KT>>(node: StructurableTreeNode<KT, VT>, hierarchies: MutableProject<KT, MutableAddress<KT>>): void {
-    const offsprings: MutableAddress<KT> = MutableAddress.empty<KT>();
-
-    hierarchies.set(node.getTreeID(), offsprings);
-    offsprings.add(node.getTreeID());
-
-    if (!node.isLeaf()) {
-      ClosureTable.retrieveChildren<KT, VT>(node, node.getChildren(), hierarchies);
-    }
-  }
-
-  private static retrieveChildren<KT extends TreeID, VT extends StructurableTreeObject<KT>>(node: StructurableTreeNode<KT, VT>, children: ReadonlyAddress<StructurableTreeNode<KT, VT>>, hierarchies: MutableProject<KT, MutableAddress<KT>>): void {
-    children.forEach((child: StructurableTreeNode<KT, VT>) => {
-      const offsprings: MutableAddress<KT> = hierarchies.get(node.getTreeID()) as MutableAddress<KT>;
-
-      offsprings.add(child.getTreeID());
-      ClosureTable.retrieve<KT, VT>(child, hierarchies);
-
-      if (!child.isLeaf()) {
-        ClosureTable.retrieveChildren<KT, VT>(node, child.getChildren(), hierarchies);
-      }
-    });
-  }
-
-  protected constructor(table: ImmutableProject<K, ClosureTableOffsprings<K>>) {
+  protected constructor(table: ImmutableProject<K, ReadonlyAddress<K>>) {
     super();
     this.table = table;
   }
 
-  public [Symbol.iterator](): Iterator<Pair<K, ClosureTableOffsprings<K>>> {
+  public [Symbol.iterator](): Iterator<Pair<K, ReadonlyAddress<K>>> {
     return this.table[Symbol.iterator]();
   }
 
-  public contains(value: ClosureTableOffsprings<K>): boolean {
+  public contains(value: ReadonlyAddress<K>): boolean {
     return this.table.contains(value);
   }
 
@@ -113,15 +73,15 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffs
     return this.table.equals(other.table);
   }
 
-  public every(predicate: BinaryPredicate<ClosureTableOffsprings<K>, K>): boolean {
+  public every(predicate: BinaryPredicate<ReadonlyAddress<K>, K>): boolean {
     return this.table.every(predicate);
   }
 
-  public forEach(iteration: CancellableEnumerator<K, ClosureTableOffsprings<K>>): void {
+  public forEach(iteration: CancellableEnumerator<K, ReadonlyAddress<K>>): void {
     this.table.forEach(iteration);
   }
 
-  public get(key: K): Nullable<ClosureTableOffsprings<K>> {
+  public get(key: K): Nullable<ReadonlyAddress<K>> {
     return this.table.get(key);
   }
 
@@ -137,20 +97,30 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffs
     return this.table.size();
   }
 
-  public some(predicate: BinaryPredicate<ClosureTableOffsprings<K>, K>): boolean {
+  public some(predicate: BinaryPredicate<ReadonlyAddress<K>, K>): boolean {
     return this.table.some(predicate);
   }
 
-  public values(): Iterable<ClosureTableOffsprings<K>> {
+  public values(): Iterable<ReadonlyAddress<K>> {
     return this.table.values();
   }
 
-  public sort(): ReadonlySequence<K> {
-    const pairs: Array<Pair<K, ClosureTableOffsprings<K>>> = [...this.table];
+  public filter(predicate: BinaryPredicate<ReadonlyAddress<K>, K>): ImmutableProject<K, ReadonlyAddress<K>> {
+    return this.table.filter(predicate);
+  }
 
-    const keys: Array<K> = pairs.sort((p1: Pair<K, ClosureTableOffsprings<K>>, p2: Pair<K, ClosureTableOffsprings<K>>) => {
-      return p1.getValue().compare(p2.getValue());
-    }).map<K>((pair: Pair<K, ClosureTableOffsprings<K>>) => {
+  public find(predicate: BinaryPredicate<ReadonlyAddress<K>, K>): Nullable<ReadonlyAddress<K>> {
+    return this.table.find(predicate);
+  }
+
+  public map<W extends Nominative>(mapper: Mapper<ReadonlyAddress<K>, W>): ImmutableProject<K, W> {
+    return this.table.map<W>(mapper);
+  }
+
+  public sort(): ImmutableSequence<K> {
+    const keys: Array<K> = [...this.table].sort((p1: Pair<K, ReadonlyAddress<K>>, p2: Pair<K, ReadonlyAddress<K>>) => {
+      return p1.getValue().size() - p2.getValue().size();
+    }).map<K>((pair: Pair<K, ReadonlyAddress<K>>) => {
       return pair.getKey();
     });
 

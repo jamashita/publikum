@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    /* Basic Options */
+    "module": "commonjs",
+    /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
+    "outDir": "dist/cjs"
+    /* Redirect output structure to the directory. */
+  },
+  "references": [
+    {
+      "path": "../type/tsconfig.cjs.json"
+    }
+  ]
+}

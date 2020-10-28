@@ -121,19 +121,19 @@ describe('Zeit', () => {
     });
   });
 
-  describe('isAcceptable', () => {
+  describe('validate', () => {
     it('returns true when the string is suitable date for format', () => {
       expect.assertions(2);
 
-      expect(Zeit.isAcceptable('2000-01-01', 'YYYY-MM-DD')).toBe(true);
-      expect(Zeit.isAcceptable('2000-01-01 01:02:03', 'YYYY-MM-DD HH:mm:ss')).toBe(true);
+      expect(Zeit.validate('2000-01-01', 'YYYY-MM-DD')).toBe(true);
+      expect(Zeit.validate('2000-01-01 01:02:03', 'YYYY-MM-DD HH:mm:ss')).toBe(true);
     });
 
     it('returns false when the string is not suitable for format', () => {
       expect.assertions(2);
 
-      expect(Zeit.isAcceptable('2000-01-01', 'YYYY-MM-DD HH:mm:ss')).toBe(false);
-      expect(Zeit.isAcceptable('2000-01-01 01:02:03', 'YYYY-MM-DD')).toBe(false);
+      expect(Zeit.validate('2000-01-01', 'YYYY-MM-DD HH:mm:ss')).toBe(false);
+      expect(Zeit.validate('2000-01-01 01:02:03', 'YYYY-MM-DD')).toBe(false);
     });
   });
 

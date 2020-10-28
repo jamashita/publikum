@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.28.0](https://github.com/jamashita/publikum/compare/v2.27.1...v2.28.0) (2020-10-23)
+
+
+### Bug Fixes
+
+* 🐛 redundant type definitno ([3cc2c66](https://github.com/jamashita/publikum/commit/3cc2c667208a894147424c068317cc7271d8f30a))
+
+
+
+
+
 ## [2.27.1](https://github.com/jamashita/publikum/compare/v2.27.0...v2.27.1) (2020-10-12)
 
 **Note:** Version bump only for package @jamashita/publikum-monad

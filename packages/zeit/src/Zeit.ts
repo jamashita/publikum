@@ -71,7 +71,7 @@ export class Zeit extends ValueObject<'Zeit'> {
     return Zeit.of(min, format);
   }
 
-  public static isAcceptable(str: string, format: string): boolean {
+  public static validate(str: string, format: string): boolean {
     const zeit: dayjs.Dayjs = dayjs.utc(str, format);
 
     if (zeit.format(format) === str) {

@@ -2,7 +2,7 @@ import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Primitive } from '@jamashita/publikum-type';
 import { TreeID } from '../Interface/TreeID';
-import { TreeIDFactory } from '../Interface/TreeIDFactory';
+import { TreeIDFactory } from './Interface/TreeIDFactory';
 
 export type ClosureTableJSON = Readonly<{
   ancestor: Primitive;
