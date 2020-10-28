@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.29.0](https://github.com/jamashita/publikum/compare/v2.28.0...v2.29.0) (2020-10-28)
+
+
+### Features
+
+* 🎸 expose ([edded1e](https://github.com/jamashita/publikum/commit/edded1e486a5ba63aa777ff0895f79ed243a8717))
+* 🎸 update ([f39be57](https://github.com/jamashita/publikum/commit/f39be573c2994e7305557d2df02a4b497d1866ca))
+* 🎸 ZeitValidation ([12d6776](https://github.com/jamashita/publikum/commit/12d6776069812b2eba19b2b4a0075caa40b379d7))
+* 🎸 ZeitValidationRule ([4d1b1ae](https://github.com/jamashita/publikum/commit/4d1b1aeb686b4163751497bee4703e06dd515541))
+
+
+
+
+
 # [2.28.0](https://github.com/jamashita/publikum/compare/v2.27.1...v2.28.0) (2020-10-23)
 
 

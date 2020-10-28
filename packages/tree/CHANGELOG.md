@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.29.0](https://github.com/jamashita/publikum/compare/v2.28.0...v2.29.0) (2020-10-28)
+
+
+### Features
+
+* 🎸 Abstract class Trees ([710ca49](https://github.com/jamashita/publikum/commit/710ca49bd6415056ba6af6b71ac473c668d797e7))
+* 🎸 added new generic for colllection ([b2856df](https://github.com/jamashita/publikum/commit/b2856df6145e5234124cef608072d9dddfa6ae3b))
+* 🎸 ATreeNode udpate ([4afa961](https://github.com/jamashita/publikum/commit/4afa961b1109d79adef1ecaebc86210df25eb5a2))
+* 🎸 changed to use template pattern ([9d201d7](https://github.com/jamashita/publikum/commit/9d201d741ee932db77e23e388c88fbff9f95f13c))
+* 🎸 ofNode() implemented ([f20232a](https://github.com/jamashita/publikum/commit/f20232afec8f8fde3899933a7e40263ba9cb6acf))
+* 🎸 ReadonlyTreeNode ([8752f2e](https://github.com/jamashita/publikum/commit/8752f2e0bb823bc98cb3baadadac81e6286be20a))
+* 🎸 removed unnecesary fiels ([15f0399](https://github.com/jamashita/publikum/commit/15f03995bcda6cd620ec9ea6ec930506dc34819f))
+* 🎸 SerializableTrees ([ddfcadf](https://github.com/jamashita/publikum/commit/ddfcadfe9045e7464bfb91a23923ad928562ba35))
+* 🎸 sie() ([31055e7](https://github.com/jamashita/publikum/commit/31055e7779163e0a30bcd19b4c24b982d7ec44ce))
+* 🎸 StructureableTrees ([d3d2485](https://github.com/jamashita/publikum/commit/d3d24859e31b3a8f7a2efa83b4e8ea8194d030b9))
+* 🎸 update ([f39be57](https://github.com/jamashita/publikum/commit/f39be573c2994e7305557d2df02a4b497d1866ca))
+
+
+
+
+
 # [2.28.0](https://github.com/jamashita/publikum/compare/v2.27.1...v2.28.0) (2020-10-23)
 
 

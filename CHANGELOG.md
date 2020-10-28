@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.29.0](https://github.com/jamashita/publikum/compare/v2.28.0...v2.29.0) (2020-10-28)
+
+
+### Bug Fixes
+
+* 🐛 lost import ([e726339](https://github.com/jamashita/publikum/commit/e72633975ae7f0b49955a1a000f7394da93830e5))
+
+
+### Features
+
+* 🎸 Abstract class Trees ([710ca49](https://github.com/jamashita/publikum/commit/710ca49bd6415056ba6af6b71ac473c668d797e7))
+* 🎸 added new generic for colllection ([b2856df](https://github.com/jamashita/publikum/commit/b2856df6145e5234124cef608072d9dddfa6ae3b))
+* 🎸 ATreeNode udpate ([4afa961](https://github.com/jamashita/publikum/commit/4afa961b1109d79adef1ecaebc86210df25eb5a2))
+* 🎸 BigIntValidation ([cc830e7](https://github.com/jamashita/publikum/commit/cc830e74963cd256f2ab4c76c3b5c8d502281ce3))
+* 🎸 BigIntValidationRule ([87194ad](https://github.com/jamashita/publikum/commit/87194ad14b8ab89ab4ca5d40a21e25f280d887c2))
+* 🎸 BooleanValidation ([858b323](https://github.com/jamashita/publikum/commit/858b32357f6e8c7178c118e90069caf08013b1b2))
+* 🎸 BooleanValidationRule ([8df8907](https://github.com/jamashita/publikum/commit/8df890745fad28aa986ebe7efb283d78ba016dec))
+* 🎸 changed to use template pattern ([9d201d7](https://github.com/jamashita/publikum/commit/9d201d741ee932db77e23e388c88fbff9f95f13c))
+* 🎸 collection.find() ([1468ef6](https://github.com/jamashita/publikum/commit/1468ef6a3879c170177b09b2f51057acf1257cee))
+* 🎸 decorator established ([c933145](https://github.com/jamashita/publikum/commit/c9331451dc8cba0470f082f1a1a4f899221cc7ac))
+* 🎸 Decorator Validation() ([96ddd70](https://github.com/jamashita/publikum/commit/96ddd704740bddda6afb929520bafe713b55f095))
+* 🎸 expose ([edded1e](https://github.com/jamashita/publikum/commit/edded1e486a5ba63aa777ff0895f79ed243a8717))
+* 🎸 expose ([3fbb783](https://github.com/jamashita/publikum/commit/3fbb78316cd1a199f910e29878bb078ab4ab131f))
+* 🎸 expose option ([9a7e4fc](https://github.com/jamashita/publikum/commit/9a7e4fc48b54626cad5af6fe7618c1bde2420594))
+* 🎸 filter() and map() ([43a02be](https://github.com/jamashita/publikum/commit/43a02bebf358b9be7a976a6034a47995f9f1d65c))
+* 🎸 isAcceptable() -> validate() ([659d3c7](https://github.com/jamashita/publikum/commit/659d3c795387eaa717e925aad8918e87d32f6394))
+* 🎸 map() and filter() ([30bfb76](https://github.com/jamashita/publikum/commit/30bfb761085f04477350baa6782e63d4885d2773))
+* 🎸 map(), filter() ([a85163a](https://github.com/jamashita/publikum/commit/a85163ab97a8780d6a58b30e9920855f6c49dca1))
+* 🎸 my first Decorator ([e7e8cf9](https://github.com/jamashita/publikum/commit/e7e8cf902fe46f833f22a1ae03ac2155bdb825dd))
+* 🎸 NumberValidationRUle ([d2af526](https://github.com/jamashita/publikum/commit/d2af526c673532993f766215cac3ad8461956421))
+* 🎸 NumberValidator ([4249b6d](https://github.com/jamashita/publikum/commit/4249b6db4b4f180b806ee8dd8ce174f0dd08854c))
+* 🎸 ofNode() implemented ([f20232a](https://github.com/jamashita/publikum/commit/f20232afec8f8fde3899933a7e40263ba9cb6acf))
+* 🎸 one implementation for validation ([212f50b](https://github.com/jamashita/publikum/commit/212f50bc4fef37f059690e7d33e650cf8ada2b47))
+* 🎸 ReadonlyTreeNode ([8752f2e](https://github.com/jamashita/publikum/commit/8752f2e0bb823bc98cb3baadadac81e6286be20a))
+* 🎸 reflect-metadata ([f685fe9](https://github.com/jamashita/publikum/commit/f685fe9c0bbb11f7a49d99ecabf4641aebcc677e))
+* 🎸 removed unnecesary fiels ([15f0399](https://github.com/jamashita/publikum/commit/15f03995bcda6cd620ec9ea6ec930506dc34819f))
+* 🎸 SEquence udpate ([19b3f62](https://github.com/jamashita/publikum/commit/19b3f625461e0a17abd85967baa11d62393d5561))
+* 🎸 SerializableTrees ([ddfcadf](https://github.com/jamashita/publikum/commit/ddfcadfe9045e7464bfb91a23923ad928562ba35))
+* 🎸 sie() ([31055e7](https://github.com/jamashita/publikum/commit/31055e7779163e0a30bcd19b4c24b982d7ec44ce))
+* 🎸 StructureableTrees ([d3d2485](https://github.com/jamashita/publikum/commit/d3d24859e31b3a8f7a2efa83b4e8ea8194d030b9))
+* 🎸 SymbolValidation ([64efba4](https://github.com/jamashita/publikum/commit/64efba4bca205a4c1038e4222674d1b34f6babf5))
+* 🎸 SymbolValidationRule ([386ff5b](https://github.com/jamashita/publikum/commit/386ff5b9969fbfba5ca7b7ef22450df572085e86))
+* 🎸 update ([f39be57](https://github.com/jamashita/publikum/commit/f39be573c2994e7305557d2df02a4b497d1866ca))
+* 🎸 UUIDValidation ([4a0846d](https://github.com/jamashita/publikum/commit/4a0846d51df287d2d181ba21ed53ec4bf0e3d647))
+* 🎸 UUIDValidationRule ([51d8216](https://github.com/jamashita/publikum/commit/51d82160ce19dd9c923ce98135f09573ff5c2172))
+* 🎸 ZeitValidation ([12d6776](https://github.com/jamashita/publikum/commit/12d6776069812b2eba19b2b4a0075caa40b379d7))
+* 🎸 ZeitValidationRule ([4d1b1ae](https://github.com/jamashita/publikum/commit/4d1b1aeb686b4163751497bee4703e06dd515541))
+
+
+
+
+
 # [2.28.0](https://github.com/jamashita/publikum/compare/v2.27.1...v2.28.0) (2020-10-23)
 
 
