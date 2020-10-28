@@ -1,5 +1,5 @@
 import { ImmutableSequence } from '@jamashita/publikum-collection';
-import { TreeID } from '@jamashita/publikum-tree';
+import { TreeID } from '../../Interface/TreeID';
 import { ClosureTableHierarchies } from '../ClosureTableHierarchies';
 import { ClosureTableHierarchy } from '../ClosureTableHierarchy';
 

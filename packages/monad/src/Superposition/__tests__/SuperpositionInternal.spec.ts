@@ -1,11 +1,12 @@
 import { MockRuntimeError } from '@jamashita/publikum-error';
-import { Detoxicated, Plan } from '@jamashita/publikum-monad';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
+import { Plan } from '../../Plan/Interface/Plan';
 import { UnscharferelationError } from '../../Unscharferelation/Error/UnscharferelationError';
 import { Heisenberg } from '../../Unscharferelation/Heisenberg/Heisenberg';
 import { Chrono } from '../Chrono/Interface/Chrono';
 import { SuperpositionError } from '../Error/SuperpositionError';
+import { Detoxicated } from '../Interface/Detoxicated';
 import { Schrodinger } from '../Schrodinger/Schrodinger';
 import { SuperpositionInternal } from '../SuperpositionInternal';
 
