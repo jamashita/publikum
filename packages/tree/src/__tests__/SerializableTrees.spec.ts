@@ -1,7 +1,7 @@
 import { ImmutableAddress } from '@jamashita/publikum-collection';
-import { SerializableTree } from '@jamashita/publikum-tree';
 import { MockTreeID } from '../Mock/MockTreeID';
 import { MockTreeObject } from '../Mock/MockTreeObject';
+import { SerializableTree } from '../SerializableTree';
 import { SerializableTrees } from '../SerializableTrees';
 import { SerializableTreeNode } from '../TreeNode/SerializableTreeNode';
 

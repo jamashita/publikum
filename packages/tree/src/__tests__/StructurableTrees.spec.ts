@@ -1,16 +1,14 @@
 import { ImmutableSequence, MutableProject } from '@jamashita/publikum-collection';
-import {
-  MockTreeID,
-  MockTreeObject,
-  StructurableTree,
-  StructurableTreeNode,
-  TreeError
-} from '@jamashita/publikum-tree';
 import { Nullable } from '@jamashita/publikum-type';
 import { ClosureTable } from '../ClosureTable/ClosureTable';
 import { MockClosureTableHierarchies } from '../ClosureTable/Mock/MockClosureTableHierarchies';
 import { MockClosureTableHierarchy } from '../ClosureTable/Mock/MockClosureTableHierarchy';
+import { TreeError } from '../Error/TreeError';
+import { MockTreeID } from '../Mock/MockTreeID';
+import { MockTreeObject } from '../Mock/MockTreeObject';
+import { StructurableTree } from '../StructurableTree';
 import { StructurableTrees } from '../StructurableTrees';
+import { StructurableTreeNode } from '../TreeNode/StructurableTreeNode';
 
 describe('StructurableTrees', () => {
   describe('ofTable', () => {
