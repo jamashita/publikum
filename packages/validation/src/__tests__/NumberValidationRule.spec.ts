@@ -72,7 +72,10 @@ describe('NumberValidationRule', () => {
       expect.assertions(9);
 
       const rule: NumberValidationRule = new NumberValidationRule({
-        min: 4
+        min: {
+          condition: 't',
+          value: 4
+        }
       });
 
       expect(() => {
@@ -103,12 +106,53 @@ describe('NumberValidationRule', () => {
         rule.evaluate({}, 4);
       }).not.toThrow(ValidationError);
     });
+    it('throws ValidationError when given value is less than or equals min', () => {
+      expect.assertions(9);
+
+      const rule: NumberValidationRule = new NumberValidationRule({
+        min: {
+          condition: 'te',
+          value: 4
+        }
+      });
+
+      expect(() => {
+        rule.evaluate({}, -Infinity);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, -1);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, -0.1);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 0);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 1);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 2);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 3);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 3.5);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 4);
+      }).toThrow(ValidationError);
+    });
 
     it('throws ValidationError when given value is greater than max', () => {
       expect.assertions(8);
 
       const rule: NumberValidationRule = new NumberValidationRule({
-        max: 4
+        max: {
+          condition: 't',
+          value: 4
+        }
       });
 
       expect(() => {
@@ -135,6 +179,42 @@ describe('NumberValidationRule', () => {
       expect(() => {
         rule.evaluate({}, 4);
       }).not.toThrow(ValidationError);
+    });
+
+    it('throws ValidationError when given value is greater than or equals max', () => {
+      expect.assertions(8);
+
+      const rule: NumberValidationRule = new NumberValidationRule({
+        max: {
+          condition: 'te',
+          value: 4
+        }
+      });
+
+      expect(() => {
+        rule.evaluate({}, Infinity);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 8);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 7.1);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 7);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 6);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 5);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 4.4);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 4);
+      }).toThrow(ValidationError);
     });
 
     it('throws ValidationError when decimal number given if int is set to true', () => {
