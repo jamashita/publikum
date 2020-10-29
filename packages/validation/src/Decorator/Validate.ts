@@ -39,10 +39,10 @@ export const Validate = (): MethodDecorator => {
         const method: Function = descriptor.value;
 
         // @ts-expect-error
-        descriptor.value = (...args: Array<unknown>) => {
+        descriptor.value = (...args: Array<unknown>): unknown => {
           rule.evaluate(target, args[i], key);
 
-          method.apply(method, args);
+          return method.apply(method, args);
         };
       });
     });

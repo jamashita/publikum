@@ -1,7 +1,18 @@
 // eslint-disable-next-line max-classes-per-file
+import { randomBytes } from 'crypto';
 import { ValidationError } from '../../Error/ValidationError';
 import { ValidationRule } from '../../Interface/ValidationRule';
 import { addRule, Validate } from '../Validate';
+
+const chars: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+
+const random = (length: number): string => {
+  const charLength: number = chars.length;
+
+  return randomBytes(length).reduce<string>((p: string, i: number) => {
+    return p + chars[i % charLength];
+  }, '');
+};
 
 type TestValidationArgs = Readonly<{
   throwError: boolean;
@@ -148,6 +159,20 @@ describe('Validate', () => {
     expect(() => {
       test.threeA('', '', '');
     }).not.toThrow(ValidationError);
+  });
+
+  it('returns the same value of its original return value', () => {
+    expect.assertions(3);
+
+    const r1: string = random(200);
+    const r2: string = random(300);
+    const r3: string = random(400);
+
+    const test: Test1 = new Test1();
+
+    expect(test.oneA(r1)).toBe(r1);
+    expect(test.twoA(r1, r2)).toBe(r2);
+    expect(test.threeA(r1, r2, r3)).toBe(r3);
   });
 
   it('will throw ValueError when each first decorated arg is set to throw ValueError', () => {
