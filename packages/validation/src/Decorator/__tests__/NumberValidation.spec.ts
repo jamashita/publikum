@@ -12,32 +12,66 @@ class MockValidation {
   }
 
   @Validate()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public act2(@NumberValidation({ min: 4 }) _s: unknown): void {
+  public act2(@NumberValidation({
+    min: {
+      condition: 't',
+      value: 4
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  }) _s: unknown): void {
+    // NOOP
+  }
+
+  @Validate()
+  public act3(@NumberValidation({
+    min: {
+      condition: 'te',
+      value: 4
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  }) _s: unknown): void {
     // NOOP
   }
 
   @Validate()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public act3(@NumberValidation({ max: 4 }) _s: unknown): void {
+  public act4(@NumberValidation({
+    max: {
+      condition: 't',
+      value: 4
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  }) _s: unknown): void {
     // NOOP
   }
 
   @Validate()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public act4(@NumberValidation({ int: true }) _s: unknown): void {
+  public act5(@NumberValidation({
+    max: {
+      condition: 'te',
+      value: 4
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  }) _s: unknown): void {
     // NOOP
   }
 
   @Validate()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public act5(@NumberValidation({ noNaN: true }) _s: unknown): void {
+  public act6(@NumberValidation({ int: true }) _s: unknown): void {
     // NOOP
   }
 
   @Validate()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public act6(@NumberValidation({ noInfinity: true }) _s: unknown): void {
+  public act7(@NumberValidation({ noNaN: true }) _s: unknown): void {
+    // NOOP
+  }
+
+  @Validate()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public act8(@NumberValidation({ noInfinity: true }) _s: unknown): void {
     // NOOP
   }
 }
@@ -45,7 +79,7 @@ class MockValidation {
 describe('StringValidation', () => {
   describe('decorator', () => {
     it('does not throw any Error', () => {
-      expect.assertions(6);
+      expect.assertions(8);
 
       const validation: MockValidation = new MockValidation();
 
@@ -53,10 +87,16 @@ describe('StringValidation', () => {
         validation.act1(-1);
       }).not.toThrow(ValidationError);
       expect(() => {
+        validation.act1(-1.01);
+      }).not.toThrow(ValidationError);
+      expect(() => {
         validation.act1(0);
       }).not.toThrow(ValidationError);
       expect(() => {
         validation.act1(1);
+      }).not.toThrow(ValidationError);
+      expect(() => {
+        validation.act1(1.09);
       }).not.toThrow(ValidationError);
       expect(() => {
         validation.act1(-Infinity);
@@ -143,35 +183,100 @@ describe('StringValidation', () => {
       }).not.toThrow(ValidationError);
     });
 
+    it('throws ValidationError when given value is less than or equals min', () => {
+      expect.assertions(9);
+
+      const validation: MockValidation = new MockValidation();
+
+      expect(() => {
+        validation.act3(-Infinity);
+      }).toThrow(ValidationError);
+      expect(() => {
+        validation.act3(-1);
+      }).toThrow(ValidationError);
+      expect(() => {
+        validation.act3(-0.1);
+      }).toThrow(ValidationError);
+      expect(() => {
+        validation.act3(0);
+      }).toThrow(ValidationError);
+      expect(() => {
+        validation.act3(1);
+      }).toThrow(ValidationError);
+      expect(() => {
+        validation.act3(2);
+      }).toThrow(ValidationError);
+      expect(() => {
+        validation.act3(3);
+      }).toThrow(ValidationError);
+      expect(() => {
+        validation.act3(3.5);
+      }).toThrow(ValidationError);
+      expect(() => {
+        validation.act3(4);
+      }).toThrow(ValidationError);
+    });
+
     it('throws ValidationError when given value is greater than max', () => {
       expect.assertions(8);
 
       const validation: MockValidation = new MockValidation();
 
       expect(() => {
-        validation.act3(Infinity);
+        validation.act4(Infinity);
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act3(8);
+        validation.act4(8);
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act3(7.1);
+        validation.act4(7.1);
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act3(7);
+        validation.act4(7);
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act3(6);
+        validation.act4(6);
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act3(5);
+        validation.act4(5);
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act3(4.4);
+        validation.act4(4.4);
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act3(4);
+        validation.act4(4);
       }).not.toThrow(ValidationError);
+    });
+
+    it('throws ValidationError when given value is greater than or equals max', () => {
+      expect.assertions(8);
+
+      const validation: MockValidation = new MockValidation();
+
+      expect(() => {
+        validation.act5(Infinity);
+      }).toThrow(ValidationError);
+      expect(() => {
+        validation.act5(8);
+      }).toThrow(ValidationError);
+      expect(() => {
+        validation.act5(7.1);
+      }).toThrow(ValidationError);
+      expect(() => {
+        validation.act5(7);
+      }).toThrow(ValidationError);
+      expect(() => {
+        validation.act5(6);
+      }).toThrow(ValidationError);
+      expect(() => {
+        validation.act5(5);
+      }).toThrow(ValidationError);
+      expect(() => {
+        validation.act5(4.4);
+      }).toThrow(ValidationError);
+      expect(() => {
+        validation.act5(4);
+      }).toThrow(ValidationError);
     });
 
     it('throws ValidationError when decimal number given if int is set to true', () => {
@@ -180,16 +285,16 @@ describe('StringValidation', () => {
       const validation: MockValidation = new MockValidation();
 
       expect(() => {
-        validation.act4(1.1);
+        validation.act6(1.1);
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act4(4.0);
+        validation.act6(4.0);
       }).not.toThrow(ValidationError);
       expect(() => {
-        validation.act4(-1.3);
+        validation.act6(-1.3);
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act4(-2);
+        validation.act6(-2);
       }).not.toThrow(ValidationError);
     });
 
@@ -199,16 +304,16 @@ describe('StringValidation', () => {
       const validation: MockValidation = new MockValidation();
 
       expect(() => {
-        validation.act5(1.1);
+        validation.act7(1.1);
       }).not.toThrow(ValidationError);
       expect(() => {
-        validation.act5(4.0);
+        validation.act7(4.0);
       }).not.toThrow(ValidationError);
       expect(() => {
-        validation.act5(-2);
+        validation.act7(-2);
       }).not.toThrow(ValidationError);
       expect(() => {
-        validation.act5(NaN);
+        validation.act7(NaN);
       }).toThrow(ValidationError);
     });
 
@@ -218,19 +323,19 @@ describe('StringValidation', () => {
       const validation: MockValidation = new MockValidation();
 
       expect(() => {
-        validation.act6(1.1);
+        validation.act8(1.1);
       }).not.toThrow(ValidationError);
       expect(() => {
-        validation.act6(4.0);
+        validation.act8(4.0);
       }).not.toThrow(ValidationError);
       expect(() => {
-        validation.act6(-2);
+        validation.act8(-2);
       }).not.toThrow(ValidationError);
       expect(() => {
-        validation.act6(Infinity);
+        validation.act8(Infinity);
       }).toThrow(ValidationError);
       expect(() => {
-        validation.act6(-Infinity);
+        validation.act8(-Infinity);
       }).toThrow(ValidationError);
     });
   });
