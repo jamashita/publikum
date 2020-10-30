@@ -51,7 +51,7 @@ export class BigIntValidationRule implements ValidationRule {
       }
       case 'te': {
         if (value <= minBigInt) {
-          throw new ValidationError(`VALUE IS SHORTER THAN OR EQUALS min. GIVEN: ${value}`);
+          throw new ValidationError(`VALUE IS SHORTER THAN OR EQUALS TO min. GIVEN: ${value}`);
         }
 
         return;
@@ -79,7 +79,7 @@ export class BigIntValidationRule implements ValidationRule {
       }
       case 'te': {
         if (maxBigInt <= value) {
-          throw new ValidationError(`VALUE IS LONGER THAN OR EQUALS max. GIVEN: ${value}`);
+          throw new ValidationError(`VALUE IS LONGER THAN OR EQUALS TO max. GIVEN: ${value}`);
         }
 
         return;
