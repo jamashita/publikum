@@ -74,7 +74,7 @@ export class NumberValidationRule implements ValidationRule {
       }
       case 'te': {
         if (value <= this.min.value) {
-          throw new ValidationError(`VALUE IS SHORTER THAN OR EQUALS min. GIVEN: ${value}`);
+          throw new ValidationError(`VALUE IS SHORTER THAN OR EQUALS TO min. GIVEN: ${value}`);
         }
 
         return;
@@ -100,7 +100,7 @@ export class NumberValidationRule implements ValidationRule {
       }
       case 'te': {
         if (this.max.value <= value) {
-          throw new ValidationError(`VALUE IS LONGER THAN OR EQUALS max. GIVEN: ${value}`);
+          throw new ValidationError(`VALUE IS LONGER THAN OR EQUALS TO max. GIVEN: ${value}`);
         }
 
         return;
