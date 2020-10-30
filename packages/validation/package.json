@@ -39,5 +39,6 @@
   "engineStrict": true,
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "6d4296d84b72c900dcceef3378c7ce20fd82b70e"
 }
