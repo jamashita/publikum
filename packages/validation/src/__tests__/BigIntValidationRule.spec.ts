@@ -61,5 +61,119 @@ describe('BigIntValidationRule', () => {
         rule.evaluate({}, []);
       }).toThrow(ValidationError);
     });
+
+    it('throws ValidationError when given value is less than min', () => {
+      expect.assertions(6);
+
+      const rule: BigIntValidationRule = new BigIntValidationRule({
+        min: {
+          condition: 't',
+          value: 4
+        }
+      });
+
+      expect(() => {
+        rule.evaluate({}, -1n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 0n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 1n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 2n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 3n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 4n);
+      }).not.toThrow(ValidationError);
+    });
+
+    it('throws ValidationError when given value is less than or equals to min', () => {
+      expect.assertions(6);
+
+      const rule: BigIntValidationRule = new BigIntValidationRule({
+        min: {
+          condition: 'te',
+          value: 4
+        }
+      });
+
+      expect(() => {
+        rule.evaluate({}, -1n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 0n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 1n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 2n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 3n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 4n);
+      }).toThrow(ValidationError);
+    });
+
+    it('throws ValidationError when given value is greater than max', () => {
+      expect.assertions(5);
+
+      const rule: BigIntValidationRule = new BigIntValidationRule({
+        max: {
+          condition: 't',
+          value: 4
+        }
+      });
+
+      expect(() => {
+        rule.evaluate({}, 8n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 7n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 6n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 5n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 4n);
+      }).not.toThrow(ValidationError);
+    });
+
+    it('throws ValidationError when given value is greater than or equals to min', () => {
+      expect.assertions(5);
+
+      const rule: BigIntValidationRule = new BigIntValidationRule({
+        max: {
+          condition: 'te',
+          value: 4
+        }
+      });
+
+      expect(() => {
+        rule.evaluate({}, 8n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 7n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 6n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 5n);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 4n);
+      }).toThrow(ValidationError);
+    });
   });
 });
