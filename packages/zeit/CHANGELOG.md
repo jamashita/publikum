@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.31.0](https://github.com/jamashita/publikum/compare/v2.30.0...v2.31.0) (2020-10-30)
+
+
+### Features
+
+* 🎸 update ([f3e2eda](https://github.com/jamashita/publikum/commit/f3e2eda85177d0f1673a8d1544e6f4aabd8623ef))
+
+
+
+
+
 # [2.30.0](https://github.com/jamashita/publikum/compare/v2.29.1...v2.30.0) (2020-10-30)
 
 **Note:** Version bump only for package @jamashita/publikum-zeit
