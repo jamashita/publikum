@@ -16,7 +16,11 @@ export class BigIntValidationRule implements ValidationRule {
   private readonly min?: NumberCondition;
   private readonly max?: NumberCondition;
 
-  public constructor({ min, max }: BigIntValidationArgs = {}) {
+  public static of(args: BigIntValidationArgs = {}): BigIntValidationRule {
+    return new BigIntValidationRule(args);
+  }
+
+  protected constructor({ min, max }: BigIntValidationArgs) {
     this.min = min;
     this.max = max;
   }

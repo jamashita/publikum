@@ -2,7 +2,7 @@ import { BigIntValidationArgs, BigIntValidationRule } from '../BigIntValidationR
 import { addRule } from './Validate';
 
 export const BigIntValidation = (args: BigIntValidationArgs = {}): ParameterDecorator => {
-  const v: BigIntValidationRule = new BigIntValidationRule(args);
+  const v: BigIntValidationRule = BigIntValidationRule.of(args);
 
   return (target: object, key: string | symbol, index: number) => {
     addRule(target, key, index, v);
