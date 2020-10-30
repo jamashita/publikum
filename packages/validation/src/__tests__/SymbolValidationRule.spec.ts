@@ -2,11 +2,19 @@ import { ValidationError } from '../Error/ValidationError';
 import { SymbolValidationRule } from '../SymbolValidationRule';
 
 describe('SymbolValidationRule', () => {
+  describe('of', () => {
+    it('returns singleton instance', () => {
+      expect.assertions(1);
+
+      expect(SymbolValidationRule.of()).toBe(SymbolValidationRule.of());
+    });
+  });
+
   describe('evaluate', () => {
     it('does not throw any Error', () => {
       expect.assertions(3);
 
-      const rule: SymbolValidationRule = new SymbolValidationRule();
+      const rule: SymbolValidationRule = SymbolValidationRule.of();
 
       expect(() => {
         rule.evaluate({}, Symbol());
@@ -22,7 +30,7 @@ describe('SymbolValidationRule', () => {
     it('throws ValidationError when non-symbol values given', () => {
       expect.assertions(12);
 
-      const rule: SymbolValidationRule = new SymbolValidationRule();
+      const rule: SymbolValidationRule = SymbolValidationRule.of();
 
       expect(() => {
         rule.evaluate({}, null);

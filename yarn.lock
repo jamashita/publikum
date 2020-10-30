@@ -530,10 +530,10 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
-"@jamashita/eslint-config@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@jamashita/eslint-config/-/eslint-config-1.5.0.tgz#371680c5642c61ca95c372408cf9a22f5855020f"
-  integrity sha512-YTAnqf+nkPBoL0eBeXA7u2AI83GqWk5Su4j4VYibUZQdG0VSdPb+CrVb6vw24GJYxcUGHM1n64OlS8P6LTKg7A==
+"@jamashita/eslint-config@1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@jamashita/eslint-config/-/eslint-config-1.6.0.tgz#c35e5a2ea1c2f5575519c4ecfb53c56dc3cdea1f"
+  integrity sha512-QftUW1lsA/XBz7JHsAn7tglQ5mhVv7NASwmfSVf6x9hIjhzC7s3opHJpmIRVNXCWn+/4SB7vhxC1RR06FBHrnw==
 
 "@jest/console@^26.6.1":
   version "26.6.1"
@@ -1480,9 +1480,9 @@
     infer-owner "^1.0.4"
 
 "@npmcli/run-script@^1.3.0":
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/@npmcli/run-script/-/run-script-1.7.3.tgz#f56d951082f4f5dbf08283e2993488c9ccd5f62e"
-  integrity sha512-kijsbIhpdai+DjZJ8NiHpAl/bQdJf0+hv2qy4pES7QuEXdfulB04HCMbgmmpwAulE88aOXjAj1zo1h8LVMKcWg==
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/@npmcli/run-script/-/run-script-1.7.4.tgz#b2896035a7d1f591f5142097da9aedfcc3272efb"
+  integrity sha512-GAeOB6P4/aYyvEbROVHXuSGPgy4wwQN/fGfXP993o9btyuCAOaz0T2cr5Y1y4nSeaBPfhk5W/E/AfFKDt6yG7w==
   dependencies:
     "@npmcli/node-gyp" "^1.0.0"
     "@npmcli/promise-spawn" "^1.3.0"
@@ -1974,10 +1974,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*", "@types/node@14.14.5", "@types/node@>= 8":
-  version "14.14.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.5.tgz#e92d3b8f76583efa26c1a63a21c9d3c1143daa29"
-  integrity sha512-H5Wn24s/ZOukBmDn03nnGTp18A60ny9AmCwnEcgJiTgSGsCO7k+NWP7zjCCbhlcnVCoI+co52dUAt9GMhOSULw==
+"@types/node@*", "@types/node@14.14.6", "@types/node@>= 8":
+  version "14.14.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.6.tgz#146d3da57b3c636cc0d1769396ce1cfa8991147f"
+  integrity sha512-6QlRuqsQ/Ox/aJEQWBEJG7A9+u7oSYl3mem/K8IzxXG/kAGbV1YPD9Bg9Zw3vyxC/YP+zONKwy8hGkSt1jxFMw==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -2880,9 +2880,9 @@ camelcase@^5.0.0, camelcase@^5.3.1:
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
 
 camelcase@^6.0.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.1.0.tgz#27dc176173725fb0adf8a48b647f4d7871944d78"
-  integrity sha512-WCMml9ivU60+8rEJgELlFp1gxFcEGxwYleE3bziHEDeqsqAWGHdimB7beBFGjLzVNgPGyDsfgXLQEYMpmIFnVQ==
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.2.0.tgz#924af881c9d525ac9d87f40d964e5cea982a1809"
+  integrity sha512-c7wVvbw3f37nuobQNtgsgG9POC9qMbNuMQmTCqZv23b6MIz0fcYpBiOlv9gEN/hdLdnZTDQhg6e9Dq5M1vKvfg==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -5091,9 +5091,9 @@ has@^1.0.3:
     function-bind "^1.1.1"
 
 highlight.js@^10.2.0:
-  version "10.3.1"
-  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.3.1.tgz#3ca6bf007377faae347e8135ff25900aac734b9a"
-  integrity sha512-jeW8rdPdhshYKObedYg5XGbpVgb1/DT4AHvDFXhkU7UnGSIjy9kkJ7zHG7qplhFHMitTSzh5/iClKQk3Kb2RFQ==
+  version "10.3.2"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.3.2.tgz#135fd3619a00c3cbb8b4cd6dbc78d56bfcbc46f1"
+  integrity sha512-3jRT7OUYsVsKvukNKZCtnvRcFyCJqSEIuIMsEybAXRiFSwpt65qjPd/Pr+UOdYt7WJlt+lj3+ypUsHiySBp/Jw==
 
 hook-std@^2.0.0:
   version "2.0.0"
@@ -5398,10 +5398,10 @@ invert-kv@^1.0.0:
   resolved "https://registry.yarnpkg.com/invert-kv/-/invert-kv-1.0.0.tgz#104a8e4aaca6d3d8cd157a8ef8bfab2d7a3ffdb6"
   integrity sha1-EEqOSqym09jNFXqO+L+rLXo//bY=
 
-ioredis@4.19.0:
-  version "4.19.0"
-  resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-4.19.0.tgz#1ab3b36362cb3e805c4dbe90fbb7061182f94b63"
-  integrity sha512-7NIkLtpDQ/6WkEircBljnYz/E+kDQcwCJspfR504/tzyXJJQcHaSofMP6G0nuuLfDpOVnpS0AEwDrNIbW38HGg==
+ioredis@4.19.1:
+  version "4.19.1"
+  resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-4.19.1.tgz#7e2d32d37a3b8703b88263a35fed4ff6a3797b4f"
+  integrity sha512-3oRPAdmyEkjPaaEaMWDuR085E5AqhcwG7lObcB3BOzWXk9KuxTu5kVRMQcEHgMf7YnPvppMule6ncqQR7uw/SA==
   dependencies:
     cluster-key-slot "^1.1.0"
     debug "^4.1.1"
@@ -9512,10 +9512,10 @@ semantic-release-plugin-decorators@^3.0.0:
   resolved "https://registry.yarnpkg.com/semantic-release-plugin-decorators/-/semantic-release-plugin-decorators-3.0.0.tgz#b4cbe9cda7e9e2198caf8103cf56de9742d6f5e4"
   integrity sha512-BIUUe9gUwH+N5k/fr9KEin/2cU80r62kLBPLS/o9Dl/TK3gNsu4CJgb7SAJyWvoothDRbWLZSgTS3Qz8UJuT/Q==
 
-semantic-release@17.2.1:
-  version "17.2.1"
-  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.2.1.tgz#739bad395219110cc30d1ef7029fa2e03e3b4b72"
-  integrity sha512-+xbLWsT9NoibeMMJw4te0pbY4q/Z1gt/vzhB0z9RRNGVyqCgQiK5NUJ11eW6etSyPZ9QFeAMnqO2dzscWUTy2w==
+semantic-release@17.2.2:
+  version "17.2.2"
+  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.2.2.tgz#520dae9cd188c7cdcc5216a7aad131548fc5cec7"
+  integrity sha512-LNU68ud3a3oU46H11OThXaKAK430jGGGTIF4VsiP843kRmS6s8kVCceLRdi7yWWz/sCCMD0zygPTQV2Jw79J5g==
   dependencies:
     "@semantic-release/commit-analyzer" "^8.0.0"
     "@semantic-release/error" "^2.2.0"
@@ -10887,9 +10887,9 @@ uuid@^3.0.1, uuid@^3.3.2, uuid@^3.3.3:
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
 
 v8-compile-cache@^2.0.3:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.1.1.tgz#54bc3cdd43317bca91e35dcaf305b1a7237de745"
-  integrity sha512-8OQ9CL+VWyt3JStj7HX7/ciTL2V3Rl1Wf5OL+SNTm0yK1KvtReVulksyeRnCANHHuUxHlQig+JJDlUhBt1NQDQ==
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.2.0.tgz#9471efa3ef9128d2f7c6a7ca39c4dd6b5055b132"
+  integrity sha512-gTpR5XQNKFwOd4clxfnhaqvfqMpqEwr4tOtCyz4MtYZX2JYhfr1JvBFKdS+7K/9rfpZR3VLX+YWBbKoxCgS43Q==
 
 v8-to-istanbul@^6.0.1:
   version "6.0.1"

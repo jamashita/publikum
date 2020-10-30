@@ -2,41 +2,98 @@ import { Kind } from '@jamashita/publikum-type';
 import { ValidationError } from './Error/ValidationError';
 import { ValidationRule } from './Interface/ValidationRule';
 
-export type StringValidationArgs = Partial<Readonly<{
-  min: number;
-  max: number;
+type NumericalStringPattern = Readonly<{
+  type: 'numerical';
+}>;
+
+type RegExpPattern = Readonly<{
+  type: 'pattern';
   pattern: RegExp;
-}>>;
+}>;
 
-// TODO NUMERICAL STRING?
+type StringLengthPattern = Readonly<{
+  type: 'length';
+  min?: number;
+  max?: number;
+}>;
+
+type ContainPattern = Readonly<{
+  type: 'contain';
+  samples: ReadonlyArray<string>;
+}>;
+
+type NoPattern = Readonly<{
+  type: 'none';
+}>;
+
+export type StringValidationArgs =
+  NumericalStringPattern
+  | RegExpPattern
+  | StringLengthPattern
+  | ContainPattern;
+
+const NONE: NoPattern = {
+  type: 'none'
+};
+
 export class StringValidationRule implements ValidationRule {
-  private readonly min?: number;
-  private readonly max?: number;
-  private readonly pattern?: RegExp;
+  private readonly args: StringValidationArgs | NoPattern;
 
-  public constructor({ min, max, pattern }: StringValidationArgs) {
-    this.min = min;
-    this.max = max;
-    this.pattern = pattern;
+  public static of(args: StringValidationArgs | NoPattern = NONE): StringValidationRule {
+    return new StringValidationRule(args);
+  }
+
+  protected constructor(args: StringValidationArgs | NoPattern) {
+    this.args = args;
   }
 
   public evaluate(_target: object, value: unknown): void {
     if (!Kind.isString(value)) {
       throw new ValidationError(`VALUE IS NOT STRING. GIVEN: ${Kind.notate(value)}`);
     }
-    if (!Kind.isUndefined(this.min)) {
-      if (value.length < this.min) {
-        throw new ValidationError(`VALUE IS SHORTER THAN min. GIVEN: ${value}`);
+
+    switch (this.args.type) {
+      case 'numerical': {
+        if (!Kind.isNumericalString(value)) {
+          throw new ValidationError(`VALUE IS NOT NUMERICAL STRING. GIVEN: ${value as string}`);
+        }
+
+        return;
       }
-    }
-    if (!Kind.isUndefined(this.max)) {
-      if (this.max < value.length) {
-        throw new ValidationError(`VALUE IS LONGER THAN max. GIVEN: ${value}`);
+      case 'pattern': {
+        if (!this.args.pattern.test(value)) {
+          throw new ValidationError(`VALUE DOES NOT FOLLOW THE PATTERN. GIVEN: ${value}`);
+        }
+
+        return;
       }
-    }
-    if (!Kind.isUndefined(this.pattern)) {
-      if (!this.pattern.test(value)) {
-        throw new ValidationError(`VALUE DOES NOT FOLLOW THE PATTERN. GIVEN: ${value}`);
+      case 'length': {
+        if (!Kind.isUndefined(this.args.min)) {
+          if (value.length < this.args.min) {
+            throw new ValidationError(`VALUE IS SHORTER THAN min. GIVEN: ${value}`);
+          }
+        }
+        if (!Kind.isUndefined(this.args.max)) {
+          if (this.args.max < value.length) {
+            throw new ValidationError(`VALUE IS LONGER THAN max. GIVEN: ${value}`);
+          }
+        }
+
+        return;
+      }
+      case 'contain': {
+        if (!this.args.samples.includes(value)) {
+          throw new ValidationError(`THIS VALUE IS NOT CONTAINED IN SAMPLES. GIVEN: ${value}`);
+        }
+
+        return;
+      }
+      case 'none': {
+        return;
+      }
+      default: {
+        // @ts-expect-error
+        throw new ValidationError(`THIS TYPE IN NOT UNDEFINED. GIVEN: ${this.args.type as string}`);
       }
     }
   }

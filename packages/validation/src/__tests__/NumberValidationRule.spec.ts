@@ -6,7 +6,7 @@ describe('NumberValidationRule', () => {
     it('does not throw any Error', () => {
       expect.assertions(6);
 
-      const rule: NumberValidationRule = new NumberValidationRule({});
+      const rule: NumberValidationRule = NumberValidationRule.of({});
 
       expect(() => {
         rule.evaluate({}, -1);
@@ -31,7 +31,7 @@ describe('NumberValidationRule', () => {
     it('throws ValidationError when non-number values given', () => {
       expect.assertions(11);
 
-      const rule: NumberValidationRule = new NumberValidationRule({});
+      const rule: NumberValidationRule = NumberValidationRule.of({});
 
       expect(() => {
         rule.evaluate({}, null);
@@ -71,8 +71,11 @@ describe('NumberValidationRule', () => {
     it('throws ValidationError when given value is less than min', () => {
       expect.assertions(9);
 
-      const rule: NumberValidationRule = new NumberValidationRule({
-        min: 4
+      const rule: NumberValidationRule = NumberValidationRule.of({
+        min: {
+          condition: 't',
+          value: 4
+        }
       });
 
       expect(() => {
@@ -104,11 +107,53 @@ describe('NumberValidationRule', () => {
       }).not.toThrow(ValidationError);
     });
 
+    it('throws ValidationError when given value is less than or equals to min', () => {
+      expect.assertions(9);
+
+      const rule: NumberValidationRule = NumberValidationRule.of({
+        min: {
+          condition: 'te',
+          value: 4
+        }
+      });
+
+      expect(() => {
+        rule.evaluate({}, -Infinity);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, -1);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, -0.1);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 0);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 1);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 2);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 3);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 3.5);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 4);
+      }).toThrow(ValidationError);
+    });
+
     it('throws ValidationError when given value is greater than max', () => {
       expect.assertions(8);
 
-      const rule: NumberValidationRule = new NumberValidationRule({
-        max: 4
+      const rule: NumberValidationRule = NumberValidationRule.of({
+        max: {
+          condition: 't',
+          value: 4
+        }
       });
 
       expect(() => {
@@ -137,10 +182,46 @@ describe('NumberValidationRule', () => {
       }).not.toThrow(ValidationError);
     });
 
+    it('throws ValidationError when given value is greater than or equals to max', () => {
+      expect.assertions(8);
+
+      const rule: NumberValidationRule = NumberValidationRule.of({
+        max: {
+          condition: 'te',
+          value: 4
+        }
+      });
+
+      expect(() => {
+        rule.evaluate({}, Infinity);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 8);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 7.1);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 7);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 6);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 5);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 4.4);
+      }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 4);
+      }).toThrow(ValidationError);
+    });
+
     it('throws ValidationError when decimal number given if int is set to true', () => {
       expect.assertions(4);
 
-      const rule: NumberValidationRule = new NumberValidationRule({
+      const rule: NumberValidationRule = NumberValidationRule.of({
         int: true
       });
 
@@ -161,7 +242,7 @@ describe('NumberValidationRule', () => {
     it('does not throw any Error when int is set to false', () => {
       expect.assertions(4);
 
-      const rule: NumberValidationRule = new NumberValidationRule({
+      const rule: NumberValidationRule = NumberValidationRule.of({
         int: false
       });
 
@@ -182,7 +263,7 @@ describe('NumberValidationRule', () => {
     it('will throw the same response if omitted in case of int is set to false', () => {
       expect.assertions(4);
 
-      const rule: NumberValidationRule = new NumberValidationRule({});
+      const rule: NumberValidationRule = NumberValidationRule.of({});
 
       expect(() => {
         rule.evaluate({}, 1.1);
@@ -201,7 +282,7 @@ describe('NumberValidationRule', () => {
     it('throws ValidationError when NaN given if noNaN is set to true', () => {
       expect.assertions(4);
 
-      const rule: NumberValidationRule = new NumberValidationRule({
+      const rule: NumberValidationRule = NumberValidationRule.of({
         noNaN: true
       });
 
@@ -222,7 +303,7 @@ describe('NumberValidationRule', () => {
     it('does not throw any Error when noNaN is set to false', () => {
       expect.assertions(1);
 
-      const rule: NumberValidationRule = new NumberValidationRule({
+      const rule: NumberValidationRule = NumberValidationRule.of({
         noNaN: false
       });
 
@@ -234,7 +315,7 @@ describe('NumberValidationRule', () => {
     it('will throw the same response if omitted in case of noNaN is set to false', () => {
       expect.assertions(1);
 
-      const rule: NumberValidationRule = new NumberValidationRule({});
+      const rule: NumberValidationRule = NumberValidationRule.of({});
 
       expect(() => {
         rule.evaluate({}, NaN);
@@ -244,7 +325,7 @@ describe('NumberValidationRule', () => {
     it('throws ValidationError when Infinity of -Inifinity given if noInfinity is set to true', () => {
       expect.assertions(5);
 
-      const rule: NumberValidationRule = new NumberValidationRule({
+      const rule: NumberValidationRule = NumberValidationRule.of({
         noInfinity: true
       });
 
@@ -268,7 +349,7 @@ describe('NumberValidationRule', () => {
     it('does not throw any Error when noInfinity is set to false', () => {
       expect.assertions(2);
 
-      const rule: NumberValidationRule = new NumberValidationRule({
+      const rule: NumberValidationRule = NumberValidationRule.of({
         noInfinity: false
       });
 
@@ -283,7 +364,7 @@ describe('NumberValidationRule', () => {
     it('will throw the same response if omitted in case of noInfinity is set to false', () => {
       expect.assertions(2);
 
-      const rule: NumberValidationRule = new NumberValidationRule({});
+      const rule: NumberValidationRule = NumberValidationRule.of({});
 
       expect(() => {
         rule.evaluate({}, Infinity);
