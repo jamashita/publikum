@@ -106,7 +106,8 @@ describe('NumberValidationRule', () => {
         rule.evaluate({}, 4);
       }).not.toThrow(ValidationError);
     });
-    it('throws ValidationError when given value is less than or equals min', () => {
+
+    it('throws ValidationError when given value is less than or equals to min', () => {
       expect.assertions(9);
 
       const rule: NumberValidationRule = new NumberValidationRule({
@@ -181,7 +182,7 @@ describe('NumberValidationRule', () => {
       }).not.toThrow(ValidationError);
     });
 
-    it('throws ValidationError when given value is greater than or equals max', () => {
+    it('throws ValidationError when given value is greater than or equals to max', () => {
       expect.assertions(8);
 
       const rule: NumberValidationRule = new NumberValidationRule({
