@@ -22,7 +22,11 @@ export class NumberValidationRule implements ValidationRule {
   private readonly noNaN: boolean;
   private readonly noInfinity: boolean;
 
-  public constructor({ min, max, int = false, noNaN = false, noInfinity = false }: NumberValidationArgs) {
+  public static of(args: NumberValidationArgs): NumberValidationRule {
+    return new NumberValidationRule(args);
+  }
+
+  protected constructor({ min, max, int = false, noNaN = false, noInfinity = false }: NumberValidationArgs) {
     this.min = min;
     this.max = max;
     this.int = int;
