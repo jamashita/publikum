@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.32.0](https://github.com/jamashita/publikum/compare/v2.31.0...v2.32.0) (2020-10-30)
+
+
+### Features
+
+* 🎸 returns subclass of Collection ([c4d910d](https://github.com/jamashita/publikum/commit/c4d910df6c1223af0c60d2c55d20575222ff3004))
+
+
+
+
+
 # [2.31.0](https://github.com/jamashita/publikum/compare/v2.30.0...v2.31.0) (2020-10-30)
 
 
