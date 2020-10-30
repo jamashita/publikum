@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.30.0](https://github.com/jamashita/publikum/compare/v2.29.1...v2.30.0) (2020-10-30)
+
+
+### Features
+
+* 🎸 decoreator can returns the injected returns value ([a4adcb6](https://github.com/jamashita/publikum/commit/a4adcb6081f935ee330ba76cb215fead5390697d))
+
+
+
+
+
 ## [2.29.1](https://github.com/jamashita/publikum/compare/v2.29.0...v2.29.1) (2020-10-28)
 
 **Note:** Version bump only for package @jamashita/publikum-redis

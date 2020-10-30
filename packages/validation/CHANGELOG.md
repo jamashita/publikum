@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.30.0](https://github.com/jamashita/publikum/compare/v2.29.1...v2.30.0) (2020-10-30)
+
+
+### Features
+
+* 🎸 add new vaildation rules ([f90e633](https://github.com/jamashita/publikum/commit/f90e633deb2efd360e655a805ed7838914fd4ada))
+* 🎸 BigInt options ([edb9d3f](https://github.com/jamashita/publikum/commit/edb9d3f7b91a44e257407ddec0bec14bf3ace9ed))
+* 🎸 factory ([3bc45cc](https://github.com/jamashita/publikum/commit/3bc45cca17f1176a1fd4c9e8a1b859885e8e0513))
+* 🎸 factory ([086721b](https://github.com/jamashita/publikum/commit/086721beea2bcbb7565940188f243728b76dae20))
+* 🎸 factory and new validations ([f11f365](https://github.com/jamashita/publikum/commit/f11f36528dfc4855a186a5eca30ab0f15abe8008))
+* 🎸 factory and singleton ([06f4306](https://github.com/jamashita/publikum/commit/06f4306ac7c00a57c896f9c56c242cbbdb8e046d))
+* 🎸 factory and sintleton ([d1eeffa](https://github.com/jamashita/publikum/commit/d1eeffa4af8b5cd21fdd9c34122bf351edabf906))
+* 🎸 return value ([d1df7d1](https://github.com/jamashita/publikum/commit/d1df7d1e2cd05d7a96c149dee0ac301e20a7f35c))
+* 🎸 validate for gt, gte, lt, lte ([bcf771c](https://github.com/jamashita/publikum/commit/bcf771c61fb42801993d61ff5828325ce21b20fd))
+
+
+
+
+
 ## [2.29.1](https://github.com/jamashita/publikum/compare/v2.29.0...v2.29.1) (2020-10-28)
 
 **Note:** Version bump only for package @jamashita/publikum-validation
