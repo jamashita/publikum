@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-object",
-  "version": "2.29.1",
+  "version": "2.31.0",
   "private": false,
   "repository": {
     "type": "git",
@@ -28,9 +28,9 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^2.29.1",
-    "@jamashita/publikum-interface": "^2.29.1",
-    "@jamashita/publikum-type": "^2.29.1",
+    "@jamashita/publikum-error": "^2.31.0",
+    "@jamashita/publikum-interface": "^2.31.0",
+    "@jamashita/publikum-type": "^2.31.0",
     "object-hash": "2.0.3"
   },
   "engines": {
@@ -41,5 +41,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "b3fd339634e81f85d90315668230c0279c33dd3d"
+  "gitHead": "6d4296d84b72c900dcceef3378c7ce20fd82b70e"
 }
