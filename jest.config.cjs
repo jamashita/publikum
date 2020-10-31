@@ -18,8 +18,7 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest'
   },
   moduleNameMapper: {
-    '^@jamashita/publikum-(.*)$': '<rootDir>/packages/$1/src/index',
-    '^ky$': require.resolve('ky').replace('index.js', 'umd.js'),
+    '^@jamashita/publikum-(.*)$': '<rootDir>/packages/$1/src/index'
   },
   moduleFileExtensions: [
     'js',

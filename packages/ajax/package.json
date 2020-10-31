@@ -30,8 +30,7 @@
   "dependencies": {
     "@jamashita/publikum-error": "^2.32.0",
     "@jamashita/publikum-json": "^2.32.0",
-    "@jamashita/publikum-type": "^2.32.0",
-    "ky": "0.24.0"
+    "@jamashita/publikum-type": "^2.32.0"
   },
   "devDependencies": {
     "http-status-codes": "2.1.4",

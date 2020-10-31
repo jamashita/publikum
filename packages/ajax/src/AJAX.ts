@@ -1,35 +1,33 @@
 import { JSONA } from '@jamashita/publikum-json';
-import { ObjectLiteral } from '@jamashita/publikum-type';
-import ky from 'ky';
+import { Ambiguous, Kind, ObjectLiteral } from '@jamashita/publikum-type';
 import { AJAXResponse, AJAXResponseType } from './AJAXResponse';
 import { AJAXError } from './Error/AJAXError';
 import { IAJAX } from './Interface/IAJAX';
 
-type KY = typeof ky;
-
 export class AJAX<T extends AJAXResponseType> implements IAJAX<T> {
-  private readonly ky: KY;
   private readonly type: T;
 
   public constructor(type: T) {
-    this.ky = ky.create({
-      parseJson: (text: string): Promise<ObjectLiteral> => {
-        return JSONA.parse(text);
-      },
-      timeout: false,
-      throwHttpErrors: true
-    });
     this.type = type;
   }
 
   public async get(url: string): Promise<AJAXResponse<T>> {
     try {
-      const res: Response = await this.ky.get(url);
+      const res: Response = await fetch(url, {
+        method: 'GET'
+      });
+
+      if (!res.ok) {
+        throw new AJAXError(`AJAX RETURNED ${res.status}`);
+      }
 
       // eslint-disable-next-line @typescript-eslint/return-await
       return this.hydrate(res);
     }
     catch (err: unknown) {
+      if (err instanceof AJAXError) {
+        throw err;
+      }
       if (err instanceof Error) {
         throw new AJAXError(err.message, err);
       }
@@ -40,14 +38,23 @@ export class AJAX<T extends AJAXResponseType> implements IAJAX<T> {
 
   public async post(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>> {
     try {
-      const res: Response = await this.ky.post(url, {
-        json: payload
+      const body: Ambiguous<string> = await this.flatten(payload);
+      const res: Response = await fetch(url, {
+        method: 'POST',
+        body
       });
+
+      if (!res.ok) {
+        throw new AJAXError(`AJAX RETURNED ${res.status}`);
+      }
 
       // eslint-disable-next-line @typescript-eslint/return-await
       return this.hydrate(res);
     }
     catch (err: unknown) {
+      if (err instanceof AJAXError) {
+        throw err;
+      }
       if (err instanceof Error) {
         throw new AJAXError(err.message, err);
       }
@@ -58,14 +65,23 @@ export class AJAX<T extends AJAXResponseType> implements IAJAX<T> {
 
   public async put(url: string, payload?: ObjectLiteral): Promise<AJAXResponse<T>> {
     try {
-      const res: Response = await this.ky.put(url, {
-        json: payload
+      const body: Ambiguous<string> = await this.flatten(payload);
+      const res: Response = await fetch(url, {
+        method: 'PUT',
+        body
       });
+
+      if (!res.ok) {
+        throw new AJAXError(`AJAX RETURNED ${res.status}`);
+      }
 
       // eslint-disable-next-line @typescript-eslint/return-await
       return this.hydrate(res);
     }
     catch (err: unknown) {
+      if (err instanceof AJAXError) {
+        throw err;
+      }
       if (err instanceof Error) {
         throw new AJAXError(err.message, err);
       }
@@ -76,12 +92,21 @@ export class AJAX<T extends AJAXResponseType> implements IAJAX<T> {
 
   public async delete(url: string): Promise<AJAXResponse<T>> {
     try {
-      const res: Response = await this.ky.delete(url);
+      const res: Response = await fetch(url, {
+        method: 'DELETE'
+      });
+
+      if (!res.ok) {
+        throw new AJAXError(`AJAX RETURNED ${res.status}`);
+      }
 
       // eslint-disable-next-line @typescript-eslint/return-await
       return this.hydrate(res);
     }
     catch (err: unknown) {
+      if (err instanceof AJAXError) {
+        throw err;
+      }
       if (err instanceof Error) {
         throw new AJAXError(err.message, err);
       }
@@ -92,18 +117,35 @@ export class AJAX<T extends AJAXResponseType> implements IAJAX<T> {
 
   public async head(url: string): Promise<AJAXResponse<T>> {
     try {
-      const res: Response = await this.ky.head(url);
+      const res: Response = await fetch(url, {
+        method: 'HEAD'
+      });
+
+      if (!res.ok) {
+        throw new AJAXError(`AJAX RETURNED ${res.status}`);
+      }
 
       // eslint-disable-next-line @typescript-eslint/return-await
       return this.hydrate(res);
     }
     catch (err: unknown) {
+      if (err instanceof AJAXError) {
+        throw err;
+      }
       if (err instanceof Error) {
         throw new AJAXError(err.message, err);
       }
 
       throw err;
     }
+  }
+
+  private async flatten(payload?: ObjectLiteral): Promise<Ambiguous<string>> {
+    if (Kind.isUndefined(payload)) {
+      return Promise.resolve<undefined>(undefined);
+    }
+
+    return JSONA.stringify(payload);
   }
 
   private async hydrate(res: Response): Promise<AJAXResponse<T>> {
