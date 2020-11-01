@@ -13,10 +13,6 @@ export abstract class Trees<K, V extends Nominative, T extends TreeNode<V, T>, E
     this.trees = trees;
   }
 
-  public [Symbol.iterator](): Iterator<Pair<K, E>> {
-    return this.trees[Symbol.iterator]();
-  }
-
   public contains(value: E): boolean {
     return this.trees.contains(value);
   }
@@ -74,5 +70,9 @@ export abstract class Trees<K, V extends Nominative, T extends TreeNode<V, T>, E
 
   public values(): Iterable<E> {
     return this.trees.values();
+  }
+
+  public iterator(): Iterator<Pair<K, E>> {
+    return this.trees[Symbol.iterator]();
   }
 }

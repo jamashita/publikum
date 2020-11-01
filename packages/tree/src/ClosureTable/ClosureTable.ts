@@ -54,10 +54,6 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ReadonlyAddress<
     this.table = table;
   }
 
-  public [Symbol.iterator](): Iterator<Pair<K, ReadonlyAddress<K>>> {
-    return this.table[Symbol.iterator]();
-  }
-
   public contains(value: ReadonlyAddress<K>): boolean {
     return this.table.contains(value);
   }
@@ -115,6 +111,10 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ReadonlyAddress<
 
   public map<W extends Nominative>(mapper: Mapper<ReadonlyAddress<K>, W>): ImmutableProject<K, W> {
     return this.table.map<W>(mapper);
+  }
+
+  public iterator(): Iterator<Pair<K, ReadonlyAddress<K>>> {
+    return this.table.iterator();
   }
 
   public sort(): ImmutableSequence<K> {
