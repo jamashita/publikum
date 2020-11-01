@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.33.0](https://github.com/jamashita/publikum/compare/v2.32.0...v2.33.0) (2020-10-31)
+
+
+### Features
+
+* 🎸 fetch over ky ([d813b35](https://github.com/jamashita/publikum/commit/d813b35d92c94da621908f826dda44ee34bbb685))
+
+
+
+
+
 # [2.32.0](https://github.com/jamashita/publikum/compare/v2.31.0...v2.32.0) (2020-10-30)
 
 
