@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.35.0](https://github.com/jamashita/publikum/compare/v2.34.0...v2.35.0) (2020-11-01)
+
+
+### Features
+
+* 🎸 BREAKING CHANGE ([8f9fd97](https://github.com/jamashita/publikum/commit/8f9fd97f4f0e4f83e7113dec9bfbd1de29e2cca4))
+* 🎸 changed to extends ATree ([9c01348](https://github.com/jamashita/publikum/commit/9c01348d3a78235ee008c4b4078e9daea6df3f76))
+* 🎸 iterator() ([feadb06](https://github.com/jamashita/publikum/commit/feadb06a77b9037efe29670d012640612c095b08))
+* 🎸 made it interface and made a new abstract class ([dcd11bd](https://github.com/jamashita/publikum/commit/dcd11bde77da5f65084d61a3003ed4203780d2a2))
+* 🎸 made it iterface and changed to abstract calss ([32f154a](https://github.com/jamashita/publikum/commit/32f154afdd0550c157ecbae5b6b73dc3ac6527d9))
+* 🎸 TreeNode -> ATreeNode ([2b85ea4](https://github.com/jamashita/publikum/commit/2b85ea4a4c637e1c2820752c3f6e2451b5185100))
+* 🎸 values() ([cfc4f53](https://github.com/jamashita/publikum/commit/cfc4f53c5a8d3b24cd185be62cd31b54a4f6f0b9))
+
+
+
+
+
 # [2.34.0](https://github.com/jamashita/publikum/compare/v2.33.0...v2.34.0) (2020-11-01)
 
 

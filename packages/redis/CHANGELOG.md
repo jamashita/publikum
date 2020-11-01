@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.35.0](https://github.com/jamashita/publikum/compare/v2.34.0...v2.35.0) (2020-11-01)
+
+
+### Features
+
+* 🎸 update ([d827e4a](https://github.com/jamashita/publikum/commit/d827e4a9a970a3633d3f150bc417b41f18bd90d9))
+
+
+
+
+
 # [2.34.0](https://github.com/jamashita/publikum/compare/v2.33.0...v2.34.0) (2020-11-01)
 
 **Note:** Version bump only for package @jamashita/publikum-redis
