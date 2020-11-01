@@ -1,4 +1,4 @@
-import { ImmutableSequence, MutableProject } from '@jamashita/publikum-collection';
+import { ImmutableSequence } from '@jamashita/publikum-collection';
 import { Nullable } from '@jamashita/publikum-type';
 import { ClosureTable } from '../ClosureTable/ClosureTable';
 import { MockClosureTableHierarchies } from '../ClosureTable/Mock/MockClosureTableHierarchies';
@@ -78,7 +78,7 @@ describe('StructurableTrees', () => {
         new MockTreeObject<MockTreeID>(id)
       ]);
 
-      const trees: MutableProject<MockTreeID, StructurableTree<MockTreeID, MockTreeObject<MockTreeID>>> = StructurableTrees.ofTable<MockTreeID, MockTreeObject<MockTreeID>>(table, values);
+      const trees: StructurableTrees<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTrees.ofTable<MockTreeID, MockTreeObject<MockTreeID>>(table, values);
 
       expect(trees.size()).toBe(1);
 
@@ -107,7 +107,7 @@ describe('StructurableTrees', () => {
         new MockTreeObject<MockTreeID>(id2)
       ]);
 
-      const trees: MutableProject<MockTreeID, StructurableTree<MockTreeID, MockTreeObject<MockTreeID>>> = StructurableTrees.ofTable<MockTreeID, MockTreeObject<MockTreeID>>(table, values);
+      const trees: StructurableTrees<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTrees.ofTable<MockTreeID, MockTreeObject<MockTreeID>>(table, values);
 
       expect(trees.size()).toBe(2);
 
@@ -153,7 +153,7 @@ describe('StructurableTrees', () => {
         new MockTreeObject<MockTreeID>(id4)
       ]);
 
-      const trees: MutableProject<MockTreeID, StructurableTree<MockTreeID, MockTreeObject<MockTreeID>>> = StructurableTrees.ofTable<MockTreeID, MockTreeObject<MockTreeID>>(table, values);
+      const trees: StructurableTrees<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTrees.ofTable<MockTreeID, MockTreeObject<MockTreeID>>(table, values);
 
       expect(trees.size()).toBe(4);
 

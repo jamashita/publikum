@@ -18,14 +18,14 @@ export class StructurableTrees<K extends TreeID, V extends StructurableTreeObjec
   public readonly noun: 'StructurableTrees' = 'StructurableTrees';
 
   public static of<KT extends TreeID, VT extends StructurableTreeObject<KT>>(trees: StructurableTrees<KT, VT>): StructurableTrees<KT, VT> {
-    return new StructurableTrees<KT, VT>(trees.trees);
+    return StructurableTrees.ofProject<KT, VT>(trees.trees);
   }
 
   public static ofProject<KT extends TreeID, VT extends StructurableTreeObject<KT>>(project: ReadonlyProject<KT, StructurableTree<KT, VT>>): StructurableTrees<KT, VT> {
     return new StructurableTrees<KT, VT>(project);
   }
 
-  public static ofTable<KT extends TreeID, VT extends StructurableTreeObject<KT>>(table: ClosureTable<KT>, values: ReadonlySequence<VT>): MutableProject<KT, StructurableTree<KT, VT>> {
+  public static ofTable<KT extends TreeID, VT extends StructurableTreeObject<KT>>(table: ClosureTable<KT>, values: ReadonlySequence<VT>): StructurableTrees<KT, VT> {
     if (table.isEmpty()) {
       throw new TreeError('THIS CLOSURE TABLE IS EMPTY');
     }
@@ -48,7 +48,7 @@ export class StructurableTrees<K extends TreeID, V extends StructurableTreeObjec
       project.set(node.getTreeID(), StructurableTree.of<KT, VT>(node));
     });
 
-    return project;
+    return StructurableTrees.ofProject<KT, VT>(project);
   }
 
   private static toProject<KT extends TreeID, VT extends StructurableTreeObject<KT>>(sequence: ReadonlySequence<VT>): ReadonlyProject<KT, VT> {
