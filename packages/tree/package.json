@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-tree",
-  "version": "2.34.0",
+  "version": "2.35.0",
   "private": false,
   "repository": {
     "type": "git",
@@ -28,11 +28,11 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-collection": "^2.34.0",
-    "@jamashita/publikum-error": "^2.34.0",
-    "@jamashita/publikum-interface": "^2.34.0",
-    "@jamashita/publikum-object": "^2.34.0",
-    "@jamashita/publikum-type": "^2.34.0"
+    "@jamashita/publikum-collection": "^2.35.0",
+    "@jamashita/publikum-error": "^2.35.0",
+    "@jamashita/publikum-interface": "^2.35.0",
+    "@jamashita/publikum-object": "^2.35.0",
+    "@jamashita/publikum-type": "^2.35.0"
   },
   "devDependencies": {
     "sinon": "9.2.1"

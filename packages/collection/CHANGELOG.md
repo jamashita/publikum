@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.35.0](https://github.com/jamashita/publikum/compare/v2.34.0...v2.35.0) (2020-11-01)
+
+
+### Features
+
+* 🎸 new method iterator() ([5b5d47e](https://github.com/jamashita/publikum/commit/5b5d47e51654ed38f47b871b702bcfdbfd5c6616))
+
+
+
+
+
 # [2.34.0](https://github.com/jamashita/publikum/compare/v2.33.0...v2.34.0) (2020-11-01)
 
 **Note:** Version bump only for package @jamashita/publikum-collection
