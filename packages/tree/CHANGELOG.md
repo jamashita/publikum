@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.34.0](https://github.com/jamashita/publikum/compare/v2.33.0...v2.34.0) (2020-11-01)
+
+
+### Features
+
+* 🎸 MutablePrject -> StructurableTrees ([46e2e9d](https://github.com/jamashita/publikum/commit/46e2e9d738c9302c59f1dd68f6c8466efc618f29))
+
+
+
+
+
 # [2.33.0](https://github.com/jamashita/publikum/compare/v2.32.0...v2.33.0) (2020-10-31)
 
 **Note:** Version bump only for package @jamashita/publikum-tree
