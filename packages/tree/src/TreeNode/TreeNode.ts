@@ -91,4 +91,24 @@ export abstract class TreeNode<V extends Nominative, T extends TreeNode<V, T>, N
 
     return null;
   }
+
+  public values(): Iterable<V> {
+    if (this.isLeaf()) {
+      return [this.value];
+    }
+
+    const values: Array<V> = [];
+
+    this.valuesInternal(values);
+
+    return values;
+  }
+
+  private valuesInternal(values: Array<V>): void {
+    values.push(this.value);
+
+    this.getChildren().forEach((child: T) => {
+      child.valuesInternal(values);
+    });
+  }
 }
