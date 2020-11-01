@@ -1,8 +1,8 @@
 import { ImmutableAddress } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { Objet } from '@jamashita/publikum-object';
-import { TreeNode } from '@jamashita/publikum-tree';
 import { Kind, Nullable, Predicate } from '@jamashita/publikum-type';
+import { TreeNode } from '../TreeNode';
 
 export abstract class ATreeNode<V extends Nominative, T extends ATreeNode<V, T>, N extends string = string> extends Objet<N> implements TreeNode<V, T> {
   protected readonly value: V;

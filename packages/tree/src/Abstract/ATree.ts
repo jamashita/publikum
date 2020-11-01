@@ -1,7 +1,7 @@
 import { Nominative } from '@jamashita/publikum-interface';
 import { Objet } from '@jamashita/publikum-object';
-import { Tree } from '@jamashita/publikum-tree';
 import { Nullable, Predicate } from '@jamashita/publikum-type';
+import { Tree } from '../Tree';
 import { TreeNode } from '../TreeNode/TreeNode';
 
 export abstract class ATree<V extends Nominative, T extends TreeNode<V, T>, N extends string = string> extends Objet<N> implements Tree<V, T> {
