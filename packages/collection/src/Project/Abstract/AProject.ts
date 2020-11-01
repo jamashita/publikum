@@ -35,7 +35,7 @@ export abstract class AProject<K extends Nominative, V extends Nominative, T ext
 
   public abstract duplicate(): Project<K, V, N>;
 
-  public [Symbol.iterator](): Iterator<Pair<K, V>> {
+  public iterator(): Iterator<Pair<K, V>> {
     return this.project.values();
   }
 

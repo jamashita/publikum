@@ -25,10 +25,10 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
 
   public abstract duplicate(): Sequence<V, N>;
 
-  public [Symbol.iterator](): Iterator<Pair<number, V>> {
+  public iterator(): Iterator<Pair<number, V>> {
     return this.sequence.map<Pair<number, V>>((e: V, index: number) => {
       return Pair.of(index, e);
-    })[Symbol.iterator]();
+    }).values();
   }
 
   public get(key: number): Nullable<V> {
@@ -105,13 +105,13 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
       return false;
     }
 
-    const thisIterator: Iterator<Pair<number, V>> = this[Symbol.iterator]();
-    const otherIterator: Iterator<Pair<number, unknown>> = other[Symbol.iterator]();
-    let thisRes: IteratorResult<Pair<number, V>> = thisIterator.next();
-    let otherRes: IteratorResult<Pair<number, unknown>> = otherIterator.next();
+    const thisIterator: Iterator<V> = this.values()[Symbol.iterator]();
+    const otherIterator: Iterator<unknown> = other.values()[Symbol.iterator]();
+    let thisRes: IteratorResult<V> = thisIterator.next();
+    let otherRes: IteratorResult<unknown> = otherIterator.next();
 
     while (thisRes.done !== true && otherRes.done !== true) {
-      if (!thisRes.value.getValue().equals(otherRes.value.getValue())) {
+      if (!thisRes.value.equals(otherRes.value)) {
         return false;
       }
 
