@@ -168,4 +168,21 @@ describe('Tree', () => {
       expect(spy.called).toBe(true);
     });
   });
+
+  describe('values', () => {
+    it('delegates to retaining root', () => {
+      expect.assertions(1);
+
+      const root: MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock')));
+      const spy: SinonSpy = sinon.spy();
+
+      root.values = spy;
+
+      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(root);
+
+      tree.values();
+
+      expect(spy.called).toBe(true);
+    });
+  });
 });

@@ -189,8 +189,9 @@ Class for random string, random number.
     * [ ] `sequence<P>(arr: Array<Promise<P>>): Promise<Array<P>>;`
   * Superposition
     * [ ] `sequence<A, D>(arr: Array<Promise<A>>): Promise<Array<Schrodinger<A, D>>>;`
-* [ ] validation decorator
-* [ ] can get constract from DeadContractor.constractor
+* [x] validation decorator
+* [x] `Tree.values(): Ierable<T>`
+* [ ] object-hashing algorithm
 
 ## Conventional commit
 

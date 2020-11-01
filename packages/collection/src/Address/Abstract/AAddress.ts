@@ -23,7 +23,7 @@ export abstract class AAddress<V extends Nominative, T extends AAddress<V, T>, N
 
   public abstract duplicate(): Address<V, N>;
 
-  public [Symbol.iterator](): Iterator<Pair<void, V>> {
+  public iterator(): Iterator<Pair<void, V>> {
     const iterator: IterableIterator<V> = this.address.values();
     const iterable: Array<Pair<void, V>> = [];
 
@@ -35,7 +35,7 @@ export abstract class AAddress<V extends Nominative, T extends AAddress<V, T>, N
       res = iterator.next();
     }
 
-    return iterable[Symbol.iterator]();
+    return iterable.values();
   }
 
   public get(): Nullable<V> {

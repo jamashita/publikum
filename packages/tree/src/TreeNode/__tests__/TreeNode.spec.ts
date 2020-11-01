@@ -310,4 +310,56 @@ describe('TreeNode', () => {
       })).toBeNull();
     });
   });
+
+  describe('values', () => {
+    it('returns its own value as Array', () => {
+      expect.assertions(2);
+
+      const value: MockTreeObject<MockTreeID> = new MockTreeObject(new MockTreeID('mock 1'));
+
+      const node: MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+        value
+      );
+
+      const values: Array<MockTreeObject<MockTreeID>> = [...node.values()];
+
+      expect(values).toHaveLength(1);
+      expect(values[0]).toBe(value);
+    });
+
+    it('returns complex Array by retrieving tree', () => {
+      expect.assertions(6);
+
+      const value1: MockTreeObject<MockTreeID> = new MockTreeObject(new MockTreeID('mock 1'));
+      const value2: MockTreeObject<MockTreeID> = new MockTreeObject(new MockTreeID('mock 2'));
+      const value3: MockTreeObject<MockTreeID> = new MockTreeObject(new MockTreeID('mock 3'));
+      const value4: MockTreeObject<MockTreeID> = new MockTreeObject(new MockTreeID('mock 4'));
+      const value5: MockTreeObject<MockTreeID> = new MockTreeObject(new MockTreeID('mock 5'));
+
+      const node: MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+        value1,
+        ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+          new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+            new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(value2,
+              ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+                new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+                  new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(value3)
+                ])
+              )),
+            new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(value4),
+            new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(value5)
+          ])
+        )
+      );
+
+      const values: Array<MockTreeObject<MockTreeID>> = [...node.values()];
+
+      expect(values).toHaveLength(5);
+      expect(values[0]).toBe(value1);
+      expect(values[1]).toBe(value2);
+      expect(values[2]).toBe(value3);
+      expect(values[3]).toBe(value4);
+      expect(values[4]).toBe(value5);
+    });
+  });
 });

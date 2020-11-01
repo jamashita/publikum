@@ -10,7 +10,9 @@ export abstract class Quantity<K, V, N extends string = string> extends Objet<N>
     super();
   }
 
-  public abstract [Symbol.iterator](): Iterator<Pair<K, V>>;
+  public [Symbol.iterator](): Iterator<Pair<K, V>> {
+    return this.iterator();
+  }
 
   public abstract get(key: K): Nullable<V>;
 
@@ -33,4 +35,6 @@ export abstract class Quantity<K, V, N extends string = string> extends Objet<N>
   public abstract find(predicate: BinaryPredicate<V, K>): Nullable<V>;
 
   public abstract map<W extends Nominative>(mapper: Mapper<V, W>): Collection<K, W>;
+
+  public abstract iterator(): Iterator<Pair<K, V>>;
 }

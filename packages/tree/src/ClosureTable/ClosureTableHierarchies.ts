@@ -56,10 +56,6 @@ export class ClosureTableHierarchies<K extends TreeID> extends Quantity<number, 
     this.hierarchies = hierarchies;
   }
 
-  public [Symbol.iterator](): Iterator<Pair<number, ClosureTableHierarchy<K>>> {
-    return this.hierarchies[Symbol.iterator]();
-  }
-
   public contains(value: ClosureTableHierarchy<K>): boolean {
     return this.hierarchies.contains(value);
   }
@@ -117,6 +113,10 @@ export class ClosureTableHierarchies<K extends TreeID> extends Quantity<number, 
 
   public map<W extends Nominative>(mapper: Mapper<ClosureTableHierarchy<K>, W>): ImmutableSequence<W> {
     return this.hierarchies.map<W>(mapper);
+  }
+
+  public iterator(): Iterator<Pair<number, ClosureTableHierarchy<K>>> {
+    return this.hierarchies.iterator();
   }
 
   public toJSON(): ReadonlyArray<ClosureTableJSON> {

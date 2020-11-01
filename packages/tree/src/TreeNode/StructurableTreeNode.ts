@@ -1,9 +1,10 @@
 import { ImmutableAddress, ReadonlyAddress } from '@jamashita/publikum-collection';
 import { StructurableTreeObject } from '../Interface/StructurableTreeObject';
 import { TreeID } from '../Interface/TreeID';
+import { ATreeNode } from './Abstract/ATreeNode';
 import { TreeNode } from './TreeNode';
 
-export class StructurableTreeNode<K extends TreeID, V extends StructurableTreeObject<K>> extends TreeNode<V, StructurableTreeNode<K, V>, 'StructurableTreeNode'> {
+export class StructurableTreeNode<K extends TreeID, V extends StructurableTreeObject<K>> extends ATreeNode<V, StructurableTreeNode<K, V>, 'StructurableTreeNode'> {
   public readonly noun: 'StructurableTreeNode' = 'StructurableTreeNode';
 
   public static of<KT extends TreeID, VT extends StructurableTreeObject<KT>>(node: StructurableTreeNode<KT, VT>): StructurableTreeNode<KT, VT> {
