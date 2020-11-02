@@ -1,5 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Mapper, Nullable, Peek } from '@jamashita/publikum-type';
+import { BinaryPredicate, Mapper, Nullable, Omittable } from '@jamashita/publikum-type';
 import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
@@ -59,15 +59,10 @@ export abstract class AAddress<V extends Nominative, T extends AAddress<V, T>, N
   }
 
   public forEach(iteration: CancellableEnumerator<void, V>): void {
-    let done: boolean = false;
-    const cancel: Peek = () => {
-      done = true;
-    };
-
     for (const [, v] of this.address) {
-      iteration(v, undefined, cancel);
+      const cancel: Omittable<boolean> = iteration(v, undefined);
 
-      if (done) {
+      if (cancel === true) {
         return;
       }
     }

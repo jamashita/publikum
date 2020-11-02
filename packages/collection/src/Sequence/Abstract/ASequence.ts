@@ -1,5 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Ambiguous, BinaryPredicate, Kind, Mapper, Nullable, Peek } from '@jamashita/publikum-type';
+import { Ambiguous, BinaryPredicate, Kind, Mapper, Nullable, Omittable } from '@jamashita/publikum-type';
 import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
@@ -62,15 +62,12 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
   }
 
   public forEach(iteration: CancellableEnumerator<number, V>): void {
-    let done: boolean = false;
-    const cancel: Peek = () => {
-      done = true;
-    };
+    const size: number = this.sequence.length;
 
-    for (let i: number = 0; i < this.sequence.length; i++) {
-      iteration(this.sequence[i], i, cancel);
+    for (let i: number = 0; i < size; i++) {
+      const cancel: Omittable<boolean> = iteration(this.sequence[i], i);
 
-      if (done) {
+      if (cancel === true) {
         return;
       }
     }

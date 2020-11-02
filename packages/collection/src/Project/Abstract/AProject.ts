@@ -1,5 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Ambiguous, BinaryPredicate, Kind, Mapper, Nullable, Peek } from '@jamashita/publikum-type';
+import { Ambiguous, BinaryPredicate, Kind, Mapper, Nullable, Omittable } from '@jamashita/publikum-type';
 import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
@@ -77,15 +77,10 @@ export abstract class AProject<K extends Nominative, V extends Nominative, T ext
   }
 
   public forEach(iteration: CancellableEnumerator<K, V>): void {
-    let done: boolean = false;
-    const cancel: Peek = () => {
-      done = true;
-    };
-
     for (const [, p] of this.project) {
-      iteration(p.getValue(), p.getKey(), cancel);
+      const cancel: Omittable<boolean> = iteration(p.getValue(), p.getKey());
 
-      if (done) {
+      if (cancel === true) {
         return;
       }
     }
