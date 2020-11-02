@@ -1,6 +1,6 @@
 import { Nominative } from '@jamashita/publikum-interface';
 import { Objet } from '@jamashita/publikum-object';
-import { Nullable, Predicate } from '@jamashita/publikum-type';
+import { Enumerator, Nullable, Predicate } from '@jamashita/publikum-type';
 import { Tree } from '../Tree';
 import { TreeNode } from '../TreeNode/TreeNode';
 
@@ -53,6 +53,13 @@ export abstract class ATree<V extends Nominative, T extends TreeNode<V, T>, N ex
 
   public some(predicate: Predicate<V>): boolean {
     return this.someInternal(this.root, predicate);
+  }
+
+  // TODO VISITOR PATTERN!
+  public forEach(iteration: Enumerator<unknown, V>): void {
+    for (const value of this.values()) {
+      iteration(value, null);
+    }
   }
 
   private everyInternal(node: T, predicate: Predicate<V>): boolean {

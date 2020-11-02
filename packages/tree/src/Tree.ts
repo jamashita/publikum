@@ -1,5 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Nullable, Predicate } from '@jamashita/publikum-type';
+import { Enumerator, Nullable, Predicate } from '@jamashita/publikum-type';
 import { TreeNode } from './TreeNode/TreeNode';
 
 export interface Tree<V extends Nominative, T extends TreeNode<V, T>, N extends string = string> extends Nominative<N> {
@@ -8,6 +8,8 @@ export interface Tree<V extends Nominative, T extends TreeNode<V, T>, N extends 
   contains(value: V): boolean;
 
   every(predicate: Predicate<V>): boolean;
+
+  forEach(iteration: Enumerator<unknown, V>): void;
 
   find(predicate: Predicate<V>): Nullable<T>;
 
