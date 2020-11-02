@@ -7,9 +7,13 @@ export interface Tree<V extends Nominative, T extends TreeNode<V, T>, N extends 
 
   contains(value: V): boolean;
 
+  every(predicate: Predicate<V>): boolean;
+
   find(predicate: Predicate<V>): Nullable<T>;
 
   size(): number;
+
+  some(predicate: Predicate<V>): boolean;
 
   values(): Iterable<V>;
 }

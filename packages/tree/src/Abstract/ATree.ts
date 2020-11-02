@@ -46,4 +46,38 @@ export abstract class ATree<V extends Nominative, T extends TreeNode<V, T>, N ex
   public values(): Iterable<V> {
     return this.root.values();
   }
+
+  public every(predicate: Predicate<V>): boolean {
+    return this.everyInternal(this.root, predicate);
+  }
+
+  public some(predicate: Predicate<V>): boolean {
+    return this.someInternal(this.root, predicate);
+  }
+
+  private everyInternal(node: T, predicate: Predicate<V>): boolean {
+    if (!predicate(node.getValue())) {
+      return false;
+    }
+    if (node.isLeaf()) {
+      return true;
+    }
+
+    return node.getChildren().every((child: T) => {
+      return this.everyInternal(child, predicate);
+    });
+  }
+
+  private someInternal(node: T, predicate: Predicate<V>): boolean {
+    if (predicate(node.getValue())) {
+      return true;
+    }
+    if (node.isLeaf()) {
+      return false;
+    }
+
+    return node.getChildren().some((n: T) => {
+      return this.someInternal(n, predicate);
+    });
+  }
 }
