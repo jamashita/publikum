@@ -1,7 +1,6 @@
 import { Nominative } from '@jamashita/publikum-interface';
 import { Objet } from '@jamashita/publikum-object';
-import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
-import { CancellableEnumerator } from './Interface/CancellableEnumerator';
+import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
 import { Collection } from './Interface/Collection';
 import { Pair } from './Pair';
 
@@ -9,6 +8,8 @@ export abstract class Quantity<K, V, N extends string = string> extends Objet<N>
   protected constructor() {
     super();
   }
+
+  public abstract iterator(): Iterator<Pair<K, V>>;
 
   public [Symbol.iterator](): Iterator<Pair<K, V>> {
     return this.iterator();
@@ -22,7 +23,7 @@ export abstract class Quantity<K, V, N extends string = string> extends Objet<N>
 
   public abstract isEmpty(): boolean;
 
-  public abstract forEach(iteration: CancellableEnumerator<K, V>): void;
+  public abstract forEach(iteration: Enumerator<K, V>): void;
 
   public abstract every(predicate: BinaryPredicate<V, K>): boolean;
 
@@ -35,6 +36,4 @@ export abstract class Quantity<K, V, N extends string = string> extends Objet<N>
   public abstract find(predicate: BinaryPredicate<V, K>): Nullable<V>;
 
   public abstract map<W extends Nominative>(mapper: Mapper<V, W>): Collection<K, W>;
-
-  public abstract iterator(): Iterator<Pair<K, V>>;
 }

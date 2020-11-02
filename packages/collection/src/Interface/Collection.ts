@@ -1,7 +1,6 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
 import { Pair } from '../Pair';
-import { CancellableEnumerator } from './CancellableEnumerator';
 
 export interface Collection<K, V, N extends string = string> extends Nominative<N>, Iterable<Pair<K, V>> {
   get(key: K): Nullable<V>;
@@ -12,7 +11,7 @@ export interface Collection<K, V, N extends string = string> extends Nominative<
 
   isEmpty(): boolean;
 
-  forEach(iteration: CancellableEnumerator<K, V>): void;
+  forEach(iteration: Enumerator<K, V>): void;
 
   every(predicate: BinaryPredicate<V, K>): boolean;
 

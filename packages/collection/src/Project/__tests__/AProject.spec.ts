@@ -1,6 +1,5 @@
 import { MockValueObject } from '@jamashita/publikum-object';
-import { BinaryPredicate, Nullable, Peek } from '@jamashita/publikum-type';
-import sinon, { SinonSpy } from 'sinon';
+import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
 import { MockProject } from '../Mock/MockProject';
 
 describe('AProject', () => {
@@ -180,64 +179,6 @@ describe('AProject', () => {
         expect(value).toBe(kv[i][1]);
         i++;
       });
-    });
-
-    it('can cancel iteration', () => {
-      expect.assertions(5);
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-      const spy4: SinonSpy = sinon.spy();
-      const spy5: SinonSpy = sinon.spy();
-      const peeks: MockProject<MockValueObject<number>, MockValueObject<Peek>> = new MockProject<MockValueObject<number>, MockValueObject<Peek>>(
-        new Map<MockValueObject<number>, MockValueObject<Peek>>([
-          [
-            new MockValueObject<number>(0),
-            new MockValueObject<Peek>(() => {
-              spy1();
-            })
-          ],
-          [
-            new MockValueObject<number>(1),
-            new MockValueObject<Peek>(() => {
-              spy2();
-            })
-          ],
-          [
-            new MockValueObject<number>(2),
-            new MockValueObject<Peek>(() => {
-              spy3();
-            })
-          ],
-          [
-            new MockValueObject<number>(4),
-            new MockValueObject<Peek>(() => {
-              spy4();
-            })
-          ],
-          [
-            new MockValueObject<number>(5),
-            new MockValueObject<Peek>(() => {
-              spy5();
-            })
-          ]
-        ])
-      );
-
-      peeks.forEach((peek: MockValueObject<Peek>, index: MockValueObject<number>, cancel: Peek) => {
-        peek.get()();
-
-        if (index.get() === 2) {
-          cancel();
-        }
-      });
-
-      expect(spy1.called).toBe(true);
-      expect(spy2.called).toBe(true);
-      expect(spy3.called).toBe(true);
-      expect(spy4.called).toBe(false);
-      expect(spy5.called).toBe(false);
     });
   });
 

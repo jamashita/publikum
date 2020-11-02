@@ -1,6 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Ambiguous, BinaryPredicate, Kind, Mapper, Nullable, Omittable } from '@jamashita/publikum-type';
-import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
+import { Ambiguous, BinaryPredicate, Enumerator, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Sequence } from '../Interface/Sequence';
@@ -61,15 +60,11 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
     return false;
   }
 
-  public forEach(iteration: CancellableEnumerator<number, V>): void {
+  public forEach(iteration: Enumerator<number, V>): void {
     const size: number = this.sequence.length;
 
     for (let i: number = 0; i < size; i++) {
-      const cancel: Omittable<boolean> = iteration(this.sequence[i], i);
-
-      if (cancel === true) {
-        return;
-      }
+      iteration(this.sequence[i], i);
     }
   }
 
