@@ -1,5 +1,6 @@
-import { ImmutableAddress, ImmutableProject, MockProject } from '@jamashita/publikum-collection';
+import { MockAddress, MockProject } from '@jamashita/publikum-collection';
 import { MockValueObject } from '@jamashita/publikum-object';
+import { Nullable } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
 import { MockTree } from '../Mock/MockTree';
 import { MockTreeID } from '../Mock/MockTreeID';
@@ -8,83 +9,8 @@ import { MockTrees } from '../Mock/MockTrees';
 import { MockTreeNode } from '../TreeNode/Mock/MockTreeNode';
 
 describe('Trees', () => {
-  describe('iterator', () => {
-    it('returns Pair<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>', () => {
-      expect.assertions(3);
-
-      const id1: MockTreeID = new MockTreeID('tree id 1');
-      const id2: MockTreeID = new MockTreeID('tree id 2');
-      const id3: MockTreeID = new MockTreeID('tree id 3');
-      const id4: MockTreeID = new MockTreeID('tree id 4');
-      const id5: MockTreeID = new MockTreeID('tree id 5');
-      const id6: MockTreeID = new MockTreeID('tree id 6');
-      const id7: MockTreeID = new MockTreeID('tree id 7');
-
-      const tree1: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
-        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
-          new MockTreeObject<MockTreeID>(id1),
-          ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
-            new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
-              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
-                new MockTreeObject<MockTreeID>(id2)
-              ),
-              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
-                new MockTreeObject<MockTreeID>(id3),
-                ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
-                  new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
-                    new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
-                      new MockTreeObject<MockTreeID>(id4)
-                    )
-                  ])
-                )
-              )
-            ])
-          )
-        )
-      );
-      const tree2: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
-        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
-          new MockTreeObject<MockTreeID>(id5),
-          ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
-            new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
-              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
-                new MockTreeObject<MockTreeID>(id6)
-              )
-            ])
-          )
-        )
-      );
-      const tree3: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
-        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
-          new MockTreeObject<MockTreeID>(id7)
-        )
-      );
-      const array: Array<MockTree<MockTreeID, MockTreeObject<MockTreeID>>> = [
-        tree1,
-        tree2,
-        tree3
-      ];
-
-      const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(
-        ImmutableProject.ofMap<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>(
-          new Map<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>([
-            [id1, tree1],
-            [id5, tree2],
-            [id7, tree3]
-          ])
-        )
-      );
-      let i: number = 0;
-
-      for (const pair of trees) {
-        expect(pair.getValue()).toBe(array[i]);
-        i++;
-      }
-    });
-  });
-
   describe('contains', () => {
-    it('delegates its retaining project', () => {
+    it('delegates its retaining tree', () => {
       expect.assertions(1);
 
       const spy: SinonSpy = sinon.spy();
@@ -102,11 +28,11 @@ describe('Trees', () => {
         ])
       );
 
-      project.contains = spy;
+      tree.contains = spy;
 
       const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(project);
 
-      trees.contains(new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject<MockTreeID>(id))));
+      trees.contains(new MockTreeObject<MockTreeID>(id));
 
       expect(spy.called).toBe(true);
     });
@@ -190,64 +116,135 @@ describe('Trees', () => {
   });
 
   describe('every', () => {
-    it('delegates its retaining project', () => {
+    it('returns true when all objects pass the condition', () => {
       expect.assertions(1);
 
-      const spy: SinonSpy = sinon.spy();
+      const id1: MockTreeID = new MockTreeID('tree id 1');
+      const id2: MockTreeID = new MockTreeID('tree id 2');
+      const id3: MockTreeID = new MockTreeID('tree id 3');
 
-      const id: MockTreeID = new MockTreeID('tree id');
-      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+      const tree1: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
         new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
-          new MockTreeObject<MockTreeID>(id)
+          new MockTreeObject<MockTreeID>(id1)
+        )
+      );
+      const tree2: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject<MockTreeID>(id2),
+          new MockAddress<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+            new Set([
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject<MockTreeID>(id3)
+              )
+            ])
+          )
         )
       );
 
       const project: MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>> = new MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>(
         new Map<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>([
-          [id, tree]
+          [id1, tree1],
+          [id2, tree2]
         ])
       );
 
-      project.every = spy;
+      const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(project);
+
+      const every: boolean = trees.every((o: MockTreeObject<MockTreeID>) => {
+        return o.getTreeID().toString().includes('tree id');
+      });
+
+      expect(every).toBe(true);
+    });
+
+    it('returns false when one of the objects does not pass the condition', () => {
+      expect.assertions(1);
+
+      const id1: MockTreeID = new MockTreeID('tree id 1');
+      const id2: MockTreeID = new MockTreeID('tree id 2');
+      const id3: MockTreeID = new MockTreeID('tree id 3');
+
+      const tree1: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject<MockTreeID>(id1)
+        )
+      );
+      const tree2: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject<MockTreeID>(id2),
+          new MockAddress<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+            new Set([
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject<MockTreeID>(id3)
+              )
+            ])
+          )
+        )
+      );
+
+      const project: MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>> = new MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>(
+        new Map<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>([
+          [id1, tree1],
+          [id2, tree2]
+        ])
+      );
 
       const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(project);
 
-      trees.every(() => {
-        return true;
+      const every: boolean = trees.every((o: MockTreeObject<MockTreeID>) => {
+        return !o.getTreeID().equals(id3);
       });
 
-      expect(spy.called).toBe(true);
+      expect(every).toBe(false);
     });
   });
 
   describe('forEach', () => {
-    it('delegates its retaining project', () => {
-      expect.assertions(1);
+    it('retrieves inner trees', () => {
+      expect.assertions(3);
 
-      const spy: SinonSpy = sinon.spy();
+      const id1: MockTreeID = new MockTreeID('tree id 1');
+      const id2: MockTreeID = new MockTreeID('tree id 2');
+      const id3: MockTreeID = new MockTreeID('tree id 3');
+      const ids: Array<MockTreeID> = [
+        id1,
+        id2,
+        id3
+      ];
 
-      const id: MockTreeID = new MockTreeID('tree id');
-      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+      const tree1: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
         new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
-          new MockTreeObject<MockTreeID>(id)
+          new MockTreeObject<MockTreeID>(id1)
+        )
+      );
+      const tree2: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject<MockTreeID>(id2),
+          new MockAddress<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+            new Set([
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject<MockTreeID>(id3)
+              )
+            ])
+          )
         )
       );
 
       const project: MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>> = new MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>(
         new Map<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>([
-          [id, tree]
+          [id1, tree1],
+          [id2, tree2]
         ])
       );
 
-      project.forEach = spy;
 
       const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(project);
+      let i: number = 0;
 
-      trees.forEach(() => {
-        // NOOP
+      trees.forEach((o: MockTreeObject<MockTreeID>) => {
+        expect(o.getTreeID()).toBe(ids[i]);
+        i++;
       });
-
-      expect(spy.called).toBe(true);
     });
   });
 
@@ -368,155 +365,218 @@ describe('Trees', () => {
   });
 
   describe('some', () => {
-    it('delegates its retaining project', () => {
+    it('returns true when one of the objects passes the condition', () => {
       expect.assertions(1);
 
-      const spy: SinonSpy = sinon.spy();
+      const id1: MockTreeID = new MockTreeID('tree id 1');
+      const id2: MockTreeID = new MockTreeID('tree id 2');
+      const id3: MockTreeID = new MockTreeID('tree id 3');
 
-      const id: MockTreeID = new MockTreeID('tree id');
-      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+      const tree1: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
         new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
-          new MockTreeObject<MockTreeID>(id)
+          new MockTreeObject<MockTreeID>(id1)
+        )
+      );
+      const tree2: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject<MockTreeID>(id2),
+          new MockAddress<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+            new Set([
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject<MockTreeID>(id3)
+              )
+            ])
+          )
         )
       );
 
       const project: MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>> = new MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>(
         new Map<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>([
-          [id, tree]
+          [id1, tree1],
+          [id2, tree2]
         ])
       );
 
-      project.some = spy;
+      const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(project);
+
+      const some: boolean = trees.some((o: MockTreeObject<MockTreeID>) => {
+        return o.getTreeID().equals(id3);
+      });
+
+      expect(some).toBe(true);
+    });
+
+    it('returns false when none of the objects does not pass the condition', () => {
+      expect.assertions(1);
+
+      const id1: MockTreeID = new MockTreeID('tree id 1');
+      const id2: MockTreeID = new MockTreeID('tree id 2');
+      const id3: MockTreeID = new MockTreeID('tree id 3');
+
+      const tree1: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject<MockTreeID>(id1)
+        )
+      );
+      const tree2: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject<MockTreeID>(id2),
+          new MockAddress<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+            new Set([
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject<MockTreeID>(id3)
+              )
+            ])
+          )
+        )
+      );
+
+      const project: MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>> = new MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>(
+        new Map<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>([
+          [id1, tree1],
+          [id2, tree2]
+        ])
+      );
 
       const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(project);
 
-      trees.some(() => {
-        return true;
+      const some: boolean = trees.some((o: MockTreeObject<MockTreeID>) => {
+        return o.getTreeID().toString().includes('idea');
       });
 
-      expect(spy.called).toBe(true);
+      expect(some).toBe(false);
     });
   });
 
   describe('values', () => {
-    it('delegates its retaining project', () => {
-      expect.assertions(1);
+    it('returns all objects', () => {
+      expect.assertions(3);
 
-      const spy: SinonSpy = sinon.spy();
+      const id1: MockTreeID = new MockTreeID('tree id 1');
+      const id2: MockTreeID = new MockTreeID('tree id 2');
+      const id3: MockTreeID = new MockTreeID('tree id 3');
+      const ids: Array<MockTreeID> = [
+        id1,
+        id2,
+        id3
+      ];
 
-      const id: MockTreeID = new MockTreeID('tree id');
-      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+      const tree1: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
         new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
-          new MockTreeObject<MockTreeID>(id)
+          new MockTreeObject<MockTreeID>(id1)
+        )
+      );
+      const tree2: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject<MockTreeID>(id2),
+          new MockAddress<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+            new Set([
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject<MockTreeID>(id3)
+              )
+            ])
+          )
         )
       );
 
       const project: MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>> = new MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>(
         new Map<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>([
-          [id, tree]
+          [id1, tree1],
+          [id2, tree2]
         ])
       );
 
-      project.values = spy;
-
       const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(project);
+      let i: number = 0;
 
-      trees.values();
-
-      expect(spy.called).toBe(true);
-    });
-  });
-
-  describe('filter', () => {
-    it('delegates its retaining project', () => {
-      expect.assertions(1);
-
-      const spy: SinonSpy = sinon.spy();
-
-      const id: MockTreeID = new MockTreeID('tree id');
-      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
-        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
-          new MockTreeObject<MockTreeID>(id)
-        )
-      );
-
-      const project: MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>> = new MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>(
-        new Map<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>([
-          [id, tree]
-        ])
-      );
-
-      project.filter = spy;
-
-      const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(project);
-
-      trees.filter(() => {
-        return true;
-      });
-
-      expect(spy.called).toBe(true);
+      for (const o of trees.values()) {
+        expect(o.getTreeID()).toBe(ids[i]);
+        i++;
+      }
     });
   });
 
   describe('find', () => {
-    it('delegates its retaining project', () => {
+    it('returns found one when the condition passes', () => {
       expect.assertions(1);
 
-      const spy: SinonSpy = sinon.spy();
+      const id1: MockTreeID = new MockTreeID('tree id 1');
+      const id2: MockTreeID = new MockTreeID('tree id 2');
+      const id3: MockTreeID = new MockTreeID('tree id 3');
 
-      const id: MockTreeID = new MockTreeID('tree id');
-      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+      const tree1: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
         new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
-          new MockTreeObject<MockTreeID>(id)
+          new MockTreeObject<MockTreeID>(id1)
+        )
+      );
+      const tree2: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject<MockTreeID>(id2),
+          new MockAddress<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+            new Set([
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject<MockTreeID>(id3)
+              )
+            ])
+          )
         )
       );
 
       const project: MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>> = new MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>(
         new Map<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>([
-          [id, tree]
+          [id1, tree1],
+          [id2, tree2]
         ])
       );
 
-      project.find = spy;
-
       const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(project);
 
-      trees.find(() => {
-        return true;
+      const obj: Nullable<MockTreeObject<MockTreeID>> = trees.find((o: MockTreeObject<MockTreeID>) => {
+        return o.getTreeID().equals(id3);
       });
 
-      expect(spy.called).toBe(true);
+      expect(obj?.getTreeID()).toBe(id3);
     });
-  });
 
-  describe('map', () => {
-    it('delegates its retaining project', () => {
+    it('returns null when any conditions do not pass', () => {
       expect.assertions(1);
 
-      const spy: SinonSpy = sinon.spy();
+      const id1: MockTreeID = new MockTreeID('tree id 1');
+      const id2: MockTreeID = new MockTreeID('tree id 2');
+      const id3: MockTreeID = new MockTreeID('tree id 3');
 
-      const id: MockTreeID = new MockTreeID('tree id');
-      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+      const tree1: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
         new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
-          new MockTreeObject<MockTreeID>(id)
+          new MockTreeObject<MockTreeID>(id1)
+        )
+      );
+      const tree2: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject<MockTreeID>(id2),
+          new MockAddress<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+            new Set([
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject<MockTreeID>(id3)
+              )
+            ])
+          )
         )
       );
 
       const project: MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>> = new MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>(
         new Map<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>([
-          [id, tree]
+          [id1, tree1],
+          [id2, tree2]
         ])
       );
 
-      project.map = spy;
-
       const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(project);
 
-      trees.map((t: MockTree<MockTreeID, MockTreeObject<MockTreeID>>) => {
-        return t;
+      const obj: Nullable<MockTreeObject<MockTreeID>> = trees.find((o: MockTreeObject<MockTreeID>) => {
+        return o.getTreeID().toString().includes('idea');
       });
 
-      expect(spy.called).toBe(true);
+      expect(obj).toBeNull();
     });
   });
 });
