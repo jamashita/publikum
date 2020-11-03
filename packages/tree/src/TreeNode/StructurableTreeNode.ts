@@ -30,4 +30,14 @@ export class StructurableTreeNode<K extends TreeID, V extends StructurableTreeOb
   public getTreeID(): K {
     return this.value.getTreeID();
   }
+
+  public has(key: K): boolean {
+    if (this.getTreeID().equals(key)) {
+      return true;
+    }
+
+    return this.children.some((child: StructurableTreeNode<K, V>) => {
+      return child.has(key);
+    });
+  }
 }
