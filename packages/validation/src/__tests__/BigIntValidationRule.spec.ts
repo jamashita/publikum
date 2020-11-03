@@ -93,7 +93,7 @@ describe('BigIntValidationRule', () => {
     });
 
     it('throws ValidationError when given value is less than or equals to min', () => {
-      expect.assertions(6);
+      expect.assertions(7);
 
       const rule: BigIntValidationRule = BigIntValidationRule.of({
         min: {
@@ -120,6 +120,9 @@ describe('BigIntValidationRule', () => {
       expect(() => {
         rule.evaluate({}, 4n);
       }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 5n);
+      }).not.toThrow(ValidationError);
     });
 
     it('throws ValidationError when given value is greater than max', () => {
@@ -150,7 +153,7 @@ describe('BigIntValidationRule', () => {
     });
 
     it('throws ValidationError when given value is greater than or equals to min', () => {
-      expect.assertions(5);
+      expect.assertions(6);
 
       const rule: BigIntValidationRule = BigIntValidationRule.of({
         max: {
@@ -174,6 +177,9 @@ describe('BigIntValidationRule', () => {
       expect(() => {
         rule.evaluate({}, 4n);
       }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 3n);
+      }).not.toThrow(ValidationError);
     });
   });
 });
