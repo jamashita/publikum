@@ -9,6 +9,8 @@ import {
 import { Kind, Nullable } from '@jamashita/publikum-type';
 import { ATrees } from './ATrees';
 import { ClosureTable } from './ClosureTable/ClosureTable';
+import { ClosureTableHierarchies } from './ClosureTable/ClosureTableHierarchies';
+import { ClosureTableHierarchy } from './ClosureTable/ClosureTableHierarchy';
 import { TreeError } from './Error/TreeError';
 import { StructurableTreeObject } from './Interface/StructurableTreeObject';
 import { TreeID } from './Interface/TreeID';
@@ -43,7 +45,7 @@ export class StructurableTrees<K extends TreeID, V extends StructurableTreeObjec
     const used: MutableAddress<KT> = MutableAddress.empty<KT>();
 
     table.sort().toArray().forEach((key: KT) => {
-      return StructurableTrees.forgeInternal(key, vs, table, pool, used);
+      StructurableTrees.forgeInternal(key, vs, table, pool, used);
     });
 
     const trees: MutableProject<KT, StructurableTree<KT, VT>> = pool.map<StructurableTree<KT, VT>>((node: StructurableTreeNode<KT, VT>) => {
@@ -113,5 +115,15 @@ export class StructurableTrees<K extends TreeID, V extends StructurableTreeObjec
     return this.trees.some((tree: StructurableTree<K, V>) => {
       return tree.has(key);
     });
+  }
+
+  public toHierarchies(): ClosureTableHierarchies<K> {
+    const hierarchies: Array<ClosureTableHierarchy<K>> = [];
+
+    this.trees.forEach((tree: StructurableTree<K, V>) => {
+      hierarchies.push(...tree.toHierarchies().values());
+    });
+
+    return ClosureTableHierarchies.ofArray<K>(hierarchies);
   }
 }

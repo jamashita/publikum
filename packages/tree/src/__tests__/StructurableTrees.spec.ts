@@ -1,6 +1,7 @@
 import { ImmutableSequence } from '@jamashita/publikum-collection';
 import { Nullable } from '@jamashita/publikum-type';
 import { ClosureTable } from '../ClosureTable/ClosureTable';
+import { ClosureTableHierarchies } from '../ClosureTable/ClosureTableHierarchies';
 import { MockClosureTableHierarchies } from '../ClosureTable/Mock/MockClosureTableHierarchies';
 import { MockClosureTableHierarchy } from '../ClosureTable/Mock/MockClosureTableHierarchy';
 import { TreeError } from '../Error/TreeError';
@@ -295,6 +296,83 @@ describe('StructurableTrees', () => {
       expect(trees.has(id4)).toBe(true);
       expect(trees.has(id5)).toBe(true);
       expect(trees.has(id6)).toBe(false);
+    });
+  });
+
+  describe('toHierarchies', () => {
+    it('returns one-length array when no no-children one tree given', () => {
+      expect.assertions(3);
+
+      const id1: MockTreeID = new MockTreeID('id 1');
+
+      const table: ClosureTable<MockTreeID> = ClosureTable.of<MockTreeID>(
+        new MockClosureTableHierarchies<MockTreeID>(
+          new MockClosureTableHierarchy<MockTreeID>(id1, id1)
+        )
+      );
+      const values: ImmutableSequence<MockTreeObject<MockTreeID>> = ImmutableSequence.ofArray<MockTreeObject<MockTreeID>>([
+        new MockTreeObject<MockTreeID>(id1)
+      ]);
+      const trees: StructurableTrees<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTrees.ofTable<MockTreeID, MockTreeObject<MockTreeID>>(table, values);
+
+      const hierarchies: ClosureTableHierarchies<MockTreeID> = trees.toHierarchies();
+
+      expect(hierarchies.size()).toBe(1);
+      expect(hierarchies.get(0)?.getAncestor().get()).toBe('id 1');
+      expect(hierarchies.get(0)?.getOffspring().get()).toBe('id 1');
+    });
+
+    it('returns true if given key exists', () => {
+      expect.assertions(18);
+
+      const id1: MockTreeID = new MockTreeID('id 1');
+      const id2: MockTreeID = new MockTreeID('id 2');
+      const id3: MockTreeID = new MockTreeID('id 3');
+      const id4: MockTreeID = new MockTreeID('id 4');
+      const id5: MockTreeID = new MockTreeID('id 5');
+
+      const table: ClosureTable<MockTreeID> = ClosureTable.of<MockTreeID>(
+        new MockClosureTableHierarchies<MockTreeID>(
+          new MockClosureTableHierarchy<MockTreeID>(id1, id1),
+          new MockClosureTableHierarchy<MockTreeID>(id2, id2),
+          new MockClosureTableHierarchy<MockTreeID>(id3, id3),
+          new MockClosureTableHierarchy<MockTreeID>(id4, id4),
+          new MockClosureTableHierarchy<MockTreeID>(id1, id2),
+          new MockClosureTableHierarchy<MockTreeID>(id1, id3),
+          new MockClosureTableHierarchy<MockTreeID>(id1, id4),
+          new MockClosureTableHierarchy<MockTreeID>(id3, id4),
+          new MockClosureTableHierarchy<MockTreeID>(id5, id5)
+        )
+      );
+      const values: ImmutableSequence<MockTreeObject<MockTreeID>> = ImmutableSequence.ofArray<MockTreeObject<MockTreeID>>([
+        new MockTreeObject<MockTreeID>(id1),
+        new MockTreeObject<MockTreeID>(id2),
+        new MockTreeObject<MockTreeID>(id3),
+        new MockTreeObject<MockTreeID>(id4),
+        new MockTreeObject<MockTreeID>(id5)
+      ]);
+      const trees: StructurableTrees<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTrees.ofTable<MockTreeID, MockTreeObject<MockTreeID>>(table, values);
+
+      const hierarchies: ClosureTableHierarchies<MockTreeID> = trees.toHierarchies();
+
+      expect(hierarchies.get(0)?.getAncestor().get()).toBe('id 5');
+      expect(hierarchies.get(0)?.getOffspring().get()).toBe('id 5');
+      expect(hierarchies.get(1)?.getAncestor().get()).toBe('id 1');
+      expect(hierarchies.get(1)?.getOffspring().get()).toBe('id 1');
+      expect(hierarchies.get(2)?.getAncestor().get()).toBe('id 1');
+      expect(hierarchies.get(2)?.getOffspring().get()).toBe('id 2');
+      expect(hierarchies.get(3)?.getAncestor().get()).toBe('id 1');
+      expect(hierarchies.get(3)?.getOffspring().get()).toBe('id 3');
+      expect(hierarchies.get(4)?.getAncestor().get()).toBe('id 1');
+      expect(hierarchies.get(4)?.getOffspring().get()).toBe('id 4');
+      expect(hierarchies.get(5)?.getAncestor().get()).toBe('id 2');
+      expect(hierarchies.get(5)?.getOffspring().get()).toBe('id 2');
+      expect(hierarchies.get(6)?.getAncestor().get()).toBe('id 3');
+      expect(hierarchies.get(6)?.getOffspring().get()).toBe('id 3');
+      expect(hierarchies.get(7)?.getAncestor().get()).toBe('id 3');
+      expect(hierarchies.get(7)?.getOffspring().get()).toBe('id 4');
+      expect(hierarchies.get(8)?.getAncestor().get()).toBe('id 4');
+      expect(hierarchies.get(8)?.getOffspring().get()).toBe('id 4');
     });
   });
 });
