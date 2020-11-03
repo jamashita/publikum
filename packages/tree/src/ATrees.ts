@@ -7,7 +7,6 @@ import { TreeNode } from './TreeNode/TreeNode';
 import { Trees } from './Trees';
 
 export abstract class ATrees<K, V extends Nominative, T extends TreeNode<V, T>, E extends Tree<V, T>, C extends Collection<K, E>, N extends string = string> extends Objet<N> implements Trees<K, V, T, E, N> {
-  public abstract readonly noun: N;
   protected readonly trees: C;
 
   protected constructor(trees: C) {

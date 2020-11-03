@@ -6,15 +6,15 @@ import {
   ReadonlySequence
 } from '@jamashita/publikum-collection';
 import { Kind, Nullable } from '@jamashita/publikum-type';
+import { ATrees } from './ATrees';
 import { ClosureTable } from './ClosureTable/ClosureTable';
 import { TreeError } from './Error/TreeError';
 import { StructurableTreeObject } from './Interface/StructurableTreeObject';
 import { TreeID } from './Interface/TreeID';
 import { StructurableTree } from './StructurableTree';
 import { StructurableTreeNode } from './TreeNode/StructurableTreeNode';
-import { Trees } from './Trees';
 
-export class StructurableTrees<K extends TreeID, V extends StructurableTreeObject<K>> extends Trees<K, V, StructurableTreeNode<K, V>, StructurableTree<K, V>, ReadonlyProject<K, StructurableTree<K, V>>, 'StructurableTrees'> {
+export class StructurableTrees<K extends TreeID, V extends StructurableTreeObject<K>> extends ATrees<K, V, StructurableTreeNode<K, V>, StructurableTree<K, V>, ReadonlyProject<K, StructurableTree<K, V>>, 'StructurableTrees'> {
   public readonly noun: 'StructurableTrees' = 'StructurableTrees';
 
   public static of<KT extends TreeID, VT extends StructurableTreeObject<KT>>(trees: StructurableTrees<KT, VT>): StructurableTrees<KT, VT> {
@@ -25,6 +25,7 @@ export class StructurableTrees<K extends TreeID, V extends StructurableTreeObjec
     return new StructurableTrees<KT, VT>(project);
   }
 
+  // TODO YABAI
   public static ofTable<KT extends TreeID, VT extends StructurableTreeObject<KT>>(table: ClosureTable<KT>, values: ReadonlySequence<VT>): StructurableTrees<KT, VT> {
     if (table.isEmpty()) {
       throw new TreeError('THIS CLOSURE TABLE IS EMPTY');
