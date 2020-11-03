@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/jamashita/publikum/compare/v2.35.0...v3.0.0) (2020-11-03)
+
+
+### Features
+
+* 🎸 cancel abandoned ([58d79b5](https://github.com/jamashita/publikum/commit/58d79b512f9c75a4c8c0eb773e914e2d04406d99))
+
+
+### Performance Improvements
+
+* ⚡️ remove unnncessary if ([a6ad1ff](https://github.com/jamashita/publikum/commit/a6ad1ff2450c2bcf9633c095dfab149cfc45aec4))
+
+
+
+
+
 # [2.35.0](https://github.com/jamashita/publikum/compare/v2.34.0...v2.35.0) (2020-11-01)
 
 **Note:** Version bump only for package @jamashita/publikum-type
