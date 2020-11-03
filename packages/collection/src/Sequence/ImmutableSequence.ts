@@ -9,7 +9,7 @@ export class ImmutableSequence<V extends Nominative> extends ASequence<V, 'Immut
   private static readonly EMPTY: ImmutableSequence<Nominative> = new ImmutableSequence<Nominative>([]);
 
   public static of<VT extends Nominative>(sequence: ReadonlySequence<VT>): ImmutableSequence<VT> {
-    return ImmutableSequence.ofArray<VT>(sequence.toArray());
+    return ImmutableSequence.ofInternal<VT>(sequence.toArray());
   }
 
   public static ofArray<VT extends Nominative>(array: ReadonlyArray<VT>): ImmutableSequence<VT> {
@@ -17,6 +17,10 @@ export class ImmutableSequence<V extends Nominative> extends ASequence<V, 'Immut
       return ImmutableSequence.empty<VT>();
     }
 
+    return ImmutableSequence.ofInternal<VT>([...array]);
+  }
+
+  private static ofInternal<VT extends Nominative>(array: Array<VT>): ImmutableSequence<VT> {
     return new ImmutableSequence<VT>(array);
   }
 
@@ -24,7 +28,7 @@ export class ImmutableSequence<V extends Nominative> extends ASequence<V, 'Immut
     return ImmutableSequence.EMPTY as ImmutableSequence<VT>;
   }
 
-  protected constructor(sequence: ReadonlyArray<V>) {
+  protected constructor(sequence: Array<V>) {
     super(sequence);
   }
 

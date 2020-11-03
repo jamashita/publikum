@@ -7,10 +7,14 @@ export class MutableSequence<V extends Nominative> extends ASequence<V, 'Mutable
   public readonly noun: 'MutableSequence' = 'MutableSequence';
 
   public static of<VT extends Nominative>(sequence: ReadonlySequence<VT>): MutableSequence<VT> {
-    return MutableSequence.ofArray<VT>(sequence.toArray());
+    return MutableSequence.ofInternal<VT>(sequence.toArray());
   }
 
   public static ofArray<VT extends Nominative>(array: ReadonlyArray<VT>): MutableSequence<VT> {
+    return MutableSequence.ofInternal<VT>([...array]);
+  }
+
+  private static ofInternal<VT extends Nominative>(array: Array<VT>): MutableSequence<VT> {
     return new MutableSequence<VT>(array);
   }
 
@@ -18,7 +22,7 @@ export class MutableSequence<V extends Nominative> extends ASequence<V, 'Mutable
     return MutableSequence.ofArray<VT>([]);
   }
 
-  protected constructor(sequence: ReadonlyArray<V>) {
+  protected constructor(sequence: Array<V>) {
     super(sequence);
   }
 

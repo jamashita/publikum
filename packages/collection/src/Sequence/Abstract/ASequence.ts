@@ -7,9 +7,9 @@ import { Sequence } from '../Interface/Sequence';
 export abstract class ASequence<V extends Nominative, N extends string = string> extends Quantity<number, V, N> implements Sequence<V, N> {
   protected sequence: Array<V>;
 
-  protected constructor(sequence: ReadonlyArray<V>) {
+  protected constructor(sequence: Array<V>) {
     super();
-    this.sequence = [...sequence];
+    this.sequence = sequence;
   }
 
   public abstract add(value: V): Sequence<V, N>;
