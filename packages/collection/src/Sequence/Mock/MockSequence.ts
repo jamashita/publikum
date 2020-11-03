@@ -6,7 +6,7 @@ export class MockSequence<V extends Nominative> extends ASequence<V, 'MockSequen
   public readonly noun: 'MockSequence' = 'MockSequence';
 
   public constructor(sequence: ReadonlyArray<V>) {
-    super(sequence);
+    super([...sequence]);
   }
 
   public add(): MockSequence<V> {
