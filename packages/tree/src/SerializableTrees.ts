@@ -13,11 +13,15 @@ export class SerializableTrees<V extends SerializableTreeObject> extends ATrees<
   }
 
   public static ofAddress<VT extends SerializableTreeObject>(address: ReadonlyAddress<SerializableTree<VT>>): SerializableTrees<VT> {
-    return new SerializableTrees<VT>(address);
+    return SerializableTrees.ofInternal<VT>(address);
+  }
+
+  private static ofInternal<VT extends SerializableTreeObject>(address: ReadonlyAddress<SerializableTree<VT>>): SerializableTrees<VT> {
+    return new SerializableTrees<VT>(ImmutableAddress.of<SerializableTree<VT>>(address));
   }
 
   protected constructor(trees: ReadonlyAddress<SerializableTree<V>>) {
-    super(ImmutableAddress.of<SerializableTree<V>>(trees));
+    super(trees);
   }
 
 
