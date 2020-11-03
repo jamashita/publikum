@@ -191,7 +191,6 @@ Class for random string, random number.
     * [ ] `sequence<A, D>(arr: Array<Promise<A>>): Promise<Array<Schrodinger<A, D>>>;`
 * [x] validation decorator
 * [x] `Tree.values(): Ierable<T>`
-* [ ] object-hashing algorithm
 
 ## Conventional commit
 
