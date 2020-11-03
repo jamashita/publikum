@@ -164,7 +164,7 @@ describe('ImmutableProject', () => {
       expect(project2.size()).toBe(0);
     });
 
-    it('does nothing where there is no such key', () => {
+    it('does nothing when there is no such key', () => {
       expect.assertions(2);
 
       const key1: MockValueObject<number> = new MockValueObject<number>(1);
@@ -179,6 +179,14 @@ describe('ImmutableProject', () => {
 
       expect(project.remove(key2)).toBe(project);
       expect(project.size()).toBe(beforeLength);
+    });
+
+    it('does nothing when the project is empty', () => {
+      expect.assertions(1);
+
+      const project: ImmutableProject<MockValueObject<number>, MockValueObject<number>> = ImmutableProject.empty<MockValueObject<number>, MockValueObject<number>>();
+
+      expect(project.remove(new MockValueObject<number>(1))).toBe(project);
     });
 
     it('returns the removed Project', () => {
