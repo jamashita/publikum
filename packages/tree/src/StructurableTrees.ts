@@ -112,10 +112,6 @@ export class StructurableTrees<K extends TreeID, V extends StructurableTreeObjec
   public has(key: K): boolean {
     const t: Nullable<StructurableTree<K, V>> = this.trees.get(key);
 
-    if (Kind.isNull(t)) {
-      return false;
-    }
-
-    return true;
+    return !Kind.isNull(t);
   }
 }

@@ -205,4 +205,47 @@ describe('StructurableTrees', () => {
       }
     });
   });
+
+  describe('has', () => {
+    it('returns true if given key exists', () => {
+      expect.assertions(6);
+
+      const id1: MockTreeID = new MockTreeID('id 1');
+      const id2: MockTreeID = new MockTreeID('id 2');
+      const id3: MockTreeID = new MockTreeID('id 3');
+      const id4: MockTreeID = new MockTreeID('id 4');
+      const id5: MockTreeID = new MockTreeID('id 5');
+      const id6: MockTreeID = new MockTreeID('id 6');
+
+      const table: ClosureTable<MockTreeID> = ClosureTable.of<MockTreeID>(
+        new MockClosureTableHierarchies<MockTreeID>(
+          new MockClosureTableHierarchy<MockTreeID>(id1, id1),
+          new MockClosureTableHierarchy<MockTreeID>(id2, id2),
+          new MockClosureTableHierarchy<MockTreeID>(id3, id3),
+          new MockClosureTableHierarchy<MockTreeID>(id4, id4),
+          new MockClosureTableHierarchy<MockTreeID>(id1, id2),
+          new MockClosureTableHierarchy<MockTreeID>(id1, id3),
+          new MockClosureTableHierarchy<MockTreeID>(id1, id4),
+          new MockClosureTableHierarchy<MockTreeID>(id3, id4),
+          new MockClosureTableHierarchy<MockTreeID>(id5, id5)
+        )
+      );
+      const values: ImmutableSequence<MockTreeObject<MockTreeID>> = ImmutableSequence.ofArray<MockTreeObject<MockTreeID>>([
+        new MockTreeObject<MockTreeID>(id1),
+        new MockTreeObject<MockTreeID>(id2),
+        new MockTreeObject<MockTreeID>(id3),
+        new MockTreeObject<MockTreeID>(id4),
+        new MockTreeObject<MockTreeID>(id5)
+      ]);
+
+      const trees: StructurableTrees<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTrees.ofTable<MockTreeID, MockTreeObject<MockTreeID>>(table, values);
+
+      expect(trees.has(id1)).toBe(true);
+      expect(trees.has(id2)).toBe(true);
+      expect(trees.has(id3)).toBe(true);
+      expect(trees.has(id4)).toBe(true);
+      expect(trees.has(id5)).toBe(true);
+      expect(trees.has(id6)).toBe(false);
+    });
+  });
 });
