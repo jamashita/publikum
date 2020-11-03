@@ -7,9 +7,9 @@ import { Address } from '../Interface/Address';
 export abstract class AAddress<V extends Nominative, T extends AAddress<V, T>, N extends string = string> extends Quantity<void, V, N> implements Address<V, N> {
   protected readonly address: Map<string, V>;
 
-  protected constructor(address: ReadonlyMap<string, V>) {
+  protected constructor(address: Map<string, V>) {
     super();
-    this.address = new Map<string, V>(address);
+    this.address = address;
   }
 
   protected abstract forge(self: Map<string, V>): T;

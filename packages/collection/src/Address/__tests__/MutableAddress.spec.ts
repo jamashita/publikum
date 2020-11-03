@@ -26,16 +26,6 @@ describe('MutableAddress', () => {
   });
 
   describe('ofSet', () => {
-    it('returns MutableAddress.empty() when set size is 0', () => {
-      expect.assertions(1);
-
-      const address: MutableAddress<MockValueObject<number>> = MutableAddress.ofSet<MockValueObject<number>>(
-        new Set<MockValueObject<number>>()
-      );
-
-      expect(address.isEmpty()).toBe(true);
-    });
-
     it('returns instance', () => {
       expect.assertions(2);
 

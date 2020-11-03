@@ -21,10 +21,6 @@ export class MutableAddress<V extends Nominative> extends AAddress<V, MutableAdd
   }
 
   private static ofInternal<VT extends Nominative>(elements: Map<string, VT>): MutableAddress<VT> {
-    if (elements.size === 0) {
-      return MutableAddress.empty<VT>();
-    }
-
     return new MutableAddress<VT>(elements);
   }
 
@@ -32,7 +28,7 @@ export class MutableAddress<V extends Nominative> extends AAddress<V, MutableAdd
     return new MutableAddress<VT>(new Map<string, VT>());
   }
 
-  protected constructor(elements: ReadonlyMap<string, V>) {
+  protected constructor(elements: Map<string, V>) {
     super(elements);
   }
 
