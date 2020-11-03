@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/jamashita/publikum/compare/v3.0.0...v3.1.0) (2020-11-03)
+
+
+### Features
+
+* 🎸 toHierarchies() ([504e740](https://github.com/jamashita/publikum/commit/504e740025c25aee9fc4d6fc59302be1ba1d4258))
+
+
+
+
+
 # [3.0.0](https://github.com/jamashita/publikum/compare/v2.35.0...v3.0.0) (2020-11-03)
 
 
