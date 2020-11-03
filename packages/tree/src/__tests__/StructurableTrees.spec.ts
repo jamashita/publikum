@@ -127,12 +127,15 @@ describe('StructurableTrees', () => {
     });
 
     it('returns one complex Tree', () => {
-      expect.assertions(11);
+      expect.assertions(18);
 
       const id1: MockTreeID = new MockTreeID('id 1');
       const id2: MockTreeID = new MockTreeID('id 2');
       const id3: MockTreeID = new MockTreeID('id 3');
       const id4: MockTreeID = new MockTreeID('id 4');
+      const id5: MockTreeID = new MockTreeID('id 5');
+      const id6: MockTreeID = new MockTreeID('id 6');
+      const id7: MockTreeID = new MockTreeID('id 7');
 
       const table: ClosureTable<MockTreeID> = ClosureTable.of<MockTreeID>(
         new MockClosureTableHierarchies<MockTreeID>(
@@ -143,37 +146,45 @@ describe('StructurableTrees', () => {
           new MockClosureTableHierarchy<MockTreeID>(id1, id2),
           new MockClosureTableHierarchy<MockTreeID>(id1, id3),
           new MockClosureTableHierarchy<MockTreeID>(id1, id4),
-          new MockClosureTableHierarchy<MockTreeID>(id3, id4)
+          new MockClosureTableHierarchy<MockTreeID>(id3, id4),
+          new MockClosureTableHierarchy<MockTreeID>(id5, id5),
+          new MockClosureTableHierarchy<MockTreeID>(id6, id6),
+          new MockClosureTableHierarchy<MockTreeID>(id7, id7),
+          new MockClosureTableHierarchy<MockTreeID>(id5, id6),
+          new MockClosureTableHierarchy<MockTreeID>(id5, id7)
         )
       );
       const values: ImmutableSequence<MockTreeObject<MockTreeID>> = ImmutableSequence.ofArray<MockTreeObject<MockTreeID>>([
         new MockTreeObject<MockTreeID>(id1),
         new MockTreeObject<MockTreeID>(id2),
         new MockTreeObject<MockTreeID>(id3),
-        new MockTreeObject<MockTreeID>(id4)
+        new MockTreeObject<MockTreeID>(id4),
+        new MockTreeObject<MockTreeID>(id5),
+        new MockTreeObject<MockTreeID>(id6),
+        new MockTreeObject<MockTreeID>(id7)
       ]);
 
       const trees: StructurableTrees<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTrees.ofTable<MockTreeID, MockTreeObject<MockTreeID>>(table, values);
 
-      expect(trees.size()).toBe(4);
+      expect(trees.size()).toBe(2);
 
-      const tree: Nullable<StructurableTree<MockTreeID, MockTreeObject<MockTreeID>>> = trees.get(id1);
+      const tree1: Nullable<StructurableTree<MockTreeID, MockTreeObject<MockTreeID>>> = trees.get(id1);
 
-      if (tree === null) {
+      if (tree1 === null) {
         fail();
 
         return;
       }
 
-      const root: StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = tree.getRoot();
+      const root1: StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = tree1.getRoot();
 
-      expect(root.size()).toBe(4);
-      expect(root.getTreeID()).toBe(id1);
-      expect(root.getChildren().size()).toBe(2);
+      expect(root1.size()).toBe(4);
+      expect(root1.getTreeID()).toBe(id1);
+      expect(root1.getChildren().size()).toBe(2);
 
       let i: number = 0;
 
-      for (const p of root.getChildren()) {
+      for (const p of root1.getChildren()) {
         switch (i) {
           case 0: {
             expect(p.getValue().getTreeID()).toBe(id2);
@@ -198,7 +209,45 @@ describe('StructurableTrees', () => {
             fail();
 
             return;
+          }
+        }
+        i++;
+      }
 
+      const tree2: Nullable<StructurableTree<MockTreeID, MockTreeObject<MockTreeID>>> = trees.get(id5);
+
+      if (tree2 === null) {
+        fail();
+
+        return;
+      }
+
+      const root2: StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = tree2.getRoot();
+
+      expect(root2.size()).toBe(3);
+      expect(root2.getTreeID()).toBe(id5);
+      expect(root2.getChildren().size()).toBe(2);
+
+      i = 0;
+
+      for (const p of root2.getChildren()) {
+        switch (i) {
+          case 0: {
+            expect(p.getValue().getTreeID()).toBe(id6);
+            expect(p.getValue().isLeaf()).toBe(true);
+
+            break;
+          }
+          case 1: {
+            expect(p.getValue().getTreeID()).toBe(id7);
+            expect(p.getValue().isLeaf()).toBe(true);
+
+            break;
+          }
+          default: {
+            fail();
+
+            return;
           }
         }
         i++;
