@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/jamashita/publikum/compare/v2.35.0...v3.0.0) (2020-11-03)
+
+
+### Features
+
+* 🎸 basic Trees implemented ([72fd8c4](https://github.com/jamashita/publikum/commit/72fd8c4d26a6a555e2bc0665301c6446bb8f794c))
+* 🎸 cancel abandoned ([58d79b5](https://github.com/jamashita/publikum/commit/58d79b512f9c75a4c8c0eb773e914e2d04406d99))
+* 🎸 cancel update ([5b7533f](https://github.com/jamashita/publikum/commit/5b7533f1268b0e70b09fb22124e161404f565380))
+* 🎸 Enumerator test ([6392680](https://github.com/jamashita/publikum/commit/6392680a44d865b3f723d80b118e3c6d5f1c70fc))
+* 🎸 every(), some() ([7f9dcf8](https://github.com/jamashita/publikum/commit/7f9dcf8d8e338e6107315a7904e33af94a166097))
+* 🎸 forEach() ([4940e06](https://github.com/jamashita/publikum/commit/4940e06d32065a600d416f69d65c24bfa926cf1f))
+* 🎸 has() ([6ca34c1](https://github.com/jamashita/publikum/commit/6ca34c1a829db5a0baf249144eb84c5baac3ccef))
+* 🎸 has() ([6b9fa55](https://github.com/jamashita/publikum/commit/6b9fa55ef8f77d97cc04cf772424fe06a046c4bc))
+* 🎸 interface ablished ([8017ddc](https://github.com/jamashita/publikum/commit/8017ddc37eb20ea3401058ed4c99b765c6099da0))
+* 🎸 made it interface ([dad8758](https://github.com/jamashita/publikum/commit/dad8758adbfb283857af32c864e0e7aca0f30d31))
+* 🎸 StructuralTrees udpate mucho ([1c9a132](https://github.com/jamashita/publikum/commit/1c9a1327b63cbba83e0ac7f7584534c920b948fd))
+* 🎸 udpate ([ca35a51](https://github.com/jamashita/publikum/commit/ca35a51ba3d52518ca11c3a930c65cf0c091f7f1))
+* 🎸 update ([1f6495e](https://github.com/jamashita/publikum/commit/1f6495e8ea09a02684a56cafb6583034ac8974fe))
+
+
+### Performance Improvements
+
+* ⚡️ remove unnncessary if ([a6ad1ff](https://github.com/jamashita/publikum/commit/a6ad1ff2450c2bcf9633c095dfab149cfc45aec4))
+
+
+### BREAKING CHANGES
+
+* 🧨 interface
+
+
+
+
+
 # [2.35.0](https://github.com/jamashita/publikum/compare/v2.34.0...v2.35.0) (2020-11-01)
 
 

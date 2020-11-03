@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/jamashita/publikum/compare/v2.35.0...v3.0.0) (2020-11-03)
+
+
+### Features
+
+* 🎸 cancel abandoned ([58d79b5](https://github.com/jamashita/publikum/commit/58d79b512f9c75a4c8c0eb773e914e2d04406d99))
+* 🎸 cancel update ([5b7533f](https://github.com/jamashita/publikum/commit/5b7533f1268b0e70b09fb22124e161404f565380))
+* 🎸 interface ablished ([8017ddc](https://github.com/jamashita/publikum/commit/8017ddc37eb20ea3401058ed4c99b765c6099da0))
+
+
+
+
+
 # [2.35.0](https://github.com/jamashita/publikum/compare/v2.34.0...v2.35.0) (2020-11-01)
 
 
