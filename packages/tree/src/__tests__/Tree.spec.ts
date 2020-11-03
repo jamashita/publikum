@@ -185,4 +185,318 @@ describe('Tree', () => {
       expect(spy.called).toBe(true);
     });
   });
+
+  describe('forEach', () => {
+    it('iterates root\'s value when the tree only has root', () => {
+      expect.assertions(1);
+
+      const obj: MockTreeObject<MockTreeID> = new MockTreeObject(new MockTreeID('mock 1'));
+      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(obj));
+
+      tree.forEach((v: MockTreeObject<MockTreeID>) => {
+        expect(v).toBe(obj);
+      });
+    });
+
+    it('returns true when all the tree nodes satisfy the value', () => {
+      expect.assertions(7);
+
+      const obj1: MockTreeObject<MockTreeID> = new MockTreeObject(new MockTreeID('mock 1'));
+      const obj2: MockTreeObject<MockTreeID> = new MockTreeObject(new MockTreeID('mock 2'));
+      const obj3: MockTreeObject<MockTreeID> = new MockTreeObject(new MockTreeID('mock 3'));
+      const obj4: MockTreeObject<MockTreeID> = new MockTreeObject(new MockTreeID('mock 4'));
+      const obj5: MockTreeObject<MockTreeID> = new MockTreeObject(new MockTreeID('mock 5'));
+      const obj6: MockTreeObject<MockTreeID> = new MockTreeObject(new MockTreeID('mock 6'));
+      const obj7: MockTreeObject<MockTreeID> = new MockTreeObject(new MockTreeID('mock 7'));
+
+      const objs: Array<MockTreeObject<MockTreeID>> = [
+        obj1,
+        obj2,
+        obj3,
+        obj5,
+        obj7,
+        obj6,
+        obj4
+      ];
+
+      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+          obj1,
+          ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+            new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                obj2
+              ),
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                obj3,
+                ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+                  new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+                    new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                      obj5,
+                      ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+                        new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+                          new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                            obj7
+                          )
+                        ])
+                      )
+                    ),
+                    new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                      obj6
+                    )
+                  ])
+                )
+              ),
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                obj4
+              )
+            ])
+          )
+        )
+      );
+
+      let i: number = 0;
+
+      tree.forEach((v: MockTreeObject<MockTreeID>) => {
+        expect(v).toBe(objs[i]);
+        i++;
+      });
+    });
+  });
+
+  describe('every', () => {
+    it('returns true when the tree is only a root and it is the very value', () => {
+      expect.assertions(1);
+
+      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 1'))));
+
+      const every: boolean = tree.every((v: MockTreeObject<MockTreeID>) => {
+        return v.getTreeID().toString() === 'mock 1';
+      });
+
+      expect(every).toBe(true);
+    });
+
+    it('returns false when the tree is only a root but it is not the value', () => {
+      expect.assertions(1);
+
+      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 1'))));
+
+      const every: boolean = tree.every((v: MockTreeObject<MockTreeID>) => {
+        return v.getTreeID().toString() === 'mock 2';
+      });
+
+      expect(every).toBe(false);
+    });
+
+    it('returns true when all the tree nodes satisfy the value', () => {
+      expect.assertions(1);
+
+      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject(new MockTreeID('mock 1')),
+          ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+            new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject(new MockTreeID('mock 2'))
+              ),
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject(new MockTreeID('mock 3')),
+                ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+                  new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+                    new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                      new MockTreeObject(new MockTreeID('mock 5')),
+                      ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+                        new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+                          new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                            new MockTreeObject(new MockTreeID('mock 7'))
+                          )
+                        ])
+                      )
+                    ),
+                    new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                      new MockTreeObject(new MockTreeID('mock 6'))
+                    )
+                  ])
+                )
+              ),
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject(new MockTreeID('mock 4'))
+              )
+            ])
+          )
+        )
+      );
+
+      const every: boolean = tree.every((v: MockTreeObject<MockTreeID>) => {
+        return v.getTreeID().toString().includes('mock');
+      });
+
+      expect(every).toBe(true);
+    });
+
+    it('returns false when one of the tree nodes does not satisfy the value', () => {
+      expect.assertions(1);
+
+      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject(new MockTreeID('mock 1')),
+          ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+            new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject(new MockTreeID('mock 2'))
+              ),
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject(new MockTreeID('mocc 3')),
+                ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+                  new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+                    new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                      new MockTreeObject(new MockTreeID('mock 5')),
+                      ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+                        new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+                          new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                            new MockTreeObject(new MockTreeID('mock 7'))
+                          )
+                        ])
+                      )
+                    ),
+                    new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                      new MockTreeObject(new MockTreeID('mock 6'))
+                    )
+                  ])
+                )
+              ),
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject(new MockTreeID('mock 4'))
+              )
+            ])
+          )
+        )
+      );
+
+      const every: boolean = tree.every((v: MockTreeObject<MockTreeID>) => {
+        return v.getTreeID().toString().includes('mock');
+      });
+
+      expect(every).toBe(false);
+    });
+  });
+
+  describe('some', () => {
+    it('returns true when the tree is only a root and it is the very value', () => {
+      expect.assertions(1);
+
+      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 1'))));
+
+      const some: boolean = tree.some((v: MockTreeObject<MockTreeID>) => {
+        return v.getTreeID().toString() === 'mock 1';
+      });
+
+      expect(some).toBe(true);
+    });
+
+    it('returns false when the tree is only a root but it is not the value', () => {
+      expect.assertions(1);
+
+      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 1'))));
+
+      const some: boolean = tree.some((v: MockTreeObject<MockTreeID>) => {
+        return v.getTreeID().toString() === 'mock 2';
+      });
+
+      expect(some).toBe(false);
+    });
+
+    it('returns true when one of the tree nodes satisfy the value', () => {
+      expect.assertions(1);
+
+      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject(new MockTreeID('mock 1')),
+          ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+            new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject(new MockTreeID('mock 2'))
+              ),
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject(new MockTreeID('mock 3')),
+                ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+                  new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+                    new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                      new MockTreeObject(new MockTreeID('mock 5')),
+                      ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+                        new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+                          new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                            new MockTreeObject(new MockTreeID('mock 7'))
+                          )
+                        ])
+                      )
+                    ),
+                    new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                      new MockTreeObject(new MockTreeID('mock 6'))
+                    )
+                  ])
+                )
+              ),
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject(new MockTreeID('mock 4'))
+              )
+            ])
+          )
+        )
+      );
+
+      const some: boolean = tree.some((v: MockTreeObject<MockTreeID>) => {
+        return v.getTreeID().toString().includes('mock 6');
+      });
+
+      expect(some).toBe(true);
+    });
+
+    it('returns false when none of the tree nodes satisfy the value', () => {
+      expect.assertions(1);
+
+      const tree: MockTree<MockTreeID, MockTreeObject<MockTreeID>> = new MockTree<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject(new MockTreeID('mocc 1')),
+          ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+            new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject(new MockTreeID('mocc 2'))
+              ),
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject(new MockTreeID('mocc 3')),
+                ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+                  new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+                    new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                      new MockTreeObject(new MockTreeID('mocc 5')),
+                      ImmutableAddress.ofSet<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+                        new Set<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+                          new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                            new MockTreeObject(new MockTreeID('mocc 7'))
+                          )
+                        ])
+                      )
+                    ),
+                    new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                      new MockTreeObject(new MockTreeID('mocc 6'))
+                    )
+                  ])
+                )
+              ),
+              new MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject(new MockTreeID('mocc 4'))
+              )
+            ])
+          )
+        )
+      );
+
+      const some: boolean = tree.some((v: MockTreeObject<MockTreeID>) => {
+        return v.getTreeID().toString().includes('mock');
+      });
+
+      expect(some).toBe(false);
+    });
+  });
 });

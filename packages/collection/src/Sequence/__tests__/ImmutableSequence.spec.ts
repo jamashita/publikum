@@ -425,6 +425,12 @@ describe('ImmutableSequence', () => {
   });
 
   describe('duplicate', () => {
+    it('returns ImmutableSequence.empty() when this is ImmutableSequence.empty()', () => {
+      expect.assertions(1);
+
+      expect(ImmutableSequence.empty<MockValueObject<number>>().duplicate()).toBe(ImmutableSequence.empty<MockValueObject<number>>());
+    });
+
     it('returns shallow-copied instance', () => {
       expect.assertions(6);
 

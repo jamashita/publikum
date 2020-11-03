@@ -1,5 +1,4 @@
 import {
-  CancellableEnumerator,
   ImmutableProject,
   ImmutableSequence,
   MutableAddress,
@@ -8,8 +7,8 @@ import {
   Quantity,
   ReadonlyAddress
 } from '@jamashita/publikum-collection';
-import { Nominative } from '@jamashita/publikum-interface/';
-import { BinaryPredicate, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
+import { Nominative } from '@jamashita/publikum-interface';
+import { BinaryPredicate, Enumerator, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
 import { TreeID } from '../Interface/TreeID';
 import { ClosureTableHierarchies } from './ClosureTableHierarchies';
 import { ClosureTableHierarchy } from './ClosureTableHierarchy';
@@ -73,7 +72,7 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ReadonlyAddress<
     return this.table.every(predicate);
   }
 
-  public forEach(iteration: CancellableEnumerator<K, ReadonlyAddress<K>>): void {
+  public forEach(iteration: Enumerator<K, ReadonlyAddress<K>>): void {
     this.table.forEach(iteration);
   }
 

@@ -1,6 +1,5 @@
 import { MockValueObject } from '@jamashita/publikum-object';
-import { Nullable, Peek, Predicate } from '@jamashita/publikum-type';
-import sinon, { SinonSpy } from 'sinon';
+import { Nullable, Predicate } from '@jamashita/publikum-type';
 import { MockAddress } from '../Mock/MockAddress';
 
 describe('AAddress', () => {
@@ -115,54 +114,6 @@ describe('AAddress', () => {
         expect(value).toBe(values[i]);
         i++;
       });
-    });
-
-    it('can cancel iteration', () => {
-      expect.assertions(5);
-
-      const spy1: SinonSpy = sinon.spy();
-      const spy2: SinonSpy = sinon.spy();
-      const spy3: SinonSpy = sinon.spy();
-      const spy4: SinonSpy = sinon.spy();
-      const spy5: SinonSpy = sinon.spy();
-      const peeks: MockAddress<MockValueObject<Peek>> = new MockAddress<MockValueObject<Peek>>(
-        new Set<MockValueObject<Peek>>([
-          new MockValueObject<Peek>(() => {
-            spy1();
-          }),
-          new MockValueObject<Peek>(() => {
-            spy2();
-          }),
-          new MockValueObject<Peek>(() => {
-            spy3();
-          }),
-          new MockValueObject<Peek>(() => {
-            spy4();
-          }),
-          new MockValueObject<Peek>(() => {
-            spy5();
-          })
-        ])
-      );
-
-      let i: number = 0;
-
-      peeks.forEach((peek: MockValueObject<Peek>, _: void, cancel: Peek) => {
-        peek.get()();
-
-        if (i === 2) {
-          cancel();
-          return;
-        }
-
-        i++;
-      });
-
-      expect(spy1.called).toBe(true);
-      expect(spy2.called).toBe(true);
-      expect(spy3.called).toBe(true);
-      expect(spy4.called).toBe(false);
-      expect(spy5.called).toBe(false);
     });
   });
 

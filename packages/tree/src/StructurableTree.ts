@@ -51,4 +51,8 @@ export class StructurableTree<K extends TreeID, V extends StructurableTreeObject
       }
     });
   }
+
+  public has(key: K): boolean {
+    return this.root.has(key);
+  }
 }

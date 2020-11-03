@@ -1,6 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Ambiguous, BinaryPredicate, Kind, Mapper, Nullable, Peek } from '@jamashita/publikum-type';
-import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
+import { Ambiguous, BinaryPredicate, Enumerator, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Project } from '../Interface/Project';
@@ -8,9 +7,9 @@ import { Project } from '../Interface/Project';
 export abstract class AProject<K extends Nominative, V extends Nominative, T extends AProject<K, V, T>, N extends string = string> extends Quantity<K, V, N> implements Project<K, V, N> {
   protected readonly project: Map<string, Pair<K, V>>;
 
-  protected constructor(project: ReadonlyMap<string, Pair<K, V>>) {
+  protected constructor(project: Map<string, Pair<K, V>>) {
     super();
-    this.project = new Map<string, Pair<K, V>>(project);
+    this.project = project;
   }
 
   protected abstract forge(self: Map<string, Pair<K, V>>): T;
@@ -76,18 +75,9 @@ export abstract class AProject<K extends Nominative, V extends Nominative, T ext
     return false;
   }
 
-  public forEach(iteration: CancellableEnumerator<K, V>): void {
-    let done: boolean = false;
-    const cancel: Peek = () => {
-      done = true;
-    };
-
+  public forEach(iteration: Enumerator<K, V>): void {
     for (const [, p] of this.project) {
-      iteration(p.getValue(), p.getKey(), cancel);
-
-      if (done) {
-        return;
-      }
+      iteration(p.getValue(), p.getKey());
     }
   }
 

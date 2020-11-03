@@ -7,10 +7,14 @@ export class MutableSequence<V extends Nominative> extends ASequence<V, 'Mutable
   public readonly noun: 'MutableSequence' = 'MutableSequence';
 
   public static of<VT extends Nominative>(sequence: ReadonlySequence<VT>): MutableSequence<VT> {
-    return MutableSequence.ofArray<VT>(sequence.toArray());
+    return MutableSequence.ofInternal<VT>(sequence.toArray());
   }
 
   public static ofArray<VT extends Nominative>(array: ReadonlyArray<VT>): MutableSequence<VT> {
+    return MutableSequence.ofInternal<VT>([...array]);
+  }
+
+  private static ofInternal<VT extends Nominative>(array: Array<VT>): MutableSequence<VT> {
     return new MutableSequence<VT>(array);
   }
 
@@ -18,18 +22,15 @@ export class MutableSequence<V extends Nominative> extends ASequence<V, 'Mutable
     return MutableSequence.ofArray<VT>([]);
   }
 
-  protected constructor(sequence: ReadonlyArray<V>) {
+  protected constructor(sequence: Array<V>) {
     super(sequence);
   }
 
   public set(key: number, value: V): MutableSequence<V> {
-    if (key < 0) {
-      return this;
-    }
-    if (key >= this.sequence.length) {
-      return this;
-    }
     if (!Kind.isInteger(key)) {
+      return this;
+    }
+    if (key < 0 || this.sequence.length <= key) {
       return this;
     }
 
@@ -39,13 +40,10 @@ export class MutableSequence<V extends Nominative> extends ASequence<V, 'Mutable
   }
 
   public remove(key: number): MutableSequence<V> {
-    if (key < 0) {
-      return this;
-    }
-    if (key >= this.sequence.length) {
-      return this;
-    }
     if (!Kind.isInteger(key)) {
+      return this;
+    }
+    if (key < 0 || this.sequence.length <= key) {
       return this;
     }
 

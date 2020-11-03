@@ -7,19 +7,28 @@ export class Equality {
   }
 
   private static sameInternal(n1: Primitive | ObjectLiteral, n2: Primitive | ObjectLiteral): boolean {
-    if (Kind.isPrimitive(n1) && Kind.isPrimitive(n2)) {
-      return Equality.samePrimitive(n1, n2);
-    }
     if (Equality.sameReference(n1, n2)) {
       return true;
     }
-    if (Kind.isArray<PlainObjectItem>(n1) && Kind.isArray<PlainObjectItem>(n2)) {
-      return Equality.sameArray(n1, n2);
+    if (Kind.isNaN(n1) && Kind.isNaN(n2)) {
+      return true;
     }
-    if (!Kind.isArray<PlainObjectItem>(n1) && !Kind.isArray<PlainObjectItem>(n2)) {
-      if (Kind.isObject<PlainObject>(n1) && Kind.isObject<PlainObject>(n2)) {
+    if (Kind.isArray<PlainObjectItem>(n1)) {
+      if (Kind.isArray<PlainObjectItem>(n2)) {
+        return Equality.sameArray(n1, n2);
+      }
+
+      return false;
+    }
+    if (Kind.isArray<PlainObjectItem>(n2)) {
+      return false;
+    }
+    if (Kind.isObject<PlainObject>(n1)) {
+      if (Kind.isObject<PlainObject>(n2)) {
         return Equality.sameObject(n1, n2);
       }
+
+      return false;
     }
 
     return false;
@@ -27,17 +36,6 @@ export class Equality {
 
   private static sameReference(n1: Primitive | ObjectLiteral, n2: Primitive | ObjectLiteral): boolean {
     if (n1 === n2) {
-      return true;
-    }
-
-    return false;
-  }
-
-  private static samePrimitive(p1: Primitive, p2: Primitive): boolean {
-    if (Equality.sameReference(p1, p2)) {
-      return true;
-    }
-    if (Kind.isNaN(p1) && Kind.isNaN(p2)) {
       return true;
     }
 

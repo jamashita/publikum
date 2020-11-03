@@ -173,6 +173,14 @@ describe('MutableProject', () => {
       expect(project.size()).toBe(beforeLength);
     });
 
+    it('does nothing when the project is empty', () => {
+      expect.assertions(1);
+
+      const project: MutableProject<MockValueObject<number>, MockValueObject<number>> = MutableProject.empty<MockValueObject<number>, MockValueObject<number>>();
+
+      expect(project.remove(new MockValueObject<number>(1))).toBe(project);
+    });
+
     it('returns the removed Project', () => {
       expect.assertions(2);
 

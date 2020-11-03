@@ -1,6 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { Ambiguous, BinaryPredicate, Kind, Mapper, Nullable, Peek } from '@jamashita/publikum-type';
-import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
+import { Ambiguous, BinaryPredicate, Enumerator, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Sequence } from '../Interface/Sequence';
@@ -8,9 +7,9 @@ import { Sequence } from '../Interface/Sequence';
 export abstract class ASequence<V extends Nominative, N extends string = string> extends Quantity<number, V, N> implements Sequence<V, N> {
   protected sequence: Array<V>;
 
-  protected constructor(sequence: ReadonlyArray<V>) {
+  protected constructor(sequence: Array<V>) {
     super();
-    this.sequence = [...sequence];
+    this.sequence = sequence;
   }
 
   public abstract add(value: V): Sequence<V, N>;
@@ -61,18 +60,11 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
     return false;
   }
 
-  public forEach(iteration: CancellableEnumerator<number, V>): void {
-    let done: boolean = false;
-    const cancel: Peek = () => {
-      done = true;
-    };
+  public forEach(iteration: Enumerator<number, V>): void {
+    const size: number = this.sequence.length;
 
-    for (let i: number = 0; i < this.sequence.length; i++) {
-      iteration(this.sequence[i], i, cancel);
-
-      if (done) {
-        return;
-      }
+    for (let i: number = 0; i < size; i++) {
+      iteration(this.sequence[i], i);
     }
   }
 

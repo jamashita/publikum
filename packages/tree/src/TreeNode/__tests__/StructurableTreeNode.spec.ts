@@ -129,4 +129,44 @@ describe('StructurableTreeNode', () => {
       expect(node.getTreeID().get()).toBe('mock 1');
     });
   });
+
+  describe('has', () => {
+    it('returns true when the value is contained in the tree node', () => {
+      expect.assertions(4);
+
+      const node: StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeObject(new MockTreeID('mock 1')),
+        ImmutableAddress.ofSet<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(new Set<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+          StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 2')),
+            ImmutableAddress.ofSet<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(new Set<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+              StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 3')))
+            ]))),
+          StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 4')))
+        ]))
+      );
+
+      expect(node.has(new MockTreeID('mock 1'))).toBe(true);
+      expect(node.has(new MockTreeID('mock 2'))).toBe(true);
+      expect(node.has(new MockTreeID('mock 3'))).toBe(true);
+      expect(node.has(new MockTreeID('mock 4'))).toBe(true);
+    });
+
+    it('returns false when the value is not contained in the tree node', () => {
+      expect.assertions(2);
+
+      const node: StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeObject(new MockTreeID('mock 1')),
+        ImmutableAddress.ofSet<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(new Set<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+          StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 2')),
+            ImmutableAddress.ofSet<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(new Set<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+              StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 3')))
+            ]))),
+          StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 4')))
+        ]))
+      );
+
+      expect(node.has(new MockTreeID('mock 5'))).toBe(false);
+      expect(node.has(new MockTreeID('mock 6'))).toBe(false);
+    });
+  });
 });

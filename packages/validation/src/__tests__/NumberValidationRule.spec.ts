@@ -108,7 +108,7 @@ describe('NumberValidationRule', () => {
     });
 
     it('throws ValidationError when given value is less than or equals to min', () => {
-      expect.assertions(9);
+      expect.assertions(10);
 
       const rule: NumberValidationRule = NumberValidationRule.of({
         min: {
@@ -144,6 +144,9 @@ describe('NumberValidationRule', () => {
       expect(() => {
         rule.evaluate({}, 4);
       }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 5);
+      }).not.toThrow(ValidationError);
     });
 
     it('throws ValidationError when given value is greater than max', () => {
@@ -183,7 +186,7 @@ describe('NumberValidationRule', () => {
     });
 
     it('throws ValidationError when given value is greater than or equals to max', () => {
-      expect.assertions(8);
+      expect.assertions(9);
 
       const rule: NumberValidationRule = NumberValidationRule.of({
         max: {
@@ -216,6 +219,9 @@ describe('NumberValidationRule', () => {
       expect(() => {
         rule.evaluate({}, 4);
       }).toThrow(ValidationError);
+      expect(() => {
+        rule.evaluate({}, 3);
+      }).not.toThrow(ValidationError);
     });
 
     it('throws ValidationError when decimal number given if int is set to true', () => {

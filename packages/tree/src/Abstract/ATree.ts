@@ -1,6 +1,6 @@
 import { Nominative } from '@jamashita/publikum-interface';
 import { Objet } from '@jamashita/publikum-object';
-import { Nullable, Predicate } from '@jamashita/publikum-type';
+import { Enumerator, Nullable, Predicate } from '@jamashita/publikum-type';
 import { Tree } from '../Tree';
 import { TreeNode } from '../TreeNode/TreeNode';
 
@@ -45,5 +45,46 @@ export abstract class ATree<V extends Nominative, T extends TreeNode<V, T>, N ex
 
   public values(): Iterable<V> {
     return this.root.values();
+  }
+
+  public every(predicate: Predicate<V>): boolean {
+    return this.everyInternal(this.root, predicate);
+  }
+
+  public some(predicate: Predicate<V>): boolean {
+    return this.someInternal(this.root, predicate);
+  }
+
+  // TODO VISITOR PATTERN!
+  public forEach(iteration: Enumerator<unknown, V>): void {
+    for (const value of this.values()) {
+      iteration(value, null);
+    }
+  }
+
+  private everyInternal(node: T, predicate: Predicate<V>): boolean {
+    if (!predicate(node.getValue())) {
+      return false;
+    }
+    if (node.isLeaf()) {
+      return true;
+    }
+
+    return node.getChildren().every((child: T) => {
+      return this.everyInternal(child, predicate);
+    });
+  }
+
+  private someInternal(node: T, predicate: Predicate<V>): boolean {
+    if (predicate(node.getValue())) {
+      return true;
+    }
+    if (node.isLeaf()) {
+      return false;
+    }
+
+    return node.getChildren().some((n: T) => {
+      return this.someInternal(n, predicate);
+    });
   }
 }

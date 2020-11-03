@@ -22,7 +22,7 @@ export class ImmutableAddress<V extends Nominative> extends AAddress<V, Immutabl
     return ImmutableAddress.ofInternal<VT>(m);
   }
 
-  private static ofInternal<VT extends Nominative>(address: ReadonlyMap<string, VT>): ImmutableAddress<VT> {
+  private static ofInternal<VT extends Nominative>(address: Map<string, VT>): ImmutableAddress<VT> {
     if (address.size === 0) {
       return ImmutableAddress.empty<VT>();
     }
@@ -34,7 +34,7 @@ export class ImmutableAddress<V extends Nominative> extends AAddress<V, Immutabl
     return ImmutableAddress.EMPTY as ImmutableAddress<VT>;
   }
 
-  protected constructor(address: ReadonlyMap<string, V>) {
+  protected constructor(address: Map<string, V>) {
     super(address);
   }
 

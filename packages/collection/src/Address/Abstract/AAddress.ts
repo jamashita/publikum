@@ -1,6 +1,5 @@
 import { Nominative } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Mapper, Nullable, Peek } from '@jamashita/publikum-type';
-import { CancellableEnumerator } from '../../Interface/CancellableEnumerator';
+import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
 import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Address } from '../Interface/Address';
@@ -8,9 +7,9 @@ import { Address } from '../Interface/Address';
 export abstract class AAddress<V extends Nominative, T extends AAddress<V, T>, N extends string = string> extends Quantity<void, V, N> implements Address<V, N> {
   protected readonly address: Map<string, V>;
 
-  protected constructor(address: ReadonlyMap<string, V>) {
+  protected constructor(address: Map<string, V>) {
     super();
-    this.address = new Map<string, V>(address);
+    this.address = address;
   }
 
   protected abstract forge(self: Map<string, V>): T;
@@ -58,18 +57,9 @@ export abstract class AAddress<V extends Nominative, T extends AAddress<V, T>, N
     return false;
   }
 
-  public forEach(iteration: CancellableEnumerator<void, V>): void {
-    let done: boolean = false;
-    const cancel: Peek = () => {
-      done = true;
-    };
-
+  public forEach(iteration: Enumerator<void, V>): void {
     for (const [, v] of this.address) {
-      iteration(v, undefined, cancel);
-
-      if (done) {
-        return;
-      }
+      iteration(v, undefined);
     }
   }
 
