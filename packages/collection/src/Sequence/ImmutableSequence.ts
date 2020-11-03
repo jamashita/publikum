@@ -29,13 +29,10 @@ export class ImmutableSequence<V extends Nominative> extends ASequence<V, 'Immut
   }
 
   public set(key: number, value: V): ImmutableSequence<V> {
-    if (key < 0) {
-      return this;
-    }
-    if (key >= this.sequence.length) {
-      return this;
-    }
     if (!Kind.isInteger(key)) {
+      return this;
+    }
+    if (key < 0 || this.sequence.length <= key) {
       return this;
     }
 
@@ -45,13 +42,10 @@ export class ImmutableSequence<V extends Nominative> extends ASequence<V, 'Immut
   }
 
   public remove(key: number): ImmutableSequence<V> {
-    if (key < 0) {
-      return this;
-    }
-    if (key >= this.sequence.length) {
-      return this;
-    }
     if (!Kind.isInteger(key)) {
+      return this;
+    }
+    if (key < 0 || this.sequence.length <= key) {
       return this;
     }
 

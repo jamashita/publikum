@@ -23,13 +23,10 @@ export class MutableSequence<V extends Nominative> extends ASequence<V, 'Mutable
   }
 
   public set(key: number, value: V): MutableSequence<V> {
-    if (key < 0) {
-      return this;
-    }
-    if (key >= this.sequence.length) {
-      return this;
-    }
     if (!Kind.isInteger(key)) {
+      return this;
+    }
+    if (key < 0 || this.sequence.length <= key) {
       return this;
     }
 
@@ -39,13 +36,10 @@ export class MutableSequence<V extends Nominative> extends ASequence<V, 'Mutable
   }
 
   public remove(key: number): MutableSequence<V> {
-    if (key < 0) {
-      return this;
-    }
-    if (key >= this.sequence.length) {
-      return this;
-    }
     if (!Kind.isInteger(key)) {
+      return this;
+    }
+    if (key < 0 || this.sequence.length <= key) {
       return this;
     }
 
