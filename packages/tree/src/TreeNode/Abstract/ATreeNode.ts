@@ -2,11 +2,11 @@ import { ImmutableAddress } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { Objet } from '@jamashita/publikum-object';
 import { Kind, Nullable, Predicate } from '@jamashita/publikum-type';
-import { TreeNode } from '../TreeNode';
+import { TreeNode } from '../Interface/TreeNode';
 
-export abstract class ATreeNode<V extends Nominative, T extends ATreeNode<V, T>, N extends string = string> extends Objet<N> implements TreeNode<V, T> {
+export abstract class ATreeNode<V extends Nominative, T extends ATreeNode<V, T>, N extends string = string> extends Objet<N> implements TreeNode<V> {
   protected readonly value: V;
-  protected readonly children: ImmutableAddress<T>;
+  protected children: ImmutableAddress<T>;
 
   protected constructor(value: V, children: ImmutableAddress<T>) {
     super();
@@ -14,7 +14,9 @@ export abstract class ATreeNode<V extends Nominative, T extends ATreeNode<V, T>,
     this.children = children;
   }
 
-  protected abstract forge(node: TreeNode<V, T>): T;
+  protected abstract forge(node: ATreeNode<V, T>): T;
+
+  public abstract append(node: T): T;
 
   public equals(other: unknown): boolean {
     if (this === other) {

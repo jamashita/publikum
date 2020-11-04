@@ -2,10 +2,10 @@ import { ImmutableAddress } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { Nullable, Predicate } from '@jamashita/publikum-type';
 
-export interface TreeNode<V extends Nominative, T extends TreeNode<V, T>, N extends string = string> extends Nominative<N> {
+export interface ReadonlyTreeNode<V extends Nominative, N extends string = string> extends Nominative<N> {
   getValue(): V;
 
-  getChildren(): ImmutableAddress<T>;
+  getChildren(): ImmutableAddress<ReadonlyTreeNode<V>>;
 
   isLeaf(): boolean;
 
@@ -13,7 +13,7 @@ export interface TreeNode<V extends Nominative, T extends TreeNode<V, T>, N exte
 
   size(): number;
 
-  find(predicate: Predicate<V>): Nullable<T>;
+  find(predicate: Predicate<V>): Nullable<ReadonlyTreeNode<V>>;
 
   values(): Iterable<V>;
 }
