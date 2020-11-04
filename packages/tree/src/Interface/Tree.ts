@@ -1,9 +1,9 @@
 import { Nominative } from '@jamashita/publikum-interface';
 import { Enumerator, Nullable, Predicate } from '@jamashita/publikum-type';
-import { TreeNode } from './TreeNode/TreeNode';
+import { TreeNode } from '../TreeNode/Interface/TreeNode';
 
-export interface Tree<V extends Nominative, T extends TreeNode<V, T>, N extends string = string> extends Nominative<N> {
-  getRoot(): T;
+export interface Tree<V extends Nominative, N extends string = string> extends Nominative<N> {
+  getRoot(): TreeNode<V>;
 
   contains(value: V): boolean;
 
@@ -11,7 +11,7 @@ export interface Tree<V extends Nominative, T extends TreeNode<V, T>, N extends 
 
   forEach(iteration: Enumerator<unknown, V>): void;
 
-  find(predicate: Predicate<V>): Nullable<T>;
+  find(predicate: Predicate<V>): Nullable<TreeNode<V>>;
 
   size(): number;
 
