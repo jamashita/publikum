@@ -1,4 +1,4 @@
-import { ImmutableSequence } from '@jamashita/publikum-collection';
+import { ImmutableAddress, ImmutableProject, ImmutableSequence } from '@jamashita/publikum-collection';
 import { Nullable } from '@jamashita/publikum-type';
 import { ClosureTable } from '../ClosureTable/ClosureTable';
 import { ClosureTableHierarchies } from '../ClosureTable/ClosureTableHierarchies';
@@ -253,6 +253,115 @@ describe('StructurableTrees', () => {
         }
         i++;
       }
+    });
+  });
+
+  describe('add', () => {
+    it('add one tree into empty trees', () => {
+      expect.assertions(4);
+
+      const id1: MockTreeID = new MockTreeID('tree id 1');
+
+      const tree1: StructurableTree<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTree.of<MockTreeID, MockTreeObject<MockTreeID>>(
+        StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject<MockTreeID>(id1)
+        )
+      );
+
+      const trees: StructurableTrees<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTrees.ofProject<MockTreeID, MockTreeObject<MockTreeID>>(
+        ImmutableProject.empty<MockTreeID, StructurableTree<MockTreeID, MockTreeObject<MockTreeID>>>()
+      );
+
+      expect(trees.isEmpty()).toBe(true);
+
+      trees.add(tree1);
+
+      expect(trees.isEmpty()).toBe(false);
+      expect(trees.size()).toBe(1);
+      trees.forEach((obj: MockTreeObject<MockTreeID>) => {
+        expect(obj.getTreeID()).toBe(id1);
+      });
+    });
+
+    it('add one tree into simple trees', () => {
+      expect.assertions(9);
+
+      const id1: MockTreeID = new MockTreeID('tree id 1');
+      const id2: MockTreeID = new MockTreeID('tree id 2');
+      const id3: MockTreeID = new MockTreeID('tree id 3');
+      const id4: MockTreeID = new MockTreeID('tree id 4');
+      const id5: MockTreeID = new MockTreeID('tree id 5');
+      const id6: MockTreeID = new MockTreeID('tree id 6');
+      const id7: MockTreeID = new MockTreeID('tree id 7');
+      const ids: Array<MockTreeID> = [
+        id1,
+        id2,
+        id3,
+        id4,
+        id5,
+        id6,
+        id7
+      ];
+
+      const tree1: StructurableTree<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTree.of<MockTreeID, MockTreeObject<MockTreeID>>(
+        StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject<MockTreeID>(id1),
+          ImmutableAddress.ofSet<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+            new Set<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+              StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject<MockTreeID>(id2)
+              ),
+              StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject<MockTreeID>(id3),
+                ImmutableAddress.ofSet<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+                  new Set<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+                    StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(
+                      new MockTreeObject<MockTreeID>(id4)
+                    )
+                  ])
+                )
+              )
+            ])
+          )
+        )
+      );
+      const tree2: StructurableTree<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTree.of<MockTreeID, MockTreeObject<MockTreeID>>(
+        StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject<MockTreeID>(id5),
+          ImmutableAddress.ofSet<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+            new Set<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+              StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(
+                new MockTreeObject<MockTreeID>(id6)
+              )
+            ])
+          )
+        )
+      );
+      const tree3: StructurableTree<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTree.of<MockTreeID, MockTreeObject<MockTreeID>>(
+        StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(
+          new MockTreeObject<MockTreeID>(id7)
+        )
+      );
+
+      const trees: StructurableTrees<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTrees.ofProject<MockTreeID, MockTreeObject<MockTreeID>>(
+        ImmutableProject.ofMap<MockTreeID, StructurableTree<MockTreeID, MockTreeObject<MockTreeID>>>(
+          new Map<MockTreeID, StructurableTree<MockTreeID, MockTreeObject<MockTreeID>>>([
+            [tree1.getTreeID(), tree1],
+            [tree2.getTreeID(), tree2]
+          ])
+        )
+      );
+      let i: number = 0;
+
+      expect(trees.size()).toBe(2);
+
+      trees.add(tree3);
+
+      expect(trees.size()).toBe(3);
+      trees.forEach((obj: MockTreeObject<MockTreeID>) => {
+        expect(obj.getTreeID()).toBe(ids[i]);
+        i++;
+      });
     });
   });
 

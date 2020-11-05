@@ -7,5 +7,3 @@ export * from './SerializableTree';
 export * from './SerializableTrees';
 export * from './StructurableTree';
 export * from './StructurableTrees';
-export * from './Tree';
-export * from './Trees';

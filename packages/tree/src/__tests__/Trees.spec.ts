@@ -99,9 +99,11 @@ describe('Trees', () => {
         ])
       );
 
-      project.equals = spy;
-
       const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(project);
+
+      // @ts-expect-error
+      trees.trees = project;
+      project.equals = spy;
 
       trees.equals(new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(
         new MockProject<MockTreeID, MockTree<MockTreeID, MockTreeObject<MockTreeID>>>(
@@ -267,9 +269,11 @@ describe('Trees', () => {
         ])
       );
 
-      project.get = spy;
-
       const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(project);
+
+      // @ts-expect-error
+      trees.trees = project;
+      project.get = spy;
 
       trees.get(new MockTreeID('tree id 1010'));
 
@@ -296,9 +300,11 @@ describe('Trees', () => {
         ])
       );
 
-      project.isEmpty = spy;
-
       const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(project);
+
+      // @ts-expect-error
+      trees.trees = project;
+      project.isEmpty = spy;
 
       trees.isEmpty();
 
@@ -325,9 +331,11 @@ describe('Trees', () => {
         ])
       );
 
-      project.toString = spy;
-
       const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(project);
+
+      // @ts-expect-error
+      trees.trees = project;
+      project.toString = spy;
 
       trees.toString();
 
@@ -354,9 +362,11 @@ describe('Trees', () => {
         ])
       );
 
-      project.size = spy;
-
       const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(project);
+
+      // @ts-expect-error
+      trees.trees = project;
+      project.size = spy;
 
       trees.size();
 
@@ -531,11 +541,11 @@ describe('Trees', () => {
 
       const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(project);
 
-      const obj: Nullable<MockTreeObject<MockTreeID>> = trees.find((o: MockTreeObject<MockTreeID>) => {
+      const obj: Nullable<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>> = trees.find((o: MockTreeObject<MockTreeID>) => {
         return o.getTreeID().equals(id3);
       });
 
-      expect(obj?.getTreeID()).toBe(id3);
+      expect(obj?.getValue().getTreeID()).toBe(id3);
     });
 
     it('returns null when any conditions do not pass', () => {
@@ -572,7 +582,7 @@ describe('Trees', () => {
 
       const trees: MockTrees<MockTreeID, MockTreeObject<MockTreeID>> = new MockTrees<MockTreeID, MockTreeObject<MockTreeID>>(project);
 
-      const obj: Nullable<MockTreeObject<MockTreeID>> = trees.find((o: MockTreeObject<MockTreeID>) => {
+      const obj: Nullable<MockTreeNode<MockTreeID, MockTreeObject<MockTreeID>>> = trees.find((o: MockTreeObject<MockTreeID>) => {
         return o.getTreeID().toString().includes('idea');
       });
 
