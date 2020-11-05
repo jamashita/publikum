@@ -28,7 +28,7 @@
     "postrelease": "git push --follow-tags origin",
     "reset": "lerna clean",
     "setup": "lerna bootstrap && lerna link",
-    "test": "jest test --detectOpenHandles",
+    "test": "jest test",
     "test-parallel": "lerna run --parallel test",
     "update": "yarn update:upgrade && yarn update:install",
     "update:install": "yarn install && yarn upgrade && lerna run --parallel update:install",
