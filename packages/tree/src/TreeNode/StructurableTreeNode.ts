@@ -2,7 +2,6 @@ import { ImmutableAddress, ReadonlyAddress } from '@jamashita/publikum-collectio
 import { StructurableTreeObject } from '../Interface/StructurableTreeObject';
 import { TreeID } from '../Interface/TreeID';
 import { ATreeNode } from './Abstract/ATreeNode';
-import { TreeNode } from './TreeNode';
 
 export class StructurableTreeNode<K extends TreeID, V extends StructurableTreeObject<K>> extends ATreeNode<V, StructurableTreeNode<K, V>, 'StructurableTreeNode'> {
   public readonly noun: 'StructurableTreeNode' = 'StructurableTreeNode';
@@ -19,12 +18,18 @@ export class StructurableTreeNode<K extends TreeID, V extends StructurableTreeOb
     super(value, ImmutableAddress.of<StructurableTreeNode<K, V>>(children));
   }
 
-  protected forge(node: TreeNode<V, StructurableTreeNode<K, V>>): StructurableTreeNode<K, V> {
+  protected forge(node: ATreeNode<V, StructurableTreeNode<K, V>>): StructurableTreeNode<K, V> {
     if (node instanceof StructurableTreeNode) {
       return node as StructurableTreeNode<K, V>;
     }
 
     return StructurableTreeNode.ofValue<K, V>(node.getValue(), node.getChildren());
+  }
+
+  public append(node: StructurableTreeNode<K, V>): StructurableTreeNode<K, V> {
+    this.children = this.children.add(node);
+
+    return this;
   }
 
   public getTreeID(): K {

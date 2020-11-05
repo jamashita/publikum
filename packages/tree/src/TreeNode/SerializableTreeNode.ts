@@ -3,7 +3,6 @@ import { JSONable } from '@jamashita/publikum-interface';
 import { ObjectLiteral } from '@jamashita/publikum-type';
 import { SerializableTreeObject } from '../Interface/SerializableTreeObject';
 import { ATreeNode } from './Abstract/ATreeNode';
-import { TreeNode } from './TreeNode';
 
 export type TreeNodeJSON = Readonly<{
   value: ObjectLiteral;
@@ -25,12 +24,18 @@ export class SerializableTreeNode<V extends SerializableTreeObject> extends ATre
     super(value, ImmutableAddress.of<SerializableTreeNode<V>>(children));
   }
 
-  protected forge(node: TreeNode<V, SerializableTreeNode<V>>): SerializableTreeNode<V> {
+  protected forge(node: ATreeNode<V, SerializableTreeNode<V>>): SerializableTreeNode<V> {
     if (node instanceof SerializableTreeNode) {
       return node as SerializableTreeNode<V>;
     }
 
     return SerializableTreeNode.ofValue<V>(node.getValue(), node.getChildren());
+  }
+
+  public append(node: SerializableTreeNode<V>): SerializableTreeNode<V> {
+    this.children = this.children.add(node);
+
+    return this;
   }
 
   public toJSON(): TreeNodeJSON {

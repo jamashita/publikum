@@ -4,6 +4,18 @@ import { MockTreeObject } from '../../Mock/MockTreeObject';
 import { StructurableTreeNode } from '../StructurableTreeNode';
 
 describe('StructurableTreeNode', () => {
+  describe('of', () => {
+    it('returns ImmutableAddress.empty() when empty children given', () => {
+      expect.assertions(2);
+
+      const node01: StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 1')), MutableAddress.empty<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>());
+      const node02: StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 1')), new MockAddress<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(new Set<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>()));
+
+      expect(node01.getChildren()).toBe(ImmutableAddress.empty<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>());
+      expect(node02.getChildren()).toBe(ImmutableAddress.empty<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>());
+    });
+  });
+
   describe('ofValue', () => {
     it('copies shallowly', () => {
       expect.assertions(2);
@@ -28,15 +40,104 @@ describe('StructurableTreeNode', () => {
     });
   });
 
-  describe('of', () => {
-    it('returns ImmutableAddress.empty() when empty children given', () => {
-      expect.assertions(2);
+  describe('append', () => {
+    it('appends a node into its children', () => {
+      expect.assertions(6);
 
-      const node01: StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 1')), MutableAddress.empty<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>());
-      const node02: StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(new MockTreeID('mock 1')), new MockAddress<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(new Set<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>()));
+      const id1: MockTreeID = new MockTreeID('mock 1');
+      const id2: MockTreeID = new MockTreeID('mock 2');
+      const id3: MockTreeID = new MockTreeID('mock 3');
+      const id4: MockTreeID = new MockTreeID('mock 4');
 
-      expect(node01.getChildren()).toBe(ImmutableAddress.empty<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>());
-      expect(node02.getChildren()).toBe(ImmutableAddress.empty<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>());
+      const node01: StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeObject(id1),
+        ImmutableAddress.ofSet<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+          new Set<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+            StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(id2))
+          ])
+        )
+      );
+      const node02: StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeObject(id3),
+        ImmutableAddress.ofSet<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+          new Set<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+            StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(id4))
+          ])
+        )
+      );
+
+      node01.append(node02);
+
+      expect(node01.size()).toBe(4);
+
+      const children: ImmutableAddress<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>> = node01.getChildren();
+      let i: number = 0;
+
+      expect(children.size()).toBe(2);
+
+      children.forEach((child: StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>) => {
+        switch (i) {
+          case 0: {
+            expect(child.getValue().getTreeID()).toBe(id2);
+            expect(child.isLeaf()).toBe(true);
+            break;
+          }
+          case 1: {
+            expect(child.getValue().getTreeID()).toBe(id3);
+            expect(child.isLeaf()).toBe(false);
+            break;
+          }
+          default: {
+            fail();
+          }
+        }
+
+        i++;
+      });
+    });
+
+    it('can append a node into the node which do have no children', () => {
+      expect.assertions(4);
+
+      const id1: MockTreeID = new MockTreeID('mock 1');
+      const id3: MockTreeID = new MockTreeID('mock 3');
+      const id4: MockTreeID = new MockTreeID('mock 4');
+
+      const node01: StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeObject(id1)
+      );
+      const node02: StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(
+        new MockTreeObject(id3),
+        ImmutableAddress.ofSet<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>(
+          new Set<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>>([
+            StructurableTreeNode.ofValue<MockTreeID, MockTreeObject<MockTreeID>>(new MockTreeObject(id4))
+          ])
+        )
+      );
+
+      node01.append(node02);
+
+      expect(node01.size()).toBe(3);
+
+      const children: ImmutableAddress<StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>> = node01.getChildren();
+      let i: number = 0;
+
+      expect(children.size()).toBe(1);
+
+      children.forEach((child: StructurableTreeNode<MockTreeID, MockTreeObject<MockTreeID>>) => {
+        switch (i) {
+          case 0: {
+            expect(child.getValue().getTreeID()).toBe(id3);
+            expect(child.isLeaf()).toBe(false);
+            break;
+          }
+          default: {
+            fail();
+          }
+        }
+
+        i++;
+      });
     });
   });
 

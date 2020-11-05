@@ -1,11 +1,11 @@
-import { ImmutableAddress, ReadonlyAddress } from '@jamashita/publikum-collection';
+import { MutableAddress, ReadonlyAddress } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
-import { ATrees } from './ATrees';
+import { ATrees } from './Abstract/ATrees';
 import { SerializableTreeObject } from './Interface/SerializableTreeObject';
 import { SerializableTree } from './SerializableTree';
 import { SerializableTreeNode, TreeNodeJSON } from './TreeNode/SerializableTreeNode';
 
-export class SerializableTrees<V extends SerializableTreeObject> extends ATrees<void, V, SerializableTreeNode<V>, SerializableTree<V>, ReadonlyAddress<SerializableTree<V>>, 'SerializableTrees'> implements JSONable<ReadonlyArray<TreeNodeJSON>> {
+export class SerializableTrees<V extends SerializableTreeObject> extends ATrees<void, V, SerializableTreeNode<V>, SerializableTree<V>, MutableAddress<SerializableTree<V>>, 'SerializableTrees'> implements JSONable<ReadonlyArray<TreeNodeJSON>> {
   public readonly noun: 'SerializableTrees' = 'SerializableTrees';
 
   public static of<VT extends SerializableTreeObject>(trees: SerializableTrees<VT>): SerializableTrees<VT> {
@@ -17,13 +17,18 @@ export class SerializableTrees<V extends SerializableTreeObject> extends ATrees<
   }
 
   private static ofInternal<VT extends SerializableTreeObject>(address: ReadonlyAddress<SerializableTree<VT>>): SerializableTrees<VT> {
-    return new SerializableTrees<VT>(ImmutableAddress.of<SerializableTree<VT>>(address));
+    return new SerializableTrees<VT>(MutableAddress.of<SerializableTree<VT>>(address));
   }
 
-  protected constructor(trees: ReadonlyAddress<SerializableTree<V>>) {
+  protected constructor(trees: MutableAddress<SerializableTree<V>>) {
     super(trees);
   }
 
+  public add(tree: SerializableTree<V>): SerializableTrees<V> {
+    this.trees.add(tree);
+
+    return this;
+  }
 
   public toJSON(): ReadonlyArray<TreeNodeJSON> {
     const json: Array<TreeNodeJSON> = [];

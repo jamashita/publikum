@@ -1,5 +1,4 @@
 import {
-  ImmutableProject,
   MutableAddress,
   MutableProject,
   ReadonlyAddress,
@@ -7,7 +6,7 @@ import {
   ReadonlySequence
 } from '@jamashita/publikum-collection';
 import { Kind, Nullable } from '@jamashita/publikum-type';
-import { ATrees } from './ATrees';
+import { ATrees } from './Abstract/ATrees';
 import { ClosureTable } from './ClosureTable/ClosureTable';
 import { ClosureTableHierarchies } from './ClosureTable/ClosureTableHierarchies';
 import { ClosureTableHierarchy } from './ClosureTable/ClosureTableHierarchy';
@@ -17,7 +16,7 @@ import { TreeID } from './Interface/TreeID';
 import { StructurableTree } from './StructurableTree';
 import { StructurableTreeNode } from './TreeNode/StructurableTreeNode';
 
-export class StructurableTrees<K extends TreeID, V extends StructurableTreeObject<K>> extends ATrees<K, V, StructurableTreeNode<K, V>, StructurableTree<K, V>, ReadonlyProject<K, StructurableTree<K, V>>, 'StructurableTrees'> {
+export class StructurableTrees<K extends TreeID, V extends StructurableTreeObject<K>> extends ATrees<K, V, StructurableTreeNode<K, V>, StructurableTree<K, V>, MutableProject<K, StructurableTree<K, V>>, 'StructurableTrees'> {
   public readonly noun: 'StructurableTrees' = 'StructurableTrees';
 
   public static of<KT extends TreeID, VT extends StructurableTreeObject<KT>>(trees: StructurableTrees<KT, VT>): StructurableTrees<KT, VT> {
@@ -29,7 +28,7 @@ export class StructurableTrees<K extends TreeID, V extends StructurableTreeObjec
   }
 
   public static ofInternal<KT extends TreeID, VT extends StructurableTreeObject<KT>>(project: ReadonlyProject<KT, StructurableTree<KT, VT>>): StructurableTrees<KT, VT> {
-    return new StructurableTrees<KT, VT>(ImmutableProject.of<KT, StructurableTree<KT, VT>>(project));
+    return new StructurableTrees<KT, VT>(MutableProject.of<KT, StructurableTree<KT, VT>>(project));
   }
 
   public static ofTable<KT extends TreeID, VT extends StructurableTreeObject<KT>>(table: ClosureTable<KT>, values: ReadonlySequence<VT>): StructurableTrees<KT, VT> {
@@ -107,8 +106,14 @@ export class StructurableTrees<K extends TreeID, V extends StructurableTreeObjec
     return node;
   }
 
-  protected constructor(trees: ReadonlyProject<K, StructurableTree<K, V>>) {
+  protected constructor(trees: MutableProject<K, StructurableTree<K, V>>) {
     super(trees);
+  }
+
+  public add(tree: StructurableTree<K, V>): StructurableTrees<K, V> {
+    this.trees.set(tree.getTreeID(), tree);
+
+    return this;
   }
 
   public has(key: K): boolean {

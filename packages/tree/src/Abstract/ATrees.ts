@@ -2,17 +2,19 @@ import { Collection } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { Objet } from '@jamashita/publikum-object';
 import { BinaryPredicate, Enumerator, Kind, Nullable } from '@jamashita/publikum-type';
-import { Tree } from './Tree';
-import { TreeNode } from './TreeNode/TreeNode';
-import { Trees } from './Trees';
+import { Trees } from '../Interface/Trees';
+import { ATreeNode } from '../TreeNode/Abstract/ATreeNode';
+import { ATree } from './ATree';
 
-export abstract class ATrees<K, V extends Nominative, T extends TreeNode<V, T>, E extends Tree<V, T>, C extends Collection<K, E>, N extends string = string> extends Objet<N> implements Trees<K, V, T, E, N> {
+export abstract class ATrees<K, V extends Nominative, T extends ATreeNode<V, T>, E extends ATree<V, T>, C extends Collection<K, E>, N extends string = string> extends Objet<N> implements Trees<K, V, E, N> {
   protected readonly trees: C;
 
   protected constructor(trees: C) {
     super();
     this.trees = trees;
   }
+
+  public abstract add(tree: E): ATrees<K, V, T, E, C>;
 
   public contains(value: V): boolean {
     return this.trees.some((tree: E) => {
@@ -39,14 +41,14 @@ export abstract class ATrees<K, V extends Nominative, T extends TreeNode<V, T>, 
     });
   }
 
-  public find(predicate: BinaryPredicate<V, K>): Nullable<V> {
+  public find(predicate: BinaryPredicate<V, K>): Nullable<T> {
     for (const p of this.trees) {
       const node: Nullable<T> = p.getValue().find((v: V) => {
         return predicate(v, p.getKey());
       });
 
       if (!Kind.isNull(node)) {
-        return node.getValue();
+        return node;
       }
     }
 
