@@ -39,7 +39,7 @@
     "bcrypt": "5.0.0",
     "crypto-random-string": "3.3.0",
     "d3-random": "2.2.2",
-    "dayjs": "1.9.4",
+    "dayjs": "1.9.5",
     "got": "11.8.0",
     "ioredis": "4.19.2",
     "make-error-cause": "2.3.0",
