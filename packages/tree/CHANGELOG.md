@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/jamashita/publikum/compare/v3.1.0...v3.2.0) (2020-11-05)
+
+
+### Features
+
+* 🎸 Tre imprpovment ([138df7d](https://github.com/jamashita/publikum/commit/138df7d10fdca28db17ea97222e813bc70c6359d))
+* 🎸 TreeNode improovement ([5d5122a](https://github.com/jamashita/publikum/commit/5d5122a551112d846e18b60a528eecccbc6c6be4))
+* 🎸 Trees.add() ([b673e68](https://github.com/jamashita/publikum/commit/b673e6824519a4cb0ae4779e11c9f0c5d510a173))
+
+
+
+
+
 # [3.1.0](https://github.com/jamashita/publikum/compare/v3.0.0...v3.1.0) (2020-11-03)
 
 
