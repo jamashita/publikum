@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0](https://github.com/jamashita/publikum/compare/v3.2.0...v3.3.0) (2020-11-13)
+
+
+### Features
+
+* 🎸 changed logic because trees are mutable ([22a43d2](https://github.com/jamashita/publikum/commit/22a43d2fc17f742a5ff923439515bbf38f7704cc))
+* 🎸 SerializableTrees.empty() ([8531a60](https://github.com/jamashita/publikum/commit/8531a60584823c89e8cd70050e16f4d0a4c18860))
+* 🎸 StructurableTrees.empty() ([bea3423](https://github.com/jamashita/publikum/commit/bea3423139750599518d5c3486fe822d89469b69))
+
+
+
+
+
 # [3.2.0](https://github.com/jamashita/publikum/compare/v3.1.0...v3.2.0) (2020-11-05)
 
 
