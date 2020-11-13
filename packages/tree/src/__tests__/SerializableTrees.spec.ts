@@ -6,6 +6,15 @@ import { SerializableTrees } from '../SerializableTrees';
 import { SerializableTreeNode } from '../TreeNode/SerializableTreeNode';
 
 describe('SerializableTrees', () => {
+  describe('empty', () => {
+    it('does not return singleton instance', () => {
+      expect.assertions(2);
+
+      expect(SerializableTrees.empty().size()).toBe(0);
+      expect(SerializableTrees.empty()).not.toBe(SerializableTrees.empty());
+    });
+  });
+
   describe('add', () => {
     it('add one tree into empty trees', () => {
       expect.assertions(4);

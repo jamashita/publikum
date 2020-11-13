@@ -1,4 +1,4 @@
-import { MutableAddress, ReadonlyAddress } from '@jamashita/publikum-collection';
+import { ImmutableAddress, MutableAddress, ReadonlyAddress } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
 import { ATrees } from './Abstract/ATrees';
 import { SerializableTreeObject } from './Interface/SerializableTreeObject';
@@ -14,6 +14,10 @@ export class SerializableTrees<V extends SerializableTreeObject> extends ATrees<
 
   public static ofAddress<VT extends SerializableTreeObject>(address: ReadonlyAddress<SerializableTree<VT>>): SerializableTrees<VT> {
     return SerializableTrees.ofInternal<VT>(address);
+  }
+
+  public static empty<VT extends SerializableTreeObject>(): SerializableTrees<VT> {
+    return SerializableTrees.ofAddress<VT>(ImmutableAddress.empty<SerializableTree<VT>>());
   }
 
   private static ofInternal<VT extends SerializableTreeObject>(address: ReadonlyAddress<SerializableTree<VT>>): SerializableTrees<VT> {
