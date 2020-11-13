@@ -1,4 +1,5 @@
 import {
+  ImmutableProject,
   MutableAddress,
   MutableProject,
   ReadonlyAddress,
@@ -33,6 +34,10 @@ export class StructurableTrees<K extends TreeID, V extends StructurableTreeObjec
 
   public static ofTable<KT extends TreeID, VT extends StructurableTreeObject<KT>>(table: ClosureTable<KT>, values: ReadonlySequence<VT>): StructurableTrees<KT, VT> {
     if (table.isEmpty()) {
+      if (values.isEmpty()) {
+        return StructurableTrees.empty<KT, VT>();
+      }
+
       throw new TreeError('CLOSURE TABLE IS EMPTY');
     }
     if (values.isEmpty()) {
@@ -52,6 +57,10 @@ export class StructurableTrees<K extends TreeID, V extends StructurableTreeObjec
     });
 
     return StructurableTrees.ofProject<KT, VT>(trees);
+  }
+
+  public static empty<KT extends TreeID, VT extends StructurableTreeObject<KT>>(): StructurableTrees<KT, VT> {
+    return StructurableTrees.ofProject<KT, VT>(ImmutableProject.empty<KT, StructurableTree<KT, VT>>());
   }
 
   private static toProject<KT extends TreeID, VT extends StructurableTreeObject<KT>>(sequence: ReadonlySequence<VT>): ReadonlyProject<KT, VT> {
