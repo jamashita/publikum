@@ -13,6 +13,15 @@ import { StructurableTreeNode } from '../TreeNode/StructurableTreeNode';
 
 describe('StructurableTrees', () => {
   describe('ofTable', () => {
+    it('returns StructurableTrees.empty<MockTreeID, MockTreeObject<MockTreeID>>() when empty ClosureTable<MockTreeID> and empty Project<MockTreeID, MockTreeObject<MockTreeID>> given', () => {
+      expect.assertions(1);
+
+      const table: ClosureTable<MockTreeID> = ClosureTable.empty<MockTreeID>();
+      const values: ImmutableSequence<MockTreeObject<MockTreeID>> = ImmutableSequence.empty<MockTreeObject<MockTreeID>>();
+
+      expect(StructurableTrees.ofTable<MockTreeID, MockTreeObject<MockTreeID>>(table, values)).toBe(StructurableTrees.empty<MockTreeID, MockTreeObject<MockTreeID>>());
+    });
+
     it('throws TreeError when empty ClosureTable<MockTreeID> given', () => {
       expect.assertions(1);
 
@@ -253,6 +262,14 @@ describe('StructurableTrees', () => {
         }
         i++;
       }
+    });
+  });
+
+  describe('empty', () => {
+    it('returns singleton instance', () => {
+      expect.assertions(1);
+
+      expect(StructurableTrees.empty()).toBe(StructurableTrees.empty());
     });
   });
 
