@@ -1,4 +1,5 @@
 import {
+  ImmutableProject,
   MutableAddress,
   MutableProject,
   ReadonlyAddress,
@@ -18,8 +19,6 @@ import { StructurableTreeNode } from './TreeNode/StructurableTreeNode';
 
 export class StructurableTrees<K extends TreeID, V extends StructurableTreeObject<K>> extends ATrees<K, V, StructurableTreeNode<K, V>, StructurableTree<K, V>, MutableProject<K, StructurableTree<K, V>>, 'StructurableTrees'> {
   public readonly noun: 'StructurableTrees' = 'StructurableTrees';
-
-  private static readonly EMPTY: StructurableTrees<TreeID, StructurableTreeObject<TreeID>> = new StructurableTrees<TreeID, StructurableTreeObject<TreeID>>(MutableProject.empty<TreeID, StructurableTree<TreeID, StructurableTreeObject<TreeID>>>());
 
   public static of<KT extends TreeID, VT extends StructurableTreeObject<KT>>(trees: StructurableTrees<KT, VT>): StructurableTrees<KT, VT> {
     return StructurableTrees.ofProject<KT, VT>(trees.trees);
@@ -61,7 +60,7 @@ export class StructurableTrees<K extends TreeID, V extends StructurableTreeObjec
   }
 
   public static empty<KT extends TreeID, VT extends StructurableTreeObject<KT>>(): StructurableTrees<KT, VT> {
-    return StructurableTrees.EMPTY as StructurableTrees<KT, VT>;
+    return StructurableTrees.ofProject<KT, VT>(ImmutableProject.empty<KT, StructurableTree<KT, VT>>());
   }
 
   private static toProject<KT extends TreeID, VT extends StructurableTreeObject<KT>>(sequence: ReadonlySequence<VT>): ReadonlyProject<KT, VT> {

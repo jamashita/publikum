@@ -14,12 +14,15 @@ import { StructurableTreeNode } from '../TreeNode/StructurableTreeNode';
 describe('StructurableTrees', () => {
   describe('ofTable', () => {
     it('returns StructurableTrees.empty<MockTreeID, MockTreeObject<MockTreeID>>() when empty ClosureTable<MockTreeID> and empty Project<MockTreeID, MockTreeObject<MockTreeID>> given', () => {
-      expect.assertions(1);
+      expect.assertions(2);
 
       const table: ClosureTable<MockTreeID> = ClosureTable.empty<MockTreeID>();
       const values: ImmutableSequence<MockTreeObject<MockTreeID>> = ImmutableSequence.empty<MockTreeObject<MockTreeID>>();
 
-      expect(StructurableTrees.ofTable<MockTreeID, MockTreeObject<MockTreeID>>(table, values)).toBe(StructurableTrees.empty<MockTreeID, MockTreeObject<MockTreeID>>());
+      const trees: StructurableTrees<MockTreeID, MockTreeObject<MockTreeID>> = StructurableTrees.ofTable<MockTreeID, MockTreeObject<MockTreeID>>(table, values);
+
+      expect(trees.size()).toBe(0);
+      expect(trees).not.toBe(StructurableTrees.empty<MockTreeID, MockTreeObject<MockTreeID>>());
     });
 
     it('throws TreeError when empty ClosureTable<MockTreeID> given', () => {
@@ -266,10 +269,10 @@ describe('StructurableTrees', () => {
   });
 
   describe('empty', () => {
-    it('returns singleton instance', () => {
+    it('does not return singleton instance', () => {
       expect.assertions(1);
 
-      expect(StructurableTrees.empty()).toBe(StructurableTrees.empty());
+      expect(StructurableTrees.empty()).not.toBe(StructurableTrees.empty());
     });
   });
 
