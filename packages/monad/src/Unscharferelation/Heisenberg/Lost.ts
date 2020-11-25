@@ -1,6 +1,6 @@
 import { isEqualable } from '@jamashita/publikum-interface';
-import { ValueObject } from '@jamashita/publikum-object';
-import { Consumer, Kind } from '@jamashita/publikum-type';
+import { Objet, ValueObject } from '@jamashita/publikum-object';
+import { Consumer } from '@jamashita/publikum-type';
 import { Absent } from './Absent';
 import { Heisenberg } from './Heisenberg';
 import { Present } from './Present';
@@ -19,7 +19,7 @@ export class Lost<P> extends ValueObject<'Lost'> implements Heisenberg<P, 'Lost'
   }
 
   public serialize(): string {
-    return `Lost: ${Kind.notate(this.cause)}`;
+    return `Lost: ${Objet.identify(this.cause)}`;
   }
 
   public get(): never {

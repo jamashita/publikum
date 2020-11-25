@@ -1,5 +1,4 @@
-import { ValueObject } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
+import { Objet, ValueObject } from '@jamashita/publikum-object';
 
 export class Pair<K, V> extends ValueObject<'Pair'> {
   public readonly noun: 'Pair' = 'Pair';
@@ -25,7 +24,7 @@ export class Pair<K, V> extends ValueObject<'Pair'> {
   }
 
   public serialize(): string {
-    return `{${Kind.notate(this.key)}: ${Kind.notate(this.value)}}`;
+    return `{${Objet.identify(this.key)}: ${Objet.identify(this.value)}}`;
   }
 
   public getKey(): K {

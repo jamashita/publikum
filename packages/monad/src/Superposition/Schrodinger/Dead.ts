@@ -1,6 +1,6 @@
 import { isEqualable } from '@jamashita/publikum-interface';
-import { ValueObject } from '@jamashita/publikum-object';
-import { Consumer, Kind } from '@jamashita/publikum-type';
+import { Objet, ValueObject } from '@jamashita/publikum-object';
+import { Consumer } from '@jamashita/publikum-type';
 import { Alive } from './Alive';
 import { Contradiction } from './Contradiction';
 import { Schrodinger } from './Schrodinger';
@@ -19,7 +19,7 @@ export class Dead<A, D extends Error> extends ValueObject<'Dead'> implements Sch
   }
 
   public serialize(): string {
-    return `Dead: ${Kind.notate(this.error)}`;
+    return `Dead: ${Objet.identify(this.error)}`;
   }
 
   public get(): never {

@@ -1,6 +1,6 @@
 import { isEqualable } from '@jamashita/publikum-interface';
-import { ValueObject } from '@jamashita/publikum-object';
-import { Consumer, Kind } from '@jamashita/publikum-type';
+import { Objet, ValueObject } from '@jamashita/publikum-object';
+import { Consumer } from '@jamashita/publikum-type';
 import { Matter } from '../Interface/Matter';
 import { Absent } from './Absent';
 import { Heisenberg } from './Heisenberg';
@@ -20,7 +20,7 @@ export class Present<P> extends ValueObject<'Present'> implements Heisenberg<P, 
   }
 
   public serialize(): string {
-    return `Present: ${Kind.notate(this.value)}`;
+    return `Present: ${Objet.identify(this.value)}`;
   }
 
   public get(): Matter<P> {

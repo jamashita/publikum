@@ -1,4 +1,4 @@
-import { Kind } from '@jamashita/publikum-type';
+import { Objet } from '../Objet';
 import { ValueObject } from '../ValueObject';
 
 export class MockValueObject<V> extends ValueObject<'MockValueObject'> {
@@ -22,7 +22,7 @@ export class MockValueObject<V> extends ValueObject<'MockValueObject'> {
   }
 
   public serialize(): string {
-    return Kind.notate(this.value);
+    return Objet.identify(this.value);
   }
 
   public get(): V {
