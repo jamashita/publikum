@@ -10,9 +10,6 @@ export class Equality {
     if (Equality.sameReference(n1, n2)) {
       return true;
     }
-    if (Kind.isNaN(n1) && Kind.isNaN(n2)) {
-      return true;
-    }
     if (Kind.isArray<PlainObjectItem>(n1)) {
       if (Kind.isArray<PlainObjectItem>(n2)) {
         return Equality.sameArray(n1, n2);
@@ -23,26 +20,25 @@ export class Equality {
     if (Kind.isArray<PlainObjectItem>(n2)) {
       return false;
     }
-    if (Kind.isObject<PlainObject>(n1)) {
-      if (Kind.isObject<PlainObject>(n2)) {
-        return Equality.sameObject(n1, n2);
-      }
-
-      return false;
+    if (Kind.isObject<PlainObject>(n1) && Kind.isObject<PlainObject>(n2)) {
+      return Equality.sameObject(n1, n2);
     }
 
     return false;
   }
 
-  private static sameReference(n1: Primitive | ObjectLiteral, n2: Primitive | ObjectLiteral): boolean {
+  private static sameReference(n1: PlainObjectItem, n2: PlainObjectItem): boolean {
     if (n1 === n2) {
+      return true;
+    }
+    if (Kind.isNaN(n1) && Kind.isNaN(n2)) {
       return true;
     }
 
     return false;
   }
 
-  private static sameArray(arr1: Array<PlainObjectItem>, arr2: Array<PlainObjectItem>): boolean {
+  private static sameArray(arr1: ReadonlyArray<PlainObjectItem>, arr2: ReadonlyArray<PlainObjectItem>): boolean {
     if (arr1.length !== arr2.length) {
       return false;
     }
@@ -61,20 +57,12 @@ export class Equality {
     }
 
     return keys1.every((key: string) => {
-      if (Equality.hasProperty(obj2, key)) {
+      if (Object.prototype.hasOwnProperty.call(obj2, key)) {
         return Equality.sameInternal(obj1[key], obj2[key]);
       }
 
       return false;
     });
-  }
-
-  private static hasProperty(obj: object, key: string): boolean {
-    if (key in obj) {
-      return true;
-    }
-
-    return false;
   }
 
   private constructor() {
