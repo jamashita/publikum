@@ -15,7 +15,7 @@ export class BooleanValidationRule implements ValidationRule {
 
   public evaluate(_target: object, value: unknown): void {
     if (!Kind.isBoolean(value)) {
-      throw new ValidationError(`VALUE IS NOT BOOLEAN. GIVEN: ${Kind.notate(value)}`);
+      throw new ValidationError('VALUE IS NOT BOOLEAN');
     }
   }
 }
