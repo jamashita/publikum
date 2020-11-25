@@ -1,4 +1,3 @@
-export interface DeadConstructor<E extends Error = Error> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  new(...args: ReadonlyArray<any>): E;
-}
+import { Constructor } from '@jamashita/publikum-type';
+
+export type DeadConstructor<E extends Error = Error> = Constructor<E>;
