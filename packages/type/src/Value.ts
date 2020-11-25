@@ -14,9 +14,11 @@ export type Freeze<T extends object> = {
   readonly [P in keyof T]: T[P] extends object ? Freeze<T[P]> : T[P];
 };
 export type Vague<T extends object = object> = {
-  [P in keyof T]: unknown;
+  readonly [P in keyof T]: unknown;
 };
-export type Inconnu = { [key: string]: unknown; };
+export type Inconnu = {
+  readonly [key: string]: unknown;
+};
 export type PlainObject = {
   [key: string]: PlainObjectItem;
 };
