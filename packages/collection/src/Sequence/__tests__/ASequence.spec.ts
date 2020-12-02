@@ -15,8 +15,8 @@ describe('ASequence', () => {
       let i: number = 0;
 
       for (const value of sequence) {
-        expect(value.getKey()).toBe(i);
-        expect(value.getValue().get()).toBe(sequence.get(i)?.get());
+        expect(value[0]).toBe(i);
+        expect(value[1].get()).toBe(sequence.get(i)?.get());
         i++;
       }
     });

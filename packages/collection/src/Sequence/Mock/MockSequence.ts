@@ -21,7 +21,7 @@ export class MockSequence<V extends Nominative> extends ASequence<V, 'MockSequen
     throw new UnimplementedError();
   }
 
-  public map<W extends Nominative>(): MockSequence<W> {
+  public map<W>(): MockSequence<W> {
     throw new UnimplementedError();
   }
 

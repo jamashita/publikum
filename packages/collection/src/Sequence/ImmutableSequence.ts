@@ -1,18 +1,17 @@
-import { Nominative } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Kind, Mapper } from '@jamashita/publikum-type';
 import { ASequence } from './Abstract/ASequence';
 import { ReadonlySequence } from './Interface/ReadonlySequence';
 
-export class ImmutableSequence<V extends Nominative> extends ASequence<V, 'ImmutableSequence'> {
+export class ImmutableSequence<V> extends ASequence<V, 'ImmutableSequence'> {
   public readonly noun: 'ImmutableSequence' = 'ImmutableSequence';
 
-  private static readonly EMPTY: ImmutableSequence<Nominative> = new ImmutableSequence<Nominative>([]);
+  private static readonly EMPTY: ImmutableSequence<unknown> = new ImmutableSequence<unknown>([]);
 
-  public static of<VT extends Nominative>(sequence: ReadonlySequence<VT>): ImmutableSequence<VT> {
+  public static of<VT>(sequence: ReadonlySequence<VT>): ImmutableSequence<VT> {
     return ImmutableSequence.ofInternal<VT>(sequence.toArray());
   }
 
-  public static ofArray<VT extends Nominative>(array: ReadonlyArray<VT>): ImmutableSequence<VT> {
+  public static ofArray<VT>(array: ReadonlyArray<VT>): ImmutableSequence<VT> {
     if (array.length === 0) {
       return ImmutableSequence.empty<VT>();
     }
@@ -20,11 +19,11 @@ export class ImmutableSequence<V extends Nominative> extends ASequence<V, 'Immut
     return ImmutableSequence.ofInternal<VT>([...array]);
   }
 
-  private static ofInternal<VT extends Nominative>(array: Array<VT>): ImmutableSequence<VT> {
+  private static ofInternal<VT>(array: Array<VT>): ImmutableSequence<VT> {
     return new ImmutableSequence<VT>(array);
   }
 
-  public static empty<VT extends Nominative>(): ImmutableSequence<VT> {
+  public static empty<VT>(): ImmutableSequence<VT> {
     return ImmutableSequence.EMPTY as ImmutableSequence<VT>;
   }
 
@@ -70,7 +69,7 @@ export class ImmutableSequence<V extends Nominative> extends ASequence<V, 'Immut
     return super.isEmpty();
   }
 
-  public map<W extends Nominative>(mapper: Mapper<V, W>): ImmutableSequence<W> {
+  public map<W>(mapper: Mapper<V, W>): ImmutableSequence<W> {
     return ImmutableSequence.ofArray<W>(this.sequence.map<W>(mapper));
   }
 

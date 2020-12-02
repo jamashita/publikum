@@ -1,24 +1,23 @@
-import { Nominative } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Kind, Mapper } from '@jamashita/publikum-type';
 import { ASequence } from './Abstract/ASequence';
 import { ReadonlySequence } from './Interface/ReadonlySequence';
 
-export class MutableSequence<V extends Nominative> extends ASequence<V, 'MutableSequence'> {
+export class MutableSequence<V> extends ASequence<V, 'MutableSequence'> {
   public readonly noun: 'MutableSequence' = 'MutableSequence';
 
-  public static of<VT extends Nominative>(sequence: ReadonlySequence<VT>): MutableSequence<VT> {
+  public static of<VT>(sequence: ReadonlySequence<VT>): MutableSequence<VT> {
     return MutableSequence.ofInternal<VT>(sequence.toArray());
   }
 
-  public static ofArray<VT extends Nominative>(array: ReadonlyArray<VT>): MutableSequence<VT> {
+  public static ofArray<VT>(array: ReadonlyArray<VT>): MutableSequence<VT> {
     return MutableSequence.ofInternal<VT>([...array]);
   }
 
-  private static ofInternal<VT extends Nominative>(array: Array<VT>): MutableSequence<VT> {
+  private static ofInternal<VT>(array: Array<VT>): MutableSequence<VT> {
     return new MutableSequence<VT>(array);
   }
 
-  public static empty<VT extends Nominative>(): MutableSequence<VT> {
+  public static empty<VT>(): MutableSequence<VT> {
     return MutableSequence.ofArray<VT>([]);
   }
 
@@ -58,7 +57,7 @@ export class MutableSequence<V extends Nominative> extends ASequence<V, 'Mutable
     return this;
   }
 
-  public map<W extends Nominative>(mapper: Mapper<V, W>): MutableSequence<W> {
+  public map<W>(mapper: Mapper<V, W>): MutableSequence<W> {
     return MutableSequence.ofArray<W>(this.sequence.map<W>(mapper));
   }
 
