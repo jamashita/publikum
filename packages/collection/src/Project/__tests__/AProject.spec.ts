@@ -4,7 +4,7 @@ import { MockProject } from '../Mock/MockProject';
 
 describe('AProject', () => {
   describe('iterator', () => {
-    it('returns Pair<MockValueObject<string>, MockValueObject<number>>', () => {
+    it('returns [MockValueObject<string>, MockValueObject<number>]', () => {
       expect.assertions(4);
 
       const key1: MockValueObject<string> = new MockValueObject<string>('a');

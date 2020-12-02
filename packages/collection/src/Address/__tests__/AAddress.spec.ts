@@ -4,7 +4,7 @@ import { MockAddress } from '../Mock/MockAddress';
 
 describe('AAddress', () => {
   describe('iterator', () => {
-    it('returns Pair<void, MockValueObject<number>>', () => {
+    it('returns [void, MockValueObject<number>]', () => {
       expect.assertions(2);
 
       const value1: MockValueObject<number> = new MockValueObject<number>(1);
