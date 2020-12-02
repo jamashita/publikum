@@ -11,7 +11,7 @@ export class MutableAddress<V> extends AAddress<V, MutableAddress<V>, 'MutableAd
   }
 
   public static ofSet<VT>(set: ReadonlySet<VT>): MutableAddress<VT> {
-    const m: Map<unknown, VT> = new Map<unknown, VT>();
+    const m: Map<VT | string, VT> = new Map<VT | string, VT>();
 
     set.forEach((v: VT) => {
       if (isNominative(v)) {
@@ -26,19 +26,19 @@ export class MutableAddress<V> extends AAddress<V, MutableAddress<V>, 'MutableAd
     return MutableAddress.ofInternal<VT>(m);
   }
 
-  private static ofInternal<VT>(address: Map<unknown, VT>): MutableAddress<VT> {
+  private static ofInternal<VT>(address: Map<VT | string, VT>): MutableAddress<VT> {
     return new MutableAddress<VT>(address);
   }
 
   public static empty<VT>(): MutableAddress<VT> {
-    return new MutableAddress<VT>(new Map<unknown, VT>());
+    return new MutableAddress<VT>(new Map<VT | string, VT>());
   }
 
-  protected constructor(address: Map<unknown, V>) {
+  protected constructor(address: Map<V | string, V>) {
     super(address);
   }
 
-  protected forge(self: Map<string, V>): MutableAddress<V> {
+  protected forge(self: Map<V | string, V>): MutableAddress<V> {
     return MutableAddress.ofInternal<V>(self);
   }
 
@@ -47,13 +47,9 @@ export class MutableAddress<V> extends AAddress<V, MutableAddress<V>, 'MutableAd
       return this;
     }
 
-    if (isNominative(value)) {
-      this.address.set(value.hashCode(), value);
+    const v: V | string = this.hashor<V>(value);
 
-      return this;
-    }
-
-    this.address.set(value, value);
+    this.address.set(v, value);
 
     return this;
   }
@@ -66,24 +62,22 @@ export class MutableAddress<V> extends AAddress<V, MutableAddress<V>, 'MutableAd
       return this;
     }
 
-    if (isNominative(value)) {
-      this.address.delete(value.hashCode());
+    const v: V | string = this.hashor<V>(value);
 
-      return this;
-    }
-
-    this.address.delete(value);
+    this.address.delete(v);
 
     return this;
   }
 
   public map<W>(mapper: Mapper<V, W>): MutableAddress<W> {
-    const m: Map<unknown, W> = this.mapInternal<W>(mapper);
+    const m: Map<W | string, W> = this.mapInternal<W>(mapper);
 
     return MutableAddress.ofInternal<W>(m);
   }
 
   public duplicate(): MutableAddress<V> {
-    return MutableAddress.ofInternal<V>(new Map<unknown, V>(this.address));
+    const m: Map<V | string, V> = new Map<V | string, V>(this.address);
+
+    return MutableAddress.ofInternal<V>(m);
   }
 }

@@ -1,18 +1,17 @@
-import { isNominative } from '@jamashita/publikum-interface';
 import { Objet } from '@jamashita/publikum-object';
 import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
 import { Quantity } from '../../Quantity';
 import { Address } from '../Interface/Address';
 
 export abstract class AAddress<V, T extends AAddress<V, T>, N extends string = string> extends Quantity<void, V, N> implements Address<V, N> {
-  protected readonly address: Map<unknown, V>;
+  protected readonly address: Map<V | string, V>;
 
-  protected constructor(address: Map<unknown, V>) {
+  protected constructor(address: Map<V | string, V>) {
     super();
     this.address = address;
   }
 
-  protected abstract forge(self: Map<unknown, V>): T;
+  protected abstract forge(self: Map<V | string, V>): T;
 
   public abstract add(value: V): Address<V, N>;
 
@@ -42,11 +41,9 @@ export abstract class AAddress<V, T extends AAddress<V, T>, N extends string = s
   }
 
   public contains(value: V): boolean {
-    if (isNominative(value)) {
-      return this.address.has(value.hashCode());
-    }
+    const v: V | string = this.hashor<V>(value);
 
-    return this.address.has(value);
+    return this.address.has(v);
   }
 
   public size(): number {
@@ -143,36 +140,28 @@ export abstract class AAddress<V, T extends AAddress<V, T>, N extends string = s
   }
 
   public filter(predicate: BinaryPredicate<V, void>): T {
-    const m: Map<unknown, V> = new Map<unknown, V>();
+    const m: Map<V | string, V> = new Map<V | string, V>();
 
-    this.address.forEach((v: V) => {
-      if (predicate(v, undefined)) {
-        if (isNominative(v)) {
-          m.set(v.hashCode(), v);
+    this.address.forEach((value: V) => {
+      if (predicate(value, undefined)) {
+        const v: V | string = this.hashor(value);
 
-          return;
-        }
-
-        m.set(v, v);
+        m.set(v, value);
       }
     });
 
     return this.forge(m);
   }
 
-  protected mapInternal<W>(mapper: Mapper<V, W>): Map<unknown, W> {
-    const m: Map<unknown, W> = new Map<unknown, W>();
+  protected mapInternal<W>(mapper: Mapper<V, W>): Map<W | string, W> {
+    const m: Map<W | string, W> = new Map<W | string, W>();
     let i: number = 0;
 
-    this.address.forEach((v: V) => {
-      if (isNominative(v)) {
-        m.set(v.hashCode(), mapper(v, i));
-        i++;
+    this.address.forEach((value: V) => {
+      const w: W = mapper(value, i);
+      const v: W | string = this.hashor<W>(w);
 
-        return;
-      }
-
-      m.set(v, mapper(v, i));
+      m.set(v, w);
       i++;
     });
 

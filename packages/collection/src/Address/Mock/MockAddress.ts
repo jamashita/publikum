@@ -5,8 +5,8 @@ import { AAddress } from '../Abstract/AAddress';
 export class MockAddress<V> extends AAddress<V, MockAddress<V>, 'MockAddress'> {
   public readonly noun: 'MockAddress' = 'MockAddress';
 
-  private static toMap<VT>(set: ReadonlySet<VT>): Map<unknown, VT> {
-    const m: Map<unknown, VT> = new Map<unknown, VT>();
+  private static toMap<VT>(set: ReadonlySet<VT>): Map<VT | string, VT> {
+    const m: Map<VT | string, VT> = new Map<VT | string, VT>();
 
     set.forEach((v: VT) => {
       if (isNominative(v)) {
