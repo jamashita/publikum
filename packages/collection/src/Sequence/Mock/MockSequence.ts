@@ -1,8 +1,7 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
-import { Nominative } from '@jamashita/publikum-interface';
 import { ASequence } from '../Abstract/ASequence';
 
-export class MockSequence<V extends Nominative> extends ASequence<V, 'MockSequence'> {
+export class MockSequence<V> extends ASequence<V, 'MockSequence'> {
   public readonly noun: 'MockSequence' = 'MockSequence';
 
   public constructor(sequence: ReadonlyArray<V>) {
