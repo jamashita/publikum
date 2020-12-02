@@ -1,15 +1,21 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
-import { Nominative } from '@jamashita/publikum-interface';
+import { isNominative } from '@jamashita/publikum-interface';
 import { AAddress } from '../Abstract/AAddress';
 
-export class MockAddress<V extends Nominative> extends AAddress<V, MockAddress<V>, 'MockAddress'> {
+export class MockAddress<V> extends AAddress<V, MockAddress<V>, 'MockAddress'> {
   public readonly noun: 'MockAddress' = 'MockAddress';
 
-  private static toMap<VT extends Nominative>(set: ReadonlySet<VT>): Map<string, VT> {
-    const m: Map<string, VT> = new Map<string, VT>();
+  private static toMap<VT>(set: ReadonlySet<VT>): Map<unknown, VT> {
+    const m: Map<unknown, VT> = new Map<unknown, VT>();
 
     set.forEach((v: VT) => {
-      m.set(v.hashCode(), v);
+      if (isNominative(v)) {
+        m.set(v.hashCode(), v);
+
+        return;
+      }
+
+      m.set(v, v);
     });
 
     return m;
@@ -19,7 +25,7 @@ export class MockAddress<V extends Nominative> extends AAddress<V, MockAddress<V
     super(MockAddress.toMap<V>(set));
   }
 
-  protected forge(self: Map<string, V>): MockAddress<V> {
+  protected forge(self: Map<unknown, V>): MockAddress<V> {
     const set: Set<V> = new Set<V>();
 
     self.forEach((v: V) => {
@@ -41,7 +47,7 @@ export class MockAddress<V extends Nominative> extends AAddress<V, MockAddress<V
     throw new UnimplementedError();
   }
 
-  public map<W extends Nominative>(): MockAddress<W> {
+  public map<W>(): MockAddress<W> {
     throw new UnimplementedError();
   }
 }

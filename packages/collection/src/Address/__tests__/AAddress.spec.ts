@@ -18,7 +18,7 @@ describe('AAddress', () => {
       let i: number = 0;
 
       for (const value of address) {
-        expect(value.getValue()).toBe(values[i]);
+        expect(value[1]).toBe(values[i]);
         i++;
       }
     });
@@ -373,9 +373,10 @@ describe('AAddress', () => {
       const set: Set<MockValueObject<number>> = address.toSet();
 
       expect(address.size()).toBe(set.size);
-      for (let i: number = 0; i < set.size; i++) {
-        expect(set.has(values[i])).toBe(true);
-      }
+
+      values.forEach((value: MockValueObject<number>) => {
+        expect(set.has(value)).toBe(true);
+      });
       set.add(new MockValueObject<number>(4));
 
       expect(address.size()).not.toBe(set.size);
@@ -397,7 +398,7 @@ describe('AAddress', () => {
       let i: number = 0;
 
       for (const value of address.values()) {
-        expect(value.get()).toBe(values[i].get());
+        expect(value.get()).toBe(values[i]?.get());
         i++;
       }
     });

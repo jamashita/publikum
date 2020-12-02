@@ -1,35 +1,35 @@
-import { Nominative } from '@jamashita/publikum-interface';
+import { isNominative } from '@jamashita/publikum-interface';
+import { Objet } from '@jamashita/publikum-object';
 import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
-import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Address } from '../Interface/Address';
 
-export abstract class AAddress<V extends Nominative, T extends AAddress<V, T>, N extends string = string> extends Quantity<void, V, N> implements Address<V, N> {
-  protected readonly address: Map<string, V>;
+export abstract class AAddress<V, T extends AAddress<V, T>, N extends string = string> extends Quantity<void, V, N> implements Address<V, N> {
+  protected readonly address: Map<unknown, V>;
 
-  protected constructor(address: Map<string, V>) {
+  protected constructor(address: Map<unknown, V>) {
     super();
     this.address = address;
   }
 
-  protected abstract forge(self: Map<string, V>): T;
+  protected abstract forge(self: Map<unknown, V>): T;
 
   public abstract add(value: V): Address<V, N>;
 
   public abstract remove(value: V): Address<V, N>;
 
-  public abstract map<W extends Nominative>(mapper: Mapper<V, W>): Address<W>;
+  public abstract map<W>(mapper: Mapper<V, W>): Address<W>;
 
   public abstract duplicate(): Address<V, N>;
 
-  public iterator(): Iterator<Pair<void, V>> {
+  public iterator(): Iterator<[void, V]> {
     const iterator: IterableIterator<V> = this.address.values();
-    const iterable: Array<Pair<void, V>> = [];
+    const iterable: Array<[void, V]> = [];
 
     let res: IteratorResult<V> = iterator.next();
 
     while (res.done !== true) {
-      iterable.push(Pair.of(undefined, res.value));
+      iterable.push([undefined, res.value]);
 
       res = iterator.next();
     }
@@ -42,7 +42,11 @@ export abstract class AAddress<V extends Nominative, T extends AAddress<V, T>, N
   }
 
   public contains(value: V): boolean {
-    return this.address.has(value.hashCode());
+    if (isNominative(value)) {
+      return this.address.has(value.hashCode());
+    }
+
+    return this.address.has(value);
   }
 
   public size(): number {
@@ -58,9 +62,9 @@ export abstract class AAddress<V extends Nominative, T extends AAddress<V, T>, N
   }
 
   public forEach(iteration: Enumerator<void, V>): void {
-    for (const [, v] of this.address) {
+    this.address.forEach((v: V) => {
       iteration(v, undefined);
-    }
+    });
   }
 
   public find(predicate: BinaryPredicate<V, void>): Nullable<V> {
@@ -117,7 +121,7 @@ export abstract class AAddress<V extends Nominative, T extends AAddress<V, T>, N
     const properties: Array<string> = [];
 
     this.forEach((element: V) => {
-      properties.push(element.toString());
+      properties.push(Objet.identify(element));
     });
 
     return properties.join(', ');
@@ -139,23 +143,36 @@ export abstract class AAddress<V extends Nominative, T extends AAddress<V, T>, N
   }
 
   public filter(predicate: BinaryPredicate<V, void>): T {
-    const m: Map<string, V> = new Map<string, V>();
+    const m: Map<unknown, V> = new Map<unknown, V>();
 
-    for (const [, v] of this.address) {
+    this.address.forEach((v: V) => {
       if (predicate(v, undefined)) {
-        m.set(v.hashCode(), v);
+        if (isNominative(v)) {
+          m.set(v.hashCode(), v);
+
+          return;
+        }
+
+        m.set(v, v);
       }
-    }
+    });
 
     return this.forge(m);
   }
 
-  protected mapInternal<W extends Nominative>(mapper: Mapper<V, W>): Map<string, W> {
-    const m: Map<string, W> = new Map<string, W>();
+  protected mapInternal<W>(mapper: Mapper<V, W>): Map<unknown, W> {
+    const m: Map<unknown, W> = new Map<unknown, W>();
     let i: number = 0;
 
     this.address.forEach((v: V) => {
-      m.set(v.hashCode(), mapper(v, i));
+      if (isNominative(v)) {
+        m.set(v.hashCode(), mapper(v, i));
+        i++;
+
+        return;
+      }
+
+      m.set(v, mapper(v, i));
       i++;
     });
 
