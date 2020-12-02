@@ -31,7 +31,7 @@ describe('ClosureTable', () => {
   });
 
   describe('iterator', () => {
-    it('returns Pair<K, ReadonlyAddress<K>>', () => {
+    it('returns [K, ReadonlyAddress<K>]', () => {
       expect.assertions(9);
 
       const hierarchies: ClosureTableHierarchies<MockTreeID> = new MockClosureTableHierarchies(
@@ -47,10 +47,10 @@ describe('ClosureTable', () => {
       const table: ClosureTable<MockTreeID> = ClosureTable.of<MockTreeID>(hierarchies);
       let i: number = 0;
 
-      for (const pair of table) {
+      for (const [, v] of table) {
         switch (i) {
           case 0: {
-            const vs: Array<MockTreeID> = [...pair.getValue().values()];
+            const vs: Array<MockTreeID> = [...v.values()];
 
             expect(vs).toHaveLength(4);
             expect(vs[0]).toBe(hierarchies.get(0)?.getOffspring());
@@ -61,7 +61,7 @@ describe('ClosureTable', () => {
             break;
           }
           case 1: {
-            const vs: Array<MockTreeID> = [...pair.getValue().values()];
+            const vs: Array<MockTreeID> = [...v.values()];
 
             expect(vs).toHaveLength(3);
             expect(vs[0]).toBe(hierarchies.get(1)?.getOffspring());

@@ -1,12 +1,11 @@
 import {
   Collection,
   ImmutableSequence,
-  Pair,
   Quantity,
   ReadonlyAddress,
   ReadonlyProject
 } from '@jamashita/publikum-collection';
-import { JSONable, Nominative } from '@jamashita/publikum-interface';
+import { JSONable } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
 import { TreeID } from '../Interface/TreeID';
 import { ClosureTableHierarchy, ClosureTableJSON } from './ClosureTableHierarchy';
@@ -110,11 +109,11 @@ export class ClosureTableHierarchies<K extends TreeID> extends Quantity<number, 
     return this.hierarchies.find(predicate);
   }
 
-  public map<W extends Nominative>(mapper: Mapper<ClosureTableHierarchy<K>, W>): ImmutableSequence<W> {
+  public map<W>(mapper: Mapper<ClosureTableHierarchy<K>, W>): ImmutableSequence<W> {
     return this.hierarchies.map<W>(mapper);
   }
 
-  public iterator(): Iterator<Pair<number, ClosureTableHierarchy<K>>> {
+  public iterator(): Iterator<[number, ClosureTableHierarchy<K>]> {
     return this.hierarchies.iterator();
   }
 
