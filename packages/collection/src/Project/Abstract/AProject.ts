@@ -1,62 +1,72 @@
-import { Nominative } from '@jamashita/publikum-interface';
+import { isNominative } from '@jamashita/publikum-interface';
+import { Objet } from '@jamashita/publikum-object';
 import { Ambiguous, BinaryPredicate, Enumerator, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
-import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Project } from '../Interface/Project';
 
-export abstract class AProject<K extends Nominative, V extends Nominative, T extends AProject<K, V, T>, N extends string = string> extends Quantity<K, V, N> implements Project<K, V, N> {
-  protected readonly project: Map<string, Pair<K, V>>;
+export abstract class AProject<K, V, T extends AProject<K, V, T>, N extends string = string> extends Quantity<K, V, N> implements Project<K, V, N> {
+  protected readonly project: Map<K | string, [K, V]>;
 
-  protected constructor(project: Map<string, Pair<K, V>>) {
+  protected constructor(project: Map<K | string, [K, V]>) {
     super();
     this.project = project;
   }
 
-  protected abstract forge(self: Map<string, Pair<K, V>>): T;
+  protected abstract forge(self: Map<K | string, [K, V]>): T;
 
   public abstract set(key: K, value: V): Project<K, V, N>;
 
   public abstract remove(key: K): Project<K, V, N>;
 
-  public abstract map<W extends Nominative>(mapper: Mapper<V, W>): Project<K, W>;
+  public abstract map<W>(mapper: Mapper<V, W>): Project<K, W>;
 
   public filter(predicate: BinaryPredicate<V, K>): T {
-    const m: Map<string, Pair<K, V>> = new Map<string, Pair<K, V>>();
+    const m: Map<K | string, [K, V]> = new Map<K | string, [K, V]>();
 
-    for (const [, p] of this.project) {
-      if (predicate(p.getValue(), p.getKey())) {
-        m.set(p.getKey().hashCode(), p);
+    this.project.forEach(([k, v]: [K, V]) => {
+      if (predicate(v, k)) {
+        const key: K | string = this.getKey(k);
+
+        m.set(key, [k, v]);
       }
-    }
+    });
 
     return this.forge(m);
   }
 
   public abstract duplicate(): Project<K, V, N>;
 
-  public iterator(): Iterator<Pair<K, V>> {
+  public iterator(): Iterator<[K, V]> {
     return this.project.values();
   }
 
   public get(key: K): Nullable<V> {
-    const p: Ambiguous<Pair<K, V>> = this.project.get(key.hashCode());
+    const k: K | string = this.getKey(key);
+    const p: Ambiguous<[K, V]> = this.project.get(k);
 
     if (Kind.isUndefined(p)) {
       return null;
     }
 
-    return p.getValue();
+    return p[1];
   }
 
   public has(key: K): boolean {
-    return this.project.has(key.hashCode());
+    const k: K | string = this.getKey(key);
+
+    return this.project.has(k);
   }
 
   // FIXME O(n)
   public contains(value: V): boolean {
-    for (const [, p] of this.project) {
-      if (value.equals(p.getValue())) {
+    for (const [, [, v]] of this.project) {
+      if (value === v) {
         return true;
+      }
+      if (isNominative(value)) {
+        if (value.equals(v)) {
+          return true;
+        }
       }
     }
 
@@ -76,14 +86,14 @@ export abstract class AProject<K extends Nominative, V extends Nominative, T ext
   }
 
   public forEach(iteration: Enumerator<K, V>): void {
-    for (const [, p] of this.project) {
-      iteration(p.getValue(), p.getKey());
-    }
+    this.project.forEach(([k, v]: [K, V]) => {
+      iteration(v, k);
+    });
   }
 
   public every(predicate: BinaryPredicate<V, K>): boolean {
-    for (const [, p] of this.project) {
-      if (!predicate(p.getValue(), p.getKey())) {
+    for (const [, [k, v]] of this.project) {
+      if (!predicate(v, k)) {
         return false;
       }
     }
@@ -92,8 +102,8 @@ export abstract class AProject<K extends Nominative, V extends Nominative, T ext
   }
 
   public some(predicate: BinaryPredicate<V, K>): boolean {
-    for (const [, p] of this.project) {
-      if (predicate(p.getValue(), p.getKey())) {
+    for (const [, [k, v]] of this.project) {
+      if (predicate(v, k)) {
         return true;
       }
     }
@@ -115,7 +125,10 @@ export abstract class AProject<K extends Nominative, V extends Nominative, T ext
     return this.every((v: V, k: K) => {
       const value: Nullable<unknown> = other.get(k);
 
-      if (!Kind.isNull(value)) {
+      if (v === value) {
+        return true;
+      }
+      if (isNominative(v)) {
         if (v.equals(value)) {
           return true;
         }
@@ -139,58 +152,58 @@ export abstract class AProject<K extends Nominative, V extends Nominative, T ext
     const properties: Array<string> = [];
 
     this.forEach((v: V, k: K) => {
-      properties.push(`{${k.toString()}: ${v.toString()}}`);
+      properties.push(`{${Objet.identify(k)}: ${Objet.identify(v)}}`);
     });
 
     return properties.join(', ');
   }
 
   public keys(): Iterable<K> {
-    const iterator: IterableIterator<Pair<K, V>> = this.project.values();
     const iterable: Array<K> = [];
 
-    let res: IteratorResult<Pair<K, V>> = iterator.next();
-
-    while (res.done !== true) {
-      iterable.push(res.value.getKey());
-
-      res = iterator.next();
-    }
+    this.forEach((_: V, k: K) => {
+      iterable.push(k);
+    });
 
     return iterable;
   }
 
   public values(): Iterable<V> {
-    const iterator: IterableIterator<Pair<K, V>> = this.project.values();
     const iterable: Array<V> = [];
 
-    let res: IteratorResult<Pair<K, V>> = iterator.next();
-
-    while (res.done !== true) {
-      iterable.push(res.value.getValue());
-
-      res = iterator.next();
-    }
+    this.forEach((v: V) => {
+      iterable.push(v);
+    });
 
     return iterable;
   }
 
   public find(predicate: BinaryPredicate<V, K>): Nullable<V> {
-    for (const [, p] of this.project) {
-      if (predicate(p.getValue(), p.getKey())) {
-        return p.getValue();
+    for (const [, [k, v]] of this.project) {
+      if (predicate(v, k)) {
+        return v;
       }
     }
 
     return null;
   }
 
-  protected mapInternal<W extends Nominative>(mapper: Mapper<V, W>): Map<string, Pair<K, W>> {
-    const m: Map<string, Pair<K, W>> = new Map<string, Pair<K, W>>();
+  protected getKey(key: K): K | string {
+    if (isNominative(key)) {
+      return key.hashCode();
+    }
+
+    return key;
+  }
+
+  protected mapInternal<W>(mapper: Mapper<V, W>): Map<K | string, [K, W]> {
+    const m: Map<K | string, [K, W]> = new Map<K | string, [K, W]>();
     let i: number = 0;
 
-    this.project.forEach((p: Pair<K, V>) => {
-      m.set(p.getKey().hashCode(), Pair.of<K, W>(p.getKey(), mapper(p.getValue(), i)));
+    this.project.forEach(([k, v]: [K, V]) => {
+      const key: K | string = this.getKey(k);
+
+      m.set(key, [k, mapper(v, i)]);
       i++;
     });
 

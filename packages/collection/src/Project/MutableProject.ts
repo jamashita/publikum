@@ -1,44 +1,51 @@
-import { Nominative } from '@jamashita/publikum-interface';
+import { isNominative } from '@jamashita/publikum-interface';
 import { Mapper } from '@jamashita/publikum-type';
-import { Pair } from '../Pair';
 import { AProject } from './Abstract/AProject';
 import { ReadonlyProject } from './Interface/ReadonlyProject';
 
-export class MutableProject<K extends Nominative, V extends Nominative> extends AProject<K, V, MutableProject<K, V>, 'MutableProject'> {
+export class MutableProject<K, V> extends AProject<K, V, MutableProject<K, V>, 'MutableProject'> {
   public readonly noun: 'MutableProject' = 'MutableProject';
 
-  public static of<KT extends Nominative, VT extends Nominative>(project: ReadonlyProject<KT, VT>): MutableProject<KT, VT> {
+  public static of<KT, VT>(project: ReadonlyProject<KT, VT>): MutableProject<KT, VT> {
     return MutableProject.ofMap<KT, VT>(project.toMap());
   }
 
-  public static ofMap<KT extends Nominative, VT extends Nominative>(map: ReadonlyMap<KT, VT>): MutableProject<KT, VT> {
-    const m: Map<string, Pair<KT, VT>> = new Map<string, Pair<KT, VT>>();
+  public static ofMap<KT, VT>(map: ReadonlyMap<KT, VT>): MutableProject<KT, VT> {
+    const m: Map<KT | string, [KT, VT]> = new Map<KT | string, [KT, VT]>();
 
     map.forEach((v: VT, k: KT) => {
-      m.set(k.hashCode(), Pair.of(k, v));
+      if (isNominative(k)) {
+        m.set(k.hashCode(), [k, v]);
+
+        return;
+      }
+
+      m.set(k, [k, v]);
     });
 
     return MutableProject.ofInternal<KT, VT>(m);
   }
 
-  private static ofInternal<KT extends Nominative, VT extends Nominative>(project: Map<string, Pair<KT, VT>>): MutableProject<KT, VT> {
+  private static ofInternal<KT, VT>(project: Map<KT | string, [KT, VT]>): MutableProject<KT, VT> {
     return new MutableProject<KT, VT>(project);
   }
 
-  public static empty<KT extends Nominative, VT extends Nominative>(): MutableProject<KT, VT> {
-    return new MutableProject<KT, VT>(new Map<string, Pair<KT, VT>>());
+  public static empty<KT, VT>(): MutableProject<KT, VT> {
+    return new MutableProject<KT, VT>(new Map<KT | string, [KT, VT]>());
   }
 
-  protected constructor(project: Map<string, Pair<K, V>>) {
+  protected constructor(project: Map<K | string, [K, V]>) {
     super(project);
   }
 
-  protected forge(self: Map<string, Pair<K, V>>): MutableProject<K, V> {
+  protected forge(self: Map<K | string, [K, V]>): MutableProject<K, V> {
     return MutableProject.ofInternal<K, V>(self);
   }
 
   public set(key: K, value: V): MutableProject<K, V> {
-    this.project.set(key.hashCode(), Pair.of(key, value));
+    const k: K | string = this.getKey(key);
+
+    this.project.set(k, [key, value]);
 
     return this;
   }
@@ -51,18 +58,20 @@ export class MutableProject<K extends Nominative, V extends Nominative> extends 
       return this;
     }
 
-    this.project.delete(key.hashCode());
+    const k: K | string = this.getKey(key);
+
+    this.project.delete(k);
 
     return this;
   }
 
-  public map<W extends Nominative>(mapper: Mapper<V, W>): MutableProject<K, W> {
-    const m: Map<string, Pair<K, W>> = this.mapInternal<W>(mapper);
+  public map<W>(mapper: Mapper<V, W>): MutableProject<K, W> {
+    const m: Map<K | string, [K, W]> = this.mapInternal<W>(mapper);
 
     return MutableProject.ofInternal<K, W>(m);
   }
 
   public duplicate(): MutableProject<K, V> {
-    return MutableProject.ofInternal<K, V>(new Map<string, Pair<K, V>>(this.project));
+    return MutableProject.ofInternal<K, V>(new Map<K | string, [K, V]>(this.project));
   }
 }

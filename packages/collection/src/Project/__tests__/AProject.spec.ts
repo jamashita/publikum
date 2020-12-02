@@ -25,9 +25,9 @@ describe('AProject', () => {
 
       let i: number = 0;
 
-      for (const key of project) {
-        expect(key.getKey()).toBe(keys[i]);
-        expect(key.getValue()).toBe(values[i]);
+      for (const [k, v] of project) {
+        expect(k).toBe(keys[i]);
+        expect(v).toBe(values[i]);
         i++;
       }
     });
@@ -175,8 +175,10 @@ describe('AProject', () => {
 
       expect(project.size()).toBe(kv.length);
       project.forEach((value: MockValueObject<number>, key: MockValueObject<number>) => {
-        expect(key).toBe(kv[i][0]);
-        expect(value).toBe(kv[i][1]);
+        const [k, v]: [MockValueObject<number>, MockValueObject<number>] = kv[i] as [MockValueObject<number>, MockValueObject<number>];
+
+        expect(key).toBe(k);
+        expect(value).toBe(v);
         i++;
       });
     });
@@ -555,8 +557,10 @@ describe('AProject', () => {
 
       expect(project.size()).toBe(map.size);
       project.forEach((value: MockValueObject<number>, key: MockValueObject<number>) => {
-        expect(key).toBe(kv[i][0]);
-        expect(value).toBe(kv[i][1]);
+        const [k, v]: [MockValueObject<number>, MockValueObject<number>] = kv[i] as [MockValueObject<number>, MockValueObject<number>];
+
+        expect(key).toBe(k);
+        expect(value).toBe(v);
         i++;
       });
     });
