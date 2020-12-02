@@ -1,3 +1,4 @@
+import { isNominative } from '@jamashita/publikum-interface';
 import { Objet } from '@jamashita/publikum-object';
 import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
 import { Collection } from './Interface/Collection';
@@ -34,4 +35,12 @@ export abstract class Quantity<K, V, N extends string = string> extends Objet<N>
   public abstract find(predicate: BinaryPredicate<V, K>): Nullable<V>;
 
   public abstract map<W>(mapper: Mapper<V, W>): Collection<K, W>;
+
+  protected hashor<T>(value: T): T | string {
+    if (isNominative(value)) {
+      return value.hashCode();
+    }
+
+    return value;
+  }
 }
