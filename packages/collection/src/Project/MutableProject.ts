@@ -43,7 +43,7 @@ export class MutableProject<K, V> extends AProject<K, V, MutableProject<K, V>, '
   }
 
   public set(key: K, value: V): MutableProject<K, V> {
-    const k: K | string = this.getKey(key);
+    const k: K | string = this.hashor<K>(key);
 
     this.project.set(k, [key, value]);
 
@@ -58,7 +58,7 @@ export class MutableProject<K, V> extends AProject<K, V, MutableProject<K, V>, '
       return this;
     }
 
-    const k: K | string = this.getKey(key);
+    const k: K | string = this.hashor<K>(key);
 
     this.project.delete(k);
 
@@ -72,6 +72,8 @@ export class MutableProject<K, V> extends AProject<K, V, MutableProject<K, V>, '
   }
 
   public duplicate(): MutableProject<K, V> {
-    return MutableProject.ofInternal<K, V>(new Map<K | string, [K, V]>(this.project));
+    const m: Map<K | string, [K, V]> = new Map<K | string, [K, V]>(this.project);
+
+    return MutableProject.ofInternal<K, V>(m);
   }
 }

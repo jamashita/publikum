@@ -50,7 +50,7 @@ export class ImmutableProject<K, V> extends AProject<K, V, ImmutableProject<K, V
 
   public set(key: K, value: V): ImmutableProject<K, V> {
     const m: Map<K | string, [K, V]> = new Map<K | string, [K, V]>(this.project);
-    const k: K | string = this.getKey(key);
+    const k: K | string = this.hashor<K>(key);
 
     m.set(k, [key, value]);
 
@@ -66,7 +66,7 @@ export class ImmutableProject<K, V> extends AProject<K, V, ImmutableProject<K, V
     }
 
     const m: Map<K | string, [K, V]> = new Map<K | string, [K, V]>(this.project);
-    const k: K | string = this.getKey(key);
+    const k: K | string = this.hashor<K>(key);
 
     m.delete(k);
 

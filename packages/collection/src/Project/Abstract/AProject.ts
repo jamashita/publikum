@@ -25,7 +25,7 @@ export abstract class AProject<K, V, T extends AProject<K, V, T>, N extends stri
 
     this.project.forEach(([k, v]: [K, V]) => {
       if (predicate(v, k)) {
-        const key: K | string = this.getKey(k);
+        const key: K | string = this.hashor<K>(k);
 
         m.set(key, [k, v]);
       }
@@ -41,7 +41,7 @@ export abstract class AProject<K, V, T extends AProject<K, V, T>, N extends stri
   }
 
   public get(key: K): Nullable<V> {
-    const k: K | string = this.getKey(key);
+    const k: K | string = this.hashor<K>(key);
     const p: Ambiguous<[K, V]> = this.project.get(k);
 
     if (Kind.isUndefined(p)) {
@@ -52,7 +52,7 @@ export abstract class AProject<K, V, T extends AProject<K, V, T>, N extends stri
   }
 
   public has(key: K): boolean {
-    const k: K | string = this.getKey(key);
+    const k: K | string = this.hashor<K>(key);
 
     return this.project.has(k);
   }
@@ -188,20 +188,12 @@ export abstract class AProject<K, V, T extends AProject<K, V, T>, N extends stri
     return null;
   }
 
-  protected getKey(key: K): K | string {
-    if (isNominative(key)) {
-      return key.hashCode();
-    }
-
-    return key;
-  }
-
   protected mapInternal<W>(mapper: Mapper<V, W>): Map<K | string, [K, W]> {
     const m: Map<K | string, [K, W]> = new Map<K | string, [K, W]>();
     let i: number = 0;
 
     this.project.forEach(([k, v]: [K, V]) => {
-      const key: K | string = this.getKey(k);
+      const key: K | string = this.hashor<K>(k);
 
       m.set(key, [k, mapper(v, i)]);
       i++;
