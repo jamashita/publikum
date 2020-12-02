@@ -1,8 +1,7 @@
 import { Nominative } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
-import { Pair } from '../Pair';
 
-export interface Collection<K, V, N extends string = string> extends Nominative<N>, Iterable<Pair<K, V>> {
+export interface Collection<K, V, N extends string = string> extends Nominative<N>, Iterable<[K, V]> {
   get(key: K): Nullable<V>;
 
   contains(value: V): boolean;
@@ -19,7 +18,7 @@ export interface Collection<K, V, N extends string = string> extends Nominative<
 
   find(predicate: BinaryPredicate<V, K>): Nullable<V>;
 
-  map<W extends Nominative>(mapper: Mapper<V, W>): Collection<K, W>;
+  map<W>(mapper: Mapper<V, W>): Collection<K, W>;
 
   filter(predicate: BinaryPredicate<V, K>): Collection<K, V>;
 
