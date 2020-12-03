@@ -39,9 +39,7 @@ export class Unscharferelation<P> extends Objet<'Unscharferelation'> implements 
           const arr: Array<PT> = [];
           let absent: boolean = false;
 
-          for (let i: number = 0; i < heisenbergs.length; i++) {
-            const heisenberg: Heisenberg<PT> = heisenbergs[i];
-
+          for (const heisenberg of heisenbergs) {
             if (heisenberg.isLost()) {
               return epoque.throw(heisenberg.getCause());
             }
