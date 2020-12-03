@@ -1,12 +1,11 @@
 import { Collection } from '@jamashita/publikum-collection';
-import { Nominative } from '@jamashita/publikum-interface';
 import { Objet } from '@jamashita/publikum-object';
 import { BinaryPredicate, Enumerator, Kind, Nullable } from '@jamashita/publikum-type';
 import { Trees } from '../Interface/Trees';
 import { ATreeNode } from '../TreeNode/Abstract/ATreeNode';
 import { ATree } from './ATree';
 
-export abstract class ATrees<K, V extends Nominative, T extends ATreeNode<V, T>, E extends ATree<V, T>, C extends Collection<K, E>, N extends string = string> extends Objet<N> implements Trees<K, V, E, N> {
+export abstract class ATrees<K, V, T extends ATreeNode<V, T>, E extends ATree<V, T>, C extends Collection<K, E>, N extends string = string> extends Objet<N> implements Trees<K, V, E, N> {
   protected readonly trees: C;
 
   protected constructor(trees: C) {
@@ -42,9 +41,9 @@ export abstract class ATrees<K, V extends Nominative, T extends ATreeNode<V, T>,
   }
 
   public find(predicate: BinaryPredicate<V, K>): Nullable<T> {
-    for (const p of this.trees) {
-      const node: Nullable<T> = p.getValue().find((v: V) => {
-        return predicate(v, p.getKey());
+    for (const [k, v] of this.trees) {
+      const node: Nullable<T> = v.find((value: V) => {
+        return predicate(value, k);
       });
 
       if (!Kind.isNull(node)) {
@@ -90,9 +89,9 @@ export abstract class ATrees<K, V extends Nominative, T extends ATreeNode<V, T>,
   public values(): Iterable<V> {
     const values: Array<V> = [];
 
-    for (const p of this.trees) {
-      values.push(...p.getValue().values());
-    }
+    this.trees.forEach((v: E) => {
+      values.push(...v.values());
+    });
 
     return values;
   }

@@ -1,10 +1,10 @@
 import { ImmutableAddress } from '@jamashita/publikum-collection';
-import { Nominative } from '@jamashita/publikum-interface';
+import { isEqualable } from '@jamashita/publikum-interface';
 import { Objet } from '@jamashita/publikum-object';
 import { Kind, Nullable, Predicate } from '@jamashita/publikum-type';
 import { TreeNode } from '../Interface/TreeNode';
 
-export abstract class ATreeNode<V extends Nominative, T extends ATreeNode<V, T>, N extends string = string> extends Objet<N> implements TreeNode<V> {
+export abstract class ATreeNode<V, T extends ATreeNode<V, T>, N extends string = string> extends Objet<N> implements TreeNode<V> {
   protected readonly value: V;
   protected children: ImmutableAddress<T>;
 
@@ -25,7 +25,7 @@ export abstract class ATreeNode<V extends Nominative, T extends ATreeNode<V, T>,
     if (!(other instanceof ATreeNode)) {
       return false;
     }
-    if (!this.value.equals(other.value)) {
+    if (!this.valueEquals(other.value)) {
       return false;
     }
     if (!this.children.equals(other.children)) {
@@ -37,10 +37,10 @@ export abstract class ATreeNode<V extends Nominative, T extends ATreeNode<V, T>,
 
   public serialize(): string {
     if (this.isLeaf()) {
-      return `{VALUE: ${this.value.toString()}}`;
+      return `{VALUE: ${Objet.identify(this.value)}}`;
     }
 
-    return `{VALUE: ${this.value.toString()}, CHILDREN: [${this.children.toString()}]}`;
+    return `{VALUE: ${Objet.identify(this.value)}, CHILDREN: [${this.children.toString()}]}`;
   }
 
   public getValue(): V {
@@ -56,7 +56,7 @@ export abstract class ATreeNode<V extends Nominative, T extends ATreeNode<V, T>,
   }
 
   public contains(value: V): boolean {
-    if (this.value.equals(value)) {
+    if (this.valueEquals(value)) {
       return true;
     }
 
@@ -105,6 +105,17 @@ export abstract class ATreeNode<V extends Nominative, T extends ATreeNode<V, T>,
     this.valuesInternal(values);
 
     return values;
+  }
+
+  private valueEquals(other: unknown): boolean {
+    if (this.value === other) {
+      return true;
+    }
+    if (isEqualable(this.value)) {
+      return this.value.equals(other);
+    }
+
+    return false;
   }
 
   private valuesInternal(values: Array<V>): void {
