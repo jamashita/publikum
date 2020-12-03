@@ -40,7 +40,7 @@ export class Zeit extends ValueObject<'Zeit'> {
       throw new ZeitError('ZEITEN ARE EMPTY');
     }
     if (z.length === 1) {
-      return z[0];
+      return z[0] as Zeit;
     }
 
     const dates: Array<dayjs.Dayjs> = z.map<dayjs.Dayjs>((zeit: Zeit) => {
@@ -59,7 +59,7 @@ export class Zeit extends ValueObject<'Zeit'> {
       throw new ZeitError('ZEITEN ARE EMPTY');
     }
     if (z.length === 1) {
-      return z[0];
+      return z[0] as Zeit;
     }
 
     const dates: Array<dayjs.Dayjs> = z.map<dayjs.Dayjs>((zeit: Zeit) => {
