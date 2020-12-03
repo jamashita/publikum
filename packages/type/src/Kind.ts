@@ -160,18 +160,6 @@ export class Kind {
     return false;
   }
 
-  public static notate(n: unknown): string {
-    if (Kind.isObject<Object>(n)) {
-      if (Kind.isFunction(n.toString)) {
-        return n.toString.apply(n) as string;
-      }
-
-      return Object.prototype.toString.call(n);
-    }
-
-    return String(n);
-  }
-
   private constructor() {
     // NOOP
   }

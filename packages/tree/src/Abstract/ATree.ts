@@ -1,10 +1,9 @@
-import { Nominative } from '@jamashita/publikum-interface';
 import { Objet } from '@jamashita/publikum-object';
 import { Enumerator, Nullable, Predicate } from '@jamashita/publikum-type';
 import { Tree } from '../Interface/Tree';
 import { ATreeNode } from '../TreeNode/Abstract/ATreeNode';
 
-export abstract class ATree<V extends Nominative, T extends ATreeNode<V, T>, N extends string = string> extends Objet<N> implements Tree<V, N> {
+export abstract class ATree<V, T extends ATreeNode<V, T>, N extends string = string> extends Objet<N> implements Tree<V, N> {
   protected readonly root: T;
 
   protected constructor(root: T) {

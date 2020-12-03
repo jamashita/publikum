@@ -1,17 +1,16 @@
-import { Nominative } from '@jamashita/publikum-interface';
+import { isNominative } from '@jamashita/publikum-interface';
 import { Objet } from '@jamashita/publikum-object';
 import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
 import { Collection } from './Interface/Collection';
-import { Pair } from './Pair';
 
 export abstract class Quantity<K, V, N extends string = string> extends Objet<N> implements Collection<K, V, N> {
   protected constructor() {
     super();
   }
 
-  public abstract iterator(): Iterator<Pair<K, V>>;
+  public abstract iterator(): Iterator<[K, V]>;
 
-  public [Symbol.iterator](): Iterator<Pair<K, V>> {
+  public [Symbol.iterator](): Iterator<[K, V]> {
     return this.iterator();
   }
 
@@ -35,5 +34,13 @@ export abstract class Quantity<K, V, N extends string = string> extends Objet<N>
 
   public abstract find(predicate: BinaryPredicate<V, K>): Nullable<V>;
 
-  public abstract map<W extends Nominative>(mapper: Mapper<V, W>): Collection<K, W>;
+  public abstract map<W>(mapper: Mapper<V, W>): Collection<K, W>;
+
+  protected hashor<T>(value: T): T | string {
+    if (isNominative(value)) {
+      return value.hashCode();
+    }
+
+    return value;
+  }
 }

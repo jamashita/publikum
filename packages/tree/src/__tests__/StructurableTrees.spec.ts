@@ -197,23 +197,23 @@ describe('StructurableTrees', () => {
 
       let i: number = 0;
 
-      for (const p of root1.getChildren()) {
+      for (const [, v] of root1.getChildren()) {
         switch (i) {
           case 0: {
-            expect(p.getValue().getTreeID()).toBe(id2);
-            expect(p.getValue().isLeaf()).toBe(true);
+            expect(v.getTreeID()).toBe(id2);
+            expect(v.isLeaf()).toBe(true);
 
             break;
           }
           case 1: {
-            expect(p.getValue().getTreeID()).toBe(id3);
-            expect(p.getValue().isLeaf()).toBe(false);
+            expect(v.getTreeID()).toBe(id3);
+            expect(v.isLeaf()).toBe(false);
 
-            expect(p.getValue().getChildren().size()).toBe(1);
+            expect(v.getChildren().size()).toBe(1);
 
-            for (const pp of p.getValue().getChildren()) {
-              expect(pp.getValue().getTreeID()).toBe(id4);
-              expect(pp.getValue().isLeaf()).toBe(true);
+            for (const [, vv] of v.getChildren()) {
+              expect(vv.getTreeID()).toBe(id4);
+              expect(vv.isLeaf()).toBe(true);
             }
 
             break;
@@ -243,17 +243,17 @@ describe('StructurableTrees', () => {
 
       i = 0;
 
-      for (const p of root2.getChildren()) {
+      for (const [, v] of root2.getChildren()) {
         switch (i) {
           case 0: {
-            expect(p.getValue().getTreeID()).toBe(id6);
-            expect(p.getValue().isLeaf()).toBe(true);
+            expect(v.getTreeID()).toBe(id6);
+            expect(v.isLeaf()).toBe(true);
 
             break;
           }
           case 1: {
-            expect(p.getValue().getTreeID()).toBe(id7);
-            expect(p.getValue().isLeaf()).toBe(true);
+            expect(v.getTreeID()).toBe(id7);
+            expect(v.isLeaf()).toBe(true);
 
             break;
           }

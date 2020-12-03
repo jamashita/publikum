@@ -1,10 +1,10 @@
-import { Nominative } from '@jamashita/publikum-interface';
+import { isEqualable } from '@jamashita/publikum-interface';
+import { Objet } from '@jamashita/publikum-object';
 import { Ambiguous, BinaryPredicate, Enumerator, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
-import { Pair } from '../../Pair';
 import { Quantity } from '../../Quantity';
 import { Sequence } from '../Interface/Sequence';
 
-export abstract class ASequence<V extends Nominative, N extends string = string> extends Quantity<number, V, N> implements Sequence<V, N> {
+export abstract class ASequence<V, N extends string = string> extends Quantity<number, V, N> implements Sequence<V, N> {
   protected sequence: Array<V>;
 
   protected constructor(sequence: Array<V>) {
@@ -18,15 +18,15 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
 
   public abstract remove(key: number): Sequence<V>;
 
-  public abstract map<W extends Nominative>(mapper: Mapper<V, W>): Sequence<W, N>;
+  public abstract map<W>(mapper: Mapper<V, W>): Sequence<W, N>;
 
   public abstract filter(predicate: BinaryPredicate<V, number>): Sequence<V, N>;
 
   public abstract duplicate(): Sequence<V, N>;
 
-  public iterator(): Iterator<Pair<number, V>> {
-    return this.sequence.map<Pair<number, V>>((e: V, index: number) => {
-      return Pair.of(index, e);
+  public iterator(): Iterator<[number, V]> {
+    return this.sequence.map<[number, V]>((e: V, index: number) => {
+      return [index, e];
     }).values();
   }
 
@@ -42,7 +42,14 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
 
   public contains(value: V): boolean {
     const found: Ambiguous<V> = this.sequence.find((v: V) => {
-      return v.equals(value);
+      if (v === value) {
+        return true;
+      }
+      if (isEqualable(v)) {
+        return v.equals(value);
+      }
+
+      return false;
     });
 
     return !Kind.isUndefined(found);
@@ -61,11 +68,7 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
   }
 
   public forEach(iteration: Enumerator<number, V>): void {
-    const size: number = this.sequence.length;
-
-    for (let i: number = 0; i < size; i++) {
-      iteration(this.sequence[i], i);
-    }
+    this.sequence.forEach(iteration);
   }
 
   public find(predicate: BinaryPredicate<V, number>): Nullable<V> {
@@ -97,20 +100,25 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
       return false;
     }
 
-    const thisIterator: Iterator<V> = this.values()[Symbol.iterator]();
-    const otherIterator: Iterator<unknown> = other.values()[Symbol.iterator]();
-    let thisRes: IteratorResult<V> = thisIterator.next();
-    let otherRes: IteratorResult<unknown> = otherIterator.next();
+    const ti: Iterator<V> = this.values()[Symbol.iterator]();
+    const oi: Iterator<unknown> = other.values()[Symbol.iterator]();
+    let tr: IteratorResult<V> = ti.next();
+    let or: IteratorResult<unknown> = oi.next();
 
-    while (thisRes.done !== true && otherRes.done !== true) {
-      if (!thisRes.value.equals(otherRes.value)) {
+    while (tr.done !== true && or.done !== true) {
+      if (isEqualable(tr.value) && isEqualable(or.value)) {
+        if (!tr.value.equals(or.value)) {
+          return false;
+        }
+      }
+      else if (tr.value !== or.value) {
         return false;
       }
 
-      thisRes = thisIterator.next();
-      otherRes = otherIterator.next();
+      tr = ti.next();
+      or = oi.next();
 
-      if (thisRes.done === true && otherRes.done === true) {
+      if (tr.done === true && or.done === true) {
         return true;
       }
     }
@@ -124,7 +132,7 @@ export abstract class ASequence<V extends Nominative, N extends string = string>
 
   public serialize(): string {
     return this.sequence.map<string>((v: V) => {
-      return v.toString();
+      return Objet.identify(v);
     }).join(', ');
   }
 

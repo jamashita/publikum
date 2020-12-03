@@ -10,7 +10,7 @@ const random = (length: number): string => {
   const charLength: number = chars.length;
 
   return randomBytes(length).reduce<string>((p: string, i: number) => {
-    return p + chars[i % charLength];
+    return `${p}${chars[i % charLength] as string}`;
   }, '');
 };
 

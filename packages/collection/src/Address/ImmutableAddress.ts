@@ -1,28 +1,34 @@
-import { Nominative } from '@jamashita/publikum-interface';
+import { isNominative } from '@jamashita/publikum-interface';
 import { Mapper } from '@jamashita/publikum-type';
 import { AAddress } from './Abstract/AAddress';
 import { ReadonlyAddress } from './Interface/ReadonlyAddress';
 
-export class ImmutableAddress<V extends Nominative> extends AAddress<V, ImmutableAddress<V>, 'ImmutableAddress'> {
+export class ImmutableAddress<V> extends AAddress<V, ImmutableAddress<V>, 'ImmutableAddress'> {
   public readonly noun: 'ImmutableAddress' = 'ImmutableAddress';
 
-  private static readonly EMPTY: ImmutableAddress<Nominative> = new ImmutableAddress(new Map<string, Nominative>());
+  private static readonly EMPTY: ImmutableAddress<unknown> = new ImmutableAddress(new Map<unknown, unknown>());
 
-  public static of<VT extends Nominative>(address: ReadonlyAddress<VT>): ImmutableAddress<VT> {
+  public static of<VT>(address: ReadonlyAddress<VT>): ImmutableAddress<VT> {
     return ImmutableAddress.ofSet<VT>(address.toSet());
   }
 
-  public static ofSet<VT extends Nominative>(set: ReadonlySet<VT>): ImmutableAddress<VT> {
-    const m: Map<string, VT> = new Map<string, VT>();
+  public static ofSet<VT>(set: ReadonlySet<VT>): ImmutableAddress<VT> {
+    const m: Map<VT | string, VT> = new Map<VT | string, VT>();
 
     set.forEach((v: VT) => {
-      m.set(v.hashCode(), v);
+      if (isNominative(v)) {
+        m.set(v.hashCode(), v);
+
+        return;
+      }
+
+      m.set(v, v);
     });
 
     return ImmutableAddress.ofInternal<VT>(m);
   }
 
-  private static ofInternal<VT extends Nominative>(address: Map<string, VT>): ImmutableAddress<VT> {
+  private static ofInternal<VT>(address: Map<VT | string, VT>): ImmutableAddress<VT> {
     if (address.size === 0) {
       return ImmutableAddress.empty<VT>();
     }
@@ -30,15 +36,15 @@ export class ImmutableAddress<V extends Nominative> extends AAddress<V, Immutabl
     return new ImmutableAddress<VT>(address);
   }
 
-  public static empty<VT extends Nominative>(): ImmutableAddress<VT> {
+  public static empty<VT>(): ImmutableAddress<VT> {
     return ImmutableAddress.EMPTY as ImmutableAddress<VT>;
   }
 
-  protected constructor(address: Map<string, V>) {
+  protected constructor(address: Map<V | string, V>) {
     super(address);
   }
 
-  protected forge(self: Map<string, V>): ImmutableAddress<V> {
+  protected forge(self: Map<V | string, V>): ImmutableAddress<V> {
     return ImmutableAddress.ofInternal<V>(self);
   }
 
@@ -47,9 +53,10 @@ export class ImmutableAddress<V extends Nominative> extends AAddress<V, Immutabl
       return this;
     }
 
-    const m: Map<string, V> = new Map<string, V>(this.address);
+    const m: Map<V | string, V> = new Map<V | string, V>(this.address);
+    const v: V | string = this.hashor<V>(value);
 
-    m.set(value.hashCode(), value);
+    m.set(v, value);
 
     return ImmutableAddress.ofInternal<V>(m);
   }
@@ -62,9 +69,10 @@ export class ImmutableAddress<V extends Nominative> extends AAddress<V, Immutabl
       return this;
     }
 
-    const m: Map<string, V> = new Map<string, V>(this.address);
+    const m: Map<V | string, V> = new Map<V | string, V>(this.address);
+    const v: V | string = this.hashor<V>(value);
 
-    m.delete(value.hashCode());
+    m.delete(v);
 
     return ImmutableAddress.ofInternal<V>(m);
   }
@@ -77,8 +85,8 @@ export class ImmutableAddress<V extends Nominative> extends AAddress<V, Immutabl
     return super.isEmpty();
   }
 
-  public map<W extends Nominative>(mapper: Mapper<V, W>): ImmutableAddress<W> {
-    const m: Map<string, W> = this.mapInternal<W>(mapper);
+  public map<W>(mapper: Mapper<V, W>): ImmutableAddress<W> {
+    const m: Map<W | string, W> = this.mapInternal<W>(mapper);
 
     return ImmutableAddress.ofInternal<W>(m);
   }
@@ -88,7 +96,7 @@ export class ImmutableAddress<V extends Nominative> extends AAddress<V, Immutabl
       return ImmutableAddress.empty<V>();
     }
 
-    const m: Map<string, V> = new Map<string, V>(this.address);
+    const m: Map<V | string, V> = new Map<V | string, V>(this.address);
 
     return ImmutableAddress.ofInternal<V>(m);
   }

@@ -1,20 +1,8 @@
-import { randomBytes } from 'crypto';
 import { Kind } from '../Kind';
-import { Inconnu } from '../Value';
 
 class MockError extends Error {
   // NOOP
 }
-
-const chars: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-
-const random = (length: number): string => {
-  const charLength: number = chars.length;
-
-  return randomBytes(length).reduce<string>((p: string, i: number) => {
-    return p + chars[i % charLength];
-  }, '');
-};
 
 describe('Kind', () => {
   describe('isUndefined', () => {
@@ -469,105 +457,6 @@ describe('Kind', () => {
       expect(Kind.isClass(new Error(), Error)).toBe(true);
       expect(Kind.isClass(new MockError(), Error)).toBe(true);
       expect(Kind.isClass(new MockError(), MockError)).toBe(true);
-    });
-  });
-
-  describe('notate', () => {
-    it('describes undefined', () => {
-      expect.assertions(1);
-
-      expect(Kind.notate(undefined)).toBe('undefined');
-    });
-
-    it('describes null', () => {
-      expect.assertions(1);
-
-      expect(Kind.notate(null)).toBe('null');
-    });
-
-    it('describes boolean', () => {
-      expect.assertions(2);
-
-      expect(Kind.notate(false)).toBe('false');
-      expect(Kind.notate(true)).toBe('true');
-    });
-
-    it('describes number', () => {
-      expect.assertions(201);
-
-      for (let i: number = -100; i <= 100; i++) {
-        expect(Kind.notate(i)).toBe(`${i}`);
-      }
-    });
-
-    it('describes string', () => {
-      expect.assertions(100);
-
-      for (let i: number = 0; i < 100; i++) {
-        const str: string = random(40);
-
-        expect(Kind.notate(str)).toBe(str);
-      }
-    });
-
-    it('describes symbol', () => {
-      expect.assertions(100);
-
-      for (let i: number = 0; i < 100; i++) {
-        const sym: symbol = Symbol(random(40));
-
-        expect(Kind.notate(sym)).toBe(sym.toString());
-      }
-    });
-
-    it('describes bigint', () => {
-      expect.assertions(201);
-
-      for (let i: bigint = -100n; i <= 100n; i++) {
-        expect(Kind.notate(i)).toBe(`${i}`);
-      }
-    });
-
-    it('describes object literal', () => {
-      expect.assertions(2);
-
-      expect(Kind.notate({})).toBe('[object Object]');
-
-      const obj: Inconnu = {};
-
-      for (let i: number = 0; i < 100; i++) {
-        obj[random(40)] = random(40);
-      }
-
-      expect(Kind.notate(obj)).toBe('[object Object]');
-    });
-
-    it('describes object.create(null)', () => {
-      expect.assertions(2);
-
-      expect(Kind.notate(Object.create(null))).toBe('[object Object]');
-
-      const obj: Inconnu = {};
-
-      for (let i: number = 0; i < 100; i++) {
-        obj[random(40)] = random(40);
-      }
-
-      expect(Kind.notate(obj)).toBe('[object Object]');
-    });
-
-    it('returns itself when it has toString()', () => {
-      expect.assertions(100);
-
-      for (let i: number = 0; i < 100; i++) {
-        const str: string = random(40);
-
-        expect(Kind.notate({
-          toString(): string {
-            return str;
-          }
-        })).toBe(str);
-      }
     });
   });
 });

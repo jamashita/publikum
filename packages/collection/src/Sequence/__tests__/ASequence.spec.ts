@@ -4,7 +4,7 @@ import { MockSequence } from '../Mock/MockSequence';
 
 describe('ASequence', () => {
   describe('iterator', () => {
-    it('returns Pair<number, MockValueObject<number>>', () => {
+    it('returns [number, MockValueObject<number>]', () => {
       expect.assertions(4);
 
       const sequence: MockSequence<MockValueObject<number>> = new MockSequence<MockValueObject<number>>([
@@ -15,8 +15,8 @@ describe('ASequence', () => {
       let i: number = 0;
 
       for (const value of sequence) {
-        expect(value.getKey()).toBe(i);
-        expect(value.getValue().get()).toBe(sequence.get(i)?.get());
+        expect(value[0]).toBe(i);
+        expect(value[1].get()).toBe(sequence.get(i)?.get());
         i++;
       }
     });

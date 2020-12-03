@@ -15,7 +15,7 @@ export class SymbolValidationRule implements ValidationRule {
 
   public evaluate(_target: object, value: unknown): void {
     if (!Kind.isSymbol(value)) {
-      throw new ValidationError(`VALUE IS NOT SYMBOL. GIVEN: ${Kind.notate(value)}`);
+      throw new ValidationError('VALUE IS NOT SYMBOL');
     }
   }
 }

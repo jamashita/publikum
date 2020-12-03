@@ -3,11 +3,9 @@ import {
   ImmutableSequence,
   MutableAddress,
   MutableProject,
-  Pair,
   Quantity,
   ReadonlyAddress
 } from '@jamashita/publikum-collection';
-import { Nominative } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Enumerator, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
 import { TreeID } from '../Interface/TreeID';
 import { ClosureTableHierarchies } from './ClosureTableHierarchies';
@@ -108,19 +106,19 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ReadonlyAddress<
     return this.table.find(predicate);
   }
 
-  public map<W extends Nominative>(mapper: Mapper<ReadonlyAddress<K>, W>): ImmutableProject<K, W> {
+  public map<W>(mapper: Mapper<ReadonlyAddress<K>, W>): ImmutableProject<K, W> {
     return this.table.map<W>(mapper);
   }
 
-  public iterator(): Iterator<Pair<K, ReadonlyAddress<K>>> {
+  public iterator(): Iterator<[K, ReadonlyAddress<K>]> {
     return this.table.iterator();
   }
 
   public sort(): ImmutableSequence<K> {
-    const keys: Array<K> = [...this.table].sort((p1: Pair<K, ReadonlyAddress<K>>, p2: Pair<K, ReadonlyAddress<K>>) => {
-      return p1.getValue().size() - p2.getValue().size();
-    }).map<K>((pair: Pair<K, ReadonlyAddress<K>>) => {
-      return pair.getKey();
+    const keys: Array<K> = [...this.table].sort(([, v1]: [K, ReadonlyAddress<K>], [, v2]: [K, ReadonlyAddress<K>]) => {
+      return v1.size() - v2.size();
+    }).map<K>(([k]: [K, ReadonlyAddress<K>]) => {
+      return k;
     });
 
     return ImmutableSequence.ofArray<K>(keys);

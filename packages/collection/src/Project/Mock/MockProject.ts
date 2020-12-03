@@ -1,16 +1,21 @@
 import { UnimplementedError } from '@jamashita/publikum-error';
-import { Nominative } from '@jamashita/publikum-interface';
-import { Pair } from '../../Pair';
+import { isNominative } from '@jamashita/publikum-interface';
 import { AProject } from '../Abstract/AProject';
 
-export class MockProject<K extends Nominative, V extends Nominative> extends AProject<K, V, MockProject<K, V>, 'MockProject'> {
+export class MockProject<K, V> extends AProject<K, V, MockProject<K, V>, 'MockProject'> {
   public readonly noun: 'MockProject' = 'MockProject';
 
-  private static toMap<KT extends Nominative, VT extends Nominative>(project: Map<KT, VT>): Map<string, Pair<KT, VT>> {
-    const map: Map<string, Pair<KT, VT>> = new Map<string, Pair<KT, VT>>();
+  private static toMap<KT, VT>(project: Map<KT, VT>): Map<KT | string, [KT, VT]> {
+    const map: Map<KT | string, [KT, VT]> = new Map<KT | string, [KT, VT]>();
 
     project.forEach((v: VT, k: KT) => {
-      map.set(k.hashCode(), Pair.of(k, v));
+      if (isNominative(k)) {
+        map.set(k.hashCode(), [k, v]);
+
+        return;
+      }
+
+      map.set(k, [k, v]);
     });
 
     return map;
@@ -28,7 +33,7 @@ export class MockProject<K extends Nominative, V extends Nominative> extends APr
     throw new UnimplementedError();
   }
 
-  public map<W extends Nominative>(): MockProject<K, W> {
+  public map<W>(): MockProject<K, W> {
     throw new UnimplementedError();
   }
 
@@ -36,11 +41,11 @@ export class MockProject<K extends Nominative, V extends Nominative> extends APr
     throw new UnimplementedError();
   }
 
-  protected forge(self: Map<string, Pair<K, V>>): MockProject<K, V> {
+  protected forge(self: Map<string, [K, V]>): MockProject<K, V> {
     const map: Map<K, V> = new Map<K, V>();
 
-    self.forEach((p: Pair<K, V>) => {
-      map.set(p.getKey(), p.getValue());
+    self.forEach(([k, v]: [K, V]) => {
+      map.set(k, v);
     });
 
     return new MockProject<K, V>(map);

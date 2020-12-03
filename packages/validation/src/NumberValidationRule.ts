@@ -36,7 +36,7 @@ export class NumberValidationRule implements ValidationRule {
 
   public evaluate(_target: object, value: unknown): void {
     if (!Kind.isNumber(value)) {
-      throw new ValidationError(`VALUE IS NOT NUMBER. GIVEN: ${Kind.notate(value)}`);
+      throw new ValidationError('VALUE IS NOT NUMBER');
     }
 
     this.minCondition(value);

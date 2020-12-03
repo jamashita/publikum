@@ -77,8 +77,8 @@ describe('ClosureTableHierarchies', () => {
 
       expect(hierarchies.size()).toBe(json.length);
       for (let i: number = 0; i < hierarchies.size(); i++) {
-        expect(hierarchies.get(i)?.getAncestor().get()).toBe(json[i].ancestor);
-        expect(hierarchies.get(i)?.getOffspring().get()).toBe(json[i].offspring);
+        expect(hierarchies.get(i)?.getAncestor().get()).toBe(json[i]?.ancestor);
+        expect(hierarchies.get(i)?.getOffspring().get()).toBe(json[i]?.offspring);
       }
     });
   });
@@ -98,7 +98,7 @@ describe('ClosureTableHierarchies', () => {
   });
 
   describe('iterator', () => {
-    it('returns Pair<void, ClosureTableHierarchy>', () => {
+    it('returns [void, ClosureTableHierarchy]', () => {
       expect.assertions(3);
 
       const array: Array<MockClosureTableHierarchy<MockTreeID>> = [
@@ -110,8 +110,8 @@ describe('ClosureTableHierarchies', () => {
       const hierarchies: ClosureTableHierarchies<MockTreeID> = ClosureTableHierarchies.ofArray<MockTreeID>(array);
       let i: number = 0;
 
-      for (const pair of hierarchies) {
-        expect(pair.getValue()).toBe(array[i]);
+      for (const [, v] of hierarchies) {
+        expect(v).toBe(array[i]);
         i++;
       }
     });

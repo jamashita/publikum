@@ -49,7 +49,7 @@ export class StringValidationRule implements ValidationRule {
 
   public evaluate(_target: object, value: unknown): void {
     if (!Kind.isString(value)) {
-      throw new ValidationError(`VALUE IS NOT STRING. GIVEN: ${Kind.notate(value)}`);
+      throw new ValidationError('VALUE IS NOT STRING');
     }
 
     switch (this.args.type) {

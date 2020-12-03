@@ -44,9 +44,7 @@ export class Superposition<A, D extends Error> extends Objet<'Superposition'> im
           const arr: Array<AT> = [];
           let dead: Nullable<Dead<AT, DT>> = null;
 
-          for (let i: number = 0; i < schrodingers.length; i++) {
-            const schrodinger: Schrodinger<AT, DT> = schrodingers[i];
-
+          for (const schrodinger of schrodingers) {
             if (schrodinger.isContradiction()) {
               return chrono.throw(schrodinger.getCause());
             }
