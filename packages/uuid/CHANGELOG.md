@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.4.0](https://github.com/jamashita/publikum/compare/v3.3.0...v3.4.0) (2020-12-03)
+
+
+### Features
+
+* 🎸 remove Kind.notate() ([92f65f1](https://github.com/jamashita/publikum/commit/92f65f1120f8a13101874eebd934af6a73b95a69))
+
+
+
+
+
 # [3.3.0](https://github.com/jamashita/publikum/compare/v3.2.0...v3.3.0) (2020-11-13)
 
 **Note:** Version bump only for package @jamashita/publikum-uuid

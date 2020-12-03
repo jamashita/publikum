@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.4.0](https://github.com/jamashita/publikum/compare/v3.3.0...v3.4.0) (2020-12-03)
+
+
+### Bug Fixes
+
+* 🐛 index aaccess may return undefined ([7799922](https://github.com/jamashita/publikum/commit/7799922712905750b9fd3bac9b3220579fa1976a))
+
+
+### Features
+
+* 🎸 Address accepts non-Nominative values ([bd23be2](https://github.com/jamashita/publikum/commit/bd23be2bac8aab390ad63e4f59967ed169539554))
+* 🎸 Address applied hashor() ([d61a1ad](https://github.com/jamashita/publikum/commit/d61a1ad3a6635430559a5f3c4df8fe8fce49dde4))
+* 🎸 hashor() ([c94fc39](https://github.com/jamashita/publikum/commit/c94fc39ae32e88bf733675a9aa94c575ddd2f03e))
+* 🎸 Kind.notate() -> Objet.identify() ([2a3f8c5](https://github.com/jamashita/publikum/commit/2a3f8c5722ffe6c141f72ed3602178438f4aacc9))
+* 🎸 Kind.notate() removed ([39502e4](https://github.com/jamashita/publikum/commit/39502e4728dbfbaac58b2f8bf0fe294083799f30))
+* 🎸 pair removiing ([dfd854c](https://github.com/jamashita/publikum/commit/dfd854c0b167f1cb1afc1024c155b1f6954bf321))
+* 🎸 Project accepts non-Nominative values ([6a9d112](https://github.com/jamashita/publikum/commit/6a9d11218ec6b72ff620021df45af45fbb755a6e))
+* 🎸 Quantity accepts non-Nominative values ([7b4a71b](https://github.com/jamashita/publikum/commit/7b4a71b16c80c06e15d46b7af3e6f324179f37b1))
+* 🎸 reference repaired ([8dd1f7f](https://github.com/jamashita/publikum/commit/8dd1f7f273aa991d5a68086d68e2da8b608464bb))
+* 🎸 remove Kind.notate() ([92f65f1](https://github.com/jamashita/publikum/commit/92f65f1120f8a13101874eebd934af6a73b95a69))
+* 🎸 removed Pair ([6e936bb](https://github.com/jamashita/publikum/commit/6e936bb93c4a928116fbba8949ac3be9abca89a6))
+* 🎸 Sequence accepts non-Nominative values ([8cb4661](https://github.com/jamashita/publikum/commit/8cb4661b110204071eb320ce958d947046c8fddf))
+* 🎸 update ([b098712](https://github.com/jamashita/publikum/commit/b09871212907b5c78736c4e521ea03700315d8ec))
+* 🎸 update ([30d4e5e](https://github.com/jamashita/publikum/commit/30d4e5e2494370d64b91084b0150e2268b14b147))
+* 🎸 update ([24f1040](https://github.com/jamashita/publikum/commit/24f104057a528eb27b7b81ff509e76a3c27cee49))
+
+
+
+
+
 # [3.3.0](https://github.com/jamashita/publikum/compare/v3.2.0...v3.3.0) (2020-11-13)
 
 

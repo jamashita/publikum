@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.4.0](https://github.com/jamashita/publikum/compare/v3.3.0...v3.4.0) (2020-12-03)
+
+
+### Features
+
+* 🎸 Kind.notate() -> Objet.identify() ([2a3f8c5](https://github.com/jamashita/publikum/commit/2a3f8c5722ffe6c141f72ed3602178438f4aacc9))
+* 🎸 reference repaired ([8dd1f7f](https://github.com/jamashita/publikum/commit/8dd1f7f273aa991d5a68086d68e2da8b608464bb))
+
+
+
+
+
 # [3.3.0](https://github.com/jamashita/publikum/compare/v3.2.0...v3.3.0) (2020-11-13)
 
 **Note:** Version bump only for package @jamashita/publikum-object
