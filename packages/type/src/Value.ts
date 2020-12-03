@@ -17,7 +17,7 @@ export type Vague<T extends object = object> = {
   readonly [P in keyof T]: unknown;
 };
 export type Inconnu = {
-  readonly [key: string]: unknown;
+  [key: string]: unknown;
 };
 export type PlainObject = {
   [key: string]: PlainObjectItem;
