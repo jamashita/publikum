@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.5.0](https://github.com/jamashita/publikum/compare/v3.4.0...v3.5.0) (2020-12-07)
+
+
+### Features
+
+* 🎸 entity udpate ([5df4d69](https://github.com/jamashita/publikum/commit/5df4d69423c0e5aeaca00391e181ce86632ad929))
+* 🎸 moved hashor() ([3d9a0cd](https://github.com/jamashita/publikum/commit/3d9a0cda353a913b2613b2018d314a1c915b0286))
+
+
+
+
+
 # [3.4.0](https://github.com/jamashita/publikum/compare/v3.3.0...v3.4.0) (2020-12-03)
 
 
