@@ -1,8 +1,8 @@
-import { Nominative } from '@jamashita/publikum-interface';
 import { ObjectLiteral } from '@jamashita/publikum-type';
 import { Entity } from '../Entity';
+import { Objet } from '../Objet';
 
-export class MockEntity<V extends Nominative> extends Entity<MockEntity<V>, Nominative> {
+export class MockEntity<V> extends Entity<V, MockEntity<V>, 'MockEntity'> {
   public readonly noun: 'MockEntity' = 'MockEntity';
   private readonly id: V;
   private other: ObjectLiteral;
@@ -22,7 +22,7 @@ export class MockEntity<V extends Nominative> extends Entity<MockEntity<V>, Nomi
   }
 
   public serialize(): string {
-    return `${this.id.toString()}, ${JSON.stringify(this.other)}`;
+    return `${Objet.identify(this.id)}, ${JSON.stringify(this.other)}`;
   }
 
   public setObject(obj: ObjectLiteral): void {

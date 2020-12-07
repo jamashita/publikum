@@ -1,4 +1,4 @@
-import { Nominative } from '@jamashita/publikum-interface';
+import { isNominative, Nominative } from '@jamashita/publikum-interface';
 import { Kind } from '@jamashita/publikum-type';
 import hash from 'object-hash';
 
@@ -31,5 +31,13 @@ export abstract class Objet<N extends string = string> implements Nominative<N> 
 
   public toString(): string {
     return this.serialize();
+  }
+
+  protected hashor<T>(value: T): T | string {
+    if (isNominative(value)) {
+      return value.hashCode();
+    }
+
+    return value;
   }
 }
