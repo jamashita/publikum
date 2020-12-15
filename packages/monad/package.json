@@ -34,7 +34,7 @@
     "@jamashita/publikum-type": "^3.5.0"
   },
   "devDependencies": {
-    "sinon": "9.2.1"
+    "sinon": "9.2.2"
   },
   "engines": {
     "node": ">= 14.5.0",
