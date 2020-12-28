@@ -536,10 +536,10 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
-"@jamashita/eslint-config@1.13.0":
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/@jamashita/eslint-config/-/eslint-config-1.13.0.tgz#f8a0916e6e76ab6cce5a570226e7f200c6f3b98a"
-  integrity sha512-FKAJnv+wzK905Ms/j1TX9VyowYx4ezCzcyq97ae1QLKpEVFlAxw89KWqV09erywNuFgeEI9rPv2z7qHogiJheQ==
+"@jamashita/eslint-config@1.14.0":
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/@jamashita/eslint-config/-/eslint-config-1.14.0.tgz#c7970fa699095e43cf2d0fcad0ea8f157d4e7fc2"
+  integrity sha512-GDoXgIqGs9qjv3pt+p9IN+tgFpWi4RCqht/+q3tjRzX4m0B9ICf3RsDwJvxMwbgaFW2pclBrRnPh4KvjJrLhzw==
 
 "@jest/console@^26.6.2":
   version "26.6.2"
