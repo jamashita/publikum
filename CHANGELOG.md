@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.6.0](https://github.com/jamashita/publikum/compare/v3.5.0...v3.6.0) (2020-12-30)
+
+
+### Features
+
+* 🎸 update ([69bccb2](https://github.com/jamashita/publikum/commit/69bccb24fae1587c5868462f45359dccc38b81c8))
+* 🎸 update ([42159eb](https://github.com/jamashita/publikum/commit/42159eb5969111343ade6e40d5299150c239622c))
+* 🎸 update ([67355ce](https://github.com/jamashita/publikum/commit/67355cee88865cecbb29861e1b5a8e843c8061dc))
+* 🎸 update ([92154f1](https://github.com/jamashita/publikum/commit/92154f1d998b188f8e58f3baa83a6b9d1b2947b9))
+* 🎸 update ([c8543be](https://github.com/jamashita/publikum/commit/c8543be49b2ec5ca321a21301697ff0db573a5b2))
+
+
+
+
+
 # [3.5.0](https://github.com/jamashita/publikum/compare/v3.4.0...v3.5.0) (2020-12-07)
 
 
