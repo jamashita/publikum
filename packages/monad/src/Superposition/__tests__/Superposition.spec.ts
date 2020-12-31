@@ -41,7 +41,8 @@ describe('Superposition', () => {
 
       expect(array).toHaveLength(superpositions.length);
       for (let i: number = 0; i < array.length; i++) {
-        const ss: Superposition<number, MockRuntimeError> = superpositions[i] as Superposition<number, MockRuntimeError>;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const ss: Superposition<number, MockRuntimeError> = superpositions[i]!;
         // eslint-disable-next-line no-await-in-loop
         const s: Schrodinger<number, MockRuntimeError> = await ss.terminate();
 
@@ -174,7 +175,8 @@ describe('Superposition', () => {
 
       expect(array).toHaveLength(superpositions.length);
       for (let i: number = 0; i < array.length; i++) {
-        const ss: Superposition<number, MockRuntimeError> = superpositions[i] as Superposition<number, MockRuntimeError>;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const ss: Superposition<number, MockRuntimeError> = superpositions[i]!;
         // eslint-disable-next-line no-await-in-loop
         const s: Schrodinger<number, MockRuntimeError> = await ss.terminate();
 
@@ -353,7 +355,8 @@ describe('Superposition', () => {
 
       expect(schrodingers).toHaveLength(superpositions.length);
       for (let i: number = 0; i < superpositions.length; i++) {
-        const ss: Superposition<number, MockRuntimeError> = superpositions[i] as Superposition<number, MockRuntimeError>;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const ss: Superposition<number, MockRuntimeError> = superpositions[i]!;
         // eslint-disable-next-line no-await-in-loop
         const s: Schrodinger<number, MockRuntimeError> = await ss.terminate();
 
@@ -373,7 +376,8 @@ describe('Superposition', () => {
 
       expect(schrodingers).toHaveLength(superpositions.length);
       for (let i: number = 0; i < superpositions.length; i++) {
-        const ss: Superposition<number, MockRuntimeError> = superpositions[i] as Superposition<number, MockRuntimeError>;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const ss: Superposition<number, MockRuntimeError> = superpositions[i]!;
         // eslint-disable-next-line no-await-in-loop
         const s: Schrodinger<number, MockRuntimeError> = await ss.terminate();
 
@@ -399,7 +403,8 @@ describe('Superposition', () => {
 
       expect(schrodingers).toHaveLength(superpositions.length);
       for (let i: number = 0; i < superpositions.length; i++) {
-        const ss: Superposition<number, MockRuntimeError> = superpositions[i] as Superposition<number, MockRuntimeError>;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const ss: Superposition<number, MockRuntimeError> = superpositions[i]!;
         // eslint-disable-next-line no-await-in-loop
         const s: Schrodinger<number, MockRuntimeError> = await ss.terminate();
 
@@ -421,7 +426,8 @@ describe('Superposition', () => {
 
       expect(schrodingers).toHaveLength(superpositions.length);
       for (let i: number = 0; i < superpositions.length; i++) {
-        const ss: Superposition<number, MockRuntimeError> = superpositions[i] as Superposition<number, MockRuntimeError>;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const ss: Superposition<number, MockRuntimeError> = superpositions[i]!;
         // eslint-disable-next-line no-await-in-loop
         const s: Schrodinger<number, MockRuntimeError> = await ss.terminate();
 

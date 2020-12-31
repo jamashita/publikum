@@ -42,7 +42,8 @@ describe('Unscharferelation', () => {
 
       expect(array).toHaveLength(unscharferelations.length);
       for (let i: number = 0; i < array.length; i++) {
-        const u: Unscharferelation<number> = unscharferelations[i] as Unscharferelation<number>;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const u: Unscharferelation<number> = unscharferelations[i]!;
         // eslint-disable-next-line no-await-in-loop
         const h: Heisenberg<number> = await u.terminate();
 
@@ -170,7 +171,8 @@ describe('Unscharferelation', () => {
 
       expect(array).toHaveLength(unscharferelations.length);
       for (let i: number = 0; i < array.length; i++) {
-        const u: Unscharferelation<number> = unscharferelations[i] as Unscharferelation<number>;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const u: Unscharferelation<number> = unscharferelations[i]!;
         // eslint-disable-next-line no-await-in-loop
         const h: Heisenberg<number> = await u.terminate();
 
@@ -335,7 +337,8 @@ describe('Unscharferelation', () => {
 
       expect(heisenbergs).toHaveLength(unscharferelations.length);
       for (let i: number = 0; i < unscharferelations.length; i++) {
-        const u: Unscharferelation<number> = unscharferelations[i] as Unscharferelation<number>;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const u: Unscharferelation<number> = unscharferelations[i]!;
         // eslint-disable-next-line no-await-in-loop
         const h: Heisenberg<number> = await u.terminate();
 
@@ -355,7 +358,8 @@ describe('Unscharferelation', () => {
 
       expect(heisenbergs).toHaveLength(unscharferelations.length);
       for (let i: number = 0; i < unscharferelations.length; i++) {
-        const u: Unscharferelation<number> = unscharferelations[i] as Unscharferelation<number>;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const u: Unscharferelation<number> = unscharferelations[i]!;
         // eslint-disable-next-line no-await-in-loop
         const h: Heisenberg<number> = await u.terminate();
 
@@ -381,7 +385,8 @@ describe('Unscharferelation', () => {
 
       expect(heisenbergs).toHaveLength(unscharferelations.length);
       for (let i: number = 0; i < unscharferelations.length; i++) {
-        const u: Unscharferelation<number> = unscharferelations[i] as Unscharferelation<number>;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const u: Unscharferelation<number> = unscharferelations[i]!;
         // eslint-disable-next-line no-await-in-loop
         const h: Heisenberg<number> = await u.terminate();
 
@@ -403,7 +408,8 @@ describe('Unscharferelation', () => {
 
       expect(heisenbergs).toHaveLength(unscharferelations.length);
       for (let i: number = 0; i < unscharferelations.length; i++) {
-        const u: Unscharferelation<number> = unscharferelations[i] as Unscharferelation<number>;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const u: Unscharferelation<number> = unscharferelations[i]!;
         // eslint-disable-next-line no-await-in-loop
         const h: Heisenberg<number> = await u.terminate();
 
