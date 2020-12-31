@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@jamashita/publikum-interface": "^3.6.1",
+    "@jamashita/publikum-type": "3.6.1",
     "make-error-cause": "2.3.0"
   },
   "engines": {
