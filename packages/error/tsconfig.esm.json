@@ -6,7 +6,7 @@
   },
   "references": [
     {
-      "path": "../error/tsconfig.esm.json"
+      "path": "../type/tsconfig.esm.json"
     },
     {
       "path": "../interface/tsconfig.esm.json"
