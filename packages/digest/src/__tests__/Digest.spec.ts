@@ -12,7 +12,7 @@ describe('Digest', () => {
       ]);
 
       expect(hash1).not.toBe(hash2);
-    }, 30000);
+    }, 30_000);
   });
 
   describe('compare', () => {
@@ -30,6 +30,6 @@ describe('Digest', () => {
 
       expect(compared1).toBe(true);
       expect(compared2).toBe(true);
-    }, 30000);
+    }, 30_000);
   });
 });

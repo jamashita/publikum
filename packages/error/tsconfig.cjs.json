@@ -6,6 +6,9 @@
   },
   "references": [
     {
+      "path": "../type/tsconfig.cjs.json"
+    },
+    {
       "path": "../interface/tsconfig.cjs.json"
     }
   ]
