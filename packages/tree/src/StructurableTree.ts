@@ -41,9 +41,9 @@ export class StructurableTree<K extends TreeID, V extends StructurableTreeObject
 
   private retrieveChildren(node: StructurableTreeNode<K, V>, children: ImmutableAddress<StructurableTreeNode<K, V>>, hierarchies: MutableProject<K, MutableAddress<K>>): void {
     children.forEach((child: StructurableTreeNode<K, V>) => {
-      const offsprings: MutableAddress<K> = hierarchies.get(node.getTreeID()) as MutableAddress<K>;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      hierarchies.get(node.getTreeID())!.add(child.getTreeID());
 
-      offsprings.add(child.getTreeID());
       this.retrieve(child, hierarchies);
 
       if (!child.isLeaf()) {
