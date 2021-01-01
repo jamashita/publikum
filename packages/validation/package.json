@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-validation",
-  "version": "3.6.0",
+  "version": "3.6.1",
   "private": false,
   "repository": {
     "type": "git",
@@ -28,8 +28,8 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^3.6.0",
-    "@jamashita/publikum-type": "^3.6.0",
+    "@jamashita/publikum-error": "^3.6.1",
+    "@jamashita/publikum-type": "^3.6.1",
     "reflect-metadata": "0.1.13"
   },
   "engines": {

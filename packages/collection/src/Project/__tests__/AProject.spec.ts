@@ -175,7 +175,8 @@ describe('AProject', () => {
 
       expect(project.size()).toBe(kv.length);
       project.forEach((value: MockValueObject<number>, key: MockValueObject<number>) => {
-        const [k, v]: [MockValueObject<number>, MockValueObject<number>] = kv[i] as [MockValueObject<number>, MockValueObject<number>];
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const [k, v]: [MockValueObject<number>, MockValueObject<number>] = kv[i]!;
 
         expect(key).toBe(k);
         expect(value).toBe(v);
@@ -557,7 +558,8 @@ describe('AProject', () => {
 
       expect(project.size()).toBe(map.size);
       project.forEach((value: MockValueObject<number>, key: MockValueObject<number>) => {
-        const [k, v]: [MockValueObject<number>, MockValueObject<number>] = kv[i] as [MockValueObject<number>, MockValueObject<number>];
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const [k, v]: [MockValueObject<number>, MockValueObject<number>] = kv[i]!;
 
         expect(key).toBe(k);
         expect(value).toBe(v);

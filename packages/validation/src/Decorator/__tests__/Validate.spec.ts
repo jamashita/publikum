@@ -10,7 +10,8 @@ const random = (length: number): string => {
   const charLength: number = chars.length;
 
   return randomBytes(length).reduce<string>((p: string, i: number) => {
-    return `${p}${chars[i % charLength] as string}`;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return `${p}${chars[i % charLength]!}`;
   }, '');
 };
 
