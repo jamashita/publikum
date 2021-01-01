@@ -41,6 +41,6 @@ describe('ValueObject', () => {
       values.forEach((str: string) => {
         expect(new MockValueObject(str).hashCode()).toBe(new MockValueObject(str).hashCode());
       });
-    }, 10_000);
+    }, 30_000);
   });
 });
