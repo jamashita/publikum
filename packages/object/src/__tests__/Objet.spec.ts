@@ -4,6 +4,10 @@ import { Objet } from '../Objet';
 
 const chars: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
+const sequence = (last: number): Array<number> => {
+  return Array.from(Array(last).keys());
+};
+
 const random = (length: number): Promise<string> => {
   const charLength: number = chars.length;
 
@@ -91,10 +95,15 @@ describe('Objet', () => {
 
       const obj: Inconnu = {};
 
-      for (let i: number = 0; i < 100; i++) {
+      const promises: Array<Promise<[string, string]>> = sequence(100).map<Promise<[string, string]>>(async (i: number) => {
         // eslint-disable-next-line no-await-in-loop
-        obj[await random(40)] = random(40);
-      }
+        return [await random(i), await random(i)];
+      });
+      const kv: Array<[string, string]> = await Promise.all(promises);
+
+      kv.forEach(([key, value]: [string, string]) => {
+        obj[key] = value;
+      });
 
       expect(Objet.identify(obj)).toBe('[object Object]');
     }, 10_000);
@@ -106,10 +115,15 @@ describe('Objet', () => {
 
       const obj: Inconnu = {};
 
-      for (let i: number = 0; i < 100; i++) {
+      const promises: Array<Promise<[string, string]>> = sequence(100).map<Promise<[string, string]>>(async (i: number) => {
         // eslint-disable-next-line no-await-in-loop
-        obj[await random(40)] = random(40);
-      }
+        return [await random(i), await random(i)];
+      });
+      const kv: Array<[string, string]> = await Promise.all(promises);
+
+      kv.forEach(([key, value]: [string, string]) => {
+        obj[key] = value;
+      });
 
       expect(Objet.identify(obj)).toBe('[object Object]');
     }, 10_000);
