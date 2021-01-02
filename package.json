@@ -24,7 +24,7 @@
     "force publish": "lerna publish --force-publish=* --no-git-tag-version --no-push",
     "format": "eslint --fix 'packages/*/src/**/*.{ts,tsx}'",
     "prerelease": "lerna version --no-push",
-    "release": "lerna publish from-git --yes",
+    "release": "yarn clean && yarn build && lerna publish from-git --yes",
     "postrelease": "git push --follow-tags origin",
     "reset": "lerna clean",
     "setup": "lerna bootstrap && lerna link",
