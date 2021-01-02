@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.7.0](https://github.com/jamashita/publikum/compare/v3.6.1...v3.7.0) (2021-01-02)
+
+
+### Bug Fixes
+
+* 🐛 non-null-assertion ([f0ce52d](https://github.com/jamashita/publikum/commit/f0ce52dcc7df451c788ee79851d301043db18819))
+
+
+
+
+
 ## [3.6.1](https://github.com/jamashita/publikum/compare/v3.6.0...v3.6.1) (2020-12-30)
 
 **Note:** Version bump only for package @jamashita/publikum-zeit
