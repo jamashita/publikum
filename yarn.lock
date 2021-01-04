@@ -536,10 +536,10 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
-"@jamashita/eslint-config@1.17.0":
-  version "1.17.0"
-  resolved "https://registry.yarnpkg.com/@jamashita/eslint-config/-/eslint-config-1.17.0.tgz#f0cfde436eb0c36c729e359ec3768d8648dbce9b"
-  integrity sha512-y6KOE85QtUfXdThWbSFtv+99nDwPeXM9DC2+Rdx4gT3fO3LNcREgQ8S7SxnefBzucEGGfYlJwtoB3b6NHKKXKg==
+"@jamashita/eslint-config@1.18.0":
+  version "1.18.0"
+  resolved "https://registry.yarnpkg.com/@jamashita/eslint-config/-/eslint-config-1.18.0.tgz#2721d3f31b07d0063b6fe9d7a317ccc2e5e6907c"
+  integrity sha512-gc5BvRznEolN1NDHe3NFz8T1uQyT//X5Zur/UUqdWWtudumy17z4cIs2mowHS+f5pYtd+BUtejB2EKYBaNc2qA==
 
 "@jest/console@^26.6.2":
   version "26.6.2"
@@ -3427,9 +3427,9 @@ copy-descriptor@^0.1.0:
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
 core-js@^3.6.1:
-  version "3.8.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.8.1.tgz#f51523668ac8a294d1285c3b9db44025fda66d47"
-  integrity sha512-9Id2xHY1W7m8hCl8NkhQn5CufmF/WuR30BTRewvCXc1aZd3kMECwNZ69ndLbekKfakw9Rf2Xyc+QR6E7Gg+obg==
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.8.2.tgz#0a1fd6709246da9ca8eff5bb0cbd15fba9ac7044"
+  integrity sha512-FfApuSRgrR6G5s58casCBd9M2k+4ikuu4wbW6pJyYU7bd9zvFc9qf7vr5xmrZOhT9nn+8uwlH1oRR9jTnFoA3A==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -3605,10 +3605,10 @@ dateformat@^3.0.0:
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-3.0.3.tgz#a6e37499a4d9a9cf85ef5872044d62901c9889ae"
   integrity sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==
 
-dayjs@1.9.8:
-  version "1.9.8"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.9.8.tgz#9a65fbdca037e3d5835f98672da6e796f757cd58"
-  integrity sha512-F42qBtJRa30FKF7XDnOQyNUTsaxDkuaZRj/i7BejSHC34LlLfPoIU4aeopvWfM+m1dJ6/DHKAWLg2ur+pLgq1w==
+dayjs@1.10.1:
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.1.tgz#114f678624842035396667a24eb1436814bc16fd"
+  integrity sha512-2xg7JrHQeLBQFkvTumLoy62x1siyeocc98QwjtURgvRqOPYmAkMUdmSjrOA+MlmL6QMQn5MUhDf6rNZNuPc1LQ==
 
 debug@3.1.0:
   version "3.1.0"
@@ -10723,9 +10723,9 @@ tslib@^1.8.1, tslib@^1.9.0:
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
 tsutils@^3.17.1:
-  version "3.17.1"
-  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-3.17.1.tgz#ed719917f11ca0dee586272b2ac49e015a2dd759"
-  integrity sha512-kzeQ5B8H3w60nFY2g8cJIuH7JDpsALXySGtwGJ0p2LSjLgay3NdIpqq5SoOBe46bKDW2iq25irHCr8wjomUS2g==
+  version "3.18.0"
+  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-3.18.0.tgz#38add50a28ec97e988cb43c5b32e55d1ff4a222a"
+  integrity sha512-D9Tu8nE3E7D1Bsf/V29oMHceMf+gnVO+pDguk/A5YRo1cLpkiQ48ZnbbS57pvvHeY+OIeNQx1vf4ASPlEtRpcA==
   dependencies:
     tslib "^1.8.1"
 
@@ -10807,10 +10807,10 @@ typedoc-default-themes@0.12.0:
   resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.12.0.tgz#42451948e55a148c1350eb2aa68829be5c2b06b3"
   integrity sha512-0hHBxwmfxE0rkIslOiO39fJyYwaScQEhUIxcpqx3uS1BL3zhFW5oQfUaPx2cv2XLL/GXhYFxhdFLoVmNptbxEQ==
 
-typedoc@0.20.9:
-  version "0.20.9"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.20.9.tgz#e14fe176e2e53b756f9de6bc04bdffc959f11296"
-  integrity sha512-GCaE9Hn+VFY2i9wBxFbCv/KZCgHw4+6hiYRdJ0y2DudcWvpgLeCIBJYP1e70MtKCZzs4FT+ydLxInr/hyXrY4Q==
+typedoc@0.20.10:
+  version "0.20.10"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.20.10.tgz#013eac8ece7b7f6201a06a83d4ddf3d93e89d7f9"
+  integrity sha512-1Bqbmf/1pwRiUkd1j1tvL7GIlBOFANFcjC+W5cZ02R0CKgUN+fIIl2Z2OhuaM7MVytKq6snF1KYVIwBvplO37g==
   dependencies:
     colors "^1.4.0"
     fs-extra "^9.0.1"

@@ -32,7 +32,7 @@
     "@jamashita/publikum-object": "^3.7.0",
     "@jamashita/publikum-type": "^3.7.0",
     "@jamashita/publikum-validation": "^3.7.0",
-    "dayjs": "1.9.8",
+    "dayjs": "1.10.1",
     "reflect-metadata": "0.1.13"
   },
   "devDependencies": {
