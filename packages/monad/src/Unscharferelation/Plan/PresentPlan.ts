@@ -35,7 +35,7 @@ export class PresentPlan<P, Q> implements MapPlan<Matter<P>, 'PresentPlan'> {
               return this.forUnscharferelation(v);
             }
 
-            return this.forSync(v);
+            return this.sync(v);
           },
           (e: unknown) => {
             return this.epoque.throw(e);
@@ -47,7 +47,7 @@ export class PresentPlan<P, Q> implements MapPlan<Matter<P>, 'PresentPlan'> {
         return this.forUnscharferelation(mapped);
       }
 
-      return this.forSync(mapped);
+      return this.sync(mapped);
     }
     catch (err: unknown) {
       return this.epoque.throw(err);
@@ -68,7 +68,7 @@ export class PresentPlan<P, Q> implements MapPlan<Matter<P>, 'PresentPlan'> {
     );
   }
 
-  private forSync(v: Suspicious<Matter<Q>>): unknown {
+  private sync(v: Suspicious<Matter<Q>>): unknown {
     if (Kind.isUndefined(v) || Kind.isNull(v)) {
       return this.epoque.decline();
     }
