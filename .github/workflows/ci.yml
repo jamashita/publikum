@@ -18,6 +18,8 @@ jobs:
         uses: 'actions/checkout@v2'
         with:
           fetch-depth: 0
+      - name: 'Monorepo setup'
+        run: 'yarn setup'
       - name: 'Install dependencies'
         run: 'yarn install --frozen-lockfile'
       - name: 'Test'
