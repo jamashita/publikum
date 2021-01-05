@@ -115,7 +115,7 @@ export class SuperpositionInternal<A, D extends Error> extends Objet<'Superposit
   }
 
   public map<B = A, E extends Error = D>(
-    mapper: UnaryFunction<Detoxicated<A>, SyncAsync<SuperpositionInternal<B, E> | Detoxicated<B>>>,
+    mapper: UnaryFunction<Detoxicated<A>, SyncAsync<Detoxicated<B> | SuperpositionInternal<B, E>>>,
     ...errors: ReadonlyArray<DeadConstructor<E>>
   ): SuperpositionInternal<B, D | E> {
     return SuperpositionInternal.of<B, D | E>((chrono: Chrono<B, D | E>) => {
@@ -128,7 +128,7 @@ export class SuperpositionInternal<A, D extends Error> extends Objet<'Superposit
   }
 
   public recover<B = A, E extends Error = D>(
-    mapper: UnaryFunction<D, SyncAsync<SuperpositionInternal<B, E> | Detoxicated<B>>>,
+    mapper: UnaryFunction<D, SyncAsync<Detoxicated<B> | SuperpositionInternal<B, E>>>,
     ...errors: ReadonlyArray<DeadConstructor<E>>
   ): SuperpositionInternal<A | B, E> {
     return SuperpositionInternal.of<A | B, E>((chrono: Chrono<A | B, E>) => {
@@ -141,8 +141,8 @@ export class SuperpositionInternal<A, D extends Error> extends Objet<'Superposit
   }
 
   public transform<B = A, E extends Error = D>(
-    alive: UnaryFunction<Detoxicated<A>, SyncAsync<SuperpositionInternal<B, E> | Detoxicated<B>>>,
-    dead: UnaryFunction<D, SyncAsync<SuperpositionInternal<B, E> | Detoxicated<B>>>,
+    alive: UnaryFunction<Detoxicated<A>, SyncAsync<Detoxicated<B> | SuperpositionInternal<B, E>>>,
+    dead: UnaryFunction<D, SyncAsync<Detoxicated<B> | SuperpositionInternal<B, E>>>,
     ...errors: ReadonlyArray<DeadConstructor<E>>
   ): SuperpositionInternal<B, E> {
     return SuperpositionInternal.of<B, E>((chrono: Chrono<B, E>) => {

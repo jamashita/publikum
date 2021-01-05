@@ -115,7 +115,7 @@ export class UnscharferelationInternal<P> extends Objet<'UnscharferelationIntern
     });
   }
 
-  public map<Q = P>(mapper: UnaryFunction<Matter<P>, SyncAsync<UnscharferelationInternal<Q> | Suspicious<Matter<Q>>>>): UnscharferelationInternal<Q> {
+  public map<Q = P>(mapper: UnaryFunction<Matter<P>, SyncAsync<Suspicious<Matter<Q>> | UnscharferelationInternal<Q>>>): UnscharferelationInternal<Q> {
     return UnscharferelationInternal.of<Q>((epoque: Epoque<Q>) => {
       return this.handle(
         PresentPlan.of<P, Q>(mapper, epoque),
@@ -125,7 +125,7 @@ export class UnscharferelationInternal<P> extends Objet<'UnscharferelationIntern
     });
   }
 
-  public recover<Q = P>(mapper: Supplier<SyncAsync<UnscharferelationInternal<Q> | Suspicious<Matter<Q>>>>): UnscharferelationInternal<P | Q> {
+  public recover<Q = P>(mapper: Supplier<SyncAsync<Suspicious<Matter<Q>> | UnscharferelationInternal<Q>>>): UnscharferelationInternal<P | Q> {
     return UnscharferelationInternal.of<P | Q>((epoque: Epoque<P | Q>) => {
       return this.handle(
         MapEpoquePlan.of<P | Q>(epoque),

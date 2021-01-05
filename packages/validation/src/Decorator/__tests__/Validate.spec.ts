@@ -6,13 +6,25 @@ import { addRule, Validate } from '../Validate';
 
 const chars: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
-const random = (length: number): string => {
+const random = (length: number): Promise<string> => {
   const charLength: number = chars.length;
 
-  return randomBytes(length).reduce<string>((p: string, i: number) => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return `${p}${chars[i % charLength]!}`;
-  }, '');
+  return new Promise<string>((resolve: (value: (string)) => void, reject: (reason?: unknown) => void) => {
+    randomBytes(length, (err: Error | null, buf: Buffer) => {
+      if (err !== null) {
+        reject(err);
+
+        return;
+      }
+
+      const str: string = buf.reduce<string>((p: string, i: number) => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return `${p}${chars[i % charLength]!}`;
+      }, '');
+
+      resolve(str);
+    });
+  });
 };
 
 type TestValidationArgs = Readonly<{
@@ -162,12 +174,14 @@ describe('Validate', () => {
     }).not.toThrow(ValidationError);
   });
 
-  it('returns the same value of its original return value', () => {
+  it('returns the same value of its original return value', async () => {
     expect.assertions(3);
 
-    const r1: string = random(200);
-    const r2: string = random(300);
-    const r3: string = random(400);
+    const [r1, r2, r3] = await Promise.all<string>([
+      random(200),
+      random(300),
+      random(400)
+    ]);
 
     const test: Test1 = new Test1();
 

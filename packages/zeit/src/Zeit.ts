@@ -8,7 +8,7 @@ import { ZeitError } from './Error/ZeitError';
 dayjs.extend(utc);
 dayjs.extend(minMax);
 
-export type ZeitUnitType = 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year';
+export type ZeitUnitType = 'day' | 'hour' | 'minute' | 'month' | 'second' | 'week' | 'year';
 
 export class Zeit extends ValueObject<'Zeit'> {
   public readonly noun: 'Zeit' = 'Zeit';

@@ -1,6 +1,7 @@
 module.exports = {
   verbose: true,
   bail: true,
+  forceExit: true,
   roots: [
     'packages'
   ],

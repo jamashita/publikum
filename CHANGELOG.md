@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.7.0](https://github.com/jamashita/publikum/compare/v3.6.1...v3.7.0) (2021-01-02)
+
+
+### Bug Fixes
+
+* 🐛 non-null-assertion ([f0ce52d](https://github.com/jamashita/publikum/commit/f0ce52dcc7df451c788ee79851d301043db18819))
+* 🐛 references typo ([eee03b7](https://github.com/jamashita/publikum/commit/eee03b7812b7b7c18227fbef543ce5ec162fb866))
+
+
+### Features
+
+* 🎸 Errors initial implementation ([3ba088a](https://github.com/jamashita/publikum/commit/3ba088a337b900ec5fb62063f5cb1608ec7bfe0e))
+* 🎸 eslint-plugin-node installed ([1874d97](https://github.com/jamashita/publikum/commit/1874d97ca975b7a3aae7e0af96e48491385fbee6))
+* 🎸 RuntimeErrors ([1219a52](https://github.com/jamashita/publikum/commit/1219a529d513420785a0da2f3421085bcf376324))
+* 🎸 update ([cb1458a](https://github.com/jamashita/publikum/commit/cb1458ad8bd4659a3a84a3a1fd6a26aa0fbd6d6d))
+* 🎸 update ([72a7cf3](https://github.com/jamashita/publikum/commit/72a7cf320a7a0b0bafcd04317112627e7d35e9f6))
+* 🎸 update ([9c4c30a](https://github.com/jamashita/publikum/commit/9c4c30a05d3c313d766d7e9d69f7c565df395009))
+
+
+
+
+
 ## [3.6.1](https://github.com/jamashita/publikum/compare/v3.6.0...v3.6.1) (2020-12-30)
 
 

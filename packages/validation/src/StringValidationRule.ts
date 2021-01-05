@@ -26,24 +26,20 @@ type NoPattern = Readonly<{
   type: 'none';
 }>;
 
-export type StringValidationArgs =
-  NumericalStringPattern
-  | RegExpPattern
-  | StringLengthPattern
-  | ContainPattern;
+export type StringValidationArgs = ContainPattern | NumericalStringPattern | RegExpPattern | StringLengthPattern;
 
 const NONE: NoPattern = {
   type: 'none'
 };
 
 export class StringValidationRule implements ValidationRule {
-  private readonly args: StringValidationArgs | NoPattern;
+  private readonly args: NoPattern | StringValidationArgs;
 
-  public static of(args: StringValidationArgs | NoPattern = NONE): StringValidationRule {
+  public static of(args: NoPattern | StringValidationArgs = NONE): StringValidationRule {
     return new StringValidationRule(args);
   }
 
-  protected constructor(args: StringValidationArgs | NoPattern) {
+  protected constructor(args: NoPattern | StringValidationArgs) {
     this.args = args;
   }
 
