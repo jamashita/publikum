@@ -3,15 +3,23 @@ import { RuntimeError } from './RuntimeError';
 
 export class Errors<E extends Error> extends RuntimeError<'Errors'> implements Iterable<E> {
   public readonly noun: 'Errors' = 'Errors';
-  private readonly errors: Array<E>;
+  private readonly errors: ReadonlyArray<E>;
 
-  private static getMessage(errors: Array<Error>): string {
+  public static of<ET extends Error>(errors: Iterable<ET>): Errors<ET> {
+    return new Errors<ET>([...errors]);
+  }
+
+  public static ofSpread<ET extends Error>(...errors: ReadonlyArray<ET>): Errors<ET> {
+    return Errors.of<ET>(errors);
+  }
+
+  private static getMessage<ET extends Error>(errors: ReadonlyArray<ET>): string {
     return errors.map<string>((error: Error) => {
       return error.message;
     }).join('\n');
   }
 
-  public constructor(errors: Array<E>) {
+  public constructor(errors: ReadonlyArray<E>) {
     super(Errors.getMessage(errors));
     this.errors = errors;
   }
@@ -30,5 +38,9 @@ export class Errors<E extends Error> extends RuntimeError<'Errors'> implements I
     }).filter((stack: Ambiguous<string>): stack is string => {
       return !Kind.isUndefined(stack);
     }).join('\n');
+  }
+
+  public getErrors(): Array<E> {
+    return [...this.errors];
   }
 }
