@@ -2,6 +2,22 @@ import { MockValueObject } from '@jamashita/publikum-object';
 import { UUIDError } from '../Error/UUIDError';
 import { UUID } from '../UUID';
 
+const v4 = (): Promise<UUID> => {
+  return new Promise<UUID>((resolve: (value: UUID) => void) => {
+    setImmediate(() => {
+      resolve(UUID.v4());
+    });
+  });
+};
+
+const v5 = (): Promise<UUID> => {
+  return new Promise<UUID>((resolve: (value: UUID) => void) => {
+    setImmediate(() => {
+      resolve(UUID.v5());
+    });
+  });
+};
+
 describe('UUID', () => {
   describe('of', () => {
     it('returns instance', () => {
@@ -38,37 +54,51 @@ describe('UUID', () => {
       expect(UUID.validate(uuid)).toBe(true);
     });
 
-    it('generates UUID that must pass', () => {
+    it('generates UUID that must pass', async () => {
       expect.assertions(200);
 
-      for (let i: number = 0; i < 100; i++) {
-        expect(UUID.validate(UUID.v4().get())).toBe(true);
-        expect(UUID.validate(UUID.v5().get())).toBe(true);
-      }
+      const promises: Array<Promise<[UUID, UUID]>> = Array.from(Array(100)).map<Promise<[UUID, UUID]>>(async () => {
+        const v4id: UUID = await v4();
+        const v5id: UUID = await v5();
+
+        return [v4id, v5id];
+      });
+      const ids: Array<[UUID, UUID]> = await Promise.all<[UUID, UUID]>(promises);
+
+      ids.forEach(([v4id, v5id]: [UUID, UUID]) => {
+        expect(UUID.validate(v4id.get())).toBe(true);
+        expect(UUID.validate(v5id.get())).toBe(true);
+      });
     });
   });
 
   describe('v4', () => {
-    it('always generates 36 length string', () => {
+    it('always generates 36 length string', async () => {
       expect.assertions(100);
 
-      for (let i: number = 0; i < 100; i++) {
-        const v4: UUID = UUID.v4();
+      const promises: Array<Promise<UUID>> = Array.from(Array(100)).map<Promise<UUID>>(() => {
+        return v4();
+      });
+      const ids: Array<UUID> = await Promise.all<UUID>(promises);
 
-        expect(v4.get()).toHaveLength(UUID.size());
-      }
+      ids.forEach((id: UUID) => {
+        expect(id.get()).toHaveLength(UUID.size());
+      });
     });
   });
 
   describe('v5', () => {
-    it('always generates 36 length string', () => {
+    it('always generates 36 length string', async () => {
       expect.assertions(100);
 
-      for (let i: number = 0; i < 100; i++) {
-        const v5: UUID = UUID.v5();
+      const promises: Array<Promise<UUID>> = Array.from(Array(100)).map<Promise<UUID>>(() => {
+        return v5();
+      });
+      const ids: Array<UUID> = await Promise.all<UUID>(promises);
 
-        expect(v5.get()).toHaveLength(UUID.size());
-      }
+      ids.forEach((id: UUID) => {
+        expect(id.get()).toHaveLength(UUID.size());
+      });
     });
   });
 
