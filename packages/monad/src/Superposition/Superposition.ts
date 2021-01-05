@@ -143,7 +143,7 @@ export class Superposition<A, D extends Error> extends Objet<'Superposition'> im
     }, ...errors);
   }
 
-  public static dead<AT, DT extends Error>(error: PromiseLike<Detoxicated<AT>> | DT, ...errors: ReadonlyArray<DeadConstructor<DT>>): Superposition<AT, DT> {
+  public static dead<AT, DT extends Error>(error: DT | PromiseLike<Detoxicated<AT>>, ...errors: ReadonlyArray<DeadConstructor<DT>>): Superposition<AT, DT> {
     return Superposition.of<AT, DT>((chrono: Chrono<AT, DT>) => {
       if (Kind.isPromiseLike<Detoxicated<AT>>(error)) {
         return error.then<unknown, unknown>(
@@ -212,22 +212,22 @@ export class Superposition<A, D extends Error> extends Objet<'Superposition'> im
   }
 
   public map<B = A, E extends Error = D>(
-    mapper: UnaryFunction<Detoxicated<A>, SyncAsync<Superposition<B, E> | Detoxicated<B>>>,
+    mapper: UnaryFunction<Detoxicated<A>, SyncAsync<Detoxicated<B> | Superposition<B, E>>>,
     ...errors: ReadonlyArray<DeadConstructor<E>>
   ): Superposition<B, D | E> {
     return Superposition.ofSuperposition<B, D | E>(this.internal.map<B, D | E>(mapper, ...this.internal.getErrors(), ...errors));
   }
 
   public recover<B = A, E extends Error = D>(
-    mapper: UnaryFunction<D, SyncAsync<Superposition<B, E> | Detoxicated<B>>>,
+    mapper: UnaryFunction<D, SyncAsync<Detoxicated<B> | Superposition<B, E>>>,
     ...errors: ReadonlyArray<DeadConstructor<E>>
   ): Superposition<A | B, E> {
     return Superposition.ofSuperposition<A | B, E>(this.internal.recover<A | B, E>(mapper, ...errors));
   }
 
   public transform<B = A, E extends Error = D>(
-    alive: UnaryFunction<Detoxicated<A>, SyncAsync<Superposition<B, E> | Detoxicated<B>>>,
-    dead: UnaryFunction<D, SyncAsync<Superposition<B, E> | Detoxicated<B>>>,
+    alive: UnaryFunction<Detoxicated<A>, SyncAsync<Detoxicated<B> | Superposition<B, E>>>,
+    dead: UnaryFunction<D, SyncAsync<Detoxicated<B> | Superposition<B, E>>>,
     ...errors: ReadonlyArray<DeadConstructor<E>>
   ): Superposition<B, E> {
     return Superposition.ofSuperposition<B, E>(this.internal.transform<B, E>(alive, dead, ...errors));

@@ -1,1 +1,1 @@
-export type Nihil = void | undefined | null;
+export type Nihil = null | undefined | void;

@@ -5,7 +5,7 @@ import { Absent } from './Absent';
 import { Lost } from './Lost';
 import { Present } from './Present';
 
-type HeisenbergType = 'Present' | 'Absent' | 'Uncertain' | 'Lost';
+type HeisenbergType = 'Absent' | 'Lost' | 'Present' | 'Uncertain';
 
 export interface Heisenberg<P, N extends HeisenbergType = HeisenbergType> extends Nominative {
   readonly noun: N;

@@ -6,18 +6,18 @@ import { containsError, isSuperposition, ISuperposition } from '../Interface/ISu
 
 export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPlan<D, 'DeadPlan'> {
   public readonly noun: 'DeadPlan' = 'DeadPlan';
-  private readonly mapper: UnaryFunction<D, SyncAsync<ISuperposition<B, E> | Detoxicated<B>>>;
+  private readonly mapper: UnaryFunction<D, SyncAsync<Detoxicated<B> | ISuperposition<B, E>>>;
   private readonly chrono: Chrono<B, E>;
 
   public static of<BT, DT extends Error, ET extends Error>(
-    mapper: UnaryFunction<DT, SyncAsync<ISuperposition<BT, ET> | Detoxicated<BT>>>,
+    mapper: UnaryFunction<DT, SyncAsync<Detoxicated<BT> | ISuperposition<BT, ET>>>,
     chrono: Chrono<BT, ET>
   ): DeadPlan<BT, DT, ET> {
     return new DeadPlan<BT, DT, ET>(mapper, chrono);
   }
 
   protected constructor(
-    mapper: UnaryFunction<D, SyncAsync<ISuperposition<B, E> | Detoxicated<B>>>,
+    mapper: UnaryFunction<D, SyncAsync<Detoxicated<B> | ISuperposition<B, E>>>,
     chrono: Chrono<B, E>
   ) {
     this.mapper = mapper;
@@ -26,11 +26,11 @@ export class DeadPlan<B, D extends Error, E extends Error> implements RecoveryPl
 
   public onRecover(value: D): unknown {
     try {
-      const mapped: SyncAsync<ISuperposition<B, E> | Detoxicated<B>> = this.mapper(value);
+      const mapped: SyncAsync<Detoxicated<B> | ISuperposition<B, E>> = this.mapper(value);
 
-      if (Kind.isPromiseLike<ISuperposition<B, E> | Detoxicated<B>>(mapped)) {
+      if (Kind.isPromiseLike<Detoxicated<B> | ISuperposition<B, E>>(mapped)) {
         return mapped.then<unknown, unknown>(
-          (v: ISuperposition<B, E> | Detoxicated<B>) => {
+          (v: Detoxicated<B> | ISuperposition<B, E>) => {
             if (isSuperposition<B, E>(v)) {
               return this.forSuperposition(v);
             }

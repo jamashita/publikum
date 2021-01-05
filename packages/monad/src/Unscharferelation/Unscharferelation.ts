@@ -186,11 +186,11 @@ export class Unscharferelation<P> extends Objet<'Unscharferelation'> implements 
     return Unscharferelation.ofUnscharferelation<P>(this.internal.filter(predicate));
   }
 
-  public map<Q = P>(mapper: UnaryFunction<Matter<P>, SyncAsync<Unscharferelation<Q> | Suspicious<Matter<Q>>>>): Unscharferelation<Q> {
+  public map<Q = P>(mapper: UnaryFunction<Matter<P>, SyncAsync<Suspicious<Matter<Q>> | Unscharferelation<Q>>>): Unscharferelation<Q> {
     return Unscharferelation.ofUnscharferelation<Q>(this.internal.map<Q>(mapper));
   }
 
-  public recover<Q = P>(mapper: Supplier<SyncAsync<Unscharferelation<Q> | Suspicious<Matter<Q>>>>): Unscharferelation<P | Q> {
+  public recover<Q = P>(mapper: Supplier<SyncAsync<Suspicious<Matter<Q>> | Unscharferelation<Q>>>): Unscharferelation<P | Q> {
     return Unscharferelation.ofUnscharferelation<P | Q>(this.internal.recover<Q>(mapper));
   }
 

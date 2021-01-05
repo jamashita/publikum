@@ -6,7 +6,7 @@ export class Equality {
     return Equality.sameInternal(n1, n2);
   }
 
-  private static sameInternal(n1: Primitive | ObjectLiteral, n2: Primitive | ObjectLiteral): boolean {
+  private static sameInternal(n1: ObjectLiteral | Primitive, n2: ObjectLiteral | Primitive): boolean {
     if (Equality.sameReference(n1, n2)) {
       return true;
     }
