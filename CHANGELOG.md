@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.9.0](https://github.com/jamashita/publikum/compare/v3.8.0...v3.9.0) (2021-01-05)
+
+
+### Features
+
+* 🎸 Errors update ([4b479ff](https://github.com/jamashita/publikum/commit/4b479ffeb03655a6d48c3fe74228929ce7f5cc96))
+* 🎸 update ([2756c17](https://github.com/jamashita/publikum/commit/2756c1777d64c2642663305a4209f76c1d2e2e3d))
+
+
+
+
+
 # [3.8.0](https://github.com/jamashita/publikum/compare/v3.7.0...v3.8.0) (2021-01-05)
 
 
