@@ -424,6 +424,62 @@ describe('ImmutableSequence', () => {
     });
   });
 
+  describe('sort', () => {
+    it('when the size is 0, do nothing', () => {
+      expect.assertions(2);
+
+      const sequence: ImmutableSequence<MockValueObject<number>> = ImmutableSequence.empty<MockValueObject<number>>();
+      const sorted: ImmutableSequence<MockValueObject<number>> = sequence.sort(() => {
+        return 1;
+      });
+
+      expect(sorted.size()).toBe(0);
+      expect(sequence).toBe(sorted);
+    });
+
+    it('when the size is 1, just copy a sequence shallowly', () => {
+      expect.assertions(3);
+
+      const arr: Array<MockValueObject<number>> = [
+        new MockValueObject<number>(2)
+      ];
+      const sequence: ImmutableSequence<MockValueObject<number>> = ImmutableSequence.ofArray<MockValueObject<number>>(arr);
+      const sorted: ImmutableSequence<MockValueObject<number>> = sequence.sort(() => {
+        return 1;
+      });
+
+      expect(sorted.size()).toBe(1);
+      expect(sequence).not.toBe(sorted);
+      expect(sequence.get(0)).toBe(sorted.get(0));
+    });
+
+    it('returns like an array', () => {
+      expect.assertions(10);
+
+      const arr: Array<MockValueObject<number>> = [
+        new MockValueObject<number>(4),
+        new MockValueObject<number>(2),
+        new MockValueObject<number>(3),
+        new MockValueObject<number>(1)
+      ];
+      const sequence: ImmutableSequence<MockValueObject<number>> = ImmutableSequence.ofArray<MockValueObject<number>>(arr);
+      const sorted: ImmutableSequence<MockValueObject<number>> = sequence.sort((m1: MockValueObject<number>, m2: MockValueObject<number>) => {
+        return m1.get() - m2.get();
+      });
+
+      expect(sorted.size()).toBe(arr.length);
+      expect(sequence).not.toBe(sorted);
+      expect(sorted.get(0)).toBe(arr[3]);
+      expect(sorted.get(0)?.get()).toBe(1);
+      expect(sorted.get(1)).toBe(arr[1]);
+      expect(sorted.get(1)?.get()).toBe(2);
+      expect(sorted.get(2)).toBe(arr[2]);
+      expect(sorted.get(2)?.get()).toBe(3);
+      expect(sorted.get(3)).toBe(arr[0]);
+      expect(sorted.get(3)?.get()).toBe(4);
+    });
+  });
+
   describe('duplicate', () => {
     it('returns ImmutableSequence.empty() when this is ImmutableSequence.empty()', () => {
       expect.assertions(1);
