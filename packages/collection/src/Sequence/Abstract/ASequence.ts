@@ -1,6 +1,14 @@
 import { isEqualable } from '@jamashita/publikum-interface';
 import { Objet } from '@jamashita/publikum-object';
-import { Ambiguous, BinaryPredicate, Enumerator, Kind, Mapper, Nullable } from '@jamashita/publikum-type';
+import {
+  Ambiguous,
+  BinaryFunction,
+  BinaryPredicate,
+  Enumerator,
+  Kind,
+  Mapper,
+  Nullable
+} from '@jamashita/publikum-type';
 import { Quantity } from '../../Quantity';
 import { Sequence } from '../Interface/Sequence';
 
@@ -21,6 +29,8 @@ export abstract class ASequence<V, N extends string = string> extends Quantity<n
   public abstract map<W>(mapper: Mapper<V, W>): Sequence<W, N>;
 
   public abstract filter(predicate: BinaryPredicate<V, number>): Sequence<V, N>;
+
+  public abstract sort(comparator: BinaryFunction<V, V, number>): ASequence<V>;
 
   public abstract duplicate(): Sequence<V, N>;
 

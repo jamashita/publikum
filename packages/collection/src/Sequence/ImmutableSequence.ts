@@ -1,10 +1,9 @@
-import { BinaryPredicate, Kind, Mapper } from '@jamashita/publikum-type';
+import { BinaryFunction, BinaryPredicate, Kind, Mapper } from '@jamashita/publikum-type';
 import { ASequence } from './Abstract/ASequence';
 import { ReadonlySequence } from './Interface/ReadonlySequence';
 
 export class ImmutableSequence<V> extends ASequence<V, 'ImmutableSequence'> {
   public readonly noun: 'ImmutableSequence' = 'ImmutableSequence';
-
   private static readonly EMPTY: ImmutableSequence<unknown> = new ImmutableSequence<unknown>([]);
 
   public static of<VT>(sequence: ReadonlySequence<VT>): ImmutableSequence<VT> {
@@ -75,6 +74,14 @@ export class ImmutableSequence<V> extends ASequence<V, 'ImmutableSequence'> {
 
   public filter(predicate: BinaryPredicate<V, number>): ImmutableSequence<V> {
     return ImmutableSequence.ofArray<V>(this.sequence.filter(predicate));
+  }
+
+  public sort(comparator: BinaryFunction<V, V, number>): ImmutableSequence<V> {
+    const arr: Array<V> = [...this.sequence];
+
+    arr.sort(comparator);
+
+    return ImmutableSequence.ofArray<V>(arr);
   }
 
   public duplicate(): ImmutableSequence<V> {

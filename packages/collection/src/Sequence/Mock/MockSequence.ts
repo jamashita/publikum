@@ -28,6 +28,10 @@ export class MockSequence<V> extends ASequence<V, 'MockSequence'> {
     throw new UnimplementedError();
   }
 
+  public sort(): MockSequence<V> {
+    throw new UnimplementedError();
+  }
+
   public duplicate(): MockSequence<V> {
     throw new UnimplementedError();
   }

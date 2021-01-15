@@ -1,4 +1,4 @@
-import { BinaryPredicate, Kind, Mapper } from '@jamashita/publikum-type';
+import { BinaryFunction, BinaryPredicate, Kind, Mapper } from '@jamashita/publikum-type';
 import { ASequence } from './Abstract/ASequence';
 import { ReadonlySequence } from './Interface/ReadonlySequence';
 
@@ -63,6 +63,14 @@ export class MutableSequence<V> extends ASequence<V, 'MutableSequence'> {
 
   public filter(predicate: BinaryPredicate<V, number>): MutableSequence<V> {
     return MutableSequence.ofArray<V>(this.sequence.filter(predicate));
+  }
+
+  public sort(comparator: BinaryFunction<V, V, number>): MutableSequence<V> {
+    const arr: Array<V> = [...this.sequence];
+
+    arr.sort(comparator);
+
+    return MutableSequence.ofArray<V>(arr);
   }
 
   public duplicate(): MutableSequence<V> {
