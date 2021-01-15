@@ -447,15 +447,15 @@ describe('MutableSequence', () => {
         return m1.get() - m2.get();
       });
 
-      expect(sorted.size()).toBe(arr.length);
+      expect(sorted.size()).toBe(sequence.size());
       expect(sequence).not.toBe(sorted);
-      expect(sorted.get(0)).toBe(arr[3]);
+      expect(sorted.get(0)).toBe(sequence.get(3));
       expect(sorted.get(0)?.get()).toBe(1);
-      expect(sorted.get(1)).toBe(arr[1]);
+      expect(sorted.get(1)).toBe(sequence.get(1));
       expect(sorted.get(1)?.get()).toBe(2);
-      expect(sorted.get(2)).toBe(arr[2]);
+      expect(sorted.get(2)).toBe(sequence.get(2));
       expect(sorted.get(2)?.get()).toBe(3);
-      expect(sorted.get(3)).toBe(arr[0]);
+      expect(sorted.get(3)).toBe(sequence.get(0));
       expect(sorted.get(3)?.get()).toBe(4);
     });
   });
