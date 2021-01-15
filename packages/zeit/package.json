@@ -32,11 +32,11 @@
     "@jamashita/publikum-object": "^3.9.0",
     "@jamashita/publikum-type": "^3.9.0",
     "@jamashita/publikum-validation": "^3.9.0",
-    "dayjs": "1.10.1",
+    "dayjs": "1.10.3",
     "reflect-metadata": "0.1.13"
   },
   "devDependencies": {
-    "sinon": "9.2.2"
+    "sinon": "9.2.3"
   },
   "engines": {
     "node": ">= 14.5.0",
