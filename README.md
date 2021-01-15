@@ -191,6 +191,7 @@ Class for random string, random number.
     * [ ] `sequence<A, D>(arr: Array<Promise<A>>): Promise<Array<Schrodinger<A, D>>>;`
 * [x] `Tree.values(): Ierable<T>`
 * [x] `Sequence.sort(func: BinaryPredicate<V, V, number>): Sequence<V>`
+  * [ ] `Comparable` interface
 
 ## Conventional commit
 
