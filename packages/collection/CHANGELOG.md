@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.10.0](https://github.com/jamashita/publikum/compare/v3.9.0...v3.10.0) (2021-01-15)
+
+
+### Features
+
+* 🎸 Comparator ([e796f16](https://github.com/jamashita/publikum/commit/e796f1659f2796eb290a506ab003862d13fd8bbe))
+* 🎸 Sequence.sort() ([44de0cc](https://github.com/jamashita/publikum/commit/44de0ccca6f85ef32ad4fa7eb4e194f34ceda4ea))
+* 🎸 update ([a8e7054](https://github.com/jamashita/publikum/commit/a8e705442163a776af6760942bd536319ec0d0fc))
+
+
+
+
+
 # [3.9.0](https://github.com/jamashita/publikum/compare/v3.8.0...v3.9.0) (2021-01-05)
 
 **Note:** Version bump only for package @jamashita/publikum-collection

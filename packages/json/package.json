@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-json",
-  "version": "3.9.0",
+  "version": "3.10.0",
   "private": false,
   "repository": {
     "type": "git",
@@ -28,11 +28,11 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^3.9.0",
-    "@jamashita/publikum-type": "^3.9.0"
+    "@jamashita/publikum-error": "^3.10.0",
+    "@jamashita/publikum-type": "^3.10.0"
   },
   "engines": {
-    "node": ">= 14.5.0",
+    "node": ">= 12.0.0",
     "npm": "npm is not supported"
   },
   "engineStrict": true,
