@@ -4,6 +4,7 @@ import { ASequence } from './Abstract/ASequence';
 
 export class ImmutableSequence<V> extends ASequence<V, 'ImmutableSequence'> {
   public readonly noun: 'ImmutableSequence' = 'ImmutableSequence';
+
   private static readonly EMPTY: ImmutableSequence<unknown> = new ImmutableSequence<unknown>([]);
 
   public static of<VT>(collection: Collection<number, VT>): ImmutableSequence<VT> {
