@@ -1,12 +1,12 @@
 import { BinaryFunction, BinaryPredicate, Kind, Mapper } from '@jamashita/publikum-type';
+import { Collection } from '../Interface/Collection';
 import { ASequence } from './Abstract/ASequence';
-import { ReadonlySequence } from './Interface/ReadonlySequence';
 
 export class MutableSequence<V> extends ASequence<V, 'MutableSequence'> {
   public readonly noun: 'MutableSequence' = 'MutableSequence';
 
-  public static of<VT>(sequence: ReadonlySequence<VT>): MutableSequence<VT> {
-    return MutableSequence.ofInternal<VT>(sequence.toArray());
+  public static of<VT>(collection: Collection<number, VT>): MutableSequence<VT> {
+    return MutableSequence.ofInternal<VT>([...collection.values()]);
   }
 
   public static ofArray<VT>(array: ReadonlyArray<VT>): MutableSequence<VT> {

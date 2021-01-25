@@ -1,13 +1,13 @@
 import { BinaryFunction, BinaryPredicate, Kind, Mapper } from '@jamashita/publikum-type';
+import { Collection } from '../Interface/Collection';
 import { ASequence } from './Abstract/ASequence';
-import { ReadonlySequence } from './Interface/ReadonlySequence';
 
 export class ImmutableSequence<V> extends ASequence<V, 'ImmutableSequence'> {
   public readonly noun: 'ImmutableSequence' = 'ImmutableSequence';
   private static readonly EMPTY: ImmutableSequence<unknown> = new ImmutableSequence<unknown>([]);
 
-  public static of<VT>(sequence: ReadonlySequence<VT>): ImmutableSequence<VT> {
-    return ImmutableSequence.ofInternal<VT>(sequence.toArray());
+  public static of<VT>(collection: Collection<number, VT>): ImmutableSequence<VT> {
+    return ImmutableSequence.ofInternal<VT>([...collection.values()]);
   }
 
   public static ofArray<VT>(array: ReadonlyArray<VT>): ImmutableSequence<VT> {
