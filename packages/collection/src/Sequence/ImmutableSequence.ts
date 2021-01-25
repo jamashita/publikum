@@ -12,14 +12,14 @@ export class ImmutableSequence<V> extends ASequence<V, 'ImmutableSequence'> {
   }
 
   public static ofArray<VT>(array: ReadonlyArray<VT>): ImmutableSequence<VT> {
-    if (array.length === 0) {
-      return ImmutableSequence.empty<VT>();
-    }
-
     return ImmutableSequence.ofInternal<VT>([...array]);
   }
 
   private static ofInternal<VT>(array: Array<VT>): ImmutableSequence<VT> {
+    if (array.length === 0) {
+      return ImmutableSequence.empty<VT>();
+    }
+
     return new ImmutableSequence<VT>(array);
   }
 
