@@ -1,6 +1,6 @@
 {
   "name": "@jamashita/publikum-zeit",
-  "version": "3.10.0",
+  "version": "3.11.0",
   "private": false,
   "repository": {
     "type": "git",
@@ -28,15 +28,15 @@
     "update:upgrade": "ncu --upgrade --timeout 600000"
   },
   "dependencies": {
-    "@jamashita/publikum-error": "^3.10.0",
-    "@jamashita/publikum-object": "^3.10.0",
-    "@jamashita/publikum-type": "^3.10.0",
-    "@jamashita/publikum-validation": "^3.10.0",
-    "dayjs": "1.10.3",
+    "@jamashita/publikum-error": "^3.11.0",
+    "@jamashita/publikum-object": "^3.11.0",
+    "@jamashita/publikum-type": "^3.11.0",
+    "@jamashita/publikum-validation": "^3.11.0",
+    "dayjs": "1.10.4",
     "reflect-metadata": "0.1.13"
   },
   "devDependencies": {
-    "sinon": "9.2.3"
+    "sinon": "9.2.4"
   },
   "engines": {
     "node": ">= 12.0.0",

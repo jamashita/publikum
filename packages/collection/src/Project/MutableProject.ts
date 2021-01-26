@@ -1,13 +1,15 @@
 import { isNominative } from '@jamashita/publikum-interface';
 import { Mapper } from '@jamashita/publikum-type';
+import { Collection } from '../Interface/Collection';
 import { AProject } from './Abstract/AProject';
-import { ReadonlyProject } from './Interface/ReadonlyProject';
 
 export class MutableProject<K, V> extends AProject<K, V, MutableProject<K, V>, 'MutableProject'> {
   public readonly noun: 'MutableProject' = 'MutableProject';
 
-  public static of<KT, VT>(project: ReadonlyProject<KT, VT>): MutableProject<KT, VT> {
-    return MutableProject.ofMap<KT, VT>(project.toMap());
+  public static of<KT, VT>(collection: Collection<KT, VT>): MutableProject<KT, VT> {
+    const map: Map<KT, VT> = new Map<KT, VT>(collection);
+
+    return MutableProject.ofMap<KT, VT>(map);
   }
 
   public static ofMap<KT, VT>(map: ReadonlyMap<KT, VT>): MutableProject<KT, VT> {

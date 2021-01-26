@@ -1,13 +1,15 @@
 import { isNominative } from '@jamashita/publikum-interface';
 import { Mapper } from '@jamashita/publikum-type';
+import { Collection } from '../Interface/Collection';
 import { AAddress } from './Abstract/AAddress';
-import { ReadonlyAddress } from './Interface/ReadonlyAddress';
 
 export class MutableAddress<V> extends AAddress<V, MutableAddress<V>, 'MutableAddress'> {
   public readonly noun: 'MutableAddress' = 'MutableAddress';
 
-  public static of<VT>(address: ReadonlyAddress<VT>): MutableAddress<VT> {
-    return MutableAddress.ofSet<VT>(address.toSet());
+  public static of<VT>(collection: Collection<unknown, VT>): MutableAddress<VT> {
+    const set: Set<VT> = new Set<VT>(collection.values());
+
+    return MutableAddress.ofSet<VT>(set);
   }
 
   public static ofSet<VT>(set: ReadonlySet<VT>): MutableAddress<VT> {

@@ -1,15 +1,17 @@
 import { isNominative } from '@jamashita/publikum-interface';
 import { Mapper } from '@jamashita/publikum-type';
+import { Collection } from '../Interface/Collection';
 import { AProject } from './Abstract/AProject';
-import { ReadonlyProject } from './Interface/ReadonlyProject';
 
 export class ImmutableProject<K, V> extends AProject<K, V, ImmutableProject<K, V>, 'ImmutableProject'> {
   public readonly noun: 'ImmutableProject' = 'ImmutableProject';
 
   private static readonly EMPTY: ImmutableProject<unknown, unknown> = new ImmutableProject<unknown, unknown>(new Map<unknown, [unknown, unknown]>());
 
-  public static of<KT, VT>(project: ReadonlyProject<KT, VT>): ImmutableProject<KT, VT> {
-    return ImmutableProject.ofMap<KT, VT>(project.toMap());
+  public static of<KT, VT>(collection: Collection<KT, VT>): ImmutableProject<KT, VT> {
+    const map: Map<KT, VT> = new Map<KT, VT>(collection);
+
+    return ImmutableProject.ofMap<KT, VT>(map);
   }
 
   public static ofMap<KT, VT>(map: ReadonlyMap<KT, VT>): ImmutableProject<KT, VT> {
