@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.12.0](https://github.com/jamashita/publikum/compare/v3.11.0...v3.12.0) (2021-01-26)
+
+
+### Features
+
+* 🎸 update ([8af559a](https://github.com/jamashita/publikum/commit/8af559a757aa7066b018f37cc2c70eb704e9a98d))
+
+
+
+
+
 # [3.11.0](https://github.com/jamashita/publikum/compare/v3.10.0...v3.11.0) (2021-01-20)
 
 
