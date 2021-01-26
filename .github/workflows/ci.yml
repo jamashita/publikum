@@ -2,9 +2,9 @@ name: 'CI'
 on:
   push:
     branches:
-      - 'feature/*'
+      - '!feature/*'
       - 'hotfix/*'
-      - 'release'
+      - '!release'
 jobs:
   ci:
     runs-on: 'ubuntu-latest'
